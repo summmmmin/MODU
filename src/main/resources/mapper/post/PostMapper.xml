@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.modu.app.prj.post.mapper.PostMapper">
+ 
+ <select id="selectAllPost" resultType="PostVO">
+ 	SELECT post_unique_number,
+ 		   title,
+ 		   content,
+ 		   <if test="ile_number != null and !ile_number.equals('')">
+ 		   file_number,
+ 		   </if>
+ 		   <if test="post_tag_notification != null and !post_tag_notification.equals('')">
+ 		   post_tag_notification,
+			</if>
+ 		   comment_notification_status,	   
+ 		   board_unique_number
+ 	FROM post
+ </select>
+ 
+ <select id="selectOnePost" resultType="PostVO">
+ 	 	SELECT post_unique_number,
+ 		   title,
+ 		   content,
+ 		   <if test="ile_number != null and !ile_number.equals('')">
+ 		   file_number,
+ 		   </if>
+ 		   <if test="post_tag_notification != null and !post_tag_notification.equals('')">
+ 		   post_tag_notification,
+			</if>
+ 		   comment_notification_status,	   
+ 		   board_unique_number
+ 	FROM post
+ 	WHERE post_unique_number=#{postUniqueNumber}
+ </select>
+ 
+ <insert id="insertPost" parameterType="PostVO">
+ 	INSERT INTO post (post_unique_number,
+ 		   			  title,
+ 		   			  content,
+ 		   			  <if test="file_number != null and !file_number.equals('')">
+ 		   			  file_number,
+ 		   			  </if>
+ 		   			  <if test="post_tag_notification != null and !post_tag_notification.equals('')">
+ 		   			  post_tag_notification,
+					  </if>
+ 		   			  comment_notification_status,	   
+ 		   			  board_unique_number
+ 		   			  VALUES (
+ 							#{postUniqueNumber},
+ 							#{title},
+ 							#{content},
+ 							sysdate,
+ 							<if test="fileNumber != null and !fileNumber.equals('')">
+ 							#{fileNumber},
+ 							</if>
+ 							<if test="postTagNotification != null and !postTagNotification.equals('')">
+ 							#{postTagNotification},
+ 							</if>
+ 							#{commentNotificationStatus},
+ 							#{boardUniqueNumber}
+ 							)
+ </insert>
+ 
+ <update id="updatePost" parameterType="PostVO">
+ 	UPDATE post set 
+ 					<if test="title != null and !title.equals('')">
+ 					title=#{title},
+ 					</if>
+ 					<if test="content != null and !content.equals('')">
+ 		   			content=#{content},
+ 		   			</if>
+ 		   			<if test="fileNumber != null and !fileNumber.equals('')">
+ 		   			file_number={fileNumber},
+ 		   			</if>
+ 		   			<if test="postTagNotification != null and !postTagNotification.equals('')">
+ 		   			post_tag_notification=#{postTagNotification},
+					</if>
+					<if test="commentNotificationStatus != null and !commentNotificationStatus.equals('')">
+ 		   			comment_notification_status={commentNotificationStatus}
+ 		   			</if>
+ 	WHERE post_unique_number=#{postUniqueNumber}
+ </update>
+ 
+ <delete id="deletePost" parameterType="String">
+ 	DELETE FROM post WHERE post_unique_number=#{postUniqueNumber}
+ </delete>
+ 
+ </mapper>
+ 
