@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.modu.app.prj.post.mapper.PostMapper;
+import com.modu.app.prj.post.mapper.ReplyMapper;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
+import com.modu.app.prj.post.service.ReplyVO;
 
 
 @Service
@@ -15,6 +17,8 @@ public class PostServiceImpl implements PostService {
 	
 	@Autowired
 	PostMapper postMapper;
+	@Autowired
+	ReplyMapper replyMapper;
 	
 	@Override
 	public List<PostVO> getAllPostList() {

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.modu.app.prj.post.mapper.ReplyMapper">
+
+<select id="selectAllReply" resultType="ReplyVO">
+    SELECT reply_unique_number,
+           content,
+           write_date,
+           <if test="modify_date != null and !modify_date.equals('')">
+           modify_date,
+           </if>
+           <if test="tag_notification != null and !tag_notification.equals('')">
+           tag_notification,
+           </if>
+           post_unique_number,
+           join_member_unique_number
+    FROM reply
+    WHERE post_unique_number=#{postUniqueNumber}
+    ORDER BY write_date
+</select>
+
+<select id="selectOneReply" resultType="ReplyVO">
+    SELECT reply_unique_number,
+           content,
+           write_date,
+           <if test="modify_date != null and !modify_date.equals('')">
+           modify_date,
+           </if>
+           <if test="tag_notification != null and !tag_notification.equals('')">
+           tag_notification,
+           </if>
+           post_unique_number,
+           join_member_unique_number
+    FROM reply
+    WHERE reply_unique_number=#{replyUniqueNumber}
+</select>
+
+<insert id="insertReply" parameterType="ReplyVO">
+	INSERT INTO reply (reply_unique_number,
+					   content,
+					   write_date,
+					   <if test="modifyDate != null and !modifyDate.equals('')">
+					   modify_date,
+					   </if>
+					   <if test="tagNotification != null and !tagNotification.equals('')">
+           			   tag_notification,
+           			   </if>
+           			   post_unique_number,
+           			   tag_notification
+           			   )
+           		VALUES(
+           			  #{replyUniqueNumber},
+           			  #{content},
+           			  sysdate,
+           			  <if test="modifyDate != null and !modifyDate.equals('')">
+					  #{modifyDate},
+					  </if>
+					  <if test="tagNotification != null and !tagNotification.equals('')">
+           			   #{tagNotification},
+           			  </if>
+           			  #{postUniqueNumber},
+           			  #{joinMemberUniqueNumber}           				
+           			)				  
+</insert>
+
+<update id="updateReply" parameterType="ReplyVO">
+	UPDATE reply SET
+ 					<if test="content != null and !content.equals('')">
+ 		   			content=#{content},
+ 		   			</if>
+ 		   			<if test="tagNotification != null and !tagNotification.equals('')">
+ 		   			tag_notification=#{tagNotification},
+					</if>
+					modify_date=sysdate
+ 	WHERE reply_unique_number=#{replyUniqueNumber}
+</update>
+
+<delete id="deleteReply" parameterType="String">
+	DELETE FROM reply WHERE reply_unique_number=#{replyUniqueNumber}
+</delete>
+
+ </mapper>
