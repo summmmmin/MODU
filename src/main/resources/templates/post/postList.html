@@ -1,14 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
-	  layout:decorate="~{index}">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{index}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>postList</title>
 </head>
 <body>
-<div layout:fragment="content">
-testtest
-</div>
+	<div layout:fragment="content">
+		<div class="col-md-6 col-sm-12">
+			<div th:each="post:${postList}" class="card">
+				<div class="card-content">
+					<div class="card-body">
+						<h4 class="card-title">[[${post.title}]]</h4>
+						<p class="card-text">[[${post.content}]]</p>
+						<p class="card-text">[[${post.postTagNotification}]]태그된사람들</p>
+						<small class="text-muted">[[${#dates.format(post.writeDate, 'yyyy-MM-dd')}]]</small>
+					</div>
+					<img class="card-img-bottom img-fluid"
+						src="assets/images/samples/water.jpg" alt="Card image cap"
+						style="height: 20rem; object-fit: cover;">
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

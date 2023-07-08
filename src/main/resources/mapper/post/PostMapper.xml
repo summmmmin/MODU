@@ -8,6 +8,7 @@
  	SELECT post_unique_number,
  		   title,
  		   content,
+ 		   write_date,
  		   <if test="ile_number != null and !ile_number.equals('')">
  		   file_number,
  		   </if>
@@ -23,6 +24,7 @@
  	 	SELECT post_unique_number,
  		   title,
  		   content,
+ 		   write_date,
  		   <if test="ile_number != null and !ile_number.equals('')">
  		   file_number,
  		   </if>
@@ -35,33 +37,34 @@
  	WHERE post_unique_number=#{postUniqueNumber}
  </select>
  
- <insert id="insertPost" parameterType="PostVO">
- 	INSERT INTO post (post_unique_number,
- 		   			  title,
- 		   			  content,
- 		   			  <if test="file_number != null and !file_number.equals('')">
- 		   			  file_number,
- 		   			  </if>
- 		   			  <if test="post_tag_notification != null and !post_tag_notification.equals('')">
- 		   			  post_tag_notification,
-					  </if>
- 		   			  comment_notification_status,	   
- 		   			  board_unique_number
- 		   			  VALUES (
- 							#{postUniqueNumber},
- 							#{title},
- 							#{content},
- 							sysdate,
- 							<if test="fileNumber != null and !fileNumber.equals('')">
- 							#{fileNumber},
- 							</if>
- 							<if test="postTagNotification != null and !postTagNotification.equals('')">
- 							#{postTagNotification},
- 							</if>
- 							#{commentNotificationStatus},
- 							#{boardUniqueNumber}
- 							)
- </insert>
+<insert id="insertPost" parameterType="PostVO">
+    INSERT INTO post (post_unique_number,
+                      title,
+                      content,
+                      write_date,
+                      <if test="fileNumber != null and !fileNumber.equals('')">
+                          file_number,
+                      </if>
+                      <if test="postTagNotification != null and !postTagNotification.equals('')">
+                          post_tag_notification,
+                      </if>
+                      comment_notification_status,
+                      board_unique_number)
+		    VALUES (
+		           #{postUniqueNumber},
+		           #{title},
+		           #{content},
+		           sysdate,
+		           <if test="fileNumber != null and !fileNumber.equals('')">
+		               #{fileNumber},
+		           </if>
+		           <if test="postTagNotification != null and !postTagNotification.equals('')">
+		               #{postTagNotification},
+		           </if>
+		           #{commentNotificationStatus},
+		           #{boardUniqueNumber}
+		           )
+</insert>
  
  <update id="updatePost" parameterType="PostVO">
  	UPDATE post set 
@@ -72,13 +75,13 @@
  		   			content=#{content},
  		   			</if>
  		   			<if test="fileNumber != null and !fileNumber.equals('')">
- 		   			file_number={fileNumber},
+ 		   			file_number=#{fileNumber},
  		   			</if>
  		   			<if test="postTagNotification != null and !postTagNotification.equals('')">
  		   			post_tag_notification=#{postTagNotification},
 					</if>
 					<if test="commentNotificationStatus != null and !commentNotificationStatus.equals('')">
- 		   			comment_notification_status={commentNotificationStatus}
+ 		   			comment_notification_status=#{commentNotificationStatus}
  		   			</if>
  	WHERE post_unique_number=#{postUniqueNumber}
  </update>

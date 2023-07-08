@@ -17,15 +17,17 @@ public class PostController {
 	@Autowired
 	PostService postService;
 	
+	/*
 	//전체조회
 	@GetMapping("postList")
 	public String postList(Model model) {
 		model.addAttribute("postList", postService.getAllPostList());
+		
 		return "post/postList";
 	}
 	
 	//단건조회
-	@GetMapping("postSelect/{postUniqueNumber}")
+	@GetMapping("postSelect")
 	public String onePost(Model model, String postUniqueNumber) {
 		model.addAttribute("post", postService.getOnePost(postUniqueNumber));
 		return "index";
@@ -63,6 +65,6 @@ public class PostController {
 		postService.deletePost(postUniqueNumber);
 		return postUniqueNumber;
 	}
-	
+	*/
 
 }
