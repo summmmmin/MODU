@@ -21,16 +21,15 @@
 <link rel="shortcut icon" href="assets/images/favicon.svg"
 	type="image/x-icon" />
 </head>
-
 <body>
 	<div id="app">
 		<div id="sidebar" class="active">
 			<div class="sidebar-wrapper active">
-				<div class="sidebar-header">	
+				<div class="sidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a href="index.html"><img
-								src="assets/images/logo/logo.png" alt="Logo" srcset="" /></a>
+							<a href="index.html"><img src="assets/images/logo/logo.png"
+								alt="Logo" srcset="" /></a>
 						</div>
 						<div class="toggler">
 							<a href="#" class="sidebar-hide d-xl-none d-block"><i
@@ -40,7 +39,12 @@
 				</div>
 				<div class="sidebar-menu">
 					<ul class="menu">
-						<li class="sidebar-title">Menu<button style="margin-left:136px">+</button></li>
+						<li class="sidebar-title">Menu
+							<button type="button" class="btn btn-outline-success"
+								data-bs-toggle="modal" data-bs-target="#inlineForm"
+								style="margin-left: 123px">+</button>
+						</li>
+
 
 						<li class="sidebar-item active"><a href="index.html"
 							class="sidebar-link"> <i class="bi bi-grid-fill"></i> <span>Dashboard</span>
@@ -91,8 +95,8 @@
 				<div class="rsidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a href="index.html"><img
-								src="assets/images/logo/logo.png" alt="Logo" srcset="" /></a>
+							<a href="index.html"><img src="assets/images/logo/logo.png"
+								alt="Logo" srcset="" /></a>
 						</div>
 						<div class="toggler">
 							<a href="#" class="rsidebar-hide d-xl-none d-block"><i
@@ -164,8 +168,8 @@
 							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 								<li class="nav-item dropdown me-1"><a
 									class="nav-link active dropdown-toggle" href="#"
-									data-bs-toggle="dropdown" aria-expanded="false">
-										<i class="bi bi-envelope bi-sub fs-4 text-gray-600"></i>
+									data-bs-toggle="dropdown" aria-expanded="false"> <i
+										class="bi bi-envelope bi-sub fs-4 text-gray-600"></i>
 								</a>
 									<ul class="dropdown-menu dropdown-menu-end"
 										aria-labelledby="dropdownMenuButton">
@@ -176,8 +180,8 @@
 									</ul></li>
 								<li class="nav-item dropdown me-3"><a
 									class="nav-link active dropdown-toggle" href="#"
-									data-bs-toggle="dropdown" aria-expanded="false">
-										<i class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
+									data-bs-toggle="dropdown" aria-expanded="false"> <i
+										class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
 								</a>
 									<ul class="dropdown-menu dropdown-menu-end"
 										aria-labelledby="dropdownMenuButton">
@@ -232,9 +236,54 @@
 				<section class="row">
 					<article layout:fragment="content"></article>
 				</section>
+				
+				
+				
+				<!--Modal -->
+				<div class="modal fade text-left" id="inlineForm" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+						role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title" id="myModalLabel33">게시판 생성</h4>
+								<button type="button" class="close" data-bs-dismiss="modal"
+									aria-label="Close">
+									<i data-feather="x"></i>
+								</button>
+							</div>
+							<form action="addBoard" method="POST" >
+								<div class="modal-body">
+									<label>게시판 이름 </label>
+									<div class="form-group">
+										<input type="text" placeholder="40자까지 입력 가능합니다."
+											class="form-control">
+									</div>
+									<label>공개여부</label>
+									<div class="form-group">
+										<label for="checkbox" id="asd"><span></span></label>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-light-secondary"
+										data-bs-dismiss="modal">
+										<i class="bx bx-x d-block d-sm-none"></i> <span
+											class="d-none d-sm-block">닫기</span>
+									</button>
+									<button type="button" class="btn btn-primary ml-1"
+										data-bs-dismiss="modal">
+										<i class="bx bx-check d-block d-sm-none"></i> <span
+											class="d-none d-sm-block">생성</span>
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div layout:fragment="content">
-			</div>
+			
+			
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
 					<div class="float-start">

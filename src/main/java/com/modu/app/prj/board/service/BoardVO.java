@@ -8,16 +8,22 @@ import lombok.Data;
 @Data
 public class BoardVO {
 	
-	private String boardUniqueNumber;
+	//게시판 고유번호
+	private String brdUniNo;
 	
-	private String boardName;
+	//게시판 이름
+	private String BoardNm;
 	
-	private String publicStatus;
+	//게시판 공개여부
+	private String pubcYn;
 	
-	private Date registerDate;
+	//게시판 생성일
+	private Date regDt;
 	
-	private String projectIniqueNumber;
+	//프로젝트 고유번호
+	private String prjUniNo;
 	
-	private String joinMemberUniqueNumber; 
+	//참여자 고유번호
+	private String patriciMembUniNo; 
 	
 }
