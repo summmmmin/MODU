@@ -2,10 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
+
 <head>
 <meta charset="UTF-8">
 <title>postList</title>
 </head>
+
 <body>
 	<div layout:fragment="content">
 		<div class="col-md-6 col-sm-12">
@@ -25,13 +27,9 @@
 				</div>
 				<div>
 					댓글
-					<div id="replyPlace" class="card-body">
-
-
-					</div>
+					<div id="replyPlace" class="card-body"></div>
 					<div class="form-group position-relative has-icon-right">
-						<input type="text" class="form-control"
-							placeholder="reply">
+						<input type="text" class="form-control" placeholder="reply">
 						<div class="form-control-icon">
 							<svg class="bi" width="1em" height="1em" fill="currentColor">
 								<use
@@ -42,22 +40,31 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<script>
-		replyList();
-		function replyLst(){
-			let pNum = pt1;
+		<script>
+			function replyList(){
+			let pNum = 'pt1';
 			fetch('http://localhost:80/modu/replys/'+pNum)
 			.then(resolve => resolve.json())
 			.then(data => {
-				console.log(data);
-			})
-			// let pTage = document.createElement('p');
-			// pTag.setAttrebute('class', 'card-text');
-			// pTag.textContet=ddd
-			// document.getElementById('replyPlace').append()
+				//console.log(data[0].cntn);
+				data.forEach(reply => {
+					let pTag=document.createElement('p');
+					pTag.setAttribute('class','card-text');
+					pTag.textContent = reply.cntn;
+					document.getElementById('replyPlace').append(pTag);
+				});
+			}) 
+			.catch(err => console.log(err))
 		}
+		replyList();
 
 	</script>
+	</div>
+
+
 </body>
+<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+
+<script src="assets/js/main.js"></script>
 </html>

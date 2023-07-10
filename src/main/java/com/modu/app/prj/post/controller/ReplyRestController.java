@@ -21,6 +21,7 @@ public class ReplyRestController {
 	ReplyService replyService;
 	
 	//전체조회
+	@CrossOrigin
 	@GetMapping("replys/{pNum}")
 	public List<ReplyVO> replyList(@PathVariable("pNum") String postUniNo) {
 		return replyService.getAllReplyList(postUniNo);
