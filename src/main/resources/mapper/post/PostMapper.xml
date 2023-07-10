@@ -5,91 +5,130 @@
  <mapper namespace="com.modu.app.prj.post.mapper.PostMapper">
  
  <select id="selectAllPost" resultType="PostVO">
- 	SELECT post_unique_number,
- 		   title,
- 		   content,
- 		   write_date,
- 		   <if test="file_number != null and !file_number.equals('')">
- 		   file_number,
+ 	SELECT p.post_uni_no,
+ 		   p.brd_uni_no,
+ 		   p.ttl,
+ 		   p.cm,
+ 		   p.partici_memb_uni_no,
+ 		   <if test="post_tag_arm != null and !post_tag_arm.equals('')">
+ 		   p.post_tag_arm,
  		   </if>
- 		   <if test="post_tag_notification != null and !post_tag_notification.equals('')">
- 		   post_tag_notification,
-			</if>
- 		   comment_notification_status,	   
- 		   board_unique_number
- 	FROM post
- 	ORDER BY write_date
+ 		   p.reply_arm_yn,
+ 		   p.noti_yn,
+ 		   <if test="noti_reg_dt != null and !noti_reg_dt.equals('')">
+ 		   p.noti_reg_dt,
+ 		   </if>
+ 		   p.write_dt,
+ 		   m.nnm
+ 	FROM post p JOIN prj_partici_memb m
+ 	ON p.partici_memb_uni_no = m.partici_memb_uni_no
+ 	WHERE p.brd_uni_no=#{brdUniNo}
+ 	ORDER BY write_dt
  </select>
  
  <select id="selectOnePost" resultType="PostVO">
- 	 	SELECT post_unique_number,
- 		   title,
- 		   content,
- 		   write_date,
- 		   <if test="file_number != null and !file_number.equals('')">
- 		   file_number,
+ 	SELECT post_uni_no,
+ 		   brd_uni_no,
+ 		   ttl,
+ 		   cm,
+ 		   partici_memb_uni_no,
+ 		   write_dt,
+ 		   <if test="post_tag_arm != null and !post_tag_arm.equals('')">
+ 		   post_tag_arm,
  		   </if>
- 		   <if test="post_tag_notification != null and !post_tag_notification.equals('')">
- 		   post_tag_notification,
-			</if>
- 		   comment_notification_status,	   
- 		   board_unique_number
+ 		   reply_arm_yn,
+ 		   noti_yn,
+ 		   <if test="noti_reg_dt != null and !noti_reg_dt.equals('')">
+ 		   noti_reg_dt
+ 		   </if>
  	FROM post
- 	WHERE post_unique_number=#{postUniqueNumber}
+ 	WHERE post_uni_no=#{postUniNo}
  </select>
  
 <insert id="insertPost" parameterType="PostVO">
-    INSERT INTO post (post_unique_number,
-                      title,
-                      content,
-                      write_date,
-                      <if test="fileNumber != null and !fileNumber.equals('')">
-                          file_number,
+    INSERT INTO post (post_uni_no,
+                      brd_uni_no,
+                      ttl,
+                      cm,
+                      partici_memb_uni_no,
+                      write_dt,
+                      <if test="postTagArm != null and !postTagArm.equals('')">
+                      post_tag_arm,
                       </if>
-                      <if test="postTagNotification != null and !postTagNotification.equals('')">
-                          post_tag_notification,
+                      reply_arm_yn,
+                      noti_yn,
+                      <if test="notiRegDt != null and !notiRegDt.equals('')">
+                      noti_reg_dt
                       </if>
-                      comment_notification_status,
-                      board_unique_number)
+                      )
 		    VALUES (
-		           #{postUniqueNumber},
-		           #{title},
-		           #{content},
+		           #{postUniNo},
+		           #{brdUniNo},
+		           #{ttl},
+		           #{cm},
+		           #{particiMembUniNo},
 		           sysdate,
-		           <if test="fileNumber != null and !fileNumber.equals('')">
-		               #{fileNumber},
-		           </if>
-		           <if test="postTagNotification != null and !postTagNotification.equals('')">
-		               #{postTagNotification},
-		           </if>
-		           #{commentNotificationStatus},
-		           #{boardUniqueNumber}
+		           <if test="postTagArm != null and !postTagArm.equals('')">
+                   #{postTagArm},
+                   </if>
+                   #{replyArmYn},
+                   #{notiYn},
+                   <if test="notiRegDt != null and !notiRegDt.equals('')">
+                   sysdate
+                   </if>
 		           )
 </insert>
  
  <update id="updatePost" parameterType="PostVO">
  	UPDATE post SET 
- 					<if test="title != null and !title.equals('')">
- 					title=#{title},
+ 					<if test="ttl != null and !ttl.equals('')">
+ 					ttl=#{ttl},
  					</if>
- 					<if test="content != null and !content.equals('')">
- 		   			content=#{content},
+ 					<if test="cm != null and !cm.equals('')">
+ 		   			cm=#{cm},
  		   			</if>
- 		   			<if test="fileNumber != null and !fileNumber.equals('')">
- 		   			file_number=#{fileNumber},
- 		   			</if>
- 		   			<if test="postTagNotification != null and !postTagNotification.equals('')">
- 		   			post_tag_notification=#{postTagNotification},
+ 		   			<if test="postTagArm != null and !postTagArm.equals('')">
+ 		   			post_tag_arm=#{postTagArm},
 					</if>
-					<if test="commentNotificationStatus != null and !commentNotificationStatus.equals('')">
- 		   			comment_notification_status=#{commentNotificationStatus}
- 		   			</if>
- 	WHERE post_unique_number=#{postUniqueNumber}
+ 	WHERE post_uni_no=#{postUniNo}
  </update>
  
  <delete id="deletePost" parameterType="String">
- 	DELETE FROM post WHERE post_unique_number=#{postUniqueNumber}
+ 	DELETE FROM post WHERE post_uni_no=#{postUniNo}
  </delete>
+ 
+ <update id="replyOnOff" parameterType="String">
+ 	UPDATE post SET 
+ 					reply_arm_yn=#{replyArmYn} 
+ 	WHERE post_uni_no=#{postUniNo}
+ </update>
+ 
+ <update id="notiOnOff" parameterType="String">
+ 	UPDATE post SET 
+ 					noti_yn=#{notiYn},
+ 					<if test="notiYn == 'O'">
+ 					noti_reg_dt=sysdate
+ 					</if>
+ 	WHERE post_uni_no=#{postUniNo}
+ </update>
+ 
+ <select id="selectAllNotiPost" resultType="PostVO">
+ 	SELECT post_uni_no,
+ 		   brd_uni_no,
+ 		   ttl,
+ 		   cm,
+ 		   partici_memb_uni_no,
+ 		   write_dt,
+ 		   <if test="post_tag_arm != null and !post_tag_arm.equals('')">
+ 		   post_tag_arm,
+ 		   </if>
+ 		   reply_arm_yn,
+ 		   noti_yn,
+ 		   noti_reg_dt
+ 	FROM post
+ 	WHERE noti_yn == 'O'
+ 	ORDER BY noti_reg_dt
+ </select>
  
  </mapper>
  

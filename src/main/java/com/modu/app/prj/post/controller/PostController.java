@@ -17,12 +17,11 @@ public class PostController {
 	@Autowired
 	PostService postService;
 	
-	
+
 	//전체조회
 	@GetMapping("postList")
-	public String postList(Model model) {
-		model.addAttribute("postList", postService.getAllPostList());
-		
+	public String postList(Model model, String brdUniNo) {
+		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
 		return "post/postList";
 	}
 	/*

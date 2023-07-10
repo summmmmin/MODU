@@ -5,10 +5,10 @@ import java.util.List;
 public interface ReplyService {
 
 	//전체조회
-	public List<ReplyVO> getAllReplyList(String postUniqueNumber);
+	public List<ReplyVO> getAllReplyList(String postUniNo);
 	
 	//단건조회
-	public ReplyVO getOneReply(String replyUniqueNumber);
+	public ReplyVO getOneReply(String replyUniNo);
 	
 	//등록
 	public int insertReply(ReplyVO replyeVO);
@@ -17,6 +17,6 @@ public interface ReplyService {
 	public int updateReply(ReplyVO replyVO);
 	
 	//삭제
-	public int deleteReply(String replyUniqueNumber);
+	public int deleteReply(String replyUniNo);
 
 }
