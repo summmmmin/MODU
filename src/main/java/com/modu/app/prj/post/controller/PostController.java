@@ -17,7 +17,7 @@ public class PostController {
 	@Autowired
 	PostService postService;
 	
-	/*
+	
 	//전체조회
 	@GetMapping("postList")
 	public String postList(Model model) {
@@ -25,7 +25,7 @@ public class PostController {
 		
 		return "post/postList";
 	}
-	
+	/*
 	//단건조회
 	@GetMapping("postSelect")
 	public String onePost(Model model, String postUniqueNumber) {
