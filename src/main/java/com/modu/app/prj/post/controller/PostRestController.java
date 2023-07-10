@@ -2,6 +2,8 @@ package com.modu.app.prj.post.controller;
 
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,16 +23,16 @@ public class PostRestController {
 	PostService postService;
 	
 	//전체조회
-	@GetMapping("posts")
-	public List<PostVO> postList(){
-		return postService.getAllPostList();
+	@GetMapping("posts/{brdUniNo}")
+	public List<PostVO> postList(@PathVariable String brdUniNo){
+		return postService.getAllPostList(brdUniNo);
 	}
 	
 	//단건조회
-	@GetMapping("posts/{pNum}")
+	@GetMapping("post/{pNum}")
 	@CrossOrigin
-	public PostVO postOne(@PathVariable ("pNum") String postUniqueNumber) {
-		PostVO postVO = postService.getOnePost(postUniqueNumber);
+	public PostVO postOne(@PathVariable ("pNum") String postUniNo) {
+		PostVO postVO = postService.getOnePost(postUniNo);
 		return postVO;
 	}
 	
@@ -50,9 +52,17 @@ public class PostRestController {
 	
 	//삭제
 	@GetMapping("postDelete")
-	public String postDelete(String postUniqueNumber) {
-		postService.deletePost(postUniqueNumber);
-		return postUniqueNumber;
+	public String postDelete(String postUniNo) {
+		postService.deletePost(postUniNo);
+		return postUniNo;
 	}
+	
+	//공지리스트
+	@GetMapping("postsNoti")
+	public List<PostVO> getNotiList() {
+		return postService.selectAllNotiPost();
+	}
+	
+	
 
 }

@@ -5,80 +5,74 @@
 <mapper namespace="com.modu.app.prj.post.mapper.ReplyMapper">
 
 <select id="selectAllReply" resultType="ReplyVO">
-    SELECT reply_unique_number,
-           content,
-           write_date,
-           <if test="modify_date != null and !modify_date.equals('')">
-           modify_date,
+    SELECT reply_uni_no,
+           cntn,
+           write_dt,
+           <if test="mod_dt != null and !mod_dt.equals('')">
+           mod_dt,
            </if>
-           <if test="tag_notification != null and !tag_notification.equals('')">
-           tag_notification,
+           <if test="tag_arm != null and !tag_arm.equals('')">
+           tag_arm,
            </if>
-           post_unique_number,
-           join_member_unique_number
+           post_uni_no,
+           partici_memb_uni_no
     FROM reply
-    WHERE post_unique_number=#{postUniqueNumber}
-    ORDER BY write_date
+    WHERE post_uni_no=#{postUniNo}
+    ORDER BY write_dt
 </select>
 
 <select id="selectOneReply" resultType="ReplyVO">
-    SELECT reply_unique_number,
-           content,
-           write_date,
-           <if test="modify_date != null and !modify_date.equals('')">
-           modify_date,
+    SELECT reply_uni_no,
+           cntn,
+           write_dt,
+           <if test="mod_dt != null and !mod_dt.equals('')">
+           mod_dt,
            </if>
-           <if test="tag_notification != null and !tag_notification.equals('')">
-           tag_notification,
+           <if test="tag_arm != null and !tag_arm.equals('')">
+           tag_arm,
            </if>
-           post_unique_number,
-           join_member_unique_number
+           post_uni_no,
+           partici_memb_uni_no
     FROM reply
-    WHERE reply_unique_number=#{replyUniqueNumber}
+    WHERE reply_uni_no=#{replyUniNo}
 </select>
 
 <insert id="insertReply" parameterType="ReplyVO">
-	INSERT INTO reply (reply_unique_number,
-					   content,
-					   write_date,
-					   <if test="modifyDate != null and !modifyDate.equals('')">
-					   modify_date,
-					   </if>
-					   <if test="tagNotification != null and !tagNotification.equals('')">
-           			   tag_notification,
+	INSERT INTO reply (reply_uni_no,
+					   cntn,
+					   write_dt,
+					   <if test="tagArm != null and !tagArm.equals('')">
+           			   tag_arm,
            			   </if>
-           			   post_unique_number,
-           			   tag_notification
+           			   post_uni_no,
+           			   partici_memb_uni_no
            			   )
            		VALUES(
-           			  #{replyUniqueNumber},
-           			  #{content},
+           			  #{replyUniNo},
+           			  #{cntn},
            			  sysdate,
-           			  <if test="modifyDate != null and !modifyDate.equals('')">
-					  #{modifyDate},
-					  </if>
-					  <if test="tagNotification != null and !tagNotification.equals('')">
-           			   #{tagNotification},
+					  <if test="tagArm != null and !tagArm.equals('')">
+           			   #{tagArm},
            			  </if>
-           			  #{postUniqueNumber},
-           			  #{joinMemberUniqueNumber}           				
+           			  #{postUniNo},
+           			  #{particiMembUniNo}           				
            			)				  
 </insert>
 
 <update id="updateReply" parameterType="ReplyVO">
 	UPDATE reply SET
- 					<if test="content != null and !content.equals('')">
- 		   			content=#{content},
+ 					<if test="cntn != null and !cntn.equals('')">
+ 		   			cntn=#{cntn},
  		   			</if>
- 		   			<if test="tagNotification != null and !tagNotification.equals('')">
- 		   			tag_notification=#{tagNotification},
+ 		   			<if test="tagArm != null and !tagArm.equals('')">
+ 		   			tag_arm=#{tagArm},
 					</if>
 					modify_date=sysdate
- 	WHERE reply_unique_number=#{replyUniqueNumber}
+ 	WHERE reply_uni_no=#{replyUniNo}
 </update>
 
 <delete id="deleteReply" parameterType="String">
-	DELETE FROM reply WHERE reply_unique_number=#{replyUniqueNumber}
+	DELETE FROM reply WHERE reply_uni_no=#{replyUniNo}
 </delete>
 
  </mapper>

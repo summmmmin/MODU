@@ -22,15 +22,15 @@ public class ReplyRestController {
 	
 	//전체조회
 	@GetMapping("replys/{pNum}")
-	public List<ReplyVO> replyList(@PathVariable("pNum") String postUniqueNumber) {
-		return replyService.getAllReplyList(postUniqueNumber);
+	public List<ReplyVO> replyList(@PathVariable("pNum") String postUniNo) {
+		return replyService.getAllReplyList(postUniNo);
 	}
 	
 	//단건조회
-	@GetMapping("replyes/{rNum}")
+	@GetMapping("reply/{rNum}")
 	@CrossOrigin
-	public ReplyVO replyOne(@PathVariable("rNum") String replyUniqueNumber) {
-		return replyService.getOneReply(replyUniqueNumber);
+	public ReplyVO replyOne(@PathVariable("rNum") String replyUniNo) {
+		return replyService.getOneReply(replyUniNo);
 	}
 	
 	//등록
@@ -49,9 +49,11 @@ public class ReplyRestController {
 	
 	//삭제
 	@GetMapping("replyDelete")
-	public String replyDelete(String replyUniqueNumber) {
-		replyService.deleteReply(replyUniqueNumber);
-		return replyUniqueNumber;
+	public String replyDelete(String replyUniNo) {
+		replyService.deleteReply(replyUniNo);
+		return replyUniNo;
 	}
+	
+
 	
 }

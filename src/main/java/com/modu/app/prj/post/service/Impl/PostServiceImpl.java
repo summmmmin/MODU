@@ -21,13 +21,13 @@ public class PostServiceImpl implements PostService {
 	ReplyMapper replyMapper;
 	
 	@Override
-	public List<PostVO> getAllPostList() {
-		return postMapper.selectAllPost();
+	public List<PostVO> getAllPostList(String brdUniNo) {
+		return postMapper.selectAllPost(brdUniNo);
 	}
 
 	@Override
-	public PostVO getOnePost(String postUniqueNumber) {
-		return postMapper.selectOnePost(postUniqueNumber);
+	public PostVO getOnePost(String postUniNo) {
+		return postMapper.selectOnePost(postUniNo);
 	}
 
 	@Override
@@ -41,8 +41,23 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public int deletePost(String postUniqueNumber) {
-		return postMapper.deletePost(postUniqueNumber);
+	public int deletePost(String postUniNo) {
+		return postMapper.deletePost(postUniNo);
+	}
+
+	@Override
+	public int replyOnOff(String postUniNo) {
+		return postMapper.replyOnOff(postUniNo);
+	}
+
+	@Override
+	public int notiOnOff(String postUniNo) {
+		return postMapper.notiOnOff(postUniNo);
+	}
+
+	@Override
+	public List<PostVO> selectAllNotiPost() {
+		return postMapper.selectAllNotiPost();
 	}
 
 }

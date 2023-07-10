@@ -16,13 +16,13 @@ public class ReplyServiceImpl implements ReplyService {
 	ReplyMapper replyMapper;
 
 	@Override
-	public List<ReplyVO> getAllReplyList(String postUniqueNumber) {
-		return replyMapper.selectAllReply(postUniqueNumber);
+	public List<ReplyVO> getAllReplyList(String postUniNo) {
+		return replyMapper.selectAllReply(postUniNo);
 	}
 
 	@Override
-	public ReplyVO getOneReply(String replyUniqueNumber) {
-		return replyMapper.selectOneReply(replyUniqueNumber);
+	public ReplyVO getOneReply(String replyUniNo) {
+		return replyMapper.selectOneReply(replyUniNo);
 	}
 
 	@Override
@@ -36,8 +36,8 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public int deleteReply(String replyUniqueNumber) {
-		return replyMapper.deleteReply(replyUniqueNumber);
+	public int deleteReply(String replyUniNo) {
+		return replyMapper.deleteReply(replyUniNo);
 	}
 
 }

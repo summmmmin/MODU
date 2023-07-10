@@ -12,17 +12,52 @@
 			<div th:each="post:${postList}" class="card">
 				<div class="card-content">
 					<div class="card-body">
-						<h4 class="card-title">[[${post.title}]]</h4>
-						<p class="card-text">[[${post.content}]]</p>
-						<p class="card-text">[[${post.postTagNotification}]]태그된사람들</p>
-						<small class="text-muted">[[${#dates.format(post.writeDate, 'yyyy-MM-dd')}]]</small>
+						<h4 class="card-title">[[${post.ttl}]]</h4>
+						<small class="text-muted">[[${post.nnm}]]작성자</small>
+						<p class="card-text">[[${post.cm}]]</p>
+						<p class="card-text">[[${post.postTagArm}]]태그된사람들</p>
+						<small class="text-muted">[[${#dates.format(post.writeDt,
+							'yyyy-MM-dd')}]]</small>
 					</div>
 					<img class="card-img-bottom img-fluid"
 						src="assets/images/samples/water.jpg" alt="Card image cap"
 						style="height: 20rem; object-fit: cover;">
 				</div>
+				<div>
+					댓글
+					<div id="replyPlace" class="card-body">
+
+
+					</div>
+					<div class="form-group position-relative has-icon-right">
+						<input type="text" class="form-control"
+							placeholder="reply">
+						<div class="form-control-icon">
+							<svg class="bi" width="1em" height="1em" fill="currentColor">
+								<use
+									xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
+						</svg>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
+	<script>
+		replyList();
+		function replyLst(){
+			let pNum = pt1;
+			fetch('http://localhost:80/modu/replys/'+pNum)
+			.then(resolve => resolve.json())
+			.then(data => {
+				console.log(data);
+			})
+			// let pTage = document.createElement('p');
+			// pTag.setAttrebute('class', 'card-text');
+			// pTag.textContet=ddd
+			// document.getElementById('replyPlace').append()
+		}
+
+	</script>
 </body>
 </html>
