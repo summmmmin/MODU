@@ -18,7 +18,7 @@ public class LoginController {
 
 	// 로그인 기능
 	@GetMapping("login")
-	public String login(LoginVO vo, boolean remember, HttpServletRequest request) {
+	public String login(LoginVO vo, HttpServletRequest request) {
 		LoginVO login = loginService.login(vo);
 		System.out.println(login);
 		
