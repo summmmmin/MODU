@@ -14,7 +14,7 @@ public class VoteController {
 	VoteService voteService;
 	
 	//전체조회 페이지
-		@GetMapping("empList")
+		@GetMapping("voteList")
 		public String empList(Model model) {
 			//model.addAttribute("empList", empService.getEmpList());
 			return "vote/vote";

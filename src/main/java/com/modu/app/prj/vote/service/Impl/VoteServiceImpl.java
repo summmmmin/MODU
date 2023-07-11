@@ -1,4 +1,4 @@
-package com.modu.app.prj.vote.service.serviceImpl;
+package com.modu.app.prj.vote.service.Impl;
 
 import java.util.List;
 

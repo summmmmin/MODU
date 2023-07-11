@@ -2,10 +2,19 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.yedam.app.prj.vote.mapper.VoteMapper">
-  <select id="selectVoteList" resultType="VoteVO" >
   
-  </select>
+  <mapper namespace="com.modu.app.prj.vote.mapper.VoteMapper">
+
+  <!-- 투표 생성 - 1-1. 게시글에 첨가 -->
+  <insert id="postVote" parameterType="VoteVO">
+  insert into post(post_uni_no,ttl,cm,write_dt,brd_uni_no)
+  values(post_seq.nextval,#{ttl},#{cm},sysdate,#{brd_uni}) 
+  </insert>
+  
+  <!-- 투표 생성 - 2-2. 채팅에 첨가 --> 
+  <insert id="postVote2" parameterType="VoteVO">
+  insert into chat()
+  </insert>
   
   <!-- 투표 생성 - 1.투표테이블 -->
   <insert id="createVote" parameterType="VoteVO">
@@ -19,15 +28,6 @@
   values(#{voteDetaNo},#{voteNo},#{voteItem})
   </insert>
   
-  <!-- 투표 생성 - 3-1. 게시글에 첨가 -->
-  <insert id="postVote" parameterType="VoteVO">
-  insert into post(post_uni_no,ttl,cm.) 
-  </insert>
-  
-  <!-- 투표 생성 - 3-2. 게시글에 첨가 -->
-  <insert id="postVote" parameterType="VoteVO">
-  insert post
-  </insert>
   
   <!-- 투표 기간 수정 -->
   <update id="voteDate" parameterType="VoteVO">
@@ -42,7 +42,7 @@
   
   <!-- 투표하기 - 투표수 증가 -->
   <update id="updateCnt" parameterType="VoteVO">
-  udpate vote_deta set
+  update vote_deta set
   		 cnt = cnt+1
   where vote_deta_no = #{voteDetaNo}	
   </update>
