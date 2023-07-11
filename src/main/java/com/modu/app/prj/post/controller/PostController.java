@@ -18,7 +18,7 @@ public class PostController {
 	PostService postService;
 	
 
-	//전체조회
+	//전체조회ㅇ
 	@GetMapping("postList")
 	public String postList(Model model, String brdUniNo) {
 		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
