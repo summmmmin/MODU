@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{index}">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/css/bootstrap.css">
+
+<link rel="stylesheet"
+	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="shortcut icon" href="assets/images/favicon.svg"
+	type="image/x-icon">
+
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/vendors/fontawesome/all.min.css">
+
+<!-- Include Choices CSS -->
+<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/css/bootstrap.css">
+
+<link rel="stylesheet"
+	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="shortcut icon" href="assets/images/favicon.svg"
+	type="image/x-icon">
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<!-- 모달 -->
+
+		<button type="button" class="btn btn-outline-warning"
+			data-bs-toggle="modal" data-bs-target="#xlarge">Extra Large
+			Modal</button>
+
+		<!--Extra Large Modal -->
+		<div class="modal fade text-left w-100" id="xlarge" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl"
+				role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel16">신규 게시글 작성</h4>
+						<button type="button" class="close" data-bs-dismiss="modal"
+							aria-label="Close">
+							<i data-feather="x"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<section class="section">
+							<div class="row">
+								<div class="col">
+									<div class="card">
+										<div class="card-body">
+											<div class="form-group mb-3">
+												<!--제목부-->
+												<div class="form-group">
+													<label for="basicInput">제목*</label> <input type="text"
+														class="form-control" id="basicInput" placeholder="tilte">
+												</div>
+												<hr>
+												<!--본문부-->
+												<div>
+													<label for="exampleFormControlTextarea1" class="form-label">게시글
+														본문*</label>
+													<textarea class="form-control"
+														id="exampleFormControlTextarea1" rows="5"></textarea>
+												</div>
+												<hr>
+												<div class="card-content">
+													<div class="card-body">
+														<p class="card-text">
+															Using the basic table up, upload here to see how
+															<code>.multiple-files-filepond</code>
+															-based basic file uploader look. You can use
+															<code>allowMultiple</code>
+															or
+															<code>multiple</code>
+															attribute too to implement multiple upload.
+														</p>
+														<!-- File uploader with multiple files upload -->
+														<input type="file" class="multiple-files-filepond"
+															multiple>
+													</div>
+												</div>
+											</div>
+											<div>
+												<!--멤버호출부-->
+												<div class="form-group">
+													<label for="basicInput" class="form-label">멤버호출</label> <select
+														class="choices form-select multiple-remove"
+														multiple="multiple">
+														<optgroup label="tags">
+															<option value="romboid">Romboid</option>
+															<option value="trapeze" selected>Trapeze</option>
+															<option value="triangle">Triangle</option>
+															<option value="polygon">Polygon</option>
+														</optgroup>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+					</section>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light-secondary"
+              data-bs-dismiss="modal">
+              <i class="bx bx-x d-block d-sm-none"></i> <span
+                class="d-none d-sm-block">Close</span>
+            </button>
+            <button type="button" class="btn btn-primary ml-1"
+              data-bs-dismiss="modal">
+              <i class="bx bx-check d-block d-sm-none"></i> <span
+                class="d-none d-sm-block">Accept</span>
+            </button>
+          </div>
+				</div>
+			</div>
+		</div>
+
+
+		<script>
+			
+		</script>
+		<!-- 		</div> -->
+		<script
+			src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+		<script src="assets/js/bootstrap.bundle.min.js"></script>
+		<!-- Include Choices JavaScript -->
+		<script src="assets/vendors/choices.js/choices.min.js"></script>
+		<script src="assets/js/main.js"></script>
+	</div>
+</body>
+</html>
