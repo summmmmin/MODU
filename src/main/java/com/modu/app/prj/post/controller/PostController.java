@@ -24,14 +24,15 @@ public class PostController {
 		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
 		return "post/postList";
 	}
-	/*
+	
 	//단건조회
 	@GetMapping("postSelect")
 	public String onePost(Model model, String postUniqueNumber) {
 		model.addAttribute("post", postService.getOnePost(postUniqueNumber));
-		return "index";
+		return "post/postInsert";
 	}
 	
+	/*
 	//등록페이지
 	@GetMapping("postInsert")
 	public void postInsertForm(Model model) {

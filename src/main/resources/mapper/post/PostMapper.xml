@@ -37,10 +37,10 @@
  		   post_tag_arm,
  		   </if>
  		   reply_arm_yn,
- 		   noti_yn,
  		   <if test="noti_reg_dt != null and !noti_reg_dt.equals('')">
- 		   noti_reg_dt
+ 		   noti_reg_dt,
  		   </if>
+ 		   noti_yn
  	FROM post
  	WHERE post_uni_no=#{postUniNo}
  </select>

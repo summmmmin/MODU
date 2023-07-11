@@ -22,5 +22,6 @@ public class PostVO {
 	private Date notiRegDt; //공지등록일자
 	
 	private String nnm; //닉네임
+	private String prjUniNo; //프로젝트고유번호
 }
 

@@ -6,6 +6,21 @@
 <head>
 <meta charset="UTF-8">
 <title>postList</title>
+
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/css/bootstrap.css">
+
+<link rel="stylesheet"
+	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="shortcut icon" href="assets/images/favicon.svg"
+	type="image/x-icon">
 </head>
 
 <body>
@@ -16,6 +31,12 @@
 					<div class="card-body">
 						<h4 class="card-title">[[${post.ttl}]]</h4>
 						<small class="text-muted">[[${post.nnm}]]작성자</small>
+
+						<svg class="bi" width="1em" height="1em" fill="currentColor">
+									<use
+								xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#bookmark" />
+							</svg>
+
 						<p class="card-text">[[${post.cm}]]</p>
 						<p class="card-text">[[${post.postTagArm}]]태그된사람들</p>
 						<small class="text-muted">[[${#dates.format(post.writeDt,

@@ -30,5 +30,7 @@ public interface PostMapper {
 	//공지리스트
 	public List<PostVO> selectAllNotiPost();
 	
+	//멤버호출용
+	
 
 }
