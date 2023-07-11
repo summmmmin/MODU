@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{index}">
+
+<head>
+<meta charset="UTF-8">
+<title>postList</title>
+
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/css/bootstrap.css">
+
+<link rel="stylesheet"
+	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="shortcut icon" href="assets/images/favicon.svg"
+	type="image/x-icon">
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="col-md-6 col-sm-12">
+			<div th:each="post:${postList}" class="card">
+				<div class="card-content">
+					<div class="card-body">
+						<h4 class="card-title">[[${post.ttl}]]</h4>
+						<small class="text-muted">[[${post.nnm}]]작성자</small>
+
+						<svg class="bi" width="1em" height="1em" fill="currentColor">
+									<use
+								xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#bookmark" />
+							</svg>
+
+						<p class="card-text">[[${post.cm}]]</p>
+						<p class="card-text">[[${post.postTagArm}]]태그된사람들</p>
+						<small class="text-muted">[[${#dates.format(post.writeDt,
+							'yyyy-MM-dd')}]]</small>
+					</div>
+					<img class="card-img-bottom img-fluid"
+						src="assets/images/samples/water.jpg" alt="Card image cap"
+						style="height: 20rem; object-fit: cover;">
+				</div>
+				<div>
+					댓글
+					<div id="replyPlace" class="card-body"></div>
+					<div class="form-group position-relative has-icon-right">
+						<input type="text" class="form-control" placeholder="reply">
+						<div class="form-control-icon">
+							<svg class="bi" width="1em" height="1em" fill="currentColor">
+								<use
+									xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
+						</svg>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			function replyList(){
+			let pNum = 'pt1';
+			fetch('http://localhost:80/modu/replys/'+pNum)
+			.then(resolve => resolve.json())
+			.then(data => {
+				//console.log(data[0].cntn);
+				data.forEach(reply => {
+					let pTag=document.createElement('p');
+					pTag.setAttribute('class','card-text');
+					pTag.textContent = reply.cntn;
+					document.getElementById('replyPlace').append(pTag);
+				});
+			}) 
+			.catch(err => console.log(err))
+		}
+		replyList();
+
+	</script>
+	</div>
+
+
+</body>
+<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+
+<script src="assets/js/main.js"></script>
+</html>
