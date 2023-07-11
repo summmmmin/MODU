@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="kr" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -50,11 +50,10 @@
           </div>
           <div class="sidebar-menu">
             <ul class="menu">
-              <li class="sidebar-title">Menu</li>
+              <li class="sidebar-title">Menu
                <article id="plus-square"
-                        class="icon col-6 col-md-3 col-lg-2 pr4 pb2 pt2 bb bw1 b--gray1 hover-black bw0-pr db fl-pr">
-                        <dt class="the-icon"><span class="fa-fw select-all fas"></span></dt>
-				</article>
+                        class="icon col-6 col-md-3 col-lg-2 pr4 pb2 pt2 bb bw1 b--gray1 hover-black bw0-pr db fl-pr"></li>
+
               <li class="sidebar-item active">
                 <a href="index.html" class="sidebar-link">
                   <i class="bi bi-grid-fill"></i>
@@ -136,9 +135,67 @@
             </div>
           </div>
           <div class="rsidebar-menu">
-          	<div>
-          		<article layout:fragment="right-side"></article>
-          	</div>
+            <ul class="menu">
+              <li class="rsidebar-title">Menu</li>
+
+              <li class="rsidebar-item">
+                <a href="index.html" class="rsidebar-link">
+                  <i class="bi bi-grid-fill"></i>
+                  <span>Dashboard</span>
+                </a>
+              </li>
+
+              <li class="rsidebar-item has-sub">
+                <a href="#" class="rsidebar-link">
+                  <i class="bi bi-stack"></i>
+                  <span>Components</span>
+                </a>
+                <ul class="submenu">
+                  <li class="submenu-item">
+                    <a href="component-alert.html">Alert</a>
+                  </li>
+                  <li class="submenu-item">
+                    <a href="component-badge.html">Badge</a>
+                  </li>
+                  <li class="submenu-item">
+                    <a href="component-breadcrumb.html">Breadcrumb</a>
+                  </li>
+                  <li class="submenu-item">
+                    <a href="component-button.html">Button</a>
+                  </li>
+                  <li class="submenu-item">
+                    <a href="component-card.html">Card</a>
+                  </li>
+                  <li class="submenu-item">
+                    <a href="component-carousel.html">Carousel</a>
+                  </li>
+                  <li class="submenu-item">
+                    <a href="component-dropdown.html">Dropdown</a>
+                  </li>
+                  <li class="submenu-item">
+                    <a href="component-list-group.html">List Group</a>
+                  </li>
+                  <li class="submenu-item">
+                    <a href="component-modal.html">Modal</a>
+                  </li>
+                  <li class="submenu-item">
+                    <a href="component-navs.html">Navs</a>
+                  </li>
+                  <li class="submenu-item">
+                    <a href="component-pagination.html">Pagination</a>
+                  </li>
+                  <li class="submenu-item">
+                    <a href="component-progress.html">Progress</a>
+                  </li>
+                  <li class="submenu-item">
+                    <a href="component-spinner.html">Spinner</a>
+                  </li>
+                  <li class="submenu-item">
+                    <a href="component-tooltip.html">Tooltip</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
           </div>
           <button class="rsidebar-toggler btn x">
             <i data-feather="x"></i>
@@ -262,20 +319,6 @@
           </section>
         </div>
 
-        <footer>
-          <div class="footer clearfix mb-0 text-muted">
-            <div class="float-start">
-              <p>2021 &copy; Mazer</p>
-            </div>
-            <div class="float-end">
-              <p>
-                Crafted with
-                <span class="text-danger"><i class="bi bi-heart"></i></span> by
-                <a href="http://ahmadsaugi.com">A. Saugi</a>
-              </p>
-            </div>
-          </div>
-        </footer>
       </div>
     </div>
     <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
