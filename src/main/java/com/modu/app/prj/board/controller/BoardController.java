@@ -4,6 +4,8 @@ package com.modu.app.prj.board.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,17 +20,16 @@ import com.modu.app.prj.board.service.BoardVO;
 public class BoardController {
 	
 	@Autowired
-	BoardMapper boardMapper;
+	BoardService boardService;
 	
 	@GetMapping("index")
-	public String empList(Model model) {
+	public String empList(Model model,HttpSession session) {
 		return "index";
 	}
 	
 	@GetMapping("BoardList")
 	public String BoardList(Model model) {
-		List<BoardVO> list = boardMapper.BoardList(); 
+		model.addAttribute("boardList",boardService.BoardList());
 		return "index";
 	}
-	
 }

@@ -24,7 +24,5 @@
 	<update id="BoardModify" parameterType="BoardVO">
 	
 	</update>
-	
-	 	
  	
  </mapper>
