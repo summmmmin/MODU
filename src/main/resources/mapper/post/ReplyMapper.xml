@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.modu.app.prj.post.mapper.ReplyMapper">
+
+<select id="selectAllReply" resultType="ReplyVO">
+    SELECT reply_uni_no,
+           cntn,
+           write_dt,
+           <if test="mod_dt != null and !mod_dt.equals('')">
+           mod_dt,
+           </if>
+           <if test="tag_arm != null and !tag_arm.equals('')">
+           tag_arm,
+           </if>
+           post_uni_no,
+           partici_memb_uni_no
+    FROM reply
+    WHERE post_uni_no=#{postUniNo}
+    ORDER BY write_dt
+</select>
+
+<select id="selectOneReply" resultType="ReplyVO">
+    SELECT reply_uni_no,
+           cntn,
+           write_dt,
+           <if test="mod_dt != null and !mod_dt.equals('')">
+           mod_dt,
+           </if>
+           <if test="tag_arm != null and !tag_arm.equals('')">
+           tag_arm,
+           </if>
+           post_uni_no,
+           partici_memb_uni_no
+    FROM reply
+    WHERE reply_uni_no=#{replyUniNo}
+</select>
+
+<insert id="insertReply" parameterType="ReplyVO">
+	INSERT INTO reply (reply_uni_no,
+					   cntn,
+					   write_dt,
+					   <if test="tagArm != null and !tagArm.equals('')">
+           			   tag_arm,
+           			   </if>
+           			   post_uni_no,
+           			   partici_memb_uni_no
+           			   )
+           		VALUES(
+           			  #{replyUniNo},
+           			  #{cntn},
+           			  sysdate,
+					  <if test="tagArm != null and !tagArm.equals('')">
+           			   #{tagArm},
+           			  </if>
+           			  #{postUniNo},
+           			  #{particiMembUniNo}           				
+           			)				  
+</insert>
+
+<update id="updateReply" parameterType="ReplyVO">
+	UPDATE reply SET
+ 					<if test="cntn != null and !cntn.equals('')">
+ 		   			cntn=#{cntn},
+ 		   			</if>
+ 		   			<if test="tagArm != null and !tagArm.equals('')">
+ 		   			tag_arm=#{tagArm},
+					</if>
+					modify_date=sysdate
+ 	WHERE reply_uni_no=#{replyUniNo}
+</update>
+
+<delete id="deleteReply" parameterType="String">
+	DELETE FROM reply WHERE reply_uni_no=#{replyUniNo}
+</delete>
+
+ </mapper>
