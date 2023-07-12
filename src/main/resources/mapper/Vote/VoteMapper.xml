@@ -11,23 +11,23 @@
   values(post_seq.nextval,#{ttl},#{cm},sysdate,#{brd_uni}) 
   </insert>
   
-  <!-- 투표 생성 - 2-2. 채팅에 첨가 --> 
+  <!-- 투표 생성 - 1-2. 채팅에 첨가 --> 
   <insert id="postVote2" parameterType="VoteVO">
-  insert into chat()
+  insert into chat(chat_no,chatr_no,partici_memb_uni_no,cntn)
+  values(chat_seq.nextval,#{chatr_no},#{partici_memb_uni_no},#{cntn})  
   </insert>
   
-  <!-- 투표 생성 - 1.투표테이블 -->
+  <!-- 투표 생성 - 2.투표테이블 -->
   <insert id="createVote" parameterType="VoteVO">
   INSERT INTO VOTE(vote_no,prj_no,fr_dt,to_dt,ttl)
   values(#{voteNo},#{prjNo},#{frDt},#{toDt},#{ttl})
   </insert>
   
-  <!-- 투표 생성 - 2. 투표상세 테이블 -->
+  <!-- 투표 생성 - 3. 투표상세 테이블 -->
   <insert id="insertVoteItem" parameterType="VoteVO">
   insert into vote_deta(vote_deta_no,vote_no,vote_item)
   values(#{voteDetaNo},#{voteNo},#{voteItem})
   </insert>
-  
   
   <!-- 투표 기간 수정 -->
   <update id="voteDate" parameterType="VoteVO">
@@ -46,5 +46,10 @@
   		 cnt = cnt+1
   where vote_deta_no = #{voteDetaNo}	
   </update>
+  
+  <!-- 투표 결과 -->
+  <selet id="voteResult" resultType="VoteVO">
+  select vote_item,cnt
+  </selet>
   
   </mapper>
