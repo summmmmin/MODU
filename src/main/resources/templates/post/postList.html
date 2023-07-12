@@ -30,13 +30,35 @@
 				<div class="card-content">
 					<div class="card-body">
 						<h4 class="card-title">[[${post.ttl}]]</h4>
-						<small class="text-muted">[[${post.nnm}]]작성자</small>
-
+						<a>
+						<svg class="bi" width="1em" height="1em" fill="currentColor">
+                                                <use
+								xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#pen" />
+                                            </svg>
+						수정</a>
+						<a>
+						
+						<svg class="bi" width="1em" height="1em" fill="currentColor">
+                                                <use
+								xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#trash" />
+                                            </svg>
+						삭제
+						</a>
+						<a>
+						
 						<svg class="bi" width="1em" height="1em" fill="currentColor">
 									<use
 								xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#bookmark" />
 							</svg>
-
+							</a>
+						북마크온오프
+						<a>
+						<svg class="bi" width="1em" height="1em" fill="currentColor">
+                                                <use
+								xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#tags" />
+                                            </svg>
+                                            </a>
+						공지등록온오프(게시판생성자만확인가능?) <small class="text-muted">[[${post.nnm}]]작성자</small>
 						<p class="card-text">[[${post.cm}]]</p>
 						<p class="card-text">[[${post.postTagArm}]]태그된사람들</p>
 						<small class="text-muted">[[${#dates.format(post.writeDt,
@@ -67,11 +89,24 @@
 			fetch('http://localhost:80/modu/replys/'+pNum)
 			.then(resolve => resolve.json())
 			.then(data => {
-				//console.log(data[0].cntn);
+				console.log(data[0].nnm);
 				data.forEach(reply => {
+					
 					let pTag=document.createElement('p');
 					pTag.setAttribute('class','card-text');
-					pTag.textContent = reply.cntn;
+					pTag.textContent = reply.nnm + ' = 작성자, 작성자프로필이미지'
+					document.getElementById('replyPlace').append(pTag);
+					pTag=document.createElement('p');
+					pTag.setAttribute('class','card-text');
+					pTag.textContent = '즐겨찾기추가, 수정, 삭제 이미지 넣기';
+					document.getElementById('replyPlace').append(pTag);
+					pTag=document.createElement('p');
+					pTag.setAttribute('class','card-text');
+					pTag.textContent = reply.cntn;					
+					document.getElementById('replyPlace').append(pTag);
+					pTag=document.createElement('p');
+					pTag.setAttribute('class','card-text');
+					pTag.textContent = reply.writeDt;
 					document.getElementById('replyPlace').append(pTag);
 				});
 			}) 
@@ -86,6 +121,5 @@
 </body>
 <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
-
 <script src="assets/js/main.js"></script>
 </html>

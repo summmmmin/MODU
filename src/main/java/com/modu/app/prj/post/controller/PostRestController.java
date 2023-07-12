@@ -36,32 +36,28 @@ public class PostRestController {
 		return postVO;
 	}
 	
-	//등록
-	@PostMapping("postInsert")
-	public PostVO postInsert(@RequestBody PostVO postVO) {
-		postService.insertPost(postVO);
-		return postVO;
-	}
-	
-	//수정
-	@PostMapping("postUpdate")
-	public PostVO postUpdate(@RequestBody PostVO postVO) {
-		postService.updatePost(postVO);
-		return postVO;
-	}
-	
-	//삭제
-	@GetMapping("postDelete")
-	public String postDelete(String postUniNo) {
-		postService.deletePost(postUniNo);
-		return postUniNo;
-	}
-	
-	//공지리스트
-	@GetMapping("postsNoti")
-	public List<PostVO> getNotiList() {
-		return postService.selectAllNotiPost();
-	}
+//	//등록
+//	@PostMapping("postInsert")
+//	public PostVO postInsert(@RequestBody PostVO postVO) {
+//		postService.insertPost(postVO);
+//		return postVO;
+//	}
+	/*
+	 * //수정
+	 * 
+	 * @PostMapping("postUpdate") public PostVO postUpdate(@RequestBody PostVO
+	 * postVO) { postService.updatePost(postVO); return postVO; }
+	 * 
+	 * //삭제
+	 * 
+	 * @GetMapping("postDelete") public String postDelete(String postUniNo) {
+	 * postService.deletePost(postUniNo); return postUniNo; }
+	 * 
+	 * //공지리스트
+	 * 
+	 * @GetMapping("postsNoti") public List<PostVO> getNotiList() { return
+	 * postService.selectAllNotiPost(); }
+	 */
 	
 	
 
