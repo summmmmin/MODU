@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.modu.app.prj.chat.mapper.ChatMapper">
+	<select id="" resultType="ChatVO">
+		SELECT chat_no,
+       		   chatr_no,
+       		   partici_memb_uni_no,
+       		   cntn,
+       		   write_dt
+		FROM chat
+		ORDER BY write_dt
+	</select>
+ 
+</mapper>
