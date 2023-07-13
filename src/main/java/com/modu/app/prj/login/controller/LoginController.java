@@ -15,34 +15,26 @@ public class LoginController {
 
 	@Autowired
 	LoginService loginService;
-
-	// 로그인 기능
-	@GetMapping("login")
-	public String login(LoginVO vo, HttpServletRequest request) {
-		LoginVO login = loginService.login(vo);
-		System.out.println(login);
-		
-		HttpSession session = request.getSession();
-		if (login != null) {
-			session.setAttribute("user", login);
-			session.setAttribute("userid", login.getNm());
-			return "index";
-		} else {
-			return "Login/login";
-		}
-	}
+	
+	/*
+	 * // 로그인 기능
+	 * 
+	 * @GetMapping("login") public String login(LoginVO vo, HttpServletRequest
+	 * request) { LoginVO login = loginService.login(vo); System.out.println(login);
+	 * 
+	 * HttpSession session = request.getSession(); if (login != null) {
+	 * session.setAttribute("user", login); session.setAttribute("userid",
+	 * login.getNm()); return "index"; } else { return "Login/login"; } }
+	 */
 
 	// 로그아웃
-	@GetMapping("logout")
-	public String logout(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate(); // 세션 지우는거
-		}
-		return "redirect:/login";
-	}
+	/*
+	 * @GetMapping("logout") public String logout(HttpServletRequest request) {
+	 * HttpSession session = request.getSession(false); if (session != null) {
+	 * session.invalidate(); // 세션 지우는거 } return "redirect:/login"; }
+	 */
 
-	// 회원가입 페이지 이동
+	// 회원가입 페이지 이동s
 //	@GetMapping("/member")
 //	public String member() {
 //		return "board/member";

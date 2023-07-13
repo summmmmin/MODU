@@ -18,5 +18,4 @@ public class LoginServiceImpl implements LoginService {
 	public LoginVO login(LoginVO vo) {
 		return loginMapper.login(vo);
 	}
-	
 }
