@@ -1,5 +1,8 @@
 package com.modu.app.prj.prj.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
+import com.modu.app.prj.user.service.UserVO;
 
 @Controller
 public class PrjController {
@@ -28,8 +32,11 @@ public class PrjController {
 	
 	// 프로젝트 리스트 페이지
 	@GetMapping("prjList")
-	public String prjList(String membUniNo, Model model) {
-		model.addAttribute("prjList",prjService.getPrjList(membUniNo));
+	public String prjList(String membUniNo, Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		UserVO vo = (UserVO) session.getAttribute("user");
+		System.out.println(vo);
+		model.addAttribute("prjList",prjService.getPrjList(vo.getMembUniNo()));
 		return "prj/prjList";
 	}
 }
