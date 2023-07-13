@@ -12,17 +12,18 @@ import com.modu.app.prj.chat.service.ChatVO;
 
 @Controller
 public class ChatController {
-	@GetMapping("/socketserver") 
-	public String socketserver() {
+	@GetMapping("/chatPage") 
+	public String chatPage() {
 		return "chat/chat";
 	}
 
 	@MessageMapping("/chat") 
 	@SendTo("/sub/chat")
-	public ChatVO greeting(ChatVO chatVO, @PathVariable String chatrNo) throws Exception {
+	public ChatVO greeting(ChatVO chatVO) throws Exception {
 		Thread.sleep(1000); // simulated delay
 		//return new ChatVO("Hello, " + HtmlUtils.htmlEscape(message.getCntn()) + "!");
-		return new ChatVO();
+		System.out.println(chatVO);
+		return new ChatVO(HtmlUtils.htmlEscape(chatVO.getCntn()));
 		
 	}
 
