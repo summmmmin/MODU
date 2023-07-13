@@ -60,5 +60,17 @@ public class VoteServiceImpl implements VoteService {
 	public int doVote(VoteVO voteVo) {
 		return 0;
 	}
+
+	@Override
+	public VoteVO voteChatr(String voteNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public VoteVO voteBrdNm(String voteNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

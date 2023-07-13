@@ -28,4 +28,10 @@ public interface VoteService {
 	//투표 참여자
 	int voteMember(VoteVO voteVo);
 	
+	//투표번호 채팅 찾기
+	VoteVO voteChatr(String voteNo);
+	
+	//투표번호 게시판 찾기
+	VoteVO voteBrdNm(String voteNo);
+	
 }

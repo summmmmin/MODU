@@ -6,14 +6,6 @@ import com.modu.app.prj.vote.service.VoteVO;
 
 
 public interface VoteMapper {
-	//투표 목록 조회
-	public List<VoteVO> selectVoteList();
-	
-	//투표 단건 조회
-	public VoteVO selectVote(VoteVO voteVo);
-	
-	//투표 생성
-	public int insertEmpinfo(VoteVO voteVo);
 	
 	//투표 생성 - 1-1. 게시글에 첨가
 	public int postVote(VoteVO voteVo);
@@ -37,4 +29,9 @@ public interface VoteMapper {
 	
 	//투표결과
 	public List<VoteVO> voteResult();
+	
+	
+	public VoteVO voteChatr(String voteNo);
+	
+	public VoteVO voteBrdNm(String voteNo);
 }
