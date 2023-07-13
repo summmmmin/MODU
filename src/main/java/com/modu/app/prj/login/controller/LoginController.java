@@ -20,7 +20,7 @@ public class LoginController {
 	@GetMapping("login")
 	public String login(LoginVO vo, HttpServletRequest request) {
 		LoginVO login = loginService.login(vo);
-		System.out.println(login);
+		System.out.println(login); 
 		
 		HttpSession session = request.getSession();
 		if (login != null) {

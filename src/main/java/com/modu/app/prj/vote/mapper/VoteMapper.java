@@ -14,4 +14,7 @@ public interface VoteMapper {
 	
 	//투표 생성
 	public int insertEmpinfo(VoteVO voteVo);
+	
+	//투표 생성 - 1-1. 게시글에 첨가
+	public int postVote();
 }
