@@ -4,6 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.modu.app.prj.post.mapper.PostMapper">
  
+ <!-- 게시글리스트 -->
  <select id="selectAllPost" resultType="PostVO">
  	SELECT p.post_uni_no,
  		   p.brd_uni_no,
@@ -26,26 +27,42 @@
  	ORDER BY write_dt
  </select>
  
+ <!-- 단건조회 -->
  <select id="selectOnePost" resultType="PostVO">
- 	SELECT post_uni_no,
- 		   brd_uni_no,
- 		   ttl,
- 		   cm,
- 		   partici_memb_uni_no,
- 		   write_dt,
- 		   <if test="post_tag_arm != null and !post_tag_arm.equals('')">
- 		   post_tag_arm,
+ 	SELECT p.post_uni_no,
+ 		   p.brd_uni_no,
+ 		   p.ttl,
+ 		   p.cm,
+ 		   p.partici_memb_uni_no,
+ 		   p.write_dt,
+ 		    <if test="post_tag_arm != null and !post_tag_arm.equals('')">
+ 		   p.post_tag_arm,
  		   </if>
- 		   reply_arm_yn,
+ 		   p.reply_arm_yn,
  		   <if test="noti_reg_dt != null and !noti_reg_dt.equals('')">
- 		   noti_reg_dt,
+ 		   p.noti_reg_dt,
  		   </if>
- 		   noti_yn
- 	FROM post
- 	WHERE post_uni_no=#{postUniNo}
+ 		   p.noti_yn,
+           b.board_nm
+ 	FROM post p JOIN brd b
+    ON p.brd_uni_no = b.brd_uni_no
+ 	WHERE post_uni_no=#{postUniNO}
  </select>
+
+<!-- 게시글등록, 수정폼용 게시판조회 -->
+<select id="selectOneBoard" resultType="PostVO">
+	SELECT brd_uni_no, 
+		   board_nm 
+	FROM brd 
+	WHERE brd_uni_no = #{brdUniNo}
+</select>
  
+<!-- 게시글등록 -->
 <insert id="insertPost" parameterType="PostVO">
+    <!-- 게시글고유번호자동생성(더미데이터용번호임) -->
+    <selectKey keyProperty="postUniNo" resultType="String" order="BEFORE">
+    	SELECT 'pt' || (MAX(TO_NUMBER(SUBSTR(post_uni_no, 3)))+1) FROM post
+    </selectKey>
     INSERT INTO post (post_uni_no,
                       brd_uni_no,
                       ttl,
@@ -55,11 +72,11 @@
                       <if test="postTagArm != null and !postTagArm.equals('')">
                       post_tag_arm,
                       </if>
-                      reply_arm_yn,
                       noti_yn,
-                      <if test="notiRegDt != null and !notiRegDt.equals('')">
-                      noti_reg_dt
+                      <if test="notiYn == 'O'">
+                      noti_reg_dt,
                       </if>
+                      reply_arm_yn
                       )
 		    VALUES (
 		           #{postUniNo},
@@ -71,14 +88,15 @@
 		           <if test="postTagArm != null and !postTagArm.equals('')">
                    #{postTagArm},
                    </if>
-                   #{replyArmYn},
                    #{notiYn},
-                   <if test="notiRegDt != null and !notiRegDt.equals('')">
-                   sysdate
+                   <if test="notiYn == 'O'">
+                   sysdate,
                    </if>
+                   #{replyArmYn}
 		           )
 </insert>
  
+ <!-- 게시글수정 -->
  <update id="updatePost" parameterType="PostVO">
  	UPDATE post SET 
  					<if test="ttl != null and !ttl.equals('')">
@@ -93,16 +111,19 @@
  	WHERE post_uni_no=#{postUniNo}
  </update>
  
+ <!-- 게시글삭제 -->
  <delete id="deletePost" parameterType="String">
  	DELETE FROM post WHERE post_uni_no=#{postUniNo}
  </delete>
  
+ <!-- 댓글알람on/off -->
  <update id="replyOnOff" parameterType="String">
  	UPDATE post SET 
  					reply_arm_yn=#{replyArmYn} 
  	WHERE post_uni_no=#{postUniNo}
  </update>
  
+ <!-- 공지등록on/off -->
  <update id="notiOnOff" parameterType="String">
  	UPDATE post SET 
  					noti_yn=#{notiYn},
@@ -112,6 +133,7 @@
  	WHERE post_uni_no=#{postUniNo}
  </update>
  
+ <!-- 공지리스트 -->
  <select id="selectAllNotiPost" resultType="PostVO">
  	SELECT post_uni_no,
  		   brd_uni_no,

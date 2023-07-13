@@ -96,11 +96,10 @@ window.addEventListener("resize", (event) => {
   }
 });
 
-// document.querySelector(".burger-btn").addEventListener("click", () => {
-//   document.getElementById("sidebar").classList.toggle("active");
-// });
+document.querySelector(".burger-btn").addEventListener("click", () => {
+  document.getElementById("sidebar").classList.toggle("active");
+ });
 document.querySelector(".rburger-btn").addEventListener("click", () => {
-  console.log('1')
   document.getElementById("rsidebar").classList.toggle("active");
 });
 

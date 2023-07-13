@@ -11,6 +11,8 @@ public interface PostService {
 	//단건조회
 	public PostVO getOnePost(String postUniNo);
 	
+	//게시글등록, 수정폼용 게시판조회
+	public PostVO selectOneBoard(String postUniNo);
 	//등록
 	public int insertPost(PostVO postVO);
 	

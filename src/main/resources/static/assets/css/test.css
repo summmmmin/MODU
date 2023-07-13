@@ -755,7 +755,7 @@
   overflow-y: auto;
   background-color: #fff;
   bottom: 0;
-  transition: left 0.5s ease-out;
+  /* transition: left 0.5s ease-out; */
 }
 .sidebar-wrapper .sidebar-header {
   padding: 2rem 2rem 1rem;
@@ -791,7 +791,7 @@
   display: flex;
   align-items: center;
   border-radius: 0.5rem;
-  transition: all 0.5s;
+  /* transition: all 0.5s; */
   text-decoration: none;
   color: #25396f;
 }
@@ -856,7 +856,7 @@
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.5px;
-  transition: all 0.3s;
+  /* transition: all 0.3s; */
 }
 .sidebar-wrapper .menu .submenu .submenu-item a:hover {
   margin-left: 0.3rem;
@@ -1158,7 +1158,7 @@
   }
 }
 #main.layout-navbar {
-  padding: 0;
+  padding: 2rem;
 }
 #main #main-content {
   padding: 2rem;
@@ -1305,7 +1305,7 @@ a {
   overflow-y: auto;
   background-color: #fff;
   bottom: 0;
-  transition: right 0.5s ease-out;
+  /* transition: right 0.5s ease-out; */
 }
 .rsidebar-wrapper .rsidebar-header {
   padding: 2rem 2rem 1rem;
@@ -1341,7 +1341,7 @@ a {
   display: flex;
   align-items: center;
   border-radius: 0.5rem;
-  transition: all 0.5s;
+  /* transition: all 0.5s; */
   text-decoration: none;
   color: #25396f;
 }
@@ -1406,7 +1406,7 @@ a {
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.5px;
-  transition: all 0.3s;
+  /* transition: all 0.3s; */
 }
 .rsidebar-wrapper .menu .submenu .submenu-item a:hover {
   margin-right: 0.3rem;
