@@ -33,32 +33,34 @@
 			<div class="col">
 				<div class="card">
 					<div class="card-body">
-						<form th:action="@{/postInsert}" method="POST" th:object="${PostVO}">
+						<form th:action="{/postInsert}" method="POST" th:object="${postVO}">
 							<div class="form-group mb-3">
 								<!--제목부-->
 								<div class="form-group">
-									<label for="basicInput">제목*</label> <input type="text" class="form-control" id="basicInput"
-										placeholder="tilte" th:field="*{ttl}">
+									<label for="basicInput">제목*</label> 
+									<input type="text" class="form-control" id="basicInput"
+										placeholder="tilte" th:field="*{post}">
 								</div>
 								<hr>
 								<!--본문부-->
 								<div class="form-group">
 									<label for="exampleFormControlTextarea1" class="form-label">게시글
 										본문*</label>
-									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" th:field="*{cm}"></textarea>
+									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+										th:field="*{post}"></textarea>
 								</div>
 								<hr>
 								<!--첨부파일부-->
 								<div class="form-group">
 									<label for="exampleFormControlTextarea1" class="form-label">첨부파일
-										<!-- File uploader with multiple files upload -->
-										<input type="file" class="multiple-files-filepond" multiple>
+										<!-- File uploader with multiple files upload --> <input type="file" class="multiple-files-filepond"
+											multiple>
 								</div>
 								<!--멤버호출부-->
 								<div class="form-group">
 									<label for="basicInput" class="form-label">멤버호출</label> <select
 										class="choices form-select multiple-remove" multiple="multiple">
-										<optgroup label="tags">
+										<optgroup label="pjtParticiMemb">
 											<option value="romboid">Romboid</option>
 											<option value="trapeze" selected>Trapeze</option>
 											<option value="triangle">Triangle</option>
@@ -74,6 +76,7 @@
 								</div>
 							</div>
 						</form>
+
 					</div>
 				</div>
 			</div>
@@ -88,32 +91,30 @@
 				required: false
 			});
 		</script>
+<!-- filepond validation -->
+<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
+</script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js">
+</script>
 
-		<!-- filepond validation -->
-		<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
-		</script>
-		<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js">
-		</script>
+<!-- image editor -->
+<script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js">
+</script>
+<script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
 
-		<!-- image editor -->
-		<script
-			src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js">
-		</script>
-		<script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
-		<script src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
-		<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-		<script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+<!-- toastify -->
+<script src="assets/vendors/toastify/toastify.js"></script>
 
-		<!-- toastify -->
-		<script src="assets/vendors/toastify/toastify.js"></script>
-
-		<!-- filepond -->
-		<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-		<script src="assets/js/bootstrap.bundle.min.js"></script>
-		<!-- Include Choices JavaScript -->
-		<script src="assets/vendors/choices.js/choices.min.js"></script>
-		<script src="assets/js/main.js"></script>
-		<!--end of layout-->
+<!-- filepond -->
+<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<!-- Include Choices JavaScript -->
+<script src="assets/vendors/choices.js/choices.min.js"></script>
+<script src="assets/js/main.js"></script>
+<!--end of layout-->
 	</div>
 </body>
 

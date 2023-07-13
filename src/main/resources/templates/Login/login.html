@@ -22,10 +22,10 @@
                         <a href="index.html"><img src="assets/images/logo/logo.png" alt="Logo"></a>
                     </div>
                     <h1 class="auth-title">Login</h1>
-
-                   <form action="login" method="GET">
+   
+                   <form th:action="@{/login}" method="post">
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" name="id" class="form-control form-control-xl" placeholder="User ID">
+                            <input type="text" name="username" class="form-control form-control-xl" placeholder="User ID">
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
                             </div>
