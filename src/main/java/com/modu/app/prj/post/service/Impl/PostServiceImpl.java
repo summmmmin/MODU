@@ -33,8 +33,8 @@ public class PostServiceImpl implements PostService {
 	//게시글등록, 수정폼용 게시판조회
 	@Override
 	public PostVO selectOneBoard(String postUniNo) {
-		PostVO postVO = postMapper.selectOneBoard(postUniNo);
-		return postVO;
+		//PostVO postVO = postMapper.selectOneBoard(postUniNo);
+		return postMapper.selectOneBoard(postUniNo);
 	}
 	//게시글등록
 	@Override
