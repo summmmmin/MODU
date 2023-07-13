@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.modu.app.prj.prj.mapper.PrjMapper">
+ 
+ 	<!-- 프로젝트 생성 -->
+ 	<insert id="insertPrj" parameterType="String">
+ 		INSERT INTO prj (PRJ_UNI_NO, PRJ_NM) 
+		VALUES ('p'||prj_seq.nextval, #{prjNm})
+ 	</insert>
+ 	<!-- 프로젝트 생성한 사람 -->
+ 	<insert id="insertPrjPar" parameterType="PrjVO">
+ 		INSERT INTO prj_partici_memb(partici_memb_uni_no, prj_uni_no, memb_uni_no, nnm, grd, prj_pubc_id)
+		VALUES ('ppm'||prj_partici_seq.nextval, 'p'||prj_seq.currval, 'mt1', 'test', 'G03', 'test')
+ 	</insert>
+ 	
+ 	<!-- 프로젝트 리스트 조회 -->
+ 	<select id="selectPrjList" parameterType="String" resultType="PrjVO">
+ 		SELECT *
+		FROM prj p JOIN prj_partici_memb pm on p.prj_uni_no = pm.prj_uni_no
+            JOIN memb m ON pm.memb_uni_no = m.memb_uni_no 
+            JOIN cmmn c ON c.cd_no=pm.grd
+		WHERE pm.partici_yn = 'Y'
+		AND m.memb_uni_no = #{membUniNo}
+ 	</select>
+ 	
+ 	<!-- 프로젝트 이름 변경 -->
+ 	<update id="updatePrjNm" parameterType="PrjVO">
+ 		UPDATE prj
+		SET prj_nm = #{prjNm}
+		WHERE prj_uni_no = #{prjUniNo}
+ 	</update>
+ 	
+ 	<!-- 프로젝트 구독 취소 -->
+ 	<update id="updatePrjSubsp">
+ 	
+ 	</update>
+ 	
+ 	
+ </mapper>
