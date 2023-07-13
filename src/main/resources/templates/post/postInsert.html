@@ -33,19 +33,19 @@
 			<div class="col">
 				<div class="card">
 					<div class="card-body">
-						<form th:action="@{/postInsert}" method="post" th:object="${PostVO}">
+						<form th:action="@{/postInsert}" method="POST" th:object="${PostVO}">
 							<div class="form-group mb-3">
 								<!--제목부-->
 								<div class="form-group">
 									<label for="basicInput">제목*</label> <input type="text" class="form-control" id="basicInput"
-										placeholder="tilte" th:field="{post.ttl}">
+										placeholder="tilte" th:field="*{ttl}">
 								</div>
 								<hr>
 								<!--본문부-->
 								<div class="form-group">
 									<label for="exampleFormControlTextarea1" class="form-label">게시글
 										본문*</label>
-									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" th:field="{post.cm}"></textarea>
+									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" th:field="*{cm}"></textarea>
 								</div>
 								<hr>
 								<!--첨부파일부-->
