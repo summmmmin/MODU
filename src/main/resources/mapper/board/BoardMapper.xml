@@ -7,22 +7,7 @@
 	<!-- Board 전체조회 --> 	
  	<select id="BoardList" resultType="BoardVO"> 
 	SELECT * FROM brd
-	WHERE prj_uni_no = #{prjUniNo};
+	WHERE prj_uni_no = #{prjUniNo}
 	</select>
- 	
- 	<!-- Board추가 -->
- 	<insert id="insertBoard" parameterType="BoardVO">
- 	
- 	</insert>
-	
-	<!-- Board삭제 -->
-	<delete id="BoardDelete" parameterType="int">
-	
-	</delete>
-	
-	<!-- Board 업데이트 -->
-	<update id="BoardModify" parameterType="BoardVO">
-	
-	</update>
  	
  </mapper>

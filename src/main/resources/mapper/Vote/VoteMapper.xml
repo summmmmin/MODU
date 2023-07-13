@@ -50,12 +50,14 @@
   <!-- 투표하기 - 투표 참가자 -->
   <insert id="whoVote" parameterType="VoteVO">
   insert into vote_partici 
-  values(#{voteNo},#{partici_memb_uni_no})
+  values(#{voteNo},#{particiMembUniNo})
   </insert>
   
   <!-- 투표 결과 -->
   <select id="voteResult" resultType="VoteVO">
   select vote_item,cnt
+  from vote_deta_set
+  where vote_no = #{voteNO}
   </select>
   
   </mapper>
