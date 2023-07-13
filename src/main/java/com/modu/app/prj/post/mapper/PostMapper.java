@@ -6,6 +6,9 @@ import com.modu.app.prj.post.service.PostVO;
 
 public interface PostMapper {
 	
+	//로그인멤버=프로젝트참가자확인용(공개게시판)
+	public int isBrdParticiMemb(String membUniNo);
+	
 	//전체개시글조회
 	public List<PostVO> selectAllPost(String brdUniNo);
 	

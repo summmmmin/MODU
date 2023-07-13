@@ -2,6 +2,7 @@ package com.modu.app.prj.post.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +24,19 @@ public class PostRestController {
 	PostService postService;
 	
 	//전체조회
-	@GetMapping("posts/{brdUniNo}")
-	public List<PostVO> postList(@PathVariable String brdUniNo){
+	@GetMapping("post/{bNum}")
+	public List<PostVO> postList(@PathVariable("bNum") String brdUniNo, HttpSession session){
+		
 		return postService.getAllPostList(brdUniNo);
 	}
 	
-	//단건조회
-	@GetMapping("post/{pNum}")
-	@CrossOrigin
-	public PostVO postOne(@PathVariable ("pNum") String postUniNo) {
-		PostVO postVO = postService.getOnePost(postUniNo);
-		return postVO;
-	}
+//	//단건조회
+//	@GetMapping("post/{pNum}")
+//	@CrossOrigin
+//	public PostVO postOne(@PathVariable ("pNum") String postUniNo) {
+//		PostVO postVO = postService.getOnePost(postUniNo);
+//		return postVO;
+//	}
 	
 //	//등록
 //	@PostMapping("postInsert")

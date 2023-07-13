@@ -4,6 +4,13 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.modu.app.prj.post.mapper.PostMapper">
  
+ <!-- 로그인멤버=프로젝트참가자확인용(공개게시판) -->
+ <select id="" resultType="int">
+ 	SELECT COUNT(*) 
+	FROM prj_partici_memb
+	WHERE memb_uni_no = #{membUniNo} AND prj_uni_no = #{postUniNo}
+ </select>
+ 
  <!-- 게시글리스트 -->
  <select id="selectAllPost" resultType="PostVO">
  	SELECT p.post_uni_no,
