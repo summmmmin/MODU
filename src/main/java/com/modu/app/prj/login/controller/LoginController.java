@@ -17,20 +17,20 @@ public class LoginController {
 	LoginService loginService;
 
 	// 로그인 기능
-	@GetMapping("login")
-	public String login(LoginVO vo, HttpServletRequest request) {
-		LoginVO login = loginService.login(vo);
-		System.out.println(login); 
-		
-		HttpSession session = request.getSession();
-		if (login != null) {
-			session.setAttribute("user", login);
-			session.setAttribute("userid", login.getNm());
-			return "index";
-		} else {
-			return "Login/login";
-		}
-	}
+//	@GetMapping("login")
+//	public String login(LoginVO vo, HttpServletRequest request) {
+//		LoginVO login = loginService.login(vo);
+//		System.out.println(login); 
+//		
+//		HttpSession session = request.getSession();
+//		if (login != null) {
+//			session.setAttribute("user", login);
+//			session.setAttribute("userid", login.getNm());
+//			return "index";
+//		} else {
+//			return "Login/login";
+//		}
+//	}
 
 	// 로그아웃
 	@GetMapping("logout")
