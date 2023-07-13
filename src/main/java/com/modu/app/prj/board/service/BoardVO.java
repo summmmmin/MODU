@@ -12,7 +12,7 @@ public class BoardVO {
 	private String brdUniNo;
 	
 	//게시판 이름
-	private String BoardNm;
+	private String boardNm;
 	
 	//게시판 공개여부
 	private String pubcYn;
