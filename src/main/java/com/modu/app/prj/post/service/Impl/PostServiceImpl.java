@@ -39,6 +39,11 @@ public class PostServiceImpl implements PostService {
 	//게시글등록
 	@Override
 	public int insertPost(PostVO postVO) {
+		String brdUniNo = postMapper.selectOneBoard(postVO.getBrdUniNo()).getBrdUniNo();
+		String brdNm = postMapper.selectOneBoard(postVO.getBrdUniNo()).getBrdUniNo();
+		postVO.setBrdUniNo(brdUniNo);
+		postVO.setBoardNm(brdNm);
+		postVO.setParticiMembUniNo("ppmt1");
 		return postMapper.insertPost(postVO);
 	}
 	

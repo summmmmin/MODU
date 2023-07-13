@@ -41,9 +41,9 @@ public class PostController {
 		String brdNm = postService.selectOneBoard(brdUniNo).getBoardNm();
 		postVO.setBrdUniNo(brdUniNo);
 		postVO.setBoardNm(brdNm);
-		postVO.setParticiMembUniNo("ppmt1");
+//		postVO.setParticiMembUniNo("ppmt1");
 		model.addAttribute("post", postVO);
-		// System.out.println(postVO);
+		System.out.println(postVO);
 		return "post/postInsert";
 	}
 
@@ -52,10 +52,11 @@ public class PostController {
 	public String postInsert(Model model, PostVO postVO) {
 		
 		postService.insertPost(postVO);
+//		System.out.println(postVO);
+//		List<PostVO> postList = postService.getAllPostList(postVO.getBrdUniNo());
+//		model.addAttribute("postList", postList);
 		System.out.println(postVO);
-		List<PostVO> postList = postService.getAllPostList(postVO.getBrdUniNo());
-		model.addAttribute("postList", postList);
-		return "post/postList?brdUniNo=bt1";
+		return "postVO";
 	}
 
 	// 수정페이지
