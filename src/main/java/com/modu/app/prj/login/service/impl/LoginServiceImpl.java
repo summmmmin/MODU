@@ -14,11 +14,8 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	LoginMapper loginMapper;
 	
-	
-	
 	@Override
 	public LoginVO login(LoginVO vo) {
 		return loginMapper.login(vo);
 	}
-	
 }
