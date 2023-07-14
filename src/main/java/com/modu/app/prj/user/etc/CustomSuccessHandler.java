@@ -27,6 +27,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler{
       if(vo != null) {
     	  session.setAttribute("user", vo);
       }
-      response.sendRedirect("/modu/main");
+      response.sendRedirect("/modu/prjList");
    }
 }
