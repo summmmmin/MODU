@@ -20,11 +20,6 @@ public class PrjServiceImpl implements PrjService {
 	}
 
 	@Override
-	public int insertPrjPar(PrjVO prjVO) {
-		return prjMapper.insertPrjPar(prjVO);
-	}
-
-	@Override
 	public List<PrjVO> getPrjList(String membUniNo) {
 		return prjMapper.selectPrjList(membUniNo);
 	}
