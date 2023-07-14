@@ -31,7 +31,7 @@
  	FROM post p JOIN prj_partici_memb m
  	ON p.partici_memb_uni_no = m.partici_memb_uni_no
  	WHERE p.brd_uni_no=#{brdUniNo}
- 	ORDER BY write_dt
+ 	ORDER BY write_dt desc
  </select>
  
  <!-- 단건조회 -->

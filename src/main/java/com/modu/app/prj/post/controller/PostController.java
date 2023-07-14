@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.modu.app.prj.post.service.PostService;
@@ -28,7 +29,7 @@ public class PostController {
 //		//test용 이하 세션 삭제예정
 //		session.setAttribute("prjUniNo", "punt1");
 //		session.setAttribute("particiMembUniNo", "ppmt1");
-//		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
+		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
 		return "post/postList";
 	}
 
