@@ -6,7 +6,7 @@ import com.modu.app.prj.board.service.BoardVO;
 
 public interface BoardMapper {
 
-	public List<BoardVO> BoardList(String particiMembUniNo);
+	public List<BoardVO> BoardList(BoardVO vo);
 	
 	public BoardVO BoardGet();
 	

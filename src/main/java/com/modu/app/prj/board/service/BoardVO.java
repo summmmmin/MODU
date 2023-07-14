@@ -24,5 +24,8 @@ public class BoardVO {
 	private String prjUniNo;
 	
 	//참여자 고유번호
-	private String patriciMembUniNo; 
+	private String particiMembUniNo;
+	
+	
+	
 }

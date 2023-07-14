@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface BoardService {
 	
-	public List<BoardVO> BoardList(String particiMembUniNo);
+	public List<BoardVO> BoardList(BoardVO vo);
 	
 	public BoardVO GetBoard(BoardVO vo);
 	
