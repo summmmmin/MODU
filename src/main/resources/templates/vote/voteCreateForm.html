@@ -1,50 +1,121 @@
 <!DOCTYPE html>
-<html lang="kr" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>투표</title>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{index}">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="assets/css/bootstrap.css" />
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" href="assets/css/bootstrap.css">
+	<link rel="stylesheet" href="assets/css/app.css">
+	<link rel="stylesheet" href="assets/vendors/toastify/toastify.css">
 
-    <link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
+	<link rel="preconnect" href="https://fonts.gstatic.com">
 
-    <link
-      rel="stylesheet"
-      href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css"
-    />
-    <link
-      rel="stylesheet"
-      href="assets/vendors/bootstrap-icons/bootstrap-icons.css"
-    />
-    <link rel="stylesheet" href="assets/css/test.css" />
-    <link
-      rel="shortcut icon"
-      href="assets/images/favicon.svg"
-      type="image/x-icon"
-    />
-  </head>
+	<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+	<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="assets/vendors/fontawesome/all.min.css">
+	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
+
+	<!-- Include Choices CSS -->
+	<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
+	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+
+</head>
+
 <body>
-                                <article id="search"
-                                    class="icon col-6 col-md-3 col-lg-2 pr4 pb2 pt2 bb bw1 b--gray1 hover-black bw0-pr db fl-pr">
-                                    <dl class="dt w-100 ma0 pa0">
-                                        <dt class="the-icon"><span class="fa-fw select-all fas"></span></dt>
-                                        <dd class="mt-2 text-sm select-all word-wrap dtc v-top tl f2 icon-name">search
-                                        </dd>
-                                        <dd class="text-xs text-muted gray5 dtc v-top tr f2 icon-unicode">f002</dd>
-                                    </dl>
-                                    <!---->
-                                </article>
-    <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
+	<div layout:fragment="content">
+		<h2>postInsertForm [[${post.boardNm}]](=게시판이름)</h2>
+		<div class="row">
+			<div class="col">
+				<div class="card">
+					<div class="card-body">
+						<form th:action="{/postInsert}" method="POST" th:object="${postVO}">
+							<div class="form-group mb-3">
+								<!--제목부-->
+								<div class="form-group">
+									<label for="basicInput">제목*</label> 
+									<input type="text" class="form-control" id="basicInput"
+										placeholder="tilte" th:field="*{post}">
+								</div>
+								<hr>
+								<!--본문부-->
+								<div class="form-group">
+									<label for="exampleFormControlTextarea1" class="form-label">게시글
+										본문*</label>
+									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+										th:field="*{post}"></textarea>
+								</div>
+								<hr>
+								<!--첨부파일부-->
+								<div class="form-group">
+									<label for="exampleFormControlTextarea1" class="form-label">첨부파일
+										<!-- File uploader with multiple files upload --> <input type="file" class="multiple-files-filepond"
+											multiple>
+								</div>
+								<!--멤버호출부-->
+								<div class="form-group">
+									<label for="basicInput" class="form-label">멤버호출</label> <select
+										class="choices form-select multiple-remove" multiple="multiple">
+										<optgroup label="pjtParticiMemb">
+											<option value="romboid">Romboid</option>
+											<option value="trapeze" selected>Trapeze</option>
+											<option value="triangle">Triangle</option>
+											<option value="polygon">Polygon</option>
+										</optgroup>
+									</select>
+								</div>
+								<!--버튼부-->
+								<hr>
+								<div class="buttons">
+									<button type="submit" class="btn btn-primary">등록</button>
+									<button type="button" class="btn btn-light">취소</button>
+								</div>
+							</div>
+						</form>
 
-    <script src="assets/vendors/apexcharts/apexcharts.js"></script>
-    <script src="assets/js/pages/dashboard.js"></script>
-    <script src="assets/js/test.js"></script>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<script>
+			// Filepond: Multiple Files
+			FilePond.create(document.querySelector('.multiple-files-filepond'), {
+				allowImagePreview: false,
+				allowMultiple: true,
+				allowFileEncode: false,
+				required: false
+			});
+		</script>
+<!-- filepond validation -->
+<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
+</script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js">
+</script>
+
+<!-- image editor -->
+<script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js">
+</script>
+<script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+
+<!-- toastify -->
+<script src="assets/vendors/toastify/toastify.js"></script>
+
+<!-- filepond -->
+<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<!-- Include Choices JavaScript -->
+<script src="assets/vendors/choices.js/choices.min.js"></script>
+<script src="assets/js/main.js"></script>
+<!--end of layout-->
+	</div>
 </body>
+
 </html>

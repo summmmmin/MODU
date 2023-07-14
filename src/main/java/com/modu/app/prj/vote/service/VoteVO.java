@@ -47,5 +47,5 @@ public class VoteVO {
 	//채팅
 	private String chartNo;					//채팅방 번호
 	private String cntn;					//채팅 내용
-	
+	private String chatrNm;					//채팅방 제목
 }

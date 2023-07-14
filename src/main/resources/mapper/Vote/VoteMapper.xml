@@ -86,6 +86,25 @@
   where vote_no = #{voteNO}
   </select>
   
+  <!-- 투표 단건 -->
+  <select id="getVote" resultType="VoteVO">
+  select partici_memb_uni_no,fr_dt,to_dt,vote_item,cnt
+  from vote a join vote_deta b
+  on a.vote_no = b.vote_no
+  where vote_no =#{voteNo}
+  order by desc
+  </select>
   
+  <!-- 채팅방 제목 -->
+  <select id="chatrNm">
+  select chatr_nm
+  from chatr_partici 
+  where partici_memb_uni_no=#{particiMembUniNo}
+  </select>
   
+  <!-- 게시판 제목 -->
+  <select id="brdNm">
+  select board_nm from brd
+  where patrici_memb_uni_no=#{particiMembUniNo}
+  </select>
   </mapper>

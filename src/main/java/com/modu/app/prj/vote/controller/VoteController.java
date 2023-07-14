@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.modu.app.prj.vote.service.VoteService;
+import com.modu.app.prj.vote.service.VoteVO;
 
 @Controller
 public class VoteController {
@@ -13,10 +14,16 @@ public class VoteController {
 	@Autowired
 	VoteService voteService;
 	
-	//전체조회 페이지
-		@GetMapping("voteList")
-		public String empList(Model model) {
-			//model.addAttribute("empList", empService.getEmpList());
-			return "vote/vote";
-		}
+	@Autowired
+	VoteVO voteVo;
+	
+	// 페이지
+	@GetMapping("voteInsert")
+	public String voteInsert(Model model) {
+	model.addAttribute("chat",voteService.chatrNm());
+	model.addAttribute("brd",voteService.brdNm());
+	
+	
+		return "vote/voteInsert";
+	}
 }

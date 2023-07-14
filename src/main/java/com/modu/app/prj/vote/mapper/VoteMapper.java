@@ -14,6 +14,7 @@ public interface VoteMapper {
 	public int chatVote(VoteVO voteVo);
 	
 	//투표 생성 - 3.투표상세 테이블
+	public int insertVoteItem(VoteVO voteVO);
 	
 	//투표 기간 수정
 	public int voteDate(VoteVO voteVo);
@@ -30,8 +31,17 @@ public interface VoteMapper {
 	//투표결과
 	public List<VoteVO> voteResult();
 	
-	
+	//투표번호 채팅방 이름찾기
 	public VoteVO voteChatr(String voteNo);
 	
+	//투표번호 게시판 이름 찾기
 	public VoteVO voteBrdNm(String voteNo);
+	
+	//채팅방 제목
+	public List<VoteVO> chatrNm();
+	
+	//게시판 제목
+	public List<VoteVO> brdNm();
+	
+	
 }
