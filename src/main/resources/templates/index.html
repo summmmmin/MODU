@@ -214,18 +214,19 @@
                            <i data-feather="x"></i>
                         </button>
                      </div>
-                     <form th:action="InsertBoard" method="POST" id="FormEvent">
+                     <form action="InsertBoard" method="POST" id="FormEvent">
                         <div class="modal-body">
                           <h5>게시판 이름</h5>
                         <div class="form-group">
-                           <input type="text" placeholder="40자까지 입력 가능합니다."
+                           <input name="boardNm" type="text" placeholder="40자까지 입력 가능합니다."
                               class="form-control">
                         </div>
                         <div class="form-group">
-                        <h6>공개여부</h6>
+                       <h6>공개여부</h6>
                            <input type="checkbox" id="checkbox" checked> <label
                               for="checkbox" id="asd"><span></span></label>
-                        </div>
+                              
+                        </div> 
                         </div>
                         <div class="modal-footer">
                            <button type="button" class="btn btn-light-secondary"
@@ -233,8 +234,8 @@
                               <i class="bx bx-x d-block d-sm-none"></i> <span
                                  class="d-none d-sm-block">닫기</span>
                            </button>
-                           <button id="formbtn" type="submit" class="btn btn-primary ml-1"
-                              data-bs-dismiss="modal">
+                           <button id="formbtn" type="button" class="btn btn-primary ml-1"
+                              data-bs-dismiss="modal" onclick="form.submit()">
                               <i class="bx bx-check d-block d-sm-none"></i> <span
                                  class="d-none d-sm-block">생성</span>
                            </button>

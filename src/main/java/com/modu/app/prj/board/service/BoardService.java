@@ -9,6 +9,6 @@ public interface BoardService {
 	
 	public BoardVO GetBoard(BoardVO vo);
 	
-	public BoardVO InsertBoard(BoardVO vo);
+	public int InsertBoard(BoardVO vo);
 	
 }

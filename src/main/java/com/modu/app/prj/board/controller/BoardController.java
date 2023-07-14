@@ -30,12 +30,11 @@ public class BoardController {
 //		return "index";
 //	}
 	
-	@PostMapping("InsertBoard")
+	@PostMapping("/InsertBoard")
 	public String InsertBoard(BoardVO vo) {
 		System.out.println("1111");
 		System.out.println(vo);
 		boardService.InsertBoard(vo);
 		return "index";
 	}
-	
 }

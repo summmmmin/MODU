@@ -10,6 +10,6 @@ public interface BoardMapper {
 	
 	public BoardVO BoardGet();
 	
-	public BoardVO InsertBoard();
+	public int InsertBoard(BoardVO vo);
 	
 }
