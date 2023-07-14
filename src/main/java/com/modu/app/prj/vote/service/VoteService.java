@@ -36,9 +36,9 @@ public interface VoteService {
 	public VoteVO voteBrdNm(String voteNo);
 	
 	//채팅방 제목
-	public List<VoteVO> chatrNm();
+	public List<VoteVO> chatrNm(String no);
 	
 	//게시판 제목
-	public List<VoteVO> brdNm();
+	public List<VoteVO> brdNm(String no);
 	
 }

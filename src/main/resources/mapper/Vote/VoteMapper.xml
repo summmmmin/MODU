@@ -96,15 +96,16 @@
   </select>
   
   <!-- 채팅방 제목 -->
-  <select id="chatrNm">
+  <select id="chatrNm" resultType="VoteVO" parameterType="VoteVO">
   select chatr_nm
   from chatr_partici 
   where partici_memb_uni_no=#{particiMembUniNo}
   </select>
   
   <!-- 게시판 제목 -->
-  <select id="brdNm">
+  <select id="brdNm" resultType="VoteVO" parameterType="VoteVO">
   select board_nm from brd
   where patrici_memb_uni_no=#{particiMembUniNo}
   </select>
+  
   </mapper>

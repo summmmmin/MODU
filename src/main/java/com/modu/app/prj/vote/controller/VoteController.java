@@ -14,15 +14,12 @@ public class VoteController {
 	@Autowired
 	VoteService voteService;
 	
-	@Autowired
-	VoteVO voteVo;
 	
 	// 페이지
 	@GetMapping("voteInsert")
-	public String voteInsert(Model model) {
-	model.addAttribute("chat",voteService.chatrNm());
-	model.addAttribute("brd",voteService.brdNm());
-	
+	public String voteInsert(Model model,VoteVO vo) {
+//	model.addAttribute("chat",voteService.chatrNm());
+//	model.addAttribute("brd",voteService.brdNm());
 	
 		return "vote/voteInsert";
 	}

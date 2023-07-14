@@ -77,13 +77,13 @@ public class VoteServiceImpl implements VoteService {
 	}
 
 	@Override
-	public List<VoteVO> chatrNm() {
-		return voteMapper.chatrNm();
+	public List<VoteVO> chatrNm(String no) {
+		return voteMapper.chatrNm(no);
 	}
 
 	@Override
-	public List<VoteVO> brdNm() {
-		return voteMapper.brdNm();
+	public List<VoteVO> brdNm(String no) {
+		return voteMapper.brdNm(no);
 	}
 	
 
