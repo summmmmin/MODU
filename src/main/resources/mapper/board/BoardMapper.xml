@@ -5,20 +5,23 @@
  <mapper namespace="com.modu.app.prj.board.mapper.BoardMapper">
  	
 	<!-- Board 전체조회 --> 	
- 	<select id="BoardList" resultType="BoardVO" parameterType="String"> 
-	 SELECT * FROM brd
- 	 WHERE patrici_memb_uni_no=#{particiMembUniNo}
+	<select id="BoardList" resultType="BoardVO" parameterType="BoardVO">
+	SELECT a.brd_uni_no, a.board_nm
+	FROM brd a join brd_cm b on a.brd_uni_no=b.board_uni_no
+	WHERE a.pubc_yn = 'Y'
+	or (a.pubc_yn = 'N' and b.partici_memb_uni_no = #{particiMembUniNo})
+	AND a.prj_uni_no = #{prjUniNo}
+	GROUP BY a.brd_uni_no, a.board_nm
 	</select>
-	
+
 	<!-- Board 단건조회 -->
 	<select id="BoardGet" resultType="BoardVO">
 	SELECT * FROM brd WHERE brd_uni_no=#{brdUniNo}
 	</select>
 	
 	<insert id="InsertBoard" parameterType="BoardVO">
-	INSERT INTO brd (brd_uni_no, board_nm, pubc_yn, prj_uni_no, patrici_memb_uni_no, reg_dt)
+	INSERT INTO brd (brd_uni_no, board_nm, pubc_yn, prj_uni_no, partici_memb_uni_no, reg_dt)
 	VALUES
-	('b'||brd_seq.nextval,#{boardNm},'Y','punt10','ppmt10',sysdate)
+	('b'||brd_seq.nextval,#{boardNm},#{pubcYn},#{prjUniNo},#{particiMemUniNo},sysdate)
 	</insert>
- 	
  </mapper>

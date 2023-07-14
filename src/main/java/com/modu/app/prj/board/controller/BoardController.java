@@ -27,12 +27,16 @@ public class BoardController {
 	
 	// 사이드바 게시판 리스트
 	@GetMapping("/main")
-	public String BoardList(Model model,PrjVO prjVO, String particiMembUniNo,HttpServletRequest request){
+	public String BoardList(Model model,PrjVO prjVO,HttpServletRequest request){
 		HttpSession session = request.getSession();
 		prjVO.setMembUniNo(((UserVO) session.getAttribute("user")).getMembUniNo());
 		PrjVO vo = prjService.prjSession(prjVO);
-		//model.addAttribute("Session",prjService.prjSession(prjVO));
-	    session.setAttribute("prj", vo);
+	    session.setAttribute("prjUniNo", vo.getPrjUniNo());
+	    session.setAttribute("particiMembUniNo", vo.getParticiMembUniNo());
+	    BoardVO brd = new BoardVO();
+	    brd.setParticiMembUniNo(vo.getParticiMembUniNo());
+	    brd.setPrjUniNo(vo.getPrjUniNo());
+	    model.addAttribute("Brd",boardService.BoardList(brd));
 		return "index";
 	}
 	
