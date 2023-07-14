@@ -90,7 +90,7 @@
 
 					<!-- BoardList -->
 					<ul th:each="list, stat : ${Brd}" class="menu">
-						<li class="sidebar-item active"><a th:href="@{postList?brdUniNo={brdUniNo}(brdUniNo=${list.brdUniNo})}" 
+						<li class="sidebar-item active"><a th:href="@{postList?brdUniNo={bNum}(bNum=${list.brdUniNo})}" 
 							class="sidebar-link" th:text="${list.boardNm}" style="color: White"> 
 							<i class="bi bi-grid-fill"></i></a></li>
 					</ul>

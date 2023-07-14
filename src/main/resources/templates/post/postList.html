@@ -18,46 +18,42 @@
 <body>
 	<div layout:fragment="content">
 		<div class="buttons">
-			<a href="postInsert?brdUniNo=${postList.brdUniNo}" class="btn btn-primary">글작성</a>
+			<a th:href="@{postInsert}" class="btn btn-primary">글작성</a>
 		</div>
 		<hr>
-		<div class="col-md-6 col-sm-12">
-			<div class="card" id="postPlace"></div>
-		</div>
-		<div class="col-md-6 col-sm-12">
-
+		<div class="col-md-10 col-sm-12 mx-auto">
 			<div th:each="post : ${postList}" id="postPlace" class="card">
 				<div class="card-content">
 					<div class="card-body">
-					<input id="postUniNo" type="hidden" value="${post.postUniNo}">
-						<h4 class="card-title">[[${post.ttl}]]</h4>
-						<small class="text-muted">[[${post.nnm}]]작성자</small>
-						<!-- 즐겨찾기버튼 -->
-						즐겨찾기
-						<svg class="bi" width="1em" height="1em" fill="currentColor">
-							<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#bookmark" />
-						</svg>
-						<!--공지등록버튼-->
-						공지등록버튼()
-						<!--수정버튼-->
-						수정
-						<svg class="bi" width="1em" height="1em" fill="currentColor">
-							<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#pen" />
-						</svg>
-						<!--삭제-->
-						삭제
-						<svg class="bi" width="1em" height="1em" fill="currentColor">
-							<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#trash" />
-						</svg>
+						<input id="postUniNo" type="hidden" th:value="${post.postUniNo}">
+						<div class="row">
+							<h4 class="card-title col">[[${post.ttl}]]</h4>
+							<small class="text-muted col">[[${post.nnm}]]작성자</small>
+						</div>
+						<div class="row">
+							<!-- 즐겨찾기버튼 -->
+							<svg class="bi col d-flex flex-column" width="1em" height="1em" fill="currentColor">
+								<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#bookmark" />
+							</svg>
+							<!--공지등록버튼-->
 
+							<!--수정버튼-->
+							<svg class="bi col d-flex flex-column" width="1em" height="1em" fill="currentColor">
+								<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#pen" />
+							</svg>
+
+							<svg class="bi col d-flex flex-column" width="1em" height="1em" fill="currentColor">
+								<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#trash" />
+							</svg>
+						</div>
 						<p class="card-text">[[${post.cm}]]</p>
 						<p class="card-text">[[${post.postTagArm}]]태그된사람들</p>
 						<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 					</div>
 					첨부파일미리보기
 				</div>
-				<div>
-					댓글
+				
+					
 					<div id="replyPlace" class="card-body"></div>
 					<div class="form-group position-relative has-icon-right">
 						<input type="text" class="form-control" placeholder="reply">
@@ -65,21 +61,20 @@
 							<svg class="bi" width="1em" height="1em" fill="currentColor">
 								<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
 							</svg>
-							</div>
+						</div>
 					</div>
-				</div>
 			</div>
 		</div>
 		<script>
-		
-			
+
+			//댓글리스트
 			function showReplyList(){
-			let pNum = document.getElementById('postUniNo').value;
+			let pNum = 'pt1'
 			console.log(pNum);
 			fetch('http://localhost:80/modu/reply/'+pNum)
 			.then(resolve => resolve.json())
 			.then(data => {
-				//console.log(data[0].cntn);
+				console.log(data[0].cntn);
 				data.forEach(reply => {
 					let pTag=document.createElement('p');
 					pTag.setAttribute('class','card-text');

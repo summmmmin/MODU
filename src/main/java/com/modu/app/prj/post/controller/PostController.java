@@ -2,6 +2,7 @@ package com.modu.app.prj.post.controller;
 
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,10 @@ public class PostController {
 
 	// 전체조회페이지이동
 	@GetMapping("postList")
-	public String postList(Model model, String brdUniNo, HttpSession session) {
-//		//test용 이하 세션 삭제예정
-//		session.setAttribute("prjUniNo", "punt1");
-//		session.setAttribute("particiMembUniNo", "ppmt1");
+	public String postList(Model model, String brdUniNo) {
+
+		//session = request.getSession();
+		
 		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
 		return "post/postList";
 	}
