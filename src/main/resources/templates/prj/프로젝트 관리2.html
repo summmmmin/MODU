@@ -135,28 +135,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>NAME</td>
-                      <td>vehicula.aliquet@semconsequat.co.uk</td>
-                      <td>IT</td>
-                      <td>부장</td>
-                      <td>
-                        <span class="badge bg-success">나무</span>
-                      </td>
-                      <td>
-                        <!-- button trigger for  Vertically Centered modal -->
-                        <button type="button" class="btn btn-outline-primary block" data-bs-toggle="modal" data-bs-target="#manage">
-                          관리
-                        </button>
-                      </td>
-                    </tr>
                     <tr th:each="mem : ${memb}">
                       <td th:text="${mem.nnm}">이름</td>
-                      <td th:text="${mem.prj}">이메일</td>
-                      <td>부서</td>
-                      <td>직책</td>
+                      <td th:text="${mem.prjPubcId}">이메일</td>
+                      <td th:text="${mem.dept}">부서</td>
+                      <td th:text="${mem.pos}">직책</td>
                       <td>
-                        <span class="badge bg-success">등급</span>
+                        <span class="badge bg-success" th:text="${mem.cd}">등급</span>
                       </td>
                       <td>
                         <!-- button trigger for  Vertically Centered modal -->
