@@ -26,7 +26,8 @@ public class PostRestController {
 	//전체조회
 	@GetMapping("post/{bNum}")
 	public List<PostVO> postList(@PathVariable("bNum") String brdUniNo, HttpSession session){
-		
+		session.setAttribute("prjUniNo", "punt1");
+		session.setAttribute("particiMembUniNo", "ppmt1");
 		return postService.getAllPostList(brdUniNo);
 	}
 	
