@@ -29,4 +29,8 @@ public class PrjServiceImpl implements PrjService {
 		return prjMapper.selectPrjParti(prjVO);
 	}
 
+	@Override
+	public PrjVO prjSession(PrjVO vo) {
+		return prjMapper.prjSession(vo);
+	}
 }
