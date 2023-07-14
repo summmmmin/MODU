@@ -23,7 +23,12 @@ public class PrjServiceImpl implements PrjService {
 	public List<PrjVO> getPrjList(String membUniNo) {
 		return prjMapper.selectPrjList(membUniNo);
 	}
-	
+
+	@Override
+	public List<PrjVO> getPrjPartiList(PrjVO prjVO) {
+		return prjMapper.selectPrjParti(prjVO);
+	}
+
 	@Override
 	public PrjVO prjSession(PrjVO vo) {
 		return prjMapper.prjSession(vo);
