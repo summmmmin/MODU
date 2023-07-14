@@ -6,14 +6,12 @@
  <mapper namespace="com.modu.app.prj.prj.mapper.PrjMapper">
  
  	<!-- 프로젝트 생성 -->
- 	<insert id="insertPrj" parameterType="String">
- 		INSERT INTO prj (PRJ_UNI_NO, PRJ_NM) 
-		VALUES ('p'||prj_seq.nextval, #{prjNm})
- 	</insert>
- 	<!-- 프로젝트 생성한 사람 -->
- 	<insert id="insertPrjPar" parameterType="PrjVO">
- 		INSERT INTO prj_partici_memb(partici_memb_uni_no, prj_uni_no, memb_uni_no, nnm, grd, prj_pubc_id)
-		VALUES ('ppm'||prj_partici_seq.nextval, 'p'||prj_seq.currval, 'mt1', 'test', 'G03', 'test')
+ 	<insert id="insertPrj" parameterType="PrjVO" statementType="CALLABLE">
+ 		CALL
+ 			create_prj(
+ 					   #{prjNm},
+ 					   #{membUniNo}
+ 					  )
  	</insert>
  	
  	<!-- 프로젝트 리스트 조회 -->
