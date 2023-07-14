@@ -36,5 +36,14 @@
  	
  	</update>
  	
+ 	<!-- 프로젝트 참여 회원 리스트 -->
+ 	<select id="selectPrjParti" parameterType="PrjVO" resultType="PrjVO">
+ 		SELECT *
+		FROM prj_partici_memb pm
+		    JOIN cmmn c ON c.cd_no=pm.grd
+		WHERE pm.prj_uni_no = #{prjUniNo}
+		AND pm.partici_yn = 'Y'
+		ORDER BY pm.partici_memb_uni_no
+ 	</select>
  	
  </mapper>
