@@ -10,4 +10,6 @@ public interface PrjMapper {
 
 	// 프로젝트 리스트 조회
 	public List<PrjVO> selectPrjList(String membUniNo);
+	
+	public PrjVO prjSession(PrjVO vo);
 }

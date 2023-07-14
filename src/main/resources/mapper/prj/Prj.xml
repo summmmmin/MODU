@@ -36,5 +36,12 @@
  	
  	</update>
  	
+ 	<!-- 프로젝트 번호 세션 -->
+ 	<select id="prjSession" resultType="PrjVO">
+	select *
+	from prj_partici_memb
+	where prj_uni_no = #{prjUniNo}
+	and memb_uni_no = #{membUniNo}
+	</select>
  	
  </mapper>

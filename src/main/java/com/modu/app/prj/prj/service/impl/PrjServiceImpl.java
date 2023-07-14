@@ -23,5 +23,9 @@ public class PrjServiceImpl implements PrjService {
 	public List<PrjVO> getPrjList(String membUniNo) {
 		return prjMapper.selectPrjList(membUniNo);
 	}
-
+	
+	@Override
+	public PrjVO prjSession(PrjVO vo) {
+		return prjMapper.prjSession(vo);
+	}
 }

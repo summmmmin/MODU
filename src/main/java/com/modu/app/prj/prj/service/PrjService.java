@@ -8,4 +8,6 @@ public interface PrjService {
 	
 	// 프로젝트 리스트 조회
 	public List<PrjVO> getPrjList(String membUniNo);
+
+	public PrjVO prjSession(PrjVO vo);
 }
