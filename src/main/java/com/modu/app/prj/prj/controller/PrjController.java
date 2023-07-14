@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
@@ -25,9 +26,12 @@ public class PrjController {
 	}
 	
 	@PostMapping("prjInsert")
-	public String prjInsert(PrjVO prjVO) {
+	public String prjInsert(PrjVO prjVO, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		UserVO vo = (UserVO) session.getAttribute("user");
+		prjVO.setMembUniNo(vo.getMembUniNo());
 		prjService.insertPrj(prjVO);
-		return "prj/prjList";
+		return "redirect:prjList";
 	}
 	
 	// 프로젝트 리스트 페이지
