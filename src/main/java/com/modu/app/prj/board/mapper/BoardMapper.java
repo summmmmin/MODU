@@ -8,5 +8,8 @@ public interface BoardMapper {
 
 	public List<BoardVO> BoardList();
 	
+	public BoardVO BoardGet();
+	
+	public BoardVO InsertBoard();
 	
 }

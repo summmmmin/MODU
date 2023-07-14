@@ -6,8 +6,18 @@
  	
 	<!-- Board 전체조회 --> 	
  	<select id="BoardList" resultType="BoardVO"> 
-	SELECT * FROM brd
-	WHERE prj_uni_no = #{prjUniNo}
+	SELECT board_nm FROM brd 
 	</select>
+	
+	<!-- Board 단건조회 -->
+	<select id="BoardGet" resultType="BoardVO">
+	SELECT * FROM brd WHERE brd_uni_no=#{brdUniNo}
+	</select>
+	
+	<insert id="InsertBoard" parameterType="BoardVO">
+	INSERT INTO brd (brd_uni_no, board_nm, pubc_yn, prj_uni_no, patrici_memb_uni_no, reg_dt)
+	VALUES
+	('b'||brd_seq.nextval,#{boardNm},'Y','punt10','ppmt10',sysdate)
+	</insert>
  	
  </mapper>
