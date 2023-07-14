@@ -3,17 +3,14 @@ package com.modu.app.prj.post.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.modu.app.prj.board.service.BoardVO;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
 
@@ -24,20 +21,20 @@ public class PostRestController {
 	PostService postService;
 	
 	//전체조회
-	@GetMapping("post/{bNum}")
-	public List<PostVO> postList(@PathVariable("bNum") String brdUniNo, HttpSession session){
-		session.setAttribute("prjUniNo", "punt1");
-		session.setAttribute("particiMembUniNo", "ppmt1");
+	@GetMapping("posts/{bNum}")
+	public List<PostVO> postList(@PathVariable("bNum") String brdUniNo){
+		//session.setAttribute("prjUniNo", "punt1");
+		//session.setAttribute("particiMembUniNo", "ppmt1");
 		return postService.getAllPostList(brdUniNo);
 	}
 	
-//	//단건조회
-//	@GetMapping("post/{pNum}")
-//	@CrossOrigin
-//	public PostVO postOne(@PathVariable ("pNum") String postUniNo) {
-//		PostVO postVO = postService.getOnePost(postUniNo);
-//		return postVO;
-//	}
+	//단건조회
+	@CrossOrigin
+	@GetMapping("post/{pNum}")
+	public PostVO postOne(@PathVariable ("pNum") String postUniNo, HttpSession session) {
+		//PostVO postVO = postService.getOnePost(session.getAttribute(postUniNo));
+		return postService.getOnePost(postUniNo);
+	}
 	
 //	//등록
 //	@PostMapping("postInsert")

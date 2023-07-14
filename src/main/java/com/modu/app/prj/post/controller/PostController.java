@@ -48,18 +48,17 @@ public class PostController {
 	}
 
 	// 등록처리
-//	@PostMapping("postInsert")
-//	public String postInsert(Model model, PostVO postVO, HttpSession session) {
-//		
-//		String nm = (String)session.getAttribute("particiMembUniNo");
-//		postVO.setParticiMembUniNo(nm);
-//		postService.insertPost(postVO);
-////		System.out.println(postVO);
-////		List<PostVO> postList = postService.getAllPostList(postVO.getBrdUniNo());
-////		model.addAttribute("postList", postList);
-//		System.out.println(postVO);
-//		return "redirect:postList?brdUniNo=bt1";
-//	}
+	@PostMapping("postInsert")
+	public String postInsert(Model model, PostVO postVO, HttpSession session) {
+		
+		String nm = (String)session.getAttribute("particiMembUniNo");
+		postVO.setParticiMembUniNo(nm);
+		postService.insertPost(postVO);
+		System.out.println(postVO);
+		//List<PostVO> postList = postService.getAllPostList(postVO.getBrdUniNo());
+		//model.addAttribute("postList", postList);
+		return "redirect:postList";
+	}
 
 	// 수정페이지
 	@GetMapping("postUpdate")

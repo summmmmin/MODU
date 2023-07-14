@@ -5,7 +5,7 @@
  <mapper namespace="com.modu.app.prj.post.mapper.PostMapper">
  
  <!-- 로그인멤버=프로젝트참가자확인용(공개게시판) -->
- <select id="" resultType="int">
+ <select id="isBrdParticiMemb" resultType="String">
  	SELECT prj_p
 	FROM prj_partici_memb
 	WHERE memb_uni_no = #{membUniNo} AND prj_uni_no = #{postUniNo}

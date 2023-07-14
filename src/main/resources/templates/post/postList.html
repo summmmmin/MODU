@@ -1,24 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
 
 <head>
-<meta charset="UTF-8">
-<title>postList</title>
+	<meta charset="UTF-8">
+	<title>postList</title>
 
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-	rel="stylesheet">
-<link rel="stylesheet" href="assets/css/bootstrap.css">
-<link rel="stylesheet"
-	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-<link rel="stylesheet"
-	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-<link rel="stylesheet" href="assets/css/app.css">
-<link rel="shortcut icon" href="assets/images/favicon.svg"
-	type="image/x-icon">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="assets/css/bootstrap.css">
+	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+	<link rel="stylesheet" href="assets/css/app.css">
+	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
 </head>
 
 <body>
@@ -31,106 +25,140 @@
 			<div class="card" id="postPlace"></div>
 		</div>
 
+
+
 		<script>
 			//게시글리스트
-			function showPostList(){
+			function showPostList() {
 				let bNum = 'bt1';
-				fetch('http://localhost:80/modu/post/'+bNum)
-				.then(resolve => resolve.json())
-				.then(data => {
-					//console.log(data);
-					data.forEach(post => {
-						let divTagCc = document.createElement('div');
-						divTagCc.setAttribute('class', 'card-content');
-						document.getElementById('postPlace').append(divTagCc);
-						
-						let divTagCb = document.createElement('div');
-						divTagCb.setAttribute('class', 'card-body');
-						divTagCc.append(divTagCb);
-						document.getElementById('postPlace').append(divTagCc);
-						
-						let postTtl = document.createElement('h4');
-						postTtl.setAttribute('class', 'card-title');
-						postTtl.textContent = post.ttl + '/ =제목'; 
-						divTagCb.append(postTtl);
-						divTagCc.append(divTagCb)
-						document.getElementById('postPlace').append(divTagCc);
-						
-						let postS = document.createElement('small');
-						postS.textContent = post.nnm + '/ =작성자';
-						divTagCb.append(postS);
-						divTagCc.append(divTagCb)
-						document.getElementById('postPlace').append(divTagCc);
-						
-						let hrTag = document.createElement('hr');
-				
-						let postPcm = document.createElement('p');
-						postPcm.textContent = post.cm + '/ =내용';
-						divTagCb.append(postPcm);
-						divTagCc.append(divTagCb)
-						document.getElementById('postPlace').append(divTagCc);
-						
-						let postP = document.createElement('p');
-						postP.textContent = post.postTagArm + '/ =멤버알람';
-						divTagCb.append(postP);
-						divTagCc.append(divTagCb)
-						document.getElementById('postPlace').append(divTagCc);
-						
-						postS = document.createElement('small');
-						postS.textContent = post.writeDt + '/ =작성일자';
-						divTagCb.append(postS);
-						divTagCc.append(divTagCb)
-						document.getElementById('postPlace').append(divTagCc);
-						
-						hrTag = document.createElement('hr');
-						
-						let divTag = document.createElement('div');
-						divTag.setAttribute('id', 'replyPlace');
-						divTag.setAttribute('class', 'card-body');
-						divTagCc.append(divTag);
-						document.getElementById('postPlace').append(divTagCc);
-						
-						//댓글
-						showReplyList(post.postUniNo);
+				fetch('http://localhost:80/modu/posts/' + bNum)
+					.then(resolve => resolve.json())
+					.then(data => {
+						//console.log(data);
+						data.forEach(post => {
+							let divTagCc = document.createElement('div');
+							divTagCc.setAttribute('class', 'card-content');
+							document.getElementById('postPlace').append(divTagCc);
+
+							let divTagCb = document.createElement('div');
+							divTagCb.setAttribute('class', 'card-body');
+							divTagCc.append(divTagCb);
+							document.getElementById('postPlace').append(divTagCc);
+
+							let postTtl = document.createElement('h4');
+							postTtl.setAttribute('class', 'card-title');
+							postTtl.textContent = post.ttl + '/ =제목';
+							divTagCb.append(postTtl);
+							divTagCc.append(divTagCb)
+							document.getElementById('postPlace').append(divTagCc);
+
+							let postS = document.createElement('small');
+							postS.textContent = post.nnm + '/ =작성자';
+							divTagCb.append(postS);
+							divTagCc.append(divTagCb)
+							document.getElementById('postPlace').append(divTagCc);
+
+							let hrTag = document.createElement('hr');
+							divTagCb.append(hrTag);
+							divTagCc.append(divTagCb);
+							document.getElementById('postPlace').append(divTagCc);
+
+							let postPcm = document.createElement('p');
+							postPcm.textContent = post.cm + '/ =내용';
+							divTagCb.append(postPcm);
+							divTagCc.append(divTagCb)
+							document.getElementById('postPlace').append(divTagCc);
+
+							let postP = document.createElement('p');
+							postP.textContent = post.postTagArm + '/ =멤버알람';
+							divTagCb.append(postP);
+							divTagCc.append(divTagCb)
+							document.getElementById('postPlace').append(divTagCc);
+
+							postS = document.createElement('small');
+							postS.textContent = post.writeDt + '/ =작성일자';
+							divTagCb.append(postS);
+							divTagCc.append(divTagCb)
+							document.getElementById('postPlace').append(divTagCc);
+
+							hrTag = document.createElement('hr');
+							divTagCb.append(hrTag);
+							divTagCc.append(divTagCb);
+							document.getElementById('postPlace').append(divTagCc);
+
+							let divTag = document.createElement('div');
+							divTag.setAttribute('id', 'replyPlace');
+							divTag.setAttribute('class', 'card-body');
+							divTagCc.append(divTag);
+							document.getElementById('postPlace').append(divTagCc);
+
+							//댓글
+							showReplyList(post.postUniNo);
+
+							let reDivTag = document.createElement('div');
+							reDivTag.setAttribute('class', "form-group position-relative has-icon-right");
+							document.getElementById('postPlace').append(reDivTag);
+
+							let reInput = document.createElement('input');
+							reInput.setAttribute('type', 'text');
+							reInput.setAttribute('class', 'form-control')
+							reInput.setAttribute('placeholder', 'reply')
+							reDivTag.append(reInput);
+							document.getElementById('postPlace').append(reDivTag);
+
+							divTag = document.createElement('div');
+							divTag.setAttribute('class', "form-control-icon");
+							reDivTag.append(divTag);
+							document.getElementById('postPlace').append(reDivTag);
+
+							let reIcon = document.createElement('svg')
+							reIcon.setAttribute('class', "bi");
+							reIcon.setAttribute('width', '1em');
+							reIcon.setAttribute('height', '1em');
+							reIcon.setAttribute('fill', 'currentColor');
+							reIcon.innerHTML = `<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />`;
+							divTag.append(reIcon);
+							reDivTag.append(divTag);
+							document.getElementById('postPlace').append(reDivTag);
+						})
+
 					})
-					
-				})
 			}
-			
+
 			//댓글리스트
-			function showReplyList(pNum){
-			
-				fetch('http://localhost:80/modu/reply/'+pNum)
-				.then(resolve => resolve.json())
-				.then(data => {
-					//console.log(data[0].cntn);
-					data.forEach(reply => {
-						let exReply = document.createElement('h5');
-						exReply.textContent = '댓글부'
-						document.getElementById('replyPlace').append(exReply);
-						let pTag=document.createElement('p');
-						pTag.setAttribute('class','card-text');
-						pTag.textContent = reply.nnm + ' = 작성자, 작성자프로필이미지'
-						document.getElementById('replyPlace').append(pTag);
-						pTag=document.createElement('p');
-						pTag.setAttribute('class','card-text');
-						pTag.textContent = '즐겨찾기추가, 수정, 삭제 이미지 넣기';
-						document.getElementById('replyPlace').append(pTag);
-						pTag=document.createElement('p');
-						pTag.setAttribute('class','card-text');
-						pTag.textContent = reply.cntn;					
-						document.getElementById('replyPlace').append(pTag);
-					pTag=document.createElement('p');
-					pTag.setAttribute('class','card-text');
-					pTag.textContent = reply.writeDt;
-					document.getElementById('replyPlace').append(pTag);
-				});
-					document.getElementById('postPlace').append(replyPlace)
-			}) 
-			.catch(err => console.log(err))
-		}
-		showPostList();
-		
+			function showReplyList(pNum) {
+
+				fetch('http://localhost:80/modu/reply/' + pNum)
+					.then(resolve => resolve.json())
+					.then(data => {
+						//console.log(data[0].cntn);
+						data.forEach(reply => {
+							let exReply = document.createElement('h5');
+							exReply.textContent = '댓글부'
+							document.getElementById('replyPlace').append(exReply);
+							let pTag = document.createElement('p');
+							pTag.setAttribute('class', 'card-text');
+							pTag.textContent = reply.nnm + ' = 작성자, 작성자프로필이미지'
+							document.getElementById('replyPlace').append(pTag);
+							pTag = document.createElement('p');
+							pTag.setAttribute('class', 'card-text');
+							pTag.textContent = '즐겨찾기추가, 수정, 삭제 이미지 넣기';
+							document.getElementById('replyPlace').append(pTag);
+							pTag = document.createElement('p');
+							pTag.setAttribute('class', 'card-text');
+							pTag.textContent = reply.cntn;
+							document.getElementById('replyPlace').append(pTag);
+							pTag = document.createElement('p');
+							pTag.setAttribute('class', 'card-text');
+							pTag.textContent = reply.writeDt;
+							document.getElementById('replyPlace').append(pTag);
+						});
+
+						divTagCc.append(replyPlace)
+					})
+					.catch(err => console.log(err))
+			}
+			showPostList();
 		</script>
 	</div>
 </body>
@@ -138,4 +166,5 @@
 <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/main.js"></script>
+
 </html>

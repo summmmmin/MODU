@@ -24,11 +24,6 @@ public class PostServiceImpl implements PostService {
 	//게시글전체조회
 	@Override
 	public List<PostVO> getAllPostList(String brdUniNo) {
-		
-		//String membUniNo = session.get
-//		if(postMapper.isBrdParticiMemb(membUniNo, prjUniNo) > 0) {
-//			
-//		}
 		return postMapper.selectAllPost(brdUniNo);
 	}
 	
