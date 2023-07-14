@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.modu.app.prj.board.mapper.BoardMapper;
 import com.modu.app.prj.board.service.BoardService;
 import com.modu.app.prj.board.service.BoardVO;
+import com.modu.app.prj.prj.service.PrjVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -17,8 +18,8 @@ public class BoardServiceImpl implements BoardService {
 	BoardMapper boardMapper;
 	
 	@Override
-	public List<BoardVO> BoardList() {
-		return boardMapper.BoardList();
+	public List<BoardVO> BoardList(String particiMembUniNo) {
+		return boardMapper.BoardList(particiMembUniNo);
 	}
 	
 	@Override

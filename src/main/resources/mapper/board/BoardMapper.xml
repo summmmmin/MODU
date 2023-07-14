@@ -5,8 +5,9 @@
  <mapper namespace="com.modu.app.prj.board.mapper.BoardMapper">
  	
 	<!-- Board 전체조회 --> 	
- 	<select id="BoardList" resultType="BoardVO"> 
-	SELECT board_nm FROM brd 
+ 	<select id="BoardList" resultType="BoardVO" parameterType="String"> 
+	 SELECT * FROM brd
+ 	 WHERE patrici_memb_uni_no=#{particiMembUniNo}
 	</select>
 	
 	<!-- Board 단건조회 -->
