@@ -18,9 +18,6 @@ public class VoteController {
 	// 페이지
 	@GetMapping("voteInsert")
 	public String voteInsert(Model model,VoteVO vo) {
-//	model.addAttribute("chat",voteService.chatrNm());
-//	model.addAttribute("brd",voteService.brdNm());
-	
 		return "vote/voteInsert";
 	}
 }
