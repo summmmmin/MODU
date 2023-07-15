@@ -60,15 +60,18 @@ public class PostController {
 	// 수정페이지
 	@GetMapping("postUpdate")
 	public String postUpdateForm(Model model, String postUniNo) {
-		model.addAttribute("post", postService.getOnePost(postUniNo));
+		 PostVO post = postService.getOnePost(postUniNo);
+		 model.addAttribute("post", post);
+		 model.addAttribute("brdUniNo", post.getBrdUniNo());
 		return "post/postUpdate";
 	}
 
 	// 수정처리
 	@PostMapping("postUpdate")
 	public String postUpdate(PostVO postVO) {
+		//postVO.setPostUniNo(null);
 		postService.updatePost(postVO);
-		return ""; // 어디로가? 해당 글 위치로 가고 싶은데?
+		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo(); // 어디로가? 해당 글 위치로 가고 싶은데?
 	}
 
 	// 삭제
