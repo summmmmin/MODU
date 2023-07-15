@@ -1,27 +1,35 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
 
 <head>
-	<meta charset="UTF-8">
-	<title>postList</title>
+<meta charset="UTF-8">
+<title>postList</title>
 
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="assets/css/bootstrap.css">
-	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-	<link rel="stylesheet" href="assets/css/app.css">
-	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/css/bootstrap.css">
+<link rel="stylesheet"
+	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="shortcut icon" href="assets/images/favicon.svg"
+	type="image/x-icon">
 </head>
 
 <body>
 	<div layout:fragment="content">
 		<div class="buttons">
-			<a th:href="@{postInsert(brdUniNo=${postList[0].brdUniNo})}" class="btn btn-primary">글작성</a>
+			<a th:href="@{postInsert(brdUniNo=${postList[0].brdUniNo})}"
+				class="btn btn-primary">글작성</a>
 		</div>
-		
+
 		<hr>
+
 		<div class="col-md-10 col-sm-12 mx-auto">
 			<div th:each="post : ${postList}" id="postPlace" class="card">
 				<div class="card-content">
@@ -32,38 +40,38 @@
 							<small class="text-muted col">[[${post.nnm}]]작성자</small>
 						</div>
 						<div class="row">
-							<!-- 즐겨찾기버튼 -->
-							<svg class="bi col d-flex flex-column" width="1em" height="1em" fill="currentColor">
-								<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#bookmark" />
-							</svg>
-							<!--공지등록버튼-->
-
-							<!--수정버튼-->
-							<svg class="bi col d-flex flex-column" width="1em" height="1em" fill="currentColor">
-								<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#pen" />
-							</svg>
-
-							<svg class="bi col d-flex flex-column" width="1em" height="1em" fill="currentColor">
-								<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#trash" />
-							</svg>
-						</div>
+							<div class="dropdown">
+								<button class="btn btn-primary dropdown-toggle me-1" type="button"
+										id="dropdownMenuButton" data-bs-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false">
+										...
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item" href="#">즐겨찾기</a>
+										<a class="dropdown-item" href="#">공지등록</a>
+										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a>
+										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" href="#">삭제</a>
+								</div>
+						<hr>
 						<p class="card-text">[[${post.cm}]]</p>
 						<p class="card-text">[[${post.postTagArm}]]태그된사람들</p>
 						<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 					</div>
 					첨부파일미리보기
 				</div>
-				
-					
-					<div id="replyPlace" class="card-body"></div>
-					<div class="form-group position-relative has-icon-right">
-						<input type="text" class="form-control" placeholder="reply">
-						<div class="form-control-icon">
-							<svg class="bi" width="1em" height="1em" fill="currentColor">
-								<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
+
+				<hr>
+				<div id="replyPlace" class="card-body">
+				</div>
+				<div class="form-group position-relative has-icon-right">
+					<input type="text" class="form-control" placeholder="reply">
+					<div class="form-control-icon">
+						<svg class="bi" width="1em" height="1em" fill="currentColor">
+								<use
+								xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
 							</svg>
-						</div>
 					</div>
+				</div>
 			</div>
 		</div>
 		<script>
@@ -99,10 +107,10 @@
 		}
 		showReplyList();
 	</script>
-</div>
+	</div>
 </body>
 
-	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-	<script src="assets/js/bootstrap.bundle.min.js"></script>
-	<script src="assets/js/main.js"></script>
+<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
 </html>
