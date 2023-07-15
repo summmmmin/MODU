@@ -18,8 +18,9 @@
 <body>
 	<div layout:fragment="content">
 		<div class="buttons">
-			<a th:href="@{postInsert}" class="btn btn-primary">글작성</a>
+			<a th:href="@{postInsert(brdUniNo=${postList[0].brdUniNo})}" class="btn btn-primary">글작성</a>
 		</div>
+		
 		<hr>
 		<div class="col-md-10 col-sm-12 mx-auto">
 			<div th:each="post : ${postList}" id="postPlace" class="card">

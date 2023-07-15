@@ -27,9 +27,6 @@ public class PostController {
 	// 전체조회페이지이동
 	@GetMapping("postList")
 	public String postList(Model model, String brdUniNo) {
-
-		//session = request.getSession();
-		
 		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
 		return "post/postList";
 	}
@@ -43,23 +40,21 @@ public class PostController {
 
 	// 등록페이지
 	@GetMapping("postInsert")
-	public String postInsertForm(Model model, PostVO vo) {
-		vo = postService.selectOneBoard(vo);
-		model.addAttribute("post", vo);
+	public String postInsertForm(Model model, String brdUniNo) {
+		model.addAttribute("post", postService.selectOneBoard(brdUniNo));
 		return "post/postInsert";
 	}
 
 	// 등록처리
 	@PostMapping("postInsert")
 	public String postInsert(Model model, PostVO postVO, HttpSession session) {
-		
-		String nm = (String)session.getAttribute("particiMembUniNo");
-		postVO.setParticiMembUniNo(nm);
+		String particiMembUniNo = (String)session.getAttribute("particiMembUniNo");
+		postVO.setParticiMembUniNo(particiMembUniNo);
 		postService.insertPost(postVO);
-		System.out.println(postVO);
+		//System.out.println(postVO);
 		//List<PostVO> postList = postService.getAllPostList(postVO.getBrdUniNo());
 		//model.addAttribute("postList", postList);
-		return "redirect:postList";
+		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo();
 	}
 
 	// 수정페이지
@@ -73,7 +68,7 @@ public class PostController {
 	@PostMapping("postUpdate")
 	public String postUpdate(PostVO postVO) {
 		postService.updatePost(postVO);
-		return ""; // 어디로가?
+		return ""; // 어디로가? 해당 글 위치로 가고 싶은데?
 	}
 
 	// 삭제
