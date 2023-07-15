@@ -37,14 +37,14 @@
 							<!--제목부-->
 							<div class="form-group">
 								<label for="basicInput">제목*</label> <input type="text" class="form-control" id="basicInput"
-									th:value='${post.ttl}' placeholder="tilte">
+									th:value='${post.ttl}' th:field="*{ttl}" placeholder="tilte">
 							</div>
 							<hr>
 							<!--본문부-->
 							<div class="form-group">
-								<label for="exampleFormControlTextarea1" class="form-label">게시글
+								<label for="exampleFormControlTextarea1" class="form-label" t>게시글
 									본문*</label>
-								<textarea class="form-control" id="exampleFormControlTextarea1" rows="5">[[${post.cm}]]</textarea>
+								<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" h:field="*{cm}">[[${post.cm}]]</textarea>
 							</div>
 							<hr>
 							미리보기

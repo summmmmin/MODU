@@ -101,15 +101,9 @@
 	<!-- 게시글수정 -->
 	<update id="updatePost" parameterType="PostVO">
 		UPDATE post SET
-		<if test="ttl != null and !ttl.equals('')">
-			ttl=#{ttl},
-		</if>
-		<if test="cm != null and !cm.equals('')">	
-			cm=#{cm},
-		</if>
-		<if test="postTagArm != null and !postTagArm.equals('')">
-			post_tag_arm=#{postTagArm},
-		</if>
+	
+			ttl=#{ttl}
+
 		WHERE post_uni_no=#{postUniNo}
 	</update>
 

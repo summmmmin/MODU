@@ -62,7 +62,8 @@ public class PostController {
 	public String postUpdateForm(Model model, String postUniNo) {
 		 PostVO post = postService.getOnePost(postUniNo);
 		 model.addAttribute("post", post);
-		 model.addAttribute("brdUniNo", post.getBrdUniNo());
+		 System.out.println(post);
+		 //model.addAttribute("brdUniNo", post.getBrdUniNo());
 		return "post/postUpdate";
 	}
 
@@ -71,7 +72,8 @@ public class PostController {
 	public String postUpdate(PostVO postVO) {
 		//postVO.setPostUniNo(null);
 		postService.updatePost(postVO);
-		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo(); // 어디로가? 해당 글 위치로 가고 싶은데?
+		System.out.println(postVO);
+		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo();// 어디로가? 해당 글 위치로 가고 싶은데?
 	}
 
 	// 삭제
