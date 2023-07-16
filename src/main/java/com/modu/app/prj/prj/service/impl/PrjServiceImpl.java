@@ -33,4 +33,9 @@ public class PrjServiceImpl implements PrjService {
 	public PrjVO prjSession(PrjVO vo) {
 		return prjMapper.prjSession(vo);
 	}
+
+	@Override
+	public List<PrjVO> grdCmmn() {
+		return prjMapper.grdCmmn();
+	}
 }

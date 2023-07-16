@@ -45,9 +45,10 @@ public class PrjController {
 	}
 	
 	// 프로젝트 관리(프로젝트 참여회원)
-	@GetMapping("prjParList")
+	@GetMapping("prjManage")
 	public String prjList(Model model, PrjVO prjVO) {
 		model.addAttribute("memb", prjService.getPrjPartiList(prjVO));
+		model.addAttribute("prjNo", prjVO.getPrjUniNo());
 		return "prj/프로젝트 관리2";
 	}
 }

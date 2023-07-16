@@ -37,12 +37,12 @@ public class PrjVO {
 	private String membUniNo;			//회원번호
 	private String attNo;				//프로필
 	private String nnm;					//닉네임
-	private String grd;					//등급
+	private String grd;					//등급(공통코드 테이블의 코드)
 	private String particiYn;			//탈퇴여부
 	private String prjPubcId;			//프로젝트내이메일
 	private String dept;				//부서
 	private String pos;					//직책
 	
 	private String cd;					//공통코드의 코드이름
-	
+	private String cdNo;				//공통코드의 코드이름
 }
