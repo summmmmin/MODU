@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
@@ -71,9 +72,10 @@ public class PostController {
 	@PostMapping("postUpdate")
 	public String postUpdate(PostVO postVO) {
 		//postVO.setPostUniNo(null);
+		//String postUniNo = postVO.setPostUniNo();
 		postService.updatePost(postVO);
 		System.out.println(postVO);
-		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo();// 어디로가? 해당 글 위치로 가고 싶은데?
+		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo();
 	}
 
 	// 삭제

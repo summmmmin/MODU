@@ -100,11 +100,19 @@
 
 	<!-- 게시글수정 -->
 	<update id="updatePost" parameterType="PostVO">
-		UPDATE post SET
-	
-			ttl=#{ttl}
-
-		WHERE post_uni_no=#{postUniNo}
+		UPDATE post SET 
+ 					<if test="ttl != null and !ttl.equals('')">
+ 					ttl=#{ttl}
+ 					</if>
+ 					<if test="cm != null and !cm.equals('')">
+ 					 <if test="ttl != null and !ttl.equals('')">,</if>
+ 		   			cm=#{cm}
+ 		   			</if>
+ 		   			<if test="postTagArm != null and !postTagArm.equals('')">
+ 		   			<if test="ttl != null and !ttl.equals('') or cm != null and !cm.equals('')">,</if>
+ 		   			post_tag_arm=#{postTagArm}
+					</if>
+ 		WHERE post_uni_no=#{postUniNo}
 	</update>
 
 	<!-- 게시글삭제 -->
