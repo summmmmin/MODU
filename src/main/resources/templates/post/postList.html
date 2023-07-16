@@ -31,60 +31,101 @@
 		<hr>
 
 		<div class="col-md-10 col-sm-12 mx-auto">
+			<div th:if="${#lists.isEmpty(postList)}">
+				게시글이없습니다
+
+			</div>
+		
+			
 			<div th:each="post : ${postList}" id="postPlace" class="card">
 				<div class="card-content">
 					<div class="card-body">
 						<input id="postUniNo" type="hidden" th:value="${post.postUniNo}">
 						<div class="row">
-						[[${post.postUniNo}]]
 							<h4 class="card-title col">[[${post.ttl}]]</h4>
 							<small class="text-muted col">[[${post.nnm}]]작성자</small>
 						</div>
 						<div class="row">
 							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle me-1" type="button"
-										id="dropdownMenuButton" data-bs-toggle="dropdown"
-										aria-haspopup="true" aria-expanded="false">
-										...
-								</button>
+								<button class="btn btn-primary dropdown-toggle me-1"
+									type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+									aria-haspopup="true" aria-expanded="false">...</button>
 								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item" href="#">즐겨찾기</a>
-										<a class="dropdown-item" href="#">공지등록</a>
-										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a>
-										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" href="#">삭제</a>
+									<a class="dropdown-item" href="#">즐겨찾기</a> <a
+										class="dropdown-item" href="#">공지등록</a> <a
+										th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}"
+										class="dropdown-item"
+										th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a> <a
+										th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}"
+										class="dropdown-item" data-bs-toggle="modal"
+										data-bs-target="#primary">삭제</a>
 								</div>
-						<hr>
-						<p class="card-text">[[${post.cm}]]</p>
-						<p class="card-text">[[${post.postTagArm}]]태그된사람들</p>
-						<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
-					</div>
-					첨부파일미리보기
-				</div>
 
-				<hr>
-				<div id="replyPlace" class="card-body">
-				</div>
-				<div class="form-group position-relative has-icon-right">
-					<input type="text" class="form-control" placeholder="reply">
-					<div class="form-control-icon">
-						<svg class="bi" width="1em" height="1em" fill="currentColor">
+								<!--primary theme Modal -->
+								<div class="modal fade text-left" id="primary" tabindex="-1"
+									role="dialog" aria-labelledby="myModalLabel160"
+									aria-hidden="true">
+									<div
+										class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+										role="document">
+										<div class="modal-content">
+											<div class="modal-header bg-primary">
+												<h5 class="modal-title white" id="myModalLabel160">게시글
+													삭제</h5>
+												<button type="button" class="close" data-bs-dismiss="modal"
+													aria-label="Close">
+													<i data-feather="x"></i>
+												</button>
+											</div>
+											<div class="modal-body">
+												이 페이지를 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다.
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-light-secondary"
+													data-bs-dismiss="modal">
+													<i class="bx bx-x d-block d-sm-none"></i> <span
+														class="d-none d-sm-block">취소</span>
+												</button>
+												<button id="deleteBtn" type="button"
+													class="btn btn-primary ml-1" data-bs-dismiss="modal">
+													<i class="bx bx-check d-block d-sm-none"></i> <span
+														class="d-none d-sm-block">확인</span>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<hr>
+								<p class="card-text">[[${post.cm}]]</p>
+								<p class="card-text">[[${post.postTagArm}]]태그된사람들</p>
+								<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
+							</div>
+							첨부파일미리보기
+						</div>
+
+						<hr>
+						<div id="replyPlace" class="card-body"></div>
+						<div class="form-group position-relative has-icon-right">
+							<input type="text" class="form-control" placeholder="reply">
+							<div class="form-control-icon">
+								<svg class="bi" width="1em" height="1em" fill="currentColor">
 								<use
-								xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
+										xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
 							</svg>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<script>
+				<script>
 
 			//댓글리스트
 			function showReplyList(){
-			let pNum = 'pt1'
-			console.log(pNum);
+			let pNum = document.getElementById('postUniNo').value;
+			
 			fetch('http://localhost:80/modu/reply/'+pNum)
 			.then(resolve => resolve.json())
 			.then(data => {
-				console.log(data[0].cntn);
+				//console.log(data);
 				data.forEach(reply => {
 					let pTag=document.createElement('p');
 					pTag.setAttribute('class','card-text');
@@ -107,8 +148,25 @@
 			.catch(err => console.log(err))
 		}
 		showReplyList();
+		
+			
+		document.getElementById('deleteBtn').addEventListener('click', function(event){
+				let pNum = document.getElementById('postUniNo').value;
+				console.log(pNum);
+				fetch('http://localhost:80/modu/postDelete/'+pNum)
+				.then(resolve => resolve.json())
+				.then(data => {
+					console.log(data);
+				})
+				.catch(err => console.log(err))
+				
+		})
+		
 	</script>
+			</div>
+		</div>
 	</div>
+
 </body>
 
 <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>

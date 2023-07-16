@@ -2,21 +2,18 @@ package com.modu.app.prj.post.controller;
 
 
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
-import com.modu.app.prj.user.service.UserVO;
 
 @Controller
 public class PostController {
@@ -78,11 +75,6 @@ public class PostController {
 		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo();
 	}
 
-	// 삭제
-	@GetMapping("postDelete")
-	public String postDelete(String postUniqueNumber) {
-		postService.deletePost(postUniqueNumber);
-		return postUniqueNumber;
-	}
+
 
 }
