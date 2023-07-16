@@ -1,10 +1,12 @@
 package com.modu.app.prj.post.service.Impl;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.modu.app.prj.board.service.BoardVO;
 import com.modu.app.prj.post.mapper.PostMapper;
 import com.modu.app.prj.post.mapper.ReplyMapper;
 import com.modu.app.prj.post.service.PostService;
@@ -32,13 +34,20 @@ public class PostServiceImpl implements PostService {
 	}
 	//게시글등록, 수정폼용 게시판조회
 	@Override
-	public PostVO selectOneBoard(String postUniNo) {
-		PostVO postVO = postMapper.selectOneBoard(postUniNo);
-		return postVO;
+	public PostVO selectOneBoard(PostVO boardVO) {
+		PostVO board = postMapper.selectOneBoard(boardVO.getBrdUniNo());
+		return board;
 	}
 	//게시글등록
 	@Override
 	public int insertPost(PostVO postVO) {
+		/*
+		 * String brdUniNo =
+		 * postMapper.selectOneBoard(postVO.getBrdUniNo()).getBrdUniNo(); String brdNm =
+		 * postMapper.selectOneBoard(postVO.getBrdUniNo()).getBrdUniNo();
+		 * postVO.setBrdUniNo(brdUniNo); postVO.setBoardNm(brdNm);
+		 * postVO.setParticiMembUniNo("ppmt1");
+		 */
 		return postMapper.insertPost(postVO);
 	}
 	

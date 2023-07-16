@@ -17,10 +17,19 @@
 
 <body>
 	<div layout:fragment="content">
+		<div class="buttons">
+			<a href="postInsert?brdUniNo=${postList.brdUniNo}" class="btn btn-primary">글작성</a>
+		</div>
+		<hr>
 		<div class="col-md-6 col-sm-12">
-			<div th:each="post:${postList}" class="card">
+			<div class="card" id="postPlace"></div>
+		</div>
+		<div class="col-md-6 col-sm-12">
+
+			<div th:each="post : ${postList}" id="postPlace" class="card">
 				<div class="card-content">
 					<div class="card-body">
+					<input id="postUniNo" type="hidden" value="${post.postUniNo}">
 						<h4 class="card-title">[[${post.ttl}]]</h4>
 						<small class="text-muted">[[${post.nnm}]]작성자</small>
 						<!-- 즐겨찾기버튼 -->
@@ -43,12 +52,9 @@
 
 						<p class="card-text">[[${post.cm}]]</p>
 						<p class="card-text">[[${post.postTagArm}]]태그된사람들</p>
-						<small class="text-muted">[[${#dates.format(post.writeDt,
-							'yyyy-MM-dd')}]]</small>
+						<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 					</div>
-					<img class="card-img-bottom img-fluid"
-						src="assets/images/samples/water.jpg" alt="Card image cap"
-						style="height: 20rem; object-fit: cover;">
+					첨부파일미리보기
 				</div>
 				<div>
 					댓글
@@ -57,18 +63,20 @@
 						<input type="text" class="form-control" placeholder="reply">
 						<div class="form-control-icon">
 							<svg class="bi" width="1em" height="1em" fill="currentColor">
-								<use
-									xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
-						</svg>
-						
+								<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
+							</svg>
+							</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<script>
-			function replyList(){
-			let pNum = 'pt1';
-			fetch('http://localhost:80/modu/replys/'+pNum)
+		
+			
+			function showReplyList(){
+			let pNum = document.getElementById('postUniNo').value;
+			console.log(pNum);
+			fetch('http://localhost:80/modu/reply/'+pNum)
 			.then(resolve => resolve.json())
 			.then(data => {
 				//console.log(data[0].cntn);
@@ -93,13 +101,12 @@
 			}) 
 			.catch(err => console.log(err))
 		}
-		replyList();
+		showReplyList();
 	</script>
 </div>
 </body>
 
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
-	
 	<script src="assets/js/main.js"></script>
 </html>

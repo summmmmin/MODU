@@ -3,10 +3,14 @@ package com.modu.app.prj.post.mapper;
 import java.util.List;
 
 import com.modu.app.prj.post.service.PostVO;
+import com.modu.app.prj.user.service.UserVO;
 
 public interface PostMapper {
 	
-	//전체개시글조회
+	//로그인멤버=프로젝트참가자확인용(공개게시판)
+	public String isBrdParticiMemb(UserVO userVO);
+	
+	//전체게시글조회
 	public List<PostVO> selectAllPost(String brdUniNo);
 	
 	//단건조회

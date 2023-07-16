@@ -2,6 +2,8 @@ package com.modu.app.prj.post.service;
 
 import java.util.List;
 
+import com.modu.app.prj.board.service.BoardVO;
+
 
 public interface PostService {
 	
@@ -12,7 +14,7 @@ public interface PostService {
 	public PostVO getOnePost(String postUniNo);
 	
 	//게시글등록, 수정폼용 게시판조회
-	public PostVO selectOneBoard(String postUniNo);
+	public PostVO selectOneBoard(PostVO boardVO);
 	//등록
 	public int insertPost(PostVO postVO);
 	

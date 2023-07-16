@@ -50,12 +50,62 @@
   <!-- 투표하기 - 투표 참가자 -->
   <insert id="whoVote" parameterType="VoteVO">
   insert into vote_partici 
-  values(#{voteNo},#{partici_memb_uni_no})
+  values(#{voteNo},#{particiMembUniNo})
   </insert>
+  
+  <!-- 투표하기 - 채팅방 제목 찾기 -->
+  <select id="voteChatr" resultType="VoteVO">
+ 
+  select e.vote_no,chatr_nm
+  from vote e join (
+                    select chatr_nm,c.chat_no
+                    from chat c join (
+                                        select chatr_nm, a.chatr_no
+                                        from chatr_partici a join chatr b
+                                        on a.chatr_no = b.chatr_no) d
+                    on c.chatr_no=d.chatr_no) f
+  on e.chat_no =f.chat_no
+  where vote_no = #{voteNo};
+   </select>
+  
+  <!-- 투표하기 - 게시판 제목 찾기 -->
+  <select id="voteBrdNm" resultType="VoteVO">
+  select vote_no,board_nm
+  from vote c join(
+                    select board_nm,post_uni_no
+                    from brd a join post b 
+                    on a.brd_uni_no = b.brd_uni_no) d
+  on c.post_uni_no = d.post_uni_no
+  where vote_no = #{voteNo};
+  </select>
   
   <!-- 투표 결과 -->
   <select id="voteResult" resultType="VoteVO">
   select vote_item,cnt
+  from vote_deta_set
+  where vote_no = #{voteNO}
+  </select>
+  
+  <!-- 투표 단건 -->
+  <select id="getVote" resultType="VoteVO">
+  select partici_memb_uni_no,fr_dt,to_dt,vote_item,cnt
+  from vote a join vote_deta b
+  on a.vote_no = b.vote_no
+  where vote_no =#{voteNo}
+  order by desc
+  </select>
+  
+  <!-- 채팅방 제목 -->
+  <select id="chatrNm" resultType="VoteVO" parameterType="VoteVO">
+  select chatr_nm
+  from chatr_partici 
+  where partici_memb_uni_no=#{particiMembUniNo}
+  </select>
+  
+  <!-- 게시판 제목 -->
+  <select id="brdNm" resultType="VoteVO" parameterType="VoteVO">
+  select board_nm from brd
+  where patrici_memb_uni_no=#{particiMembUniNo}
   </select>
   
   </mapper>

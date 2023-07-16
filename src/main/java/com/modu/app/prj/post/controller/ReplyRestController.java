@@ -22,13 +22,13 @@ public class ReplyRestController {
 	
 	//전체조회
 	@CrossOrigin
-	@GetMapping("replys/{pNum}")
+	@GetMapping("reply/{pNum}")
 	public List<ReplyVO> replyList(@PathVariable("pNum") String postUniNo) {
 		return replyService.getAllReplyList(postUniNo);
 	}
 	
 	//단건조회
-	@GetMapping("reply/{rNum}")
+	@GetMapping("replys/{rNum}")
 	@CrossOrigin
 	public ReplyVO replyOne(@PathVariable("rNum") String replyUniNo) {
 		return replyService.getOneReply(replyUniNo);

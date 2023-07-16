@@ -2,16 +2,19 @@ package com.modu.app.prj.post.controller;
 
 
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
+import com.modu.app.prj.user.service.UserVO;
 
 @Controller
 public class PostController {
@@ -20,9 +23,12 @@ public class PostController {
 	@Autowired
 	PostService postService;
 
-	// 전체조회
+	// 전체조회페이지이동
 	@GetMapping("postList")
-	public String postList(Model model, String brdUniNo) {
+	public String postList(Model model, String brdUniNo, HttpSession session) {
+//		//test용 이하 세션 삭제예정
+//		session.setAttribute("prjUniNo", "punt1");
+//		session.setAttribute("particiMembUniNo", "ppmt1");
 		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
 		return "post/postList";
 	}
@@ -36,26 +42,23 @@ public class PostController {
 
 	// 등록페이지
 	@GetMapping("postInsert")
-	public String postInsertForm(Model model, String brdUniNo) {
-		PostVO postVO = new PostVO();
-		String brdNm = postService.selectOneBoard(brdUniNo).getBoardNm();
-		postVO.setBrdUniNo(brdUniNo);
-		postVO.setBoardNm(brdNm);
-		postVO.setParticiMembUniNo("ppmt1");
-		model.addAttribute("post", postVO);
-		// System.out.println(postVO);
+	public String postInsertForm(Model model, PostVO vo) {
+		vo = postService.selectOneBoard(vo);
+		model.addAttribute("post", vo);
 		return "post/postInsert";
 	}
 
 	// 등록처리
 	@PostMapping("postInsert")
-	public String postInsert(Model model, PostVO postVO) {
+	public String postInsert(Model model, PostVO postVO, HttpSession session) {
 		
+		String nm = (String)session.getAttribute("particiMembUniNo");
+		postVO.setParticiMembUniNo(nm);
 		postService.insertPost(postVO);
 		System.out.println(postVO);
-		List<PostVO> postList = postService.getAllPostList(postVO.getBrdUniNo());
-		model.addAttribute("postList", postList);
-		return "post/postList?brdUniNo=bt1";
+		//List<PostVO> postList = postService.getAllPostList(postVO.getBrdUniNo());
+		//model.addAttribute("postList", postList);
+		return "redirect:postList";
 	}
 
 	// 수정페이지
