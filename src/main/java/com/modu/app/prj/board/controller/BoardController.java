@@ -31,12 +31,17 @@ public class BoardController {
 		HttpSession session = request.getSession();
 		prjVO.setMembUniNo(((UserVO) session.getAttribute("user")).getMembUniNo());
 		PrjVO vo = prjService.prjSession(prjVO);
+		System.out.println("111");
+		System.out.println(vo);
 	    session.setAttribute("prjUniNo", vo.getPrjUniNo());
 	    session.setAttribute("particiMembUniNo", vo.getParticiMembUniNo());
 	    BoardVO brd = new BoardVO();
 	    brd.setParticiMembUniNo(vo.getParticiMembUniNo());
 	    brd.setPrjUniNo(vo.getPrjUniNo());
 	    model.addAttribute("Brd",boardService.BoardList(brd));
+		/*
+		 * System.out.println(vo); System.out.println(brd); System.out.println(model);
+		 */
 		return "index";
 	}
 	
@@ -50,6 +55,12 @@ public class BoardController {
 	@PostMapping("/InsertBoard")
 	public String InsertBoard(BoardVO vo) {
 		System.out.println("1111");
+		String check = vo.getPubcYn();
+		if(check.equals("on")) {
+			vo.setPubcYn("Y");
+		}else {
+			vo.setPubcYn("N");
+		}
 		System.out.println(vo);
 		boardService.InsertBoard(vo);
 		return "index";

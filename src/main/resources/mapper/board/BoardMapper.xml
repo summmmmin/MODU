@@ -20,8 +20,8 @@
 	</select>
 	
 	<insert id="InsertBoard" parameterType="BoardVO">
-	INSERT INTO brd (brd_uni_no, board_nm, pubc_yn, prj_uni_no, partici_memb_uni_no, reg_dt)
+	INSERT INTO brd (brd_uni_no, board_nm, pubc_yn, prj_uni_no, patrici_memb_uni_no, reg_dt)
 	VALUES
-	('b'||brd_seq.nextval,#{boardNm},#{pubcYn},#{prjUniNo},#{particiMemUniNo},sysdate)
+	('b'||brd_seq.nextval,#{boardNm},#{pubcYn},#{prjUniNo},#{particiMembUniNo},sysdate)
 	</insert>
  </mapper>

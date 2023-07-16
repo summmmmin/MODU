@@ -7,23 +7,15 @@
 <title>Dashboard - Mazer Admin Dashboard</title>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" />
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-	rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/bootstrap.css" />
-
 <link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
-
-<link rel="stylesheet"
-	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
-<link rel="stylesheet"
-	href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
 <link rel="stylesheet" href="assets/css/test.css" />
-<link rel="shortcut icon" href="assets/images/favicon.svg"
-	type="image/x-icon" />
+<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
 <link rel="stylesheet" href="assets/css/modal.css">
 </head>
-
 <body>
 	<div id="app">
 		<div id="sidebar" class="active">
@@ -52,7 +44,6 @@
 						<li class="sidebar-item active"><a href="index.html"
 							class="sidebar-link"> <i class="bi bi-grid-fill"></i> <span>Dashboard</span>
 						</a></li>
-
 						<li class="sidebar-item has-sub"><a href="#"
 							class="sidebar-link"> <i class="bi bi-stack"></i> <span>Components</span>
 						</a>
@@ -88,18 +79,21 @@
 							</ul></li>
 					</ul>
 
-					<!-- BoardList -->
-					<ul th:each="list, stat : ${Brd}" class="menu">
-						<li class="sidebar-item active"><a href="#"
-							class="sidebar-link" th:text="${list.boardNm}" style="color: White"> 
-							<i class="bi bi-grid-fill"></i></a></li>
-					</ul>
-				</div>
-				<button class="sidebar-toggler btn x">
-					<i data-feather="x"></i>
-				</button>
-			</div>
-		</div>
+	<!--/* ************************ Board List Start *************************** */-->
+ <ul th:each="list, stat : ${Brd}" class="menu">
+	<li class="sidebar-item active"><a href="#" class="sidebar-link" th:text="${list.boardNm}" style="color: White"> 
+	<i class="bi bi-grid-fill"></i></a></li>
+ </ul>
+</div>
+	<button class="sidebar-toggler btn x">
+	<i data-feather="x"></i>
+	</button>
+</div>
+</div>
+	<!--/* ************************ Board List End *************************** */-->
+	
+	
+	
 		<div id="rsidebar" class="active">
 			<div class="rsidebar-wrapper active">
 				<div class="rsidebar-header">
@@ -133,7 +127,6 @@
 						</a> <a href="#" class="rburger-btn d-block"> <i
 							class="bi bi-justify fs-3"></i>
 						</a>
-
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 								<li class="nav-item me-1"><a class="nav-link active"
@@ -177,9 +170,9 @@
 										<h6 class="dropdown-header">[[${session.user.nm}]]</h6>
 									</li>
 									<li><a class="dropdown-item" href="#"><i
-											class="icon-mid bi bi-person me-2"></i> 마이페이지</a></li>
+											class="icon-mid bi bi-person me-2"></i>마이페이지</a></li>
 									<li><a class="dropdown-item" href="#"><i
-											class="icon-mid bi bi-gear me-2"></i> 설정</a></li>
+											class="icon-mid bi bi-gear me-2"></i>설정</a></li>
 									<li>
 										<hr class="dropdown-divider" />
 									</li>
@@ -199,51 +192,59 @@
 				<section class="row">
 					<article layout:fragment="content"></article>
 				</section>
-				<!--Modal -->
-				<div class="modal fade text-left" id="inlineForm" tabindex="-1"
-					role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-					<div
-						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-						role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title" id="myModalLabel33">게시판 생성</h4>
-								<button type="button" class="close" data-bs-dismiss="modal"
-									aria-label="Close">
-									<i data-feather="x"></i>
-								</button>
-							</div>
-							<form action="InsertBoard" method="POST" id="FormEvent">
-								<div class="modal-body">
-									<h5>게시판 이름</h5>
-									<div class="form-group">
-										<input name="boardNm" type="text"
-											placeholder="40자까지 입력 가능합니다." class="form-control">
-									</div>
-									<div class="form-group">
-										<h6>공개여부</h6>
-										<input type="checkbox" id="checkbox" checked> <label
-											for="checkbox" id="asd"><span></span></label>
 
-									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-light-secondary"
-										data-bs-dismiss="modal">
-										<i class="bx bx-x d-block d-sm-none"></i> <span
-											class="d-none d-sm-block">닫기</span>
-									</button>
-									<button id="formbtn" type="button" class="btn btn-primary ml-1"
-										data-bs-dismiss="modal" onclick="form.submit()">
-										<i class="bx bx-check d-block d-sm-none"></i> <span
-											class="d-none d-sm-block">생성</span>
-									</button>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
+<!--/* ************************ Modal Start *************************** */-->
+	<div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+	<div class="modal-content">
+	<div class="modal-header">
+	<h4 class="modal-title" id="myModalLabel33">게시판 생성</h4>
+	<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+	<i data-feather="x"></i>
+	</button>
+</div>
+	<form action="InsertBoard" method="POST" id="FormEvent">
+	<div class="modal-body">
+	<h5>게시판 이름</h5>
+	<div class="form-group">
+	<input name="boardNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
+</div>
+	<div class="form-group">
+	<input name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" class="form-control" >
+	<input name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" >
+	<div class="form-group">
+	<h6>공개여부</h6>
+	<input type="checkbox" id="checkbox" name="pubcYn" checked>
+	<label for="checkbox"><span></span></label>
+</div>
+</div>
+	<div class="modal-footer">
+	<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+	<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
+	</button>
+	<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="form.submit()">
+	<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">생성</span>
+	</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+		<script>
+		document.getElementById('checkbox').addEventListener('click', function() {
+		  
+		let checkbox = document.getElementById('checkbox');
+			if (checkbox.checked) {
+				checkbox.value = "Y";
+			  }else{
+				  checkbox.value = "N";
+			  }
+			console.log(checkbox.value);
+			});
+		</script>
+<!--/* ************************ Modal End *************************** */-->
+
 
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
