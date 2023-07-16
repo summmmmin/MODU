@@ -61,7 +61,7 @@
 										data-bs-target="#primary">삭제</a>
 								</div>
 
-								<!--primary theme Modal -->
+								<!-- 삭제 모달 -->
 								<div class="modal fade text-left" id="primary" tabindex="-1"
 									role="dialog" aria-labelledby="myModalLabel160"
 									aria-hidden="true">
@@ -79,6 +79,7 @@
 											</div>
 											<div class="modal-body">
 												이 페이지를 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다.
+												<input id="brdUniNo" type="hidden" th:value="${post.brdUniNo}">
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-light-secondary"
@@ -152,11 +153,13 @@
 			
 		document.getElementById('deleteBtn').addEventListener('click', function(event){
 				let pNum = document.getElementById('postUniNo').value;
-				console.log(pNum);
+				let bNum = document.getElementById('brdUniNo').value;
+				//console.log(pNum);
 				fetch('http://localhost:80/modu/postDelete/'+pNum)
 				.then(resolve => resolve.json())
 				.then(data => {
-					console.log(data);
+					//console.log(data);
+					window.location.href = 'http://localhost:80/modu/postList?brdUniNo=' + bNum;
 				})
 				.catch(err => console.log(err))
 				
