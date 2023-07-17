@@ -88,12 +88,14 @@
 							</ul></li>
 					</ul>
 
-					<!-- BoardList -->
+					<!--/* ************************ Board List Start *************************** */-->
 					<ul th:each="list, stat : ${Brd}" class="menu">
 						<li class="sidebar-item active"><a th:href="@{postList?brdUniNo={brdUniNo}(brdUniNo=${list.brdUniNo})}" 
-							class="sidebar-link" th:text="${list.boardNm}" style="color: White"> 
-							<i class="bi bi-grid-fill"></i></a></li>
+						class="sidebar-link" th:text="${list.boardNm}" style="color: White"> 
+						<i class="bi bi-grid-fill"></i></a></li>
 					</ul>
+					<!--/* ************************ Board List End *************************** */-->
+					
 				</div>
 				<button class="sidebar-toggler btn x">
 					<i data-feather="x"></i>
@@ -214,37 +216,34 @@
 								</button>
 							</div>
 							<form action="InsertBoard" method="POST" id="FormEvent">
-								<div class="modal-body">
-									<h5>게시판 이름</h5>
-									<div class="form-group">
-										<input name="boardNm" type="text"
-											placeholder="40자까지 입력 가능합니다." class="form-control">
-									</div>
-									<div class="form-group">
-										<h6>공개여부</h6>
-										<input type="checkbox" id="checkbox" checked> <label
-											for="checkbox" id="asd"><span></span></label>
-
-									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-light-secondary"
-										data-bs-dismiss="modal">
-										<i class="bx bx-x d-block d-sm-none"></i> <span
-											class="d-none d-sm-block">닫기</span>
-									</button>
-									<button id="formbtn" type="button" class="btn btn-primary ml-1"
-										data-bs-dismiss="modal" onclick="form.submit()">
-										<i class="bx bx-check d-block d-sm-none"></i> <span
-											class="d-none d-sm-block">생성</span>
-									</button>
-								</div>
-							</form>
+	<div class="modal-body">
+	<h5>게시판 이름</h5>
+	<div class="form-group">
+	<input name="boardNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
+</div>
+	<div class="form-group">
+	<input name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" class="form-control">
+	<input name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" >
+	<div class="form-group">
+	<h6>공개여부</h6>
+	<input type="checkbox" id="checkbox" name="pubcYn" checked>
+	<label for="checkbox"><span></span></label>
+</div>
+</div>
+	<div class="modal-footer">
+	<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+	<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
+	</button>
+	<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="form.submit()">
+	<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">생성</span>
+	</button>
+</div>
+</form>
+							
 						</div>
 					</div>
 				</div>
 			</div>
-
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
 					<div class="float-start">
