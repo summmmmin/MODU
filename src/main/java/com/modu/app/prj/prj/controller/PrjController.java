@@ -46,9 +46,25 @@ public class PrjController {
 	
 	// 프로젝트 관리(프로젝트 참여회원)
 	@GetMapping("prjManage")
-	public String prjList(Model model, PrjVO prjVO) {
-		model.addAttribute("memb", prjService.getPrjPartiList(prjVO));
-		model.addAttribute("prjNo", prjVO.getPrjUniNo());
-		return "prj/프로젝트 관리2";
+	public String prjList(Model model, PrjVO prjVO, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		UserVO user = (UserVO) session.getAttribute("user");
+		//로그인한 사람의 프로젝트 내 등급 확인(프로젝트 관리페이지는 관리자와 생성자만)
+		PrjVO info = new PrjVO();
+		info.setMembUniNo(user.getMembUniNo());
+		info.setPrjUniNo(prjVO.getPrjUniNo());
+		info = prjService.getMemInfo(info);
+		System.out.println(info);
+		if(info == null) {
+			return "redirect:prjList";
+		}else {
+			if(info.getCd().equals("나무") || info.getCd().equals("농부")) {
+				model.addAttribute("memb", prjService.getPrjPartiList(prjVO));
+				model.addAttribute("prjNo", prjVO.getPrjUniNo());
+				return "prj/프로젝트 관리2";			
+			}else {
+				return "redirect:prjList";
+			}			
+		}
 	}
 }

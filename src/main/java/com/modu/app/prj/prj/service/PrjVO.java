@@ -45,4 +45,6 @@ public class PrjVO {
 	
 	private String cd;					//공통코드의 코드이름
 	private String cdNo;				//공통코드의 코드이름
+	
+	private String kickResn;			//탈퇴사유
 }

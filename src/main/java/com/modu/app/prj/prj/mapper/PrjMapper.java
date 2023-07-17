@@ -19,5 +19,19 @@ public interface PrjMapper {
 	
 	// 등급공통코드
 	public List<PrjVO> grdCmmn();
-
+	
+	// 프로젝트 이름 변경
+	public int updatePrjNm(PrjVO vo);
+	
+	// 프로젝트 삭제
+	public int deletePrj(String prjNo);
+	
+	// 프로젝트 참여 회원 등급변경
+	public int updateGrade(PrjVO vo);
+	
+	// 프로젝트 회원 탈퇴
+	public int kickPrjParti(PrjVO vo);
+	
+	// 프로젝트 회원 정보
+	public PrjVO selectMemInfo(PrjVO vo);
 }
