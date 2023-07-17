@@ -184,11 +184,11 @@
 	<div class="modal-body">
 	<h5>게시판 이름</h5>
 	<div class="form-group">
-	<input name="boardNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
+	<input id="boardNm" name="boardNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
 </div>
 	<div class="form-group">
-	<input name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" class="form-control">
-	<input name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" >
+	<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" class="form-control">
+	<input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" >
 	<div class="form-group">
 	<h6>공개여부</h6>
 	<input type="checkbox" id="checkbox" name="pubcYn" checked>
@@ -199,7 +199,7 @@
 	<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
 	<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
 	</button>
-	<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="form.submit()">
+	<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="addBoard()">
 	<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">생성</span>
 	</button>
 </div>
@@ -228,5 +228,21 @@
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/test.js"></script>
+	<script>
+	function addBoard(){
+		fetch("/modu/InsertBoard",{
+			method : 'POST',
+			headers:{
+				"Content-Type":"application/x-www-form-urlencoded"
+			},
+			body: "particiMembUniNo="+particiMembUniNo.value+"&prjUniNo="+prjUniNo.value+"&boardNm="+boardNm.value+"&checkbox="+checkbox.value
+		})
+		.then(result => result.json())
+		.then(data => {
+			console.log(data);
+		})
+		.catch(err => console.log(err))
+	}
+	</script>
 </body>
 </html>
