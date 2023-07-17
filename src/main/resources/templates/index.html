@@ -59,6 +59,7 @@
 <ul class="submenu">
 <li class="submenu-item" th:each="list, stat : ${Brd}">
 <a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.boardNm}"></a>
+																			
 </li>
 </ul>
 	</li>
@@ -98,6 +99,7 @@
 		<div id="main" class="layout-navbar">
 			<header class="mb-3">
 				<nav class="navbar navbar-expand navbar-light">
+				
 					<div class="container-fluid">
 						<a href="#" class="burger-btn d-block"> <i
 							class="bi bi-justify fs-3"></i>
@@ -170,17 +172,13 @@
 				<section class="row">
 					<article layout:fragment="content"></article>
 				</section>
-				<!--Modal -->
-				<div class="modal fade text-left" id="inlineForm" tabindex="-1"
-					role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-					<div
-						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-						role="document">
+		<!--Modal -->
+		<div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h4 class="modal-title" id="myModalLabel33">게시판 생성</h4>
-								<button type="button" class="close" data-bs-dismiss="modal"
-									aria-label="Close">
+								<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 									<i data-feather="x"></i>
 								</button>
 							</div>
@@ -206,6 +204,7 @@
 	<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="form.submit()">
 	<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">생성</span>
 	</button>
+</div>
 </div>
 </form>
 							
