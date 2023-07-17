@@ -85,6 +85,11 @@ public class VoteServiceImpl implements VoteService {
 	public List<VoteVO> brdNm(String no) {
 		return voteMapper.brdNm(no);
 	}
+
+	@Override
+	public List<VoteVO> voteList(VoteVO vo) {
+		return voteMapper.voteList(vo);
+	}
 	
 
 }

@@ -48,8 +48,8 @@
 						할일 추가</button>
 				</div>
 				</form>
-				<div class="card-content" th:each="todo:${todoList}">
-					<div class="card-body">
+				<div class="card-content" >
+					<div class="card-body"th:each="todo:${todoList}">
 						<h4 class="card-title">진행률 : [[${todo.pct}]]%</h4>
 						<h2>[[${todo.ttl}]]</h2>
 						<small class="text-muted">[[${todo.cntn}]]</small>

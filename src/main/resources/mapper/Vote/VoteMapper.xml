@@ -108,4 +108,28 @@
   where patrici_memb_uni_no=#{particiMembUniNo}
   </select>
   
+  <!-- 투표리스트 -->
+  <select id="voteList" resultType="VoteVO" parameterType="VoteVO" >
+    select e.vote_no,chatr_nm,board_nm,fr_dt,to_dt,ttl,cnt
+    from vote e join (
+                    	select chatr_nm,c.chat_no
+                    	from chat c join (
+                                       		 select chatr_nm, a.chatr_no
+                                       		 from chatr_partici a join chatr b
+                                       		 on a.chatr_no = b.chatr_no
+                                      		 where patrici_memb_uni_no=#{particiMembUniNo}) d
+                    	on c.chatr_no=d.chatr_no) f
+  	on e.chat_no =f.chat_no
+  				join (
+                    select board_nm,post_uni_no
+                    from brd a left outer join brd_cm b 
+                    on a.brd_uni_no=b.board_uni_no
+                    WHERE (a.pubc_yn = 'Y'
+                    or (a.pubc_yn = 'N' and b.partici_memb_uni_no = #{particiMembUniNo}))
+   					AND a.prj_uni_no = #{prjUniNo}) i
+   			  on e.post_uni_no = i.post_uni_no
+              join vote_deta j
+   			  on e.vote_no = j.vote_no;
+  </select>
+  
   </mapper>
