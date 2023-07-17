@@ -65,7 +65,7 @@
                                         on a.chatr_no = b.chatr_no) d
                     on c.chatr_no=d.chatr_no) f
   on e.chat_no =f.chat_no
-  where vote_no = #{voteNo};
+  where vote_no = #{voteNo}
    </select>
   
   <!-- 투표하기 - 게시판 제목 찾기 -->
@@ -76,7 +76,7 @@
                     from brd a join post b 
                     on a.brd_uni_no = b.brd_uni_no) d
   on c.post_uni_no = d.post_uni_no
-  where vote_no = #{voteNo};
+  where vote_no = #{voteNo}
   </select>
   
   <!-- 투표 결과 -->
@@ -117,19 +117,20 @@
                                        		 select chatr_nm, a.chatr_no
                                        		 from chatr_partici a join chatr b
                                        		 on a.chatr_no = b.chatr_no
-                                      		 where patrici_memb_uni_no=#{particiMembUniNo}) d
+                                      		 where partici_memb_uni_no=#{particiMembUniNo}) d
                     	on c.chatr_no=d.chatr_no) f
   	on e.chat_no =f.chat_no
-  				join (
-                    select board_nm,post_uni_no
-                    from brd a left outer join brd_cm b 
-                    on a.brd_uni_no=b.board_uni_no
-                    WHERE (a.pubc_yn = 'Y'
-                    or (a.pubc_yn = 'N' and b.partici_memb_uni_no = #{particiMembUniNo}))
-   					AND a.prj_uni_no = #{prjUniNo}) i
-   			  on e.post_uni_no = i.post_uni_no
-              join vote_deta j
-   			  on e.vote_no = j.vote_no;
+  			full outer	join (
+                        select board_nm,post_uni_no
+                        from brd g join post h 
+                        on g.brd_uni_no = h.brd_uni_no
+                        left outer join brd_cm i on g.brd_uni_no=i.board_uni_no
+                            WHERE (g.pubc_yn = 'Y'
+    or (g.pubc_yn = 'N' and h.partici_memb_uni_no = #{particiMembUniNo})
+    AND g.prj_uni_no = #{prjUniNo})) j
+    on e.post_uni_no = j.post_uni_no
+    join vote_deta k
+    on e.vote_no = k.vote_no  
   </select>
   
   </mapper>

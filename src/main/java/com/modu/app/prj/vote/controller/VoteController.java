@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.modu.app.prj.vote.service.VoteService;
 import com.modu.app.prj.vote.service.VoteVO;
 
-@RestController
+@Controller
 public class VoteController {
 	
 	@Autowired
@@ -22,18 +22,19 @@ public class VoteController {
 	
 	
 	//투표 리스트 페이지
-	@GetMapping("")
-	public List<VoteVO> empList(VoteVO vo,HttpServletRequest request) {
+	@GetMapping("voteList")
+	public String empList(Model model,VoteVO vo,HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNO"));
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		return voteService.voteList(vo);
+		model.addAttribute("voteList",voteService.voteList(vo));
+		return "vote/voteList";
 	}
 	
 	// 투표 등록페이지
 	@GetMapping("voteInsert")
 	public String voteInsert(Model model,VoteVO vo) {
-		
+		model.addAttribute("VoteVO",vo);
 		return "vote/voteInsert";
 	}
 }

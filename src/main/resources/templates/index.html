@@ -124,6 +124,9 @@
 				<button class="rsidebar-toggler btn x">
 					<i data-feather="x"></i>
 				</button>
+				<button class="buger-btn" style="display:none">
+					<i data-feather="x"></i>
+				</button>
 			</div>
 		</div>
 		<div id="main" class="layout-navbar">
@@ -153,10 +156,10 @@
 								</a>
 									<ul class="dropdown-menu dropdown-menu-end"
 										aria-labelledby="dropdownMenuButton">
-										<li><a class="dropdown-item" href="#">일정</a></li>
+										<li><a class="dropdown-item" href="">일정</a></li>
 										<li><a class="dropdown-item" th:href="@{todoList}">할일</a></li>
-										<li><a class="dropdown-item" href="#">투표</a></li>
-										<li><a class="dropdown-item" href="#">즐겨찾기</a></li>
+										<li><a class="dropdown-item" th:href="@{voteList}">투표</a></li>
+										<li><a class="dropdown-item" href="">즐겨찾기</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
@@ -260,8 +263,37 @@
 			</footer>
 		</div>
 	</div>
+	
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+			<script src="assets/js/main.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/test.js"></script>
+	
+	<!-- filepond validation -->
+		<script
+			src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
+			
+		</script>
+		<script
+			src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js">
+			
+		</script>
+
+		<!-- image editor -->
+		<script
+			src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js">
+			
+		</script>
+		<script
+			src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
+		<script
+			src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
+		<script
+			src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+		<script
+			src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+
+		<!-- filepond -->
+		<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
 </body>
 </html>
