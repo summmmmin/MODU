@@ -78,7 +78,7 @@
  		   			<if test="tagArm != null and !tagArm.equals('')">
  		   			tag_arm=#{tagArm},
 					</if>
-					modify_date=sysdate
+					mod_dt=sysdate
  	WHERE reply_uni_no=#{replyUniNo}
 </update>
 

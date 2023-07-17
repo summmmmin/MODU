@@ -1,215 +1,333 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
 
 <head>
-<meta charset="UTF-8">
-<title>postList</title>
+	<meta charset="UTF-8">
+	<title>postList</title>
 
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-	rel="stylesheet">
-<link rel="stylesheet" href="assets/css/bootstrap.css">
-<link rel="stylesheet"
-	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-<link rel="stylesheet"
-	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-<link rel="stylesheet" href="assets/css/app.css">
-<link rel="shortcut icon" href="assets/images/favicon.svg"
-	type="image/x-icon">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="assets/css/bootstrap.css">
+	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+	<link rel="stylesheet" href="assets/css/app.css">
+	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
 </head>
 
 <body>
 	<div layout:fragment="content">
-		<div class="buttons">
-			<a class="btn btn-primary"
-				th:href="@{postInsert(brdUniNo=${postList[0].brdUniNo})}">글작성</a>
-		</div>
-		<button type="button" class="btn btn-outline-warning"
-			data-bs-toggle="modal" data-bs-target="#xlarge">글작성</button>
-		<!--Extra Large Modal -->
-		<div class="modal fade text-left w-100" id="xlarge" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl"
-				role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="myModalLabel16">새 글 작성 //
-							[[${postList[0].boardNm}]]</h4>
-						<button type="button" class="close" data-bs-dismiss="modal"
-							aria-label="Close">
-							<i data-feather="x"></i>
-						</button>
-					</div>
-					<div class="modal-body" id="postInsert">
-						<!--  <iframe th:src="/postInsert?brdUniNo=${postList[0].brdUniNo}" id="postInsertForm">대체 내용</iframe>   -->
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-light-secondary"
-							data-bs-dismiss="modal">
-							<i class="bx bx-x d-block d-sm-none"></i> <span
-								class="d-none d-sm-block">Close</span>
-						</button>
-						<button type="button" class="btn btn-primary ml-1"
-							data-bs-dismiss="modal">
-							<i class="bx bx-check d-block d-sm-none"></i> <span
-								class="d-none d-sm-block">Accept</span>
-						</button>
+
+		<div th:if="${#lists.isEmpty(postList)}">게시글이없습니다</div>
+		<div th:unless="${#lists.isEmpty(postList)}">
+			<div class="buttons">
+				<a class="btn btn-primary"
+					th:href="@{postInsert(brdUniNo=${postList[0].brdUniNo})}">글작성</a>
+			</div>
+			<!--새글작성모달btn-->
+			<button type="button" class="btn btn-outline-warning"
+				data-bs-toggle="modal" data-bs-target="#xlarge">글작성</button>
+			<!--새글작성모달-->
+			<div class="modal fade text-left w-100" id="xlarge" tabindex="-1"
+				role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl"
+					role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel16">새 글 작성 //
+								[[${postList[0].boardNm}]]</h4>
+							<button type="button" class="close" data-bs-dismiss="modal"
+								aria-label="Close">
+								<i data-feather="x"></i>
+							</button>
+						</div>
+						<div class="modal-body" id="postInsert">
+							<!--  <iframe th:src="/postInsert?brdUniNo=${postList[0].brdUniNo}" id="postInsertForm">대체 내용</iframe>   -->
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-light-secondary"
+								data-bs-dismiss="modal">
+								<i class="bx bx-x d-block d-sm-none"></i> <span
+									class="d-none d-sm-block">Close</span>
+							</button>
+							<button type="button" class="btn btn-primary ml-1"
+								data-bs-dismiss="modal">
+								<i class="bx bx-check d-block d-sm-none"></i> <span
+									class="d-none d-sm-block">Accept</span>
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<hr>
+			<!--end of 새글작성모달-->
+			<hr>
 
-		<div class="col-md-10 col-sm-12 mx-auto">
-			<div th:if="${#lists.isEmpty(postList)}">게시글이없습니다</div>
+			<div class="col-md-10 col-sm-12 mx-auto">
 
-			<div th:each="post : ${postList}" id="postPlace" class="card">
-				<div class="card-content">
-					<div class="card-body">
-						<input class="getPostUniNo" type="hidden"
-							th:value="${post.postUniNo}">
-						<div class="row">
-							<h4 class="card-title col">[[${post.ttl}]]</h4>
-							<small class="text-muted">[[${post.nnm}]]작성자</small>
-						</div>
-						<div class="row">
-							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle me-1"
-									type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-									aria-haspopup="true" aria-expanded="false">...</button>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									<a class="dropdown-item" href="#">즐겨찾기</a> <a
-										class="dropdown-item" href="#">공지등록</a> <a
-										th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}"
-										class="dropdown-item"
-										th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a> <a
-										th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}"
-										class="dropdown-item" data-bs-toggle="modal"
-										data-bs-target="#primary">삭제</a>
-								</div>
 
-								<!-- 삭제 모달 -->
-								<div class="modal fade text-left" id="primary" tabindex="-1"
-									role="dialog" aria-labelledby="myModalLabel160"
-									aria-hidden="true">
-									<div
-										class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-										role="document">
-										<div class="modal-content">
-											<div class="modal-header bg-primary">
-												<h5 class="modal-title white" id="myModalLabel160">게시글
-													삭제</h5>
-												<button type="button" class="close" data-bs-dismiss="modal"
-													aria-label="Close">
-													<i data-feather="x"></i>
-												</button>
-											</div>
-											<div class="modal-body">
-												이 페이지를 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다. <input
-													id="brdUniNo" type="hidden" th:value="${post.brdUniNo}">
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-light-secondary"
-													data-bs-dismiss="modal">
-													<i class="bx bx-x d-block d-sm-none"></i> <span
-														class="d-none d-sm-block">취소</span>
-												</button>
-												<button id="deleteBtn" type="button"
-													class="btn btn-primary ml-1" data-bs-dismiss="modal">
-													<i class="bx bx-check d-block d-sm-none"></i> <span
-														class="d-none d-sm-block">확인</span>
-												</button>
+				<div th:each="post : ${postList}" id="postPlace" class="card">
+					<div class="card-content">
+						<div class="card-body">
+							<input class="getPostUniNo" type="hidden"
+								th:value="${post.postUniNo}">
+							<div class="row">
+								<h4 class="card-title col">[[${post.ttl}]]</h4>
+								<small class="text-muted">[[${post.nnm}]]작성자</small>
+							</div>
+							<div class="row">
+								<div class="dropdown">
+									<button class="btn btn-primary dropdown-toggle me-1"
+										type="button" id="dropdownMenuButton"
+										data-bs-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">...</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item" href="#">즐겨찾기</a> <a
+											class="dropdown-item" href="#">공지등록</a> 
+											<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}"
+												class="dropdown-item"
+												th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a> 
+												<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}"
+												class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deletePost">삭제</a>
+									</div>
+
+									<!-- start of 게시글 삭제 모달 -->
+									<div class="modal fade text-left" id="deletePost" tabindex="-1"
+										role="dialog" aria-labelledby="myModalLabel160"
+										aria-hidden="true">
+										<div
+											class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+											role="document">
+											<div class="modal-content">
+												<div class="modal-header bg-primary">
+													<h5 class="modal-title white" id="myModalLabel160">게시글
+														삭제</h5>
+													<button type="button" class="close" data-bs-dismiss="modal"
+														aria-label="Close">
+														<i data-feather="x"></i>
+													</button>
+												</div>
+												<div class="modal-body">
+													이 페이지를 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다. 
+													<input id="brdUniNo" type="hidden" th:value="${post.brdUniNo}">
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-light-secondary"
+														data-bs-dismiss="modal">
+														<i class="bx bx-x d-block d-sm-none"></i> <span
+															class="d-none d-sm-block">취소</span>
+													</button>
+													<button id="deleteBtn" type="button"
+														class="btn btn-primary ml-1" data-bs-dismiss="modal">
+														<i class="bx bx-check d-block d-sm-none"></i> <span
+															class="d-none d-sm-block">확인</span>
+													</button>
+												</div>
 											</div>
 										</div>
 									</div>
+									<!-- end of 게시글 삭제 모달 -->
+
+											<!-- start of 댓글 삭제 모달 -->
+											<div class="modal fade text-left" id="deleteReply" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+												<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"	role="document">
+													<div class="modal-content">
+														<div class="modal-header bg-primary">
+															<h5 class="modal-title white" id="myModalLabel160">댓글	삭제</h5>
+															<button type="button" class="close" data-bs-dismiss="modal"	aria-label="Close">
+																<i data-feather="x"></i>
+															</button>
+														</div>
+													<div class="modal-body">
+														이 페이지를 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다. 
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-light-secondary"
+															data-bs-dismiss="modal">
+															<i class="bx bx-x d-block d-sm-none"></i> <span
+																class="d-none d-sm-block">취소</span>
+														</button>
+														<button id="deleteReplyBtn" type="button"
+															class="btn btn-primary ml-1" data-bs-dismiss="modal">
+															<i class="bx bx-check d-block d-sm-none"></i> <span
+																class="d-none d-sm-block">확인</span>
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--end of 댓글 삭제 모달 -->
+									<hr>
+									<p class="card-text">[[${post.cm}]]</p>
+									<p class="card-text">[[${post.postTagArm}]]태그된사람들</p>
+									<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 								</div>
-								<hr>
-								<p class="card-text">[[${post.cm}]]</p>
-								<p class="card-text">[[${post.postTagArm}]]태그된사람들</p>
-								<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
+								첨부파일미리보기
 							</div>
-							첨부파일미리보기
-						</div>
 
-						<hr>
-						<div class="replyPlace card-body"></div>
-						<hr>
-						<div class="form-group position-relative has-icon-right">
-							<input name="replyUniNo" type="hidden"
-								class="replyInput form-control"> <input name="postUniNo"
-								type="hidden" th:value="${post.postUniNo}"
-								class="replyInput form-control"> <input name="cntn"
-								type="text" class="replyInput form-control" placeholder="reply">
+							<hr>
+							<div class="replyPlace card-body"
+								th:data-postunino="${post.postUniNo}"></div>
+							<hr>
+							<div class="form-group position-relative has-icon-right">
+								<input name="replyUniNo" type="hidden"
+									class="replyInput form-control"> <input
+									name="postUniNo" type="hidden" th:value="${post.postUniNo}"
+									class="replyInput form-control"> <input name="cntn"
+									type="text" class="replyInput form-control" placeholder="reply">
 
-							<div class="form-control-icon">
-								<svg class="replyBtn bi" width="1em" height="1em"
-									fill="currentColor">
+								<div class="form-control-icon">
+									<svg class="replyBtn bi" width="1em" height="1em"
+										fill="currentColor">
 									<use
-										xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
+											xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
 								</svg>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<script>
+			       <!--start of 댓글수정모달 -->
+						 <div class="modal fade text-left" id="updateReply" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"	role="document">
+								<div class="modal-content">
+									<div class="modal-header bg-primary">
+										<h5 class="modal-title white" id="myModalLabel160">댓글 수정</h5>
+										<button type="button" class="close" data-bs-dismiss="modal"	aria-label="Close">
+											<i data-feather="x"></i>
+										</button>
+									</div>
+								<div class="modal-body">
+									<form action="replyUpdate" method="POST">
+										<div class="modal-body">
+												댓글:
+												<div id="updateReplyForm"></div>
+												<!-- <div class="form-group">
+													<textarea class="form-control" id="exampleFormControlTextarea1"
+															rows="4"></textarea>
+											</div> -->
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-light-secondary"
+																data-bs-dismiss="modal">
+																<i class="bx bx-x d-block d-sm-none"></i>
+																<span class="d-none d-sm-block">취소</span>
+														</button>
+														<button type="button" id="updateReplyBtn" class="btn btn-primary ml-1"
+																data-bs-dismiss="modal">
+																<i class="bx bx-check d-block d-sm-none"></i>
+																<span class="d-none d-sm-block">수정</span>
+														</button>
+										</div>
+								</form>
+									
+								</div>
+								
+							</div>
+						</div>
+					</div>
+
+				 <!--end of 댓글수정모달 -->
+
+
+			<script>
 
 			//댓글리스트
-			function showReplyList(){
-			let getPnum = document.querySelectorAll('.getPostUniNo');
-			let rPlaceList = document.querySelectorAll('.replyPlace');
+				function showReplyList() {
+  			let getPnum = document.querySelectorAll('.getPostUniNo');
+  			//let user = [[${session.particiMembUniNo}]];
+				//console.log(user);
+				
+  			getPnum.forEach(gNum => {
+   			let pNum = gNum.value;
+ 
+				fetch('http://localhost:80/modu/replys/' + pNum)
+					.then(resolve => resolve.json())
+					.then(data => {
+						//console.log(data);
+						let rPlaceList = document.querySelectorAll('.replyPlace');
 
-			console.log(rPlaceList);
-			let pNumList = [];
-			getPnum.forEach(gNum => {
-				let pUni = gNum.value;
-				pNumList.push(pUni);
-			})
+						rPlaceList.forEach(rPlace => {
+							if (rPlace.dataset.postunino === pNum) {
+								
+								rPlace.innerHTML = '';
 
-			console.log(pNumList);
-			pNumList.forEach(pNum => {
-				console.log(pNum);
+								data.forEach(reply => {
+									if (reply.postUniNo == pNum) {
+										let h5Tag = document.createElement('h5');
+										h5Tag.setAttribute('class', 'card-title col');
+										h5Tag.textContent = reply.nnm;
+										rPlace.append(h5Tag);
 
-				fetch('http://localhost:80/modu/replys/'+ pNum)
-				.then(resolve => resolve.json())
-				.then(data => {
-					console.log(data);
-					// document.getElementById('replyPlace').replaceChildren();
-					// data.forEach(reply => {
-					// 	if(reply.postUniNo == pNum){
+										//start of reply-dropdown
+										let divTag = document.createElement('div');
+										divTag.setAttribute('class', 'dropdown');
+
+										let btnTag = document.createElement('button');
+										btnTag.setAttribute('class', 'btn btn-primary btn-sm dropdown-toggle');
+										btnTag.setAttribute('data-bs-toggle', 'dropdown');
+										btnTag.setAttribute('aria-haspopup', 'true');
+										btnTag.setAttribute('aria-expanded', 'false');
+										btnTag.textContent = '...'
+										divTag.append(btnTag);
 							
-					// 	let pTag=document.createElement('p');
-					// 	pTag.setAttribute('class','card-text');
+										let divTagDM = document.createElement('div');
+										divTagDM.setAttribute('class', 'dropdown-menu');
+										divTagDM.setAttribute('data-replyunino', reply.replyUniNo)
+										divTag.append(divTagDM);
 
-					// 	let h5Tag = document.createElement('h5');
-					// 	h5Tag.setAttribute('class', 'card-title col')
-					// 	h5Tag.textContent = reply.nnm +'//' + reply.postUniNo;
-					// 	document.getElementById('replyPlace').append(h5Tag);
+										let aTag = document.createElement('a');
+										aTag.setAttribute('class','dropdown-item');
+										aTag.textContent='즐겨찾기추가';
+										divTagDM.append(aTag);
+										divTag.append(divTagDM);
+										
+										//if(user == reply.particiMembUniNo){
+											aTag = document.createElement('a');
+											aTag.setAttribute('class','dropdown-item');
+											aTag.setAttribute('class','dropdown-item');
+											aTag.setAttribute('data-bs-toggle','modal');
+											aTag.setAttribute('data-bs-target','#updateReply');
+											aTag.addEventListener('click', callOneReply);
+											//document.getElementById('updateReplyUniNo').value=reply.replyUniNo;
+											aTag.textContent='수정';
+											divTagDM.append(aTag);
+											divTag.append(divTagDM);
+	
+											aTag = document.createElement('a');
+											aTag.setAttribute('class','dropdown-item');
+											aTag.setAttribute('data-bs-toggle','modal');
+											aTag.setAttribute('data-bs-target','#deleteReply');
+											aTag.addEventListener('click', callDeleteModal);
+											//document.getElementById('replyUniNo').value=reply.replyUniNo;
+											aTag.textContent='삭제';
+											divTagDM.append(aTag);
+											divTag.append(divTagDM);
+										//}
+										
+										rPlace.append(divTag);
+										//end of reply-dropdown
 
-					// 	drowDropdown();
-			
-					// 	pTag=document.createElement('p');
-					// 	pTag.setAttribute('class','card-text');
-					// 	pTag.textContent = '댓글내용 : ' + reply.cntn;					
-					// 	document.getElementById('replyPlace').append(pTag);
-					
-					// 	let smallTag = document.createElement('small');
-					// 	smallTag.setAttribute('class', 'text-muted')
-					// 	smallTag.textContent = reply.writeDt;
-					// 	document.getElementById('replyPlace').append(smallTag);
-					// 	}
-					//}); 
-				}) 
-				.catch(err => console.log(err)) 
-			}) 
-		
+										let pTag = document.createElement('p');
+										pTag.setAttribute('class', 'card-text');
+										pTag.textContent = '댓글내용 : ' + reply.cntn;
+										rPlace.append(pTag);
+
+										let smallTag = document.createElement('small');
+										smallTag.setAttribute('class', 'text-muted');
+										smallTag.textContent = reply.writeDt;
+										rPlace.append(smallTag);
+									}
+								});
+							}
+						});
+					})
+					.catch(err => console.log(err));
+  			});
 		}
+		//댓글리스트 호출
 		showReplyList();
 
 		//input박스 입력시 아이콘변경
@@ -221,7 +339,7 @@
 			})
 			}
 		})
-		//input박스 안의 아이콘 클릭시 댓글입력replyInsert()
+		//댓글입력
 		let reBtnList = document.querySelectorAll('.replyBtn');
 		reBtnList.forEach(btn => {
 			btn.addEventListener('click', function(){
@@ -235,7 +353,6 @@
 				 	replyInfo[reply.name] = reply.value;
 				})
 								
-				console.log(replyInfo); 
 				fetch('http://localhost:80/modu/replyInsert/'+pNum,{
 					method : 'post',
 					headers : {
@@ -245,83 +362,137 @@
 				})
 				.then(result => result.json())
 				.then(data => {
-				console.log(data);
 				showReplyList()
 				})
 				.catch(err => console.log(err))
 		})
 	})
 
-	//댓글드롭다운
-	function drowDropdown(){
+	//댓글삭제
+	function callDeleteModal(e){
+		let rNum = e.target.parentElement.dataset.replyunino;
 
-		let divTag = document.createElement('div');
-		divTag.setAttribute('class', 'dropdown');
-
-		let btnTag = document.createElement('button');
-		btnTag.setAttribute('class', 'btn btn-primary btn-sm dropdown-toggle');
-		btnTag.setAttribute('data-bs-toggle', 'dropdown');
-		btnTag.setAttribute('aria-haspopup', 'true');
-		btnTag.setAttribute('aria-expanded', 'false');
-		btnTag.textContent = '...'
-		divTag.append(btnTag);
-
-		let divTagDM = document.createElement('div');
-		divTagDM.setAttribute('class', 'dropdown-menu');
-		divTag.append(divTagDM);
-
-		let aTag = document.createElement('a');
-		aTag.setAttribute('class','dropdown-item');
-		aTag.textContent='즐겨찾기추가';
-		divTagDM.append(aTag);
-		divTag.append(divTagDM);
-
-		aTag = document.createElement('a');
-		aTag.setAttribute('class','dropdown-item');
-		aTag.textContent='수정';
-		divTagDM.append(aTag);
-		divTag.append(divTagDM);
-
-		aTag = document.createElement('a');
-		aTag.setAttribute('class','dropdown-item');
-		aTag.textContent='삭제';
-		divTagDM.append(aTag);
-		divTag.append(divTagDM);
-
-		document.getElementById('replyPlace').append(divTag);
-
-
+		document.getElementById('deleteReplyBtn').addEventListener('click', function(e){
+			
+		
+			fetch('http://localhost:80/modu/replyDelete/'+rNum)
+			//.then(resolve => resolve.json())
+			.then(data => {
+				//showReplyList()
+			})
+			.catch(err => console.log(err))
+		})
 	}
+
+//댓글수정폼
+function callOneReply(e){
+	//console.log(e.target.parentElement.dataset.replyunino);
+	let rNum = e.target.parentElement.dataset.replyunino;
+
+	fetch('http://localhost:80/modu/reply/' + rNum)
+	.then(resolve => resolve.json())
+	.then(data => {
+		updateReplyForm.innerHTML = '';
+		console.log(data.replyUniNo);
+		
+			let inputTag = document.createElement('input');
+			inputTag.setAttribute('name', 'replyUniNo');
+			inputTag.value = data.replyUniNo;
+			inputTag.setAttribute('type', 'hidden');
+			document.getElementById('updateReplyForm').append(inputTag);
+
+			inputTag = document.createElement('input');
+			inputTag.setAttribute('name', 'writeDt');
+			inputTag.value = data.writeDt;
+			inputTag.setAttribute('type', 'hidden');
+			document.getElementById('updateReplyForm').append(inputTag);
+
+			inputTag = document.createElement('input');
+			inputTag.setAttribute('name', 'modDt');
+			inputTag.value = data.modDt;
+			inputTag.setAttribute('type', 'hidden');
+			document.getElementById('updateReplyForm').append(inputTag);
+
+			inputTag = document.createElement('input');
+			inputTag.setAttribute('name', 'particiMembUniNo');
+			inputTag.value = data.particiMembUniNo;
+			inputTag.setAttribute('type', 'hidden');
+			document.getElementById('updateReplyForm').append(inputTag);
+
+			inputTag = document.createElement('input');
+			inputTag.setAttribute('name', 'postUniNo');
+			inputTag.value = data.postUniNo;
+			inputTag.setAttribute('type', 'hidden');
+			document.getElementById('updateReplyForm').append(inputTag);
+
+			let replyCntn = document.createElement('textarea');
+			replyCntn.setAttribute('class', 'form-control');
+			replyCntn.setAttribute('id', 'exampleFormControlTextarea1');
+			replyCntn.setAttribute('name', 'cntn')
+			replyCntn.setAttribute('rows', 4);
+			replyCntn.value = data.cntn;
+			document.getElementById('updateReplyForm').append(replyCntn);
+	})
+}
+
+//댓글수정
+document.getElementById('updateReplyBtn').addEventListener('click', function(){
+
+	let inputList = document.getElementById('updateReplyForm').querySelectorAll('input');
+	let replyInfo = {};
+	inputList.forEach(reply => {
+		replyInfo[reply.name] = reply.value;
+	})
+	let cntn = document.getElementById('updateReplyForm').children[5];
+	replyInfo['cntn'] = cntn.value;
+
+	console.log(replyInfo);
+	fetch('http://localhost:80/modu/replyUpdate',{
+		method : 'post',
+		headers : {
+			'content-type' : 'application/json'
+		},
+		body : JSON.stringify(replyInfo)
+	})
+	.then(result => result.json())
+	.then(data => {
+		console.log(data);
+		showReplyList()
+	})
+	.catch(err => console.log(err))
+
+})
+
 		//게시글삭제
 		document.getElementById('deleteBtn').addEventListener('click', function(event){
-				let pNum = document.getElementById('postUniNo').value;
-				let bNum = document.getElementById('brdUniNo').value;
-				//console.log(pNum);
-				fetch('http://localhost:80/modu/postDelete/'+pNum)
-				.then(resolve => resolve.json())
-				.then(data => {
-					//console.log(data);
-					window.location.href = 'http://localhost:80/modu/postList?brdUniNo=' + bNum;
-				})
-				.catch(err => console.log(err))
-				
-		})
-		
-			function postInsert(brdUniNo){
-			$.ajax(`/postInsert?brdUniNo=${postList[0].brdUniNo}`,{dataType:"html"})
-			.done(function(result){
-				$("#postInsert").html(result)
-			})
-		}
+    //console.log(event);
+    let getPnum = document.querySelectorAll('.getPostUniNo');
+    
+    getPnum.forEach(gNum => {
+        let pNum = gNum.value;
+        
+        //console.log(pNum);
+        fetch('http://localhost:80/modu/postDelete/' + pNum)
+        .then(resolve => resolve.json())
+        .then(data => {
+            //console.log(data);
+            window.location.href = 'http://localhost:80/modu/postList?brdUniNo=' + bNum;
+        })
+        .catch(err => console.log(err)); 
+    });
+});
+
+
+
 	</script>
-	</div>
-	</div>
+
+		</div>
 	</div>
 
 </body>
 
 <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
 <script src="assets/js/main.js"></script>
 </html>
