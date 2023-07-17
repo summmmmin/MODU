@@ -46,7 +46,7 @@
 <insert id="insertReply" parameterType="ReplyVO">
 	<!-- 댓글고유번호자동생성(테스트용번호임) -->
     <selectKey keyProperty="replyUniNo" resultType="String" order="BEFORE">
-    	SELECT 'rt' || (MAX(TO_NUMBER(SUBSTR(post_uni_no, 3)))+1) FROM post
+    	SELECT 'rt' || (MAX(TO_NUMBER(SUBSTR(reply_uni_no, 3)))+1) FROM reply
     </selectKey>
 	INSERT INTO reply (reply_uni_no,
 					   cntn,

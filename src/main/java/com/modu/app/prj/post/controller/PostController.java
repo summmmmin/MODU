@@ -45,7 +45,7 @@ public class PostController {
 
 	// 등록처리
 	@PostMapping("postInsert")
-	public String postInsert(Model model, PostVO postVO, HttpSession session) {
+	public String postInsert(PostVO postVO, HttpSession session) {
 		String particiMembUniNo = (String)session.getAttribute("particiMembUniNo");
 		postVO.setParticiMembUniNo(particiMembUniNo);
 		postService.insertPost(postVO);

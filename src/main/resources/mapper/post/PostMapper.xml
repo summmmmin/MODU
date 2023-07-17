@@ -59,7 +59,7 @@
 	<!-- 게시글등록, 수정폼용 게시판조회 -->
 	<select id="selectOneBoard" resultType="PostVO">
 		SELECT brd_uni_no,
-		board_nm
+			   board_nm
 		FROM brd
 		WHERE brd_uni_no = #{brdUniNo}
 	</select>
