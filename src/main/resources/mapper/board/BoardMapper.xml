@@ -25,4 +25,5 @@
 	DELETE brd
 	WHERE brd_uni_no = #{brdUniNo};
 	</delete>
+	
  </mapper>

@@ -11,9 +11,7 @@
 	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
 	rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/bootstrap.css" />
-
 <link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
-
 <link rel="stylesheet"
 	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
 <link rel="stylesheet"
@@ -51,6 +49,7 @@
 
 
 <!--/* ************************ Board List Start *************************** */-->
+
 <li class="sidebar-item has-sub"><a href="#" class="sidebar-link"> 
 <i class="bi bi-stack"></i> 
 	<span>게시판</span>
@@ -59,13 +58,12 @@
 <ul class="submenu">
 <li class="submenu-item" th:each="list, stat : ${Brd}">
 <a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.boardNm}"></a>
-																			
 </li>
 </ul>
 	</li>
 		</ul>
-<!--/* ************************ Board List End *************************** */-->
-			
+		
+<!--/* ************************ End *************************** */-->
 			</div>
 				<button class="sidebar-toggler btn x">
 					<i data-feather="x"></i>
@@ -207,7 +205,6 @@
 </div>
 </div>
 </form>
-							
 						</div>
 					</div>
 				</div>
