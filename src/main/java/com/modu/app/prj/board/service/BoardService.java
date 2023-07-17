@@ -11,4 +11,5 @@ public interface BoardService {
 	
 	public int InsertBoard(BoardVO vo);
 	
+	public String DeleteBoard(String partici);
 }
