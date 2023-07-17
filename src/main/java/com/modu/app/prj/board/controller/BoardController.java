@@ -1,4 +1,5 @@
 package com.modu.app.prj.board.controller;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,54 +16,41 @@ import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
 
-
 @Controller
 public class BoardController {
-	
+
 	@Autowired
 	BoardService boardService;
-	
+
 	@Autowired
 	PrjService prjService;
-	
+
 	// 사이드바 게시판 리스트
 	@GetMapping("/main")
-	public String BoardList(Model model,PrjVO prjVO,HttpServletRequest request){
+	public String BoardList(Model model, PrjVO prjVO, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		prjVO.setMembUniNo(((UserVO) session.getAttribute("user")).getMembUniNo());
 		PrjVO vo = prjService.prjSession(prjVO);
-		System.out.println("111");
-		System.out.println(vo);
-	    session.setAttribute("prjUniNo", vo.getPrjUniNo());
-	    session.setAttribute("particiMembUniNo", vo.getParticiMembUniNo());
-	    BoardVO brd = new BoardVO();
-	    brd.setParticiMembUniNo(vo.getParticiMembUniNo());
-	    brd.setPrjUniNo(vo.getPrjUniNo());
-	    model.addAttribute("Brd",boardService.BoardList(brd));
-		/*
-		 * System.out.println(vo); System.out.println(brd); System.out.println(model);
-		 */
+		session.setAttribute("prjUniNo", vo.getPrjUniNo());
+		session.setAttribute("particiMembUniNo", vo.getParticiMembUniNo());
+		BoardVO brd = new BoardVO();
+		brd.setParticiMembUniNo(vo.getParticiMembUniNo());
+		brd.setPrjUniNo(vo.getPrjUniNo());
+		model.addAttribute("Brd", boardService.BoardList(brd));
 		return "index";
 	}
-	
-	//단건 조회
-//	@GetMapping("index2")
-//	public String BoardGet(Model model,BoardVO vo) {
-//		model.addAttribute("BoardGet",boardService.GetBoard(vo));
-//		return "index";
-//	}
-	
+
 	@PostMapping("/InsertBoard")
 	public String InsertBoard(BoardVO vo) {
 		System.out.println("1111");
 		String check = vo.getPubcYn();
-		if(check.equals("on")) {
+		if (check.equals("on")) {
 			vo.setPubcYn("Y");
-		}else {
+		} else {
 			vo.setPubcYn("N");
 		}
-		System.out.println(vo);
 		boardService.InsertBoard(vo);
+		System.out.println(vo);
 		return "index";
 	}
 }
