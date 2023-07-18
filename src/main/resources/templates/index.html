@@ -79,7 +79,7 @@
 								alt="Logo" srcset="" /></a>
 						</div>
 						<div class="toggler">
-							<a href="#" class="rsidebar-hide d-xl-none d-block"><i
+							<a href="#" class="rsidebar-hide d-block"><i
 								class="bi bi-x bi-middle"></i></a>
 						</div>
 					</div>
@@ -110,7 +110,7 @@
 						<a href="#" class="burger-btn d-block"> <i
 							class="bi bi-justify fs-3"></i>
 						</a> <a href="#" class="rburger-btn d-block"> <i
-							class="bi bi-justify fs-3"></i>
+							class="bi bi-justify fs-3" style="display:none"></i>
 						</a>
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -132,7 +132,7 @@
 										aria-labelledby="dropdownMenuButton">
 										<li><a class="dropdown-item rburger">일정</a></li>
 										<li><a class="dropdown-item rburger" >할일</a></li>
-										<li><a class="dropdown-item rburger" >투표</a></li>
+										<li><a class="dropdown-item rburger" href="voteList" id="vote">투표</a></li>
 										<li><a class="dropdown-item rburger" href="">즐겨찾기</a></li>
 									</ul></li>
 							</ul>
@@ -276,6 +276,19 @@
 		.catch(err => console.log(err))
 	}
 	</script>
-	<script src="vote/voteInsert.js"></script>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	document.getElementById('vote').addEventListenr('click',function(){
+		fetch("/modu/voteList")
+	 	.then(response =>response.json())
+  		.then(data => ;
+  		
+	})
+  		.catch(reject => console.log(reject));
+  		}
+	})
+		/*]]>*/
+	</script>
 </body>
 </html>

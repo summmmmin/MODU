@@ -170,9 +170,9 @@
   <!-- 투표리스트 -->
   <select id="voteList" resultType="VoteVO" parameterType="VoteVO" >
     select e.vote_no,chatr_nm,board_nm,fr_dt,to_dt,ttl,cnt
-    from vote e join (
+    from vote e left outer join (
                     	select chatr_nm,c.chat_no
-                    	from chat c join (
+                    	from chat c full outer join (
                                        		 select chatr_nm, a.chatr_no
                                        		 from chatr_partici a join chatr b
                                        		 on a.chatr_no = b.chatr_no
@@ -181,14 +181,14 @@
   	on e.chat_no =f.chat_no
   			full outer	join (
                         select board_nm,post_uni_no
-                        from brd g join post h 
+                        from brd g full outer join post h 
                         on g.brd_uni_no = h.brd_uni_no
-                        left outer join brd_cm i on g.brd_uni_no=i.board_uni_no
+                        join brd_cm i on g.brd_uni_no=i.board_uni_no
                             WHERE (g.pubc_yn = 'Y'
     or (g.pubc_yn = 'N' and h.partici_memb_uni_no = #{particiMembUniNo})
     AND g.prj_uni_no = #{prjUniNo})) j
     on e.post_uni_no = j.post_uni_no
-    join vote_deta k
+    full outer join vote_deta k
     on e.vote_no = k.vote_no  
   </select>
   
