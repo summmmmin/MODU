@@ -28,10 +28,10 @@ public interface PostMapper {
 	public int deletePost(String postUniNo);
 	
 	//댓글알림on/off
-	public int replyOnOff(String postUniNo);
+	public int replyOnOff(PostVO postVO);
 	
 	//공지등록on/off
-	public int notiOnOff(String postUniNo);
+	public int notiOnOff(PostVO postVO);
 		
 	//공지리스트
 	public List<PostVO> selectAllNotiPost();

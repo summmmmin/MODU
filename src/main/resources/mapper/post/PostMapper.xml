@@ -121,18 +121,21 @@
 	</delete>
 
 	<!-- 댓글알람on/off -->
-	<update id="replyOnOff" parameterType="String">
+	<update id="replyOnOff" parameterType="PostVO">
 		UPDATE post SET
 		reply_arm_yn=#{replyArmYn}
 		WHERE post_uni_no=#{postUniNo}
 	</update>
 
 	<!-- 공지등록on/off -->
-	<update id="notiOnOff" parameterType="String">
+	<update id="notiOnOff" parameterType="PostVO">
 		UPDATE post SET
 		noti_yn=#{notiYn},
 		<if test="notiYn == 'O'">
 			noti_reg_dt=sysdate
+		</if>
+		<if test="notiYn == 'X'">
+			noti_reg_dt=NULL
 		</if>
 		WHERE post_uni_no=#{postUniNo}
 	</update>

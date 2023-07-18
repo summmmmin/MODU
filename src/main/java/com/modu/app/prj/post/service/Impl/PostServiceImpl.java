@@ -64,14 +64,14 @@ public class PostServiceImpl implements PostService {
 	
 	//댓글알림on/off
 	@Override
-	public int replyOnOff(String postUniNo) {
-		return postMapper.replyOnOff(postUniNo);
+	public int replyOnOff(PostVO postVO) {
+		return postMapper.replyOnOff(postVO);
 	}
 	
 	//공지등록on/off
 	@Override
-	public int notiOnOff(String postUniNo) {
-		return postMapper.notiOnOff(postUniNo);
+	public int notiOnOff(PostVO postVO) {
+		return postMapper.notiOnOff(postVO);
 	}
 	
 	//등록된공지리스트

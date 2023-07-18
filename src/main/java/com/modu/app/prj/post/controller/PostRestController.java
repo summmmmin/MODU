@@ -59,12 +59,25 @@ public class PostRestController {
 		postService.deletePost(postUniNo);
 		return postUniNo;
 	}
-
+	
+	//공지등록ON/OFF
+	@PostMapping("setPostNoti")
+	public PostVO setPostNoti (@RequestBody PostVO postVO) {
+		postService.notiOnOff(postVO);
+		return postVO;
+	}
 	/*
 	 * //공지리스트
 	 * 
 	 * @GetMapping("postsNoti") public List<PostVO> getNotiList() { return
 	 * postService.selectAllNotiPost(); }
 	 */
+	
+	//댓글알림 on/off
+	@PostMapping("setPostReply")
+	public PostVO setPostReply(@RequestBody PostVO postVO) {
+		postService.replyOnOff(postVO);
+		return postVO;
+	}
 
 }
