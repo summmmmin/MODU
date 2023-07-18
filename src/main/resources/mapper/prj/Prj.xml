@@ -48,10 +48,49 @@
 
  	<!-- 프로젝트 번호 세션 -->
  	<select id="prjSession" resultType="PrjVO">
-	select *
-	from prj_partici_memb
-	where prj_uni_no = #{prjUniNo}
-	and memb_uni_no = #{membUniNo}
+		select *
+		from prj_partici_memb
+		where prj_uni_no = #{prjUniNo}
+		and memb_uni_no = #{membUniNo}
 	</select>
  	
+ 	<!-- 등급 공통코드 -->
+ 	<select id="grdCmmn" resultType="PrjVO">
+ 		select *
+		from cmmn
+		where grp_cd = '등급'
+ 	</select>
+ 	
+ 	<!-- 프로젝트 참여 회원 등급변경 -->
+ 	<update id="updateGrade" parameterType="PrjVO">
+  		UPDATE prj_partici_memb
+		SET grd = #{grd}
+		WHERE partici_memb_uni_no = #{particiMembUniNo}
+  	</update>
+	
+	<!-- 프로젝트 회원 탈퇴 -->
+	<update id="kickPrjParti" parameterType="PrjVO" statementType="CALLABLE">
+		CALL
+			kick_partici_memb(#{particiMembUniNo}, #{kickResn})
+	</update>
+	
+	<!-- 프로젝트 삭제 -->
+ 	<delete id="deletePrj" parameterType="String">
+ 		DELETE FROM prj
+ 		WHERE  prj_uni_no = #{prjUniNo}
+ 	</delete>
+ 	
+ 	<!--회원의 프로젝트 내 등급-->
+ 	<select id="selectMemInfo" parameterType="PrjVO" resultType="PrjVO">
+		SELECT *
+		from prj_partici_memb pm left join cmmn c on c.cd_no=pm.grd
+		WHERE pm.partici_yn = 'Y'
+		<if test="membUniNo != null and !membUniNo.equals('')">
+			AND pm.memb_uni_no = #{membUniNo}		
+		</if>
+		<if test="cd != null and !cd.equals('')">
+			AND c.cd = #{cd}
+		</if>
+		and pm.prj_uni_no = #{prjUniNo}
+ 	</select>
  </mapper>
