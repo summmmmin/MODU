@@ -33,4 +33,34 @@ public class PrjServiceImpl implements PrjService {
 	public PrjVO prjSession(PrjVO vo) {
 		return prjMapper.prjSession(vo);
 	}
+
+	@Override
+	public List<PrjVO> grdCmmn() {
+		return prjMapper.grdCmmn();
+	}
+
+	@Override
+	public int setPrjNm(PrjVO vo) {
+		return prjMapper.updatePrjNm(vo);
+	}
+
+	@Override
+	public int delPrj(String prjNo) {
+		return prjMapper.deletePrj(prjNo);
+	}
+
+	@Override
+	public int setGrade(PrjVO vo) {
+		return prjMapper.updateGrade(vo);
+	}
+
+	@Override
+	public int kickPrjParti(PrjVO vo) {
+		return prjMapper.kickPrjParti(vo);
+	}
+
+	@Override
+	public PrjVO getMemInfo(PrjVO vo) {
+		return prjMapper.selectMemInfo(vo);
+	}
 }
