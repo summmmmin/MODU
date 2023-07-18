@@ -7,9 +7,35 @@
   
   <!-- 투표 생성 - 1-1. 게시글에 첨가 -->
   <insert id="postVote" parameterType="VoteVO">
-  insert into post(post_uni_no,ttl,cm,write_dt,brd_uni_no)
-  values(post_seq.nextval,#{ttl},#{cm},sysdate,#{brdUniNo}) 
-  </insert>
+    <selectKey keyProperty="postUniNo" resultType="String" order="BEFORE">
+    	SELECT 'pt' || (MAX(TO_NUMBER(SUBSTR(post_uni_no, 3)))+1) FROM post
+    </selectKey>
+    INSERT INTO post (post_uni_no,
+                      brd_uni_no,
+                      ttl,
+                      cm,
+                      partici_memb_uni_no,
+                      write_dt,
+                      <if test="postTagArm != null and !postTagArm.equals('')">
+                      post_tag_arm,
+                      </if>
+                      noti_yn,
+                      reply_arm_yn
+                      )
+		    VALUES (
+		           #{postUniNo},
+		           #{brdUniNo},
+		           #{ttl},
+		           '투표가 등록되었습니다',		          
+					#{particiMembUniNo},
+		           sysdate,
+		           <if test="postTagArm != null and !postTagArm.equals('')">
+                   #{postTagArm},
+                   </if>
+                   'X',      
+                   'Y'
+		           )
+</insert>
   
   <!-- 투표 생성 - 1-2. 채팅에 첨가 --> 
   <insert id="chatVote" parameterType="VoteVO">
@@ -19,12 +45,45 @@
   
   <!-- 투표 생성 - 2.투표테이블 -->
   <insert id="createVote" parameterType="VoteVO">
-  INSERT INTO VOTE(vote_no,prj_no,fr_dt,to_dt,ttl)
-  values(#{voteNo},#{prjNo},#{frDt},#{toDt},#{ttl})
+  <selectKey keyProperty="voteNo" order="BEFORE" resultType="String">
+		SELECT 'v'||vote_no.nextval
+		FROM dual
+  </selectKey>
+  INSERT INTO VOTE(	vote_no,
+  					prj_no,
+  					fr_dt,
+  					to_dt,
+  					ttl,
+  					partici_memb_uni_no
+  					<if test="postUniNo != null and !postUniNo.equals('')">
+                    post_uni_no,
+                    </if>
+                    <if test="chatNo != null and !chatNo.equals('')">
+                    chat_no
+                    </if>
+                    )                 
+  			values(
+  					#{voteNo},
+  					#{prjUniNo},
+  					#{frDt},
+  					#{toDt},
+  					#{ttl},
+  					#{particiMembUniNo},
+  					<if test="postUniNo != null and !postUniNo.equals('')">
+                    #{postUniNo},
+                    </if>
+                    <if test="chatNo != null and !chatNo.equals('')">
+                    #{chatNo}
+                    </if>
+                    )
   </insert>
   
   <!-- 투표 생성 - 3. 투표상세 테이블 -->
   <insert id="insertVoteItem" parameterType="VoteVO">
+  <selectKey keyProperty="voteDetaNo" order="BEFORE" resultType="String">
+		SELECT 'vd'||vote_deta_no.nextval
+		FROM dual
+  </selectKey>
   insert into vote_deta(vote_deta_no,vote_no,vote_item)
   values(#{voteDetaNo},#{voteNo},#{voteItem})
   </insert>
