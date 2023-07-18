@@ -23,6 +23,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler{
       HttpSession session = request.getSession();
       UserVO vo = (UserVO) authentication.getPrincipal();
       System.out.println(vo.getNm());
+      System.out.println(vo);
       
       if(vo != null) {
     	  session.setAttribute("user", vo);

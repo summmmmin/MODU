@@ -21,7 +21,6 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.BoardList(vo);
 	}
 	
-	@Override
 	public BoardVO GetBoard(BoardVO vo) {
 		return boardMapper.BoardGet();
 	}
@@ -29,5 +28,15 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int InsertBoard(BoardVO vo) {
 		return boardMapper.InsertBoard(vo);
+	}
+	
+	@Override
+	public String DeleteBoard(String partici) {
+		return boardMapper.DeleteBoard(partici);
+	}
+	
+	@Override
+	public BoardVO BoardGet() {
+		return null;
 	}
 }

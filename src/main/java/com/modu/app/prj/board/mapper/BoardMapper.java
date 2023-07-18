@@ -12,4 +12,6 @@ public interface BoardMapper {
 	
 	public int InsertBoard(BoardVO vo);
 	
+	public String DeleteBoard(String brdUniNo);
+	
 }
