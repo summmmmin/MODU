@@ -43,5 +43,8 @@ public interface VoteMapper {
 	//게시판 제목
 	public List<VoteVO> brdNm(String no);
 	
+	//투표 리스트
+	public List<VoteVO>voteList(VoteVO vo);
+	
 	
 }
