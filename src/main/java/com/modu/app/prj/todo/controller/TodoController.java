@@ -52,6 +52,4 @@ public class TodoController {
 		return "redirect:todoList";
 	}
 	
-	
-	
 }

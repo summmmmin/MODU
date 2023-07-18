@@ -57,12 +57,34 @@
 </a>
 <ul class="submenu">
 <li class="submenu-item" th:each="list, stat : ${Brd}">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 108.9 103.6">
+        <style>
+            .cls-1 {
+                fill: gray;
+            }
+            .cls-1.clicked {
+                fill: #ff0000;
+            }
+        </style>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+            <polygon class="cls-1" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0"/>
+        </g>
+    </g>
+</svg>
 <a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.boardNm}"></a>
 </li>
 </ul>
 	</li>
 		</ul>
-		
+<script>
+    document.querySelectorAll('.cls-1').forEach(function(star){
+  		star.addEventListener('click', function() {
+            this.classList.toggle('clicked');
+   })
+    });
+</script>
 <!--/* ************************ End *************************** */-->
 			</div>
 				<button class="sidebar-toggler btn x">
@@ -133,7 +155,7 @@
 										<li><a class="dropdown-item" href="">일정</a></li>
 										<li><a class="dropdown-item" th:href="@{todoList}">할일</a></li>
 										<li><a class="dropdown-item" th:href="@{voteList}">투표</a></li>
-										<li><a class="dropdown-item" href="">즐겨찾기</a></li>
+										<li><a class="dropdown-item" th:href="@{BmList}">즐겨찾기</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
@@ -173,7 +195,17 @@
 
 			<div class="page-heading">
 				<h3>Profile Statistics</h3>
+				
+				
+        <div id="basic"></div>
+		  <button class="sidebar-toggler btn x"> <i data-feather="x"></i></button>
+        
+        
+        
+        
+    </div>
 			</div>
+				 
 			<div class="page-content">
 				<section class="row">
 					<article layout:fragment="content"></article>
@@ -188,6 +220,8 @@
 									<i data-feather="x"></i>
 								</button>
 							</div>
+							
+							
 <form action="InsertBoard" method="POST" id="FormEvent">
 	<div class="modal-body">
 	<h5>게시판 이름</h5>
@@ -204,6 +238,7 @@
 	<label for="checkbox"><span></span></label>
 </div>
 </div>
+
 	<div class="modal-footer">
 	<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
 	<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
@@ -235,10 +270,13 @@
 		</div>
 	</div>
 	
+	
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 			<script src="assets/js/main.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/test.js"></script>
+    <script src="assets/vendors/rater-js/rater-js.js"></script>
+    <script src="assets/js/extensions/rater-js.js"></script>
 	<script>
 	function addBoard(){
 		let check = document.querySelector('#checkbox');

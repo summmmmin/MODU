@@ -1419,4 +1419,12 @@ a {
   .rsidebar-wrapper .rsidebar-toggler.x {
     display: block;
   }
+  
+  
+            .cls-1 {
+                fill: #f1c947;
+            }
+            .cls-1.clicked {
+                fill: #ff0000;
+            }
 }
