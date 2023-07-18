@@ -38,5 +38,17 @@ public class TodoServiceImpl implements TodoService{
 	public int udpatePercent(TodoVO vo) {
 		return todoMapper.udpatePercent(vo);
 	}
+	
+	//할일 수정
+	@Override
+	public int updateTodo(TodoVO vo) {
+		return todoMapper.updateTodo(vo);
+	}
+
+	//할일 삭제
+	@Override
+	public int deleteTodo(String tno) {
+		return todoMapper.deleteTodo(tno);
+	}
 
 }

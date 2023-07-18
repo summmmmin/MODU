@@ -14,4 +14,10 @@ public interface TodoService {
 	
 	//진행도 변경
 	public int udpatePercent(TodoVO vo);
+	
+	//할일 수정
+	public int updateTodo(TodoVO vo);
+	
+	//할일 삭제
+	public int deleteTodo(String tno);
 }

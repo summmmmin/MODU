@@ -76,16 +76,19 @@ public class VoteServiceImpl implements VoteService {
 		return voteMapper.voteBrdNm(voteNo);
 	}
 
+	//채티방 제목
 	@Override
 	public List<VoteVO> chatrNm(String no) {
 		return voteMapper.chatrNm(no);
 	}
 
+	//게시판 제목
 	@Override
 	public List<VoteVO> brdNm(String no) {
 		return voteMapper.brdNm(no);
 	}
 
+	//투표 리스트
 	@Override
 	public List<VoteVO> voteList(VoteVO vo) {
 		return voteMapper.voteList(vo);

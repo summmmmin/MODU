@@ -49,7 +49,7 @@
 				</div>
 				</form>
 				<div class="card-content" >
-					<div class="card-body"th:each="vote:${voteList}">
+					<div class="card-body" th:each="vote:${voteList}">
 						<h4 class="card-title">[[${vote.chatrNm}]][]</h4>
 						<h2>[[${vote.ttl}]]</h2>
 						<small class="text-muted">[[${vote.cnt}]]</small>
@@ -58,40 +58,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- filepond validation -->
-		<script
-			src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
-			
-		</script>
-		<script
-			src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js">
-			
-		</script>
-
-		<!-- image editor -->
-		<script
-			src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js">
-			
-		</script>
-		<script
-			src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
-		<script
-			src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
-		<script
-			src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-		<script
-			src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
-
-		<!-- toastify -->
-		<script src="assets/vendors/toastify/toastify.js"></script>
-
-		<!-- filepond -->
-		<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-		<script src="assets/js/bootstrap.bundle.min.js"></script>
-		<!-- Include Choices JavaScript -->
-		<script src="assets/vendors/choices.js/choices.min.js"></script>
-		<script src="assets/js/main.js"></script>
-		<!--end of layout-->
 	</div>
 </body>
 

@@ -27,6 +27,30 @@
 	where todo_uni_no = #{toDoUniNo}
 	</update>
 	
+	<!-- 할일 삭제 -->
+	<delete id="deleteTodo" parameterType="String">
+	delete from todo
+	where todo_uni_no = #{toDoUniNo}
+	</delete>
 	
 	<!-- 할일 수정  -->
+	<update id="updateTodo" parameterType="TodoVO">
+	update todo set
+					<if test="ttl != null and !ttl.equals('')">
+ 					ttl=#{ttl},
+ 					</if>
+ 					<if test="cntn != null and !cntn.equals('')">
+ 		   			cntn=#{cntn},
+ 		   			</if>
+ 		   			<if test="pct != null and !pct.equals('')">
+ 		   			pct=#{pct},
+ 		   			</if>
+ 		   			<if test="cm != null and !cm.equals('')">
+ 		   			cm=#{cm},
+ 		   			</if>
+ 		   			<if test="toDt != null and !toDt.equals('')">
+ 		   			to_dt=#{toDt},
+ 		   			</if>
+ 	where todo_uni_no = #{toDoUniNo}
+	</update>
 </mapper>
