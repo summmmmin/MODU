@@ -253,7 +253,16 @@
 		.then(result=>result.json())
 		.then(data => {
 			console.log(data);
-			})
+			let liTag=`
+				<li class="submenu-item">
+				<a href="/postList?brdUniNo="`+data.brdUniNo+`>`+data.boardNm+`</a>
+				</li>
+			`;
+			
+			let submenu=document.querySelector('.submenu');
+			submenu.innerHTML+=liTag;
+			
+		})
 		.catch(err => console.log(err))
 	}
 	</script>

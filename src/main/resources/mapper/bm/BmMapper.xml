@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.modu.app.prj.bm.mapper.BmMapper">
+ 	
+	<!-- 게시판 전체조회 --> 	
+	<select id="BmList" resultType="BmVO" parameterType="String">
+	SELECT *
+	FROM bm
+	WHERE partici_memb_uni_no=#{particiMembUniNo}
+	</select>
+	
+ </mapper>
