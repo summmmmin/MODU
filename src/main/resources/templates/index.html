@@ -7,18 +7,13 @@
 <title>Dashboard - Mazer Admin Dashboard</title>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" />
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-	rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/bootstrap.css" />
 <link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
-<link rel="stylesheet"
-	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
-<link rel="stylesheet"
-	href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
 <link rel="stylesheet" href="assets/css/test.css" />
-<link rel="shortcut icon" href="assets/images/favicon.svg"
-	type="image/x-icon" />
+<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
 <link rel="stylesheet" href="assets/css/modal.css">
 </head>
 
@@ -49,31 +44,40 @@
 
 
 <!--/* ************************ Board List Start *************************** */-->
-<li class="sidebar-item has-sub">
-    <div class="sidebar-link">
-        <i class="bi bi-stack"></i> 
-        <span>게시판</span>
-        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#inlineForm" style="margin-left: 87px">+</button>
-    </div>
-    <ul class="submenu">
-        <li class="submenu-item" th:each="list, stat : ${Brd}">
-            <svg width="10" height="10" viewBox="0 0 108.9 103.6">
-                <g id="Layer_2" data-name="Layer 2">
-                    <g id="Layer_1-2" data-name="Layer 1">
-                        <polygon class="cls-1" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0"/>
-                    </g>
-                </g>
-            </svg>
-            <a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.boardNm}"></a>
-        </li>
-    </ul>
+
+<li class="sidebar-item has-sub"><a href="#" class="sidebar-link"> 
+<i class="bi bi-stack"></i> 
+	<span>게시판</span>
+	<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#inlineForm" style="margin-left: 87px">+</button>
+</a>
+<ul class="submenu" id="ultag">
+<li class="submenu-item" th:each="list, stat : ${Brd}">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 108.9 103.6">
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+            <polygon onclick="click()" class="cls-1" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" th:class="${list.brdUniNo}">
+        </g>
+    </g>
+</svg>
+<a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.boardNm}"></a>
+<a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.brdUniNo}"></a>
 </li>
+</ul>
+	</li>
+		</ul>
 <script>
-    document.querySelectorAll('.cls-1').forEach(function(star){
-  		star.addEventListener('click', function() {
-            this.classList.toggle('clicked');
-   })
-    });
+function click(){
+	console.log(event.target.className.animVal)	
+}
+
+  document.getElementById('ultag').addEventListener('click', function(event) {
+    let target = event.target;
+    if (target.classList.contains('cls-1')) {
+      let brdUniNo = target.getAttribute('text-brdUniNo');
+      console.log(brdUniNo);
+    }
+  });
 </script>
 <!--/* ************************ End *************************** */-->
 			</div>
@@ -142,10 +146,11 @@
 								</a>
 									<ul class="dropdown-menu dropdown-menu-end"
 										aria-labelledby="dropdownMenuButton">
-										<li><a class="dropdown-item" href="">일정</a></li>
+										<li><a class="dropdown-item" href="#">일정</a></li>
 										<li><a class="dropdown-item" th:href="@{todoList}">할일</a></li>
 										<li><a class="dropdown-item" th:href="@{voteList}">투표</a></li>
-										<li><a class="dropdown-item" th:href="@{BmList}">즐겨찾기</a></li>
+										<li><a class="dropdown-item" th:href="@{bmList}">즐겨찾기</a></li>
+										<li><a class="dropdown-item" href="#">알림목록</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">

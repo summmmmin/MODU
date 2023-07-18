@@ -21,4 +21,9 @@ public class BmServiceImpl implements BmService {
 		return bmMapper.BmList(vo);
 	}
 	
+	@Override
+	public int bmInsert(BmVO vo) {
+		return bmMapper.bmInsert(vo);
+	}
+	
 }

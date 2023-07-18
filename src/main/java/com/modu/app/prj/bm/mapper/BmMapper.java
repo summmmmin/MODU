@@ -8,4 +8,6 @@ public interface BmMapper {
 
 	public List<BmVO> BmList(BmVO vo);
 	
+	public int bmInsert(BmVO vo);
+	
 }
