@@ -66,12 +66,12 @@ public class PostRestController {
 		postService.notiOnOff(postVO);
 		return postVO;
 	}
-	/*
-	 * //공지리스트
-	 * 
-	 * @GetMapping("postsNoti") public List<PostVO> getNotiList() { return
-	 * postService.selectAllNotiPost(); }
-	 */
+	
+	//공지리스트
+	@GetMapping("notiPost/{bNum}")
+	public List<PostVO> notiPostList(@PathVariable("bNum") String brdUniNo){
+		return postService.selectAllNotiPost(brdUniNo);
+	}
 	
 	//댓글알림 on/off
 	@PostMapping("setPostReply")

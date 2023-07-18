@@ -76,8 +76,8 @@ public class PostServiceImpl implements PostService {
 	
 	//등록된공지리스트
 	@Override
-	public List<PostVO> selectAllNotiPost() {
-		return postMapper.selectAllNotiPost();
+	public List<PostVO> selectAllNotiPost(String brdUniNo) {
+		return postMapper.selectAllNotiPost(brdUniNo);
 	}
 
 

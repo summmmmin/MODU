@@ -31,5 +31,5 @@ public interface PostService {
 	public int notiOnOff(PostVO postVO);
 		
 	//공지리스트
-	public List<PostVO> selectAllNotiPost();
+	public List<PostVO> selectAllNotiPost(String brdUniNo);
 }

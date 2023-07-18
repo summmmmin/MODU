@@ -142,21 +142,24 @@
 
 	<!-- 공지리스트 -->
 	<select id="selectAllNotiPost" resultType="PostVO">
-		SELECT post_uni_no,
-		brd_uni_no,
-		ttl,
-		cm,
-		partici_memb_uni_no,
-		write_dt,
-		<if test="post_tag_arm != null and !post_tag_arm.equals('')">
-			post_tag_arm,
-		</if>
-		reply_arm_yn,
-		noti_yn,
-		noti_reg_dt
-		FROM post
-		WHERE noti_yn == 'O'
-		ORDER BY noti_reg_dt
+		SELECT 
+				p.post_uni_no,
+				p.brd_uni_no,
+				p.ttl,
+				p.cm,
+				p.partici_memb_uni_no,
+				<if test="post_tag_arm != null and !post_tag_arm.equals('')">
+					p.post_tag_arm,
+				</if>
+				p.reply_arm_yn,
+				p.noti_yn,
+				p.noti_reg_dt,
+				p.write_dt,
+				m.nnm
+		FROM post p JOIN prj_partici_memb m
+		ON p.partici_memb_uni_no = m.partici_memb_uni_no
+		WHERE p.noti_yn = 'O' AND p.brd_uni_no=#{brdUniNo}
+		ORDER BY p.noti_reg_dt DESC
 	</select>
 
 </mapper>

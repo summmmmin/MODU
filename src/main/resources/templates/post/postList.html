@@ -21,6 +21,8 @@
 		<hr>
 		<div th:if="${#lists.isEmpty(postList)}">게시글이없습니다</div> <!--게시글없을때-->
 		<div th:unless="${#lists.isEmpty(postList)}"> <!--게시글있을때-->
+			<!--공지등록된게시글이있을때-->
+			<div class="notiPosts"><ul></ul></div>
 
 			<!--start of 게시글List-->
 			<div class="col-md-10 col-sm-12 mx-auto">
@@ -29,7 +31,7 @@
 						<div class="card-body">
 							<input class="getPostUniNo" type="hidden"	th:value="${post.postUniNo}">
 							<div class="row">
-								<h4 class="card-title col">[[${post.ttl}]]</h4>
+								<h4 class="card-title col" th:id="${post.postUniNo}">[[${post.ttl}]]</h4>
 								<small class="text-muted">[[${post.nnm}]]</small>
 							</div>
 							<div class="row">
@@ -37,7 +39,6 @@
 									<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										...
 									</button>
-					
 									<div class="postDDM dropdown-menu" th:data-postUniNo="${post.postUniNo}" aria-labelledby="dropdownMenuButton">
 										<a class="dropdown-item" href="#">즐겨찾기</a> 
 										<a class="dropdown-item" th:if="${post.notiYn} == 'X'" href="#">공지등록</a>
@@ -261,7 +262,7 @@
 			//댓글리스트 호출
 			showReplyList();
 
-			//input박스 입력시 아이콘변경
+			//댓글input박스 입력시 아이콘변경
 			let reInputList = document.querySelectorAll('.replyInput');
 			reInputList.forEach(reIn => {
 				if(reIn.name == 'cntn'){
@@ -317,37 +318,12 @@
 				.then(resolve => resolve.json())
 				.then(data => {
 					updateReplyForm.innerHTML = '';
-					//console.log(data.replyUniNo);
 					
 						let inputTag = document.createElement('input');
 						inputTag.setAttribute('name', 'replyUniNo');
 						inputTag.value = data.replyUniNo;
 						inputTag.setAttribute('type', 'hidden');
 						document.getElementById('updateReplyForm').append(inputTag);
-
-						// inputTag = document.createElement('input');
-						// inputTag.setAttribute('name', 'writeDt');
-						// inputTag.value = data.writeDt;
-						// inputTag.setAttribute('type', 'hidden');
-						// document.getElementById('updateReplyForm').append(inputTag);
-
-						// inputTag = document.createElement('input');
-						// inputTag.setAttribute('name', 'modDt');
-						// inputTag.value = data.modDt;
-						// inputTag.setAttribute('type', 'hidden');
-						// document.getElementById('updateReplyForm').append(inputTag);
-
-						// inputTag = document.createElement('input');
-						// inputTag.setAttribute('name', 'particiMembUniNo');
-						// inputTag.value = data.particiMembUniNo;
-						// inputTag.setAttribute('type', 'hidden');
-						// document.getElementById('updateReplyForm').append(inputTag);
-
-						// inputTag = document.createElement('input');
-						// inputTag.setAttribute('name', 'postUniNo');
-						// inputTag.value = data.postUniNo;
-						// inputTag.setAttribute('type', 'hidden');
-						// document.getElementById('updateReplyForm').append(inputTag);
 
 						let replyCntn = document.createElement('textarea');
 						replyCntn.setAttribute('class', 'form-control');
@@ -402,6 +378,29 @@
 				});
 			});
 
+			//공지리스트
+			function notiPostList(){
+				let bNum = '[[${brdUniNo}]]';
+				let notiPlace = document.querySelector('.notiPosts');
+				//console.log(notiPlace);
+				fetch('http://localhost:80/modu/notiPost/' + bNum)
+				.then(resolve => resolve.json())
+				.then(data => {
+					//console.log(data);
+					notiPlace.innerHTML = '';
+					data.forEach(noti => {
+						let liTag = document.createElement('li');
+						let aTag = document.createElement('a');
+						aTag.setAttribute('href', '#'+noti.postUniNo);
+						aTag.textContent = noti.ttl;
+						liTag.append(aTag);
+						notiPlace.appendChild(liTag);
+					})
+				})
+			}
+			//공지리스트호출
+			notiPostList();
+
 			//공지등록on/off
 			let postDDMList = document.querySelectorAll('.postDDM');
 			postDDMList.forEach(postDDM => {
@@ -424,6 +423,7 @@
 						.then(data => {
 							//console.log(data);
 							//공지리스트
+							notiPostList();
 						})
 						.catch(err => console.log(err))
 					}else{
@@ -440,6 +440,7 @@
 						.then(data => {
 							//console.log(data);
 							//공지리스트
+							notiPostList();
 						})
 						.catch(err => console.log(err))
 					}
