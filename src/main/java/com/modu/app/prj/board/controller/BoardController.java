@@ -43,7 +43,7 @@ public class BoardController {
 
 	@PostMapping("InsertBoard")
 	@ResponseBody
-	public String InsertBoard(BoardVO vo) {
+	public BoardVO InsertBoard(BoardVO vo) {
 		System.out.println(vo);
 		System.out.println("1111");
 		String check = vo.getPubcYn();
@@ -54,7 +54,7 @@ public class BoardController {
 		}
 		boardService.InsertBoard(vo);
 		System.out.println(vo);
-		return vo.getBrdUniNo();
+		return vo;
 	}
 	
 	

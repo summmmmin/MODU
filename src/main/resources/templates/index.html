@@ -235,11 +235,12 @@
 			headers:{
 				"Content-Type":"application/x-www-form-urlencoded"
 			},
-			body: "particiMembUniNo="+particiMembUniNo.value+"&prjUniNo="+prjUniNo.value+"&boardNm="+boardNm.value+"&checkbox="+checkbox.value
+			body: "particiMembUniNo="+particiMembUniNo.value+"&prjUniNo="+prjUniNo.value+"&boardNm="+boardNm.value+"&pubcYn="+checkbox.value
 		})
-		.then(result => result.json())
+		.then(result=>result.json())
 		.then(data => {
 			console.log(data);
+			
 		})
 		.catch(err => console.log(err))
 	}
