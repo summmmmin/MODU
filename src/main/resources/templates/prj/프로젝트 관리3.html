@@ -82,15 +82,26 @@
                 <section class="row">
                     <div class="card mt-5">
                         <div class="card-header">
-                            <h4 class="card-title">프로젝트 이름 변경</h4>
+                          <h4 class="card-title">프로젝트명 변경</h4>
                         </div>
                         <div class="card-body">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus nemo quasi labore expedita?
-                                Veritatis
-                                at maxime id voluptates excepturi molestiae possimus blanditiis dicta consequuntur maiores suscipit,
-                                eveniet neque obcaecati doloribus.</p>
+                          <div class="row">
+                            <form id="prjsubmit" class="needs-validation">
+                                <div class="col-sm-4">
+                                    <h6>프로젝트명</h6>
+                                    <input class="form-control form-control-lg is-invalid" type="text" id="prjNm"
+                                        placeholder="원래프로젝트명" required oninput="check()">
+                                </div>
+                                <div class="col-12 d-flex justify-content-end">
+                                    <button type="submit"
+                                        class="btn btn-primary me-1 mb-1">변경하기</button>
+                                    <button type="reset"
+                                        class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                </div>
+                            </form>
+                          </div>
                         </div>
-                    </div>
+                      </div>
                     <div class="card mt-5">
                         <div class="card-header">
                             <h4 class="card-title">프로젝트 삭제</h4>
@@ -106,9 +117,20 @@
                                     <div id="collapseTwo" class="collapse pt-1" aria-labelledby="headingTwo"
                                         data-parent="#cardAccordion">
                                         <div class="card-body">
-                                            <p>프로젝트를 삭제하시겠습니까?
-                                                프로젝트 삭제 시 복구는 불가능합니다.
-                                            </p>
+                                            <div class="row">
+                                                <p>프로젝트를 삭제하시겠습니까?</p>
+                                                <p>프로젝트 삭제 시 복구는 불가능합니다.</p>
+                                                <p>프로젝트명을 입력 후 삭제하기 버튼을 누르면 삭제 가능합니다.</p>    
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <input type="text" placeholder="프로젝트명" class="form-control form-control-lg">
+                                                </div>
+                                                <div class="col-sm-4 d-flex">
+                                                    <button type="button"
+                                                    class="btn btn-primary me-1 mb-1">삭제하기</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -118,7 +140,27 @@
                     </div>
                 </section>
             </div>
-
+            <script>
+                // 입력값 크기 확인(6자 이하)
+                let valid = false;
+                function check(){
+                    let name = document.getElementById('prjNm');
+                    //console.log(name)
+                    valid = name.value.length > 0 && name.value.length<7
+                    if(valid){
+                        name.classList.replace('is-invalid', 'is-valid');
+                    }else{
+                        name.classList.replace('is-valid', 'is-invalid')
+                    }
+                }
+            
+                document.querySelector("#prjsubmit").addEventListener("submit", function(e){
+                  // 조건 충족 하지 않을때 submit 막기
+                  if(!valid){
+                     e.preventDefault();
+                  }
+               });
+              </script>
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
                     <div class="float-start">
