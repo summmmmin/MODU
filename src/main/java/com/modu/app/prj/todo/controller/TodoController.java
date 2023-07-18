@@ -19,7 +19,6 @@ public class TodoController {
 	@Autowired
 	TodoService todoService;
 	
-	
 	//전체목록
 	@GetMapping("todoList")
 	public String todoList(Model model, TodoVO vo,HttpServletRequest request) {

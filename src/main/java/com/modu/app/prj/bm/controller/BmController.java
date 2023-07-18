@@ -20,8 +20,6 @@ public class BmController {
 	public String BmList(Model model,BmVO vo) {
 		List<BmVO> list = bmService.BmList(vo);
 		model.addAttribute("BmList",list);
-		System.out.println(model);
-		System.out.println("1111");
 		return "bm/bmList";
 	}
 	
