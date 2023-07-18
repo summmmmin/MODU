@@ -1737,10 +1737,12 @@ a {
 	.rsidebar-wrapper .rsidebar-toggler.x {
 		display: block;
 	}
+
+}
+
 	.cls-1 {
 		fill: gray;
 	}
 	.cls-1.clicked {
 		fill: gold;
 	}
-}

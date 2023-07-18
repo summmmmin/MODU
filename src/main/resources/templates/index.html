@@ -68,9 +68,11 @@
         </li>
     </ul>
 </li>
+</ul>
 <script>
     document.querySelectorAll('.cls-1').forEach(function(star){
   		star.addEventListener('click', function() {
+	    	console.log(event.target) 
             this.classList.toggle('clicked');
    })
     });
@@ -146,6 +148,7 @@
 										<li><a class="dropdown-item" th:href="@{todoList}">할일</a></li>
 										<li><a class="dropdown-item" th:href="@{voteList}">투표</a></li>
 										<li><a class="dropdown-item" th:href="@{BmList}">즐겨찾기</a></li>
+										<li><a class="dropdown-item" th:href="@{BmList}">알림</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
