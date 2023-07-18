@@ -43,58 +43,30 @@
 
 				<div class="sidebar-menu">
 					<ul class="menu">
-						<li class="sidebar-title">Menu
-							<button type="button" class="btn btn-outline-success"
-								data-bs-toggle="modal" data-bs-target="#inlineForm"
-								style="margin-left: 123px">+</button>
-						</li>
+						<li class="sidebar-title">Menu</li>
 
 						<li class="sidebar-item active"><a href="index.html"
-							class="sidebar-link"> <i class="bi bi-grid-fill"></i> <span>Dashboard</span>
+							class="sidebar-link"> <i class="bi bi-grid-fill"></i> <span>채팅</span>
 						</a></li>
 
-						<li class="sidebar-item has-sub"><a href="#"
-							class="sidebar-link"> <i class="bi bi-stack"></i> <span>Components</span>
-						</a>
-							<ul class="submenu">
-								<li class="submenu-item"><a href="component-alert.html">Alert</a>
-								</li>
-								<li class="submenu-item"><a href="component-badge.html">Badge</a>
-								</li>
-								<li class="submenu-item"><a
-									href="component-breadcrumb.html">Breadcrumb</a></li>
-								<li class="submenu-item"><a href="component-button.html">Button</a>
-								</li>
-								<li class="submenu-item"><a href="component-card.html">Card</a>
-								</li>
-								<li class="submenu-item"><a href="component-carousel.html">Carousel</a>
-								</li>
-								<li class="submenu-item"><a href="component-dropdown.html">Dropdown</a>
-								</li>
-								<li class="submenu-item"><a
-									href="component-list-group.html">List Group</a></li>
-								<li class="submenu-item"><a href="component-modal.html">Modal</a>
-								</li>
-								<li class="submenu-item"><a href="component-navs.html">Navs</a>
-								</li>
-								<li class="submenu-item"><a
-									href="component-pagination.html">Pagination</a></li>
-								<li class="submenu-item"><a href="component-progress.html">Progress</a>
-								</li>
-								<li class="submenu-item"><a href="component-spinner.html">Spinner</a>
-								</li>
-								<li class="submenu-item"><a href="component-tooltip.html">Tooltip</a>
-								</li>
-							</ul></li>
-					</ul>
 
-					<!-- BoardList -->
-					<ul th:each="list, stat : ${Brd}" class="menu">
-						<li class="sidebar-item active"><a th:href="@{postList?brdUniNo={brdUniNo}(brdUniNo=${list.brdUniNo})}" 
-							class="sidebar-link" th:text="${list.boardNm}" style="color: White"> 
-							<i class="bi bi-grid-fill"></i></a></li>
-					</ul>
-				</div>
+<!--/* ************************ Board List Start *************************** */-->
+<li class="sidebar-item has-sub"><a href="#" class="sidebar-link"> 
+<i class="bi bi-stack"></i> 
+	<span>게시판</span>
+	<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#inlineForm" style="margin-left: 87px">+</button>
+</a>
+<ul class="submenu">
+<li class="submenu-item" th:each="list, stat : ${Brd}">
+<a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.boardNm}"></a>
+																			
+</li>
+</ul>
+	</li>
+		</ul>
+<!--/* ************************ Board List End *************************** */-->
+			
+			</div>
 				<button class="sidebar-toggler btn x">
 					<i data-feather="x"></i>
 				</button>
@@ -127,6 +99,7 @@
 		<div id="main" class="layout-navbar">
 			<header class="mb-3">
 				<nav class="navbar navbar-expand navbar-light">
+				
 					<div class="container-fluid">
 						<a href="#" class="burger-btn d-block"> <i
 							class="bi bi-justify fs-3"></i>
@@ -199,52 +172,46 @@
 				<section class="row">
 					<article layout:fragment="content"></article>
 				</section>
-				<!--Modal -->
-				<div class="modal fade text-left" id="inlineForm" tabindex="-1"
-					role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-					<div
-						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-						role="document">
+		<!--Modal -->
+		<div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h4 class="modal-title" id="myModalLabel33">게시판 생성</h4>
-								<button type="button" class="close" data-bs-dismiss="modal"
-									aria-label="Close">
+								<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 									<i data-feather="x"></i>
 								</button>
 							</div>
 							<form action="InsertBoard" method="POST" id="FormEvent">
-								<div class="modal-body">
-									<h5>게시판 이름</h5>
-									<div class="form-group">
-										<input name="boardNm" type="text"
-											placeholder="40자까지 입력 가능합니다." class="form-control">
-									</div>
-									<div class="form-group">
-										<h6>공개여부</h6>
-										<input type="checkbox" id="checkbox" checked> <label
-											for="checkbox" id="asd"><span></span></label>
-
-									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-light-secondary"
-										data-bs-dismiss="modal">
-										<i class="bx bx-x d-block d-sm-none"></i> <span
-											class="d-none d-sm-block">닫기</span>
-									</button>
-									<button id="formbtn" type="button" class="btn btn-primary ml-1"
-										data-bs-dismiss="modal" onclick="form.submit()">
-										<i class="bx bx-check d-block d-sm-none"></i> <span
-											class="d-none d-sm-block">생성</span>
-									</button>
-								</div>
-							</form>
+	<div class="modal-body">
+	<h5>게시판 이름</h5>
+	<div class="form-group">
+	<input name="boardNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
+</div>
+	<div class="form-group">
+	<input name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" class="form-control">
+	<input name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" >
+	<div class="form-group">
+	<h6>공개여부</h6>
+	<input type="checkbox" id="checkbox" name="pubcYn" checked>
+	<label for="checkbox"><span></span></label>
+</div>
+</div>
+	<div class="modal-footer">
+	<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+	<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
+	</button>
+	<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="form.submit()">
+	<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">생성</span>
+	</button>
+</div>
+</div>
+</form>
+							
 						</div>
 					</div>
 				</div>
 			</div>
-
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
 					<div class="float-start">

@@ -30,4 +30,9 @@ public class BoardServiceImpl implements BoardService {
 	public int InsertBoard(BoardVO vo) {
 		return boardMapper.InsertBoard(vo);
 	}
+	
+	@Override
+	public String DeleteBoard(String partici) {
+		return boardMapper.DeleteBoard(partici);
+	}
 }
