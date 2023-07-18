@@ -180,18 +180,19 @@
 									<i data-feather="x"></i>
 								</button>
 							</div>
-							<form action="InsertBoard" method="POST" id="FormEvent">
+<form action="InsertBoard" method="POST" id="FormEvent">
 	<div class="modal-body">
 	<h5>게시판 이름</h5>
 	<div class="form-group">
 	<input id="boardNm" name="boardNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
 </div>
 	<div class="form-group">
-	<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" class="form-control">
-	<input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" >
+	<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" class="form-control" style="display:none">
+	<input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display:none">
 	<div class="form-group">
 	<h6>공개여부</h6>
 	<input type="checkbox" id="checkbox" name="pubcYn" checked>
+	
 	<label for="checkbox"><span></span></label>
 </div>
 </div>
@@ -230,18 +231,29 @@
 	<script src="assets/js/test.js"></script>
 	<script>
 	function addBoard(){
+		let check = document.querySelector('#checkbox');
+		let checkOk = '';
+		if(check.checked){
+			checkOk = 'on';
+		}else{
+			checkOk = '';
+		}
+		checkbox.value
 		fetch("/modu/InsertBoard",{
 			method : 'POST',
 			headers:{
 				"Content-Type":"application/x-www-form-urlencoded"
 			},
-			body: "particiMembUniNo="+particiMembUniNo.value+"&prjUniNo="+prjUniNo.value+"&boardNm="+boardNm.value+"&pubcYn="+checkbox.value
+			body: 
+			"particiMembUniNo="+particiMembUniNo.value
+			+"&prjUniNo="+prjUniNo.value
+			+"&boardNm="+boardNm.value
+			+"&pubcYn="+checkOk
 		})
 		.then(result=>result.json())
 		.then(data => {
 			console.log(data);
-			
-		})
+			})
 		.catch(err => console.log(err))
 	}
 	</script>

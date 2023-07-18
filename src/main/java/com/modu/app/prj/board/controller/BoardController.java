@@ -47,6 +47,8 @@ public class BoardController {
 		System.out.println(vo);
 		System.out.println("1111");
 		String check = vo.getPubcYn();
+		
+		System.out.println(check);
 		if (check.equals("on")) {
 			vo.setPubcYn("Y");
 		} else {
