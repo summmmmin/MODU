@@ -74,7 +74,7 @@
 			</div>
 			<!--end of 게시글List-->
 
-			<!--start of 모달스 -->
+			<!--start of MODALS -->
 				<!-- start of 게시글 삭제 모달 -->
 				<div class="modal fade text-left" id="deletePost" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160"	aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -113,19 +113,19 @@
 									<i data-feather="x"></i>
 								</button>
 							</div>
-						</div>
-						<div class="modal-body">
-							이 페이지를 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다. 
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-light-secondary"	data-bs-dismiss="modal">
-								<i class="bx bx-x d-block d-sm-none"></i> 
-								<span class="d-none d-sm-block">취소</span>
-							</button>
-							<button id="deleteReplyBtn" type="button"	class="btn btn-primary ml-1" data-bs-dismiss="modal">
-								<i class="bx bx-check d-block d-sm-none"></i> 
-								<span class="d-none d-sm-block">확인</span>
-							</button>
+							<div class="modal-body">
+								이 페이지를 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다. 
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-secondary"	data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> 
+									<span	class="d-none d-sm-block">취소</span>
+								</button>
+								<button id="deleteReplyBtn" type="button"	class="btn btn-primary ml-1" data-bs-dismiss="modal">
+									<i class="bx bx-check d-block d-sm-none"></i> 
+									<span class="d-none d-sm-block">확인</span>
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -163,13 +163,13 @@
 					</div>
 				</div>
 				<!--end of 댓글수정모달 -->
-			<!--end of 모달스 -->
+			<!--end of MODALS -->
 		<script>
 
 				//댓글리스트
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
-					//let user = [[${session.particiMembUniNo}]];
+					let user = '[[${session.particiMembUniNo}]]';
 					//console.log(user);
 					
 					getPnum.forEach(gNum => {
@@ -194,29 +194,23 @@
 											rPlace.append(h5Tag);
 
 											//start of reply-dropdown
-											let divTag = document.createElement('div');
-											divTag.setAttribute('class', 'dropdown');
+											if(user == reply.particiMembUniNo){
+												let divTag = document.createElement('div');
+												divTag.setAttribute('class', 'dropdown');
 
-											let btnTag = document.createElement('button');
-											btnTag.setAttribute('class', 'btn btn-primary btn-sm dropdown-toggle');
-											btnTag.setAttribute('data-bs-toggle', 'dropdown');
-											btnTag.setAttribute('aria-haspopup', 'true');
-											btnTag.setAttribute('aria-expanded', 'false');
-											btnTag.textContent = '...'
-											divTag.append(btnTag);
-								
-											let divTagDM = document.createElement('div');
-											divTagDM.setAttribute('class', 'dropdown-menu');
-											divTagDM.setAttribute('data-replyunino', reply.replyUniNo)
-											divTag.append(divTagDM);
-
-											let aTag = document.createElement('a');
-											aTag.setAttribute('class','dropdown-item');
-											aTag.textContent='즐겨찾기추가';
-											divTagDM.append(aTag);
-											divTag.append(divTagDM);
+												let btnTag = document.createElement('button');
+												btnTag.setAttribute('class', 'btn btn-primary btn-sm dropdown-toggle');
+												btnTag.setAttribute('data-bs-toggle', 'dropdown');
+												btnTag.setAttribute('aria-haspopup', 'true');
+												btnTag.setAttribute('aria-expanded', 'false');
+												btnTag.textContent = '...'
+												divTag.append(btnTag);
 											
-											//if(user == reply.particiMembUniNo){
+												let divTagDM = document.createElement('div');
+												divTagDM.setAttribute('class', 'dropdown-menu');
+												divTagDM.setAttribute('data-replyunino', reply.replyUniNo)
+												divTag.append(divTagDM);
+												
 												aTag = document.createElement('a');
 												aTag.setAttribute('class','dropdown-item');
 												aTag.setAttribute('class','dropdown-item');
@@ -237,9 +231,8 @@
 												aTag.textContent='삭제';
 												divTagDM.append(aTag);
 												divTag.append(divTagDM);
-											//}
-											
-											rPlace.append(divTag);
+												rPlace.append(divTag);
+											}
 											//end of reply-dropdown
 
 											let pTag = document.createElement('p');
