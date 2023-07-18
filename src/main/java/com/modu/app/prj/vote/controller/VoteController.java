@@ -29,7 +29,6 @@ public class VoteController {
 		HttpSession session = request.getSession();
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		System.out.println(vo);
 		model.addAttribute("voteList",voteService.voteList(vo));
 		return "vote/voteList";
 	}
@@ -42,7 +41,6 @@ public class VoteController {
 		BoardVO brd = new BoardVO();
 		brd.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		brd.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		System.out.println(brd);
 		model.addAttribute("Brd1", boardService.BoardList(brd));
 		return "vote/voteInsert";
 	}

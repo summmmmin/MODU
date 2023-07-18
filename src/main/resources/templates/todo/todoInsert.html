@@ -44,26 +44,25 @@
 					<hr>
 				</div>
 				<div class="card-content">
-					<form th:action="@{/todoInsert}" method="POST" th:object="${todo}">>
-							<div class="row">
-								<div class="form-group has-icon-left">
-									<div class="position-relative">
-										<input type="text" class="form-control"
-											placeholder="투표 제목을 입력해주세요" id="first-name-icon"
-											 th:field="*{ttl}">
-										<div class="form-control-icon">
-											<i class="bi bi-pen"></i>
-										</div>
+					<form th:action="@{/todoInsert}" method="POST" th:object="${todo}">
+						<div class="row">
+							<div class="form-group has-icon-left">
+								<div class="position-relative">
+									<input type="text" class="form-control"
+										placeholder="투표 제목을 입력해주세요" id="first-name-icon"
+										th:field="*{ttl}">
+									<div class="form-control-icon">
+										<i class="bi bi-pen"></i>
 									</div>
 								</div>
-								<p></p>
-								<div class="form-group has-icon-left">
-									<div class="position-relative">
-										<textarea class="form-control" placeholder="설명을 입력해주세요"
-											id="first-name-icon" rows="2" th:field="*{cntn}"></textarea>
-										<div class="form-control-icon">
-											<i class="bi bi-chat-left-text"></i>
-										</div>
+							</div>
+							<p></p>
+							<div class="form-group has-icon-left">
+								<div class="position-relative">
+									<textarea class="form-control" placeholder="설명을 입력해주세요"
+										id="first-name-icon" rows="2" th:field="*{cntn}"></textarea>
+									<div class="form-control-icon">
+										<i class="bi bi-chat-left-text"></i>
 									</div>
 								</div>
 							</div>
@@ -73,14 +72,13 @@
 							<p>시작일</p>
 							<div class="position-relative">
 								<input type="date" class="form-control" id="Date"
-								onchange="dateChange()"
-									placeholder="시작시간을 설정해주세요" th:field="*{frDt}">
+									th:onchange="dateChange()" th:field="*{frDt}">
 								<div class="form-control-icon">
 									<i class="bi-calendar"></i>
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="form-group has-icon-left mx-auto p-4">
 							<p>마감일</p>
 							<div class="position-relative">
@@ -101,16 +99,19 @@
 			</div>
 		</div>
 		<script>
+		
 /* 		var now_utc = Date.now()
 		var timeOff = new Date().getTimezoneOffset()*60000;
 		var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
 		document.getElementById("Date").setAttribute("min", today);  */
-		var date = document.getElementById("Date")
-		function dateChange(){
-			document.getElementById("lastDate").setAttribute("min", date.value); 
-		}
+			var date = document.getElementById("Date")
+			function dateChange(){
+				document.getElementById("lastDate").setAttribute("min", date.value); 
+			}
+		
 		</script>
-		<!-- filepond validation -->
+	</div>
+	<!-- filepond validation -->
 		<script
 			src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
 			
@@ -144,7 +145,6 @@
 		<script src="assets/vendors/choices.js/choices.min.js"></script>
 		<script src="assets/js/main.js"></script>
 		<!--end of layout-->
-	</div>
 </body>
 
 </html>
