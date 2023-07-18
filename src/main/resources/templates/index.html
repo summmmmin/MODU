@@ -89,7 +89,7 @@
 						<article layout:fragment="right-side"></article>
 
 <ul>
-<li th:each="BmList, stat : ${BmList}">
+<li th:each="BmList, stat12 : ${BmList}">
 <a th:text="${BmList.regDt}"></a></li>
 </ul>
 					</div>
@@ -112,9 +112,9 @@
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-								<li class="nav-item me-1"><a class="nav-link active"
-									href="#" aria-expanded="false"> <i
-										class="bi bi-search bi-sub fs-4 text-gray-600"></i>
+								<li class="nav-item me-1"><a class="nav-link active" href="#" aria-expanded="false"> <i class="bi bi-search bi-sub fs-4 text-gray-600"></i>
+										
+
 								</a></li>
 								<li class="nav-item me-1"><a class="nav-link active"
 									href="#" aria-expanded="false"> <i
@@ -130,7 +130,7 @@
 										<li><a class="dropdown-item" href="#">일정</a></li>
 										<li><a class="dropdown-item" href="#">할일</a></li>
 										<li><a class="dropdown-item" href="#">투표</a></li>
-										<li><a class="dropdown-item" href="#">즐겨찾기</a></li>
+										<li><a class="dropdown-item" href="BmList">즐겨찾기</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
