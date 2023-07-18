@@ -33,7 +33,7 @@ public interface PostMapper {
 	//공지등록on/off
 	public int notiOnOff(PostVO postVO);
 		
-	//공지리스트
+	//상단공지리스트
 	public List<PostVO> selectAllNotiPost(String brdUniNo);
 	
 	//멤버호출용

@@ -21,6 +21,6 @@ public class ReplyVO {
 	private String particiMembUniNo; // 작성자(프로젝트참여자)
 	
 	private String nnm; //닉네임
-	private String attNo; // 첨부파일번호
+	private String attNo; // 첨부파일번호(프로필사진용)
 }
 

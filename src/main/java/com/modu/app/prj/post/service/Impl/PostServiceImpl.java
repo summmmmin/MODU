@@ -32,11 +32,13 @@ public class PostServiceImpl implements PostService {
 	public PostVO getOnePost(String postUniNo) {
 		return postMapper.selectOnePost(postUniNo);
 	}
+	
 	//게시글등록, 수정폼용 게시판조회
 	@Override
 	public PostVO selectOneBoard(String brdUniNo) {
 		return postMapper.selectOneBoard(brdUniNo);
 	}
+	
 	//게시글등록
 	@Override
 	public int insertPost(PostVO postVO) {
@@ -74,7 +76,7 @@ public class PostServiceImpl implements PostService {
 		return postMapper.notiOnOff(postVO);
 	}
 	
-	//등록된공지리스트
+	//상단공지리스트
 	@Override
 	public List<PostVO> selectAllNotiPost(String brdUniNo) {
 		return postMapper.selectAllNotiPost(brdUniNo);

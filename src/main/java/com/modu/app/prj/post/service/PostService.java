@@ -13,7 +13,7 @@ public interface PostService {
 	//단건조회
 	public PostVO getOnePost(String postUniNo);
 	
-	//게시글등록, 수정폼용 게시판조회
+	//게시글홏게시글등록, 수정폼용 게시판조회
 	public PostVO selectOneBoard(String brdUniNo);
 	//등록
 	public int insertPost(PostVO postVO);
@@ -30,6 +30,6 @@ public interface PostService {
 	//공지등록on/off
 	public int notiOnOff(PostVO postVO);
 		
-	//공지리스트
+	//상단공지리스트
 	public List<PostVO> selectAllNotiPost(String brdUniNo);
 }
