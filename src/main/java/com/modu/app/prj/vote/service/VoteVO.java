@@ -19,7 +19,7 @@ public class VoteVO {
 	private String voteNo; 					//투표번호
 	private String voteDetaNo;				//투표상세번호
 	private String voteParticiMembUniNo;	//투표참가멤버고유번호
-	private String prjNo;					//프로젝트번호
+//	private String prjNo;					//프로젝트번호
 	private String particiMembUniNo;		//참가멤버고유번호
 	private String membUniNo;				//회원번호
 	private String postUniNo;				//게시글번호

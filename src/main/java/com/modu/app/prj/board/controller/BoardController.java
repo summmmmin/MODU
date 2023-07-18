@@ -41,10 +41,14 @@ public class BoardController {
 		return "index";
 	}
 
-	@PostMapping("/InsertBoard")
-	public String InsertBoard(BoardVO vo) {
+	@PostMapping("InsertBoard")
+	@ResponseBody
+	public BoardVO InsertBoard(BoardVO vo) {
+		System.out.println(vo);
 		System.out.println("1111");
 		String check = vo.getPubcYn();
+		
+		System.out.println(check);
 		if (check.equals("on")) {
 			vo.setPubcYn("Y");
 		} else {
@@ -52,7 +56,7 @@ public class BoardController {
 		}
 		boardService.InsertBoard(vo);
 		System.out.println(vo);
-		return "index";
+		return vo;
 	}
 	
 	

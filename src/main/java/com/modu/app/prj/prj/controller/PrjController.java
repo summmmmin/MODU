@@ -43,7 +43,7 @@ public class PrjController {
 		model.addAttribute("prjList",prjService.getPrjList(vo.getMembUniNo()));
 		return "prj/prjList";
 	}
-	
+
 	// 프로젝트 관리(프로젝트 참여회원)
 	@GetMapping("prjManage")
 	public String prjList(Model model, PrjVO prjVO, HttpServletRequest request) {
@@ -66,5 +66,21 @@ public class PrjController {
 				return "redirect:prjList";
 			}			
 		}
+	}
+	//프로젝트관리페이지-팀원관리
+	@GetMapping("prjManage2")
+	public String prjList2(PrjVO prjVO, Model model) {
+		model.addAttribute("prjNo", prjVO.getPrjUniNo());
+				return "prj/프로젝트 관리22";			
+	}
+	//프로젝트관리페이지-프로젝트 관리
+	@GetMapping("prjUpdate")
+	public String prjUpdate(Model model, PrjVO prjVO) {		
+		return "prj/프로젝트 관리33";
+	}
+	//프로젝트관리페이지-결제관리
+	@GetMapping("prjPay")
+	public String prjPay() {		
+		return "prj/프로젝트 관리4";
 	}
 }

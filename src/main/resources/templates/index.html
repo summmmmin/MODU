@@ -11,9 +11,7 @@
 	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
 	rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/bootstrap.css" />
-
 <link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
-
 <link rel="stylesheet"
 	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
 <link rel="stylesheet"
@@ -51,6 +49,7 @@
 
 
 <!--/* ************************ Board List Start *************************** */-->
+
 <li class="sidebar-item has-sub"><a href="#" class="sidebar-link"> 
 <i class="bi bi-stack"></i> 
 	<span>게시판</span>
@@ -59,13 +58,12 @@
 <ul class="submenu">
 <li class="submenu-item" th:each="list, stat : ${Brd}">
 <a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.boardNm}"></a>
-																			
 </li>
 </ul>
 	</li>
 		</ul>
-<!--/* ************************ Board List End *************************** */-->
-			
+		
+<!--/* ************************ End *************************** */-->
 			</div>
 				<button class="sidebar-toggler btn x">
 					<i data-feather="x"></i>
@@ -89,9 +87,17 @@
 				<div class="rsidebar-menu">
 					<div>
 						<article layout:fragment="right-side"></article>
+
+<ul>
+<li th:each="BmList, stat12 : ${BmList}">
+<a th:text="${BmList.regDt}"></a></li>
+</ul>
 					</div>
 				</div>
 				<button class="rsidebar-toggler btn x">
+					<i data-feather="x"></i>
+				</button>
+				<button class="buger-btn" style="display:none">
 					<i data-feather="x"></i>
 				</button>
 			</div>
@@ -109,9 +115,9 @@
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-								<li class="nav-item me-1"><a class="nav-link active"
-									href="#" aria-expanded="false"> <i
-										class="bi bi-search bi-sub fs-4 text-gray-600"></i>
+								<li class="nav-item me-1"><a class="nav-link active" href="#" aria-expanded="false"> <i class="bi bi-search bi-sub fs-4 text-gray-600"></i>
+										
+
 								</a></li>
 								<li class="nav-item me-1"><a class="nav-link active"
 									href="#" aria-expanded="false"> <i
@@ -124,10 +130,10 @@
 								</a>
 									<ul class="dropdown-menu dropdown-menu-end"
 										aria-labelledby="dropdownMenuButton">
-										<li><a class="dropdown-item" href="#">일정</a></li>
-										<li><a class="dropdown-item" href="#">할일</a></li>
-										<li><a class="dropdown-item" href="#">투표</a></li>
-										<li><a class="dropdown-item" href="#">즐겨찾기</a></li>
+										<li><a class="dropdown-item" href="">일정</a></li>
+										<li><a class="dropdown-item" th:href="@{todoList}">할일</a></li>
+										<li><a class="dropdown-item" th:href="@{voteList}">투표</a></li>
+										<li><a class="dropdown-item" href="">즐겨찾기</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
@@ -182,18 +188,19 @@
 									<i data-feather="x"></i>
 								</button>
 							</div>
-							<form action="InsertBoard" method="POST" id="FormEvent">
+<form action="InsertBoard" method="POST" id="FormEvent">
 	<div class="modal-body">
 	<h5>게시판 이름</h5>
 	<div class="form-group">
-	<input name="boardNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
+	<input id="boardNm" name="boardNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
 </div>
 	<div class="form-group">
-	<input name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" class="form-control">
-	<input name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" >
+	<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" class="form-control" style="display:none">
+	<input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display:none">
 	<div class="form-group">
 	<h6>공개여부</h6>
 	<input type="checkbox" id="checkbox" name="pubcYn" checked>
+	
 	<label for="checkbox"><span></span></label>
 </div>
 </div>
@@ -201,13 +208,12 @@
 	<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
 	<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
 	</button>
-	<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="form.submit()">
+	<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="addBoard()">
 	<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">생성</span>
 	</button>
 </div>
 </div>
 </form>
-							
 						</div>
 					</div>
 				</div>
@@ -228,8 +234,47 @@
 			</footer>
 		</div>
 	</div>
+	
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+			<script src="assets/js/main.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/test.js"></script>
+	<script>
+	function addBoard(){
+		let check = document.querySelector('#checkbox');
+		let checkOk = '';
+		if(check.checked){
+			checkOk = 'on';
+		}else{
+			checkOk = '';
+		}
+		checkbox.value
+		fetch("/modu/InsertBoard",{
+			method : 'POST',
+			headers:{
+				"Content-Type":"application/x-www-form-urlencoded"
+			},
+			body: 
+			"particiMembUniNo="+particiMembUniNo.value
+			+"&prjUniNo="+prjUniNo.value
+			+"&boardNm="+boardNm.value
+			+"&pubcYn="+checkOk
+		})
+		.then(result=>result.json())
+		.then(data => {
+			console.log(data);
+			let liTag=`
+				<li class="submenu-item">
+				<a href="/postList?brdUniNo="`+data.brdUniNo+`>`+data.boardNm+`</a>
+				</li>
+			`;
+			
+			let submenu=document.querySelector('.submenu');
+			submenu.innerHTML+=liTag;
+			
+		})
+		.catch(err => console.log(err))
+	}
+	</script>
 </body>
 </html>

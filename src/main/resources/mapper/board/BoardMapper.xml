@@ -15,9 +15,13 @@
 	
 	<!-- 게시판 생성 -->
 	<insert id="InsertBoard" parameterType="BoardVO">
+	<selectKey keyProperty="brdUniNo" order="BEFORE" resultType="String">
+		SELECT 'b'||brd_seq.nextval
+		FROM dual
+	</selectKey>
 	INSERT INTO brd (brd_uni_no, board_nm, pubc_yn, prj_uni_no, partici_memb_uni_no, reg_dt)
 	VALUES
-	('b'||brd_seq.nextval,#{boardNm},#{pubcYn},#{prjUniNo},#{particiMembUniNo},sysdate)
+	(#{brdUniNo},#{boardNm},#{pubcYn},#{prjUniNo},#{particiMembUniNo},sysdate)
 	</insert>
 	
 	<!-- 게시판 삭제 -->
@@ -25,4 +29,5 @@
 	DELETE brd
 	WHERE brd_uni_no = #{brdUniNo};
 	</delete>
+	
  </mapper>
