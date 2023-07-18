@@ -87,6 +87,11 @@
 				<div class="rsidebar-menu">
 					<div>
 						<article layout:fragment="right-side"></article>
+
+<ul>
+<li th:each="BmList, stat : ${BmList}">
+<a th:text="${BmList.regDt}"></a></li>
+</ul>
 					</div>
 				</div>
 				<button class="rsidebar-toggler btn x">
