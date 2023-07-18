@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{prj/프로젝트 관리}">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,8 +30,8 @@
 				<div class="sidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a href="index.html"><img
-								src="assets/images/logo/logo.png" alt="Logo" srcset="" /></a>
+							<a href="index.html"><img src="assets/images/logo/logo.png"
+								alt="Logo" srcset="" /></a>
 						</div>
 						<div class="toggler">
 							<a href="#" class="sidebar-hide d-xl-none d-block"><i
@@ -72,7 +73,7 @@
 					class="bi bi-justify fs-3"></i>
 				</a>
 			</header>
-
+		  <div layout:fragment="content">
 			<div class="page-heading">
 				<div class="page-title">
 					<div class="row">
@@ -80,21 +81,6 @@
 							<h3>팀원 관리</h3>
 							<p class="text-subtitle text-muted">팀원 관리</p>
 						</div>
-						<!-- <div class="col-12 col-md-6 order-md-2 order-first">
-                <nav
-                  aria-label="breadcrumb"
-                  class="breadcrumb-header float-start float-lg-end"
-                >
-                  <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                      <a href="index.html">Dashboard</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                      DataTable
-                    </li>
-                  </ol>
-                </nav>
-              </div> -->
 					</div>
 				</div>
 				<section class="section">
@@ -118,81 +104,234 @@
 								</tbody>
 							</table>
 						</div>
-									<!-- Vertically Centered modal Modal -->
-									<div class="modal fade" id="manage" tabindex="-1" role="dialog"
-										aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-										<div
-											class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-											role="document">
-											<div class="modal-content">
-												<div class="modal-header">
-													<h5 class="modal-title" id="exampleModalCenterTitle">
-														팀원 관리</h5>
-													<button type="button" class="close" data-bs-dismiss="modal"
-														aria-label="Close">X</button>
-												</div>
-												<form th:object="${prjVO}" id="frm" name="frm">
-													<div class="modal-body">
-														<div class="row">
-															<div class="d-flex align-items-center">
-																<div class="avatar avatar-xl">
-																	<img src="assets/images/faces/1.jpg" alt="Face 1" />
-																</div>
-																<div class="ms-3 name">
-																	<p class="font-bold" id="nm">이름</p>
-																	<p class="text-muted mb-0" id="mail">이메일</p>
-																	<p class="text-muted mb-0" id="power">권한</p>
-																</div>
-															</div>
-														
-														</div>
-														
-														<label>선택: </label>
-														<div class="form-group">
-															<select class="form-select" onChange="getselect()" id="action">
-																<option value="1">권한 변경</option>
-																<option value="2">탈퇴</option>
-															</select>
-														</div>
-														
-														<div class="visually-hidden" id="out">
-															<label>탈퇴 사유: </label>
-															<div class="form-group">
-																<input type="text" placeholder="탈퇴 사유"
-																	class="form-control" id="outCause" th:field="*{kickResn}">
-															</div>														
-														</div>
-														
-														<div id="gain">
-															<label>권한 선택: </label>
-															<div class="form-group">
-																<select class="form-select" id="selectGain" th:field="*{grd}">
-																	
-																</select>
-															</div>														
-														</div>
-														
-														
-													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-light-secondary"
-															data-bs-dismiss="modal">
-															<i class="bx bx-x d-block d-sm-none"></i> <span
-																class="d-none d-sm-block">Close</span>
-														</button>
-														<button type="button" class="btn btn-primary ml-1"
-															data-bs-dismiss="modal" onclick="modalclick()">
-															<i class="bx bx-check d-block d-sm-none"></i> <span
-																class="d-none d-sm-block">등록</span>
-														</button>
-													</div>
-												</form>
-											</div>
-										</div>
+						<!-- Vertically Centered modal Modal -->
+						<div class="modal fade" id="manage" tabindex="-1" role="dialog"
+							aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							<div
+								class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+								role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalCenterTitle">팀원
+											관리</h5>
+										<button type="button" class="close" data-bs-dismiss="modal"
+											aria-label="Close">X</button>
 									</div>
+									<form th:object="${prjVO}" id="frm" name="frm">
+										<div class="modal-body">
+											<div class="row">
+												<div class="d-flex align-items-center">
+													<div class="avatar avatar-xl">
+														<img src="assets/images/faces/1.jpg" alt="Face 1" />
+													</div>
+													<div class="ms-3 name">
+														<p class="font-bold" id="nm">이름</p>
+														<p class="text-muted mb-0" id="mail">이메일</p>
+														<p class="text-muted mb-0" id="power">권한</p>
+													</div>
+												</div>
+
+											</div>
+
+											<label>선택: </label>
+											<div class="form-group">
+												<select class="form-select" onChange="getselect()"
+													id="action">
+													<option value="1">권한 변경</option>
+													<option value="2">탈퇴</option>
+												</select>
+											</div>
+
+											<div class="visually-hidden" id="out">
+												<label>탈퇴 사유: </label>
+												<div class="form-group">
+													<input type="text" placeholder="탈퇴 사유" class="form-control"
+														id="outCause" th:field="*{kickResn}">
+												</div>
+											</div>
+
+											<div id="gain">
+												<label>권한 선택: </label>
+												<div class="form-group">
+													<select class="form-select" id="selectGain"
+														th:field="*{grd}">
+
+													</select>
+												</div>
+											</div>
+
+
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-light-secondary"
+												data-bs-dismiss="modal">
+												<i class="bx bx-x d-block d-sm-none"></i> <span
+													class="d-none d-sm-block">Close</span>
+											</button>
+											<button type="button" class="btn btn-primary ml-1"
+												data-bs-dismiss="modal" onclick="modalclick()">
+												<i class="bx bx-check d-block d-sm-none"></i> <span
+													class="d-none d-sm-block">등록</span>
+											</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
 					</div>
 				</section>
 			</div>
+				<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
+				<script>
+				
+					var particiId = '';	//참여회원아이디 저장
+					
+					// 모달 안 등록 버튼 클릭 시 선택에 따라 실행 다름
+					function modalclick(){
+						console.log(particiId);
+						let select = document.getElementById('action');
+					    let option = select.options[select.selectedIndex];
+					    let grd = selectGain.options[selectGain.selectedIndex].value;	//등급코드
+					    let kickResn = outCause.value;	//탈퇴사유
+					    let data = {'prjUniNo':'[[${prjNo}]]','particiMembUniNo': particiId, 'grd': grd, 'kickResn': kickResn};
+					    if(option.value == "1"){
+					    	fetch("manage/updateGrade",{
+								method : "post",
+								headers:{
+									'Content-Type' : 'application/json',
+								},
+								body : JSON.stringify(data),
+							}) .then((response) => response.json())
+							   .then((data) => {
+								   alert('수정완료')
+								// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
+			  					   if(data == false){
+									   location.href = "prjList";
+								   }else if(data == true){
+									   membList();
+								   }    
+							   })
+			
+							
+					    }else if(option.value == "2"){
+					    	fetch("manage/kickMemb",{
+								method : "post",
+								headers:{
+									'Content-Type' : 'application/json',
+								},
+								body : JSON.stringify(data),
+							}).then((response) => response.json())
+							   .then((data) => {
+								   alert('탈퇴완료')
+									// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
+				  					   if(data == false){
+										   location.href = "prjList";
+									   }else if(data == true){
+										   membList();
+									   }    
+								   })
+					    }
+					}
+					
+					// 모달 안 선택 변경 시
+					function getselect(){
+						var select = document.getElementById('action');
+					    var option = select.options[select.selectedIndex];
+			
+					    if(option.value == "1"){
+					    	out.classList.add('visually-hidden');
+					    	gain.classList.remove('visually-hidden');
+					    }else if(option.value == "2"){
+					    	out.classList.remove('visually-hidden');
+					    	gain.classList.add('visually-hidden');
+					    }
+					}
+					
+					// tr만들기
+					function makeTr(item){
+						let tr = document.createElement('tr');
+					      let td = document.createElement('td');
+					
+					      for (let i of field) {
+					        td = document.createElement('td');
+					        if (item.hasOwnProperty(i)) {
+					          td.textContent = item[i];
+					        } else {
+					          td.textContent = '';
+					        }
+					        tr.append(td);
+					      }
+					
+					      td = document.createElement('td');
+					      let span = document.createElement('span');
+					      span.classList.add('badge', 'bg-success');
+					      span.textContent = item.cd;
+					      td.append(span);
+					      tr.append(td);
+					
+					      td = document.createElement('td');
+					      let btn = document.createElement('button');
+					      btn.textContent = '관리';
+					      btn.classList.add('btn', 'btn-outline-primary', 'block', 'memMng');
+					      btn.id = item.particiMembUniNo;
+					      btn.setAttribute('data-bs-toggle', 'modal');
+					      btn.setAttribute('data-bs-target', '#manage');
+						  if(item.grd == 'G03'){
+							  btn.disabled = true;
+						  }
+					      td.append(btn);
+					      tr.append(td);
+					      document.querySelector('#tbd').append(tr);
+					}
+					
+				 	let field = ['nnm', 'prjPubcId', 'dept', 'pos'];
+				 		
+					// 회원리스트 만들기
+					function membList(){
+						tbd.innerText = '';
+						// 회원 리스트
+						fetch('manage/prjParList?prjUniNo=' + '[[${prjNo}]]')
+						  .then(data => data.json())
+						  .then(result => {
+						    result.forEach(item => {
+						    	makeTr(item);
+						    });
+						    
+						 	// 관리 버튼 눌렀을때 모달창 안 내용 변경
+						    tbd.addEventListener('click', function(event) {
+						      if (event.target.classList.contains('memMng')) {
+						        let tr = event.target.parentElement.parentElement;
+						        particiId = event.target.id;	//참여회원아이디
+						        nm.textContent = tr.childNodes[0].textContent;	//모달 안 이름 변경
+						        mail.textContent = tr.childNodes[1].textContent;	//이메일변경
+						        power.textContent = tr.childNodes[4].childNodes[0].textContent;	//권한변경
+						        outCause.value = '';	//탈퇴사유비우기
+						        action.options[0].selected = true;	
+						        out.classList.add('visually-hidden');
+						        gain.classList.remove('visually-hidden');
+						        //console.log(particiId);
+						      }
+						    });
+						    // Simple Datatable
+						    let table1 = document.querySelector("#table1");
+						    let dataTable = new simpleDatatables.DataTable(table1);
+						  });
+						
+					}
+							// 공통코드 ajax
+							fetch('manage/grdCode')
+							.then(data => data.json())
+							.then(result => {
+								result.forEach(item => {
+					                //console.log(item)
+					                let opt = document.createElement('option');
+					                opt.value = item.cdNo;
+					                opt.text = item.cd;
+					                selectGain.options.add(opt);
+					            })
+							})
+				</script>
+		  </div>
 
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
@@ -220,162 +359,7 @@
 	</script>
 
 	<script src="assets/js/main.js"></script>
-	<script>
-		window.addEventListener('DOMContentLoaded', function(){
-			membList();
-		});
-	
-		var particiId = '';	//참여회원아이디 저장
-		
-		// 모달 안 등록 버튼 클릭 시 선택에 따라 실행 다름
-		function modalclick(){
-			console.log(particiId);
-			let select = document.getElementById('action');
-		    let option = select.options[select.selectedIndex];
-		    let grd = selectGain.options[selectGain.selectedIndex].value;	//등급코드
-		    let kickResn = outCause.value;	//탈퇴사유
-		    let data = {'prjUniNo':'[[${prjNo}]]','particiMembUniNo': particiId, 'grd': grd, 'kickResn': kickResn};
-		    if(option.value == "1"){
-		    	fetch("manage/updateGrade",{
-					method : "post",
-					headers:{
-						'Content-Type' : 'application/json',
-					},
-					body : JSON.stringify(data),
-				}) .then((response) => response.json())
-				   .then((data) => {
-					   alert('수정완료')
-					// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
-  					   if(data == false){
-						   location.href = "prjList";
-					   }else if(data == true){
-						   membList();
-					   }    
-				   })
 
-				
-		    }else if(option.value == "2"){
-		    	fetch("manage/kickMemb",{
-					method : "post",
-					headers:{
-						'Content-Type' : 'application/json',
-					},
-					body : JSON.stringify(data),
-				}).then((response) => response.json())
-				   .then((data) => {
-					   alert('탈퇴완료')
-						// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
-	  					   if(data == false){
-							   location.href = "prjList";
-						   }else if(data == true){
-							   membList();
-						   }    
-					   })
-		    }
-		}
-		
-		// 모달 안 선택 변경 시
-		function getselect(){
-			var select = document.getElementById('action');
-		    var option = select.options[select.selectedIndex];
-
-		    if(option.value == "1"){
-		    	out.classList.add('visually-hidden');
-		    	gain.classList.remove('visually-hidden');
-		    }else if(option.value == "2"){
-		    	out.classList.remove('visually-hidden');
-		    	gain.classList.add('visually-hidden');
-		    }
-		}
-		
-		// tr만들기
-		function makeTr(item){
-			let tr = document.createElement('tr');
-		      let td = document.createElement('td');
-		
-		      for (let i of field) {
-		        td = document.createElement('td');
-		        if (item.hasOwnProperty(i)) {
-		          td.textContent = item[i];
-		        } else {
-		          td.textContent = '';
-		        }
-		        tr.append(td);
-		      }
-		
-		      td = document.createElement('td');
-		      let span = document.createElement('span');
-		      span.classList.add('badge', 'bg-success');
-		      span.textContent = item.cd;
-		      td.append(span);
-		      tr.append(td);
-		
-		      td = document.createElement('td');
-		      let btn = document.createElement('button');
-		      btn.textContent = '관리';
-		      btn.classList.add('btn', 'btn-outline-primary', 'block', 'memMng');
-		      btn.id = item.particiMembUniNo;
-		      btn.setAttribute('data-bs-toggle', 'modal');
-		      btn.setAttribute('data-bs-target', '#manage');
-			  if(item.grd == 'G03'){
-				  btn.disabled = true;
-			  }
-		      td.append(btn);
-		      tr.append(td);
-		      tbd.append(tr);
-		}
-		
-	 	let field = ['nnm', 'prjPubcId', 'dept', 'pos'];
-	 		
-		// 회원리스트 만들기
-		function membList(){
-			tbd.innerText = '';
-			// 회원 리스트
-			fetch('manage/prjParList?prjUniNo=' + '[[${prjNo}]]')
-			  .then(data => data.json())
-			  .then(result => {
-			    result.forEach(item => {
-			    	makeTr(item);
-			    });
-			    
-			 	// 관리 버튼 눌렀을때 모달창 안 내용 변경
-			    tbd.addEventListener('click', function(event) {
-			      if (event.target.classList.contains('memMng')) {
-			        let tr = event.target.parentElement.parentElement;
-			        particiId = event.target.id;	//참여회원아이디
-			        nm.textContent = tr.childNodes[0].textContent;	//모달 안 이름 변경
-			        mail.textContent = tr.childNodes[1].textContent;	//이메일변경
-			        power.textContent = tr.childNodes[4].childNodes[0].textContent;	//권한변경
-			        outCause.value = '';	//탈퇴사유비우기
-			        action.options[0].selected = true;	
-			        out.classList.add('visually-hidden');
-			        gain.classList.remove('visually-hidden');
-			        //console.log(particiId);
-			      }
-			    });
-			    // Simple Datatable
-			    let table1 = document.querySelector("#table1");
-			    let dataTable = new simpleDatatables.DataTable(table1);
-			  });
-			
-		}
-				// 공통코드 ajax
-				fetch('manage/grdCode')
-				.then(data => data.json())
-				.then(result => {
-					result.forEach(item => {
-		                //console.log(item)
-		                let opt = document.createElement('option');
-		                opt.value = item.cdNo;
-		                opt.text = item.cd;
-		                selectGain.options.add(opt);
-		            })
-				})
-		
-		
-		
-		
-	</script>
 
 </body>
 </html>

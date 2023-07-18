@@ -101,4 +101,9 @@ public class PrjRestController {
 			return "false";
 		}
 	}
+	
+	@GetMapping("prjNmUp")
+	public String prjNm(@RequestBody PrjVO vo) {
+		return "false";
+	}
 }
