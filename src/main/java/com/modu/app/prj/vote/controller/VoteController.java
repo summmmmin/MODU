@@ -1,5 +1,7 @@
 package com.modu.app.prj.vote.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -24,15 +26,21 @@ public class VoteController {
 	BoardService boardService;
 	
 	
-	//투표 리스트 페이지
-//	@GetMapping("voteList")
-//	public String empList(Model model,VoteVO vo,HttpServletRequest request) {
-//		HttpSession session = request.getSession();
-//		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-//		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-//		model.addAttribute("voteList",voteService.voteList(vo));
-//		return "vote/voteList";
-//	}
+	//투표 페이지 이동
+	@GetMapping("vote")
+	public String todo() {
+		return "vote/voteList";
+	}
+	
+	//투표 리스트 출력
+	@GetMapping("voteList")
+	@ResponseBody
+	public List<VoteVO> voteList(Model model,VoteVO vo,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		return voteService.voteList(vo);
+	}
 	
 	// 투표 등록페이지
 	@GetMapping("voteInsert")
