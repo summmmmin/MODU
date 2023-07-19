@@ -85,8 +85,8 @@
 					</div>
 				</div>
 				<div class="rsidebar-menu">
-					<div>
-						<article layout:fragment="right-side"></article>
+					<div id="rsidebarContent">
+						
 
 <ul>
 <li th:each="BmList, stat12 : ${BmList}">
@@ -282,11 +282,8 @@
 	document.getElementById('vote').addEventListenr('click',function(){
 		fetch("/modu/voteList")
 	 	.then(response =>response.json())
-  		.then(data => ;
-  		
-	})
+  		.then(data => console.log(data))
   		.catch(reject => console.log(reject));
-  		}
 	})
 		/*]]>*/
 	</script>
