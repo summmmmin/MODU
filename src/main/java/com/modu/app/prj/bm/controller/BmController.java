@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.bm.service.BmService;
 import com.modu.app.prj.bm.service.BmVO;
@@ -30,6 +31,7 @@ public class BmController {
 	}
 	
 	@PostMapping("BrdBmInsert")
+	@ResponseBody
 	public String BrdBmInsert(Model model,BmVO vo, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));

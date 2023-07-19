@@ -15,9 +15,9 @@
 	
 	<!-- 게시판 즐겨찾기 -->
 	<insert id="BrdBmInsert" parameterType="BmVO">
-		INSERT INTO bm_arm (brd_arm_uni_no,bm,arm_yn,brd_uni_no,partici_memb_uni_no)
+		INSERT INTO brd_arm (brd_arm_uni_no,bm,arm_yn,brd_uni_no,partici_memb_uni_no)
 		VALUES
-		(brdarm_seq.nextval,#{bm},#{armYn},#{brdUniNo},#{particiMembUniNo})
+		(brdarm_seq.nextval,Y,Y,#{brdUniNo},#{particiMembUniNo})
 	</insert>
 	
  </mapper>
