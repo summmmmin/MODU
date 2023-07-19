@@ -45,15 +45,22 @@
 							class="form-check form-check-lg d-inline-flex align-items-end">
 							<input class="form-check-input me-2" type="checkbox"
 								name="rememberId" id="flexCheckDefault1"> <label
-								class="form-check-label text-gray-600" for="flexCheckDefault1">
-								아이디 저장 </label>
+								class="form-check-label text-gray-600" for="flexCheckDefault1">아이디
+								저장 </label>
+						</div>
+						<div class="text mt-2">
+							<p class="text-gray-600">
+								M_OD_U가 처음이신가요? <a href="signup" class="font-bold"
+									style="text-decoration: underline;">회원가입</a>
+							</p>
 						</div>
 						<button type="submit"
-							class="btn btn-primary btn-block btn-lg shadow-lg mt-5">로그인</button>
+							class="btn btn-primary btn-block btn-lg shadow-lg mt-2">로그인</button>
 						<div class="text-center mt-2">
 							<p class="text-gray-600">
-								<a href="auth-register.html" class="font-bold">아이디 찾기</a> | <a
-									class="font-bold" href="auth-forgot-password.html">비밀번호 찾기</a>
+								<a href="auth-forgot-username.html" class="font-bold">아이디 찾기</a>
+								| <a class="font-bold" href="auth-forgot-password.html">비밀번호
+									찾기</a>
 							</p>
 						</div>
 					</form>
@@ -65,24 +72,22 @@
 		</div>
 	</div>
 	<script>
-	// 페이지 로드 시 쿠키 값 가져오기
-	window.onload = function() {
-		var savedUsername = getCookie("savedUsername");
-		if (savedUsername) {
-			document.getElementsByName("username")[0].value = savedUsername;
-			document.getElementById("flexCheckDefault1").checked = true;
+		// 페이지 로드 시 쿠키 값 가져오기
+		window.onload = function() {
+			var savedUsername = getCookie("savedUsername");
+			if (savedUsername) {
+				document.getElementsByName("username")[0].value = savedUsername;
+				document.getElementById("flexCheckDefault1").checked = true;
+			}
+		};
+		// 쿠키 가져오기 함수
+		function getCookie(name) {
+			var value = "; " + document.cookie;
+			var parts = value.split("; " + name + "=");
+			if (parts.length === 2) {
+				return parts.pop().split(";").shift();
+			}
 		}
-	};
-
-	// 쿠키 가져오기 함수
-	function getCookie(name) {
-		var value = "; " + document.cookie;
-		var parts = value.split("; " + name + "=");
-		if (parts.length === 2) {
-			return parts.pop().split(";").shift();
-		}
-	}
 	</script>
-
 </body>
 </html>
