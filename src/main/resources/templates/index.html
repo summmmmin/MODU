@@ -7,13 +7,18 @@
 <title>Dashboard - Mazer Admin Dashboard</title>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" />
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/bootstrap.css" />
 <link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
-<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
-<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+<link rel="stylesheet"
+	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
 <link rel="stylesheet" href="assets/css/test.css" />
-<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
+<link rel="shortcut icon" href="assets/images/favicon.svg"
+	type="image/x-icon" />
 <link rel="stylesheet" href="assets/css/modal.css">
 </head>
 
@@ -44,48 +49,21 @@
 
 
 <!--/* ************************ Board List Start *************************** */-->
+
 <li class="sidebar-item has-sub"><a href="#" class="sidebar-link"> 
 <i class="bi bi-stack"></i> 
 	<span>게시판</span>
 	<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#inlineForm" style="margin-left: 87px">+</button>
 </a>
-<ul class="submenu" id="ultag">
+<ul class="submenu">
 <li class="submenu-item" th:each="list, stat : ${Brd}">
-
-<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 108.9 103.6">
-    <g id="Layer_2" data-name="Layer 2">
-        <g id="Layer_1-2" data-name="Layer 1">
-            <polygon onclick="click()" class="cls-1 clicked" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" th:class="${list.brdUniNo}">
-        </g>
-    </g>
-</svg>
 <a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.boardNm}"></a>
-<a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.brdUniNo}"></a>
 </li>
 </ul>
 	</li>
 		</ul>
-<!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
-<script>
-function click(){
-	console.log(event.target.className.animVal);
-      event.target.classList.toggle('clicked');
-      event.target.classList.toggle('cls-1');
 		
-}
-  document.getElementById('ultag').addEventListener('click', function(event) {
-    let target = event.target;
-    if (target.classList.contains('cls-1')) {
-      let brdUniNo = target.getAttribute('text-brdUniNo');
-      console.log(target);	
-    }
-  });
-</script>
 <!--/* ************************ End *************************** */-->
-
-
-
-
 			</div>
 				<button class="sidebar-toggler btn x">
 					<i data-feather="x"></i>
@@ -101,7 +79,7 @@ function click(){
 								alt="Logo" srcset="" /></a>
 						</div>
 						<div class="toggler">
-							<a href="#" class="rsidebar-hide d-xl-none d-block"><i
+							<a href="#" class="rsidebar-hide d-block"><i
 								class="bi bi-x bi-middle"></i></a>
 						</div>
 					</div>
@@ -109,6 +87,11 @@ function click(){
 				<div class="rsidebar-menu">
 					<div id="rsidebarContent">
 						
+
+<ul>
+<li th:each="BmList, stat12 : ${BmList}">
+<a th:text="${BmList.regDt}"></a></li>
+</ul>
 					</div>
 				</div>
 				<button class="rsidebar-toggler btn x">
@@ -127,7 +110,7 @@ function click(){
 						<a href="#" class="burger-btn d-block"> <i
 							class="bi bi-justify fs-3"></i>
 						</a> <a href="#" class="rburger-btn d-block"> <i
-							class="bi bi-justify fs-3"></i>
+							class="bi bi-justify fs-3" style="display:none"></i>
 						</a>
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -147,11 +130,10 @@ function click(){
 								</a>
 									<ul class="dropdown-menu dropdown-menu-end"
 										aria-labelledby="dropdownMenuButton">
-										<li><a class="dropdown-item" href="#">일정</a></li>
-										<li><a class="dropdown-item" th:href="@{todoList}">할일</a></li>
-										<li><a class="dropdown-item" th:href="@{voteList}">투표</a></li>
-										<li><a class="dropdown-item" th:href="@{bmList}">즐겨찾기</a></li>
-										<li><a class="dropdown-item" href="#">알림목록</a></li>
+										<li><a class="dropdown-item rburger">일정</a></li>
+										<li><a class="dropdown-item rburger" >할일</a></li>
+										<li><a class="dropdown-item rburger" href="voteList" id="vote">투표</a></li>
+										<li><a class="dropdown-item rburger" href="">즐겨찾기</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
@@ -191,14 +173,11 @@ function click(){
 
 			<div class="page-heading">
 				<h3>Profile Statistics</h3>
-    </div>
 			</div>
-				 
 			<div class="page-content">
 				<section class="row">
 					<article layout:fragment="content"></article>
 				</section>
-				
 		<!--Modal -->
 		<div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -209,8 +188,6 @@ function click(){
 									<i data-feather="x"></i>
 								</button>
 							</div>
-							
-							
 <form action="InsertBoard" method="POST" id="FormEvent">
 	<div class="modal-body">
 	<h5>게시판 이름</h5>
@@ -227,7 +204,6 @@ function click(){
 	<label for="checkbox"><span></span></label>
 </div>
 </div>
-
 	<div class="modal-footer">
 	<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
 	<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
@@ -259,11 +235,10 @@ function click(){
 		</div>
 	</div>
 	
-	
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+			<!-- <script src="assets/js/main.js"></script> -->
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/test.js"></script>
-    <script src="assets/js/extensions/rater-js.js"></script>
 	<script>
 	function addBoard(){
 		let check = document.querySelector('#checkbox');
@@ -279,7 +254,7 @@ function click(){
 			headers:{
 				"Content-Type":"application/x-www-form-urlencoded"
 			},
-			body:
+			body: 
 			"particiMembUniNo="+particiMembUniNo.value
 			+"&prjUniNo="+prjUniNo.value
 			+"&boardNm="+boardNm.value
@@ -293,11 +268,24 @@ function click(){
 				<a href="/postList?brdUniNo="`+data.brdUniNo+`>`+data.boardNm+`</a>
 				</li>
 			`;
+			
 			let submenu=document.querySelector('.submenu');
 			submenu.innerHTML+=liTag;
+			
 		})
 		.catch(err => console.log(err))
 	}
+	</script>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	document.getElementById('vote').addEventListenr('click',function(){
+		fetch("/modu/voteList")
+	 	.then(response =>response.json())
+  		.then(data => console.log(data))
+  		.catch(reject => console.log(reject));
+	})
+		/*]]>*/
 	</script>
 </body>
 </html>
