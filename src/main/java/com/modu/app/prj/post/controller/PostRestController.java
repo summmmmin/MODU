@@ -24,16 +24,12 @@ public class PostRestController {
 	// 전체조회
 	@GetMapping("posts/{bNum}")
 	public List<PostVO> postList(@PathVariable("bNum") String brdUniNo) {
-		// session.setAttribute("prjUniNo", "punt1");
-		// session.setAttribute("particiMembUniNo", "ppmt1");
 		return postService.getAllPostList(brdUniNo);
 	}
 
 	// 단건조회
-	@CrossOrigin
 	@GetMapping("post/{pNum}")
 	public PostVO postOne(@PathVariable("pNum") String postUniNo, HttpSession session) {
-		// PostVO postVO = postService.getOnePost(session.getAttribute(postUniNo));
 		return postService.getOnePost(postUniNo);
 	}
 

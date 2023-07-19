@@ -8,7 +8,7 @@ public class FileVO {
 	private String particiMembUniNo; // 첨부한사람 
 	private String attNm; // 첨부파일이름
 	private String serverAttNm; // 첨부파일서버이름
-	private String fSize; // 첨부파일크기
+	private Long fSize; // 첨부파일크기
 	private String ext; // 확장자
 	private String postUniNo; // 첨부된게시글번호
 	private Long chatNo; // 첨부된채팅번호
