@@ -47,4 +47,6 @@ public class PrjVO {
 	private String cdNo;				//공통코드의 코드이름
 	
 	private String kickResn;			//탈퇴사유
+	
+	private int memCnt;					//프로젝트 내 회원수
 }
