@@ -24,7 +24,7 @@
 	
 	  var elem = options.element;
 	  var reverse = options.reverse;
-	  var stars = options.max || 5;
+	  var stars = options.max || 1;
 	  var starSize = options.starSize || 16;
 	  var step = options.step || 1;
 	  var onHover = options.onHover;

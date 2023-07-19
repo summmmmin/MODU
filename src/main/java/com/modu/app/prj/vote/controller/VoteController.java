@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.board.service.BoardService;
 import com.modu.app.prj.board.service.BoardVO;
@@ -24,14 +25,14 @@ public class VoteController {
 	
 	
 	//투표 리스트 페이지
-	@GetMapping("voteList")
-	public String empList(Model model,VoteVO vo,HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		model.addAttribute("voteList",voteService.voteList(vo));
-		return "vote/voteList";
-	}
+//	@GetMapping("voteList")
+//	public String empList(Model model,VoteVO vo,HttpServletRequest request) {
+//		HttpSession session = request.getSession();
+//		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+//		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+//		model.addAttribute("voteList",voteService.voteList(vo));
+//		return "vote/voteList";
+//	}
 	
 	// 투표 등록페이지
 	@GetMapping("voteInsert")
