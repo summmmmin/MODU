@@ -1740,19 +1740,9 @@ a {
 }
 
 .cls-1 {
-	fill: gray;
+	fill: gold;
 }
 
 .cls-1.clicked {
 	fill: gold;
 }
-
-}
-
-	.cls-1 {
-		fill: gray;
-	}
-	.cls-1.clicked {
-		fill: gold;
-	}
->>>>>>> branch 'sh/bm' of https://github.com/happypotatoC/MODU.git

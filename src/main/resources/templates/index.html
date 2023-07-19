@@ -55,7 +55,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 108.9 103.6">
     <g id="Layer_2" data-name="Layer 2">
         <g id="Layer_1-2" data-name="Layer 1">
-            <polygon onclick="click()" class="cls-1" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" th:class="${list.brdUniNo}">
+            <polygon onclick="click()" class="cls-1 clicked" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" th:class="${list.brdUniNo}">
         </g>
     </g>
 </svg>
@@ -69,12 +69,14 @@
 <script>
 function click(){
 	console.log(event.target.className.animVal)	
+      event.target.classList.toggle('clicked');
+		
 }
   document.getElementById('ultag').addEventListener('click', function(event) {
     let target = event.target;
     if (target.classList.contains('cls-1')) {
       let brdUniNo = target.getAttribute('text-brdUniNo');
-      console.log(brdUniNo);
+      console.log(target);	
     }
   });
 </script>
@@ -263,10 +265,8 @@ function click(){
 	
 	
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-			<script src="assets/js/main.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/test.js"></script>
-    <script src="assets/vendors/rater-js/rater-js.js"></script>
     <script src="assets/js/extensions/rater-js.js"></script>
 	<script>
 	function addBoard(){
