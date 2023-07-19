@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.modu.app.prj.bm.mapper.BmMapper">
  	
-	<!-- 게시판 전체조회 --> 	
+	<!-- 즐겨찾기 전체조회 --> 	
 	<select id="BmList" resultType="BmVO" parameterType="String">
 	SELECT *
 	FROM bm
@@ -12,9 +12,12 @@
 	ORDER BY reg_dt DESC
 	</select>
 	
-	<insert id="bmInsert" parameterType="BmVO">
-	INSERT INTO bm (bm_uni_no,reg_dt,partici_memb_uni_no,post_uni_no,att_no,chat_no)
-	VALUES (bm_seq.nextval,sysdate,#{particiMembUniNo},#{postUniNo},#{attNo},#{chatNo}
+	
+	<!-- 게시판 즐겨찾기 -->
+	<insert id="BrdBmInsert" parameterType="BmVO">
+		INSERT INTO bm_arm (brd_arm_uni_no,bm,arm_yn,brd_uni_no,partici_memb_uni_no)
+		VALUES
+		(brdarm_seq.nextval,#{bm},#{armYn},#{brdUniNo},#{particiMembUniNo})
 	</insert>
 	
  </mapper>

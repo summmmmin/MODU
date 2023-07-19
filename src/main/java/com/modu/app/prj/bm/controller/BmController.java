@@ -29,11 +29,11 @@ public class BmController {
 		return "bm/bmList";
 	}
 	
-	@PostMapping("bmInsert")
-	public String bmInsert(Model model,BmVO vo, HttpServletRequest request) {
+	@PostMapping("BrdBmInsert")
+	public String BrdBmInsert(Model model,BmVO vo, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		model.addAttribute("bmInsert",bmService.bmInsert(vo));
+		model.addAttribute("BrdBmInsert",bmService.BrdBmInsert(vo));
 		return "index";
 	}
 	
