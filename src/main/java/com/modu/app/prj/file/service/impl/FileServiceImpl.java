@@ -3,12 +3,14 @@ package com.modu.app.prj.file.service.impl;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.modu.app.prj.file.mapper.FileMapper;
 import com.modu.app.prj.file.service.FileService;
 import com.modu.app.prj.file.service.FileVO;
 
+@Service
 public class FileServiceImpl implements FileService {
 
 	@Autowired
@@ -16,7 +18,7 @@ public class FileServiceImpl implements FileService {
 
 	//첨부파일등록
 	@Override
-	public int insertFile(MultipartFile file, long fileSize, String fileExtension) {
+	public int insertFile(MultipartFile file, long fileSize, String fileExtension, String particiMembUniNo) {
 		FileVO fileVO = new FileVO();
         fileVO.setAttNm(file.getOriginalFilename());
         
@@ -28,7 +30,7 @@ public class FileServiceImpl implements FileService {
 		
 		fileVO.setFSize(fileSize);
 	    fileVO.setExt(fileExtension);
-		
+	    fileVO.setParticiMembUniNo(particiMembUniNo);
 		
 		return fileMapper.insertFile(fileVO);
 		

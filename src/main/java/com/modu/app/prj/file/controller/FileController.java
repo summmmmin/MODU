@@ -1,17 +1,20 @@
 package com.modu.app.prj.file.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.modu.app.prj.file.service.FileService;
 
 
 
-@Controller
+@RestController
 public class FileController {
 	
 	@Autowired
@@ -23,7 +26,8 @@ public class FileController {
 	}
 	
 	@PostMapping("fileInsert")
-	public String insertFile(@RequestParam("file") MultipartFile file, @RequestParam("uniNo") String uniNo) {
+	public String insertFile(@RequestParam("file") MultipartFile file, HttpSession session,@RequestParam("uniNo") String uniNo) {
+		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 		
 		//파일사이즈
 		long fileSize = file.getSize();
@@ -34,7 +38,7 @@ public class FileController {
 			
 		}
 		
-		fileService.insertFile(file, fileSize, fileExtension);
+		fileService.insertFile(file, fileSize, fileExtension, particiMembUniNo);
 		return "success";
 	} 
 	

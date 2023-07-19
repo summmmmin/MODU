@@ -5,5 +5,5 @@ import org.springframework.web.multipart.MultipartFile;
 public interface FileService {
 	
 	// 첨부파일등록
-	public int insertFile(MultipartFile file, long fileSize, String fileExtension);
+	public int insertFile(MultipartFile file, long fileSize, String fileExtension, String particiMembUniNo);
 }
