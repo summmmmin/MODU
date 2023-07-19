@@ -11,6 +11,30 @@
 		where id= #{id}
 	</select>
 	
+	<insert id="signUp" parameterType="UserVO">
+		INSERT INTO memb (
+											MEMB_UNI_NO
+											, ID
+											, PWD
+											, NM
+											, PH_NO
+											, SNS
+											, QUIT
+											, GRD
+											, REG_DT
+											)
+		VALUES						(
+											#{'m' || memb_seq.val}
+											,#{id}
+											,#{pwd}
+											,{nm}
+											,{phNo}
+											,'N'
+											,'N'
+											,sysdate
+											)
+	</insert>
+	
 
  </mapper>
   
