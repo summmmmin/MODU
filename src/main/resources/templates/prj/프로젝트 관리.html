@@ -101,8 +101,8 @@
     <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
 
-    <script src="assets/vendors/apexcharts/apexcharts.js"></script>
-    <script src="assets/js/pages/dashboard.js"></script>
+    <!-- <script src="assets/vendors/apexcharts/apexcharts.js"></script> -->
+    <!-- <script src="assets/js/pages/dashboard.js"></script> -->
 
     <script src="assets/js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
@@ -128,7 +128,22 @@
     	 $.ajax("prjUpdate")
  		.done(function(result){
  			$("#test").html(result);
- 			document.querySelector('#prjNm').value='[[${prjNo}]]';
+ 			
+ 			//프로젝트 이름, 회원수 들고오기
+ 			$.ajax("manage/prjInfo?prjNo="+'[[${prjNo}]]')
+ 			.done(function(res){
+ 				document.querySelector('#prjNm').value = res.prjNm;
+ 	 			if(res.memCnt != 1){
+ 	 				document.querySelector('#delPrjNm').disabled = true;
+ 	 			}
+ 			})
+/*  		
+ 		    document.querySelector("#prjsubmit").addEventListener("submit", function(e){
+ 		      // 조건 충족 하지 않을때 submit 막기
+ 		      if(!valid){
+ 		         e.preventDefault();
+ 		      }
+ 		   }); */
  		})
      }
      function mng3(){
@@ -140,155 +155,235 @@
      }
 	</script>
     <script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
-				<script>
-					var particiId = '';	//참여회원아이디 저장
-					
-					// 모달 안 등록 버튼 클릭 시 선택에 따라 실행 다름
-					function modalclick(){
-						console.log(particiId);
-						let select = document.getElementById('action');
-					    let option = select.options[select.selectedIndex];
-					    let grd = selectGain.options[selectGain.selectedIndex].value;	//등급코드
-					    let kickResn = outCause.value;	//탈퇴사유
-					    let data = {'prjUniNo':'[[${prjNo}]]','particiMembUniNo': particiId, 'grd': grd, 'kickResn': kickResn};
-					    if(option.value == "1"){
-					    	fetch("manage/updateGrade",{
-								method : "post",
-								headers:{
-									'Content-Type' : 'application/json',
-								},
-								body : JSON.stringify(data),
-							}) .then((response) => response.json())
-							   .then((data) => {
-								   alert('수정완료')
-								// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
-			  					   if(data == false){
-									   location.href = "prjList";
-								   }else if(data == true){
-									   membList();
-								   }    
-							   })
+	<script>
+		var particiId = '';	//참여회원아이디 저장
+		
+		// 모달 안 등록 버튼 클릭 시 선택에 따라 실행 다름
+		function modalclick(){
+			console.log(particiId);
+			let select = document.getElementById('action');
+			let option = select.options[select.selectedIndex];
+			let grd = selectGain.options[selectGain.selectedIndex].value;	//등급코드
+			let kickResn = outCause.value;	//탈퇴사유
+			let data = {'prjUniNo':'[[${prjNo}]]','particiMembUniNo': particiId, 'grd': grd, 'kickResn': kickResn};
+			if(option.value == "1"){
+				fetch("manage/updateGrade",{
+					method : "post",
+					headers:{
+						'Content-Type' : 'application/json',
+					},
+					body : JSON.stringify(data),
+				}) .then((response) => response.json())
+					.then((data) => {
+						alert('수정완료')
+					// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
+						if(data == false){
+							location.href = "prjList";
+						}else if(data == true){
+							membList();
+						}    
+					})
+
+				
+			}else if(option.value == "2"){
+				fetch("manage/kickMemb",{
+					method : "post",
+					headers:{
+						'Content-Type' : 'application/json',
+					},
+					body : JSON.stringify(data),
+				}).then((response) => response.json())
+					.then((data) => {
+						alert('탈퇴완료')
+						// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
+							if(data == false){
+								location.href = "prjList";
+							}else if(data == true){
+								membList();
+							}    
+						})
+			}
+		}
+		
+		// 모달 안 선택 변경 시
+		function getselect(){
+			var select = document.getElementById('action');
+			var option = select.options[select.selectedIndex];
+
+			if(option.value == "1"){
+				out.classList.add('visually-hidden');
+				gain.classList.remove('visually-hidden');
+			}else if(option.value == "2"){
+				out.classList.remove('visually-hidden');
+				gain.classList.add('visually-hidden');
+			}
+		}
+		
+		// tr만들기
+		function makeTr(item){
+			let tr = document.createElement('tr');
+				let td = document.createElement('td');
+		
+				for (let i of field) {
+				td = document.createElement('td');
+				if (item.hasOwnProperty(i)) {
+					td.textContent = item[i];
+				} else {
+					td.textContent = '';
+				}
+				tr.append(td);
+				}
+		
+				td = document.createElement('td');
+				let span = document.createElement('span');
+				span.classList.add('badge', 'bg-success');
+				span.textContent = item.cd;
+				td.append(span);
+				tr.append(td);
+		
+				td = document.createElement('td');
+				let btn = document.createElement('button');
+				btn.textContent = '관리';
+				btn.classList.add('btn', 'btn-outline-primary', 'block', 'memMng');
+				btn.id = item.particiMembUniNo;
+				btn.setAttribute('data-bs-toggle', 'modal');
+				btn.setAttribute('data-bs-target', '#manage');
+				if(item.grd == 'G03'){
+					btn.disabled = true;
+				}
+				td.append(btn);
+				tr.append(td);
+				tbd.append(tr);
+		}
+		
 			
-							
-					    }else if(option.value == "2"){
-					    	fetch("manage/kickMemb",{
-								method : "post",
-								headers:{
-									'Content-Type' : 'application/json',
-								},
-								body : JSON.stringify(data),
-							}).then((response) => response.json())
-							   .then((data) => {
-								   alert('탈퇴완료')
-									// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
-				  					   if(data == false){
-										   location.href = "prjList";
-									   }else if(data == true){
-										   membList();
-									   }    
-								   })
-					    }
+		let field = ['nnm', 'prjPubcId', 'dept', 'pos'];
+		// 회원리스트 만들기
+		function membList(){
+			tbd.innerText = '';
+			// 회원 리스트
+			fetch('manage/prjParList?prjUniNo=' + '[[${prjNo}]]')
+				.then(data => data.json())
+				.then(result => {
+				result.forEach(item => {
+					makeTr(item);
+				});
+				
+				// 관리 버튼 눌렀을때 모달창 안 내용 변경
+				tbd.addEventListener('click', function(event) {
+					if (event.target.classList.contains('memMng')) {
+					let tr = event.target.parentElement.parentElement;
+					particiId = event.target.id;	//참여회원아이디
+					nm.textContent = tr.childNodes[0].textContent;	//모달 안 이름 변경
+					mail.textContent = tr.childNodes[1].textContent;	//이메일변경
+					power.textContent = tr.childNodes[4].childNodes[0].textContent;	//권한변경
+					outCause.value = '';	//탈퇴사유비우기
+					action.options[0].selected = true;	
+					out.classList.add('visually-hidden');
+					gain.classList.remove('visually-hidden');
+					//console.log(particiId);
 					}
-					
-					// 모달 안 선택 변경 시
-					function getselect(){
-						var select = document.getElementById('action');
-					    var option = select.options[select.selectedIndex];
+				});
+				// Simple Datatable
+				let table1 = document.querySelector("#table1");
+				let dataTable = new simpleDatatables.DataTable(table1);
+				});
 			
-					    if(option.value == "1"){
-					    	out.classList.add('visually-hidden');
-					    	gain.classList.remove('visually-hidden');
-					    }else if(option.value == "2"){
-					    	out.classList.remove('visually-hidden');
-					    	gain.classList.add('visually-hidden');
-					    }
+		}
+		function makeGrdCd(){
+				// 공통코드 ajax
+				fetch('manage/grdCode')
+				.then(data => data.json())
+				.then(result => {
+					result.forEach(item => {
+		                //console.log(item)
+		                let opt = document.createElement('option');
+		                opt.value = item.cdNo;
+		                opt.text = item.cd;
+		                selectGain.options.add(opt);
+		            })
+				})					
+		}
+	</script>
+				
+	<script>
+		// 입력값 크기 확인(6자 이하)
+	    let valid = false;
+	    function check(){
+	        let name = document.getElementById('prjNm');
+	        //console.log(name)
+	        valid = name.value.length > 0 && name.value.length<7
+	        if(valid){
+	            name.classList.replace('is-invalid', 'is-valid');
+	        }else{
+	            name.classList.replace('is-valid', 'is-invalid')
+	        }
+	    }
+	    
+	    // 프로젝트명변경버튼
+		function prjUpdNm(){
+			if(!valid){
+				
+			}else{
+				let prjNm = document.querySelector('#prjNm').value;	//프로젝트이름
+				let data = {'prjUniNo':'[[${prjNo}]]','prjNm': prjNm};
+				//console.log(data)
+				// 프로젝트명 변경
+				fetch("manage/updatePrjNm", {
+					method : "post",
+					headers:{
+						'Content-Type' : 'application/json',
+					}, 
+					body : JSON.stringify(data)
+				})
+				.then((response) => response.json())
+				.then((result) => {
+					//console.log(result);
+					if(result.retCode == "Success"){
+						// 변경성공
+						// 변경한 값으로 바꾸기
+						document.querySelector('#prjNm').value = result.data.prjNm;
+					}else if(result.retCode == "Fail"){
+						// 변경실패
+						alert('변경 실패')
+					}else{
+						alert('오류')
 					}
-					
-					// tr만들기
-					function makeTr(item){
-						let tr = document.createElement('tr');
-					      let td = document.createElement('td');
-					
-					      for (let i of field) {
-					        td = document.createElement('td');
-					        if (item.hasOwnProperty(i)) {
-					          td.textContent = item[i];
-					        } else {
-					          td.textContent = '';
-					        }
-					        tr.append(td);
-					      }
-					
-					      td = document.createElement('td');
-					      let span = document.createElement('span');
-					      span.classList.add('badge', 'bg-success');
-					      span.textContent = item.cd;
-					      td.append(span);
-					      tr.append(td);
-					
-					      td = document.createElement('td');
-					      let btn = document.createElement('button');
-					      btn.textContent = '관리';
-					      btn.classList.add('btn', 'btn-outline-primary', 'block', 'memMng');
-					      btn.id = item.particiMembUniNo;
-					      btn.setAttribute('data-bs-toggle', 'modal');
-					      btn.setAttribute('data-bs-target', '#manage');
-						  if(item.grd == 'G03'){
-							  btn.disabled = true;
-						  }
-					      td.append(btn);
-					      tr.append(td);
-					      tbd.append(tr);
+				 })
+			}
+		}
+		
+		//프로젝트삭제버튼
+		function delPrj(){
+			let inputNm = document.querySelector('#delPrjNm').value;  //프로젝트 삭제 확인 문구(프로젝트명)
+			let data = {'prjUniNo':'[[${prjNo}]]','prjNm': inputNm};
+			if(inputNm == '' || inputNm == null){
+				alert('입력하세요')	
+			}else{
+				fetch("manage/delPrj", {
+					method : "delete",
+					headers:{
+						'Content-Type' : 'application/json',
+					}, 
+					body : JSON.stringify(data)
+				})
+				.then((response) => response.json())
+				.then((result) => {
+					console.log(result);
+					if(result == 1){
+						//삭제 성공
+						// 프로젝트리스트페이지로
+						location.href = "prjList";
+					}else if(result == 2){
+						alert('삭제 실패')
+						document.querySelector('#delPrjNm').value = '';
+					}else if(result == 0){
+						alert('잘못입력하였습니다.')
+						document.querySelector('#delPrjNm').value = '';
 					}
-					
-				 		
-					let field = ['nnm', 'prjPubcId', 'dept', 'pos'];
-					// 회원리스트 만들기
-					function membList(){
-						tbd.innerText = '';
-						// 회원 리스트
-						fetch('manage/prjParList?prjUniNo=' + '[[${prjNo}]]')
-						  .then(data => data.json())
-						  .then(result => {
-						    result.forEach(item => {
-						    	makeTr(item);
-						    });
-						    
-						 	// 관리 버튼 눌렀을때 모달창 안 내용 변경
-						    tbd.addEventListener('click', function(event) {
-						      if (event.target.classList.contains('memMng')) {
-						        let tr = event.target.parentElement.parentElement;
-						        particiId = event.target.id;	//참여회원아이디
-						        nm.textContent = tr.childNodes[0].textContent;	//모달 안 이름 변경
-						        mail.textContent = tr.childNodes[1].textContent;	//이메일변경
-						        power.textContent = tr.childNodes[4].childNodes[0].textContent;	//권한변경
-						        outCause.value = '';	//탈퇴사유비우기
-						        action.options[0].selected = true;	
-						        out.classList.add('visually-hidden');
-						        gain.classList.remove('visually-hidden');
-						        //console.log(particiId);
-						      }
-						    });
-						    // Simple Datatable
-						    let table1 = document.querySelector("#table1");
-						    let dataTable = new simpleDatatables.DataTable(table1);
-						  });
-						
-					}
-					function makeGrdCd(){
-							// 공통코드 ajax
-							fetch('manage/grdCode')
-							.then(data => data.json())
-							.then(result => {
-								result.forEach(item => {
-					                //console.log(item)
-					                let opt = document.createElement('option');
-					                opt.value = item.cdNo;
-					                opt.text = item.cd;
-					                selectGain.options.add(opt);
-					            })
-							})						
-					}
-				</script>
+				 })
+			}
+		}
+	</script>
 </body>
 </html>

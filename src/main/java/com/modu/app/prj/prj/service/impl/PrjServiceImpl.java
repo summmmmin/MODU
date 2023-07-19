@@ -63,4 +63,14 @@ public class PrjServiceImpl implements PrjService {
 	public PrjVO getMemInfo(PrjVO vo) {
 		return prjMapper.selectMemInfo(vo);
 	}
+
+	@Override
+	public int getPrjMemCnt(String prjUniNo) {
+		return prjMapper.selectPrjMemCnt(prjUniNo);
+	}
+
+	@Override
+	public PrjVO getPrjInfo(String prjUniNo) {
+		return prjMapper.selectPrjInfo(prjUniNo);
+	}
 }

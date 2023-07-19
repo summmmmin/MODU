@@ -34,4 +34,10 @@ public interface PrjMapper {
 	
 	// 프로젝트 회원 정보
 	public PrjVO selectMemInfo(PrjVO vo);
+	
+	// 프로젝트 참여 회원수
+	public int selectPrjMemCnt(String prjUniNo);
+	
+	// 프로젝트 정보
+	public PrjVO selectPrjInfo(String prjUniNo);
 }

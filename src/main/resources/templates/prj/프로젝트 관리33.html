@@ -18,8 +18,8 @@
                                         placeholder="원래프로젝트명" required oninput="check()">
                                 </div>
                                 <div class="col-12 d-flex justify-content-end">
-                                    <button type="submit"
-                                        class="btn btn-primary me-1 mb-1">변경하기</button>
+                                    <button type="button"
+                                        class="btn btn-primary me-1 mb-1" onclick="prjUpdNm()">변경하기</button>
                                     <button type="reset"
                                         class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                 </div>
@@ -49,11 +49,11 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-4">
-                                                    <input type="text" placeholder="프로젝트명" class="form-control form-control-lg">
+                                                    <input type="text" placeholder="프로젝트명" class="form-control form-control-lg" id="delPrjNm">
                                                 </div>
                                                 <div class="col-sm-4 d-flex">
                                                     <button type="button"
-                                                    class="btn btn-primary me-1 mb-1">삭제하기</button>
+                                                    class="btn btn-primary me-1 mb-1" onclick="delPrj()">삭제하기</button>
                                                 </div>
                                             </div>
                                         </div>
