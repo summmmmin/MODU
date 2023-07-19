@@ -61,7 +61,7 @@ public class PrjController {
 			if(info.getCd().equals("나무") || info.getCd().equals("농부")) {
 				model.addAttribute("memb", prjService.getPrjPartiList(prjVO));
 				model.addAttribute("prjNo", prjVO.getPrjUniNo());
-				return "prj/프로젝트 관리2";			
+				return "prj/프로젝트 관리";			
 			}else {
 				return "redirect:prjList";
 			}			
@@ -71,7 +71,7 @@ public class PrjController {
 	@GetMapping("prjManage2")
 	public String prjList2(PrjVO prjVO, Model model) {
 		model.addAttribute("prjNo", prjVO.getPrjUniNo());
-				return "prj/프로젝트 관리22";			
+		return "prj/프로젝트 관리22";			
 	}
 	//프로젝트관리페이지-프로젝트 관리
 	@GetMapping("prjUpdate")
