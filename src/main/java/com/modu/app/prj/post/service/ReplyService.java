@@ -4,19 +4,19 @@ import java.util.List;
 
 public interface ReplyService {
 
-	//전체조회
+	//댓글전체조회
 	public List<ReplyVO> getAllReplyList(String postUniNo);
 	
-	//단건조회
+	//댓글단건조회
 	public ReplyVO getOneReply(String replyUniNo);
 	
-	//등록
+	//댓글등록
 	public int insertReply(ReplyVO replyeVO);
 	
-	//수정
+	//댓글수정
 	public int updateReply(ReplyVO replyVO);
 	
-	//삭제
+	//댓글삭제
 	public int deleteReply(String replyUniNo);
 
 }

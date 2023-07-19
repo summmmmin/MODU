@@ -50,21 +50,44 @@
 
 
 <!--/* ************************ Board List Start *************************** */-->
-
 <li class="sidebar-item has-sub"><a href="#" class="sidebar-link"> 
 <i class="bi bi-stack"></i> 
 	<span>게시판</span>
 	<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#inlineForm" style="margin-left: 87px">+</button>
 </a>
-<ul class="submenu">
+<ul class="submenu" id="ultag">
 <li class="submenu-item" th:each="list, stat : ${Brd}">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 108.9 103.6">
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+            <polygon onclick="click()" class="cls-1 clicked" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" th:class="${list.brdUniNo}">
+        </g>
+    </g>
+</svg>
 <a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.boardNm}"></a>
 </li>
 </ul>
 	</li>
 		</ul>
+<!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
+<script>
+function click(){
+	console.log(event.target.className.animVal);
+      event.target.classList.toggle('clicked');
+      event.target.classList.toggle('cls-1');
 		
+}
+  document.getElementById('ultag').addEventListener('click', function(event) {
+    let target = event.target;
+    if (target.classList.contains('cls-1')) {
+      let brdUniNo = target.getAttribute('text-brdUniNo');
+      console.log(target);	
+    }
+  });
+</script>
 <!--/* ************************ End *************************** */-->
+
 			</div>
 
 				<button class="sidebar-toggler btn x">
@@ -81,19 +104,14 @@
 								alt="Logo" srcset="" /></a>
 						</div>
 						<div class="toggler">
-							<a href="#" class="rsidebar-hide d-xl-none d-block"><i
+							<a href="#" class="rsidebar-hide d-block"><i
 								class="bi bi-x bi-middle"></i></a>
 						</div>
 					</div>
 				</div>
 				<div class="rsidebar-menu">
-					<div>
-						<article layout:fragment="right-side"></article>
+					<div id="rsidebarContent">
 
-<ul>
-<li th:each="BmList, stat12 : ${BmList}">
-<a th:text="${BmList.regDt}"></a></li>
-</ul>
 					</div>
 				</div>
 				<button class="rsidebar-toggler btn x">
@@ -112,7 +130,7 @@
 						<a href="#" class="burger-btn d-block"> <i
 							class="bi bi-justify fs-3"></i>
 						</a> <a href="#" class="rburger-btn d-block"> <i
-							class="bi bi-justify fs-3"></i>
+							class="bi bi-justify fs-3" style="display:none"></i>
 						</a>
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -132,10 +150,10 @@
 								</a>
 									<ul class="dropdown-menu dropdown-menu-end"
 										aria-labelledby="dropdownMenuButton">
-										<li><a class="dropdown-item" href="">일정</a></li>
-										<li><a class="dropdown-item" th:href="@{todoList}">할일</a></li>
-										<li><a class="dropdown-item" th:href="@{voteList}">투표</a></li>
-										<li><a class="dropdown-item" href="">즐겨찾기</a></li>
+										<li><a class="dropdown-item rburger">일정</a></li>
+										<li><a class="dropdown-item rburger" >할일</a></li>
+										<li><a class="dropdown-item rburger" href="voteList" id="vote">투표</a></li>
+										<li><a class="dropdown-item rburger" href="">즐겨찾기</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
@@ -238,7 +256,7 @@
 	</div>
 	
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-			<script src="assets/js/main.js"></script>
+			<!-- <script src="assets/js/main.js"></script> -->
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/test.js"></script>
 	<script>
@@ -277,6 +295,17 @@
 		})
 		.catch(err => console.log(err))
 	}
+	</script>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	document.getElementById('vote').addEventListenr('click',function(){
+		fetch("/modu/voteList")
+	 	.then(response =>response.json())
+  		.then(data => console.log(data))
+  		.catch(reject => console.log(reject));
+	})
+		/*]]>*/
 	</script>
 </body>
 </html>

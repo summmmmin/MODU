@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{index}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{index}">
+
 <head>
 	<meta charset="UTF-8">
 	<title>postList</title>
@@ -17,7 +19,7 @@
 		<div class="buttons">
 			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}">글작성</a>
 		</div>
-		
+
 		<hr>
 		<div th:if="${#lists.isEmpty(postList)}">게시글이없습니다</div> <!--게시글없을때-->
 		<div th:unless="${#lists.isEmpty(postList)}"> <!--게시글있을때-->
@@ -50,7 +52,7 @@
 									</div>
 									<hr>
 									<p class="card-text">[[${post.cm}]]</p>
-									<p class="card-text">[[${post.postTagArm}]]태그된사람들</p>
+									<p class="card-text">[[${post.postTagArm}]]</p>
 									<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 								</div>
 								첨부파일미리보기
@@ -67,6 +69,7 @@
 										<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
 									</svg>
 								</div>
+								
 							</div>
 						</div>
 					</div>

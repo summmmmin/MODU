@@ -1,13 +1,15 @@
 package com.modu.app.prj.post.mapper;
 
 import java.util.List;
+import java.util.Map;
 
+import com.modu.app.prj.post.service.MembDTO;
 import com.modu.app.prj.post.service.PostVO;
 import com.modu.app.prj.user.service.UserVO;
 
 public interface PostMapper {
 	
-	//로그인멤버=프로젝트참가자확인용(공개게시판)
+	//로그인멤버=프로젝트참가자확인용(공개게시판) 필요x
 	public String isBrdParticiMemb(UserVO userVO);
 	
 	//전체게시글조회
@@ -33,10 +35,12 @@ public interface PostMapper {
 	//공지등록on/off
 	public int notiOnOff(PostVO postVO);
 		
-	//공지리스트
+	//상단공지리스트
 	public List<PostVO> selectAllNotiPost(String brdUniNo);
 	
-	//멤버호출용
+	//멤버호출용리스트	
+	public List<MembDTO> selectCallMembPub(String prjUniNo);
+	public List<MembDTO> selectCallMembNonPub(String brdUniNo);
 	
 
 }

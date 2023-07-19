@@ -7,11 +7,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.modu.app.prj.post.service.MembDTO;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
 
@@ -39,8 +38,18 @@ public class PostController {
 
 	// 등록페이지
 	@GetMapping("postInsert")
-	public String postInsertForm(Model model, String brdUniNo) {
+	public String postInsertForm(Model model, String brdUniNo, HttpSession session) {
+		
 		model.addAttribute("post", postService.selectOneBoard(brdUniNo));
+		
+		//멤버호출list
+	    String prjUniNo = (String) session.getAttribute("prjUniNo");
+	    char isPub = postService.selectOneBoard(brdUniNo).getPubcYn();
+	    if(isPub == 'Y') {
+	    	model.addAttribute("membList", postService.selectCallMembPub(prjUniNo));
+	    }else if(isPub == 'N') {
+	    	model.addAttribute("membList", postService.selectCallMembNonPub(brdUniNo));
+	    }
 		return "post/postInsert";
 	}
 
@@ -50,9 +59,6 @@ public class PostController {
 		String particiMembUniNo = (String)session.getAttribute("particiMembUniNo");
 		postVO.setParticiMembUniNo(particiMembUniNo);
 		postService.insertPost(postVO);
-		//System.out.println(postVO);
-		//List<PostVO> postList = postService.getAllPostList(postVO.getBrdUniNo());
-		//model.addAttribute("postList", postList);
 		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo();
 	}
 
@@ -61,8 +67,14 @@ public class PostController {
 	public String postUpdateForm(Model model, String postUniNo) {
 		 PostVO post = postService.getOnePost(postUniNo);
 		 model.addAttribute("post", post);
-		 System.out.println(post);
-		 //model.addAttribute("brdUniNo", post.getBrdUniNo());
+//		 String brdUniNo = post.getBrdUniNo();
+//		 String prjUniNo = (String) session.getAttribute("prjUniNo");
+//		 char isPub = post.getPubcYn();
+//		 if(isPub == 'Y') {
+//		    	model.addAttribute("membList", postService.selectCallMembPub(prjUniNo));
+//		    }else if(isPub == 'N') {
+//		    	model.addAttribute("membList", postService.selectCallMembNonPub(brdUniNo));
+//		    }
 		return "post/postUpdate";
 	}
 

@@ -67,7 +67,7 @@ public class PostRestController {
 		return postVO;
 	}
 	
-	//공지리스트
+	//상단공지리스트
 	@GetMapping("notiPost/{bNum}")
 	public List<PostVO> notiPostList(@PathVariable("bNum") String brdUniNo){
 		return postService.selectAllNotiPost(brdUniNo);
