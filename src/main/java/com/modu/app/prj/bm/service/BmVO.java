@@ -34,6 +34,4 @@ public class BmVO {
 	//채팅 버노
 	private String chatNo;
 	
-	
-	
 }
