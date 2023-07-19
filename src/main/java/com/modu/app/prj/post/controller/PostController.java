@@ -67,22 +67,12 @@ public class PostController {
 	public String postUpdateForm(Model model, String postUniNo) {
 		 PostVO post = postService.getOnePost(postUniNo);
 		 model.addAttribute("post", post);
-//		 String brdUniNo = post.getBrdUniNo();
-//		 String prjUniNo = (String) session.getAttribute("prjUniNo");
-//		 char isPub = post.getPubcYn();
-//		 if(isPub == 'Y') {
-//		    	model.addAttribute("membList", postService.selectCallMembPub(prjUniNo));
-//		    }else if(isPub == 'N') {
-//		    	model.addAttribute("membList", postService.selectCallMembNonPub(brdUniNo));
-//		    }
 		return "post/postUpdate";
 	}
 
 	// 수정처리
 	@PostMapping("postUpdate")
 	public String postUpdate(PostVO postVO) {
-		//postVO.setPostUniNo(null);
-		//String postUniNo = postVO.setPostUniNo();
 		postService.updatePost(postVO);
 		System.out.println(postVO);
 		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo();
