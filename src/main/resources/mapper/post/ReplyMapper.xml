@@ -72,12 +72,7 @@
 <!-- 댓글수정 -->
 <update id="updateReply" parameterType="ReplyVO">
 	UPDATE reply SET
- 					<if test="cntn != null and !cntn.equals('')">
  		   			cntn=#{cntn},
- 		   			</if>
- 		   			<if test="tagArm != null and !tagArm.equals('')">
- 		   			tag_arm=#{tagArm},
-					</if>
 					mod_dt=sysdate
  	WHERE reply_uni_no=#{replyUniNo}
 </update>
