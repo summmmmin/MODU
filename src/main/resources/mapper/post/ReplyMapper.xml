@@ -44,6 +44,10 @@
 
 <!-- 댓글생성 -->
 <insert id="insertReply" parameterType="ReplyVO">
+	<!-- 댓글고유번호자동생성(테스트용번호임) -->
+    <selectKey keyProperty="replyUniNo" resultType="String" order="BEFORE">
+    	SELECT 'rt' || (MAX(TO_NUMBER(SUBSTR(reply_uni_no, 3)))+1) FROM reply
+    </selectKey>
 	INSERT INTO reply (reply_uni_no,
 					   cntn,
 					   write_dt,
@@ -68,13 +72,8 @@
 <!-- 댓글수정 -->
 <update id="updateReply" parameterType="ReplyVO">
 	UPDATE reply SET
- 					<if test="cntn != null and !cntn.equals('')">
  		   			cntn=#{cntn},
- 		   			</if>
- 		   			<if test="tagArm != null and !tagArm.equals('')">
- 		   			tag_arm=#{tagArm},
-					</if>
-					modify_date=sysdate
+					mod_dt=sysdate
  	WHERE reply_uni_no=#{replyUniNo}
 </update>
 

@@ -5,16 +5,14 @@ package com.modu.app.prj.post.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.modu.app.prj.post.service.MembDTO;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
-import com.modu.app.prj.user.service.UserVO;
 
 @Controller
 public class PostController {
@@ -25,10 +23,8 @@ public class PostController {
 
 	// 전체조회페이지이동
 	@GetMapping("postList")
-	public String postList(Model model, String brdUniNo, HttpSession session) {
-//		//test용 이하 세션 삭제예정
-//		session.setAttribute("prjUniNo", "punt1");
-//		session.setAttribute("particiMembUniNo", "ppmt1");
+	public String postList(Model model, String brdUniNo) {
+		model.addAttribute("brdUniNo", brdUniNo);
 		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
 		return "post/postList";
 	}
@@ -42,44 +38,56 @@ public class PostController {
 
 	// 등록페이지
 	@GetMapping("postInsert")
-	public String postInsertForm(Model model, PostVO vo) {
-		vo = postService.selectOneBoard(vo);
-		model.addAttribute("post", vo);
+	public String postInsertForm(Model model, String brdUniNo, HttpSession session) {
+		
+		model.addAttribute("post", postService.selectOneBoard(brdUniNo));
+		
+		//멤버호출list
+	    String prjUniNo = (String) session.getAttribute("prjUniNo");
+	    char isPub = postService.selectOneBoard(brdUniNo).getPubcYn();
+	    if(isPub == 'Y') {
+	    	model.addAttribute("membList", postService.selectCallMembPub(prjUniNo));
+	    }else if(isPub == 'N') {
+	    	model.addAttribute("membList", postService.selectCallMembNonPub(brdUniNo));
+	    }
 		return "post/postInsert";
 	}
 
 	// 등록처리
 	@PostMapping("postInsert")
-	public String postInsert(Model model, PostVO postVO, HttpSession session) {
-		
-		String nm = (String)session.getAttribute("particiMembUniNo");
-		postVO.setParticiMembUniNo(nm);
+	public String postInsert(PostVO postVO, HttpSession session) {
+		String particiMembUniNo = (String)session.getAttribute("particiMembUniNo");
+		postVO.setParticiMembUniNo(particiMembUniNo);
 		postService.insertPost(postVO);
-		System.out.println(postVO);
-		//List<PostVO> postList = postService.getAllPostList(postVO.getBrdUniNo());
-		//model.addAttribute("postList", postList);
-		return "redirect:postList";
+		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo();
 	}
 
 	// 수정페이지
 	@GetMapping("postUpdate")
 	public String postUpdateForm(Model model, String postUniNo) {
-		model.addAttribute("post", postService.getOnePost(postUniNo));
+		 PostVO post = postService.getOnePost(postUniNo);
+		 model.addAttribute("post", post);
+//		 String brdUniNo = post.getBrdUniNo();
+//		 String prjUniNo = (String) session.getAttribute("prjUniNo");
+//		 char isPub = post.getPubcYn();
+//		 if(isPub == 'Y') {
+//		    	model.addAttribute("membList", postService.selectCallMembPub(prjUniNo));
+//		    }else if(isPub == 'N') {
+//		    	model.addAttribute("membList", postService.selectCallMembNonPub(brdUniNo));
+//		    }
 		return "post/postUpdate";
 	}
 
 	// 수정처리
 	@PostMapping("postUpdate")
 	public String postUpdate(PostVO postVO) {
+		//postVO.setPostUniNo(null);
+		//String postUniNo = postVO.setPostUniNo();
 		postService.updatePost(postVO);
-		return ""; // 어디로가?
+		System.out.println(postVO);
+		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo();
 	}
 
-	// 삭제
-	@GetMapping("postDelete")
-	public String postDelete(String postUniqueNumber) {
-		postService.deletePost(postUniqueNumber);
-		return postUniqueNumber;
-	}
+
 
 }
