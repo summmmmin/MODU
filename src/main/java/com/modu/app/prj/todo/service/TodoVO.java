@@ -6,12 +6,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.Data;
+
+@Data
 public class TodoVO {
 	private String todoUniNo;				//할일번호
 	private String prjUniNo;				//프로젝트고유번호
 	private String mgr;						//담당자
 	private String writer;					//작성자
+	private String cm;						//참여자
 	private String cntn;					//내용
+	private String ttl;
 	private int pct;						//진행도
 	@DateTimeFormat(pattern="yyyy-MM-dd")	
 	@JsonFormat(pattern="yyyy-MM-dd")

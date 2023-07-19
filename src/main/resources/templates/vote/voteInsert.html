@@ -1,150 +1,175 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<link rel="stylesheet" href="assets/css/bootstrap.css">
-	<link rel="stylesheet" href="assets/css/app.css">
-	<link rel="stylesheet" href="assets/vendors/toastify/toastify.css">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="assets/css/bootstrap.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="stylesheet" href="assets/vendors/toastify/toastify.css">
 
-	<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="preconnect" href="https://fonts.gstatic.com">
 
-	<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
-	<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+<link href="https://unpkg.com/filepond/dist/filepond.css"
+	rel="stylesheet">
+<link
+	href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+	rel="stylesheet">
 
-	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet">
 
-	<link rel="stylesheet" href="assets/vendors/fontawesome/all.min.css">
-	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
+<link rel="stylesheet" href="assets/vendors/fontawesome/all.min.css">
+<link rel="shortcut icon" href="assets/images/favicon.svg"
+	type="image/x-icon">
 
-	<!-- Include Choices CSS -->
-	<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
-	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<!-- Include Choices CSS -->
+<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
+<link rel="stylesheet"
+	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
 
 </head>
 
 <body>
-	<div layout:fragment="content">
+	<div layout:fragment="right-side">
 		<div class="row">
-			<div class="col">
-<div class="col-md-6 col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title">투표생성</h4>
-                                </div>
-                                <div class="card-content">
-                                    <div class="card-body">
-                                        <form class="form form-horizontal">
-                                            <div class="form-body">
-                                                <div class="row">
-                                                    <div class="col-md-8">
-                                                        <div class="form-group has-icon-left">
-                                                            <div class="position-relative">
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="투표 제목을 입력해주세요" id="first-name-icon">
-                                                                <div class="form-control-icon">
-                                                                    <i class="bi bi-pen"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <p></p>
-                                                    <div class="col-md-8">
-                                                        <div class="form-group has-icon-left">
-                                                            <div class="position-relative">
-                                                                <input type="email" class="form-control"
-                                                                    placeholder="투표항목을 입력해주세요" id="first-name-icon">
-                                                                <div class="form-control-icon">
-                                                                    <i class="bi bi-archive"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="form-group has-icon-left">
-                                                            <div class="position-relative">
-                                                                <input type="email" class="form-control"
-                                                                    placeholder="" id="first-name-icon">
-                                                                <div class="form-control-icon">
-                                                                    <i class=""></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <p></p>
-                                                    <div class="col-md-8">
-                                                        <div class="form-group has-icon-left">
-                                                            <div class="position-relative">
-                                                                <input type="date" class="form-control"
-                                                                    placeholder="마감시간을 설정해주세요">
-                                                                <div class="form-control-icon">
-                                                                    <i class="bi-calendar"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <p></p>
-                                                    <div class="form-group col-md-8 offset-md-4">
-                                                        <div class='form-check'>
-                                                            <div class="checkbox">
-                                                                <input type="checkbox" id="checkbox2"
-                                                                    class='form-check-input' checked>
-                                                                <label for="checkbox2">Remember Me</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 d-flex justify-content-end">
-                                                        <button type="submit"
-                                                            class="btn btn-primary me-1 mb-1">Submit</button>
-                                                        <button type="reset"
-                                                            class="btn btn-light-secondary me-1 mb-1">Reset</button>
-                                                    </div>
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">투표생성</h4>
+					<hr>
+				</div>
+				<div class="card-content">
+					<form class="form form-horizontal">
+						<div class="row">
+						<div class="col-md-6 mb-4">
+                                                <h6>장소</h6>
+                                                <div class="form-group">
+                                                    <select class="choices form-select" >
+                                                        <option value="square" th:each="i:${Brd1}">[[${i.boardNm}]]</option>
+                                                    </select>
                                                 </div>
                                             </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+							<div class="form-group has-icon-left">
+								<div class="position-relative">
+									<input type="text" class="form-control"
+										placeholder="투표 제목을 입력해주세요" id="first-name-icon">
+									<div class="form-control-icon">
+										<i class="bi bi-pen" data-bs-toggle="tooltip" ></i>
+									</div>
+								</div>
+							</div>
+							<p></p>
+							<div class="form-group has-icon-left">
+								<div class="position-relative">
+									<input type="text" class="form-control"
+										placeholder="투표항목을 입력해주세요" id="first-name-icon">
+									<div class="form-control-icon">
+										<i class="bi bi-archive"></i>
+									</div>
+								</div>
+							</div>
+							<div class="form-group has-icon-left" id="item">
+								<div class="position-relative">
+									<input type="text" class="form-control"
+										placeholder="투표항목을 입력해주세요" id="first-name-icon">
+									<div class="form-control-icon">
+										<i class="bi bi-123"></i>
+									</div>
+								</div>
+							</div>
+							<button type="button"
+								class="btn btn-block btn-light-primary font-bold mt-3"
+								onclick="insertItem()">+ 항목추가</button>
+						</div>
+						<p></p>
+						<div class="form-group has-icon-left mx-auto p-4">
+							<div class="position-relative">
+								<input type="date" class="form-control"
+									placeholder="마감시간을 설정해주세요">
+								<div class="form-control-icon">
+									<i class="bi-calendar"></i>
+								</div>
+							</div>
+						</div>
+						<p></p>
+						<div class="col-12 d-flex justify-content-end">
+							<button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
+							<button type="submit" class="btn btn-primary me-1 mb-1">저장하기</button>
+						</div>
+				</form>
+				</div>
 			</div>
-
 		</div>
+
 		<script>
+			function insertItem() {
+				let div = document.createElement('div');
+				console.log(this);
+				let input = document.createElement('input')
+				document.querySelector('#item').append(input);
+
+			}
+
+			/* 			<div class="form-group has-icon-left">
+			 <div class="position-relative">
+			 <input type="text" class="form-control item"
+					placeholder="투표항목을 입력해주세요" id="first-name-icon">
+			 <div class="form-control-icon">
+			 <i class="bi bi-123"></i>
+			 </div>
+			 </div>
+			 </div> */
 			// Filepond: Multiple Files
-			FilePond.create(document.querySelector('.multiple-files-filepond'), {
-				allowImagePreview: false,
-				allowMultiple: true,
-				allowFileEncode: false,
-				required: false
-			});
+			/* 			FilePond.create(document.querySelector('.multiple-files-filepond'),
+			 {
+			 allowImagePreview : false,
+			 allowMultiple : true,
+			 allowFileEncode : false,
+			 required : false
+			 }); */
+			 
 		</script>
-<!-- filepond validation -->
-<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
-</script>
-<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js">
-</script>
+		    <script src="assets/vendors/choices.js/choices.min.js"></script>
+		<!-- filepond validation -->
+		<!-- 		<script
+			src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
+			
+		</script>
+		<script
+			src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js">
+			
+		</script>
 
-<!-- image editor -->
-<script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js">
-</script>
-<script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
-<script src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
-<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-<script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+		image editor
+		<script
+			src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js">
+			
+		</script>
+		<script
+			src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
+		<script
+			src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
+		<script
+			src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+		<script
+			src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
 
-<!-- toastify -->
-<script src="assets/vendors/toastify/toastify.js"></script>
+		toastify
+		<script src="assets/vendors/toastify/toastify.js"></script>
 
-<!-- filepond -->
-<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<!-- Include Choices JavaScript -->
-<script src="assets/vendors/choices.js/choices.min.js"></script>
-<script src="assets/js/main.js"></script>
-<!--end of layout-->
+		filepond
+		<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+		<script src="assets/js/bootstrap.bundle.min.js"></script>
+		Include Choices JavaScript
+		<script src="assets/vendors/choices.js/choices.min.js"></script>
+		<script src="assets/js/main.js"></script>
+		end of layout -->
+		-->
 	</div>
 </body>
 

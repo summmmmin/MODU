@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Mazer Admin Dashboard</title>
+    <title>프로젝트 관리</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -37,28 +37,28 @@
                         <li class="sidebar-title">Menu</li>
 
                         <li class="sidebar-item active">
-                            <a href="프로젝트 관리.html" class='sidebar-link'>
+                            <a href="#" class='sidebar-link'>
                                 <i class="bi bi-bar-chart-fill"></i>
                                 <span>대시보드</span>
                             </a>
                         </li>
 
                         <li class="sidebar-item ">
-                            <a href="프로젝트 관리2.html" class='sidebar-link'>
+                            <a href="#" onclick="mng1()" class='sidebar-link'>
                                 <i class="bi bi-person-badge-fill"></i>
                                 <span>팀원관리</span>
                             </a>
                         </li>
 
                         <li class="sidebar-item">
-                            <a href="프로젝트 관리3.html" class='sidebar-link'>
+                            <a href="#" onclick="mng2()" class='sidebar-link'>
                                 <i class="bi bi-life-preserver"></i>
                                 <span>프로젝트 관리</span>
                             </a>
                         </li>
 
                         <li class="sidebar-item ">
-                            <a href="프로젝트 관리4.html" class='sidebar-link'>
+                            <a href="#" onclick="mng3()" class='sidebar-link'>
                                 <i class="bi bi-cash"></i>
                                 <span>결제정보</span>
                             </a>
@@ -74,273 +74,16 @@
                     <i class="bi bi-justify fs-3"></i>
                 </a>
             </header>
-
-            <div class="page-heading">
+            <div id="test"></div>
+			<!-- <article layout:fragment="content"></article> -->
+            <!-- <div class="page-heading">
                 <h3>Profile Statistics</h3>
             </div>
             <div class="page-content">
                 <section class="row">
-                    <div class="col-12 col-lg-9">
-                        <div class="row">
-                            <div class="col-6 col-lg-3 col-md-6">
-                                <div class="card">
-                                    <div class="card-body px-3 py-4-5">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="stats-icon purple">
-                                                    <i class="iconly-boldShow"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Profile Views</h6>
-                                                <h6 class="font-extrabold mb-0">112.000</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-lg-3 col-md-6">
-                                <div class="card">
-                                    <div class="card-body px-3 py-4-5">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="stats-icon blue">
-                                                    <i class="iconly-boldProfile"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Followers</h6>
-                                                <h6 class="font-extrabold mb-0">183.000</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-lg-3 col-md-6">
-                                <div class="card">
-                                    <div class="card-body px-3 py-4-5">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="stats-icon green">
-                                                    <i class="iconly-boldAdd-User"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Following</h6>
-                                                <h6 class="font-extrabold mb-0">80.000</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-lg-3 col-md-6">
-                                <div class="card">
-                                    <div class="card-body px-3 py-4-5">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="stats-icon red">
-                                                    <i class="iconly-boldBookmark"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <h6 class="text-muted font-semibold">Saved Post</h6>
-                                                <h6 class="font-extrabold mb-0">112</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4>Profile Visit</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div id="chart-profile-visit"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-xl-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4>Profile Visit</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="d-flex align-items-center">
-                                                    <svg class="bi text-primary" width="32" height="32" fill="blue"
-                                                        style="width:10px">
-                                                        <use
-                                                            xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#circle-fill" />
-                                                    </svg>
-                                                    <h5 class="mb-0 ms-3">Europe</h5>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="mb-0">862</h5>
-                                            </div>
-                                            <div class="col-12">
-                                                <div id="chart-europe"></div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="d-flex align-items-center">
-                                                    <svg class="bi text-success" width="32" height="32" fill="blue"
-                                                        style="width:10px">
-                                                        <use
-                                                            xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#circle-fill" />
-                                                    </svg>
-                                                    <h5 class="mb-0 ms-3">America</h5>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="mb-0">375</h5>
-                                            </div>
-                                            <div class="col-12">
-                                                <div id="chart-america"></div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="d-flex align-items-center">
-                                                    <svg class="bi text-danger" width="32" height="32" fill="blue"
-                                                        style="width:10px">
-                                                        <use
-                                                            xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#circle-fill" />
-                                                    </svg>
-                                                    <h5 class="mb-0 ms-3">Indonesia</h5>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="mb-0">1025</h5>
-                                            </div>
-                                            <div class="col-12">
-                                                <div id="chart-indonesia"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-xl-8">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4>Latest Comments</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover table-lg">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Comment</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="col-3">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="avatar avatar-md">
-                                                                    <img src="assets/images/faces/5.jpg">
-                                                                </div>
-                                                                <p class="font-bold ms-3 mb-0">Si Cantik</p>
-                                                            </div>
-                                                        </td>
-                                                        <td class="col-auto">
-                                                            <p class=" mb-0">Congratulations on your graduation!</p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="col-3">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="avatar avatar-md">
-                                                                    <img src="assets/images/faces/2.jpg">
-                                                                </div>
-                                                                <p class="font-bold ms-3 mb-0">Si Ganteng</p>
-                                                            </div>
-                                                        </td>
-                                                        <td class="col-auto">
-                                                            <p class=" mb-0">Wow amazing design! Can you make another
-                                                                tutorial for
-                                                                this design?</p>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-3">
-                        <div class="card">
-                            <div class="card-body py-4 px-5">
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar avatar-xl">
-                                        <img src="assets/images/faces/1.jpg" alt="Face 1">
-                                    </div>
-                                    <div class="ms-3 name">
-                                        <h5 class="font-bold">John Duck</h5>
-                                        <h6 class="text-muted mb-0">@johnducky</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Recent Messages</h4>
-                            </div>
-                            <div class="card-content pb-4">
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="assets/images/faces/4.jpg">
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">Hank Schrader</h5>
-                                        <h6 class="text-muted mb-0">@johnducky</h6>
-                                    </div>
-                                </div>
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="assets/images/faces/5.jpg">
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">Dean Winchester</h5>
-                                        <h6 class="text-muted mb-0">@imdean</h6>
-                                    </div>
-                                </div>
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="assets/images/faces/1.jpg">
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">John Dodol</h5>
-                                        <h6 class="text-muted mb-0">@dodoljohn</h6>
-                                    </div>
-                                </div>
-                                <div class="px-4">
-                                    <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
-                                        Conversation</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Visitors Profile</h4>
-                            </div>
-                            <div class="card-body">
-                                <div id="chart-visitors-profile"></div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </section>
-            </div>
+            </div> -->
 
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
@@ -362,6 +105,190 @@
     <script src="assets/js/pages/dashboard.js"></script>
 
     <script src="assets/js/main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script>
+     function sideact(){
+    	 document.querySelectorAll('.sidebar-item').forEach(function(item){
+    		item.classList.remove('active'); 
+    	 })
+    	 event.target.closest('li').classList.add('active')
+     }
+     function mng1(){
+    	 sideact();
+    	 
+    	 $.ajax("prjManage2?prjUniNo="+'[[${prjNo}]]')
+ 		.done(function(result){
+ 			$("#test").html(result);
+ 			membList();
+ 			makeGrdCd();
+ 		})
+     }
+     function mng2(){
+    	 sideact();
+    	 $.ajax("prjUpdate")
+ 		.done(function(result){
+ 			$("#test").html(result);
+ 			document.querySelector('#prjNm').value='[[${prjNo}]]';
+ 		})
+     }
+     function mng3(){
+    	 sideact();
+    	 $.ajax("prjPay")
+ 		.done(function(result){
+ 			$("#test").html(result);
+ 		})
+     }
+	</script>
+    <script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
+				<script>
+					var particiId = '';	//참여회원아이디 저장
+					
+					// 모달 안 등록 버튼 클릭 시 선택에 따라 실행 다름
+					function modalclick(){
+						console.log(particiId);
+						let select = document.getElementById('action');
+					    let option = select.options[select.selectedIndex];
+					    let grd = selectGain.options[selectGain.selectedIndex].value;	//등급코드
+					    let kickResn = outCause.value;	//탈퇴사유
+					    let data = {'prjUniNo':'[[${prjNo}]]','particiMembUniNo': particiId, 'grd': grd, 'kickResn': kickResn};
+					    if(option.value == "1"){
+					    	fetch("manage/updateGrade",{
+								method : "post",
+								headers:{
+									'Content-Type' : 'application/json',
+								},
+								body : JSON.stringify(data),
+							}) .then((response) => response.json())
+							   .then((data) => {
+								   alert('수정완료')
+								// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
+			  					   if(data == false){
+									   location.href = "prjList";
+								   }else if(data == true){
+									   membList();
+								   }    
+							   })
+			
+							
+					    }else if(option.value == "2"){
+					    	fetch("manage/kickMemb",{
+								method : "post",
+								headers:{
+									'Content-Type' : 'application/json',
+								},
+								body : JSON.stringify(data),
+							}).then((response) => response.json())
+							   .then((data) => {
+								   alert('탈퇴완료')
+									// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
+				  					   if(data == false){
+										   location.href = "prjList";
+									   }else if(data == true){
+										   membList();
+									   }    
+								   })
+					    }
+					}
+					
+					// 모달 안 선택 변경 시
+					function getselect(){
+						var select = document.getElementById('action');
+					    var option = select.options[select.selectedIndex];
+			
+					    if(option.value == "1"){
+					    	out.classList.add('visually-hidden');
+					    	gain.classList.remove('visually-hidden');
+					    }else if(option.value == "2"){
+					    	out.classList.remove('visually-hidden');
+					    	gain.classList.add('visually-hidden');
+					    }
+					}
+					
+					// tr만들기
+					function makeTr(item){
+						let tr = document.createElement('tr');
+					      let td = document.createElement('td');
+					
+					      for (let i of field) {
+					        td = document.createElement('td');
+					        if (item.hasOwnProperty(i)) {
+					          td.textContent = item[i];
+					        } else {
+					          td.textContent = '';
+					        }
+					        tr.append(td);
+					      }
+					
+					      td = document.createElement('td');
+					      let span = document.createElement('span');
+					      span.classList.add('badge', 'bg-success');
+					      span.textContent = item.cd;
+					      td.append(span);
+					      tr.append(td);
+					
+					      td = document.createElement('td');
+					      let btn = document.createElement('button');
+					      btn.textContent = '관리';
+					      btn.classList.add('btn', 'btn-outline-primary', 'block', 'memMng');
+					      btn.id = item.particiMembUniNo;
+					      btn.setAttribute('data-bs-toggle', 'modal');
+					      btn.setAttribute('data-bs-target', '#manage');
+						  if(item.grd == 'G03'){
+							  btn.disabled = true;
+						  }
+					      td.append(btn);
+					      tr.append(td);
+					      tbd.append(tr);
+					}
+					
+				 		
+					let field = ['nnm', 'prjPubcId', 'dept', 'pos'];
+					// 회원리스트 만들기
+					function membList(){
+						tbd.innerText = '';
+						// 회원 리스트
+						fetch('manage/prjParList?prjUniNo=' + '[[${prjNo}]]')
+						  .then(data => data.json())
+						  .then(result => {
+						    result.forEach(item => {
+						    	makeTr(item);
+						    });
+						    
+						 	// 관리 버튼 눌렀을때 모달창 안 내용 변경
+						    tbd.addEventListener('click', function(event) {
+						      if (event.target.classList.contains('memMng')) {
+						        let tr = event.target.parentElement.parentElement;
+						        particiId = event.target.id;	//참여회원아이디
+						        nm.textContent = tr.childNodes[0].textContent;	//모달 안 이름 변경
+						        mail.textContent = tr.childNodes[1].textContent;	//이메일변경
+						        power.textContent = tr.childNodes[4].childNodes[0].textContent;	//권한변경
+						        outCause.value = '';	//탈퇴사유비우기
+						        action.options[0].selected = true;	
+						        out.classList.add('visually-hidden');
+						        gain.classList.remove('visually-hidden');
+						        //console.log(particiId);
+						      }
+						    });
+						    // Simple Datatable
+						    let table1 = document.querySelector("#table1");
+						    let dataTable = new simpleDatatables.DataTable(table1);
+						  });
+						
+					}
+					function makeGrdCd(){
+							// 공통코드 ajax
+							fetch('manage/grdCode')
+							.then(data => data.json())
+							.then(result => {
+								result.forEach(item => {
+					                //console.log(item)
+					                let opt = document.createElement('option');
+					                opt.value = item.cdNo;
+					                opt.text = item.cd;
+					                selectGain.options.add(opt);
+					            })
+							})						
+					}
+				</script>
 </body>
-
 </html>
