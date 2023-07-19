@@ -93,4 +93,20 @@
 		</if>
 		and pm.prj_uni_no = #{prjUniNo}
  	</select>
+ 	
+ 	<!-- 프로젝트참여회원수 -->
+ 	<select id="selectPrjMemCnt" parameterType="String" resultType="int">
+ 		SELECT count(*)
+		FROM prj_partici_memb
+		WHERE prj_uni_no = #{prjUniNo}
+		AND partici_yn = 'Y'
+ 	</select>
+ 	
+ 	<!-- 프로젝트 정보 -->
+ 	<select id="selectPrjInfo" parameterType="String" resultType="PrjVO">
+	 	select * 
+		from prj
+		WHERE prj.prj_uni_no = #{prjUniNo}
+ 	</select>
+ 	
  </mapper>

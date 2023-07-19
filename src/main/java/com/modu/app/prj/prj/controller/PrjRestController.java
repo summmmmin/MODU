@@ -1,6 +1,8 @@
 package com.modu.app.prj.prj.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
@@ -38,14 +42,49 @@ public class PrjRestController {
 	
 	// 프로젝트 이름 변경
 	@PostMapping("updatePrjNm")
-	public int updatePrjNm(PrjVO vo) {
-		return prjService.setPrjNm(vo);
+	public String updatePrjNm(@RequestBody PrjVO vo) {
+		String json = "";
+		System.out.println("받은값"+vo);
+		Map<String, Object> map = new HashMap<>();
+		int result = prjService.setPrjNm(vo);
+		
+		//변경 성공 여부
+		if(result > 0) {
+			map.put("retCode", "Success");
+			map.put("data", vo);
+		}else {
+			map.put("retCode", "Fail");
+		}
+		
+		// Map을 JSON으로
+		ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            json = objectMapper.writeValueAsString(map);
+            System.out.println(json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+		return json;
 	}
 	
 	// 프로젝트 삭제
 	@DeleteMapping("delPrj")
-	public int deletePrj(String prjNo) {
-		return prjService.delPrj(prjNo);
+	public int deletePrj(@RequestBody PrjVO vo) {
+		String prjNo = vo.getPrjUniNo();	//프로젝트번호pk
+		PrjVO chk = prjService.getPrjInfo(prjNo);
+		String chkNm = chk.getPrjNm();	//원래 프로젝트명
+
+		// 확인 문구가 프로젝트명과 일치할때만 delete문 실행 
+		if(vo.getPrjNm().equals(chkNm)) {
+			if(prjService.delPrj(prjNo) > 0) {
+				// 삭제 성공
+				return 1;
+			}else {
+				return 2;
+			}
+		}else {
+			return 0;
+		}
 	}
 	
 	// 프로젝트 참여 회원 등급변경
@@ -102,8 +141,11 @@ public class PrjRestController {
 		}
 	}
 	
-	@GetMapping("prjNmUp")
-	public String prjNm(@RequestBody PrjVO vo) {
-		return "false";
+	@GetMapping("prjInfo")
+	public PrjVO prjInfo(String prjNo) {
+		System.out.println(prjNo);
+		PrjVO vo = prjService.getPrjInfo(prjNo);
+		vo.setMemCnt(prjService.getPrjMemCnt(prjNo));
+		return vo;
 	}
 }
