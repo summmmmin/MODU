@@ -68,8 +68,9 @@
 <!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
 <script>
 function click(){
-	console.log(event.target.className.animVal)	
+	console.log(event.target.className.animVal);
       event.target.classList.toggle('clicked');
+      event.target.classList.toggle('cls-1');
 		
 }
   document.getElementById('ultag').addEventListener('click', function(event) {
@@ -106,13 +107,8 @@ function click(){
 					</div>
 				</div>
 				<div class="rsidebar-menu">
-					<div>
-						<article layout:fragment="right-side"></article>
-
-<ul>
-<li th:each="BmList, stat12 : ${BmList}">
-<a th:text="${BmList.regDt}"></a></li>
-</ul>
+					<div id="rsidebarContent">
+						
 					</div>
 				</div>
 				<button class="rsidebar-toggler btn x">
@@ -297,10 +293,8 @@ function click(){
 				<a href="/postList?brdUniNo="`+data.brdUniNo+`>`+data.boardNm+`</a>
 				</li>
 			`;
-			
 			let submenu=document.querySelector('.submenu');
 			submenu.innerHTML+=liTag;
-			
 		})
 		.catch(err => console.log(err))
 	}
