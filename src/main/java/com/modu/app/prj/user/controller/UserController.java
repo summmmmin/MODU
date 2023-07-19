@@ -30,7 +30,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	private SmsService smsService;
+    private final SmsService smsService;
 
 	@PostMapping("sms")
 	@ResponseBody
@@ -44,7 +44,7 @@ public class UserController {
 	// 회원가입 사이트 이동
 	@GetMapping("signup")
 	public String signForm() {
-		return "user/singup";
+		return "user/signup";
 	}
 
 //	@PostMapping("signup")
