@@ -24,7 +24,7 @@ public class PostVO {
 	private String boardNm; // 게시판이름
 	private String nnm; //닉네임
 	private String prjUniNo; //프로젝트고유번호
-	private char pubcYn; // 게시판공개여부 //게시판단건조회ㅇㅇ
+	//private char pubcYn; // 게시판공개여부 //게시판단건조회ㅇㅇ
 	
 	private String membUniNo; //회원번호
 }
