@@ -44,7 +44,6 @@
 
 
 <!--/* ************************ Board List Start *************************** */-->
-
 <li class="sidebar-item has-sub"><a href="#" class="sidebar-link"> 
 <i class="bi bi-stack"></i> 
 	<span>게시판</span>
@@ -64,17 +63,13 @@
 <a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.brdUniNo}"></a>
 </li>
 </ul>
-<<<<<<< HEAD
 	</li>
 		</ul>
-=======
->>>>>>> branch 'sh/bm' of https://github.com/happypotatoC/MODU.git
+<!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
 <script>
-<<<<<<< HEAD
 function click(){
 	console.log(event.target.className.animVal)	
 }
-
   document.getElementById('ultag').addEventListener('click', function(event) {
     let target = event.target;
     if (target.classList.contains('cls-1')) {
@@ -84,6 +79,10 @@ function click(){
   });
 </script>
 <!--/* ************************ End *************************** */-->
+
+
+
+
 			</div>
 				<button class="sidebar-toggler btn x">
 					<i data-feather="x"></i>
