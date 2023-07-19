@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -13,7 +12,7 @@
 			<div class="card-header">
 				<h4 class="card-title">투표</h4>
 				<hr>
-				<button type="button"
+				<button type="button" onclick="voteInsert()"
 					class="btn btn-block btn-light-primary font-bold mt-3">+
 					투표 만들기</button>
 			</div>
@@ -35,9 +34,16 @@
 				<small class="text-muted">${i.cnt}명 참여</small>
 				<p class="card-text">~${i.toDt}까지 마감</p>
 			`;
-		$('#vote').append(div);
-		}
+			$('#vote').append(div);
+			}
  		})
+ 		
+ 	function voteInsert(){
+		$.ajax("voteInsert")
+		.done(function(result){
+			$("#rsidebarContent").html(result);
+		})	
+	}
 </script>
 </body>
 </html>

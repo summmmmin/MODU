@@ -41,6 +41,22 @@ public class VoteController {
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		return voteService.voteList(vo);
 	}
+	//투표 등록페이지 이동
+	@GetMapping("voteInsertPage")
+	public String todoInsertForm() {
+		return "vote/voteInsert";
+	}
+	
+	//투표 등록폼 출력
+	@GetMapping("voteInsertForm")
+	@ResponseBody
+	public List<BoardVO> voteInsertForm(HttpSession session){
+		BoardVO brd = new BoardVO();
+		brd.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		brd.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		return boardService.BoardList(brd);
+	}
+	
 	
 	// 투표 등록페이지
 	@GetMapping("voteInsert")
