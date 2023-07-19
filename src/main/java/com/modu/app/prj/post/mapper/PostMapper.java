@@ -1,7 +1,9 @@
 package com.modu.app.prj.post.mapper;
 
 import java.util.List;
+import java.util.Map;
 
+import com.modu.app.prj.post.service.MembDTO;
 import com.modu.app.prj.post.service.PostVO;
 import com.modu.app.prj.user.service.UserVO;
 
@@ -16,7 +18,7 @@ public interface PostMapper {
 	//단건조회
 	public PostVO selectOnePost(String postUniNo);
 	
-	//게시글등록, 수정폼용 게시판조회 필요x
+	//게시글등록, 수정폼용 게시판조회
 	public PostVO selectOneBoard(String brdUniNo);
 	//등록
 	public int insertPost(PostVO postVO);
@@ -36,8 +38,9 @@ public interface PostMapper {
 	//상단공지리스트
 	public List<PostVO> selectAllNotiPost(String brdUniNo);
 	
-	//멤버호출용리스트
-	
+	//멤버호출용리스트	
+	public List<MembDTO> selectCallMembPub(String prjUniNo);
+	public List<MembDTO> selectCallMembNonPub(String brdUniNo);
 	
 
 }

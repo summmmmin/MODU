@@ -1,14 +1,15 @@
 package com.modu.app.prj.post.service.Impl;
 
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.modu.app.prj.board.service.BoardVO;
 import com.modu.app.prj.post.mapper.PostMapper;
 import com.modu.app.prj.post.mapper.ReplyMapper;
+import com.modu.app.prj.post.service.MembDTO;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
 
@@ -81,6 +82,20 @@ public class PostServiceImpl implements PostService {
 	public List<PostVO> selectAllNotiPost(String brdUniNo) {
 		return postMapper.selectAllNotiPost(brdUniNo);
 	}
+
+	//멤버호출용리스트
+	@Override
+	public List<MembDTO> selectCallMembPub(String prjUniNo) {
+		return postMapper.selectCallMembPub(prjUniNo);
+	}
+
+	@Override
+	public List<MembDTO> selectCallMembNonPub(String brdUniNo) {
+		return postMapper.selectCallMembNonPub(brdUniNo);
+	}
+	
+	
+	
 
 
 }

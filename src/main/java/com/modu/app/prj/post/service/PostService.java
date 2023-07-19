@@ -13,7 +13,7 @@ public interface PostService {
 	//단건조회
 	public PostVO getOnePost(String postUniNo);
 	
-	//게시글홏게시글등록, 수정폼용 게시판조회
+	//게시글폼게시글등록, 수정폼용 게시판조회
 	public PostVO selectOneBoard(String brdUniNo);
 	//등록
 	public int insertPost(PostVO postVO);
@@ -32,4 +32,10 @@ public interface PostService {
 		
 	//상단공지리스트
 	public List<PostVO> selectAllNotiPost(String brdUniNo);
+	
+	//멤버호출용리스트
+	public List<MembDTO> selectCallMembPub(String prjUniNo);
+	public List<MembDTO> selectCallMembNonPub(String brdUniNo);
+	
+	
 }

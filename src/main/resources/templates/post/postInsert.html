@@ -24,50 +24,45 @@
 	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
 	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
 
+
+	
 </head>
 
 <body>
 	<div layout:fragment="content">
-		<h2>postInsertForm [[${post.boardNm}]](=게시판이름)</h2>
+		<h2>신규 게시글 작성</h2> <h5>[[${post.boardNm}]]</h5>
 		<div class="row">
 			<div class="col">
 				<div class="card">
 					<div class="card-body">
 						<form th:action="@{/postInsert}" method="POST" th:object="${post}">
-						<input type="hidden" th:field="*{brdUniNo}">
-						<input type="hidden" th:field="*{prjUniNo}">
+							<input type="hidden" th:field="*{brdUniNo}">
+							<input type="hidden" th:field="*{prjUniNo}">
 							<div class="form-group mb-3">
 								<!--제목부-->
 								<div class="form-group">
-									<label for="basicInput">제목*</label> 
-									<input type="text" class="form-control" id="basicInput"
-										placeholder="tilte" th:field="*{ttl}">
+									<label for="basicInput">제목*</label>
+									<input type="text" class="form-control" id="basicInput" placeholder="tilte" th:field="*{ttl}">
 								</div>
 								<hr>
 								<!--본문부-->
 								<div class="form-group">
-									<label for="exampleFormControlTextarea1" class="form-label">게시글
-										본문*</label>
-									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-										th:field="*{cm}"></textarea>
+									<label for="exampleFormControlTextarea1" class="form-label">게시글 본문*</label>
+									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" th:field="*{cm}"></textarea>
 								</div>
 								<hr>
 								<!--첨부파일부-->
+								첨부파일
 								<div class="form-group">
-									<label for="exampleFormControlTextarea1" class="form-label">첨부파일
-										<!-- File uploader with multiple files upload --> 
-										<input name="uploadFiles" type="file" class="multiple-files-filepond" multiple>
+									<!-- File uploader with multiple files upload -->
+									<input type="file" class="multiple-files-filepond" multiple>
 								</div>
+								<hr>
 								<!--멤버호출부-->
 								<div class="form-group">
-									<label for="basicInput" class="form-label">멤버호출</label> <select
-										class="choices form-select multiple-remove" multiple="multiple">
-										<optgroup label="pjtParticiMemb">
-											<option value="romboid">Romboid</option>
-											<option value="trapeze" selected>Trapeze</option>
-											<option value="triangle">Triangle</option>
-											<option value="polygon">Polygon</option>
-										</optgroup>
+									<label for="basicInput" class="form-label">멤버호출</label>
+									<select class="choices form-select multiple-remove" multiple="multiple" th:field="*{postTagArm}">
+										<option th:each="memb : ${membList}" th:value="${memb.particiMembUniNo}">[[${memb.nnm}]]</option>
 									</select>
 								</div>
 								<!--버튼부-->
@@ -93,30 +88,32 @@
 				required: false
 			});
 		</script>
-<!-- filepond validation -->
-<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
-</script>
-<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js">
-</script>
+		<!-- filepond validation -->
+		<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
+		</script>
+		<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js">
+		</script>
 
-<!-- image editor -->
-<script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js">
-</script>
-<script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
-<script src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
-<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-<script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+		<!-- image editor -->
+		<script
+			src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js">
+		</script>
+		<script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
+		<script src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
+		<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+		<script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
 
-<!-- toastify -->
-<script src="assets/vendors/toastify/toastify.js"></script>
+		<!-- toastify -->
+		<script src="assets/vendors/toastify/toastify.js"></script>
+		<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 
-<!-- filepond -->
-<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<!-- Include Choices JavaScript -->
-<script src="assets/vendors/choices.js/choices.min.js"></script>
-<script src="assets/js/main.js"></script>
-<!--end of layout-->
+		<!-- filepond -->
+		<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+		<script src="assets/js/bootstrap.bundle.min.js"></script>
+		<!-- Include Choices JavaScript -->
+		<script src="assets/vendors/choices.js/choices.min.js"></script>
+		<script src="assets/js/main.js"></script>
+		<!--end of layout-->
 	</div>
 </body>
 
