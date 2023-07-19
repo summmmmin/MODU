@@ -53,9 +53,4 @@ public class TodoController {
 		return vo;
 	}
 	
-<<<<<<< HEAD
-=======
-	 
-	
->>>>>>> branch 'kdg/vote' of https://github.com/happypotatoC/MODU
 }
