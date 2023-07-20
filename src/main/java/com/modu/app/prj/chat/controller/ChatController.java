@@ -8,11 +8,14 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.util.HtmlUtils;
 
 import com.modu.app.prj.chat.service.ChatService;
 import com.modu.app.prj.chat.service.ChatVO;
+import com.modu.app.prj.chat.service.ChatrVO;
 import com.modu.app.prj.post.service.PostService;
 
 
@@ -45,13 +48,20 @@ public class ChatController {
 		
 	}
 	
-	//채팅방만들기?
+	//채팅방만들기? form없이 만들것
 	@GetMapping("makeChatr") 
 	public String makeChatrForm(Model model, HttpSession session) {
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
 		model.addAttribute("membList", postService.selectCallMembPub(prjUniNo));
-		//System.out.println(postService.selectCallMembPub(prjUniNo));
+		
 		return "index";
+	}
+	
+	@PostMapping("makeChatr")
+	public ChatrVO makeChatr(@RequestBody ChatrVO chatrVO, HttpSession session) {
+		String prjUniNo = (String) session.getAttribute("prjUniNo");
+		chatrVO.setPrjUniNo(prjUniNo);
+		return chatrVO;
 	}
 
 }

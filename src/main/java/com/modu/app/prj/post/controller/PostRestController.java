@@ -30,8 +30,7 @@ public class PostRestController {
 
 	// 단건조회
 	@GetMapping("post/{pNum}")
-	public PostVO postOne(@PathVariable("pNum") String postUniNo, 
-			              HttpSession session) {
+	public PostVO postOne(@PathVariable("pNum") String postUniNo) {
 		return postService.getOnePost(postUniNo);
 	}
 
