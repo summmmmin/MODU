@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.modu.app.prj.bm.service.BmService;
 import com.modu.app.prj.bm.service.BmVO;
 
+
+//2023-07-20 즐겨찾기 관리 김성현 
 @Controller
 public class BmController {
 
 	@Autowired
 	BmService bmService;
 
+	//즐겨찾기 리스트 출력
 	@GetMapping("bmList")
 	public String BmList(Model model, BmVO vo, HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -32,9 +35,7 @@ public class BmController {
 	@PostMapping("BrdBmInsert")
 	@ResponseBody
 	public BmVO BrdBmInsert(@RequestBody BmVO vo) {
-		System.out.println(vo);
 		bmService.BrdBmInsert(vo);
-		System.out.println("11");
 		return vo;
 	}
 
@@ -49,11 +50,11 @@ public class BmController {
 	}
 
 	// 즐겨찾기 삭제
-//	@PostMapping("DeleteBm")
-//	@ResponseBody
-//	public String DeleteBm(@RequestBody BmVO vo) {
-//		bmService.
-//		return ;
-//	}
+	@PostMapping("DeleteBm")
+	@ResponseBody
+	public BmVO DeleteBm(@RequestBody BmVO vo) {
+		bmService.BmDelete(vo);
+		return vo;
+	}
 
 }

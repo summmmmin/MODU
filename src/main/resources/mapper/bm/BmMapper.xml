@@ -4,19 +4,20 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.modu.app.prj.bm.mapper.BmMapper">
  	
-	<!-- 즐겨찾기 전체조회 --> 	
-	<select id="BmList" resultType="BmVO" parameterType="String">
-	SELECT *
-	FROM bm
-	WHERE partici_memb_uni_no=#{particiMembUniNo}
-	ORDER BY reg_dt DESC
-	</select>
-	
 	<!-- 게시판 즐겨찾기 -->
 	<insert id="BrdBmInsert" parameterType="BmVO">
-		INSERT INTO brd_arm (brd_arm_uni_no,bm,arm_yn,brd_uni_no,partici_memb_uni_no)
-		VALUES
-		(brdarm_seq.nextval,'Y','Y',#{brdUniNo},#{particiMembUniNo})
+		INSERT INTO brd_arm (
+		        brd_arm_uni_no,
+		        bm,
+		        arm_yn,
+		        brd_uni_no,
+		        partici_memb_uni_no)
+		VALUES (brdarm_seq.nextval,
+				'Y',
+				'Y'
+				,#{brdUniNo},
+				#{particiMembUniNo}
+				)
 	</insert>
 
 	<!-- 즐겨찾기 Count해서 별 색 유지 -->
@@ -24,13 +25,20 @@
 		SELECT count(*)
 		FROM brd_arm
 		WHERE brd_uni_no = #{brdUniNo} and partici_memb_uni_no=#{particiMembUniNo}
-	</select> 
+	</select>
 	
 	<!-- 즐겨찾기 리스트 -->
 	<select id= "BmSelect" resultType="BmVO" parameterType="BmVO">
 		SELECT *
 		FROM brd_arm
-		WHERE brd_uni_no = #{brdUniNo} and partici_memb_uni_no=#{particiMembUniNo} 
-		ORDER BY reg_dt DESC
+		WHERE partici_memb_uni_no=#{particiMembUniNo} 
 	</select>
+	
+	<!--  -->
+	<delete id="BmDelete" parameterType="int">
+	DELETE brd_arm 
+	WHERE brd_arm_uni_no = #{brdArmUniNo};
+	</delete>
+	
+	
  </mapper>

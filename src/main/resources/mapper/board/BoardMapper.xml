@@ -7,10 +7,10 @@
 	<!-- 게시판 전체조회 --> 	
 	<select id="BoardList" resultType="BoardVO" parameterType="BoardVO">
    SELECT *
-   FROM brd a left outer join brd_cm b on a.brd_uni_no=b.board_uni_no
+    FROM brd a left outer join brd_cm b on a.brd_uni_no=b.board_uni_no
    WHERE (a.pubc_yn = 'Y'
-   or (a.pubc_yn = 'N' and b.partici_memb_uni_no = #{particiMembUniNo}))
-   AND a.prj_uni_no = #{prjUniNo}
+      or (a.pubc_yn = 'N' and b.partici_memb_uni_no = #{particiMembUniNo}))
+     AND a.prj_uni_no = #{prjUniNo}
 	</select>
 	
 	<!-- 게시판 생성 -->
@@ -18,7 +18,7 @@
  		CALL
  			create_brd(
  					  #{boardNm},
- 					  #{pubcYn}, 
+ 					  #{pubcYn},
  					  #{prjUniNo},
  					  #{particiMembUniNo}
  					  )
@@ -27,7 +27,7 @@
 	<!-- 게시판 삭제 -->
 	<delete id="DeleteBoard" parameterType="int">
 	DELETE brd
-	WHERE brd_uni_no = #{brdUniNo};
+	WHERE brd_uni_no = #{brdUniNo}
 	</delete>
 	
  </mapper>

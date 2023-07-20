@@ -17,4 +17,6 @@ public interface BmService {
 	//즐겨찾기 Count로 비교해서 별 색 유지
 	public int BmCount(BmVO vo);
 	
+	//즐겨찾기 해제
+	public int BmDelete(BmVO vo);
 }

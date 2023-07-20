@@ -23,7 +23,18 @@ public class BmServiceImpl implements BmService {
 	
 	@Override
 	public int BrdBmInsert(BmVO vo) {
-		return bmMapper.BrdBmInsert(vo);
+		int result = 0;
+		// 값 조회
+		int bmCount = bmMapper.BmCount(vo);
+
+		// 값이 없으면 등록
+		if (bmCount == 0) {
+			result = bmMapper.BrdBmInsert(vo);
+		//값이 있이면 삭제
+		} else {
+			result = bmMapper.BmDelete(vo);
+		}
+		return result;
 	}
 	
 	@Override
@@ -36,6 +47,10 @@ public class BmServiceImpl implements BmService {
 		return bmMapper.BmList(vo);
 	}
 	
+	@Override
+	public int BmDelete(BmVO vo) {
+		return bmMapper.BmDelete(vo);
+	}
 	
 	
 }

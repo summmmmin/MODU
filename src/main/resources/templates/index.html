@@ -68,7 +68,7 @@
 		</ul>
 		
 
-<script> <!-- 즐겨찾기  -->
+<script> <!-- 즐겨찾기 등록 -->
 function clickInsert(){
 	console.log(event.target.className.animVal);
       let star = event.target;
@@ -93,6 +93,8 @@ function clickInsert(){
       })
       .catch(err => console.log(err));
 }
+
+	/* 색 변환 JS */
   document.getElementById('ultag').addEventListener('click', function(event) {
     let target = event.target;
     if (target.classList.contains('cls-1')) {
