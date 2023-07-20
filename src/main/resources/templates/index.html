@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="assets/css/test.css" />
 <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
 <link rel="stylesheet" href="assets/css/modal.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -120,10 +121,9 @@ function clickInsert(){
 						</div>
 					</div>
 				</div>
-				<div class="rsidebar-menu">
-					<div id="rsidebarContent">
-
-					</div>
+				
+				<div class="rsidebar-menu">			
+					<div id="rsidebarContent"></div>
 				</div>
 				<button class="rsidebar-toggler btn x">
 					<i data-feather="x"></i>
@@ -161,9 +161,9 @@ function clickInsert(){
 								</a>
 									<ul class="dropdown-menu dropdown-menu-end"
 										aria-labelledby="dropdownMenuButton">
-										<li><a class="dropdown-item rburger">일정</a></li>
-										<li><a class="dropdown-item rburger" >할일</a></li>
-										<li><a class="dropdown-item rburger" href="voteList" id="vote">투표</a></li>
+										<li><a class="dropdown-item rburger" >일정</a></li>
+										<li><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
+										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
 										<li><a class="dropdown-item rburger" href="">즐겨찾기</a></li>
 									</ul></li>
 							</ul>
@@ -267,7 +267,6 @@ function clickInsert(){
 	</div>
 	
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-			<!-- <script src="assets/js/main.js"></script> -->
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/test.js"></script>
 	<script>
@@ -314,16 +313,19 @@ function clickInsert(){
 		.catch(err => console.log(err))
 	}
 	</script>
-	
-	<script th:inline="javascript">
-	/*<![CDATA[*/
-	document.getElementById('vote').addEventListenr('click',function(){
-		fetch("/modu/voteList")
-	 	.then(response =>response.json())
-  		.then(data => console.log(data))
-  		.catch(reject => console.log(reject));
-	})
-		/*]]>*/
-	</script>
+ 	<script>
+ 	function todoList(){
+ 	 $.ajax("todo")
+		.done(function(result){
+			$("#rsidebarContent").html(result);
+		})
+ 	}
+ 	function voteList(){
+ 	  $.ajax("vote")
+ 		.done(function(result){
+ 			$("#rsidebarContent").html(result);
+ 		})
+ 	}
+ 	</script>
 </body>
 </html>
