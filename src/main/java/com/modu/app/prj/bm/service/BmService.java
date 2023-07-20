@@ -18,5 +18,5 @@ public interface BmService {
 	public int BmCount(BmVO vo);
 	
 	//즐겨찾기 해제
-	public int BmDelete(BmVO vo);
+	public BmVO BmUpdate(BmVO vo);
 }

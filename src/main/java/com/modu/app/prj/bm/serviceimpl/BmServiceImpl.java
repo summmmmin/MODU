@@ -30,9 +30,6 @@ public class BmServiceImpl implements BmService {
 		// 값이 없으면 등록
 		if (bmCount == 0) {
 			result = bmMapper.BrdBmInsert(vo);
-		//값이 있이면 삭제
-		} else {
-			result = bmMapper.BmDelete(vo);
 		}
 		return result;
 	}
@@ -48,9 +45,8 @@ public class BmServiceImpl implements BmService {
 	}
 	
 	@Override
-	public int BmDelete(BmVO vo) {
-		return bmMapper.BmDelete(vo);
+	public BmVO BmUpdate(BmVO vo) {
+		return bmMapper.BmUpdate(vo);
 	}
-	
 	
 }

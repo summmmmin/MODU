@@ -49,12 +49,4 @@ public class BmController {
 		return vo;
 	}
 
-	// 즐겨찾기 삭제
-	@PostMapping("DeleteBm")
-	@ResponseBody
-	public BmVO DeleteBm(@RequestBody BmVO vo) {
-		bmService.BmDelete(vo);
-		return vo;
-	}
-
 }

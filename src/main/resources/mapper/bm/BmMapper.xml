@@ -31,14 +31,15 @@
 	<select id= "BmSelect" resultType="BmVO" parameterType="BmVO">
 		SELECT *
 		FROM brd_arm
-		WHERE partici_memb_uni_no=#{particiMembUniNo} 
+		WHERE partici_memb_uni_no=#{particiMembUniNo}
 	</select>
 	
-	<!--  -->
-	<delete id="BmDelete" parameterType="int">
-	DELETE brd_arm 
-	WHERE brd_arm_uni_no = #{brdArmUniNo};
-	</delete>
+	<!-- 즐겨찾기 삭제 -->
+	<update id="BmUpdate" parameterType="BmVO">
+	UPDATE brd_arm
+	SET bm = CASE WHEN bm = 'Y' THEN 'N' ELSE 'Y' END
+	WHERE partici_memb_uni_no = #{particiMembUniNo}
+	</update>
 	
 	
  </mapper>
