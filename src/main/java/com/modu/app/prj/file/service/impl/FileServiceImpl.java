@@ -50,7 +50,7 @@ public class FileServiceImpl implements FileService {
 
 				fileMapper.insertFile(fileVO); // 파일이름DB에저장
 				
-				//modu/upload 폴더에 업로드
+				// modu/upload 폴더에 업로드
 				String folderPath = FileUtill.makeFolder();
 				Path savePath = Paths.get(uploadPath + File.separator + folderPath, saveName);
 
