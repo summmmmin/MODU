@@ -20,8 +20,18 @@
 <link rel="shortcut icon" href="assets/images/favicon.svg"
 	type="image/x-icon" />
 <link rel="stylesheet" href="assets/css/modal.css">
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+<!-- Include Choices CSS -->
+<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
+<link rel="stylesheet"
+	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -380,15 +390,11 @@ function click(){
 	<script>
  	function todoList(){
  	 $.ajax("todo")
-		.done(function(result){
-			$("#rsidebarContent").html(result);
-		})
+		.done(result=>$("#rsidebarContent").html(result));
  	}
  	function voteList(){
  	  $.ajax("vote")
- 		.done(function(result){
- 			$("#rsidebarContent").html(result);
- 		})
+ 		.done(result=>$("#rsidebarContent").html(result))
  	}
  	</script>
 </body>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.modu.app.prj.todo.mapper.TodoMapper">
+
+	<!-- 할일 목록 -->
+	<select id="todoList" resultType="TodoVO" parameterType="TodoVO">
+	select  TODO_UNI_NO,
+			FR_DT,
+			TO_DT,
+			FIND_NICKNAME(PRJ_UNI_NO,MGR)  MGR,
+			FIND_NICKNAME(PRJ_UNI_NO,CM)  CM,
+			WRITER,
+			CNTN,
+			PCT,
+			PRJ_UNI_NO,
+			TTL
+	  from todo 
+	  where prj_uni_no=#{prjUniNo} 
+	  and (MGR=#{mgr} or cm=#{cm})
+	</select>
+
+	<!-- 단건 조회 -->
+	<select id="oneTodo" parameterType="String" resultType="TodoVO">
+	select  TODO_UNI_NO,
+			FR_DT,
+			TO_DT,
+			FIND_NICKNAME(PRJ_UNI_NO,MGR)  MGR,
+			FIND_NICKNAME(PRJ_UNI_NO,CM)  CM,
+			WRITER,
+			CNTN,
+			PCT,
+			PRJ_UNI_NO,
+			TTL 
+		from todo 
+		where todo_uni_no=#{todoUniNo}
+	</select>
+
+	<!-- 할일 생성-->
+	<insert id="insertTodo" parameterType="TodoVO">
+	insert into todo(todo_uni_no,fr_dt,to_dt,mgr,cm,writer,cntn,pct,prj_uni_no,ttl)
+	values('t'||todo_seq.nextval,#{fr_dt},#{to_dt},#{mgr},#{cm},#{writer},#{cntn},#{pct},#{prjUniNo},#{ttl})
+	</insert>
+
+	<!-- 할일 진행도 변경 -->
+	<update id="udpatePercent" parameterType="TodoVO">
+	update todo set
+				pct = #{pct}
+	where todo_uni_no = #{toDoUniNo}
+	</update>
+	
+	<!-- 할일 삭제 -->
+	<delete id="deleteTodo" parameterType="String">
+	delete from todo
+	where todo_uni_no = #{toDoUniNo}
+	</delete>
+	
+	<!-- 할일 수정  -->
+	<update id="updateTodo" parameterType="TodoVO">
+	update todo <set>
+					<if test="ttl != null and !ttl.equals('')">
+ 					ttl=#{ttl},
+ 					</if>
+ 					<if test="cntn != null and !cntn.equals('')">
+ 		   			cntn=#{cntn},
+ 		   			</if>
+ 		   			<if test="pct != null and !pct.equals('')">
+ 		   			pct=#{pct},
+ 		   			</if>
+ 		   			<if test="cm != null and !cm.equals('')">
+ 		   			cm=#{cm},
+ 		   			</if>
+ 		   			<if test="toDt != null and !toDt.equals('')">
+ 		   			to_dt=#{toDt},
+ 		   			</if>
+ 		  </set>
+ 	where todo_uni_no = #{toDoUniNo}
+	</update>
+</mapper>

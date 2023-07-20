@@ -39,11 +39,19 @@
  		})
  		
  	function voteInsert(){
-		$.ajax("voteInsert")
+	$.ajax("voteInsertPage")
+	.done(result=>{
+		$("#rsidebarContent").html(result);
+		})
+		}
+	
+	/* 	$.ajax("voteInsert")
 		.done(function(result){
 			$("#rsidebarContent").html(result);
 		})	
-	}
+	} */
+	
+	
 </script>
 </body>
 </html>
