@@ -41,6 +41,11 @@ public class PostRestController {
 		postService.deletePost(postUniNo);
 		return postUniNo;
 	}
+//	@DeleteMapping("post/{pNum}")
+//	public String postDelete(@PathVariable("pNum") String postUniNo) {
+//		postService.deletePost(postUniNo);
+//		return postUniNo;
+//	}
 	
 	//공지등록ON/OFF
 	@PostMapping("setPostNoti")
