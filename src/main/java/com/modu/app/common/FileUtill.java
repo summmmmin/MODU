@@ -2,21 +2,16 @@ package com.modu.app.common;
 
 import java.io.File;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class FileUtill {
 	
-	//파일업로드경로
-	@Value("${file.upload.path}")
-	public String uploadPath;
 	
-	
-
 	public static String makeFolder() {
 
 		String folderPath = "upload".replace("/", File.separator);
+		
 		File uploadPathFoler = new File(folderPath);
 		// File newFile= new File(dir,"파일명");
 		

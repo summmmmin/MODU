@@ -1,6 +1,5 @@
 package com.modu.app.prj.post.controller;
 
-import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,12 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.modu.app.prj.file.mapper.FileMapper;
 import com.modu.app.prj.file.service.FileService;
-import com.modu.app.prj.file.service.FileVO;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
 // 230707 김자영 post
@@ -26,7 +22,7 @@ public class PostController {
 	PostService postService;
 
 	@Autowired
-	FileService fileService;
+	FileService fileService; //첨부파일용
 
 	// 전체조회페이지이동
 	@GetMapping("postList")
@@ -73,7 +69,7 @@ public class PostController {
 		//게시글등록
 		postService.insertPost(postVO);
 		//첨부파일등록
-		fileService.insertFile(file, postVO);
+		fileService.insertFileWihtpost(file, postVO);
 			
 		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo();
 	}

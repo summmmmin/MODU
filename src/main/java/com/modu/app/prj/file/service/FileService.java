@@ -7,5 +7,5 @@ import com.modu.app.prj.post.service.PostVO;
 public interface FileService {
 	
 	// 첨부파일등록
-	public int insertFile(MultipartFile[] files, PostVO postvo);
+	public int insertFileWihtpost(MultipartFile[] files, PostVO postvo);
 }
