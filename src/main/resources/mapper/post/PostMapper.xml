@@ -16,42 +16,34 @@
 	<!-- 게시글리스트 -->
 	<select id="selectAllPost" resultType="PostVO">
 		SELECT p.post_uni_no,
-		p.brd_uni_no,
-		p.ttl,
-		p.cm,
-		p.partici_memb_uni_no,
-		<if test="post_tag_arm != null and !post_tag_arm.equals('')">
-			p.post_tag_arm,
-		</if>
-		p.reply_arm_yn,
-		p.noti_yn,
-		<if test="noti_reg_dt != null and !noti_reg_dt.equals('')">
-			p.noti_reg_dt,
-		</if>
-		p.write_dt,
-		m.nnm
+				p.brd_uni_no,
+				p.ttl,
+				p.cm,
+				p.partici_memb_uni_no,
+				p.post_tag_arm,
+				p.reply_arm_yn,
+				p.noti_yn,
+				p.noti_reg_dt,
+				p.write_dt,
+				m.nnm
 		FROM post p JOIN prj_partici_memb m
-		ON
-		p.partici_memb_uni_no = m.partici_memb_uni_no
-		WHERE
-		p.brd_uni_no=#{brdUniNo}
+		  ON p.partici_memb_uni_no = m.partici_memb_uni_no
+		WHERE p.brd_uni_no=#{brdUniNo}
 		ORDER BY write_dt desc
 	</select>
 
 	<!-- 단건조회 -->
 	<select id="selectOnePost" resultType="PostVO">
 		SELECT p.post_uni_no,
-		p.brd_uni_no,
-		p.ttl,
-		p.cm,
-		p.partici_memb_uni_no,
-		p.write_dt,
-		p.reply_arm_yn,
-		<if test="noti_reg_dt != null and !noti_reg_dt.equals('')">
+			p.brd_uni_no,
+			p.ttl,
+			p.cm,
+			p.partici_memb_uni_no,
+			p.write_dt,
+			p.reply_arm_yn,
 			p.noti_reg_dt,
-		</if>
-		p.noti_yn,
-		b.board_nm
+			p.noti_yn,
+			b.board_nm
 		FROM post p JOIN brd b
 		ON p.brd_uni_no =
 		b.brd_uni_no
@@ -71,8 +63,7 @@
 		<!-- 게시글고유번호자동생성(테스트용번호임) -->
 		<selectKey keyProperty="postUniNo" resultType="String"
 			order="BEFORE">
-			SELECT 'pt' || (MAX(TO_NUMBER(SUBSTR(post_uni_no, 3)))+1) FROM
-			post
+			SELECT 'pt' || (MAX(TO_NUMBER(SUBSTR(post_uni_no, 3)))+1) FROM post
 		</selectKey>
 		INSERT INTO post (post_uni_no,
 		brd_uni_no,
@@ -148,9 +139,7 @@
 		p.ttl,
 		p.cm,
 		p.partici_memb_uni_no,
-		<if test="post_tag_arm != null and !post_tag_arm.equals('')">
 			p.post_tag_arm,
-		</if>
 		p.reply_arm_yn,
 		p.noti_yn,
 		p.noti_reg_dt,
