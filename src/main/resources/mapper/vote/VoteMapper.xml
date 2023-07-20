@@ -6,7 +6,7 @@
   <mapper namespace="com.modu.app.prj.vote.mapper.VoteMapper">
   
   <!-- 투표 생성 - 1-1. 게시글에 첨가 -->
-  <insert id="postVote" parameterType="VoteVO">
+ <!--  <insert id="postVote" parameterType="VoteVO">
     <selectKey keyProperty="postUniNo" resultType="String" order="BEFORE">
     	SELECT 'pt' || (MAX(TO_NUMBER(SUBSTR(post_uni_no, 3)))+1) FROM post
     </selectKey>
@@ -37,13 +37,13 @@
 		           )
 </insert>
   
-  <!-- 투표 생성 - 1-2. 채팅에 첨가 --> 
+  투표 생성 - 1-2. 채팅에 첨가 
   <insert id="chatVote" parameterType="VoteVO">
   insert into chat(chat_no,chatr_no,partici_memb_uni_no,cntn)
   values(chat_seq.nextval,#{chatr_no},#{partici_memb_uni_no},#{cntn})  
   </insert>
   
-  <!-- 투표 생성 - 2.투표테이블 -->
+  투표 생성 - 2.투표테이블
   <insert id="createVote" parameterType="VoteVO">
   <selectKey keyProperty="voteNo" order="BEFORE" resultType="String">
 		SELECT 'v'||vote_no.nextval
@@ -78,7 +78,7 @@
                     )
   </insert>
   
-  <!-- 투표 생성 - 3. 투표상세 테이블 -->
+  투표 생성 - 3. 투표상세 테이블
   <insert id="insertVoteItem" parameterType="VoteVO">
   <selectKey keyProperty="voteDetaNo" order="BEFORE" resultType="String">
 		SELECT 'vd'||vote_deta_no.nextval
@@ -86,7 +86,7 @@
   </selectKey>
   insert into vote_deta(vote_deta_no,vote_no,vote_item)
   values(#{voteDetaNo},#{voteNo},#{voteItem})
-  </insert>
+  </insert> -->
   
   <!-- 투표 기간 수정 -->
   <update id="voteDate" parameterType="VoteVO">
@@ -96,7 +96,7 @@
   
   <!-- 투표 항목 나열  -->
   <select id="voteItem" resultType="VoteVO">
-  select vote_item,vote_deta_no from vote_deta where vote_no=#{voteNo}
+  select vote_item, typeHandler=com.yedam.app.OracleArrayHandler,vote_deta_no from vote_deta where vote_no=#{voteNo}
   </select>
   
   <!-- 투표하기 - 투표수 증가 -->
