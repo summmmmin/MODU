@@ -1,75 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{index}">
-
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="assets/css/bootstrap.css">
-<link rel="stylesheet" href="assets/css/app.css">
-<link rel="stylesheet" href="assets/vendors/toastify/toastify.css">
-
-<link rel="preconnect" href="https://fonts.gstatic.com">
-
-<link href="https://unpkg.com/filepond/dist/filepond.css"
-	rel="stylesheet">
-<link
-	href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-	rel="stylesheet">
-
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-	rel="stylesheet">
-
-<link rel="stylesheet" href="assets/vendors/fontawesome/all.min.css">
-<link rel="shortcut icon" href="assets/images/favicon.svg"
-	type="image/x-icon">
-
-<!-- Include Choices CSS -->
-<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
-<link rel="stylesheet"
-	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-<link rel="stylesheet"
-	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-
 </head>
 
 <body>
-	<div layout:fragment="right-side">
-		<div class="row">
-			<div class="card">
-				<form th:action="@{/voteInsert}">
-				<div class="card-header">
-					<h4 class="card-title">투표</h4>
-					<hr>
-					<button type="submit"
-						class="btn btn-block btn-light-primary font-bold mt-3">+
-						투표 만들기</button>
-				</div>
-				</form>
-				<div class="card-content" >
-					<div class="card-body" th:each="vote:${voteList}">
-						<h4 class="card-title">[[${vote.chatrNm}]][]</h4>
-						<h2>[[${vote.ttl}]]</h2>
-						<small class="text-muted">[[${vote.cnt}]]</small>
-						<p class="card-text">담당자 :[[${vote.toDt}]]</p>
-					</div>
+	<div class="row">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">투표</h4>
+				<hr>
+				<button type="button" onclick="voteInsert()"
+					class="btn btn-block btn-light-primary font-bold mt-3">+
+					투표 만들기</button>
+			</div>
+			<div class="card-content">
+				<div class="card-body" id="vote">				
 				</div>
 			</div>
 		</div>
-	<script th:inline="javascript">
-	/*<![CDATA[*/
-		
-		
-		function getVoteList(){
-
-		
-	getVoteList()
-	/*]]>*/
-	</script>
-
-</div>
+	</div>
+	
+<script>
+	$.ajax("voteList")
+		.done(result=>{
+		for(i of result){
+			console.log(result)
+			let div=`
+				<h4 class="card-title">${i.boardNm}</h4>
+				<h2>${i.ttl}</h2>
+				<small class="text-muted">${i.cnt}명 참여</small>
+				<p class="card-text">~${i.toDt}까지 마감</p>
+			`;
+			$('#vote').append(div);
+			}
+ 		})
+ 		
+ 	function voteInsert(){
+		$.ajax("voteInsert")
+		.done(function(result){
+			$("#rsidebarContent").html(result);
+		})	
+	}
+</script>
 </body>
-
 </html>
