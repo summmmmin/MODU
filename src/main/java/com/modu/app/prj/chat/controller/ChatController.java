@@ -50,7 +50,8 @@ public class ChatController {
 	public String makeChatrForm(Model model, HttpSession session) {
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
 		model.addAttribute("membList", postService.selectCallMembPub(prjUniNo));
-		return "chat/chattest";
+		//System.out.println(postService.selectCallMembPub(prjUniNo));
+		return "index";
 	}
 
 }

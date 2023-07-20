@@ -20,7 +20,8 @@
 <link rel="shortcut icon" href="assets/images/favicon.svg"
 	type="image/x-icon" />
 <link rel="stylesheet" href="assets/css/modal.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -44,35 +45,39 @@
 					<ul class="menu">
 						<li class="sidebar-title">Menu</li>
 
-						<li class="sidebar-item active"><a href="index.html"
-							class="sidebar-link"> <i class="bi bi-grid-fill"></i> <span>채팅</span>
+						<li class="sidebar-item has-sub"><a href="#"
+							class="sidebar-link"> <i class="bi bi-stack"></i> <span>채팅방</span>
+								<button type="button" class="btn btn-outline-success"
+									data-bs-toggle="modal" data-bs-target="#makeChatrForm"
+									style="margin-left: 87px">+</button>
 						</a></li>
 
 
 
-<!--/* ************************ Board List Start *************************** */-->
-<li class="sidebar-item has-sub"><a href="#" class="sidebar-link"> 
-<i class="bi bi-stack"></i> 
-	<span>게시판</span>
-	<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#inlineForm" style="margin-left: 87px">+</button>
-</a>
-<ul class="submenu" id="ultag">
-<li class="submenu-item" th:each="list, stat : ${Brd}">
-
-<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 108.9 103.6">
+						<!--/* ************************ Board List Start *************************** */-->
+						<li class="sidebar-item has-sub"><a href="#"
+							class="sidebar-link"> <i class="bi bi-stack"></i> <span>게시판</span>
+								<button type="button" class="btn btn-outline-success"
+									data-bs-toggle="modal" data-bs-target="#inlineForm"
+									style="margin-left: 87px">+</button>
+						</a>
+							<ul class="submenu" id="ultag">
+								<li class="submenu-item" th:each="list, stat : ${Brd}"><svg
+										xmlns="http://www.w3.org/2000/svg" width="10" height="10"
+										viewBox="0 0 108.9 103.6">
     <g id="Layer_2" data-name="Layer 2">
         <g id="Layer_1-2" data-name="Layer 1">
-            <polygon onclick="click()" class="cls-1 clicked" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" th:class="${list.brdUniNo}">
+            <polygon onclick="click()" class="cls-1 clicked"
+											points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0"
+											th:class="${list.brdUniNo}">
         </g>
     </g>
-</svg>
-<a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.boardNm}"></a>
-</li>
-</ul>
-	</li>
-		</ul>
-<!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
-<script>
+</svg> <a th:href="@{/postList(brdUniNo=${list.brdUniNo})}"
+									th:text="${list.boardNm}"></a></li>
+							</ul></li>
+					</ul>
+					<!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
+					<script>
 function click(){
 	console.log(event.target.className.animVal);
       event.target.classList.toggle('clicked');
@@ -87,9 +92,9 @@ function click(){
     }
   });
 </script>
-<!--/* ************************ End *************************** */-->
+					<!--/* ************************ End *************************** */-->
 
-			</div>
+				</div>
 
 				<button class="sidebar-toggler btn x">
 					<i data-feather="x"></i>
@@ -110,14 +115,14 @@ function click(){
 						</div>
 					</div>
 				</div>
-				
-				<div class="rsidebar-menu">			
+
+				<div class="rsidebar-menu">
 					<div id="rsidebarContent"></div>
 				</div>
 				<button class="rsidebar-toggler btn x">
 					<i data-feather="x"></i>
 				</button>
-				<button class="buger-btn" style="display:none">
+				<button class="buger-btn" style="display: none">
 					<i data-feather="x"></i>
 				</button>
 			</div>
@@ -125,18 +130,20 @@ function click(){
 		<div id="main" class="layout-navbar">
 			<header class="mb-3">
 				<nav class="navbar navbar-expand navbar-light">
-				
+
 					<div class="container-fluid">
 						<a href="#" class="burger-btn d-block"> <i
 							class="bi bi-justify fs-3"></i>
 						</a> <a href="#" class="rburger-btn d-block"> <i
-							class="bi bi-justify fs-3" style="display:none"></i>
+							class="bi bi-justify fs-3" style="display: none"></i>
 						</a>
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-								<li class="nav-item me-1"><a class="nav-link active" href="#" aria-expanded="false"> <i class="bi bi-search bi-sub fs-4 text-gray-600"></i>
-										
+								<li class="nav-item me-1"><a class="nav-link active"
+									href="#" aria-expanded="false"> <i
+										class="bi bi-search bi-sub fs-4 text-gray-600"></i>
+
 
 								</a></li>
 								<li class="nav-item me-1"><a class="nav-link active"
@@ -150,7 +157,7 @@ function click(){
 								</a>
 									<ul class="dropdown-menu dropdown-menu-end"
 										aria-labelledby="dropdownMenuButton">
-										<li><a class="dropdown-item rburger" >일정</a></li>
+										<li><a class="dropdown-item rburger">일정</a></li>
 										<li><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
 										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
 										<li><a class="dropdown-item rburger" href="">즐겨찾기</a></li>
@@ -251,31 +258,88 @@ function click(){
 					</div>
 				</div>
 			</div>
-			
-			
+
+
 			<!-- start of 채팅방생성모달 -->
-				
-			<!-- end of 채팅방생성모달 -->
-			<footer>
-				<div class="footer clearfix mb-0 text-muted">
-					<div class="float-start">
-						<p>2021 &copy; Mazer</p>
+			<div class="modal fade text-left" id="makeChatrForm" tabindex="-1"
+				role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+					role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel33">게시판 생성</h4>
+							<button type="button" class="close" data-bs-dismiss="modal"
+								aria-label="Close">
+								<i data-feather="x"></i>
+							</button>
+						</div>
+						<form action="makeChatr" method="POST" id="FormEvent">
+							<div class="modal-body">
+								<h5>채팅방이름?</h5>
+								<div class="form-group">
+									<input id="chartNm" name="chartNm" type="text"
+										placeholder="40자까지 입력 가능합니다." class="form-control">
+								</div>
+								<div class="form-group">
+									<input id="prjUniNo" name="prjUniNo"
+										th:value="${session.prjUniNo}" type="text"
+										class="form-control" style="display: none"> <input
+										id="particiMembUniNo" name="particiMembUniNo"
+										value="${session.particiMembUniNo}" type="text"
+										class="form-control" style="display: none">
+									<div class="form-group">
+										<label for="basicInput" class="form-label">참여멤버선택</label> <select
+											class="choices form-select multiple-remove"
+											multiple="multiple">
+											<option th:each="memb : ${membList}"
+												th:value="${memb.particiMembUniNo}">[[${memb.nnm}]]</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-secondary"
+									data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> <span
+										class="d-none d-sm-block">닫기</span>
+								</button>
+								<button id="formbtn" type="button" class="btn btn-primary ml-1"
+									data-bs-dismiss="modal" onclick="addBoard()">
+									<i class="bx bx-check d-block d-sm-none"></i> <span
+										class="d-none d-sm-block">채팅시작</span>
+								</button>
+							</div>
 					</div>
-					<div class="float-end">
-						<p>
-							Crafted with <span class="text-danger"><i
-								class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A.
-								Saugi</a>
-						</p>
-					</div>
+					</form>
 				</div>
-			</footer>
+			</div>
 		</div>
 	</div>
-	
+	<!-- end of 채팅방생성모달 -->
+	<footer>
+		<div class="footer clearfix mb-0 text-muted">
+			<div class="float-start">
+				<p>2021 &copy; Mazer</p>
+			</div>
+			<div class="float-end">
+				<p>
+					Crafted with <span class="text-danger"><i
+						class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A.
+						Saugi</a>
+				</p>
+			</div>
+		</div>
+	</footer>
+	</div>
+	</div>
+	<!-- Include Choices JavaScript -->
+	<script src="assets/vendors/choices.js/choices.min.js"></script>
+	<script src="assets/js/main.js"></script>
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/test.js"></script>
+
 	<script>
 	function addBoard(){
 		let check = document.querySelector('#checkbox');
@@ -313,7 +377,7 @@ function click(){
 		.catch(err => console.log(err))
 	}
 	</script>
- 	<script>
+	<script>
  	function todoList(){
  	 $.ajax("todo")
 		.done(function(result){
