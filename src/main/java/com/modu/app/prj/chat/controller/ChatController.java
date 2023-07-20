@@ -15,6 +15,7 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.modu.app.prj.chat.service.ChatService;
 import com.modu.app.prj.chat.service.ChatVO;
+import com.modu.app.prj.chat.service.ChatrDTO;
 import com.modu.app.prj.chat.service.ChatrVO;
 import com.modu.app.prj.post.service.PostService;
 
@@ -53,15 +54,25 @@ public class ChatController {
 	public String makeChatrForm(Model model, HttpSession session) {
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
 		model.addAttribute("membList", postService.selectCallMembPub(prjUniNo));
-		
-		return "index";
+		return "chat/makeChatr";
 	}
 	
 	@PostMapping("makeChatr")
-	public ChatrVO makeChatr(@RequestBody ChatrVO chatrVO, HttpSession session) {
+	public ChatrDTO makeChatr(ChatrDTO chatrDTO, HttpSession session) {
+		
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
+		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
+		
+		//채팅방만든사람도 참여멤버리스트에 넣음
+		chatrDTO.getParticiMembUniNos().add(particiMembUniNo);
+		
+		//채팅방 INSERT 시 필요한 VO
+		ChatrVO chatrVO = new ChatrVO();
 		chatrVO.setPrjUniNo(prjUniNo);
-		return chatrVO;
+		System.out.println(chatrDTO);
+		chatService.makeChatr(chatrVO);
+		
+		return chatrDTO;
 	}
 
 }
