@@ -44,25 +44,13 @@ public class BoardController {
 	@PostMapping("InsertBoard")
 	@ResponseBody
 	public BoardVO InsertBoard(BoardVO vo) {
-		System.out.println(vo);
-		System.out.println("1111");
 		String check = vo.getPubcYn();
-		
-		System.out.println(check);
 		if (check.equals("on")) {
 			vo.setPubcYn("Y");
 		} else {
 			vo.setPubcYn("N");
 		}
 		boardService.InsertBoard(vo);
-		System.out.println(vo);
 		return vo;
 	}
-	
-	
-//	@GetMapping("/DeleteBoard")
-//	public String DeleteBoard(String brdUniNo) {
-//		boardService.DeleteBoard(brdUniNo);
-//		return "index";
-//	}
 }

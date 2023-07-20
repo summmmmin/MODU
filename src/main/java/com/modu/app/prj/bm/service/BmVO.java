@@ -51,4 +51,7 @@ public class BmVO {
 	//참여자 버노
 	private String brdArmUniNo;
 	
+	//asdasd
+	private String brdUniNo;
+	
 }

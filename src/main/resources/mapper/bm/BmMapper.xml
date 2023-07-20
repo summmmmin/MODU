@@ -17,7 +17,11 @@
 	<insert id="BrdBmInsert" parameterType="BmVO">
 		INSERT INTO brd_arm (brd_arm_uni_no,bm,arm_yn,brd_uni_no,partici_memb_uni_no)
 		VALUES
-		(brdarm_seq.nextval,Y,Y,#{brdUniNo},#{particiMembUniNo})
+		(brdarm_seq.nextval,'Y','Y',#{brdUniNo},#{particiMembUniNo})
 	</insert>
+	
+<!-- 	<select id="BmSelect" resultType="int" parameterType="	">
+	
+	</select> -->
 	
  </mapper>
