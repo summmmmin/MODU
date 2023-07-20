@@ -1,10 +1,18 @@
 package com.modu.app.prj.board.service;
 
 
-import com.modu.app.prj.login.service.LoginVO;
+import java.util.List;
+
+import com.modu.app.prj.bm.service.BmVO;
 
 public interface BoardService {
 	
-	public LoginVO BoardList();
+	public List<BoardVO> BoardList(BoardVO vo);
+	
+	public BoardVO BoardGet();
+	
+	public int InsertBoard(BoardVO vo);
+	
+	public String DeleteBoard(String brdUniNo);
 	
 }

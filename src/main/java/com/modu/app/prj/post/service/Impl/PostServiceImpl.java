@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.modu.app.prj.post.mapper.PostMapper;
 import com.modu.app.prj.post.mapper.ReplyMapper;
+import com.modu.app.prj.post.service.MembDTO;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
 
@@ -30,15 +31,24 @@ public class PostServiceImpl implements PostService {
 	public PostVO getOnePost(String postUniNo) {
 		return postMapper.selectOnePost(postUniNo);
 	}
+	
 	//게시글등록, 수정폼용 게시판조회
 	@Override
-	public PostVO selectOneBoard(String postUniNo) {
-		//PostVO postVO = postMapper.selectOneBoard(postUniNo);
-		return postMapper.selectOneBoard(postUniNo);
+	public PostVO selectOneBoard(String brdUniNo) {
+		return postMapper.selectOneBoard(brdUniNo);
+
 	}
+	
 	//게시글등록
 	@Override
 	public int insertPost(PostVO postVO) {
+		/*
+		 * String brdUniNo =
+		 * postMapper.selectOneBoard(postVO.getBrdUniNo()).getBrdUniNo(); String brdNm =
+		 * postMapper.selectOneBoard(postVO.getBrdUniNo()).getBrdUniNo();
+		 * postVO.setBrdUniNo(brdUniNo); postVO.setBoardNm(brdNm);
+		 * postVO.setParticiMembUniNo("ppmt1");
+		 */
 		return postMapper.insertPost(postVO);
 	}
 	
@@ -56,21 +66,35 @@ public class PostServiceImpl implements PostService {
 	
 	//댓글알림on/off
 	@Override
-	public int replyOnOff(String postUniNo) {
-		return postMapper.replyOnOff(postUniNo);
+	public int replyOnOff(PostVO postVO) {
+		return postMapper.replyOnOff(postVO);
 	}
 	
 	//공지등록on/off
 	@Override
-	public int notiOnOff(String postUniNo) {
-		return postMapper.notiOnOff(postUniNo);
+	public int notiOnOff(PostVO postVO) {
+		return postMapper.notiOnOff(postVO);
 	}
 	
-	//등록된공지리스트
+	//상단공지리스트
 	@Override
-	public List<PostVO> selectAllNotiPost() {
-		return postMapper.selectAllNotiPost();
+	public List<PostVO> selectAllNotiPost(String brdUniNo) {
+		return postMapper.selectAllNotiPost(brdUniNo);
 	}
+
+	//멤버호출용리스트
+	@Override
+	public List<MembDTO> selectCallMembPub(String prjUniNo) {
+		return postMapper.selectCallMembPub(prjUniNo);
+	}
+
+	@Override
+	public List<MembDTO> selectCallMembNonPub(String brdUniNo) {
+		return postMapper.selectCallMembNonPub(brdUniNo);
+	}
+	
+	
+	
 
 
 }

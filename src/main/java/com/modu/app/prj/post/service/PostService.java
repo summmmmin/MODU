@@ -2,6 +2,8 @@ package com.modu.app.prj.post.service;
 
 import java.util.List;
 
+import com.modu.app.prj.board.service.BoardVO;
+
 
 public interface PostService {
 	
@@ -11,8 +13,8 @@ public interface PostService {
 	//단건조회
 	public PostVO getOnePost(String postUniNo);
 	
-	//게시글등록, 수정폼용 게시판조회
-	public PostVO selectOneBoard(String postUniNo);
+	//게시글폼게시글등록, 수정폼용 게시판조회
+	public PostVO selectOneBoard(String brdUniNo);
 	//등록
 	public int insertPost(PostVO postVO);
 	
@@ -23,11 +25,17 @@ public interface PostService {
 	public int deletePost(String postUniNo);
 	
 	//댓글알림on/off
-	public int replyOnOff(String postUniNo);
+	public int replyOnOff(PostVO postVO);
 	
 	//공지등록on/off
-	public int notiOnOff(String postUniNo);
+	public int notiOnOff(PostVO postVO);
 		
-	//공지리스트
-	public List<PostVO> selectAllNotiPost();
+	//상단공지리스트
+	public List<PostVO> selectAllNotiPost(String brdUniNo);
+	
+	//멤버호출용리스트
+	public List<MembDTO> selectCallMembPub(String prjUniNo);
+	public List<MembDTO> selectCallMembNonPub(String brdUniNo);
+	
+	
 }

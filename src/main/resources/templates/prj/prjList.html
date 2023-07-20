@@ -51,8 +51,8 @@
               <img src="assets/images/faces/1.jpg" alt="Face 1" />
             </div>
             <div class="ms-3 name">
-              <h5 class="font-bold">이름</h5>
-              <h6 class="text-muted mb-0">이메일</h6>
+              <h5 class="font-bold">[[${session.user.nm}]]</h5>
+              <h6 class="text-muted mb-0">[[${session.user.id}]]</h6>
             </div>
           </div>
         </div>
@@ -64,7 +64,7 @@
             <div class="col-8">
               <h4 class="card-title" th:text="${prj.prjNm}">프로젝트명</h4>
             </div>
-            <div class="col-4 text-end" th:id="${prj.prjUniNo}">
+            <div class="col-4 text-end prjBtn" th:id="${prj.prjUniNo}">
               <button type="button" class="btn btn-primary me-1 mb-1 setting"
               	th:if="${prj.grd} == 'G01'">
                 설정
@@ -84,17 +84,17 @@
               <button type="button" class="btn btn-light-secondary me-1 mb-1 project">
                 프로젝트로
               </button>
-              <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+<!--               <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
                       data-bs-target="#inlineForm">
                 Launch Modal
-              </button>
+              </button> -->
             </div>
           </div>
         </div>
-        <!-- Button trigger for login form modal -->
+<!--         Button trigger for login form modal
                                             
 
-                                            <!--login form Modal -->
+                                            login form Modal
                                             <div class="modal fade text-left" id="inlineForm" tabindex="-1"
                                                 role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
@@ -135,7 +135,7 @@
                                                         </form>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
         <div class="card-body">
           <p th:text="${prj.exdt}? '유료플랜 적용 기간 : '+${prj.exdt} : '무료플랜 이용중'">유료/무료</p>
           <p th:text="${prj.cd}">등급</p>
@@ -151,7 +151,20 @@
         </div>
       </div>
       <script>
-      	
+      	document.querySelectorAll('.prjBtn').forEach(function(btn){
+      		btn.addEventListener('click', function(){
+      			if(event.target.tagName == "BUTTON"){
+      				let prjId = btn.id;
+      				if(event.target.classList.contains('project')){
+      					window.location = 'main?prjUniNo='+prjId;
+      				}else if(event.target.classList.contains('setting')){
+      					//window.location = 'prjParList?prjUniNo='+prjId;
+      				}else if(event.target.classList.contains('adminSet')){
+      					window.location = 'prjManage?prjUniNo='+prjId;
+      				}
+      			}
+      		})
+      	})
       </script>
     </div>
     <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
@@ -159,6 +172,6 @@
 
     <script src="assets/vendors/fontawesome/all.min.js"></script>
 
-    <script src="assets/js/main.js"></script>
+    <!-- <script src="assets/js/main.js"></script> -->
   </body>
 </html>

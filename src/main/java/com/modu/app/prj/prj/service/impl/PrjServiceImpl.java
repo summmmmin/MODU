@@ -20,13 +20,57 @@ public class PrjServiceImpl implements PrjService {
 	}
 
 	@Override
-	public int insertPrjPar(PrjVO prjVO) {
-		return prjMapper.insertPrjPar(prjVO);
-	}
-
-	@Override
 	public List<PrjVO> getPrjList(String membUniNo) {
 		return prjMapper.selectPrjList(membUniNo);
 	}
 
+	@Override
+	public List<PrjVO> getPrjPartiList(PrjVO prjVO) {
+		return prjMapper.selectPrjParti(prjVO);
+	}
+
+	@Override
+	public PrjVO prjSession(PrjVO vo) {
+		return prjMapper.prjSession(vo);
+	}
+
+	@Override
+	public List<PrjVO> grdCmmn() {
+		return prjMapper.grdCmmn();
+	}
+
+	@Override
+	public int setPrjNm(PrjVO vo) {
+		return prjMapper.updatePrjNm(vo);
+	}
+
+	@Override
+	public int delPrj(String prjNo) {
+		return prjMapper.deletePrj(prjNo);
+	}
+
+	@Override
+	public int setGrade(PrjVO vo) {
+		return prjMapper.updateGrade(vo);
+	}
+
+	@Override
+	public int kickPrjParti(PrjVO vo) {
+		return prjMapper.kickPrjParti(vo);
+	}
+
+	@Override
+	public PrjVO getMemInfo(PrjVO vo) {
+		return prjMapper.selectMemInfo(vo);
+	}
+
+	@Override
+	public int getPrjMemCnt(String prjUniNo) {
+		return prjMapper.selectPrjMemCnt(prjUniNo);
+	}
+
+	@Override
+	public PrjVO getPrjInfo(String prjUniNo) {
+		return prjMapper.selectPrjInfo(prjUniNo);
+	}
 }

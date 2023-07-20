@@ -11,18 +11,14 @@
 	       r.post_uni_no,
 	       r.cntn,
 	       r.write_dt,
-	       <if test="mod_dt != null and !mod_dt.equals('')">
            r.mod_dt,
-           </if>
-	       <if test="tag_arm != null and !tag_arm.equals('')">
            r.tag_arm,
-           </if>
 	       ppm.nnm, 
 	       ppm.att_no
-	FROM reply r JOIN prj_partici_memb ppm
-	ON r.partici_memb_uni_no = ppm.partici_memb_uni_no
-	WHERE r.post_uni_no = #{postUniNo}
-	ORDER BY write_dt
+	 FROM  reply r JOIN prj_partici_memb ppm
+	   ON  r.partici_memb_uni_no = ppm.partici_memb_uni_no
+	WHERE  r.post_uni_no = #{postUniNo}
+	ORDER  BY write_dt
 </select>
 
 <!-- 댓글단건조회 -->
@@ -30,12 +26,8 @@
     SELECT reply_uni_no,
            cntn,
            write_dt,
-           <if test="mod_dt != null and !mod_dt.equals('')">
            mod_dt,
-           </if>
-           <if test="tag_arm != null and !tag_arm.equals('')">
            tag_arm,
-           </if>
            post_uni_no,
            partici_memb_uni_no
     FROM reply
@@ -44,6 +36,10 @@
 
 <!-- 댓글생성 -->
 <insert id="insertReply" parameterType="ReplyVO">
+	<!-- 댓글고유번호자동생성(테스트용번호임) -->
+    <selectKey keyProperty="replyUniNo" resultType="String" order="BEFORE">
+    	SELECT 'rt' || (MAX(TO_NUMBER(SUBSTR(reply_uni_no, 3)))+1) FROM reply
+    </selectKey>
 	INSERT INTO reply (reply_uni_no,
 					   cntn,
 					   write_dt,
@@ -68,19 +64,15 @@
 <!-- 댓글수정 -->
 <update id="updateReply" parameterType="ReplyVO">
 	UPDATE reply SET
- 					<if test="cntn != null and !cntn.equals('')">
  		   			cntn=#{cntn},
- 		   			</if>
- 		   			<if test="tagArm != null and !tagArm.equals('')">
- 		   			tag_arm=#{tagArm},
-					</if>
-					modify_date=sysdate
+					mod_dt=sysdate
  	WHERE reply_uni_no=#{replyUniNo}
 </update>
 
 <!-- 댓글삭제 -->
 <delete id="deleteReply" parameterType="String">
-	DELETE FROM reply WHERE reply_uni_no=#{replyUniNo}
+	DELETE FROM reply 
+	 WHERE reply_uni_no=#{replyUniNo}
 </delete>
 
  </mapper>

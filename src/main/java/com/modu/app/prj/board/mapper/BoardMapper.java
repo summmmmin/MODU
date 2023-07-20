@@ -6,7 +6,12 @@ import com.modu.app.prj.board.service.BoardVO;
 
 public interface BoardMapper {
 
-	public List<BoardVO> BoardList();
+	public List<BoardVO> BoardList(BoardVO vo);
 	
+	public BoardVO BoardGet();
+	
+	public int InsertBoard(BoardVO vo);
+	
+	public String DeleteBoard(String brdUniNo);
 	
 }

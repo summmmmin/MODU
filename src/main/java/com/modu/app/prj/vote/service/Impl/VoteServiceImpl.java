@@ -15,50 +15,84 @@ public class VoteServiceImpl implements VoteService {
 	@Autowired
 	VoteMapper voteMapper;
 	
+	
+	//투표 생성 - 1-1. 게시글에 첨가
 	@Override
-	public List<VoteVO> getVoteList() {
-		
-		return null;
+	public int postVote(VoteVO voteVo) {
+		return voteMapper.postVote(voteVo);
 	}
 
+	//투표 생성 - 1-2. 채팅에 첨가
 	@Override
-	public VoteVO getVote() {
-		
-		return null;
-	}
-
-	@Override
-	public int updateVote(VoteVO vo) {
-		
-		return 0;
-	}
-
-	@Override
-	public int selectCount(VoteVO vo) {
-		
-		return 0;
-	}
-
-	@Override
-	public List<VoteVO> getVoteItemList() {
-		
-		return null;
-	}
-
-	@Override
-	public int voteMember(VoteVO vo) {
-		
-		return 0;
-	}
-
-	@Override
-	public int insertVote(VoteVO voteVo) {
-		return 0;
-	}
-
-	@Override
-	public int doVote(VoteVO voteVo) {
-		return 0;
+	public int chatVote(VoteVO voteVo) {
+		return voteMapper.chatVote(voteVo);
 	}
 	
+	//투표 생성 - 3.투표상세 테이블
+	@Override
+	public int insertVoteItem(VoteVO voteVO) {
+		return voteMapper.insertVoteItem(voteVO);
+	}
+
+	//투표 기간 수정
+	@Override
+	public int voteDate(VoteVO voteVo) {
+		return voteMapper.voteDate(voteVo);
+	}
+	
+	//투표 항목 나열
+	@Override
+	public List<VoteVO> voteItem() {
+		return voteMapper.voteItem();
+	}
+	
+	//투표하기 - 투표수 증가
+	@Override
+	public int updateCnt(VoteVO voteVo) {
+		return voteMapper.updateCnt(voteVo);
+	}
+
+	//투표하기 - 투표 참가자
+	@Override
+	public int whoVote(VoteVO voteVo) {
+		return voteMapper.whoVote(voteVo);
+	}
+
+	//투표결과
+	@Override
+	public List<VoteVO> voteResult() {
+		return voteMapper.voteResult();
+	}
+
+	//투표번호 채팅방 이름찾기
+	@Override
+	public VoteVO voteChatr(String voteNo) {
+		return voteMapper.voteChatr(voteNo);
+	}
+
+	//투표번호 게시판 이름 찾기
+	@Override
+	public VoteVO voteBrdNm(String voteNo) {
+		return voteMapper.voteBrdNm(voteNo);
+	}
+
+	//채티방 제목
+	@Override
+	public List<VoteVO> chatrNm(String no) {
+		return voteMapper.chatrNm(no);
+	}
+
+	//게시판 제목
+	@Override
+	public List<VoteVO> brdNm(String no) {
+		return voteMapper.brdNm(no);
+	}
+
+	//투표 리스트
+	@Override
+	public List<VoteVO> voteList(VoteVO vo) {
+		return voteMapper.voteList(vo);
+	}
+	
+
 }
