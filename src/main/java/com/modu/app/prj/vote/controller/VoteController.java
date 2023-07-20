@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.board.service.BoardService;
@@ -46,7 +47,7 @@ public class VoteController {
 	}
 	
 	//투표 등록페이지 이동
-	@GetMapping("voteInsertPage")
+	@GetMapping("voteInsert")
 	public String todoInsertForm(HttpSession session,Model model){
 		BoardVO brd = new BoardVO();
 		brd.setPrjUniNo((String) session.getAttribute("prjUniNo"));
@@ -59,20 +60,28 @@ public class VoteController {
 	}
 	
 	//게시판 정보 조회
-	@GetMapping("voteInsertForm")
-	@ResponseBody
-	public Map<String, Object> voteInsertForm(HttpSession session){
-		System.out.println("111111");
-		BoardVO brd = new BoardVO();
-		brd.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		brd.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		List<VoteVO> voteList=voteService.chatrNm((String) session.getAttribute("particiMembUniNo"));
-		List<BoardVO> boardList = boardService.BoardList(brd);
-		Map<String, Object>map =new HashMap<>();	//
-		map.put("chatNm", voteList);
-		map.put("boardNm",boardList );
-		return map;
+//	@GetMapping("voteInsertForm")
+//	@ResponseBody
+//	public Map<String, Object> voteInsertForm(HttpSession session){
+//		System.out.println("111111");
+//		BoardVO brd = new BoardVO();
+//		brd.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+//		brd.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+//		List<VoteVO> voteList=voteService.chatrNm((String) session.getAttribute("particiMembUniNo"));
+//		List<BoardVO> boardList = boardService.BoardList(brd);
+//		Map<String, Object>map =new HashMap<>();	//
+//		map.put("chatNm", voteList);
+//		map.put("boardNm",boardList );
+//		return map;
+//	}
+	
+	@PostMapping("voteInsert")
+	public String voteInsert(HttpSession session) {
+		return "";
 	}
+	
+	
+	
 	// map 여러가지 넘기기
 
 	
