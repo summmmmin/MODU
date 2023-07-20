@@ -11,18 +11,14 @@
 	       r.post_uni_no,
 	       r.cntn,
 	       r.write_dt,
-	       <if test="mod_dt != null and !mod_dt.equals('')">
            r.mod_dt,
-           </if>
-	       <if test="tag_arm != null and !tag_arm.equals('')">
            r.tag_arm,
-           </if>
 	       ppm.nnm, 
 	       ppm.att_no
-	FROM reply r JOIN prj_partici_memb ppm
-	ON r.partici_memb_uni_no = ppm.partici_memb_uni_no
-	WHERE r.post_uni_no = #{postUniNo}
-	ORDER BY write_dt
+	 FROM  reply r JOIN prj_partici_memb ppm
+	   ON  r.partici_memb_uni_no = ppm.partici_memb_uni_no
+	WHERE  r.post_uni_no = #{postUniNo}
+	ORDER  BY write_dt
 </select>
 
 <!-- 댓글단건조회 -->
@@ -30,12 +26,8 @@
     SELECT reply_uni_no,
            cntn,
            write_dt,
-           <if test="mod_dt != null and !mod_dt.equals('')">
            mod_dt,
-           </if>
-           <if test="tag_arm != null and !tag_arm.equals('')">
            tag_arm,
-           </if>
            post_uni_no,
            partici_memb_uni_no
     FROM reply
@@ -79,7 +71,8 @@
 
 <!-- 댓글삭제 -->
 <delete id="deleteReply" parameterType="String">
-	DELETE FROM reply WHERE reply_uni_no=#{replyUniNo}
+	DELETE FROM reply 
+	 WHERE reply_uni_no=#{replyUniNo}
 </delete>
 
  </mapper>

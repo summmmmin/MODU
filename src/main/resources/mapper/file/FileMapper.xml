@@ -7,7 +7,7 @@
 <!-- 첨부파일저장 -->
 	<insert id="insertFile" parameterType="FileVO">
 		<selectKey keyProperty="attNo" resultType="String" order="BEFORE">
-			SELECT 'at' || (MAX(TO_NUMBER(SUBSTR(att_no, 3)))+1) FROM att
+			SELECT 'at' || (MAX(TO_NUMBER(NVL(SUBSTR(att_no, 3),'0')))+1) FROM att
 		</selectKey>
 		INSERT INTO att (att_no,
 						 partici_memb_uni_no,
@@ -39,11 +39,23 @@
 							#{serverAttNm},
 							#{fSize},
 							#{ext},
+							 <if test="postUniNo != null and !postUniNo.equals('')">
 							#{postUniNo},
+						 </if>
+						 <if test="chatNo != null and !chatNo.equals('')">
 							#{chatNo},
+						 </if>
+						 <if test="noticeUniNo != null and !noticeUniNo.equals('')">
 							#{noticeUniNo},
-							#{faqNo},
+						 </if>
+						  <if test="faqNo != null and !faqNo.equals('')">
+						#{faqNo},
+						 </if>
+						  <if test="todoUniNo != null and !todoUniNo.equals('')">
 							#{todoUniNo},
+						 </if>
+							
+							
 							'N'
 							) 
 	</insert>

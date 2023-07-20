@@ -5,7 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,32 +29,18 @@ public class PostRestController {
 
 	// 단건조회
 	@GetMapping("post/{pNum}")
-	public PostVO postOne(@PathVariable("pNum") String postUniNo, HttpSession session) {
+	public PostVO postOne(@PathVariable("pNum") String postUniNo, 
+			              HttpSession session) {
 		return postService.getOnePost(postUniNo);
 	}
 
-	//등록
-//	@PostMapping("postInsert")
-//	public PostVO postInsert(@RequestBody PostVO postVO, HttpSession session) {
-//		String particiMembUniNo = (String)session.getAttribute("particiMembUniNo");
-//		postVO.setParticiMembUniNo(particiMembUniNo);
-//		postService.insertPost(postVO);
-//		return postVO;
-//	}
-	/*
-	 * //수정
-	 * 
-	 * @PostMapping("postUpdate") public PostVO postUpdate(@RequestBody PostVO
-	 * postVO) { postService.updatePost(postVO); return postVO; }
-	 * 
-	 */
-
 	//삭제
-	@GetMapping("postDelete/{pNum}")
+	@DeleteMapping("post/{pNum}")
 	public String postDelete(@PathVariable("pNum") String postUniNo) {
 		postService.deletePost(postUniNo);
 		return postUniNo;
 	}
+
 	
 	//공지등록ON/OFF
 	@PostMapping("setPostNoti")

@@ -278,7 +278,9 @@
 					rInput.forEach(reply =>{
 						replyInfo[reply.name] = reply.value;
 					})
-					fetch('http://localhost:80/modu/replyInsert/'+pNum,{
+					replyInfo["postUniNo"] = pNum;
+					
+					fetch('http://localhost:80/modu/replyInsert',{
 						method : 'post',
 						headers : {
 							'content-type' : 'application/json'

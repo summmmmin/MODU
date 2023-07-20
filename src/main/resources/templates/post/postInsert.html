@@ -35,7 +35,7 @@
 			<div class="col">
 				<div class="card">
 					<div class="card-body">
-						<form th:action="@{/postInsert}" method="POST" th:object="${post}">
+						<form th:action="@{/postInsert}" method="POST" th:object="${post}" enctype ="multipart/form-data">
 							<input type="hidden" th:field="*{brdUniNo}">
 							<input type="hidden" th:field="*{prjUniNo}">
 							<div class="form-group mb-3">
@@ -54,13 +54,9 @@
 								<!--첨부파일부-->
 								첨부파일
 								<div class="form-group">
-                                <!-- File uploader with multiple files upload -->
-                                <input type="file" name="file" class="multiple-files-filepond" multiple>
+                                	<!-- File uploader with multiple files upload -->
+                                	<input type="file" name="file" class="multiple-files-filepond" multiple>
                             	</div>
-								<div class="form-group">
-									<!-- File uploader with multiple files upload -->
-									<input type="file" name="file" class="multiple-files-filepond" multiple>
-								</div>
 								<hr>
 								<!--멤버호출부-->
 								<div class="form-group">
@@ -73,8 +69,6 @@
 								<hr>
 								<div class="buttons">
 									<button type="submit" class="btn btn-primary">등록</button>
-									<button formaction="@{/postInsertWithFile}" th:if="${hasFileInputValue()}" type="submit" class="btn btn-primary">등록</button>
-					
 									<button type="reset" class="btn btn-light">취소</button>
 								</div>
 							</div>
@@ -94,10 +88,10 @@
 				required: false
 			});
 		
-			function hasFileInputValue(){
+			/* function hasFileInputValue(){
 				let fileInput = document.querySelector('input[name="file"]');
 			    return fileInput && fileInput.files && fileInput.files.length > 0;
-			}
+			} */
 		</script>
 		<!-- filepond validation -->
 		<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
