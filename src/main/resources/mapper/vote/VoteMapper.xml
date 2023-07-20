@@ -5,6 +5,19 @@
   
   <mapper namespace="com.modu.app.prj.vote.mapper.VoteMapper">
   
+  <!-- 투표 생성 -->
+  <insert id="insertVote"statementType="CALLABLE">
+	call dovote(
+				#{chatrNo},
+				#{brdUniNo},
+				#{toDt},
+				#{ttl},
+				#{voteItem,typeHandler=com.modu.app.OracleArrayHandler},
+				#{particiMembUniNo},
+				#{projectUniNo}
+				)
+	</insert>
+  
   <!-- 투표 생성 - 1-1. 게시글에 첨가 -->
  <!--  <insert id="postVote" parameterType="VoteVO">
     <selectKey keyProperty="postUniNo" resultType="String" order="BEFORE">
@@ -96,7 +109,7 @@
   
   <!-- 투표 항목 나열  -->
   <select id="voteItem" resultType="VoteVO">
-  select vote_item, typeHandler=com.yedam.app.OracleArrayHandler,vote_deta_no from vote_deta where vote_no=#{voteNo}
+  select vote_item,vote_deta_no from vote_deta where vote_no=#{voteNo}
   </select>
   
   <!-- 투표하기 - 투표수 증가 -->

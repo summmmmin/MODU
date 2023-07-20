@@ -4,17 +4,22 @@ import java.util.List;
 
 import com.modu.app.prj.vote.service.VoteVO;
 
-
+// 2023/07/21 김동건
 public interface VoteMapper {
+	
+	
 	
 	//투표 생성 - 1-1. 게시글에 첨가
 	public int postVote(VoteVO voteVo);
-	
-	//투표 생성 - 1-2. 채팅에 첨가
+	 
+	//투표 생성 - 1-2. 채팅에 첨가 
 	public int chatVote(VoteVO voteVo);
-	
-	//투표 생성 - 3.투표상세 테이블
+	 
+	//투표 생성 - 3.투표상세 테이블 
 	public int insertVoteItem(VoteVO voteVO);
+	 
+	//투표 생성하기 
+	public void voteInsert(VoteVO vo);
 	
 	//투표 기간 수정
 	public int voteDate(VoteVO voteVo);

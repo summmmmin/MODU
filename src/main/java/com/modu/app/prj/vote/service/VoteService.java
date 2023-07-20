@@ -2,8 +2,11 @@ package com.modu.app.prj.vote.service;
 
 import java.util.List;
 
-
+//2023/07/21 김동건
 public interface VoteService {
+	
+	//투표 생성 
+	public void voteInsert(VoteVO vo);
 	
 	//투표 생성 - 1-1. 게시글에 첨가
 	public int postVote(VoteVO voteVo);

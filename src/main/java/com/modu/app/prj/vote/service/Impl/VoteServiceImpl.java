@@ -9,12 +9,17 @@ import com.modu.app.prj.vote.mapper.VoteMapper;
 import com.modu.app.prj.vote.service.VoteService;
 import com.modu.app.prj.vote.service.VoteVO;
 
+//2023/07/21 김동건
 @Service
 public class VoteServiceImpl implements VoteService {
 	
 	@Autowired
 	VoteMapper voteMapper;
 	
+	//투표 생성하기
+	public void voteInsert(VoteVO vo) {
+		voteMapper.voteInsert(vo);
+	}
 	
 	//투표 생성 - 1-1. 게시글에 첨가
 	@Override
@@ -93,6 +98,8 @@ public class VoteServiceImpl implements VoteService {
 	public List<VoteVO> voteList(VoteVO vo) {
 		return voteMapper.voteList(vo);
 	}
+
+
 	
 
 }

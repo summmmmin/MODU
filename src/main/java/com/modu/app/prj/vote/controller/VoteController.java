@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.board.service.BoardService;
 import com.modu.app.prj.board.service.BoardVO;
+import com.modu.app.prj.user.service.UserVO;
 import com.modu.app.prj.vote.service.VoteService;
 import com.modu.app.prj.vote.service.VoteVO;
 
@@ -76,7 +77,11 @@ public class VoteController {
 //	}
 	
 	@PostMapping("voteInsert")
-	public String voteInsert(HttpSession session) {
+	public String voteInsert(HttpSession session,VoteVO vote) {
+		UserVO vo = (UserVO) session.getAttribute("partici");
+		vote.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		vote.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		
 		return "";
 	}
 	
