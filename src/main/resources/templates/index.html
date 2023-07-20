@@ -66,8 +66,9 @@
 </ul>
 	</li>
 		</ul>
-<!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
-<script>
+		
+
+<script> <!-- 즐겨찾기  -->
 function clickInsert(){
 	console.log(event.target.className.animVal);
       let star = event.target;
@@ -164,7 +165,7 @@ function clickInsert(){
 										<li><a class="dropdown-item rburger" >일정</a></li>
 										<li><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
 										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
-										<li><a class="dropdown-item rburger" href="">즐겨찾기</a></li>
+										<li><a class="dropdown-item rburger" onclick="BmSelect()">즐겨찾기</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
@@ -209,46 +210,62 @@ function clickInsert(){
 				<section class="row">
 					<article layout:fragment="content"></article>
 				</section>
-		<!--Modal -->
-		<div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+				
+				
+				<!--Modal -->
+				<div class="modal fade text-left" id="inlineForm" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+						role="document">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h4 class="modal-title" id="myModalLabel33">게시판 생성</h4>
-								<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+								<button type="button" class="close" data-bs-dismiss="modal"
+									aria-label="Close">
 									<i data-feather="x"></i>
 								</button>
 							</div>
-<form action="InsertBoard" method="POST" id="FormEvent">
-	<div class="modal-body">
-	<h5>게시판 이름</h5>
-	<div class="form-group">
-	<input id="boardNm" name="boardNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
-</div>
-	<div class="form-group">
-	<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" class="form-control" style="display:none">
-	<input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display:none">
-	<div class="form-group">
-	<h6>공개여부</h6>
-	<input type="checkbox" id="checkbox" name="pubcYn" checked>
-	
-	<label for="checkbox"><span></span></label>
-</div>
-</div>
-	<div class="modal-footer">
-	<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-	<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
-	</button>
-	<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="addBoard()">
-	<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">생성</span>
-	</button>
-</div>
-</div>
-</form>
+							<form action="InsertBoard" method="POST" id="FormEvent">
+								<div class="modal-body">
+									<h5>게시판 이름</h5>
+									<div class="form-group">
+										<input id="boardNm" name="boardNm" type="text"
+											placeholder="40자까지 입력 가능합니다." class="form-control">
+									</div>
+									<div class="form-group">
+										<input id="particiMembUniNo" name="particiMembUniNo"
+											th:value="${session.particiMembUniNo}" type="text"
+											class="form-control" style="display: none"> <input
+											id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
+											type="text" class="form-control" style="display: none">
+										<div class="form-group">
+											<h6>공개여부</h6>
+											<input type="checkbox" id="checkbox" name="pubcYn" checked>
+
+											<label for="checkbox"><span></span></label>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-light-secondary"
+											data-bs-dismiss="modal">
+											<i class="bx bx-x d-block d-sm-none"></i> <span
+												class="d-none d-sm-block">닫기</span>
+										</button>
+										<button id="formbtn" type="button"
+											class="btn btn-primary ml-1" data-bs-dismiss="modal"
+											onclick="addBoard()">
+											<i class="bx bx-check d-block d-sm-none"></i> <span
+												class="d-none d-sm-block">생성</span>
+										</button>
+									</div>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
+			
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
 					<div class="float-start">
@@ -313,7 +330,8 @@ function clickInsert(){
 		.catch(err => console.log(err))
 	}
 	</script>
- 	<script>
+	
+	<script>
  	function todoList(){
  	 $.ajax("todo")
 		.done(function(result){
@@ -325,6 +343,15 @@ function clickInsert(){
  		.done(function(result){
  			$("#rsidebarContent").html(result);
  		})
+ 	}
+ 	</script>
+ 	
+ 	<script>
+ 	function BmSelect(){
+ 	 $.ajax("BmSelect")
+		.done(function(result){
+			$("#rsidebarContent").html(result);
+		})
  	}
  	</script>
 </body>

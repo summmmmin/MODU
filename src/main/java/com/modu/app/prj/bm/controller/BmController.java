@@ -19,15 +19,16 @@ public class BmController {
 
 	@Autowired
 	BmService bmService;
-	
+
 	@GetMapping("bmList")
-	public String BmList(Model model,BmVO vo,HttpServletRequest request) {
+	public String BmList(Model model, BmVO vo, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		model.addAttribute("bmList",bmService.BmList(vo));
+		model.addAttribute("bmList", bmService.BmList(vo));
 		return "bm/bmList";
 	}
-	
+
+	// 게시판 생성
 	@PostMapping("BrdBmInsert")
 	@ResponseBody
 	public BmVO BrdBmInsert(@RequestBody BmVO vo) {
@@ -36,7 +37,23 @@ public class BmController {
 		System.out.println("11");
 		return vo;
 	}
-	
-	
-	
+
+	// 즐겨찾기 목록
+	@GetMapping("BmSelect")
+	@ResponseBody
+	public BmVO BmSelect(BmVO vo) {
+		System.out.println(vo);
+		System.out.println("리스트");
+		bmService.BmList(vo);
+		return vo;
+	}
+
+	// 즐겨찾기 삭제
+//	@PostMapping("DeleteBm")
+//	@ResponseBody
+//	public String DeleteBm(@RequestBody BmVO vo) {
+//		bmService.
+//		return ;
+//	}
+
 }

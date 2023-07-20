@@ -13,4 +13,10 @@ public interface BmMapper {
 	//게시판 즐겨찾기 등록
 	public int BrdBmInsert(BmVO vo);
 	
+	//즐겨찾기 리스트
+	public List<BmVO> BmSelect(BmVO vo);
+	
+	//즐겨찾기 Count로 비교해서 별 색 유지
+	public int BmCount(BmVO vo);
+	
 }

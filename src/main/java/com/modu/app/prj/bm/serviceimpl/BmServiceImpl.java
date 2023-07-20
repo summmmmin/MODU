@@ -26,4 +26,16 @@ public class BmServiceImpl implements BmService {
 		return bmMapper.BrdBmInsert(vo);
 	}
 	
+	@Override
+	public int BmCount(BmVO vo) {
+		return bmMapper.BmCount(vo);
+	}
+	
+	@Override
+	public List<BmVO> BmSelect(BmVO vo) {
+		return bmMapper.BmList(vo);
+	}
+	
+	
+	
 }
