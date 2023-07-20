@@ -24,5 +24,18 @@
 								#{prjUniNo}
 								)
 	</insert>
+	<!-- 채팅참여자추가 -->
+	<insert id="insertChatMemb" parameterType="ChatrParticiVO">
+		<selectKey keyProperty="chatrNo" resultType="String" order="BEFORE">
+			SELECT 'cpm' || (MAX(TO_NUMBER(NVL(SUBSTR(chat_partici_memb_uni_no, 4),'0')))+1) FROM chatr_partici
+		</selectKey>
+		INSERT INTO chatr_partici VALUES (
+										#{chatParticiMembUniNo},
+										#{chartNo},
+										#{particiMembUniNo},
+										'Y',
+										#{chartNo}
+										) 
+	</insert>
  
 </mapper>

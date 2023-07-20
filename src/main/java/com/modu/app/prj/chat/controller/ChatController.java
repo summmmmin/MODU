@@ -1,5 +1,7 @@
 package com.modu.app.prj.chat.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.util.HtmlUtils;
 
 import com.modu.app.prj.chat.service.ChatService;
 import com.modu.app.prj.chat.service.ChatVO;
 import com.modu.app.prj.chat.service.ChatrDTO;
+import com.modu.app.prj.chat.service.ChatrParticiVO;
 import com.modu.app.prj.chat.service.ChatrVO;
 import com.modu.app.prj.post.service.PostService;
 
@@ -69,8 +71,17 @@ public class ChatController {
 		//채팅방 INSERT 시 필요한 VO
 		ChatrVO chatrVO = new ChatrVO();
 		chatrVO.setPrjUniNo(prjUniNo);
-		System.out.println(chatrDTO);
+		//System.out.println(chatrDTO);
 		chatService.makeChatr(chatrVO);
+		
+		//참여자 수만큼 참여테이블에 INSERT
+		List<String> membList = chatrDTO.getParticiMembUniNos();
+		for(String memb : membList) {
+			ChatrParticiVO charMem = new ChatrParticiVO();
+			charMem.setParticiMembUniNo(memb);
+			charMem.setChartNo(chatrVO.getChatrNo());
+			chatService.insertChatMemb(charMem);
+		}
 		
 		return chatrDTO;
 	}

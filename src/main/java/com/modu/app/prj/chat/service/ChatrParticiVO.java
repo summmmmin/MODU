@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ChatrParticiVO {
-	
+	//채팅참여자
 	private String chatParticiMembUniNo; // 채팅참여자고유번호
 	private String chartNo; // 채팅방번호
 	private String particiMembUniNo; // 프로젝트참여자고유번호
