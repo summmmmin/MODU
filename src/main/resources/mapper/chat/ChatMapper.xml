@@ -12,5 +12,16 @@
 		FROM chat
 		ORDER BY write_dt
 	</select>
+	
+	<insert id="makeChatr" parameterType="ChatrVO">
+		<selectKey keyProperty="chatrNo" resultType="String" order="BEFORE">
+			SELECT 'cr' || (MAX(TO_NUMBER(NVL(SUBSTR(chatr_no, 3),'0')))+1) FROM chatr
+		</selectKey>
+		INSERT INTO chatr VALUES (
+								#{chatrNo}, 
+								sysdate, 
+								#{prjUniNo}
+								)
+	</insert>
  
 </mapper>

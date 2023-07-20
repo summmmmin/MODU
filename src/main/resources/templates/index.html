@@ -198,46 +198,64 @@ function click(){
 				<section class="row">
 					<article layout:fragment="content"></article>
 				</section>
-		<!--Modal -->
-		<div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+				<!--Modal -->
+				<div class="modal fade text-left" id="inlineForm" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+						role="document">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h4 class="modal-title" id="myModalLabel33">게시판 생성</h4>
-								<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+								<button type="button" class="close" data-bs-dismiss="modal"
+									aria-label="Close">
 									<i data-feather="x"></i>
 								</button>
 							</div>
-<form action="InsertBoard" method="POST" id="FormEvent">
-	<div class="modal-body">
-	<h5>게시판 이름</h5>
-	<div class="form-group">
-	<input id="boardNm" name="boardNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
-</div>
-	<div class="form-group">
-	<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" class="form-control" style="display:none">
-	<input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display:none">
-	<div class="form-group">
-	<h6>공개여부</h6>
-	<input type="checkbox" id="checkbox" name="pubcYn" checked>
-	
-	<label for="checkbox"><span></span></label>
-</div>
-</div>
-	<div class="modal-footer">
-	<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-	<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
-	</button>
-	<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="addBoard()">
-	<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">생성</span>
-	</button>
-</div>
-</div>
-</form>
+							<form action="InsertBoard" method="POST" id="FormEvent">
+								<div class="modal-body">
+									<h5>게시판 이름</h5>
+									<div class="form-group">
+										<input id="boardNm" name="boardNm" type="text"
+											placeholder="40자까지 입력 가능합니다." class="form-control">
+									</div>
+									<div class="form-group">
+										<input id="particiMembUniNo" name="particiMembUniNo"
+											th:value="${session.particiMembUniNo}" type="text"
+											class="form-control" style="display: none"> <input
+											id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
+											type="text" class="form-control" style="display: none">
+										<div class="form-group">
+											<h6>공개여부</h6>
+											<input type="checkbox" id="checkbox" name="pubcYn" checked>
+
+											<label for="checkbox"><span></span></label>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-light-secondary"
+											data-bs-dismiss="modal">
+											<i class="bx bx-x d-block d-sm-none"></i> <span
+												class="d-none d-sm-block">닫기</span>
+										</button>
+										<button id="formbtn" type="button"
+											class="btn btn-primary ml-1" data-bs-dismiss="modal"
+											onclick="addBoard()">
+											<i class="bx bx-check d-block d-sm-none"></i> <span
+												class="d-none d-sm-block">생성</span>
+										</button>
+									</div>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
+			
+			
+			<!-- start of 채팅방생성모달 -->
+				
+			<!-- end of 채팅방생성모달 -->
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
 					<div class="float-start">
