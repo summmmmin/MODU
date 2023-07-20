@@ -20,14 +20,10 @@
 		p.ttl,
 		p.cm,
 		p.partici_memb_uni_no,
-		<if test="post_tag_arm != null and !post_tag_arm.equals('')">
-			p.post_tag_arm,
-		</if>
+		p.post_tag_arm,
 		p.reply_arm_yn,
 		p.noti_yn,
-		<if test="noti_reg_dt != null and !noti_reg_dt.equals('')">
-			p.noti_reg_dt,
-		</if>
+		p.noti_reg_dt,
 		p.write_dt,
 		m.nnm
 		FROM post p JOIN prj_partici_memb m
@@ -47,9 +43,7 @@
 		p.partici_memb_uni_no,
 		p.write_dt,
 		p.reply_arm_yn,
-		<if test="noti_reg_dt != null and !noti_reg_dt.equals('')">
-			p.noti_reg_dt,
-		</if>
+		p.noti_reg_dt,
 		p.noti_yn,
 		b.board_nm
 		FROM post p JOIN brd b
@@ -148,9 +142,7 @@
 		p.ttl,
 		p.cm,
 		p.partici_memb_uni_no,
-		<if test="post_tag_arm != null and !post_tag_arm.equals('')">
-			p.post_tag_arm,
-		</if>
+		p.post_tag_arm,
 		p.reply_arm_yn,
 		p.noti_yn,
 		p.noti_reg_dt,
