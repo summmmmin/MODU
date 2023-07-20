@@ -1,6 +1,7 @@
 package com.modu.app.prj.vote.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,7 +32,7 @@ public class VoteVO {
 	@JsonFormat(pattern="yyyy-MM-dd")		
 	private Date toDt;						//투표마감날짜
 	private String ttl;						//투표제목
-	private String voteItem;				//투표상세
+	private String[] voteItem;				//투표상세
 	private int cnt;						//투표수
 	
 	//게시글
