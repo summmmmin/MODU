@@ -41,7 +41,6 @@
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -97,7 +96,16 @@
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 			<artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
+	
+		<!-- 암호화 -->
+	     <dependency>
+	         <groupId>com.github.ulisesbocchio</groupId>
+	         <artifactId>jasypt-spring-boot-starter</artifactId>
+         <version>3.0.5</version>
+         </dependency>
 	</dependencies>
+	
+	
 	
 	<build>
 		<plugins>
