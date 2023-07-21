@@ -38,7 +38,7 @@
 						</div>
 						<div class="card-body pt-4 bg-grey">
 							<div class="chat-content">
-								<div class="chat">
+								<!-- <div class="chat">
 									<div class="chat-body">
 										<div class="chat-message">Hi Alfy, how can i help you?</div>
 									</div>
@@ -60,7 +60,7 @@
 									<div class="chat-body">
 										<div class="chat-message">That"s great! I like it so much :)</div>
 									</div>
-								</div>
+								</div> -->
 							</div>
 						</div>
 						<div class="card-footer">
@@ -79,6 +79,7 @@
 		</section>
 		<script>
 			document.getElementById('sendMsgBtn').addEventListener('click', function(){
+				let msgPlace = document.getElementsByClassName('chat-content')[0];
 				let msg = document.getElementById('sendMsg').value;
 				let wantSend = {};
 				wantSend['cntn'] = msg;
@@ -93,9 +94,81 @@
 				.then(result => result.json())
 				.then(data => {
 					console.log(data);
+
+					let cdiv = document.createElement('div');
+					cdiv.setAttribute('class', 'chat');
+					msgPlace.append(cdiv);
+
+					let cbdiv = document.createElement('div');
+					cbdiv.setAttribute('class', 'chat-body');
+					cdiv.append(cbdiv);
+					msgPlace.append(cdiv);
+
+					let cmdiv = document.createElement('div');
+					cmdiv.setAttribute('class', 'chat-message');
+					cmdiv.textContent = msg.cntn;
+					cbdiv.append(cmdiv);
+					cdiv.append(cbdiv);
+					msgPlace.append(cdiv);
+
 				})
 				.catch(err => console.log(err))
 			})
+
+			//채팅메세지리스트
+			function showChatMsgList(){
+				let msgPlace = document.getElementsByClassName('chat-content')[0];
+				let chatrNo = '[[${session.chatrNo}]]'
+				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
+				fetch("http://localhost/modu/msgList/" + chatrNo)
+				.then(resolve => resolve.json())
+				.then(data => {
+					msgPlace.innerHTML = ''; // 지우고다시리스트
+					data.forEach(msg => {
+						
+						if(msg.chatParticiMembUniNo == chatWriter){	
+
+							//내가 쓴 채팅
+							let cdiv = document.createElement('div');
+							cdiv.setAttribute('class', 'chat');
+							msgPlace.append(cdiv);
+
+							let cbdiv = document.createElement('div');
+							cbdiv.setAttribute('class', 'chat-body');
+							cdiv.append(cbdiv);
+							msgPlace.append(cdiv);
+
+							let cmdiv = document.createElement('div');
+							cmdiv.setAttribute('class', 'chat-message');
+							cmdiv.textContent = msg.cntn;
+							cbdiv.append(cmdiv);
+							cdiv.append(cbdiv);
+							msgPlace.append(cdiv);
+
+						}else{
+
+							//상대가 쓴 채팅
+							let cdiv = document.createElement('div');
+							cdiv.setAttribute('class', 'chat chat-left');
+							msgPlace.append(cdiv);
+
+							let cbdiv = document.createElement('div');
+							cbdiv.setAttribute('class', 'chat-body');
+							cdiv.append(cbdiv);
+							msgPlace.append(cdiv);
+
+							let cmdiv = document.createElement('div');
+							cmdiv.setAttribute('class', 'chat-message');
+							cmdiv.textContent = msg.cntn;
+							cbdiv.append(cmdiv);
+							cdiv.append(cbdiv);
+							msgPlace.append(cdiv);
+
+						}
+					});
+				})
+			}
+			showChatMsgList();
 
 		</script>
 		<script	src="http://localhost/modu/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>

@@ -42,7 +42,7 @@ public class ChatController {
 	@Autowired
 	PrjService prjService;
 	
-	
+	//이거웹소켓?
 	@MessageMapping("/chat/{chatrNo}") 
 	@SendTo("/sub/chat")
 	public ChatVO greeting(ChatVO chatVO) throws Exception {
@@ -56,22 +56,16 @@ public class ChatController {
 	//채팅방으로이동
 	@GetMapping("/chat/{chatrNo}") 
 	public String goChatPage(@PathVariable String chatrNo, Model model, ChatrParticiVO cptvo, HttpSession session) {
-		//String particiUniNo = (String) session.getAttribute("particiMembUniNo");
-		//HttpSession newSession = request.getSession();
-	
-		String prjParticiUniNo = (String) session.getAttribute("particiMembUniNo");
 		
+		//채팅세션`
+		String prjParticiUniNo = (String) session.getAttribute("particiMembUniNo");
 		cptvo.setChatrNo(chatrNo);
 		cptvo.setParticiMembUniNo(prjParticiUniNo);
 		ChatrParticiVO vo = chatService.chatSession(cptvo);
-		
-		System.out.println(vo);
-		
 		session.setAttribute("chatrNo", chatrNo);
 		session.setAttribute("chatParticiMembUniNo", vo.getChatParticiMembUniNo());
 		
 		model.addAttribute("info", vo);
-		
 		return "chat/chat";
 	}
 
@@ -103,13 +97,14 @@ public class ChatController {
 		
 		//리턴용 채팅방번호
 		chatrDTO.setChartNo(chatrVO.getChatrNo());
+		
 		//참여자 수만큼 참여테이블에 INSERT
 		List<String> membList = chatrDTO.getParticiMembUniNos();
 		for(String memb : membList) {
 			ChatrParticiVO charMem = new ChatrParticiVO();
 			charMem.setParticiMembUniNo(memb); //프로젝트참여자
 			charMem.setChatrNo(chatrVO.getChatrNo()); //채팅방번호
-			charMem.setChatrNm(chatrDTO.getChartNm()); //채팅방이름
+			charMem.setChatrNm(chatrDTO.getChartNm()); //채팅방이름(생성자가정함)
 			//참여테이블에 INSERT
 			chatService.insertChatMemb(charMem);
 		}
@@ -137,5 +132,11 @@ public class ChatController {
 		System.out.println(chatVO);
 		chatService.insertChat(chatVO);
 		return chatVO;
+	}
+	
+	@GetMapping("msgList/{chatrNo}")
+	@ResponseBody
+	public List<ChatVO> chatMessageList(@PathVariable String chatrNo){
+		return chatService.chatMessageList(chatrNo);
 	}
 }
