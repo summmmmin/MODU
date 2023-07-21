@@ -51,11 +51,17 @@ public class UserVO implements UserDetails{
 	public String getPassword() {
 		return pwd;
 	}
+	
+    public void setPassword(String password) {
+        this.pwd = password;
+    }
+
 
 	@Override
 	public String getUsername() {
 		return id;
 	}
+	
 	
 	@Override
 	public boolean isAccountNonExpired() {

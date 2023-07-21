@@ -34,6 +34,20 @@ public class BmVO {
 	//채팅 버노
 	private String chatNo;
 	
+	private String boardNm;
 	
+	
+	
+//	BM                  NOT NULL CHAR(1)      
+//	ARM_YN              NOT NULL CHAR(1)      
+//	BRD_ARM_UNI_NO      NOT NULL VARCHAR2(10) 
+//	BRD_UNI_NO                   VARCHAR2(10) 
+//	PARTICI_MEMB_UNI_NO          VARCHAR2(10) 
+	
+	// 즐겨찾기
+	private String brdYn;
+	
+	//게시판 버노
+	private String brdUniNo;
 	
 }
