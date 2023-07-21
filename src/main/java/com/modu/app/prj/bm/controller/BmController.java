@@ -27,5 +27,4 @@ public class BmController {
 		System.out.println(vo);
 		return vo;
 	}
-	
 }

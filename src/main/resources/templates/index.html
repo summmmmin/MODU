@@ -60,7 +60,7 @@
 <ul class="submenu" id="ultag">
 <li class="submenu-item" th:each="list, stat : ${Brd}">
 
-<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 108.9 103.6">
+<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 108.9 103.6">
     <g id="Layer_2" data-name="Layer 2">
         <g id="Layer_1-2" data-name="Layer 1">
         	<th:block th:if="${list.brdYn=='Y'}">
@@ -72,11 +72,13 @@
         </g>
     </g>
 </svg>
+
 <a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.boardNm}"></a>
 </li>
 </ul>
 	</li>
 		</ul>
+
 <script> <!-- 즐겨찾기 등록 -->
 function clickInsert(){
 	console.log(event.target.id);
