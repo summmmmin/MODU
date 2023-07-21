@@ -16,6 +16,7 @@ import com.modu.app.prj.todo.service.TodoService;
 import com.modu.app.prj.todo.service.TodoVO;
 import com.modu.app.prj.user.service.UserVO;
 
+// 김동건 07/20 할일 관리
 @Controller
 public class TodoController {
 	
@@ -25,19 +26,19 @@ public class TodoController {
 	
 	//할일 리스트 페이지	
 	@GetMapping("todo")
-	public String todo(Model model, TodoVO vo,HttpServletRequest request) {
+	public String todo() {
 		return "todo/todoList";
 	}
 	
 	//할일 리스트 출력
 	@GetMapping("todoList")
 	@ResponseBody
-	public List<TodoVO> todoList(Model model, TodoVO vo,HttpServletRequest request) {
+	public List<TodoVO> todoList(TodoVO vo,HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		UserVO userVo = (UserVO) session.getAttribute("user");
-		vo.setCm(userVo.getNm());
-		vo.setMgr(userVo.getNm());
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		vo.setCm((String) session.getAttribute("particiMembUniNo"));
+		vo.setMgr((String) session.getAttribute("particiMembUniNo"));
 		return todoService.todoList(vo);
 	}
 
