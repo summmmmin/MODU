@@ -9,7 +9,33 @@
 		select *
 		from memb
 		where id= #{id}
+		AND QUIT = 'N'
 	</select>
+	
+	<insert id="signup" parameterType="UserVO">
+		INSERT INTO memb (
+											MEMB_UNI_NO
+											, ID
+											, PWD
+											, NM
+											, PH_NO
+											, SNS
+											, QUIT
+											, GRD
+											, REG_DT
+											)
+		VALUES						(
+											'mt' || memb_seq.nextval
+											,#{id}
+											,#{pwd}
+											,#{nm}
+											,#{phNo}
+											,'N'
+											,'N'
+											,'N'
+											,sysdate
+											)
+	</insert>
 	
 
  </mapper>

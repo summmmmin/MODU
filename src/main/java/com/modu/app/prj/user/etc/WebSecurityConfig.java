@@ -30,26 +30,22 @@ public class WebSecurityConfig {
 	   
 	   @Bean
 	   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	      http
-	      	 .csrf().disable()
-	         .authorizeHttpRequests()
-	         //.antMatchers("/status", "images/**", "/js/", "auth/join").permitAll()
-	         //.antMatchers("/", "/main").permitAll()
-	         //.antMatchers("/emp/**").hasRole("ADMIN")
-	         //.antMatchers("/","/login").permitAll()
-	         .antMatchers("/assets/**").permitAll()
-	         .anyRequest().authenticated()
-	         .and()
-	         .formLogin()
-	         //.usernameParameter("id")
-	         .passwordParameter("pwd")
-	         .successHandler(authenticationSuccessHandler())
-	         .failureHandler(authenticationFailureHandler())
-	         .loginPage("/login")
-	         .permitAll()
-	         .and()
-	         .logout((logout) -> logout.permitAll());
+	       http
+	           .csrf().disable()
+	           .authorizeHttpRequests()
+	           .antMatchers("/assets/**", "/signup", "/sms/**").permitAll()
+	           .anyRequest().authenticated()
+	           .and()
+	           .formLogin()
+	           .passwordParameter("pwd")
+	           .successHandler(authenticationSuccessHandler())
+	           .failureHandler(authenticationFailureHandler())
+	           .loginPage("/login")
+	           .permitAll()
+	           .and()
+	           .logout((logout) -> logout.permitAll());
 
-	      return http.build();
+	       return http.build();
 	   }
+
 }

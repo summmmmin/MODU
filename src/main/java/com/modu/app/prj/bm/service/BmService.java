@@ -7,4 +7,6 @@ public interface BmService {
 	
 	public List<BmVO> BmList(BmVO vo);
 	
+	public int bmInsert(BmVO vo);
+	
 }
