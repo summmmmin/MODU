@@ -17,13 +17,29 @@ public class BmServiceImpl implements BmService {
 	BmMapper bmMapper;
 
 	@Override
-	public List<BmVO> BmList(BmVO vo) {
-		return bmMapper.BmList(vo);
+	public int BrdBmInsert(BmVO vo) {
+		int result = 0;
+		// 값 조회
+		int bmCount = bmMapper.BmCount(vo);
+		System.out.println(bmCount);
+		System.out.println(vo);
+		// 값이 없으면 등록
+		if (bmCount == 0) {
+			result = bmMapper.BrdBmInsert(vo);
+		// 값이 있으면 삭제
+		}else {
+			result = bmMapper.BmDelete(vo);
+		}
+		return result;
 	}
 	
 	@Override
-	public int bmInsert(BmVO vo) {
-		return bmMapper.bmInsert(vo);
+	public int BmCount(BmVO vo) {
+		return bmMapper.BmCount(vo);
 	}
 	
+	@Override
+	public int BmDelete(BmVO vo) {
+		return bmMapper.BmDelete(vo);
+	}
 }

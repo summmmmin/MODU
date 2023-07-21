@@ -7,18 +7,13 @@
 <title>Dashboard - Mazer Admin Dashboard</title>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" />
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-	rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/bootstrap.css" />
 <link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
-<link rel="stylesheet"
-	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
-<link rel="stylesheet"
-	href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
 <link rel="stylesheet" href="assets/css/test.css" />
-<link rel="shortcut icon" href="assets/images/favicon.svg"
-	type="image/x-icon" />
+<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
 <link rel="stylesheet" href="assets/css/modal.css">
 <!-- Include Choices CSS -->
 <link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
@@ -64,42 +59,66 @@
 </a>
 <ul class="submenu" id="ultag">
 <li class="submenu-item" th:each="list, stat : ${Brd}">
-	<div class="row">
-		<div class="col-2">
-			<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 108.9 103.6">
-			    <g id="Layer_2" data-name="Layer 2">
-			        <g id="Layer_1-2" data-name="Layer 1">
-			            <polygon onclick="click()" class="cls-1 clicked" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" th:class="${list.brdUniNo}">
-			        </g>
-			    </g>
-			</svg>
-		</div>
-		<div class="col-10">
-			<a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.boardNm}"></a>
-		</div>
-	</div>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 108.9 103.6">
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+        	<th:block th:if="${list.brdYn=='Y'}">
+            <polygon th:onclick="clickInsert()" class="cls-1 clicked" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" th:id="${list.brdUniNo}">
+            </th:block>
+            <th:block th:if="${list.brdYn==null}">
+            <polygon th:onclick="clickInsert()" class="cls-1" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" th:id="${list.brdUniNo}">
+            </th:block>
+        </g>
+    </g>
+</svg>
+
+<a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.boardNm}"></a>
 </li>
 </ul>
 	</li>
 		</ul>
-<!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
-<script>
-function click(){
-	console.log(event.target.className.animVal);
-      event.target.classList.toggle('clicked');
-      event.target.classList.toggle('cls-1');
-		
+
+<script> <!-- 즐겨찾기 등록 -->
+function clickInsert(){
+	console.log(event.target.id);
+      let star = event.target;
+      let brdUniNo = event.target.id;
+      let particiMembUniNo = '[[${session.particiMembUniNo}]]';
+      let data = {
+    	  'brdUniNo' : brdUniNo,
+    	  'particiMembUniNo' : particiMembUniNo
+      }
+      fetch('/modu/BrdBmInsert', {
+    	  method : 'POST',
+    	  headers : {
+    		  'content-type' : 'application/json'
+    	  },
+    	  body : JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+    	  console.log(data)
+    	  
+     	  if(data === 1){
+    	  star.classList.toggle('clicked');
+    	  }else{
+        	  star.classList.toggle('cls-1');
+        	  star.classList.toggle('clicked');
+    	  }
+      })
+      .catch(err => console.log(err));
+      
 }
-  document.getElementById('ultag').addEventListener('click', function(event) {
+	/* 색 변환 JS */ 
+   $('#ultag').on('click', function(event) {
     let target = event.target;
-    if (target.classList.contains('cls-1')) {
-      let brdUniNo = target.getAttribute('text-brdUniNo');
-      console.log(target);	
+    if ($(target).hasClass('cls-1')) {
+        let brdUniNo = $(target).attr('text-brdUniNo');
     }
-  });
+});
 </script>
 <!--/* ************************ End *************************** */-->
-
 			</div>
 
 				<button class="sidebar-toggler btn x">
@@ -112,7 +131,7 @@ function click(){
 				<div class="rsidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a href="index.html"><img src="assets/images/logo/logo.png"
+							<a href="#"><img src="assets/images/logo/logo.png"
 								alt="Logo" srcset="" /></a>
 						</div>
 						<div class="toggler">
@@ -164,7 +183,7 @@ function click(){
 										<li><a class="dropdown-item rburger" >일정</a></li>
 										<li><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
 										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
-										<li><a class="dropdown-item rburger" href="">즐겨찾기</a></li>
+										<li><a class="dropdown-item rburger" onclick="BmSelect()">즐겨찾기</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
@@ -180,7 +199,7 @@ function click(){
 											</div>
 										</div>
 									</div>
-								</a>
+								</a>								
 								<ul class="dropdown-menu dropdown-menu-end"
 									aria-labelledby="dropdownMenuButton">
 									<li>
@@ -209,46 +228,62 @@ function click(){
 				<section class="row">
 					<article layout:fragment="content"></article>
 				</section>
-		<!--Modal -->
-		<div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+				
+				
+				<!--Modal -->
+				<div class="modal fade text-left" id="inlineForm" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+						role="document">
 						<div class="modal-content">
 							<div class="modal-header">
 								<h4 class="modal-title" id="myModalLabel33">게시판 생성</h4>
-								<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+								<button type="button" class="close" data-bs-dismiss="modal"
+									aria-label="Close">
 									<i data-feather="x"></i>
 								</button>
 							</div>
-<form action="InsertBoard" method="POST" id="FormEvent">
-	<div class="modal-body">
-	<h5>게시판 이름</h5>
-	<div class="form-group">
-	<input id="boardNm" name="boardNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
-</div>
-	<div class="form-group">
-	<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" class="form-control" style="display:none">
-	<input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display:none">
-	<div class="form-group">
-	<h6>공개여부</h6>
-	<input type="checkbox" id="checkbox" name="pubcYn" checked>
-	
-	<label for="checkbox"><span></span></label>
-</div>
-</div>
-	<div class="modal-footer">
-	<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-	<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
-	</button>
-	<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="addBoard()">
-	<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">생성</span>
-	</button>
-</div>
-</div>
-</form>
+							<form action="InsertBoard" method="POST" id="FormEvent">
+								<div class="modal-body">
+									<h5>게시판 이름</h5>
+									<div class="form-group">
+										<input id="boardNm" name="boardNm" type="text"
+											placeholder="40자까지 입력 가능합니다." class="form-control">
+									</div>
+									<div class="form-group">
+										<input id="particiMembUniNo" name="particiMembUniNo"
+											th:value="${session.particiMembUniNo}" type="text"
+											class="form-control" style="display: none"> <input
+											id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
+											type="text" class="form-control" style="display: none">
+										<div class="form-group">
+											<h6>공개여부</h6>
+											<input type="checkbox" id="checkbox" name="pubcYn" checked>
+
+											<label for="checkbox"><span></span></label>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-light-secondary"
+											data-bs-dismiss="modal">
+											<i class="bx bx-x d-block d-sm-none"></i> <span
+												class="d-none d-sm-block">닫기</span>
+										</button>
+										<button id="formbtn" type="button"
+											class="btn btn-primary ml-1" data-bs-dismiss="modal"
+											onclick="addBoard()">
+											<i class="bx bx-check d-block d-sm-none"></i> <span
+												class="d-none d-sm-block">생성</span>
+										</button>
+									</div>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
+			
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
 					<div class="float-start">
@@ -295,6 +330,13 @@ function click(){
 			console.log(data);
 			let liTag=`
 				<li class="submenu-item">
+				<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 108.9 103.6">
+			    <g id="Layer_2" data-name="Layer 2">
+			        <g id="Layer_1-2" data-name="Layer 1">
+			            <polygon onclick="clickInsert()" class="cls-1 "`+data.brdUniNo+` points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0">
+			        </g>
+			    </g>
+			</svg>
 				<a href="/postList?brdUniNo="`+data.brdUniNo+`>`+data.boardNm+`</a>
 				</li>
 			`;
@@ -306,7 +348,8 @@ function click(){
 		.catch(err => console.log(err))
 	}
 	</script>
- 	<script>
+	
+	<script>
  	function todoList(){
  	 $.ajax("todo")
 		.done(result=>$("#rsidebarContent").html(result));
@@ -314,6 +357,15 @@ function click(){
  	function voteList(){
  	  $.ajax("vote")
  		.done(result=>$("#rsidebarContent").html(result))
+ 	}
+ 	</script>
+ 	
+ 	<script>
+ 	function BmSelect(){
+ 	 $.ajax("BmSelect")
+		.done(function(result){
+			$("#rsidebarContent").html(result);
+		})
  	}
  	</script>
 </body>
