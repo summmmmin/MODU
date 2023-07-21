@@ -31,7 +31,7 @@ public class BmController {
 		return "bm/bmList";
 	}
 
-	// 게시판 생성
+	// 즐겨찾기 추가
 	@PostMapping("BrdBmInsert")
 	@ResponseBody
 	public BmVO BrdBmInsert(@RequestBody BmVO vo) {
@@ -43,8 +43,6 @@ public class BmController {
 	@GetMapping("BmSelect")
 	@ResponseBody
 	public BmVO BmSelect(BmVO vo) {
-		System.out.println(vo);
-		System.out.println("리스트");
 		bmService.BmList(vo);
 		return vo;
 	}
