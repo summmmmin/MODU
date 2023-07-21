@@ -92,7 +92,7 @@ public class VoteController {
 		vote.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		System.out.println(vote);
 		voteService.voteInsert(vote);
-		return "redirect:vote";
+		return "success";
 	}
 	
 	

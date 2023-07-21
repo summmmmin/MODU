@@ -118,6 +118,7 @@
 			function VoteInsert() {
 				let bno=null;
 				let cno=null;
+				
 				let ttl = $("#ttl").val();		
 				let date = $('#voteDate').val();
 			    let formData = $('#createVote').serialize();
@@ -155,7 +156,7 @@
 			        data: JSON.stringify(additionalData),
 			        contentType: 'application/json',
 			        success: function(response) {
-			            console.log(response)
+			        	voteList();
 			        },
 			        error: function(error) {
 			            console.log(error)

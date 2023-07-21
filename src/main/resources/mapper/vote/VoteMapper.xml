@@ -8,7 +8,7 @@
   <!-- 투표 생성 -->
  	<insert id="voteInsert" statementType="CALLABLE">
 		call DOVOTE(
-				#{chatrNo},
+				#{chatrNo},	
 				#{brdUniNo},
 				#{toDt},
 				#{ttl},
@@ -170,7 +170,8 @@
   <!-- 채팅방 제목 -->
   <select id="chatrNm" resultType="VoteVO" parameterType="VoteVO">
   select chatr_nm, chatr_no
-  from chatr_partici 
+  from chatr_partici
+  where partici_memb_uni_no=#{particiMembUniNo}
   </select>
   
   <!-- 게시판 제목 -->

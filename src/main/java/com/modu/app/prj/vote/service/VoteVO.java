@@ -50,4 +50,5 @@ public class VoteVO {
 	private String chatrNo;					//채팅방 번호
 	private String cntn;					//채팅 내용
 	private String chatrNm;					//채팅방 제목
+	private String chatParticiMembUniNo;	//채팅방참여고유번호
 }
