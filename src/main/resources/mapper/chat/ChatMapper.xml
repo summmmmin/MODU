@@ -3,6 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.modu.app.prj.chat.mapper.ChatMapper">
+
+	<!-- 채팅메세지리스트 -->
 	<select id="chatMessageList" resultType="ChatVO">
 		SELECT chat_no,
        		   chatr_no,
@@ -20,13 +22,14 @@
 		</selectKey>
 		INSERT INTO chatr VALUES (
 								#{chatrNo}, 
-								sysdate, 
-								#{prjUniNo}
+								#{prjUniNo},
+								sysdate 
 								)
 	</insert>
+	
 	<!-- 채팅참여자추가 -->
 	<insert id="insertChatMemb" parameterType="ChatrParticiVO">
-		<selectKey keyProperty="chatrNo" resultType="String" order="BEFORE">
+		<selectKey keyProperty="chatParticiMembUniNo" resultType="String" order="BEFORE">
 			SELECT 'cpm' || (MAX(TO_NUMBER(NVL(SUBSTR(chat_partici_memb_uni_no, 4),'0')))+1) FROM chatr_partici
 		</selectKey>
 		INSERT INTO chatr_partici VALUES (
@@ -34,7 +37,7 @@
 										#{chartNo},
 										#{particiMembUniNo},
 										'Y',
-										#{chartNo}
+										#{chartNm}
 										) 
 	</insert>
  

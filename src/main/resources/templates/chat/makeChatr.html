@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,7 +15,7 @@
 	<link rel="stylesheet" href="assets/css/test.css" />
 	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
 	<link rel="stylesheet" href="assets/css/modal.css">
-	
+
 	<!-- Include Choices CSS -->
 	<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
 	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
@@ -22,59 +23,55 @@
 </head>
 
 <body>
-		<!-- start of 채팅방생성모달 -->
-			<!-- <div class="modal fade text-left" id="makeChatrForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+	<!-- start of 채팅방생성모달 -->
+	<!-- <div class="modal fade text-left" id="makeChatrForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
 				aria-hidden="true"> -->
-				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title" id="myModalLabel33">채팅방 생성</h4>
-							<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-								<i data-feather="x"></i>
-							</button>
-						</div>
-						<form action="makeChatr" method="POST" id="FormEvent">
-							<div class="modal-body">
-								<h5>채팅방이름?</h5>
-								<div class="form-group">
-									<input id="chartNm" name="chartNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
-								</div>
-								<div class="form-group">
-									<input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display: none">
-									<input id="particiMembUniNo" name="particiMembUniNo" value="${session.particiMembUniNo}" type="text"	class="form-control" style="display: none">
-									<div class="form-group">
-										<label for="basicInput" class="form-label">참여멤버선택</label>
-										<select class="choices form-select multiple-remove" multiple="multiple">
-											<option th:each="memb : ${membList}" th:value="${memb.particiMembUniNo}">[[${memb.nnm}]]</option>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-									<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
-								</button>
-					<button id="formbtn" type="submit" class="btn btn-primary ml-1"
-						data-bs-dismiss="modal">
-						<i class="bx bx-check d-block d-sm-none"></i> <span
-							class="d-none d-sm-block">채팅시작</span>
-					</button>
-				</div>
-					</div>
-					</form>
-				</div>
+	<!-- <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" i d="myModalLabel33">채팅방 생성</h4>
+				<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+					<i data-feather="x"></i>
+				</button>
+			</div> -->
+	<form action="makeChatr" method="POST" id="FormEvent">
+	<div class="modal-body">
+		<h5>채팅방이름?</h5>
+		<div class="form-group">
+			<input id="chartNm" name="chartNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
+		</div>
+		<div class="form-group">
+			<input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control"
+				style="display: none">
+			<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text"
+				class="form-control" style="display: none">
+			<div class="form-group">
+				<label for="basicInput" class="form-label">참여멤버선택</label>
+				<select id="memberSelect" class="choices form-select multiple-remove" multiple="multiple">
+					<option th:each="memb : ${membList}" th:value="${memb.particiMembUniNo}">[[${memb.nnm}]]</option>
+				</select>
 			</div>
 		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+			<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
+		</button>
+		<button onclick="makeChatrPlz()" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+			<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">채팅시작</span>
+		</button>
+	</div>
+	</form>
+
+	<!-- </div>
+	</div> -->
+
 	<!-- </div> -->
 	<!-- end of 채팅방생성모달 -->
 	<!-- Include Choices JavaScript -->
-		<script src="assets/vendors/choices.js/choices.min.js"></script>
-		<script src="assets/js/main.js"></script>
-		<script>
-			function makeChatr(){
-				
-			};
-		</script>
+	<script src="assets/vendors/choices.js/choices.min.js"></script>
+	<script src="assets/js/main.js"></script>
+
 </body>
 
 </html>

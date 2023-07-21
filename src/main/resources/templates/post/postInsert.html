@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
-
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	
 	<link rel="stylesheet" href="assets/css/bootstrap.css">
 	<link rel="stylesheet" href="assets/css/app.css">
 	<link rel="stylesheet" href="assets/vendors/toastify/toastify.css">
-
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-
 	<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
 	<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
-
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
 	<link rel="stylesheet" href="assets/vendors/fontawesome/all.min.css">
 	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
 
@@ -23,9 +19,6 @@
 	<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
 	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
 	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-
-
-	
 </head>
 
 <body>
@@ -73,11 +66,9 @@
 								</div>
 							</div>
 						</form>
-
 					</div>
 				</div>
 			</div>
-
 		</div>
 		<script>
 			// Filepond: Multiple Files
@@ -87,12 +78,8 @@
 				allowFileEncode: false,
 				required: false
 			});
-		
-			/* function hasFileInputValue(){
-				let fileInput = document.querySelector('input[name="file"]');
-			    return fileInput && fileInput.files && fileInput.files.length > 0;
-			} */
 		</script>
+		
 		<!-- filepond validation -->
 		<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
 		</script>

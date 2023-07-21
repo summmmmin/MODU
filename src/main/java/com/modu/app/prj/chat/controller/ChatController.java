@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.util.HtmlUtils;
 
@@ -48,10 +51,9 @@ public class ChatController {
 		
 		System.out.println(chatVO);
 		return new ChatVO(HtmlUtils.htmlEscape(chatVO.getCntn()));
-		
 	}
 	
-	//채팅방만들기? form없이 만들것
+	//채팅방폼
 	@GetMapping("makeChatr") 
 	public String makeChatrForm(Model model, HttpSession session) {
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
@@ -59,31 +61,34 @@ public class ChatController {
 		return "chat/makeChatr";
 	}
 	
+	//채팅방만들기 + 참여멤버추가
 	@PostMapping("makeChatr")
-	public ChatrDTO makeChatr(ChatrDTO chatrDTO, HttpSession session) {
+	@ResponseBody
+	public ChatrDTO makeChatr(@RequestBody ChatrDTO chatrDTO, HttpSession session) {
 		
+		//채팅만드는사람
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
 		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 		
 		//채팅방만든사람도 참여멤버리스트에 넣음
-		chatrDTO.getParticiMembUniNos().add(particiMembUniNo);
+		//chatrDTO.getParticiMembUniNos().add(particiMembUniNo);
 		
 		//채팅방 INSERT 시 필요한 VO
 		ChatrVO chatrVO = new ChatrVO();
 		chatrVO.setPrjUniNo(prjUniNo);
-		//System.out.println(chatrDTO);
+		//채팅방생성
 		chatService.makeChatr(chatrVO);
 		
 		//참여자 수만큼 참여테이블에 INSERT
 		List<String> membList = chatrDTO.getParticiMembUniNos();
 		for(String memb : membList) {
 			ChatrParticiVO charMem = new ChatrParticiVO();
-			charMem.setParticiMembUniNo(memb);
-			charMem.setChartNo(chatrVO.getChatrNo());
+			charMem.setParticiMembUniNo(memb); //프로젝트참여자
+			charMem.setChartNo(chatrVO.getChatrNo()); //채팅방번호
+			charMem.setChartNm(chatrDTO.getChartNm()); //채팅방이름
+			//참여테이블에 INSERT
 			chatService.insertChatMemb(charMem);
 		}
-		
 		return chatrDTO;
 	}
-
 }
