@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.modu.app.prj.board.service.BoardService;
 import com.modu.app.prj.board.service.BoardVO;
 import com.modu.app.prj.user.service.UserVO;
+import com.modu.app.prj.vote.service.MyDataModel;
 import com.modu.app.prj.vote.service.VoteService;
 import com.modu.app.prj.vote.service.VoteVO;
 
@@ -55,8 +56,15 @@ public class VoteController {
 		brd.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		List<BoardVO> boardList = boardService.BoardList(brd);
 		List<VoteVO> chatrList=voteService.chatrNm((String) session.getAttribute("particiMembUniNo"));
-		model.addAttribute("chatrList",chatrList);
-		model.addAttribute("boardList",boardList);
+		System.out.println(boardList);
+		
+		MyDataModel myDataModel = new MyDataModel();
+		myDataModel.setVoteVO(new VoteVO());
+		myDataModel.setChatrList(chatrList);
+		myDataModel.setBoardList(boardList);
+		
+		
+		model.addAttribute("vote", myDataModel);
 		return "vote/voteInsert";
 	}
 	
@@ -78,11 +86,10 @@ public class VoteController {
 	
 	@PostMapping("voteInsert")
 	public String voteInsert(HttpSession session,VoteVO vote) {
-		UserVO vo = (UserVO) session.getAttribute("partici");
 		vote.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vote.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		
-		return "";
+		voteService.voteInsert(vote);
+		return "redirect:vote";
 	}
 	
 	

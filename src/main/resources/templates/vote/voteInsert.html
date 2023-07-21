@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -11,81 +11,81 @@
 </head>
 
 <body>
-		<div class="row">
-			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title">투표생성</h4>
-					<hr>
-				</div>
-				<div class="card-content">
-						<div class="row">
-						<div class="col-md-6 mb-4">
-                                                <h6>장소</h6>
-                                                <div class="form-group">
-                                                     <select class="choices form-select" id="brdSel">
-                                                     	<optgroup label="===게시판===">
-                                                     		<option th:each="board:${boardList}" >[[${board.boardNm}]]</option>
-                                                     	</optgroup>
-                                                  		<optgroup label="===채팅방===">
-                                                  			<option th:each="chat:${chatrList}">[[${chat}]]</option>
-                                                  		</optgroup>
-                                                    </select>
-                                                </div>
-                                            </div>
-              
-							<div class="form-group has-icon-left">
-								<div class="position-relative">
-									<input type="text" class="form-control"
-										placeholder="투표 제목을 입력해주세요">
-									<div class="form-control-icon">
-										<i class="bi bi-pen" data-bs-toggle="tooltip" ></i>
-									</div>
-								</div>
-							</div>
-							<p></p>
-						<div id ="inputCount">
-							<div class="form-group has-icon-left">
-								<div class="position-relative">
-									<input type="text" class="form-control"
-										placeholder="투표항목을 입력해주세요" >
-									<div class="form-control-icon">
-										<i class="bi bi-archive"></i>
-									</div>
-								</div>
-							</div>
-							<div class="form-group has-icon-left" id="item">
-								<div class="position-relative">
-									<input type="text" class="form-control"
-										placeholder="투표항목을 입력해주세요" id="first-name-icon">
-									<div class="form-control-icon">
-										<i class="bi bi-archive"></i>
-									</div>
-								</div>
+	<div class="row">
+	  <form th:object="${vote.voteVO}" id="createVote">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">투표생성</h4>
+				<hr>
+			</div>
+			<div class="card-content">
+				<div class="row">
+					<div class="col-md-6 mb-4">
+						<h6>장소</h6>
+						<div class="form-group">
+							<select class="choices form-select" id="brdSel">
+								<optgroup label="=====게시판=====">
+									<option th:value="${board.brdUniNo}+brd" th:each="board:${vote.boardList}">[[${board.boardNm}]]</option>
+								</optgroup>
+								<optgroup label="=====채팅방=====">
+									<option th:value="${chat.chatrNo}+cht" th:each="chat:${vote.chatrList}">[[${chat.chatrNm}]]</option>
+								</optgroup>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group has-icon-left">
+						<div class="position-relative">
+							<input type="text" class="form-control"
+								placeholder="투표 제목을 입력해주세요" th:field="*{ttl}">
+							<div class="form-control-icon">
+								<i class="bi bi-pen" data-bs-toggle="tooltip"></i>
 							</div>
 						</div>
-							<button type="button"
-								class="btn btn-block btn-light-primary font-bold mt-3"
-								onclick="insertItem()">+ 항목추가</button>
-						</div>
-						<p></p>
-						<div class="form-group has-icon-left mx-auto p-4">
+					</div>
+					<p></p>
+					<div id="voteItemList">
+						<div class="form-group has-icon-right">
 							<div class="position-relative">
-								<input type="date" class="form-control">
+								<input type="text" class="form-control voteItem"
+									placeholder="투표항목을 입력해주세요">
 								<div class="form-control-icon">
-									<i class="bi-calendar"></i>
+									<i class=""></i>
 								</div>
 							</div>
 						</div>
-						<p></p>
-						<div class="col-12 d-flex justify-content-end">
-							<button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
-							<button type="button"  class="btn btn-primary me-1 mb-1">저장하기</button>
+						<div class="form-group has-icon-right" id="item">
+							<div class="position-relative">
+								<input type="text" class="form-control voteItem"  
+									placeholder="투표항목을 입력해주세요">
+								<div class="form-control-icon"></div>
+							</div>
 						</div>
+					</div>
+					<button type="button"
+						class="btn btn-block btn-light-primary font-bold mt-3"
+						id="voteBtn" onclick="insertItem()">+ 항목추가</button>
+				</div>
+				<p></p>
+				<div class="form-group has-icon-left mx-auto p-4">
+					<div class="position-relative">
+						<input type="date" class="form-control" id="voteDate" th:field="*{toDt}">
+						<div class="form-control-icon">
+							<i class="bi-calendar"></i>
+						</div>
+					</div>
+				</div>
+				<p></p>
+				<div class="col-12 d-flex justify-content-end">
+					<button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
+					<button type="button" class="btn btn-primary me-1 mb-1" onclick="VoteInsert()" >저장하기</button>
 				</div>
 			</div>
 		</div>
+		</form>
+	</div>
 	<script src="assets/vendors/choices.js/choices.min.js"></script>
-             <!--  <script type="text/javascript">
+	<!--  <script type="text/javascript">
               fetch('/modu/voteInsertForm')
   			.then(res => res.json())
   			.then(data => {
@@ -106,34 +106,103 @@
   			})
   			.catch(err => console.log(err)); 
               </script> -->
-		<script>
+	<script>
 				let count = 2;
-		
+
+			// 저장하기 버튼
+			let select =$("#brdSel option:selected").val();
+			let ttl = $("#ttl").val();		
+			let item = $('.voteItem').value;
+			let date = $('#voteDate').value;
+			console.log('kk',$('.voteItem').val())
+			
+			function VoteInsert() {
+			    let formData = $('#createVote').serialize();
+				console.log(formData);
+				let select = document.getElementById('brdSel');
+				console.log(select.value);
+				console.log(select);
+			    /* $.ajax({
+			        type: 'POST',
+			        url: '/voteInsert', // 실제 서버의 URL로 변경해야 합니다.
+			        data: formData,
+			        success: function(response) {
+			            // 성공적으로 서버에서 응답을 받았을 때 처리할 로직
+			        },
+			        error: function(error) {
+			            // 서버 요청 실패 또는 에러 발생 시 처리할 로직
+			        }
+			    }); */
+		   } 
+/*  			function VoteInsert (){
+				fetch("/modu/voteInsert",{
+					method:"POST",
+					headers: {
+					    'Content-Type': 'application/json',
+					  },
+					body: JSON.stringify({
+							chatrNo:select,
+							ttl:ttl,
+							voteItem:item,
+							toDt:date
+							})
+					})
+					.then(response => response.json())
+  					.then(result => {
+  						console.log(select);
+  						console.log(item);
+  						console.log(date);
+					    console.log('서버 응답:', result);
+					  })
+					.catch(error => {
+					    console.error('오류 발생:', error);
+					  });
+				
+			} */
+				
+			// 항목 삭제하기 버튼
+				function delIcon(){
+					if(event.isTrusted == true){
+						$('#count'+count).remove();
+						count--;
+						if (count == 4){
+							document.getElementById('voteBtn').disabled=false;
+						}			
+					}
+				}
+				
+				
+				
+			//항목 추가하기 버튼
 			function insertItem() {
 				count ++;
-				
+
 				console.log(count);
-				let div = document.createElement('div');
 				let input = `
 				<p></p>
-				<div class="form-group has-icon-left">
-					<div class="position-relative">
-					<input type="text" class="form-control"
-						placeholder="투표항목을 입력해주세요" id="first-name-icon">
-					<div class="form-control-icon">
-						<i class="bi bi-archive"></i>
+					<div class="form-group has-icon-right" id="count${count}"> 
+						<div class="position-relative">
+							<input type="text" class="form-control voteItem"placeholder="투표항목을 입력해주세요" th:filed="*{voteItem}">
+						<div class="form-control-icon">
+							<i class="bi bi-trash-fill" id="delete${count}" onclick="delIcon()"></i>
+						</div>
 					</div>
-				</div>
-				`
-			if (count<=4){	
-				$('#item').append(input);
-				if(count == 4) {
-					event.target.innerText ="더이상 항목을 늘릴 수 없습니다.";
-					event.target.disabled=true;
-				}
-			}
-			
+				`;	
+					if (count<=4){	
 				
+					$('#item').after(input);
+
+							/* document.getElementById('delete'+count).click(function(){
+								//console.log('11111');
+								$('#count'+count).remove();
+								count--;
+							}) */
+				
+						if(count == 4) {
+							event.target.innerText ="더이상 항목을 늘릴 수 없습니다.";
+							event.target.disabled=true;
+						}
+					}
 			
 			}
 /* 			// JavaScript
@@ -183,7 +252,7 @@
 				} */
 
 		</script>
-		    
+
 </body>
 
 </html>

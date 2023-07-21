@@ -6,20 +6,20 @@
   <mapper namespace="com.modu.app.prj.vote.mapper.VoteMapper">
   
   <!-- 투표 생성 -->
-  <insert id="insertVote"statementType="CALLABLE">
-	call dovote(
+ 	<insert id="insertVote" statementType="CALLABLE">
+		call DOVOTE(
 				#{chatrNo},
 				#{brdUniNo},
 				#{toDt},
 				#{ttl},
-				#{voteItem,typeHandler=com.modu.app.OracleArrayHandler},
+				#{voteItem,typeHandler=com.modu.app.oracle.OracleArrayHandler},
 				#{particiMembUniNo},
 				#{projectUniNo}
 				)
 	</insert>
   
   <!-- 투표 생성 - 1-1. 게시글에 첨가 -->
- <!--  <insert id="postVote" parameterType="VoteVO">
+  <!-- <insert id="postVote" parameterType="VoteVO">
     <selectKey keyProperty="postUniNo" resultType="String" order="BEFORE">
     	SELECT 'pt' || (MAX(TO_NUMBER(SUBSTR(post_uni_no, 3)))+1) FROM post
     </selectKey>
@@ -50,7 +50,7 @@
 		           )
 </insert>
   
-  투표 생성 - 1-2. 채팅에 첨가 
+   투표 생성 - 1-2. 채팅에 첨가 
   <insert id="chatVote" parameterType="VoteVO">
   insert into chat(chat_no,chatr_no,partici_memb_uni_no,cntn)
   values(chat_seq.nextval,#{chatr_no},#{partici_memb_uni_no},#{cntn})  
@@ -89,9 +89,9 @@
                     #{chatNo}
                     </if>
                     )
-  </insert>
+  </insert> -->
   
-  투표 생성 - 3. 투표상세 테이블
+   <!-- 투표 생성 - 3. 투표상세 테이블 
   <insert id="insertVoteItem" parameterType="VoteVO">
   <selectKey keyProperty="voteDetaNo" order="BEFORE" resultType="String">
 		SELECT 'vd'||vote_deta_no.nextval
@@ -99,7 +99,7 @@
   </selectKey>
   insert into vote_deta(vote_deta_no,vote_no,vote_item)
   values(#{voteDetaNo},#{voteNo},#{voteItem})
-  </insert> -->
+  </insert>  -->
   
   <!-- 투표 기간 수정 -->
   <update id="voteDate" parameterType="VoteVO">
@@ -169,9 +169,8 @@
   
   <!-- 채팅방 제목 -->
   <select id="chatrNm" resultType="VoteVO" parameterType="VoteVO">
-  select chatr_nm
+  select chatr_nm, chatr_no
   from chatr_partici 
-  where partici_memb_uni_no=#{particiMembUniNo}
   </select>
   
   <!-- 게시판 제목 -->
