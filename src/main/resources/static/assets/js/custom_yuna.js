@@ -25,5 +25,3 @@ $('#sendVerificationCode').on('click', function () {
     });
     
 //인증번호 매치
-
-    
