@@ -22,7 +22,6 @@
 	<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
 	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
 	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
 </head>
 
@@ -323,7 +322,6 @@
 			fetch("http://localhost/modu/chatrList")
 			.then(resolve => resolve.json())
 			.then(data => {
-				console.log(data);
 				document.getElementById('chatrList').innerHTML = '';
 				data.forEach(chatr => {
 					let liTag = document.createElement('li');
@@ -331,7 +329,7 @@
 					document.getElementById('chatrList').append(liTag);
 
 					let tagA = document.createElement('a');
-					tagA.setAttribute("href", "#");
+					tagA.setAttribute("href", "chat/" + chatr.chatrNo);
 					tagA.textContent = chatr.chatrNm;
 					liTag.append(tagA);
 					document.getElementById('chatrList').append(liTag);
@@ -339,6 +337,7 @@
 			})
 		}
 		showChatList();
+
 		//채팅방생성모달안에페이지넣기
 		document.getElementById('openMakeChatrModal').addEventListener('click', function () {
 			let modalPlace = document.getElementById('makeChatrModal');
@@ -348,7 +347,6 @@
 					if (xhr.status === 200) {
 						// Ajax 요청 성공 시 모달에 페이지를 추가
 						modalPlace.innerHTML = xhr.responseText;
-						console.log( xhr.responseText);
 					} else {
 						// Ajax 요청 실패 시 에러 처리
 						console.error('Failed to load makeChatr.html:', xhr.status, xhr.statusText);
@@ -379,7 +377,9 @@
 				})
 				.then(result => result.json())
 				.then(data => {
+					console.log(data);
 					showChatList()
+					window.location.href = 'http://localhost:80/modu/chat/' + data.chatrNo;
 				})
 				.catch(err => console.log(err)) 
 		}

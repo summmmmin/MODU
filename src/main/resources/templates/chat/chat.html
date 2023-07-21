@@ -3,69 +3,104 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
 <head>
-<title>Hello WebSocket</title>
-<th:block layout:fragment="css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
-<link href="/main.css" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="http://localhost/modu/assets/css/bootstrap.css">
+<link rel="stylesheet" href="http://localhost/modu/assets/css/widgets/chat.css">
 
-</th:block>
-<th:block layout:fragment="script">
-		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-		<script
-			src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
-		<script src="assets/js/app.js"></script>
-
-</th:block>
- <script src="https://unpkg.com/ncloudchat/ncloudchat.min.js"></script>
+<link rel="stylesheet" href="http://localhost/modu/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet" href="http://localhost/modu/assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="http://localhost/modu/assets/css/app.css">
+<link rel="shortcut icon" href="http://localhost/modu/assets/images/favicon.svg" type="image/x-icon"> 
 </head>
 <body>
 	<div layout:fragment="content">
-		<!-- 소켓연결, 메세지전송, 수신하는 js코드 다 있음ㅇㅇ -->
-		<noscript>
-			<h2 style="color: #ff0000">Seems your browser doesn't support
-				Javascript! Websocket relies on Javascript being enabled. Please
-				enable Javascript and reload this page!</h2>
-		</noscript>
-		<div id="main-content" class="container">
-		test용
+		<section class="section">
 			<div class="row">
-				<div class="col-md-6">
-					<form class="form-inline">
-						<div class="form-group">
-							<label for="connect">WebSocket connection:</label>
-							<button id="connect" class="btn btn-default" type="button">Connect</button>
-							<button id="disconnect" class="btn btn-default" type="button"
-								disabled="disabled">Disconnect</button>
+				<div class="col-md-10">
+					<div class="card">
+						<div class="card-header">
+							<div class="media d-flex align-items-center">
+								<div class="avatar me-3">
+									<img src="http://localhost/modu/assets/images/faces/1.jpg" alt="" srcset=""> <span
+										class="avatar-status bg-success"></span>
+								</div>
+								<div class="name flex-grow-1">
+									<h6 class="mb-0">[[${info.chatParticiMembUniNo}]]</h6>
+									<span class="text-xs">[[${info.chatrNo}]]</span>
+								</div>
+								<button class="btn btn-sm">
+									<i data-feather="x"></i>
+								</button>
+							</div>
 						</div>
-					</form>
-				</div>
-				<div class="col-md-6">
-					<form class="form-inline">
-						<div class="form-group">
-							<label for="name">What is your name?</label> <input type="text"
-								id="cntn" class="form-control" placeholder="Your name here...">
+						<div class="card-body pt-4 bg-grey">
+							<div class="chat-content">
+								<div class="chat">
+									<div class="chat-body">
+										<div class="chat-message">Hi Alfy, how can i help you?</div>
+									</div>
+								</div>
+								<div class="chat chat-left">
+									<div class="chat-body">
+										<div class="chat-message">I'm looking for the best admin
+											dashboard template</div>
+										<div class="chat-message">With bootstrap certainly</div>
+									</div>
+								</div>
+								<div class="chat">
+									<div class="chat-body">
+										<div class="chat-message">I recommend you to use Mazer
+											Dashboard</div>
+									</div>
+								</div>
+								<div class="chat chat-left">
+									<div class="chat-body">
+										<div class="chat-message">That"s great! I like it so much :)</div>
+									</div>
+								</div>
+							</div>
 						</div>
-						<button id="send" class="btn btn-default" type="button">Send</button>
-					</form>
+						<div class="card-footer">
+							<div
+								class="message-form d-flex flex-direction-column align-items-center">
+								<a href="http://" class="black"><i data-feather="smile"></i></a>
+								<div class="d-flex flex-grow-1 ml-4">
+									<input type="text" id="sendMsg" name="cntn" class="form-control" placeholder="Type your message..">
+									<button type="button" id="sendMsgBtn">보내기</button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<table id="conversation" class="table table-striped">
-						<thead>
-							<tr>
-								<th>Greetings</th>
-							</tr>
-						</thead>
-						<tbody id="greetings">
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
+		</section>
+		<script>
+			document.getElementById('sendMsgBtn').addEventListener('click', function(){
+				let msg = document.getElementById('sendMsg').value;
+				let wantSend = {};
+				wantSend['cntn'] = msg;
+				console.log(wantSend);
+				fetch("http://localhost/modu/chatMsg",{
+					method : 'post',
+						headers : {
+							'content-type' : 'application/json'
+						},
+						body : JSON.stringify(wantSend)
+				})
+				.then(result => result.json())
+				.then(data => {
+					console.log(data);
+				})
+				.catch(err => console.log(err))
+			})
+
+		</script>
+		<script	src="http://localhost/modu/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+		<script src="http://localhost/modu/assets/js/bootstrap.bundle.min.js"></script>
+		<script src="http://localhost/modu/assets/js/main.js"></script> 
 	</div>
 </body>
 </html>

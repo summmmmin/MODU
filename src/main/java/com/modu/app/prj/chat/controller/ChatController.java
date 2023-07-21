@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.util.HtmlUtils;
 
@@ -24,6 +23,7 @@ import com.modu.app.prj.chat.service.ChatrDTO;
 import com.modu.app.prj.chat.service.ChatrParticiVO;
 import com.modu.app.prj.chat.service.ChatrVO;
 import com.modu.app.prj.post.service.PostService;
+import com.modu.app.prj.prj.service.PrjService;
 
 
 @Controller
@@ -39,12 +39,11 @@ public class ChatController {
 	@Autowired
 	PostService postService;
 	
-	@GetMapping("/chatPage") 
-	public String chatPage() {
-		return "chat/chat";
-	}
-
-	@MessageMapping("/chat") 
+	@Autowired
+	PrjService prjService;
+	
+	
+	@MessageMapping("/chat/{chatrNo}") 
 	@SendTo("/sub/chat")
 	public ChatVO greeting(ChatVO chatVO) throws Exception {
 		Thread.sleep(1000); // simulated delay
@@ -54,7 +53,29 @@ public class ChatController {
 		return new ChatVO(HtmlUtils.htmlEscape(chatVO.getCntn()));
 	}
 	
-	//채팅방폼
+	//채팅방으로이동
+	@GetMapping("/chat/{chatrNo}") 
+	public String goChatPage(@PathVariable String chatrNo, Model model, ChatrParticiVO cptvo, HttpSession session) {
+		//String particiUniNo = (String) session.getAttribute("particiMembUniNo");
+		//HttpSession newSession = request.getSession();
+	
+		String prjParticiUniNo = (String) session.getAttribute("particiMembUniNo");
+		
+		cptvo.setChatrNo(chatrNo);
+		cptvo.setParticiMembUniNo(prjParticiUniNo);
+		ChatrParticiVO vo = chatService.chatSession(cptvo);
+		
+		System.out.println(vo);
+		
+		session.setAttribute("chatrNo", chatrNo);
+		session.setAttribute("chatParticiMembUniNo", vo.getChatParticiMembUniNo());
+		
+		model.addAttribute("info", vo);
+		
+		return "chat/chat";
+	}
+
+	//채팅방생성폼
 	@GetMapping("makeChatr") 
 	public String makeChatrForm(Model model, HttpSession session) {
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
@@ -72,7 +93,7 @@ public class ChatController {
 		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 		
 		//채팅방만든사람도 참여멤버리스트에 넣음
-		//chatrDTO.getParticiMembUniNos().add(particiMembUniNo);
+		chatrDTO.getParticiMembUniNos().add(particiMembUniNo);
 		
 		//채팅방 INSERT 시 필요한 VO
 		ChatrVO chatrVO = new ChatrVO();
@@ -80,6 +101,8 @@ public class ChatController {
 		//채팅방생성
 		chatService.makeChatr(chatrVO);
 		
+		//리턴용 채팅방번호
+		chatrDTO.setChartNo(chatrVO.getChatrNo());
 		//참여자 수만큼 참여테이블에 INSERT
 		List<String> membList = chatrDTO.getParticiMembUniNos();
 		for(String memb : membList) {
@@ -99,5 +122,20 @@ public class ChatController {
 	public List<ChatrVO> chatRoomList(String particiMembUniNo, HttpSession session){
 		particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 		return chatService.chatRoomList(particiMembUniNo);
+	}
+	
+	//채팅메세지insert
+	@PostMapping("chatMsg")
+	@ResponseBody
+	public ChatVO insertChat(@RequestBody ChatVO chatVO, HttpSession session) {
+		String chatrNo = (String) session.getAttribute("chatrNo");
+		String chatParticiMembUniNo = (String) session.getAttribute("chatParticiMembUniNo");
+		
+		chatVO.setChatrNo(chatrNo);
+		chatVO.setChatParticiMembUniNo(chatParticiMembUniNo);
+		
+		System.out.println(chatVO);
+		chatService.insertChat(chatVO);
+		return chatVO;
 	}
 }

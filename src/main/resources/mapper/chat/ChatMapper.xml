@@ -4,15 +4,15 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.modu.app.prj.chat.mapper.ChatMapper">
 
-	<!-- 채팅메세지리스트 -->
-	<select id="chatMessageList" resultType="ChatVO">
-		SELECT chat_no,
-       		   chatr_no,
-       		   partici_memb_uni_no,
-       		   cntn,
-       		   write_dt
-		FROM chat
-		ORDER BY write_dt
+	<!-- 세션용 -->
+	<select id="chatSession" resultType="ChatrParticiVO">
+		SELECT chat_partici_memb_uni_no, 
+			   chatr_no, 
+			   partici_memb_uni_no, 
+			   chatr_nm 
+		  FROM chatr_partici 
+		 WHERE chatr_no = #{chatrNo} 
+		   AND partici_memb_uni_no = #{particiMembUniNo}
 	</select>
 	
 	<!-- 채팅방만들기 -->
@@ -34,10 +34,10 @@
 		</selectKey>
 		INSERT INTO chatr_partici VALUES (
 										#{chatParticiMembUniNo},
-										#{chartNo},
+										#{chatrNo},
 										#{particiMembUniNo},
 										'Y',
-										#{chartNm}
+										#{chatrNm}
 										) 
 	</insert>
 	
@@ -49,5 +49,32 @@
 		  FROM chatr_partici 
 		 WHERE partici_memb_uni_no = #{particiMembUniNo}
 	</select>
+	
+	<!-- 채팅메세지insert -->
+	<insert id="insertChat" parameterType="ChatVO">
+		<selectKey keyProperty="chatNo" order="BEFORE" resultType="int">
+			SELECT chat_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO chat VALUES (
+								#{chatNo},
+								#{chatrNo},
+								#{chatParticiMembUniNo},
+								#{cntn},
+								SYSDATE
+								)
+	</insert>
+	
+	<!-- 채팅메세지리스트 -->
+	<select id="chatMessageList" resultType="ChatVO">
+		SELECT chat_no,
+       		   chatr_no,
+       		   chat_partici_memb_uni_no,
+       		   cntn,
+       		   write_dt
+		  FROM chat
+		 WHERE chatr_no = #{chatrNo}
+		 ORDER BY write_dt
+	</select>
+	
  
 </mapper>

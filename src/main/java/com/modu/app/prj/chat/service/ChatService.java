@@ -4,6 +4,9 @@ import java.util.List;
 
 public interface ChatService {
 	
+	//채팅방세션용
+	public ChatrParticiVO chatSession(ChatrParticiVO cptvo);
+	
 	//채팅방만들기
 	public int makeChatr (ChatrVO chartVO);
 	
@@ -12,4 +15,10 @@ public interface ChatService {
 
 	//현재참여중인채팅방리스트
 	public List<ChatrVO> chatRoomList(String particiMembUniNo);
+	
+	//채팅메세지INSERT
+	public int insertChat(ChatVO chatVO);
+	
+	//채팅메세지리스트
+	public List<ChatVO> chatMessageList(String chatrNo);
 }

@@ -11,7 +11,7 @@ public class ChatVO {
 	//채팅메세지
 	private int chatNo; //채팅메세지번호
 	private String chatrNo; //채팅방번호
-	private String particiMembUniNo; //참여자번호
+	private String chatParticiMembUniNo; //참여자번호
 	private String cntn; //채팅메세지내용
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date WriteDt; //작성일자

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.modu.app.prj.chat.mapper.ChatMapper;
 import com.modu.app.prj.chat.service.ChatService;
+import com.modu.app.prj.chat.service.ChatVO;
 import com.modu.app.prj.chat.service.ChatrParticiVO;
 import com.modu.app.prj.chat.service.ChatrVO;
 
@@ -32,5 +33,23 @@ public class ChatServiceImpl implements ChatService{
 	@Override
 	public List<ChatrVO> chatRoomList(String particiMembUniNo) {
 		return chatMapper.chatRoomList(particiMembUniNo);
+	}
+
+	//세션용
+	@Override
+	public ChatrParticiVO chatSession(ChatrParticiVO cptvo) {
+		return chatMapper.chatSession(cptvo);
+	}
+	
+	//채팅메세지insert
+	@Override
+	public int insertChat(ChatVO chatVO) {
+		return chatMapper.insertChat(chatVO);
+	}
+
+	//채팅메세지리스트
+	@Override
+	public List<ChatVO> chatMessageList(String chatrNo) {
+		return chatMapper.chatMessageList(chatrNo);
 	}
 }

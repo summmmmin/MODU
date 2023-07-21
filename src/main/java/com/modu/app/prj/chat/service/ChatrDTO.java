@@ -11,6 +11,7 @@ public class ChatrDTO {
 
 	//private String prjUniNo; //프로젝트번호
 	//private String particiMembUniNo; //채팅방생성자
+	private String chartNo;
 	private String chartNm; // 채팅방이름(일단 생성자가 지정 추후 각자 수정)
 	private List<String> particiMembUniNos; //참여자들
 	
