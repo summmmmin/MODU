@@ -18,7 +18,7 @@ public class BmController {
 	@Autowired
 	BmService bmService;
 
-	// 즐겨찾기 추가
+	// 게시판 즐겨찾기 추가
 	@PostMapping("BrdBmInsert")
 	@ResponseBody
 	public BmVO BrdBmInsert(@RequestBody BmVO vo) {
@@ -27,4 +27,14 @@ public class BmController {
 		System.out.println(vo);
 		return vo;
 	}
+	
+
+	//파일, 채팅, 댓글 즐겨찾기 등록
+	@PostMapping("BmInsert")
+	@ResponseBody
+	public BmVO BmInsert(@RequestBody BmVO vo) {
+		bmService.BmInsert(vo);
+		return vo;
+	}
+	
 }

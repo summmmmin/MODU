@@ -48,7 +48,7 @@ public class BoardController {
 	}
 
 	// 게시판 등록 
-	@PostMapping("InsertBoard")
+	@PostMapping("InsertBoardBm")
 	@ResponseBody
 	public BoardVO InsertBoard(BoardVO vo) {
 		String check = vo.getPubcYn();

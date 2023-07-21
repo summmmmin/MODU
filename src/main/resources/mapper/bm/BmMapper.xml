@@ -16,16 +16,27 @@
 	</insert>
 
 	<!-- 즐겨찾기 Count해서 별 색 유지 -->
- 	<select id="BmCount" resultType="int" parameterType="BmVO">
+ 	<select id="BrdBmCount" resultType="int" parameterType="BmVO">
 		SELECT count(*)
 		FROM brd_bm
 		WHERE brd_uni_no = #{brdUniNo} and partici_memb_uni_no=#{particiMembUniNo}
 	</select>
 	
 	<!-- 즐겨찾기 삭제 -->
-	<delete id="BmDelete" parameterType="BmVO">
+	<delete id="BrdBmDelete" parameterType="BmVO">
 		DELETE brd_bm
 		WHERE brd_uni_no = #{brdUniNo} AND partici_memb_uni_no=#{particiMembUniNo}
-	</delete>	
+	</delete>
+	
+	<!-- 채팅,댓글,파일 즐겨찾기 등록 -->
+	<insert id="BmInsert" parameterType="BmVO">
+		INSERT INTO bm VALUES (bm_seq.nextval,sysdate,#{particiMembUniNo},#{postUniNo},#{attNo},#{chatNo})	
+	</insert>
+	
+	<!-- 채팅,댓글,파일 즐겨찾기 리스트 -->
+	<select id="BmSelect" resultType="BmVO" parameterType="BmVO">
+	select * from bm
+	WHERE partici_memb_uni_no = #{particiMembUniNo}
+	</select>
 	
  </mapper>
