@@ -27,7 +27,7 @@ public class BoardController {
 
 	@Autowired
 	PrjService prjService;
-
+	
 	// 프로젝트 메인페이지
 	@GetMapping("/main")
 	public String BoardList(Model model, PrjVO prjVO, HttpServletRequest request) {
@@ -43,11 +43,11 @@ public class BoardController {
 		brd.setParticiMembUniNo(vo.getParticiMembUniNo());
 		brd.setPrjUniNo(vo.getPrjUniNo());
 		model.addAttribute("Brd", boardService.BoardList(brd));
-		
+		System.out.println(boardService.BoardList(brd));
 		return "index";
 	}
 
-	// 게시판 등록 NVM 함수로 수정
+	// 게시판 등록 
 	@PostMapping("InsertBoard")
 	@ResponseBody
 	public BoardVO InsertBoard(BoardVO vo) {

@@ -1740,9 +1740,9 @@ a {
 }
 
 .cls-1 {
-	fill: gray;
+    fill: gray;
 }
 
-.cls-1.clicked {
-	fill: gold;
+.clicked {
+	fill: gold;	
 }

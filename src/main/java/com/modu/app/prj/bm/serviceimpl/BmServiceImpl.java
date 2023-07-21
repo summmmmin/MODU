@@ -17,11 +17,6 @@ public class BmServiceImpl implements BmService {
 	BmMapper bmMapper;
 
 	@Override
-	public List<BmVO> BmList(BmVO vo) {
-		return bmMapper.BmList(vo);
-	}
-	
-	@Override
 	public int BrdBmInsert(BmVO vo) {
 		int result = 0;
 		// 값 조회
@@ -41,11 +36,6 @@ public class BmServiceImpl implements BmService {
 	@Override
 	public int BmCount(BmVO vo) {
 		return bmMapper.BmCount(vo);
-	}
-	
-	@Override
-	public List<BmVO> BmSelect(BmVO vo) {
-		return bmMapper.BmList(vo);
 	}
 	
 	@Override

@@ -5,14 +5,17 @@
  <mapper namespace="com.modu.app.prj.board.mapper.BoardMapper">
  	
 	<!-- 게시판 전체조회 --> 	
-	<select id="BoardList" resultType="BoardVO" parameterType="BoardVO">
-   SELECT *
-    FROM brd a left outer join brd_cm b on a.brd_uni_no=b.board_uni_no
-   WHERE (a.pubc_yn = 'Y'
-      or (a.pubc_yn = 'N' and b.partici_memb_uni_no = #{particiMembUniNo}))
-     AND a.prj_uni_no = #{prjUniNo}
+ 	<select id="BoardList" resultType="BoardVO" parameterType="BoardVO">
+	select q.brd_uni_no ,q.board_nm, q.pubc_yn, q.reg_dt,q.prj_uni_no, p.partici_memb_uni_no, p.brd_yn
+	from brd_bm p right join (SELECT *
+	FROM brd a left outer join brd_cm b
+	on a.brd_uni_no=b.board_uni_no
+	WHERE (a.pubc_yn = 'Y'
+	or (a.pubc_yn = 'N' and b.partici_memb_uni_no = #{particiMembUniNo}))
+	AND a.prj_uni_no = #{prjUniNo}) q
+	on p.brd_uni_no = q.brd_uni_no
 	</select>
-	
+
 	<!-- 게시판 생성 -->
 	<insert id="InsertBoard" parameterType="BoardVO" statementType="CALLABLE">
  		CALL
