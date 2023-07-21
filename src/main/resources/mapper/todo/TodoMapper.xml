@@ -13,7 +13,7 @@
 			FIND_NICKNAME(PRJ_UNI_NO,CM)  CM,
 			WRITER,
 			CNTN,
-			PCT,
+			FIND_CODENAME(PCT) PCT,
 			PRJ_UNI_NO,
 			TTL
 	  from todo 

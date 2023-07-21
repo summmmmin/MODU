@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.board.service.BoardService;
@@ -85,9 +86,11 @@ public class VoteController {
 //	}
 	
 	@PostMapping("voteInsert")
-	public String voteInsert(HttpSession session,VoteVO vote) {
+	@ResponseBody
+	public String voteInsert(HttpSession session,@RequestBody VoteVO vote) {
 		vote.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vote.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		System.out.println(vote);
 		voteService.voteInsert(vote);
 		return "redirect:vote";
 	}

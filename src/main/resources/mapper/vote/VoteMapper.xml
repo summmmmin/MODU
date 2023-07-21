@@ -6,7 +6,7 @@
   <mapper namespace="com.modu.app.prj.vote.mapper.VoteMapper">
   
   <!-- 투표 생성 -->
- 	<insert id="insertVote" statementType="CALLABLE">
+ 	<insert id="voteInsert" statementType="CALLABLE">
 		call DOVOTE(
 				#{chatrNo},
 				#{brdUniNo},
@@ -14,7 +14,7 @@
 				#{ttl},
 				#{voteItem,typeHandler=com.modu.app.oracle.OracleArrayHandler},
 				#{particiMembUniNo},
-				#{projectUniNo}
+				#{prjUniNo}
 				)
 	</insert>
   

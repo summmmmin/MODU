@@ -25,10 +25,10 @@
 						<div class="form-group">
 							<select class="choices form-select" id="brdSel">
 								<optgroup label="=====게시판=====">
-									<option th:value="${board.brdUniNo}+brd" th:each="board:${vote.boardList}">[[${board.boardNm}]]</option>
+									<option th:value="${board.brdUniNo}+',brd'" th:each="board:${vote.boardList}">[[${board.boardNm}]]</option>
 								</optgroup>
 								<optgroup label="=====채팅방=====">
-									<option th:value="${chat.chatrNo}+cht" th:each="chat:${vote.chatrList}">[[${chat.chatrNm}]]</option>
+									<option th:value="${chat.chatrNo}+',cht'" th:each="chat:${vote.chatrList}">[[${chat.chatrNm}]]</option>
 								</optgroup>
 							</select>
 						</div>
@@ -37,7 +37,7 @@
 					<div class="form-group has-icon-left">
 						<div class="position-relative">
 							<input type="text" class="form-control"
-								placeholder="투표 제목을 입력해주세요" th:field="*{ttl}">
+								placeholder="투표 제목을 입력해주세요" id="ttl">
 							<div class="form-control-icon">
 								<i class="bi bi-pen" data-bs-toggle="tooltip"></i>
 							</div>
@@ -111,28 +111,56 @@
 
 			// 저장하기 버튼
 			let select =$("#brdSel option:selected").val();
-			let ttl = $("#ttl").val();		
-			let item = $('.voteItem').value;
-			let date = $('#voteDate').value;
-			console.log('kk',$('.voteItem').val())
+
+			
+			
 			
 			function VoteInsert() {
+				let bno=null;
+				let cno=null;
+				let ttl = $("#ttl").val();		
+				let date = $('#voteDate').val();
 			    let formData = $('#createVote').serialize();
 				console.log(formData);
-				let select = document.getElementById('brdSel');
-				console.log(select.value);
+				let select = document.getElementById('brdSel').value;
 				console.log(select);
-			    /* $.ajax({
+				let selectAry = select.split(',');
+				console.log(selectAry[1]);
+				if(selectAry[1] == 'brd'){
+					bno = selectAry[0]
+				}else{
+					cno = selectAry[0]
+				}
+				console.log(bno)
+				
+				let itemArr =  new Array(); 
+				document.querySelectorAll('.voteItem').forEach(function(item){
+					console.log(item)
+					
+					itemArr.push(item.value)
+				})
+
+				let additionalData = {
+					ttl:ttl,
+					toDt:date,
+					brdUniNo:bno,
+					chatrNo:cno,
+					voteItem:itemArr
+				}
+				console.log(additionalData)
+				 let postData = Object.assign({}, formData, additionalData);	
+			     $.ajax({
 			        type: 'POST',
-			        url: '/voteInsert', // 실제 서버의 URL로 변경해야 합니다.
-			        data: formData,
+			        url: 'voteInsert', // 실제 서버의 URL로 변경해야 합니다.
+			        data: JSON.stringify(additionalData),
+			        contentType: 'application/json',
 			        success: function(response) {
-			            // 성공적으로 서버에서 응답을 받았을 때 처리할 로직
+			            console.log(response)
 			        },
 			        error: function(error) {
-			            // 서버 요청 실패 또는 에러 발생 시 처리할 로직
+			            console.log(error)
 			        }
-			    }); */
+			    }); 
 		   } 
 /*  			function VoteInsert (){
 				fetch("/modu/voteInsert",{

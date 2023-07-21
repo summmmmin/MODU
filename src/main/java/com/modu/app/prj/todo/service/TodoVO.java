@@ -17,7 +17,7 @@ public class TodoVO {
 	private String cm;						//참여자
 	private String cntn;					//내용
 	private String ttl;
-	private int pct;						//진행도
+	private String pct;						//진행도
 	@DateTimeFormat(pattern="yyyy-MM-dd")	
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date frDt;						//할일시작날짜

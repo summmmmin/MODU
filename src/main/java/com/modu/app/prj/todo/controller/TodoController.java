@@ -16,7 +16,7 @@ import com.modu.app.prj.todo.service.TodoService;
 import com.modu.app.prj.todo.service.TodoVO;
 import com.modu.app.prj.user.service.UserVO;
 
-// 김동건 07/20 할일 관리
+// 김동건 07/21 할일 관리
 @Controller
 public class TodoController {
 	
@@ -42,6 +42,12 @@ public class TodoController {
 		return todoService.todoList(vo);
 	}
 
+	//할일 등록 페이지 이동
+	@GetMapping("todoInsert")
+	public String todoInsertForm(HttpSession session) {
+		
+		return "todo/todoInsert";
+	}
 	
 	//todo 등록
 	@PostMapping("todoInsert")
@@ -53,5 +59,7 @@ public class TodoController {
 		todoService.insertTodo(vo);
 		return vo;
 	}
+	
+	//
 	
 }

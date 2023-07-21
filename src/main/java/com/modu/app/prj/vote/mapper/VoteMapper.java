@@ -19,7 +19,7 @@ public interface VoteMapper {
 	public int insertVoteItem(VoteVO voteVO);
 	 
 	//투표 생성하기 
-	public void voteInsert(VoteVO vo);
+	public int voteInsert(VoteVO vo);
 	
 	//투표 기간 수정
 	public int voteDate(VoteVO voteVo);

@@ -6,7 +6,7 @@ import java.util.List;
 public interface VoteService {
 	
 	//투표 생성 
-	public void voteInsert(VoteVO vo);
+	public int voteInsert(VoteVO vo);
 	
 	//투표 생성 - 1-1. 게시글에 첨가
 	public int postVote(VoteVO voteVo);
