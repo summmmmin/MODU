@@ -17,18 +17,24 @@
  	<!-- 프로젝트 리스트 조회 -->
  	<select id="selectPrjList" parameterType="String" resultType="PrjVO">
  		SELECT *
-		FROM prj p JOIN prj_partici_memb pm on p.prj_uni_no = pm.prj_uni_no
-            JOIN memb m ON pm.memb_uni_no = m.memb_uni_no 
-            JOIN cmmn c ON c.cd_no=pm.grd
-		WHERE pm.partici_yn = 'Y'
-		AND m.memb_uni_no = #{membUniNo}
+ 		
+		  FROM prj p 
+		  JOIN prj_partici_memb pm 
+		    on p.prj_uni_no = pm.prj_uni_no
+          JOIN memb m 
+            ON pm.memb_uni_no = m.memb_uni_no 
+          JOIN cmmn c 
+            ON c.cd_no=pm.grd
+          
+		 WHERE pm.partici_yn = 'Y'
+		   AND m.memb_uni_no = #{membUniNo}
  	</select>
  	
  	<!-- 프로젝트 이름 변경 -->
  	<update id="updatePrjNm" parameterType="PrjVO">
  		UPDATE prj
-		SET prj_nm = #{prjNm}
-		WHERE prj_uni_no = #{prjUniNo}
+		   SET prj_nm = #{prjNm}
+		 WHERE prj_uni_no = #{prjUniNo}
  	</update>
  	
  	<!-- 프로젝트 구독 취소 -->
@@ -38,20 +44,31 @@
  	
  	<!-- 프로젝트 참여 회원 리스트 -->
  	<select id="selectPrjParti" parameterType="PrjVO" resultType="PrjVO">
- 		SELECT *
-		FROM prj_partici_memb pm
-		    JOIN cmmn c ON c.cd_no=pm.grd
-		WHERE pm.prj_uni_no = #{prjUniNo}
-		AND pm.partici_yn = 'Y'
-		ORDER BY pm.partici_memb_uni_no
+ 		SELECT PARTICI_MEMB_UNI_NO, 
+				PRJ_UNI_NO,
+				MEMB_UNI_NO, 
+				ATT_NO, 
+				NNM,
+				GRD,
+				FIND_CODE_NAME(GRD) AS CD, 
+				PARTICI_YN,    
+				PRJ_PUBC_ID , 
+				DEPT  , 
+				POS   
+				
+		  FROM prj_partici_memb pm
+		  
+		  WHERE pm.prj_uni_no = #{prjUniNo}
+			AND pm.partici_yn = 'Y'
+		    ORDER BY pm.partici_memb_uni_no
  	</select>
 
- 	<!-- 프로젝트 번호 세션 -->
+ 	<!-- 프로젝트 참여번호 세션 -->
  	<select id="prjSession" resultType="PrjVO">
-		select *
-		from prj_partici_memb
-		where prj_uni_no = #{prjUniNo}
-		and memb_uni_no = #{membUniNo}
+		SELECT *
+		  FROM prj_partici_memb
+		  WHERE prj_uni_no = #{prjUniNo}
+			AND memb_uni_no = #{membUniNo}
 	</select>
  	
  	<!-- 등급 공통코드 -->
@@ -82,7 +99,16 @@
  	
  	<!--회원의 프로젝트 내 등급-->
  	<select id="selectMemInfo" parameterType="PrjVO" resultType="PrjVO">
-		SELECT *
+		SELECT PARTICI_MEMB_UNI_NO, 
+				PRJ_UNI_NO,
+				MEMB_UNI_NO, 
+				ATT_NO, 
+				NNM,
+				FIND_CODE_NAME(GRD) AS GRD, 
+				PARTICI_YN,    
+				PRJ_PUBC_ID , 
+				DEPT  , 
+				POS  
 		from prj_partici_memb pm left join cmmn c on c.cd_no=pm.grd
 		WHERE pm.partici_yn = 'Y'
 		<if test="membUniNo != null and !membUniNo.equals('')">
