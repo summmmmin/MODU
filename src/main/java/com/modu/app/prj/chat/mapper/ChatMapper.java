@@ -16,5 +16,8 @@ public interface ChatMapper {
 	
 	//채팅참여자insert
 	public int insertChatMemb(ChatrParticiVO chatParticiVO);
+	
+	//참여해있는채팅방리스트
+	public List<ChatrVO> chatRoomList(String particiMembUniNo);
 
 }

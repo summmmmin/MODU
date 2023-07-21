@@ -10,6 +10,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -84,11 +85,19 @@ public class ChatController {
 		for(String memb : membList) {
 			ChatrParticiVO charMem = new ChatrParticiVO();
 			charMem.setParticiMembUniNo(memb); //프로젝트참여자
-			charMem.setChartNo(chatrVO.getChatrNo()); //채팅방번호
-			charMem.setChartNm(chatrDTO.getChartNm()); //채팅방이름
+			charMem.setChatrNo(chatrVO.getChatrNo()); //채팅방번호
+			charMem.setChatrNm(chatrDTO.getChartNm()); //채팅방이름
 			//참여테이블에 INSERT
 			chatService.insertChatMemb(charMem);
 		}
 		return chatrDTO;
+	}
+	
+	//현재참여중인채팅방리스트
+	@GetMapping("chatrList")
+	@ResponseBody
+	public List<ChatrVO> chatRoomList(String particiMembUniNo, HttpSession session){
+		particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
+		return chatService.chatRoomList(particiMembUniNo);
 	}
 }

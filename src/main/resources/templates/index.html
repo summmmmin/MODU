@@ -45,13 +45,17 @@
 					<ul class="menu">
 						<li class="sidebar-title">Menu</li>
 
-						<li class="sidebar-item has-sub"><a href="#" class="sidebar-link"> <i class="bi bi-stack"></i>
+						<!--/* ************************ ChatRoom List Start *************************** */-->
+						<li class="sidebar-item has-sub">
+							<a href="#" class="sidebar-link"> 
+								<i class="bi bi-stack"></i>
 								<span>채팅방</span>
-								<button type="button" id="openMakeChatrModal" class="btn btn-outline-success" data-bs-toggle="modal"
-									data-bs-target="#makeChatrForm" style="margin-left: 87px">+</button>
-							</a></li>
-
-
+								<button type="button" id="openMakeChatrModal" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#makeChatrForm" style="margin-left: 87px">+</button>
+							</a>
+							<ul class="submenu" id="chatrList">
+							</ul>
+						</li>
+						<!--/* ************************ End *************************** */-->
 
 						<!--/* ************************ Board List Start *************************** */-->
 						<li class="sidebar-item has-sub"><a href="#" class="sidebar-link"> <i class="bi bi-stack"></i>
@@ -314,7 +318,28 @@
 				.catch(err => console.log(err))
 		}
 
-		//채팅방모달안에페이지넣기
+		//채팅방리스트
+		function showChatList(){
+			fetch("http://localhost/modu/chatrList")
+			.then(resolve => resolve.json())
+			.then(data => {
+				console.log(data);
+				document.getElementById('chatrList').innerHTML = '';
+				data.forEach(chatr => {
+					let liTag = document.createElement('li');
+					liTag.setAttribute("class", "submenu-item")
+					document.getElementById('chatrList').append(liTag);
+
+					let tagA = document.createElement('a');
+					tagA.setAttribute("href", "#");
+					tagA.textContent = chatr.chatrNm;
+					liTag.append(tagA);
+					document.getElementById('chatrList').append(liTag);
+				});
+			})
+		}
+		showChatList();
+		//채팅방생성모달안에페이지넣기
 		document.getElementById('openMakeChatrModal').addEventListener('click', function () {
 			let modalPlace = document.getElementById('makeChatrModal');
 			let xhr = new XMLHttpRequest();
@@ -334,6 +359,7 @@
 			xhr.send();
 		}) 
 
+		//채팅방생성
 		function makeChatrPlz(e) {
 			let chatNm = document.getElementById('chartNm').value;
 			let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
@@ -353,7 +379,7 @@
 				})
 				.then(result => result.json())
 				.then(data => {
-					console.log(data);
+					showChatList()
 				})
 				.catch(err => console.log(err)) 
 		}

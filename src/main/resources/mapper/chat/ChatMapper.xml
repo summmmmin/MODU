@@ -40,5 +40,14 @@
 										#{chartNm}
 										) 
 	</insert>
+	
+	<select id="chatRoomList" resultType="ChatrParticiVO">
+		SELECT chatr_nm, 
+			   chatr_no,
+			   chat_partici_memb_uni_no, 
+			   arm_yn 
+		  FROM chatr_partici 
+		 WHERE partici_memb_uni_no = #{particiMembUniNo}
+	</select>
  
 </mapper>
