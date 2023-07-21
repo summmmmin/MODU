@@ -12,5 +12,7 @@ public class MvcConfig implements WebMvcConfigurer {
 		registry.addViewController("/login").setViewName("Login/login");
 		// URL주소가 main으로 지정  || 로그인 성공시 넘어갈 페이지
 		//registry.addViewController("/main").setViewName("index");
+		
+		
 	}
 }

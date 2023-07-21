@@ -9,6 +9,12 @@
 	SELECT *
 	FROM bm
 	WHERE partici_memb_uni_no=#{particiMembUniNo}
+	ORDER BY reg_dt DESC
 	</select>
+	
+	<insert id="bmInsert" parameterType="BmVO">
+	INSERT INTO bm (bm_uni_no,reg_dt,partici_memb_uni_no,post_uni_no,att_no,chat_no)
+	VALUES (bm_seq.nextval,sysdate,#{particiMembUniNo},#{postUniNo},#{attNo},#{chatNo}
+	</insert>
 	
  </mapper>

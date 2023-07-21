@@ -1,42 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{index}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="assets/css/bootstrap.css">
-<link rel="stylesheet" href="assets/css/app.css">
-<link rel="stylesheet" href="assets/vendors/toastify/toastify.css">
 
-<link rel="preconnect" href="https://fonts.gstatic.com">
 
-<link href="https://unpkg.com/filepond/dist/filepond.css"
-	rel="stylesheet">
-<link
-	href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-	rel="stylesheet">
-
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-	rel="stylesheet">
-
-<link rel="stylesheet" href="assets/vendors/fontawesome/all.min.css">
-<link rel="shortcut icon" href="assets/images/favicon.svg"
-	type="image/x-icon">
-
-<!-- Include Choices CSS -->
-<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
-<link rel="stylesheet"
-	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-<link rel="stylesheet"
-	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
 
 </head>
 
 <body>
-	<div layout:fragment="right-side">
 		<div class="row">
 			<div class="card">
 				<div class="card-header">
@@ -44,30 +18,36 @@
 					<hr>
 				</div>
 				<div class="card-content">
-					<form class="form form-horizontal">
 						<div class="row">
 						<div class="col-md-6 mb-4">
                                                 <h6>장소</h6>
                                                 <div class="form-group">
-                                                    <select class="choices form-select" >
-                                                        <option value="square" th:each="i:${Brd1}">[[${i.boardNm}]]</option>
+                                                     <select class="choices form-select" id="brdSel">
+                                                     	<optgroup label="===게시판===">
+                                                     		<option th:each="board:${boardList}" >[[${board.boardNm}]]</option>
+                                                     	</optgroup>
+                                                  		<optgroup label="===채팅방===">
+                                                  			<option th:each="chat:${chatrList}">[[${chat}]]</option>
+                                                  		</optgroup>
                                                     </select>
                                                 </div>
                                             </div>
+              
 							<div class="form-group has-icon-left">
 								<div class="position-relative">
 									<input type="text" class="form-control"
-										placeholder="투표 제목을 입력해주세요" id="first-name-icon">
+										placeholder="투표 제목을 입력해주세요">
 									<div class="form-control-icon">
-										<i class="bi bi-pen"></i>
+										<i class="bi bi-pen" data-bs-toggle="tooltip" ></i>
 									</div>
 								</div>
 							</div>
 							<p></p>
+						<div id ="inputCount">
 							<div class="form-group has-icon-left">
 								<div class="position-relative">
 									<input type="text" class="form-control"
-										placeholder="투표항목을 입력해주세요" id="first-name-icon">
+										placeholder="투표항목을 입력해주세요" >
 									<div class="form-control-icon">
 										<i class="bi bi-archive"></i>
 									</div>
@@ -78,10 +58,11 @@
 									<input type="text" class="form-control"
 										placeholder="투표항목을 입력해주세요" id="first-name-icon">
 									<div class="form-control-icon">
-										<i class="bi bi-123"></i>
+										<i class="bi bi-archive"></i>
 									</div>
 								</div>
 							</div>
+						</div>
 							<button type="button"
 								class="btn btn-block btn-light-primary font-bold mt-3"
 								onclick="insertItem()">+ 항목추가</button>
@@ -89,8 +70,7 @@
 						<p></p>
 						<div class="form-group has-icon-left mx-auto p-4">
 							<div class="position-relative">
-								<input type="date" class="form-control"
-									placeholder="마감시간을 설정해주세요">
+								<input type="date" class="form-control">
 								<div class="form-control-icon">
 									<i class="bi-calendar"></i>
 								</div>
@@ -99,78 +79,111 @@
 						<p></p>
 						<div class="col-12 d-flex justify-content-end">
 							<button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
-							<button type="submit" class="btn btn-primary me-1 mb-1">저장하기</button>
+							<button type="button"  class="btn btn-primary me-1 mb-1">저장하기</button>
 						</div>
-				</form>
 				</div>
 			</div>
 		</div>
-
+	<script src="assets/vendors/choices.js/choices.min.js"></script>
+             <!--  <script type="text/javascript">
+              fetch('/modu/voteInsertForm')
+  			.then(res => res.json())
+  			.then(data => {
+  				console.log(data.boardNm);
+  				let option = document.createElement('option')
+  				let brdNm = document.querySelector('#brdNm')
+  				let brdSel = document.querySelector('#brdSel')
+  				console.log(brdNm);
+  				console.log($('.choices__list'));
+  				console.log(data.boardNm[0].boardNm);
+  				for(let i = 0 ; i <data.boardNm.length ; i++ ){
+  					option = document.createElement('option')
+  					option.text = data.boardNm[i].boardNm;
+  					//brdNm.append(option);
+  					console.log(option)
+  					brdSel.append(option);
+  				}
+  			})
+  			.catch(err => console.log(err)); 
+              </script> -->
 		<script>
+				let count = 2;
+		
 			function insertItem() {
+				count ++;
+				
+				console.log(count);
 				let div = document.createElement('div');
-				console.log(this);
-				let input = document.createElement('input')
-				document.querySelector('#item').append(input);
-
+				let input = `
+				<p></p>
+				<div class="form-group has-icon-left">
+					<div class="position-relative">
+					<input type="text" class="form-control"
+						placeholder="투표항목을 입력해주세요" id="first-name-icon">
+					<div class="form-control-icon">
+						<i class="bi bi-archive"></i>
+					</div>
+				</div>
+				`
+			if (count<=4){	
+				$('#item').append(input);
+				if(count == 4) {
+					event.target.innerText ="더이상 항목을 늘릴 수 없습니다.";
+					event.target.disabled=true;
+				}
 			}
-
-			/* 			<div class="form-group has-icon-left">
-			 <div class="position-relative">
-			 <input type="text" class="form-control item"
-					placeholder="투표항목을 입력해주세요" id="first-name-icon">
-			 <div class="form-control-icon">
-			 <i class="bi bi-123"></i>
-			 </div>
-			 </div>
-			 </div> */
-			// Filepond: Multiple Files
-			/* 			FilePond.create(document.querySelector('.multiple-files-filepond'),
-			 {
-			 allowImagePreview : false,
-			 allowMultiple : true,
-			 allowFileEncode : false,
-			 required : false
-			 }); */
-			 
-		</script>
-		    <script src="assets/vendors/choices.js/choices.min.js"></script>
-		<!-- filepond validation -->
-		<!-- 		<script
-			src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
 			
-		</script>
-		<script
-			src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js">
+				
 			
-		</script>
+			}
+/* 			// JavaScript
+			fetch('/modu/voteInsertForm')
+			    .then(res => res.json())
+			    .then(data => {
+			        let brdNm = document.querySelector('#brdNm');
+			        for (let i = 0; i < data.boardNm.length; i++) {
+			            let option = document.createElement('option');
+			            option.text = data.boardNm[i].boardNm;
+			            brdNm.appendChild(option);
+			        }
+			    })
+			    .catch(error => {
+			        console.error('Error fetching data:', error);
+			    }); */
 
-		image editor
-		<script
-			src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js">
 			
+ 			
+			/* $.ajax({
+				url: "/modu/voteInsertForm",
+				method:"GET",
+				success: function(data){
+					console.log(data);
+					for(let i = 0 ; i <data.boardNm.length ; i++ ){
+						$('#brdSel').append($('#brdNm').add($('<option/>').text(data.boardNm[i].boardNm)));
+						
+					}
+				},
+				error: function(err){
+					console.log(err);
+				}
+			}) */
+			/* $.ajax("voteInsertForm")
+			.done(result=>{
+				for(let i = 0 ; i <result.boardNm.length ; i++ ){
+					console.log(result.boardNm[i].boardNm);
+				 let option = `<option>${result.boardNm[i].boardNm}</option>`;
+				 $('#brdNm').append(option);
+				
+				}
+				})
+				
+				 // optgroup.add($("<option></option>")
+				
+				/* $('#brdNm').add($('<option/>').text(result.boardNm[i].boardNm)); 
+				} */
+
 		</script>
-		<script
-			src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
-		<script
-			src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
-		<script
-			src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-		<script
-			src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
-
-		toastify
-		<script src="assets/vendors/toastify/toastify.js"></script>
-
-		filepond
-		<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-		<script src="assets/js/bootstrap.bundle.min.js"></script>
-		Include Choices JavaScript
-		<script src="assets/vendors/choices.js/choices.min.js"></script>
-		<script src="assets/js/main.js"></script>
-		end of layout -->
-		-->
-	</div>
+		    
 </body>
 
 </html>

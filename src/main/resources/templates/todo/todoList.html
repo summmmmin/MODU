@@ -1,40 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{index}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.todo:hover{
+	opacity:0.8;
+	cursor: pointer;	
+}
+</style>
 </head>
-
 <body>
-	<div layout:fragment="right-side">
-		<div class="row">
-			<div class="card">
-				<form th:action="@{/todoInsert}">
+	<div class="row">
+		<div class="card">
 				<div class="card-header">
 					<h4 class="card-title">할일</h4>
 					<hr>
-					<button type="submit"
+					<button type="button"
 						class="btn btn-block btn-light-primary font-bold mt-3">+
 						할일 추가</button>
 				</div>
-				</form>
-				<div class="card-content" >
-					<div class="card-body"th:each="todo:${todoList}">
-						<h4 class="card-title">진행률 : [[${todo.pct}]]%</h4>
-						<h2>[[${todo.ttl}]]</h2>
-						<small class="text-muted">[[${todo.cntn}]]</small>
-						<p class="card-text">담당자 :[[${todo.mgr}]] 참가자:[[${todo.cm}]]</p>
-						<small class="text-muted">[[${#dates.format(todo.frDt,
-							'yyyy-MM-dd')}]] ~ [[${#dates.format(todo.toDt, 'yyyy-MM-dd')}]]</small>
-					</div>
+			<div class="card-content">
+				<div class="card-body" id="todo">
 				</div>
 			</div>
 		</div>
-		
 	</div>
+<script>
+ 		$.ajax("todoList")
+ 		.done(result=>{
+ 		for(i of result){
+ 			let div = `<div class="todo">
+ 						<h4 class="card-title">진행률 :<span>${i.pct}%</span> </h4>
+ 						<h2>${i.ttl}</h2>
+ 						<small class="text-muted">${i.cntn}</small>
+ 						<p class="card-text">담당자 : ${i.mgr}참가자: ${i.cm}</p>
+ 						<small class="text-muted"><span>${i.frDt}</span>~<span>${i.toDt}</span></small>
+ 					</div>
+ 		`;
+ 		$('#todo').append(div);
+ 		}
+ 		})
+</script>
 </body>
 
 </html>
