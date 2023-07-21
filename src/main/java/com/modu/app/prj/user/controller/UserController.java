@@ -1,30 +1,32 @@
 package com.modu.app.prj.user.controller;
 
 import java.io.UnsupportedEncodingException;
-
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.modu.app.prj.user.service.KakaoToken;
 import com.modu.app.prj.user.service.UserService;
 import com.modu.app.prj.user.service.UserVO;
 import com.modu.app.sms.service.MessageDTO;
 import com.modu.app.sms.service.SmsResponseDTO;
 import com.modu.app.sms.service.SmsService;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -33,6 +35,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	KakaoToken kakaoToken;
 
 	private final SmsService smsService;
 
@@ -70,5 +75,18 @@ public class UserController {
 	    return "redirect:login";
 	}
 
+	@RestController
+	@AllArgsConstructor
+	@RequestMapping("oauth")
+	public class OAuthController {
+
+	    @ResponseBody
+	    @GetMapping("kakao")
+	    public void kakaoCallback(@RequestParam String code) {
+	        System.out.println(code);
+	        String access_Token = kakaoToken.getKaKaoAccessToken(code);
+	        System.out.println("카카오 토큰 발급 : " + access_Token);
+	    }
+	}
 
 }

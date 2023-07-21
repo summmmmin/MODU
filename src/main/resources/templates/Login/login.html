@@ -14,15 +14,8 @@
 <link rel="stylesheet" href="assets/css/app.css">
 <link rel="stylesheet" href="assets/css/pages/auth.css">
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-
-
 <style>
-.kakaoLoginBtn {
-	width: 428px; /* 버튼 크기 설정 */
-	height: 48px;
-	background-image: url('assets/images/kakao_login.png');
-	background-size: cover;
-}
+
 </style>
 </head>
 
@@ -68,7 +61,10 @@
 						</div>
 						<button type="submit"
 							class="btn btn-primary btn-block btn-lg shadow-lg mt-2">로그인</button>
-						<a id="kakao-login-btn"></a>
+						<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=68caebee74c619b1dd3dfb0dab9d7a4c&redirect_uri=http%3A%2F%2Flocalhost%2Fmodu%2Foauth%2Fkakao
+
+
+">카카오</a>
 						<div class="text-center mt-2">
 							<p class="text-gray-600">
 								<a href="auth-forgot-username.html" class="font-bold">아이디 찾기</a>
@@ -84,7 +80,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="assets/js/custon_yuna_login.js"></script>
+	<!-- <script src="assets/js/custom_yuna_login.js"></script>  -->
 	<script>
 		// 페이지 로드 시 쿠키 값 가져오기
 		window.onload = function() {
