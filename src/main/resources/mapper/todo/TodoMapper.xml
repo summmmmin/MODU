@@ -6,18 +6,41 @@
 
 	<!-- 할일 목록 -->
 	<select id="todoList" resultType="TodoVO" parameterType="TodoVO">
-	select * from todo where prj_uni_no=#{prjUniNo} and (MGR=#{mgr} or cm=#{cm}) 
+	select  TODO_UNI_NO,
+			FR_DT,
+			TO_DT,
+			FIND_NICKNAME(PRJ_UNI_NO,MGR)  MGR,
+			FIND_NICKNAME(PRJ_UNI_NO,CM)  CM,
+			WRITER,
+			CNTN,
+			PCT,
+			PRJ_UNI_NO,
+			TTL
+	  from todo 
+	  where prj_uni_no=#{prjUniNo} 
+	  and (MGR=#{mgr} or cm=#{cm})
 	</select>
-	
+
 	<!-- 단건 조회 -->
 	<select id="oneTodo" parameterType="String" resultType="TodoVO">
-	select * from todo where todo_uni_no=#{todoUniNo}
+	select  TODO_UNI_NO,
+			FR_DT,
+			TO_DT,
+			FIND_NICKNAME(PRJ_UNI_NO,MGR)  MGR,
+			FIND_NICKNAME(PRJ_UNI_NO,CM)  CM,
+			WRITER,
+			CNTN,
+			PCT,
+			PRJ_UNI_NO,
+			TTL 
+		from todo 
+		where todo_uni_no=#{todoUniNo}
 	</select>
 
 	<!-- 할일 생성-->
 	<insert id="insertTodo" parameterType="TodoVO">
 	insert into todo(todo_uni_no,fr_dt,to_dt,mgr,cm,writer,cntn,pct,prj_uni_no,ttl)
-	values('t'||todo_seq.nextval,#{fr_dt},#{to_dt},#{mgr},#{cm},#{writer},#{cntn},#{pct},#{prjUniNo},#{ttl});
+	values('t'||todo_seq.nextval,#{fr_dt},#{to_dt},#{mgr},#{cm},#{writer},#{cntn},#{pct},#{prjUniNo},#{ttl})
 	</insert>
 
 	<!-- 할일 진행도 변경 -->
@@ -35,7 +58,7 @@
 	
 	<!-- 할일 수정  -->
 	<update id="updateTodo" parameterType="TodoVO">
-	update todo set
+	update todo <set>
 					<if test="ttl != null and !ttl.equals('')">
  					ttl=#{ttl},
  					</if>
@@ -51,6 +74,7 @@
  		   			<if test="toDt != null and !toDt.equals('')">
  		   			to_dt=#{toDt},
  		   			</if>
+ 		  </set>
  	where todo_uni_no = #{toDoUniNo}
 	</update>
 </mapper>

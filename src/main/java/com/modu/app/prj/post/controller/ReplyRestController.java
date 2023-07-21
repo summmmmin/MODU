@@ -2,6 +2,8 @@ package com.modu.app.prj.post.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,21 +24,24 @@ public class ReplyRestController {
 	
 	//전체조회
 	@CrossOrigin
-	@GetMapping("reply/{pNum}")
+	@GetMapping("replys/{pNum}")
 	public List<ReplyVO> replyList(@PathVariable("pNum") String postUniNo) {
 		return replyService.getAllReplyList(postUniNo);
 	}
 	
 	//단건조회
-	@GetMapping("replys/{rNum}")
+	@GetMapping("reply/{rNum}")
 	@CrossOrigin
 	public ReplyVO replyOne(@PathVariable("rNum") String replyUniNo) {
 		return replyService.getOneReply(replyUniNo);
 	}
 	
 	//등록
-	@PostMapping("replyInsert")
-	public ReplyVO replyInsert(@RequestBody ReplyVO replyVO) {
+	@PostMapping("replyInsert/{pNum}")
+	public ReplyVO replyInsert(@RequestBody ReplyVO replyVO, @PathVariable("pNum") String postUniNo, HttpSession session) {
+		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
+		replyVO.setPostUniNo(postUniNo);
+		replyVO.setParticiMembUniNo(particiMembUniNo);
 		replyService.insertReply(replyVO);
 		return replyVO;
 	}
@@ -49,8 +54,8 @@ public class ReplyRestController {
 	}
 	
 	//삭제
-	@GetMapping("replyDelete")
-	public String replyDelete(String replyUniNo) {
+	@GetMapping("replyDelete/{rNum}")
+	public String replyDelete(@PathVariable("rNum") String replyUniNo) {
 		replyService.deleteReply(replyUniNo);
 		return replyUniNo;
 	}
