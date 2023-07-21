@@ -57,7 +57,7 @@ public class PrjController {
 		info.setMembUniNo(user.getMembUniNo());
 		info.setPrjUniNo(prjVO.getPrjUniNo());
 		info = prjService.getMemInfo(info);
-
+		System.out.println(info);
 		if(info == null) {
 			return "redirect:prjList";
 		}else {
