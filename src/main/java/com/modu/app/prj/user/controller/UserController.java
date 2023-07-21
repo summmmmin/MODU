@@ -90,6 +90,7 @@ public class UserController {
 			HashMap<String, Object> userInfo = kakaoToken.getUserInfo(access_Token);
 			System.out.println("###access_Token#### : " + access_Token);
 			System.out.println("###nickname#### : " + userInfo.get("nickname"));
+			System.out.println("###email#### : " + userInfo.get("email"));
 			System.out.println("카카오 토큰 발급 : " + access_Token);
 			
 		}
