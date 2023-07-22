@@ -5,8 +5,11 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,9 +32,8 @@ import com.modu.app.prj.prj.service.PrjService;
 @Controller
 public class ChatController {
 	
-	
 	@Autowired
-	private WebSocketHandler webSocketHandler;
+	SimpMessagingTemplate messagingTemplate;
 	
 	@Autowired
 	ChatService chatService;
@@ -43,15 +45,24 @@ public class ChatController {
 	PrjService prjService;
 	
 	//이거웹소켓?
-	@MessageMapping("/chat/{chatrNo}") 
-	@SendTo("/sub/chat")
-	public ChatVO greeting(ChatVO chatVO) throws Exception {
-		Thread.sleep(1000); // simulated delay
-		//return new ChatVO("Hello, " + HtmlUtils.htmlEscape(message.getCntn()) + "!");
+	//@MessageMapping("/chat/{chatrNo}") 
+	
+//	public ChatVO greeting(ChatVO chatVO) throws Exception {
+//		Thread.sleep(1000); // simulated delay
+//		//return new ChatVO("Hello, " + HtmlUtils.htmlEscape(message.getCntn()) + "!");
+//		
+//		System.out.println(chatVO);
+//		return new ChatVO(HtmlUtils.htmlEscape(chatVO.getCntn()));
+//	}
+	@MessageMapping("/chat/msg") 
+	@SendTo("/sub/chat/{chatrNo}")
+	public void chatMessage(ChatVO chatVO) throws Exception {
+	    // 메시지 처리 로직...
 		
-		System.out.println(chatVO);
-		return new ChatVO(HtmlUtils.htmlEscape(chatVO.getCntn()));
+	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행
+		messagingTemplate.convertAndSend("/sub/chat/" + chatVO.getChatrNo(), chatVO);
 	}
+
 	
 	//채팅방으로이동
 	@GetMapping("/chat/{chatrNo}") 
