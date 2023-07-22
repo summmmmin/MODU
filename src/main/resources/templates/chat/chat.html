@@ -30,6 +30,7 @@
 								<div class="name flex-grow-1">
 									<h6 class="mb-0">[[${info.chatParticiMembUniNo}]]</h6>
 									<span class="text-xs">[[${info.chatrNo}]]</span>
+									[[${session.chatrNo}]]
 								</div>
 								<button class="btn btn-sm">
 									<i data-feather="x"></i>
@@ -78,42 +79,7 @@
 			</div>
 		</section>
 		<script>
-			document.getElementById('sendMsgBtn').addEventListener('click', function(){
-				let msgPlace = document.getElementsByClassName('chat-content')[0];
-				let msg = document.getElementById('sendMsg').value;
-				let wantSend = {};
-				wantSend['cntn'] = msg;
-				//console.log(wantSend);
-				fetch("http://localhost/modu/chatMsg",{
-					method : 'post',
-						headers : {
-							'content-type' : 'application/json'
-						},
-						body : JSON.stringify(wantSend)
-				})
-				.then(result => result.json())
-				.then(data => {
-					//console.log(data);
-
-					let cdiv = document.createElement('div');
-					cdiv.setAttribute('class', 'chat');
-					msgPlace.append(cdiv);
-
-					let cbdiv = document.createElement('div');
-					cbdiv.setAttribute('class', 'chat-body');
-					cdiv.append(cbdiv);
-					msgPlace.append(cdiv);
-
-					let cmdiv = document.createElement('div');
-					cmdiv.setAttribute('class', 'chat-message');
-					cmdiv.textContent = msg.cntn;
-					cbdiv.append(cmdiv);
-					cdiv.append(cbdiv);
-					msgPlace.append(cdiv);
-
-				})
-				.catch(err => console.log(err))
-			})
+			
 
 			//채팅메세지리스트
 			function showChatMsgList(){
@@ -203,12 +169,13 @@
 			// 채팅 메시지를 전송하는 함수
 			function sendMessage(message) {
 			  const messageObject = {
-			    content: message,
 			    chatrNo: '[[${session.chatrNo}]]',
-			    chatParticiMembUniNo: '[[${session.chatParticiMembUniNo}]]'
+			    chatParticiMembUniNo: '[[${session.chatParticiMembUniNo}]]',
+			    cntn: message
 			    // TODO: 사용자 정보 등 필요한 정보를 추가합니다.
 			  };
-			  socket.send(JSON.stringify(messageObject));
+			  //socket.send(JSON.stringify(messageObject));
+				socket.send(messageObject);
 			  // TODO: 전송한 메시지를 채팅 화면에 표시하는 로직을 작성합니다.
 			  //const msg = JSON.parse(event.data);
 			  const chatContent = document.querySelector('.chat-content');
@@ -221,7 +188,8 @@
 
 			  const chatMessageDiv = document.createElement('div');
 			  chatMessageDiv.classList.add('chat-message');
-			  chatMessageDiv.textContent = message + '[[${session.chatParticiMembUniNo}]]'; // message 객체에는 서버에서 전달한 메시지 내용이 있을 것입니다.
+			  chatMessageDiv.textContent = message + '[[${session.chatParticiMembUniNo}]]'; 
+				// message 객체에는 서버에서 전달한 메시지 내용이 있을 것입니다.
 
 			  chatBodyDiv.appendChild(chatMessageDiv);
 			  chatDiv.appendChild(chatBodyDiv);
@@ -230,17 +198,40 @@
 			  
 			}
 			
+			//보내기 버튼 눌렀을 때
+			document.getElementById('sendMsgBtn').addEventListener('click', function(){
+				let msgPlace = document.getElementsByClassName('chat-content')[0];
+				let msg = document.getElementById('sendMsg').value;
+				let wantSend = {};
+				wantSend['cntn'] = msg;
+			
+				sendMessage(msg);
+
+				fetch("http://localhost/modu/chatMsg",{
+					method : 'post',
+						headers : {
+							'content-type' : 'application/json'
+						},
+						body : JSON.stringify(wantSend)
+				})
+				.then(result => result.json())
+				.then(data => {
+					
+				})
+				.catch(err => console.log(err))
+			})
+			
 			// 채팅 메시지를 입력한 후 전송 버튼을 눌렀을 때의 처리
-			const inputField = document.getElementById('sendMsg'); // 채팅 메시지를 입력하는 input 요소
+	/* 		const inputField = document.getElementById('sendMsg'); // 채팅 메시지를 입력하는 input 요소
 			const sendButton = document.getElementById('sendMsgBtn'); // 전송 버튼
 			sendButton.addEventListener('click', () => {
 			  const msg = inputField.value;
 			  if (msg.trim() !== '') {
 			    sendMessage(msg);
-			    console.log(msg);
+			    //console.log(msg);
 			    inputField.value = ''; // 입력 필드 초기화
 			  }
-			});
+			}); */
 			
 			// TODO: 파일 첨부, 푸시 알림 등의 기능도 필요한 경우 구현합니다.
 
