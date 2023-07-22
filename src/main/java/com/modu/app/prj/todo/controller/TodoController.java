@@ -44,7 +44,7 @@ public class TodoController {
 
 	//할일 등록 페이지 이동
 	@GetMapping("todoInsert")
-	public String todoInsertForm(HttpSession session) {
+	public String todoInsertForm(HttpSession session,Model model) {
 		
 		return "todo/todoInsert";
 	}
@@ -54,7 +54,7 @@ public class TodoController {
 	@ResponseBody
 	public TodoVO todoInsert(HttpSession session, TodoVO vo) {
 		UserVO userVo = (UserVO) session.getAttribute("user");
-		vo.setWriter(userVo.getNm());
+		vo.setParticiMembUniNo(userVo.getNm());
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		todoService.insertTodo(vo);
 		return vo;

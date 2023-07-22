@@ -182,7 +182,7 @@
   
   <!-- 투표리스트 -->
   <select id="voteList" resultType="VoteVO" parameterType="VoteVO" >
-    select e.vote_no,chatr_nm,board_nm,fr_dt,to_dt,ttl,cnt
+    select DISTINCT e.vote_no,chatr_nm,board_nm,fr_dt,to_dt,ttl,cnt
     from vote e left outer join (
                     	select chatr_nm,c.chat_no
                     	from chat c full outer join (
