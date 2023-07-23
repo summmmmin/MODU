@@ -5,10 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.util.HtmlUtils;
 
 import com.modu.app.prj.chat.service.ChatService;
 import com.modu.app.prj.chat.service.ChatVO;
@@ -45,29 +40,18 @@ public class ChatController {
 	PrjService prjService;
 	
 	//이거웹소켓?
-	//@MessageMapping("/chat/{chatrNo}") 
-	
-//	public ChatVO greeting(ChatVO chatVO) throws Exception {
-//		Thread.sleep(1000); // simulated delay
-//		//return new ChatVO("Hello, " + HtmlUtils.htmlEscape(message.getCntn()) + "!");
-//		
-//		System.out.println(chatVO);
-//		return new ChatVO(HtmlUtils.htmlEscape(chatVO.getCntn()));
-//	}
 	@MessageMapping("/chat/msg") 
 	//@SendTo("/chat/msg/{chatrNo}")
 	public void chatMessage(ChatVO chatVO) throws Exception {
-		
-	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행 = 구독한 곳으로 브로드캐스팅?
+	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행
 		messagingTemplate.convertAndSend("/sub/chat/msg/"+chatVO.getChatrNo(), chatVO);
 	}
 
-	
 	//채팅방으로이동
 	@GetMapping("/chat/{chatrNo}") 
 	public String goChatPage(@PathVariable String chatrNo, Model model, ChatrParticiVO cptvo, HttpSession session) {
 		
-		//채팅세션`
+		//채팅세션
 		String prjParticiUniNo = (String) session.getAttribute("particiMembUniNo");
 		cptvo.setChatrNo(chatrNo);
 		cptvo.setParticiMembUniNo(prjParticiUniNo);
@@ -144,9 +128,39 @@ public class ChatController {
 		return chatVO;
 	}
 	
+	//채팅메세지전체리스트
 	@GetMapping("msgList/{chatrNo}")
 	@ResponseBody
 	public List<ChatVO> chatMessageList(@PathVariable String chatrNo){
 		return chatService.chatMessageList(chatrNo);
 	}
+	
+	//채팅방나가기
+	@GetMapping("leaveChatr/{chatMemb}")
+	@ResponseBody
+	public String leaveChatr(@PathVariable("chatMemb") String chatParticiMembUniNo, HttpSession session) {
+		chatParticiMembUniNo = (String) session.getAttribute("chatParticiMembUniNo");
+		chatService.leaveChatr(chatParticiMembUniNo);
+		return chatParticiMembUniNo;
+	}
+	
+	//채팅방조회
+	@GetMapping("updateChatr/{chatMemb}")
+	@ResponseBody
+	public ChatrParticiVO selectOneChatr(@PathVariable("chatMemb") String chatParticiMembUniNo) {
+		return chatService.selectOneChatr(chatParticiMembUniNo);
+	}
+	
+	//채팅방명변경
+	@PostMapping("updateChatrNm")
+	@ResponseBody
+	public ChatrParticiVO changeChatrNm(@RequestBody ChatrParticiVO chatParticiVO, HttpSession session) {
+		System.out.println("어디");
+		String chatParticiMembUniNo = (String) session.getAttribute("chatParticiMembUniNo");
+		chatParticiVO.setChatParticiMembUniNo(chatParticiMembUniNo);
+		chatService.changeChatrNm(chatParticiVO);
+		return chatParticiVO;
+	}
+	
+	
 }

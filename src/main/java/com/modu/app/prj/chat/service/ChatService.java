@@ -21,4 +21,13 @@ public interface ChatService {
 	
 	//채팅메세지리스트
 	public List<ChatVO> chatMessageList(String chatrNo);
+	
+	//채팅방나가기
+	public int leaveChatr (String chatParticiMembUniNo);
+	
+	//채팅방수정용
+	public ChatrParticiVO selectOneChatr (String chatParticiMembUniNo);
+	
+	//채팅방명변경
+	public int changeChatrNm(ChatrParticiVO chatParticiVO);
 }

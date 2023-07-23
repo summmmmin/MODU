@@ -52,4 +52,22 @@ public class ChatServiceImpl implements ChatService{
 	public List<ChatVO> chatMessageList(String chatrNo) {
 		return chatMapper.chatMessageList(chatrNo);
 	}
+	
+	//채팅방나가기
+	@Override
+	public int leaveChatr(String chatParticiMem) {
+		return chatMapper.leaveChatr(chatParticiMem);
+	}
+
+	//채팅방수정용
+	@Override
+	public ChatrParticiVO selectOneChatr(String chatParticiMembUniNo) {
+		return chatMapper.selectOneChatr(chatParticiMembUniNo);
+	}
+	
+	//채팅방명변경
+	@Override
+	public int changeChatrNm(ChatrParticiVO chatParticiVO) {
+		return chatMapper.changeChatrNm(chatParticiVO);
+	}
 }

@@ -23,8 +23,17 @@ public interface ChatMapper {
 	//채팅메세지insert
 	public int insertChat(ChatVO chatVO);
 	
-	//채팅메세지전체리스트??
+	//채팅메세지전체리스트
 	public List<ChatVO> chatMessageList(String chatrNo);
+	
+	//채팅방나가기
+	public int leaveChatr(String chatParticiMembUniNo);
+	
+	//채팅방조회(채팅방명변경용)
+	public ChatrParticiVO selectOneChatr(String chatParticiMembUniNo);
+	
+	//채팅방명변경
+	public int changeChatrNm(ChatrParticiVO chatParticiVO);
 	
 
 }

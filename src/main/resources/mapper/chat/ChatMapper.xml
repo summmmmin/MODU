@@ -41,6 +41,7 @@
 										) 
 	</insert>
 	
+	<!-- 참여중인채팅방리스트 -->
 	<select id="chatRoomList" resultType="ChatrParticiVO">
 		SELECT chatr_nm, 
 			   chatr_no,
@@ -75,6 +76,26 @@
 		 WHERE chatr_no = #{chatrNo}
 		 ORDER BY write_dt
 	</select>
+	
+	<!-- 채팅방나가기 -->
+	<delete id="leaveChatr" parameterType="String">
+		DELETE FROM chatr_partici where chat_partici_memb_uni_no = #{chatParticiMembUniNo}
+	</delete>
+	
+	<!-- 채팅방조회(채팅방명변경용) -->
+	<select id="selectOneChatr" resultType="ChatrParticiVO">
+		SELECT chat_partici_memb_uni_no, 
+			   chatr_no, 
+			   partici_memb_uni_no, 
+			   chatr_nm 
+		  FROM chatr_partici 
+		 WHERE chat_partici_memb_uni_no = #{chatParticiMembUniNo} 
+	</select>
+	
+	<!-- 채팅방명변경 -->
+	<update id="changeChatrNm" parameterType="ChatrParticiVO">
+		UPDATE chatr_partici SET chatr_nm = #{chatrNm} WHERE chat_partici_memb_uni_no = #{chatParticiMembUniNo}
+	</update>
 	
  
 </mapper>
