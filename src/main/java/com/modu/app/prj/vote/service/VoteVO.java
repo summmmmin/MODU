@@ -34,6 +34,7 @@ public class VoteVO {
 	private String ttl;						//투표제목
 	private String[] voteItem;				//투표상세
 	private int cnt;						//투표수
+	private String writer;					//호칭 되는지 테스트
 	
 	//게시글
 	private String cm; 						//게시글내용
@@ -51,4 +52,6 @@ public class VoteVO {
 	private String cntn;					//채팅 내용
 	private String chatrNm;					//채팅방 제목
 	private String chatParticiMembUniNo;	//채팅방참여고유번호
+	
+
 }

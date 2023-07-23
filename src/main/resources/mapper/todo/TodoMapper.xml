@@ -13,7 +13,7 @@
 			FIND_NICKNAME(PRJ_UNI_NO,CM)  CM,
 			WRITER,
 			CNTN,
-			FIND_CODENAME(PCT) PCT,
+			FIND_CODE_NAME(PCT) PCT,
 			PRJ_UNI_NO,
 			TTL
 	  from todo 
@@ -39,8 +39,8 @@
 
 	<!-- 할일 생성-->
 	<insert id="insertTodo" parameterType="TodoVO">
-	insert into todo(todo_uni_no,fr_dt,to_dt,mgr,cm,partici_memb_uni_no,cntn,pct,prj_uni_no,ttl)
-	values('t'||todo_seq.nextval,#{fr_dt},#{to_dt},#{mgr},#{cm},#{particiMembUniNo},#{cntn},#{pct},#{prjUniNo},#{ttl})
+	insert into todo(todo_uni_no,fr_dt,to_dt,mgr,cm,writer,cntn,pct,prj_uni_no,ttl)
+	values('t'||todo_seq.nextval,#{frDt},#{toDt},#{mgr},#{cm},#{writer},#{cntn},'p01',#{prjUniNo},#{ttl})
 	</insert>
 	
 	<!-- 퍼센트 공통코드 -->

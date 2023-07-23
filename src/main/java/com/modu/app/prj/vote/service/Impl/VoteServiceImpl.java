@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.modu.app.prj.vote.mapper.VoteMapper;
+import com.modu.app.prj.vote.service.VoteDetaVO;
 import com.modu.app.prj.vote.service.VoteService;
 import com.modu.app.prj.vote.service.VoteVO;
 
@@ -20,24 +21,6 @@ public class VoteServiceImpl implements VoteService {
 	public int voteInsert(VoteVO vo) {
 		return voteMapper.voteInsert(vo);
 	}
-	
-	//투표 생성 - 1-1. 게시글에 첨가
-	@Override
-	public int postVote(VoteVO voteVo) {
-		return voteMapper.postVote(voteVo);
-	}
-
-	//투표 생성 - 1-2. 채팅에 첨가
-	@Override
-	public int chatVote(VoteVO voteVo) {
-		return voteMapper.chatVote(voteVo);
-	}
-	
-	//투표 생성 - 3.투표상세 테이블
-	@Override
-	public int insertVoteItem(VoteVO voteVO) {
-		return voteMapper.insertVoteItem(voteVO);
-	}
 
 	//투표 기간 수정
 	@Override
@@ -47,20 +30,15 @@ public class VoteServiceImpl implements VoteService {
 	
 	//투표 항목 나열
 	@Override
-	public List<VoteVO> voteItem() {
-		return voteMapper.voteItem();
+	public List<VoteDetaVO> voteItem(String vno) {
+		return voteMapper.voteItem(vno);
 	}
 	
-	//투표하기 - 투표수 증가
+	//투표하기 
 	@Override
-	public int updateCnt(VoteVO voteVo) {
-		return voteMapper.updateCnt(voteVo);
-	}
-
-	//투표하기 - 투표 참가자
-	@Override
-	public int whoVote(VoteVO voteVo) {
-		return voteMapper.whoVote(voteVo);
+	public int voteDo(VoteDetaVO vo) {
+			return	voteMapper.voteDo(vo);
+		
 	}
 
 	//투표결과
@@ -100,6 +78,10 @@ public class VoteServiceImpl implements VoteService {
 	}
 
 
-	
+	//투표 단건 조회
+	@Override
+	public VoteVO voteOne(VoteVO vo) {
+		return voteMapper.oneVote(vo);
+	}
 
 }
