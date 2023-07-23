@@ -95,15 +95,12 @@ public class VoteController {
 		// 모델에 투표 단건조회와 투표항목들 조회하기
 		model.addAttribute("voteInfo",voteService.voteOne(vo));
 		model.addAttribute("item",voteService.voteItem(voteNo));
-		
+		model.addAttribute("maker",voteService.voteMaker(voteNo));
 		//이미 투표한 장소인지 확인하기 위해 필요한 데이터 넣기
 		vdvo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vdvo.setVoteNo(voteNo);
 		System.out.println(model.getAttribute("voteInfo"));
 		if(voteService.whoVote(vdvo) != null) {
-			if(voteService.voteMaker(voteNo) == session.getAttribute("particiMembUniNo")) {
-				
-			}
 			return "vote/voteResult";
 		}else {
 			return "vote/voteInfo";

@@ -113,6 +113,11 @@
 
             <!-- 투표 제출 버튼 -->
             <button type="submit" id="submitBtn" disabled>투표 제출하기</button>
+            <div th:if="${maker == session.particiMemberUni}">
+            <button type="button" id="finish">마감하기</button>
+            </div>
+            
+            
         </form>
     </div>
 
