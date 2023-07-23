@@ -137,9 +137,12 @@
      }
      function mng3(){
     	 sideact();
-    	 $.ajax("prjPay")
+    	 $.ajax("prjPay?prjUniNo="+'[[${prjNo}]]')
  		.done(function(result){
  			$("#test").html(result);
+ 			
+ 			let payListTbl = document.querySelector("#payListTbl");
+ 		    let dataTable1 = new simpleDatatables.DataTable(payListTbl);
  		})
      }
 	</script>
@@ -190,7 +193,7 @@
 							}else if(data == true){
 								membList();
 							}    
-						})
+					})
 			}
 		}
 		
@@ -358,7 +361,7 @@
 				})
 				.then((response) => response.json())
 				.then((result) => {
-					console.log(result);
+
 					if(result == 1){
 						//삭제 성공
 						// 프로젝트리스트페이지로
