@@ -1,30 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{index}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="assets/css/bootstrap.css">
-<link rel="stylesheet" href="assets/css/app.css">
-<link rel="stylesheet" href="assets/vendors/toastify/toastify.css">
 
-<link rel="preconnect" href="https://fonts.gstatic.com">
-
-<link href="https://unpkg.com/filepond/dist/filepond.css"
-	rel="stylesheet">
-<link
-	href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-	rel="stylesheet">
-
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-	rel="stylesheet">
-
-<link rel="stylesheet" href="assets/vendors/fontawesome/all.min.css">
-<link rel="shortcut icon" href="assets/images/favicon.svg"
-	type="image/x-icon">
 
 <!-- Include Choices CSS -->
 <link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
@@ -32,11 +13,14 @@
 	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
 <link rel="stylesheet"
 	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<style>
+.person{
+margin-left:5px;}
+</style>
 
 </head>
 
 <body>
-	<div layout:fragment="right-side">
 		<div class="row">
 			<div class="card">
 				<div class="card-header">
@@ -44,12 +28,12 @@
 					<hr>
 				</div>
 				<div class="card-content">
-					<form th:action="@{/todoInsert}" method="POST" th:object="${todo}">
+					<form  th:object="${todo}" id="todoForm">
 						<div class="row">
 							<div class="form-group has-icon-left">
 								<div class="position-relative">
-									<input type="text" class="form-control"
-										th:field="*{ttl}">
+									<input type="text" class="form-control" placeholder="제목을 입력해주세여"
+										th:field="*{ttl}" id="">
 									<div class="form-control-icon">
 										<i class="bi bi-pen"></i>
 									</div>
@@ -67,6 +51,18 @@
 							</div>
 						</div>
 						<p></p>
+							<div class="input-group col-md-1 mb-6 person">
+                       			<label class="input-group-text">담당자</label>
+								<select class="choices form-select" id="mgr">
+									<option th:value="${i.particiMembUniNo}" th:each="i:${membList}">[[${i.nnm}]]</option>
+								</select>
+							</div>
+				            <div class="input-group col-md-1 mb-6 person">
+                       			<label class="input-group-text">참여자</label>
+								<select class="choices form-select" id="cm">
+									<option th:value="${i.particiMembUniNo}" th:each="i:${membList}">[[${i.nnm}]]</option>
+								</select>
+							</div>
 						<div class="form-group has-icon-left mx-auto p-4">
 							<p>시작일</p>
 							<div class="position-relative">
@@ -91,59 +87,58 @@
 						<p></p>
 						<div class="col-12 d-flex justify-content-end">
 							<button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
-							<button type="submit" class="btn btn-primary me-1 mb-1">저장하기</button>
+							<button type="button" onclick="todoInsert()" class="btn btn-primary me-1 mb-1">저장하기</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
 		<script>
+		let mgr =$("#mgr option:selected").val();
+		let cm =$("#cm option:selected").val();
 		
+		function todoInsert(){
+			 var formData = $("#todoForm").serialize();	
+			 
+			 var otherdata = {
+					 'mgr':mgr,
+					 'cm':cm
+			 }
+			 console.log(formData)
+			 console.log(otherdata)
+			 $.ajax({
+			        type: "POST",
+			        url: "todoInsert",
+			        data: formData + "&" + $.param(otherdata), // 폼 데이터와 추가 데이터를 합쳐서 전송
+			        success: function (data) {
+			            console.log(data)
+			            todoList();
+			        },
+			        error: function (xhr, status, error) {
+			            console.log(error)
+			        }
+			    });
+			}
+		
+		
+		//input타입 date를 클릭했을때 나오는 달력에서 현재날짜 이전애들을 클릭 못하게 막는방법
 /* 		var now_utc = Date.now()
 		var timeOff = new Date().getTimezoneOffset()*60000;
 		var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
 		document.getElementById("Date").setAttribute("min", today);  */
-			var date = document.getElementById("Date")
+		
+		//input타입 date를 클릭했을때 나온는 달력에서 선택한 날짜 이전을 막는 구절
+		var date = document.getElementById("Date")
 			function dateChange(){
 				document.getElementById("lastDate").setAttribute("min", date.value); 
 			}
 		
+		
 		</script>
 	</div>
-	<!-- filepond validation -->
-		<script
-			src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
-			
-		</script>
-		<script
-			src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js">
-			
-		</script>
 
-		<!-- image editor -->
-		<script
-			src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js">
-			
-		</script>
-		<script
-			src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
-		<script
-			src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
-		<script
-			src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-		<script
-			src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
-
-		<!-- toastify -->
-		<script src="assets/vendors/toastify/toastify.js"></script>
-
-		<!-- filepond -->
-		<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-		<script src="assets/js/bootstrap.bundle.min.js"></script>
 		<!-- Include Choices JavaScript -->
 		<script src="assets/vendors/choices.js/choices.min.js"></script>
-		<script src="assets/js/main.js"></script>
-		<!--end of layout-->
 </body>
 
 </html>
