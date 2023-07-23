@@ -40,21 +40,21 @@
 							#{fSize},
 							#{ext},
 							 <if test="postUniNo != null and !postUniNo.equals('')">
-							#{postUniNo},
-						 </if>
-						 <if test="chatNo != null and !chatNo.equals('')">
-							#{chatNo},
-						 </if>
-						 <if test="noticeUniNo != null and !noticeUniNo.equals('')">
-							#{noticeUniNo},
-						 </if>
-						  <if test="faqNo != null and !faqNo.equals('')">
-						#{faqNo},
-						 </if>
-						  <if test="todoUniNo != null and !todoUniNo.equals('')">
-							#{todoUniNo},
-						 </if>
-							'N'
+								#{postUniNo},
+							 </if>
+							 <if test="chatNo != null and !chatNo.equals('')">
+								#{chatNo},
+							 </if>
+							 <if test="noticeUniNo != null and !noticeUniNo.equals('')">
+								#{noticeUniNo},
+							 </if>
+							  <if test="faqNo != null and !faqNo.equals('')">
+								#{faqNo},
+							 </if>
+							  <if test="todoUniNo != null and !todoUniNo.equals('')">
+								#{todoUniNo},
+							 </if>
+								'N'
 							) 
 	</insert>
 </mapper>

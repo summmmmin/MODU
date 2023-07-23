@@ -9,8 +9,7 @@
 		SELECT prj_p
 		FROM
 		prj_partici_memb
-		WHERE memb_uni_no = #{membUniNo} AND prj_uni_no =
-		#{postUniNo}
+		WHERE memb_uni_no = #{membUniNo} AND prj_uni_no = #{postUniNo}
 	</select>
 
 	<!-- 게시글리스트 -->
@@ -60,7 +59,6 @@
 
 	<!-- 게시글등록 -->
 	<insert id="insertPost" parameterType="PostVO">
-		<!-- 게시글고유번호자동생성(테스트용번호임) -->
 		<selectKey keyProperty="postUniNo" resultType="String"
 			order="BEFORE">
 			SELECT 'pt' || (MAX(TO_NUMBER(SUBSTR(post_uni_no, 3)))+1) FROM post

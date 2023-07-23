@@ -4,75 +4,74 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.modu.app.prj.post.mapper.ReplyMapper">
 
-<!-- 댓글리스트 -->
-<select id="selectAllReply" resultType="ReplyVO">
-	SELECT r.reply_uni_no, 
-	       r.partici_memb_uni_no,
-	       r.post_uni_no,
-	       r.cntn,
-	       r.write_dt,
-           r.mod_dt,
-           r.tag_arm,
-	       ppm.nnm, 
-	       ppm.att_no
-	 FROM  reply r JOIN prj_partici_memb ppm
-	   ON  r.partici_memb_uni_no = ppm.partici_memb_uni_no
-	WHERE  r.post_uni_no = #{postUniNo}
-	ORDER  BY write_dt
-</select>
-
-<!-- 댓글단건조회 -->
-<select id="selectOneReply" resultType="ReplyVO">
-    SELECT reply_uni_no,
-           cntn,
-           write_dt,
-           mod_dt,
-           tag_arm,
-           post_uni_no,
-           partici_memb_uni_no
-    FROM reply
-    WHERE reply_uni_no=#{replyUniNo}
-</select>
-
-<!-- 댓글생성 -->
-<insert id="insertReply" parameterType="ReplyVO">
-	<!-- 댓글고유번호자동생성(테스트용번호임) -->
-    <selectKey keyProperty="replyUniNo" resultType="String" order="BEFORE">
-    	SELECT 'rt' || (MAX(TO_NUMBER(SUBSTR(reply_uni_no, 3)))+1) FROM reply
-    </selectKey>
-	INSERT INTO reply (reply_uni_no,
-					   cntn,
-					   write_dt,
-					   <if test="tagArm != null and !tagArm.equals('')">
-           			   tag_arm,
-           			   </if>
-           			   post_uni_no,
-           			   partici_memb_uni_no
-           			   )
-           		VALUES(
-           			  #{replyUniNo},
-           			  #{cntn},
-           			  sysdate,
-					  <if test="tagArm != null and !tagArm.equals('')">
-           			   #{tagArm},
-           			  </if>
-           			  #{postUniNo},
-           			  #{particiMembUniNo}           				
-           			)				  
-</insert>
-
-<!-- 댓글수정 -->
-<update id="updateReply" parameterType="ReplyVO">
-	UPDATE reply SET
- 		   			cntn=#{cntn},
-					mod_dt=sysdate
- 	WHERE reply_uni_no=#{replyUniNo}
-</update>
-
-<!-- 댓글삭제 -->
-<delete id="deleteReply" parameterType="String">
-	DELETE FROM reply 
-	 WHERE reply_uni_no=#{replyUniNo}
-</delete>
+	<!-- 댓글리스트 -->
+	<select id="selectAllReply" resultType="ReplyVO">
+		SELECT r.reply_uni_no, 
+		       r.partici_memb_uni_no,
+		       r.post_uni_no,
+		       r.cntn,
+		       r.write_dt,
+	           r.mod_dt,
+	           r.tag_arm,
+		       ppm.nnm, 
+		       ppm.att_no
+		 FROM  reply r JOIN prj_partici_memb ppm
+		   ON  r.partici_memb_uni_no = ppm.partici_memb_uni_no
+		WHERE  r.post_uni_no = #{postUniNo}
+		ORDER  BY write_dt
+	</select>
+	
+	<!-- 댓글단건조회 -->
+	<select id="selectOneReply" resultType="ReplyVO">
+	    SELECT reply_uni_no,
+	           cntn,
+	           write_dt,
+	           mod_dt,
+	           tag_arm,
+	           post_uni_no,
+	           partici_memb_uni_no
+	    FROM reply
+	    WHERE reply_uni_no=#{replyUniNo}
+	</select>
+	
+	<!-- 댓글생성 -->
+	<insert id="insertReply" parameterType="ReplyVO">
+	    <selectKey keyProperty="replyUniNo" resultType="String" order="BEFORE">
+	    	SELECT 'rp' || (MAX(TO_NUMBER(SUBSTR(reply_uni_no, 3)))+1) FROM reply
+	    </selectKey>
+		INSERT INTO reply (reply_uni_no,
+						   cntn,
+						   write_dt,
+						   <if test="tagArm != null and !tagArm.equals('')">
+	           			   tag_arm,
+	           			   </if>
+	           			   post_uni_no,
+	           			   partici_memb_uni_no
+	           			   )
+	           		VALUES(
+	           			  #{replyUniNo},
+	           			  #{cntn},
+	           			  sysdate,
+						  <if test="tagArm != null and !tagArm.equals('')">
+	           			   #{tagArm},
+	           			  </if>
+	           			  #{postUniNo},
+	           			  #{particiMembUniNo}           				
+	           			)				  
+	</insert>
+	
+	<!-- 댓글수정 -->
+	<update id="updateReply" parameterType="ReplyVO">
+		UPDATE reply SET
+	 		   			cntn=#{cntn},
+						mod_dt=sysdate
+	 	WHERE reply_uni_no=#{replyUniNo}
+	</update>
+	
+	<!-- 댓글삭제 -->
+	<delete id="deleteReply" parameterType="String">
+		DELETE FROM reply 
+		 WHERE reply_uni_no=#{replyUniNo}
+	</delete>
 
  </mapper>

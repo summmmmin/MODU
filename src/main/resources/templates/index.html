@@ -345,11 +345,10 @@
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState === XMLHttpRequest.DONE) {
 					if (xhr.status === 200) {
-						// Ajax 요청 성공 시 모달에 페이지를 추가
 						modalPlace.innerHTML = xhr.responseText;
 					} else {
 						// Ajax 요청 실패 시 에러 처리
-						console.error('Failed to load makeChatr.html:', xhr.status, xhr.statusText);
+						console.error('Failed to load makeChatrForm :', xhr.status, xhr.statusText);
 					}
 				}
 			};
@@ -366,7 +365,7 @@
 			let makeChatInfo = {};
 			makeChatInfo['chartNm'] = chatNm;
 			makeChatInfo['particiMembUniNos'] = chatMembs;
-			console.log(makeChatInfo);
+			//console.log(makeChatInfo);
 
 			fetch("http://localhost/modu/makeChatr", {
 					method: 'post',
@@ -377,7 +376,7 @@
 				})
 				.then(result => result.json())
 				.then(data => {
-					console.log(data);
+					//console.log(data);
 					showChatList()
 					window.location.href = 'http://localhost:80/modu/chat/' + data.chatrNo;
 				})
