@@ -90,63 +90,34 @@
     <div class="voteOuterBox">
         <!-- 작성자와 날짜, 제목을 추가 -->
         <div class="voteHeader" th:if="${voteInfo.brdUniNo != null}">
-            <div class="voteAuthor" >[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">[[${voteInfo.boardNm}]]</h6></div>
-            <div class="voteDate">[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
-            <div class="voteTitle">[[${voteInfo.ttl}]]
+            <div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">장소:[[${voteInfo.boardNm}]]</h6></div>
+            <div class="voteDate">시작날짜:[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
+            <div class="voteTitle">제목:[[${voteInfo.ttl}]]</div>
         </div>
         <div class="voteHeader" th:unless="${voteInfo.brdUniNo != null}">
-            <div class="voteAuthor" >[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">[[${voteInfo.chatrNm}]]</h6></div>
-            <div class="voteDate">[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
-            <div class="voteTitle">[[${voteInfo.ttl}]]</div>
+            <div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">장소:[[${voteInfo.chatrNm}]]</h6></div>
+            <div class="voteDate">시작날짜:[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
+            <div class="voteTitle">제목:[[${voteInfo.ttl}]]</div>
         </div>
 
         <!-- 투표 항목을 선택하는 폼 -->
         <form action id="voteForm1">
             <!-- 내부 박스 -->
             <div class="voteInnerBox" > <!-- 내부 박스로 항목들을 감싸기 -->
-                <div class="voteItem" th:each="i:${item}" th:field="*{i.voteDetaNo}" onclick="toggleSelection(this)">
-                    [[${i.voteItem}]]
+                <div class="d-flex voteItem" th:each="i:${item}" th:field="*{i.voteDetaNo}">
+                   <div class="p-2 flex-grow-1">[[${i.voteItem}]]</div> <div class="p-2">  [[${i.cnt}]]</div>
                 </div>
                 <!-- 마감 날짜 표기 --> 
                 <div class="voteDeadline">마감 날짜:[[${#dates.format(voteInfo.toDt,'yyyy-MM-dd')}]]</div>
             </div>
 
             <!-- 투표 제출 버튼 -->
-            <button type="submit" id="submitBtn" disabled>투표 제출하기</button>
+            <button type="submit" id="submitBtn" disabled>더 이상 투표하실 수 없습니다.</button>
         </form>
-    </div>
     </div>
 
     <script>
-        // 항목 선택 시 이벤트 처리
-        function toggleSelection(item) {
-            const selectedItems = document.querySelectorAll('.voteItem.selected');
-
-            if (item.classList.contains('selected')) {
-                item.classList.remove('selected');
-            } else {
-                selectedItems.forEach(selectedItem => selectedItem.classList.remove('selected'));
-                item.classList.add('selected');
-            }
-
-            // 선택된 항목이 있으면 "투표 제출하기" 버튼 활성화
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = (document.querySelector('.voteItem.selected') === null);
-        }
-
-        // 폼 제출 시 처리
-        const voteForm1 = document.getElementById('voteForm1');
-        voteForm1.addEventListener('submit', function (event) {
-            event.preventDefault();
-			
-            $.ajax('vote')
-            // 폼이 제출되면 여기에서 선택된 항목을 서버로 전송하도록 처리할 수 있습니다.
-            // 예: AJAX 요청을 통해 선택된 항목을 서버로 전송하고 결과를 받아옴
-            const selectedVoteItem = document.querySelector('.voteItem.selected');
-            const selectedItem = selectedVoteItem ? selectedVoteItem.innerText : null;
-
-            console.log('선택한 투표 항목:', selectedItem);
-        });
+    console.log('aaa');
     </script>
 </body>
 </html>

@@ -39,7 +39,7 @@ public class VoteServiceImpl implements VoteService {
 	public int voteDo(VoteDetaVO vo) {
 			return	voteMapper.voteDo(vo);
 		
-	}
+	}	
 
 	//투표결과
 	@Override
@@ -59,6 +59,27 @@ public class VoteServiceImpl implements VoteService {
 		return voteMapper.voteBrdNm(voteNo);
 	}
 
+	//투표 리스트
+	@Override
+	public List<VoteVO> voteList(VoteVO vo) {
+		return voteMapper.voteList(vo);
+	}
+	
+	
+	//투표 단건 조회
+	@Override
+	public VoteVO voteOne(VoteVO vo) {
+		return voteMapper.oneVote(vo);
+	}
+	
+	//재투표 방지
+	@Override
+	public VoteDetaVO whoVote(VoteDetaVO vo) {
+		return voteMapper.whoVote(vo);
+	}
+	
+	
+	
 	//채티방 제목
 	@Override
 	public List<VoteVO> chatrNm(String no) {
@@ -70,18 +91,11 @@ public class VoteServiceImpl implements VoteService {
 	public List<VoteVO> brdNm(String no) {
 		return voteMapper.brdNm(no);
 	}
-
-	//투표 리스트
-	@Override
-	public List<VoteVO> voteList(VoteVO vo) {
-		return voteMapper.voteList(vo);
+	
+	//투표 제작자
+	public VoteVO voteMaker(String vid) {
+		return voteMapper.voteMaker(vid);
 	}
 
-
-	//투표 단건 조회
-	@Override
-	public VoteVO voteOne(VoteVO vo) {
-		return voteMapper.oneVote(vo);
-	}
 
 }

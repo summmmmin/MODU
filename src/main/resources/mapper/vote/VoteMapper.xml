@@ -44,6 +44,13 @@
     where e.partici_memb_uni_no = #{particiMembUniNo} 
  	</select>
  	
+ 	<!-- 투표 제작자 찾기 -->
+ 	<select id="voteMaker">
+ 	select partici_memb_uni_no
+ 	from vote
+ 	where vote_no=#{voteNo}
+ 	</select>
+ 	
 	<!--투표 단건 조회 -->
 	<select id="oneVote" resultType="VoteVO" parameterType="VoteVO">
 	select DISTINCT 
@@ -78,14 +85,14 @@
     where e.vote_no=#{voteNo}
 	</select>
   
-  <!-- 투표 항목 나열  -->
-  <select id="voteItem" resultType="VoteDetaVO">
-  select vote_item,cnt,vote_deta_no,vote_no
-  		 from vote_deta 
-  		 where vote_no=#{voteNo}
-  </select>
+	<!-- 투표 항목 나열  -->
+  	<select id="voteItem" resultType="VoteDetaVO">
+  	select vote_item,cnt,vote_deta_no,vote_no
+  	from vote_deta 
+  	where vote_no=#{voteNo}
+  	</select>
   
-  <!-- 투표 하기 -->
+  	<!-- 투표 하기 -->
 	<insert id="voteDo" parameterType="VoteDetaVO" statementType="CALLABLE">
 		call DO_VOTE(
 				#{voteNo},
@@ -93,6 +100,15 @@
 				#{voteDetaNo}
 				)
 	</insert>
+	
+	<!-- 재투표방지 -->
+	<select id="whoVote" parameterType="VoteDetaVO" resultType="VoteDetaVO">
+	select vote_no,partici_memb_uni_no
+	from vote_partici
+	where vote_no = #{voteNo} 
+	and partici_memb_uni_no=#{particiMembUniNo}
+	</select>
+	
 
   <!-- 투표 기간 수정 -->
   <update id="voteDate" parameterType="VoteVO">

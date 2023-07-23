@@ -33,7 +33,6 @@
 	$.ajax("voteList")
 		.done(result=>{
 		for(i of result){
-			console.log(result)
 			let div;
 			if (i.chatrNm == null){
 			div=`<div class="vote" onclick="voteInfo()" id=${i.voteNo}>

@@ -20,6 +20,12 @@ public interface VoteService {
 	//투표하기 
 	public int voteDo(VoteDetaVO vo);
 	
+	//재투표방지
+	public VoteDetaVO whoVote(VoteDetaVO vo);
+	
+	//투표 제작자
+	public VoteVO voteMaker(String vid);
+	
 	//투표결과
 	public List<VoteVO> voteResult();
 	

@@ -90,14 +90,14 @@
     <div class="voteOuterBox">
         <!-- 작성자와 날짜, 제목을 추가 -->
         <div class="voteHeader" th:if="${voteInfo.brdUniNo != null}">
-            <div class="voteAuthor" >[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">[[${voteInfo.boardNm}]]</h6></div>
-            <div class="voteDate">[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
-            <div class="voteTitle">[[${voteInfo.ttl}]]</div>
+            <div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">장소:[[${voteInfo.boardNm}]]</h6></div>
+            <div class="voteDate">시작날짜:[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
+            <div class="voteTitle">제목:[[${voteInfo.ttl}]]</div>
         </div>
         <div class="voteHeader" th:unless="${voteInfo.brdUniNo != null}">
-            <div class="voteAuthor" >[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">[[${voteInfo.chatrNm}]]</h6></div>
-            <div class="voteDate">[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
-            <div class="voteTitle">[[${voteInfo.ttl}]]</div>
+            <div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">장소:[[${voteInfo.chatrNm}]]</h6></div>
+            <div class="voteDate">시작날짜:[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
+            <div class="voteTitle">제목:[[${voteInfo.ttl}]]</div>
         </div>
 
         <!-- 투표 항목을 선택하는 폼 -->
@@ -105,7 +105,7 @@
             <!-- 내부 박스 -->
             <div class="voteInnerBox" > <!-- 내부 박스로 항목들을 감싸기 -->
                 <div class="voteItem" th:each="i:${item}" th:id="${i.voteDetaNo}" onclick="toggleSelection(this)">
-                    [[${i.voteItem}]]
+                    [[${i.voteItem}]] 
                 </div>
                 <!-- 마감 날짜 표기 --> 
                 <div class="voteDeadline">마감 날짜:[[${#dates.format(voteInfo.toDt,'yyyy-MM-dd')}]]</div>
@@ -118,6 +118,8 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
+    	
+    	console.log('bbb');
         // 항목 선택 시 이벤트 처리
               function toggleSelection(item) {
             const selectedItems = document.querySelectorAll('.voteItem.selected');
@@ -128,10 +130,10 @@
                 selectedItems.forEach(selectedItem => selectedItem.classList.remove('selected'));
                 item.classList.add('selected');
             }
-
             // 선택된 항목이 있으면 "투표 제출하기" 버튼 활성화
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = (document.querySelector('.voteItem.selected') === null);
+
         }
 
         // 폼 제출 시 처리
@@ -155,13 +157,13 @@
 			fetch("voteInfo/"+[[${voteInfo.voteNo}]],options)
 				.then(response => response.json())
 			    .then(data => {
-					 $.ajax("voteResult/"+[[${voteInfo.voteNo}]])
-						.done(result =>{
-							$("#rsidebarContent").html(result);
-						}) 
+					$.ajax("voeInfo/"+[[${voteInfo.voteNo}]])
+			    	.done(result=>{
+			    		$("#rsidebarContent").html(result);
+			    	})
 			    })
 			    .catch(error => {
-			        console.error('Error:', error);
+			        console.log(error);
 			    }); 
 			
             
