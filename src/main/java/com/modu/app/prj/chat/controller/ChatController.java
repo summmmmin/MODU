@@ -2,6 +2,7 @@ package com.modu.app.prj.chat.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import com.modu.app.prj.chat.service.ChatVO;
 import com.modu.app.prj.chat.service.ChatrDTO;
 import com.modu.app.prj.chat.service.ChatrParticiVO;
 import com.modu.app.prj.chat.service.ChatrVO;
+import com.modu.app.prj.post.service.MembDTO;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.prj.service.PrjService;
 
@@ -69,6 +71,14 @@ public class ChatController {
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
 		model.addAttribute("membList", postService.selectCallMembPub(prjUniNo));
 		return "chat/makeChatr";
+	}
+	
+	//채팅방생성용멤버리스트
+	@GetMapping("chatMembs/{pNum}")
+	@ResponseBody
+	public List<MembDTO> chatCallMemb(@PathVariable("pNum") String prjUniNo, HttpSession session){
+		prjUniNo = (String) session.getAttribute("prjUniNo");
+		return postService.selectCallMembPub(prjUniNo);
 	}
 	
 	//채팅방만들기 + 참여멤버추가

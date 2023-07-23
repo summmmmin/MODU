@@ -23,6 +23,13 @@
 	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
 	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
 
+	<link rel="stylesheet" href="assets/css/app.css">
+
+	<!-- Include Choices CSS -->
+	<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
+	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+
 </head>
 
 <body>
@@ -219,7 +226,6 @@
 										<div class="form-group">
 											<h6>공개여부</h6>
 											<input type="checkbox" id="checkbox" name="pubcYn" checked>
-
 											<label for="checkbox"><span></span></label>
 										</div>
 									</div>
@@ -227,8 +233,7 @@
 										<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
 											<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
 										</button>
-										<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal"
-											onclick="addBoard()">
+										<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="addBoard()">
 											<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">생성</span>
 										</button>
 									</div>
@@ -241,8 +246,7 @@
 
 
 			<!-- start of 채팅방생성모달 -->
-			<div class="modal fade text-left" id="makeChatrForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
-				aria-hidden="true">
+			<div class="modal fade text-left" id="makeChatrForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -251,7 +255,26 @@
 								<i data-feather="x"></i>
 							</button>
 						</div>
-						<div id="makeChatrModal"></div>
+						<form action="makeChatr" method="POST" id="FormEvent">
+							<div class="modal-body">
+								<h5>채팅방 이름</h5>
+								<div class="form-group">
+									<input id="chartNm" name="chartNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
+									<input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display: none">
+									<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" 	class="form-control" style="display: none">
+									<label for="basicInput" class="form-label">참여멤버선택</label>
+									<select id="memberSelect" class="form-select multiple-remove" multiple="multiple"></select>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
+								</button>
+								<button onclick="makeChatrPlz()" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+									<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">채팅시작</span>
+								</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -280,6 +303,11 @@
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/test.js"></script>
+
+	<!-- Include Choices JavaScript -->
+	<script src="assets/vendors/choices.js/choices.min.js"></script>
+
+	<script src="assets/js/main.js"></script>
 
 	<script>
 		function addBoard() {
@@ -339,22 +367,45 @@
 		showChatList();
 
 		//채팅방생성모달안에페이지넣기
-		document.getElementById('openMakeChatrModal').addEventListener('click', function () {
-			let modalPlace = document.getElementById('makeChatrModal');
-			let xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState === XMLHttpRequest.DONE) {
-					if (xhr.status === 200) {
-						modalPlace.innerHTML = xhr.responseText;
-					} else {
-						// Ajax 요청 실패 시 에러 처리
-						console.error('Failed to load makeChatrForm :', xhr.status, xhr.statusText);
+		// document.getElementById('openMakeChatrModal').addEventListener('click', function () {
+		// 	let modalPlace = document.getElementById('makeChatrModal');
+		// 	let xhr = new XMLHttpRequest();
+		// 	xhr.onreadystatechange = function () {
+		// 		if (xhr.readyState === XMLHttpRequest.DONE) {
+		// 			if (xhr.status === 200) {
+		// 				modalPlace.innerHTML = xhr.responseText;
+		// 			} else {
+		// 				// Ajax 요청 실패 시 에러 처리
+		// 				console.error('Failed to load makeChatrForm :', xhr.status, xhr.statusText);
+		// 			}
+		// 		}
+		// 	};
+		// 	xhr.open('GET', 'http://localhost/modu/makeChatr', true);
+		// 	xhr.send();
+		// }) 
+
+		//채팅초대리스트
+		function callChatMemb(){
+			let pNum = '[[${session.prjUniNo}]]';
+			let user = '[[${session.particiMembUniNo}]]';
+			let select = document.getElementById('memberSelect');
+			console.log(select);
+
+			fetch("http://localhost:80/modu/chatMembs/" + pNum)
+			.then(resolve => resolve.json())
+			.then(data => {
+				console.log(data);
+				data.forEach(memb => {
+					if(user != memb.particiMembUniNo){
+						let optionTag = document.createElement('option');
+						optionTag.setAttribute('value', memb.particiMembUniNo);
+						optionTag.textContent = memb.nnm;
+						document.getElementById('memberSelect').append(optionTag);
 					}
-				}
-			};
-			xhr.open('GET', 'http://localhost/modu/makeChatr', true);
-			xhr.send();
-		}) 
+				})
+			})
+		}
+		callChatMemb();
 
 		//채팅방생성
 		function makeChatrPlz(e) {
