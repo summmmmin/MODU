@@ -55,13 +55,11 @@ public class ChatController {
 //		return new ChatVO(HtmlUtils.htmlEscape(chatVO.getCntn()));
 //	}
 	@MessageMapping("/chat/msg") 
-	@SendTo("/chat/{chatrNo}")
+	//@SendTo("/chat/msg/{chatrNo}")
 	public void chatMessage(ChatVO chatVO) throws Exception {
-	    // 메시지 처리 로직...
 		
-	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행
-		messagingTemplate.convertAndSend("/sub/chat/" + chatVO.getChatrNo(), chatVO);
-		System.out.println(chatVO.getChatrNo());
+	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행 = 구독한 곳으로 브로드캐스팅?
+		messagingTemplate.convertAndSend("/sub/chat/msg/"+chatVO.getChatrNo(), chatVO);
 	}
 
 	

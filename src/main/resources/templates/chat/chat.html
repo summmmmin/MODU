@@ -14,9 +14,13 @@
 <link rel="stylesheet" href="http://localhost/modu/assets/vendors/bootstrap-icons/bootstrap-icons.css">
 <link rel="stylesheet" href="http://localhost/modu/assets/css/app.css">
 <link rel="shortcut icon" href="http://localhost/modu/assets/images/favicon.svg" type="image/x-icon"> 
+
 </head>
 <body>
 	<div layout:fragment="content">
+
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script	src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 		<section class="section">
 			<div class="row">
 				<div class="col-md-10">
@@ -86,6 +90,7 @@
 				let msgPlace = document.getElementsByClassName('chat-content')[0];
 				let chatrNo = '[[${session.chatrNo}]]'
 				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
+
 				fetch("http://localhost/modu/msgList/" + chatrNo)
 				.then(resolve => resolve.json())
 				.then(data => {
@@ -135,108 +140,132 @@
 				})
 			}
 			showChatMsgList();
+
+			document.getElementById('sendMsgBtn').addEventListener('click', sendMessage);
 			
 			//웹소켓
+			let chatrNo = '[[${session.chatrNo}]]'
+			let chatWriter = '[[${session.chatParticiMembUniNo}]]';
+			let cntn = document.getElementById('sendMsg').value;
+			
 			// WebSocket 연결 설정
-			const socket = new WebSocket('ws://localhost:80/modu/socketserver'); // WebSocket 서버 URL
+			const stompClient = new StompJs.Client({
+    		brokerURL: 'ws://localhost/modu/socketserver' // WebSocket 서버 URL
+			});
 
-			// 연결이 성공했을 때 실행되는 이벤트 핸들러
-			socket.onopen = () => {
-			  console.log('WebSocket 연결 성공');
+			// 페이지 로드 시 웹소켓 연결
+			window.addEventListener("load", function(event) {
+				stompClient.activate();
+			});
+
+			// 연결 성공 시
+			stompClient.onConnect = (frame) => {
+					console.log('Connected: ' + frame);
+					stompClient.subscribe('/sub/chat/msg/'+chatrNo, (chatMsg) => {
+
+					//console.log(chatMsg.body)
+					showChatMsg(JSON.parse(chatMsg.body));
+					});
 			};
-			
-			// 서버로부터 메시지를 받았을 때 실행되는 이벤트 핸들러 == 상대방이 보낸 메세지
-			socket.onmessage = (event) => {
-			  const msg = JSON.parse(event.data);
-			  const chatContent = document.querySelector('.chat-content');
 
-			  const chatDiv = document.createElement('div');
-			  chatDiv.classList.add('chat');
-
-			  const chatBodyDiv = document.createElement('div');
-			  chatBodyDiv.classList.add('chat-body');
-
-			  const chatMessageDiv = document.createElement('div');
-			  chatMessageDiv.classList.add('chat-message');
-			  chatMessageDiv.textContent = msg.content; // message 객체에는 서버에서 전달한 메시지 내용이 있을 것입니다.
-
-			  chatBodyDiv.appendChild(chatMessageDiv);
-			  chatDiv.appendChild(chatBodyDiv);
-
-			  chatContent.appendChild(chatDiv);
+			stompClient.onWebSocketError = (error) => {
+					console.error('Error with websocket', error);
 			};
-			
-			// 채팅 메시지를 전송하는 함수
-			function sendMessage(message) {
-			  const messageObject = {
-			    chatrNo: '[[${session.chatrNo}]]',
-			    chatParticiMembUniNo: '[[${session.chatParticiMembUniNo}]]',
-			    cntn: message
-			    // TODO: 사용자 정보 등 필요한 정보를 추가합니다.
-			  };
-			  //socket.send(JSON.stringify(messageObject));
-				socket.send(messageObject);
-			  // TODO: 전송한 메시지를 채팅 화면에 표시하는 로직을 작성합니다.
-			  //const msg = JSON.parse(event.data);
-			  const chatContent = document.querySelector('.chat-content');
 
-			  const chatDiv = document.createElement('div');
-			  chatDiv.classList.add('chat');
+			stompClient.onStompError = (frame) => {
+					console.error('Broker reported error: ' + frame.headers['message']);
+					console.error('Additional details: ' + frame.body);
+			};
 
-			  const chatBodyDiv = document.createElement('div');
-			  chatBodyDiv.classList.add('chat-body');
+			// 보내기버튼누르면발생하는이벤트
+			function sendMessage() {
 
-			  const chatMessageDiv = document.createElement('div');
-			  chatMessageDiv.classList.add('chat-message');
-			  chatMessageDiv.textContent = message + '[[${session.chatParticiMembUniNo}]]'; 
-				// message 객체에는 서버에서 전달한 메시지 내용이 있을 것입니다.
+				let chatrNo = '[[${session.chatrNo}]]'
+				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
+				let cntn = document.getElementById('sendMsg').value;
+					// 보낸 메세지 발행
+					stompClient.publish({
+							destination: "/pub/chat/msg",
+							body: JSON.stringify({'chatrNo': chatrNo,
+																		'chatParticiMembUniNo' : chatWriter,
+																		'cntn': cntn})
+					});
 
-			  chatBodyDiv.appendChild(chatMessageDiv);
-			  chatDiv.appendChild(chatBodyDiv);
+					//console.log(cntn);
+					// 보낸 메세지 DB에 저장
+					let wantSend = {};
+					wantSend['cntn'] = cntn;
 
-			  chatContent.appendChild(chatDiv);
-			  
+					fetch("http://localhost/modu/chatMsg",{
+						method : 'post',
+							headers : {
+								'content-type' : 'application/json'
+							},
+							body : JSON.stringify(wantSend)
+					})
+					.then(result => result.json())
+					.then(data => {
+						console.log(data)
+					})
+					.catch(err => console.log(err))
 			}
-			
-			//보내기 버튼 눌렀을 때
-			document.getElementById('sendMsgBtn').addEventListener('click', function(){
+
+			function showChatMsg(chatMsg) {
 				let msgPlace = document.getElementsByClassName('chat-content')[0];
-				let msg = document.getElementById('sendMsg').value;
-				let wantSend = {};
-				wantSend['cntn'] = msg;
-			
-				sendMessage(msg);
+				// let chatrNo = '[[${session.chatrNo}]]'
+				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
+				// let cntn = document.getElementById('sendMsg').value;
 
-				fetch("http://localhost/modu/chatMsg",{
-					method : 'post',
-						headers : {
-							'content-type' : 'application/json'
-						},
-						body : JSON.stringify(wantSend)
-				})
-				.then(result => result.json())
-				.then(data => {
-					
-				})
-				.catch(err => console.log(err))
-			})
-			
-			// 채팅 메시지를 입력한 후 전송 버튼을 눌렀을 때의 처리
-	/* 		const inputField = document.getElementById('sendMsg'); // 채팅 메시지를 입력하는 input 요소
-			const sendButton = document.getElementById('sendMsgBtn'); // 전송 버튼
-			sendButton.addEventListener('click', () => {
-			  const msg = inputField.value;
-			  if (msg.trim() !== '') {
-			    sendMessage(msg);
-			    //console.log(msg);
-			    inputField.value = ''; // 입력 필드 초기화
-			  }
-			}); */
-			
-			// TODO: 파일 첨부, 푸시 알림 등의 기능도 필요한 경우 구현합니다.
+				if(chatMsg.chatParticiMembUniNo == chatWriter){	
+
+					//내가 쓴 채팅
+					let cdiv = document.createElement('div');
+					cdiv.setAttribute('class', 'chat');
+					msgPlace.append(cdiv);
+
+					let cbdiv = document.createElement('div');
+					cbdiv.setAttribute('class', 'chat-body');
+					cdiv.append(cbdiv);
+					msgPlace.append(cdiv);
+
+					let cmdiv = document.createElement('div');
+					cmdiv.setAttribute('class', 'chat-message');
+					cmdiv.textContent = chatMsg.cntn;
+					cbdiv.append(cmdiv);
+					cdiv.append(cbdiv);
+					msgPlace.append(cdiv);
+
+				}else{
+
+					//상대가 쓴 채팅
+					let cdiv = document.createElement('div');
+					cdiv.setAttribute('class', 'chat chat-left');
+					msgPlace.append(cdiv);
+
+					let cbdiv = document.createElement('div');
+					cbdiv.setAttribute('class', 'chat-body');
+					cdiv.append(cbdiv);
+					msgPlace.append(cdiv);
+
+					let cmdiv = document.createElement('div');
+					cmdiv.setAttribute('class', 'chat-message');
+					cmdiv.textContent = chatMsg.cntn;
+					cbdiv.append(cmdiv);
+					cdiv.append(cbdiv);
+					msgPlace.append(cdiv);
+
+				}
+			}
 
 
+			//채팅방 떠나면 웹소켓 연결 끊음
+			function disconnectWebSocket() {
+					stompClient.deactivate();
+			}
+			window.addEventListener("beforeunload", disconnectWebSocket);
+			
 		</script>
+		
 		<script	src="http://localhost/modu/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 		<script src="http://localhost/modu/assets/js/bootstrap.bundle.min.js"></script>
 		<script src="http://localhost/modu/assets/js/main.js"></script> 
