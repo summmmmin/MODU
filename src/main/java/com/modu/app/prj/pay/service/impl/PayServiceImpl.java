@@ -11,8 +11,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.modu.app.prj.pay.mapper.PayMapper;
-import com.modu.app.prj.pay.service.KakaoApproveResponse;
-import com.modu.app.prj.pay.service.KakaoReadyResponse;
 import com.modu.app.prj.pay.service.PayService;
 import com.modu.app.prj.pay.service.PayVO;
 
