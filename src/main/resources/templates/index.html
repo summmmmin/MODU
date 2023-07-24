@@ -351,7 +351,6 @@ function clickInsert(){
 
 	<!-- Include Choices JavaScript -->
 	<script src="assets/vendors/choices.js/choices.min.js"></script>
-	<script src="assets/js/main.js"></script>
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/test.js"></script>
@@ -359,7 +358,6 @@ function clickInsert(){
 	<!-- Include Choices JavaScript -->
 	<script src="assets/vendors/choices.js/choices.min.js"></script>
 
-	<script src="assets/js/main.js"></script>
 
 	<script>
 	function addBoard(){
@@ -417,7 +415,7 @@ function clickInsert(){
 					document.getElementById('chatrList').append(liTag);
 
 					let tagA = document.createElement('a');
-					tagA.setAttribute("href", "chat/" + chatr.chatrNo);
+					tagA.setAttribute("href", "chat?chatrNo=" + chatr.chatrNo);
 					tagA.textContent = chatr.chatrNm;
 					liTag.append(tagA);
 					document.getElementById('chatrList').append(liTag);

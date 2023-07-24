@@ -50,8 +50,8 @@ public class ChatController {
 	}
 
 	//채팅방으로이동
-	@GetMapping("/chat/{chatrNo}") 
-	public String goChatPage(@PathVariable String chatrNo, Model model, ChatrParticiVO cptvo, HttpSession session) {
+	@GetMapping("/chat") 
+	public String goChatPage(String chatrNo, Model model, ChatrParticiVO cptvo, HttpSession session) {
 		
 		//채팅세션
 		String prjParticiUniNo = (String) session.getAttribute("particiMembUniNo");
