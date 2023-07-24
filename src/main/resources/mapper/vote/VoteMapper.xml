@@ -20,7 +20,7 @@
 	
 	<!-- 투표리스트 -->
  	<select id="voteList" resultType="VoteVO" parameterType="VoteVO" >
-    select DISTINCT e.vote_no,chatr_nm,board_nm,fr_dt,to_dt,ttl,cnt
+    select DISTINCT e.vote_no,chatr_nm,board_nm,fr_dt,to_dt,ttl
     from vote e left outer join (
                     	select chatr_nm,c.chat_no
                     	from chat c join (
@@ -39,8 +39,6 @@
     or (g.pubc_yn = 'N' and h.partici_memb_uni_no = #{particiMembUniNo})
     AND g.prj_uni_no = #{prjUniNo})) j
     on e.post_uni_no = j.post_uni_no
-    join vote_deta k
-    on e.vote_no = k.vote_no
     where e.partici_memb_uni_no = #{particiMembUniNo} 
  	</select>
  	
@@ -49,6 +47,13 @@
  	select partici_memb_uni_no
  	from vote
  	where vote_no=#{voteNo}
+ 	</select>
+ 	
+ 	<select id="voteCount" resultType="VoteDetaVO">
+ 	select vote_no,sum(cnt) cnt
+    from vote_deta
+    where vote_no=#{voteNo}
+    group by vote_no
  	</select>
  	
 	<!--투표 단건 조회 -->
@@ -97,8 +102,7 @@
 		call DO_VOTE(
 				#{voteNo},
 				#{particiMembUniNo},
-				#{voteDetaNo},
-				#{cnt}
+				#{voteDetaNo}
 				)
 	</insert>
 	

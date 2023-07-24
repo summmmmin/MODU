@@ -112,23 +112,24 @@ public class VoteController {
 	//투표 등록
 	@PostMapping("voteInfo/{voteNo}")
 	@ResponseBody
-	public Map<String,Object> voteDO(HttpSession session,@RequestBody VoteDetaVO vo,@PathVariable String voteNo){
+	public VoteDetaVO voteDO(HttpSession session,@RequestBody VoteDetaVO vo,@PathVariable String voteNo){
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vo.setVoteNo(voteNo);
 		System.out.println(vo);
-		Map<String, Object> map = new HashMap<>();
 		voteService.voteDo(vo);
-		int result = vo.getCnt();
 		//변경 성공 여부
-		if(result > 0) {
-			map.put("retCode", "Success");
-			map.put("data", vo);
-		}else {
-			map.put("retCode", "Fail");
-		}
-		return map;	
+		return vo;
+
 	}
 	// map 여러가지 넘기기
+//	Map<String, Object> map = new HashMap<>();
+//	if(result > 0) {
+//		map.put("retCode", "Success");
+//		map.put("data", vo);
+//	}else {
+//		map.put("retCode", "Fail");
+//	}
+//	return map;	
 
 	// 투표 단건
 		@GetMapping("voteResult/{voteNo}")
