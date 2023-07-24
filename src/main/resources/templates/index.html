@@ -389,12 +389,12 @@
 			let pNum = '[[${session.prjUniNo}]]';
 			let user = '[[${session.particiMembUniNo}]]';
 			let select = document.getElementById('memberSelect');
-			console.log(select);
+			//console.log(select);
 
 			fetch("http://localhost:80/modu/chatMembs/" + pNum)
 			.then(resolve => resolve.json())
 			.then(data => {
-				console.log(data);
+				//console.log(data);
 				data.forEach(memb => {
 					if(user != memb.particiMembUniNo){
 						let optionTag = document.createElement('option');
@@ -429,7 +429,9 @@
 				.then(data => {
 					//console.log(data);
 					showChatList()
-					window.location.href = 'http://localhost:80/modu/chat/' + data.chatrNo;
+					// setTimeout( () => {
+					// 	window.location.href = 'http://localhost:80/modu/chat/' + data.chatrNo;
+					// }, 5000);
 				})
 				.catch(err => console.log(err)) 
 		}
