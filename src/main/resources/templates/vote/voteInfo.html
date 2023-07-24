@@ -124,9 +124,9 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     	
-    	console.log('bbb');
+  
         // 항목 선택 시 이벤트 처리
-              function toggleSelection(item) {
+             function toggleSelection(item) {
             const selectedItems = document.querySelectorAll('.voteItem.selected');
 
             if (item.classList.contains('selected')) {
@@ -162,7 +162,9 @@
 			fetch("voteInfo/"+[[${voteInfo.voteNo}]],options)
 				.then(response => response.json())
 			    .then(data => {
-					$.ajax("voeInfo/"+[[${voteInfo.voteNo}]])
+			    	console.log(data)
+			    	console.log(data.voteNo)
+					$.ajax("voeInfo/"+data.voteNo)
 			    	.done(result=>{
 			    		$("#rsidebarContent").html(result);
 			    	})

@@ -76,7 +76,7 @@ public class VoteController {
 	public String voteInsert(HttpSession session,@RequestBody VoteVO vote) {
 		vote.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vote.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		voteService.voteInsert(vote);
+		int result = voteService.voteInsert(vote);
 		return "success";
 	}
 	
@@ -100,6 +100,7 @@ public class VoteController {
 		vdvo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vdvo.setVoteNo(voteNo);
 		System.out.println(model.getAttribute("voteInfo"));
+		System.out.println(vdvo);
 		if(voteService.whoVote(vdvo) != null) {
 			return "vote/voteResult";
 		}else {
@@ -108,6 +109,7 @@ public class VoteController {
 		
 	}
 	
+	//투표 등록
 	@PostMapping("voteInfo/{voteNo}")
 	@ResponseBody
 	public Map<String,Object> voteDO(HttpSession session,@RequestBody VoteDetaVO vo,@PathVariable String voteNo){
@@ -115,8 +117,8 @@ public class VoteController {
 		vo.setVoteNo(voteNo);
 		System.out.println(vo);
 		Map<String, Object> map = new HashMap<>();
-		int result = voteService.voteDo(vo);;
-		
+		voteService.voteDo(vo);
+		int result = vo.getCnt();
 		//변경 성공 여부
 		if(result > 0) {
 			map.put("retCode", "Success");
@@ -141,7 +143,6 @@ public class VoteController {
 			System.out.println(model.getAttribute("item"));;
 			return "vote/voteResult";
 		}
-	
 	
 	// 투표 등록	
 //	@ResponseBody

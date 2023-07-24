@@ -97,7 +97,8 @@
 		call DO_VOTE(
 				#{voteNo},
 				#{particiMembUniNo},
-				#{voteDetaNo}
+				#{voteDetaNo},
+				#{cnt}
 				)
 	</insert>
 	

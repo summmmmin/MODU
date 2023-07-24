@@ -34,7 +34,7 @@
 		.done(result=>{
 		for(i of result){
 			let div;
-			if (i.chatrNm == null){
+			if (i.boardNm != null){
 			div=`<div class="vote" onclick="voteInfo()" id=${i.voteNo}>
 				<h4 class="card-title">장소:${i.boardNm}</h4>
 				<h2>제목:${i.ttl}</h2>
@@ -42,7 +42,7 @@
 				<p class="card-text">~${i.toDt}까지 마감</p>
 				</div>
 			`;
-			}else{
+			}else if(i.chatrNm != null){
 				div=`<div class="vote" onclick="voteInfo()" id=${i.voteNo}>
 					<h4 class="card-title">장소:${i.chatrNm}</h4>
 					<h2>제목:${i.ttl}</h2>
@@ -51,7 +51,9 @@
 					</div>
 				`;
 			}
+			
 			$('#vote').append(div);
+			
 			
 			
 			}
