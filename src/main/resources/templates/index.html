@@ -31,12 +31,10 @@
 				<div class="sidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a href="index.html"><img src="assets/images/logo/logo.png"
-								alt="Logo" srcset="" /></a>
+							<a href="index.html"><img src="assets/images/logo/logo.png" alt="Logo" srcset="" /></a>
 						</div>
 						<div class="toggler">
-							<a href="#" class="sidebar-hide d-xl-none d-block"><i
-								class="bi bi-x bi-middle"></i></a>
+							<a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
 						</div>
 					</div>
 				</div>
@@ -45,56 +43,82 @@
 					<ul class="menu">
 						<li class="sidebar-title">Menu</li>
 
-						<li class="sidebar-item active"><a href="index.html"
-							class="sidebar-link"> <i class="bi bi-grid-fill"></i> <span>채팅</span>
-						</a></li>
-
+<!--/* ************************ ChatRoom List Start *************************** */-->
+<li class="sidebar-item has-sub">
+    <a href="#" class="sidebar-link"> 
+        <i class="bi bi-stack"></i>
+        <span>채팅방</span>
+        <button type="button" id="openMakeChatrModal" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#makeChatrForm" style="margin-left: 87px">+</button>
+    </a>
+    <ul class="submenu" id="chatrList">
+    </ul>
+</li>
+<!--/* ************************ End *************************** */-->
 
 
 <!--/* ************************ Board List Start *************************** */-->
 <li class="sidebar-item has-sub"><a href="#" class="sidebar-link"> 
-<i class="bi bi-stack"></i> 
-	<span>게시판</span>
-	<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#inlineForm" style="margin-left: 87px">+</button>
-</a>
-<div id="boardList">
+    <i class="bi bi-stack"></i> 
+        <span>게시판</span>
+        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#inlineForm" style="margin-left: 87px">+</button>
+    </a>
+    <div id="boardList">
 
-</div>
+    </div>
 
-	</li>
-		</ul>
+</li>
+</ul>
 
-<script> <!-- 즐겨찾기 등록 -->
-function clickInsert(){
-	console.log(event.target.id);
-      let star = event.target;
-      let brdUniNo = event.target.id;
-      let particiMembUniNo = '[[${session.particiMembUniNo}]]';
-      let data = {
-    	  'brdUniNo' : brdUniNo,
-    	  'particiMembUniNo' : particiMembUniNo
-      }
-      fetch('/modu/BrdBmInsert', {
-    	  method : 'POST',
-    	  headers : {
-    		  'content-type' : 'application/json'
-    	  },
-    	  body : JSON.stringify(data)
-      })
-      .then(response => response.json())
-      .then(data => {
-    	  console.log(data)
-    	  
-     	  if(data === 1){
-    	  star.classList.toggle('clicked');
-    	  }else{
-        	  star.classList.toggle('cls-1');
-        	  star.classList.toggle('clicked');
-    	  }
-      })
-      .catch(err => console.log(err));
-      
-}
+<!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
+<script>
+    function click() {
+        console.log(event.target.className.animVal);
+        event.target.classList.toggle('clicked');
+        event.target.classList.toggle('cls-1');
+
+    }
+    document.getElementById('ultag').addEventListener('click', function (event) {
+        let target = event.target;
+        if (target.classList.contains('cls-1')) {
+            let brdUniNo = target.getAttribute('text-brdUniNo');
+            console.log(target);
+        }
+    });
+</script>
+<!--/* ************************ End *************************** */-->
+
+<!-- 즐겨찾기 등록 -->
+<script> 
+    function clickInsert(){
+        console.log(event.target.id);
+        let star = event.target;
+        let brdUniNo = event.target.id;
+        let particiMembUniNo = '[[${session.particiMembUniNo}]]';
+        let data = {
+            'brdUniNo' : brdUniNo,
+            'particiMembUniNo' : particiMembUniNo
+        }
+        fetch('/modu/BrdBmInsert', {
+            method : 'POST',
+            headers : {
+                'content-type' : 'application/json'
+            },
+            body : JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            
+            if(data === 1){
+            star.classList.toggle('clicked');
+            }else{
+                star.classList.toggle('cls-1');
+                star.classList.toggle('clicked');
+            }
+        })
+        .catch(err => console.log(err));
+        
+    }
 	/* 색 변환 JS */ 
    $('#ultag').on('click', function(event) {
     let target = event.target;
@@ -268,7 +292,42 @@ function clickInsert(){
 					</div>
 				</div>
 			</div>
-			
+
+			<!-- start of 채팅방생성모달 -->
+			<div class="modal fade text-left" id="makeChatrForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel33">채팅방 생성</h4>
+							<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+								<i data-feather="x"></i>
+							</button>
+						</div>
+						<form action="makeChatr" method="POST" id="FormEvent">
+							<div class="modal-body">
+								<h5>채팅방 이름</h5>
+								<div class="form-group">
+									<input id="chartNm" name="chartNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
+									<input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display: none">
+									<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" 	class="form-control" style="display: none">
+									<label for="basicInput" class="form-label">참여멤버선택</label>
+									<select id="memberSelect" class="form-select multiple-remove" multiple="multiple"></select>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
+								</button>
+								<button onclick="makeChatrPlz()" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+									<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">채팅시작</span>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- end of 채팅방생성모달 -->	
+
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
 					<div class="float-start">
@@ -276,9 +335,8 @@ function clickInsert(){
 					</div>
 					<div class="float-end">
 						<p>
-							Crafted with <span class="text-danger"><i
-								class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A.
-								Saugi</a>
+							Crafted with 
+                            <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A. Saugi</a>
 						</p>
 					</div>
 				</div>
@@ -286,12 +344,18 @@ function clickInsert(){
 		</div>
 	</div>
 	
+    <!-- Include Choices JavaScript -->
+	<script src="assets/vendors/choices.js/choices.min.js"></script>
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/test.js"></script>
+
 	<script>
+    // 게시판 목록 출력
 	$.ajax("boardList")
 	.done(result=>$("#boardList").html(result));
+    
+    // 게시판 생성
 	function addBoard(){
 		let check = document.querySelector('#checkbox');
 		let checkOk = '';
@@ -336,6 +400,99 @@ function clickInsert(){
 	}
 	</script>
 	
+    <script>
+        //채팅방리스트
+		function showChatList(){
+			fetch("http://localhost/modu/chatrList")
+			.then(resolve => resolve.json())
+			.then(data => {
+				document.getElementById('chatrList').innerHTML = '';
+				data.forEach(chatr => {
+					let liTag = document.createElement('li');
+					liTag.setAttribute("class", "submenu-item")
+					document.getElementById('chatrList').append(liTag);
+
+					let tagA = document.createElement('a');
+					tagA.setAttribute("href", "chat?chatrNo=" + chatr.chatrNo);
+					tagA.textContent = chatr.chatrNm;
+					liTag.append(tagA);
+					document.getElementById('chatrList').append(liTag);
+				});
+			})
+		}
+		showChatList();
+
+		//채팅방생성모달안에페이지넣기
+		// document.getElementById('openMakeChatrModal').addEventListener('click', function () {
+		// 	let modalPlace = document.getElementById('makeChatrModal');
+		// 	let xhr = new XMLHttpRequest();
+		// 	xhr.onreadystatechange = function () {
+		// 		if (xhr.readyState === XMLHttpRequest.DONE) {
+		// 			if (xhr.status === 200) {
+		// 				modalPlace.innerHTML = xhr.responseText;
+		// 			} else {
+		// 				// Ajax 요청 실패 시 에러 처리
+		// 				console.error('Failed to load makeChatrForm :', xhr.status, xhr.statusText);
+		// 			}
+		// 		}
+		// 	};
+		// 	xhr.open('GET', 'http://localhost/modu/makeChatr', true);
+		// 	xhr.send();
+		// }) 
+
+		//채팅초대리스트
+		function callChatMemb(){
+			let pNum = '[[${session.prjUniNo}]]';
+			let user = '[[${session.particiMembUniNo}]]';
+			let select = document.getElementById('memberSelect');
+			//console.log(select);
+
+			fetch("http://localhost:80/modu/chatMembs/" + pNum)
+			.then(resolve => resolve.json())
+			.then(data => {
+				//console.log(data);
+				data.forEach(memb => {
+					if(user != memb.particiMembUniNo){
+						let optionTag = document.createElement('option');
+						optionTag.setAttribute('value', memb.particiMembUniNo);
+						optionTag.textContent = memb.nnm;
+						document.getElementById('memberSelect').append(optionTag);
+					}
+				})
+			})
+		}
+		callChatMemb();
+
+		//채팅방생성
+		function makeChatrPlz(e) {
+			let chatNm = document.getElementById('chartNm').value;
+			let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
+			let chatMembs = selcetParticis.split(',');
+
+			let makeChatInfo = {};
+			makeChatInfo['chartNm'] = chatNm;
+			makeChatInfo['particiMembUniNos'] = chatMembs;
+			//console.log(makeChatInfo);
+
+			fetch("http://localhost/modu/makeChatr", {
+					method: 'post',
+					headers: {
+						'content-type': 'application/json'
+					},
+					body: JSON.stringify(makeChatInfo)
+				})
+				.then(result => result.json())
+				.then(data => {
+					//console.log(data);
+					showChatList()
+					// setTimeout( () => {
+					// 	window.location.href = 'http://localhost:80/modu/chat/' + data.chatrNo;
+					// }, 5000);
+				})
+				.catch(err => console.log(err)) 
+		}
+    </script>
+
 	<script>
  	function todoList(){
  	 $.ajax("todo")
