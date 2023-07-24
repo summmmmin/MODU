@@ -17,6 +17,6 @@ public interface BmService {
 	public int BmInsert(BmVO vo);
 	
 	//파일, 채팅, 댓글 즐겨찾기 리스트
-	public List<BmVO>BmSelect(BmVO vo);
+	public List<BmVO>BmList(BmVO vo);
 	
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{index}">
+>
 
 <head>
 <meta charset="UTF-8">
@@ -9,45 +9,38 @@
 </head>
 
 <body>
-	<div layout:fragment="right-side">
 		<div class="row">
 			<div class="card">
 				<div class="card-header">
 					<h4 class="card-title">즐겨찾기</h4>
 					<hr>
 				</div>
-				<div class="card-content" id="bm">
-					<th:block class="card-body" th:each="bmlist:${bmlist}">
-						<th>등록일자</th><br>
-						<td>[[${[postUniNo]}]]</td>
-						<td>[[${attNo}]]</td>
-						<td>[[${chatNo}]]</td>
-						<td>[[${bmlist.regDt}]]</td>
-						<hr>
-					</th:block>
+				<div class="card-content" id="bmList">
 				</div>
 			</div>
 		</div>
-	</div>
-	<script>
- 		$.ajax("BmSelect?brdUniNo="${brdUniNo})
- 		.done(result=>{
- 			console.log(result);
- 		for(i of result){
- 			let div = `<div class="card-content">
-				<th:block class="card-body" th:each="bmlist:${bmlist}">
-				<th>등록일자</th><br>
-				<td>[[${[postUniNo]}]]</td>
-				<td>[[${attNo}]]</td>
-				<td>[[${chatNo}]]</td>
-				<td>[[${bmlist.regDt}]]</td>
-				<hr>
-			</th:block>
-		</div>
- 		`;
- 		$('#bm').append(div);
- 		}
- 		})
+	<script th:inline="javascript">
+/*<![CDATA[*/
+    $.ajax("bmList")
+    .done(result => {
+        let div = ''; // Declare div outside the loop
+        for (let i of result) { // Fix the for...of loop syntax
+            div += `
+                <div class="card-content">
+                    <div class="card-body">
+                        <th>등록일자</th><br>
+                        <td>${i.regDt}</td>
+                        <td>${i.attNo}</td>
+                        <td>${i.chatNo}</td> 
+                        <td>${i.postUniNo}</td>
+                    </div>
+                </div>
+                <hr>
+            `;
+        }
+        $('#bmList').append(div);
+    });
+/*]]>*/
 </script>
 </body>
 </html>

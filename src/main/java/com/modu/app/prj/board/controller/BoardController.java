@@ -62,9 +62,7 @@ public class BoardController {
 		BoardVO brd = new BoardVO();
 		brd.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		brd.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-
 		model.addAttribute("Brd", boardService.BoardList(brd));
 		return "/boardLIst/boardList";
 	}
-
 }

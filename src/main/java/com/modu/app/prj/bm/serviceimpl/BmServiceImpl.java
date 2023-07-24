@@ -54,7 +54,7 @@ public class BmServiceImpl implements BmService {
 	}
 	
 	@Override
-	public List<BmVO> BmSelect(BmVO vo) {
-		return bmMapper.BmSelect(vo);
+	public List<BmVO> BmList(BmVO vo) {
+		return bmMapper.BmList(vo);
 	}
 }
