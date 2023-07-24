@@ -5,19 +5,20 @@
 <head>
 	<meta charset="UTF-8">
 	<title>postList</title>
-	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<!-- <link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="assets/css/bootstrap.css">
 	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
 	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
 	<link rel="stylesheet" href="assets/css/app.css">
-	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
+	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon"> -->
 </head>
 
 <body>
 	<div layout:fragment="content">
 		<div class="buttons">
-			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}">글작성</a>
+			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" >글작성</a>
+			<!-- data-bs-toggle="modal" data-bs-target="#insertPostForm"-->
 		</div>
 
 		<hr>
@@ -48,14 +49,14 @@
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" class="dropdown-item" href="#">댓글알림ON</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'Y'" class="dropdown-item" href="#">댓글알림OFF</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a> 
-										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deletePost">삭제</a>
+										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deletePost" onclick="callDeletePostModal(event)">삭제</a>
 									</div>
 									<hr>
 									<p class="card-text">[[${post.cm}]]</p>
 									<p class="card-text">[[${post.postTagArm}]]</p>
 									<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 								</div>
-								첨부파일미리보기
+								첨부파일미리보기xxx아직안됨
 							</div>
 							<hr>
 							<div class="replyPlace card-body" th:data-postUniNo="${post.postUniNo}"></div>
@@ -69,7 +70,6 @@
 										<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
 									</svg>
 								</div>
-								
 							</div>
 						</div>
 					</div>
@@ -78,6 +78,10 @@
 			<!--end of 게시글List-->
 
 			<!--start of MODALS -->
+				<!-- start of 게시글 작성 모달 -->
+		
+				<!-- end of 게시글 작성 모달 -->
+
 				<!-- start of 게시글 삭제 모달 -->
 				<div class="modal fade text-left" id="deletePost" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160"	aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -168,7 +172,7 @@
 				<!--end of 댓글수정모달 -->
 			<!--end of MODALS -->
 		<script>
-
+				
 				//댓글리스트
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
@@ -278,7 +282,9 @@
 					rInput.forEach(reply =>{
 						replyInfo[reply.name] = reply.value;
 					})
-					fetch('http://localhost:80/modu/replyInsert/'+pNum,{
+					replyInfo["postUniNo"] = pNum;
+					
+					fetch('http://localhost:80/modu/replyInsert',{
 						method : 'post',
 						headers : {
 							'content-type' : 'application/json'
@@ -287,6 +293,7 @@
 					})
 					.then(result => result.json())
 					.then(data => {
+						//rInput.value = '';
 					showReplyList()
 					})
 					.catch(err => console.log(err))
@@ -355,24 +362,82 @@
 					showReplyList()
 				})
 				.catch(err => console.log(err))
-
 			})
 
+			// //게시글등록
+			// document.getElementById('postInsertBtn').addEventListener('click', function(){
+			// 	let brdUniNo = document.getElementById('formBrdNo').value;
+			// 	let ttl = document.getElementById('formTtl').value;
+			// 	let cm = document.getElementById('formCm').value;
+			// 	let postTagArm = document.getElementById('formCall').value;
+			// 	let files = document.getElementById('attFile').files;
+			// 	//let attFiles = files.split(',');
+			// 	//일단여기까지? + 파일첨부기능넣을것
+
+			// 	//file객체로 받아서
+
+			// 	//console.log(document.getElementById('attFile').value);
+			// 	//console.log(typeof(document.getElementById('attFile').value));
+
+			// 	let postInfo = {};
+			// 	postInfo['brdUniNo'] = brdUniNo;
+			// 	postInfo['ttl'] = ttl;
+			// 	postInfo['cm'] = cm;
+			// 	postInfo['postTagArm'] = postTagArm;
+			// 	postInfo['attFiles'] = JSON.stringify(files[0]);
+
+			// 	console.log(postInfo);
+			// 	console.log(files);
+			// 	fetch("http://localhost:80/modu/postInsert",{
+			// 		method : 'post',
+			// 		headers : {
+			// 			'content-type' : 'application/json'
+			// 		},
+			// 		body : JSON.stringify(postInfo)
+			// 	})
+			// 	.then(result => result.json())
+			// 	.then(data => {
+			// 		console.log(data);
+			// 		//리다이렉트하기
+			// 	})
+			// })
+			// //멤버호출용리스트
+			// function callMembList(){
+			// 	let bNum = '[[${brdUniNo}]]';
+			// 	let user = '[[${session.particiMembUniNo}]]';
+			// 	fetch("http://localhost:80/modu/brdMembs/" + bNum)
+			// 	.then(resolve => resolve.json())
+			// 	.then(data => {
+			// 		//console.log(data);
+			// 		data.forEach(memb => {
+			// 			if(user != memb.particiMembUniNo){
+			// 			let optionTag = document.createElement('option');
+			// 			optionTag.setAttribute('value', memb.particiMembUniNo);
+			// 			optionTag.textContent = memb.nnm;
+			// 			document.getElementById('formCall').append(optionTag);
+			// 			}
+			// 		})
+			// 	})
+			// }
+			// callMembList();
+
 			//게시글삭제
-			document.getElementById('deleteBtn').addEventListener('click', function(event){
-				let getPnum = document.querySelectorAll('.getPostUniNo');
-				getPnum.forEach(gNum => {
-					let pNum = gNum.value;
-					//console.log(pNum);
+			function callDeletePostModal(e){
+				let pNum = e.target.parentElement.dataset.postunino;
+				console.log(pNum);
+				let bNum = '[[${brdUniNo}]]'
+				document.getElementById('deleteBtn').addEventListener('click', function(e){
+
 					fetch('http://localhost:80/modu/postDelete/' + pNum)
-					.then(resolve => resolve.json())
+					//.then(resolve => resolve.json())
 					.then(data => {
-							//console.log(data);
-							window.location.href = 'http://localhost:80/modu/postList?brdUniNo=' + bNum;
+						console.log(data);
+						window.location.href = 'http://localhost:80/modu/postList?brdUniNo=' + bNum;
 					})
 					.catch(err => console.log(err)); 
-				});
-			});
+				})
+			
+			}
 
 			//공지리스트
 			function notiPostList(){
@@ -490,7 +555,7 @@
 	</div>
 </div>
 </body>
-<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<!-- <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="assets/js/main.js"></script> -->
 </html>
