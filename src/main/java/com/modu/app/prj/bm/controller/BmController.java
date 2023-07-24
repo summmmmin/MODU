@@ -34,6 +34,8 @@ public class BmController {
 	@ResponseBody
 	public BmVO BmInsert(@RequestBody BmVO vo) {
 		bmService.BmInsert(vo);
+		System.out.println("BmInsert까지 들어온다야 ");
+		System.out.println(vo);
 		return vo;
 	}
 	

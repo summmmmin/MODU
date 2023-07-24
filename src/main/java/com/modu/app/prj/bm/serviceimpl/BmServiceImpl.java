@@ -49,7 +49,7 @@ public class BmServiceImpl implements BmService {
 
 	//파일, 채팅, 댓글 즐겨찾기 등록
 	@Override
-	public BmVO BmInsert(BmVO vo) {
+	public int BmInsert(BmVO vo) {
 		return bmMapper.BmInsert(vo);
 	}
 	

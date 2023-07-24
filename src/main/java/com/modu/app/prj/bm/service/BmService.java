@@ -14,7 +14,7 @@ public interface BmService {
 	public int BmDelete(BmVO vo);
 	
 	//파일, 채팅, 댓글 즐겨찾기 등록
-	public BmVO BmInsert(BmVO vo);
+	public int BmInsert(BmVO vo);
 	
 	//파일, 채팅, 댓글 즐겨찾기 리스트
 	public List<BmVO>BmSelect(BmVO vo);
