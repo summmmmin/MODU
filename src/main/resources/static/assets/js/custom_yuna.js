@@ -9,22 +9,6 @@ $(document).ready(function() {
         $(selector).hide().prev().removeClass('error-border');
     }
 
-$('input[name="id"]').on('blur', function() {
-    var id = $(this).val();
-    $.ajax({
-        url: 'idvaild',
-        type: 'POST',
-        data: id, // 그냥 input 값만 전송
-        contentType: "text/plain", // 컨텐츠 타입을 텍스트로 지정
-        success: function(data) {
-            if (data === "이미 존재하는 아이디입니다.") {
-                showError('#emailError', data);
-            } else {
-                hideError('#emailError');
-                }
-            }
-        });
-    });
 
     $('#sendVerificationCode').on('click', function () {
         var phoneNumber = $('input[name="phNo"]').val();
@@ -37,10 +21,10 @@ $('input[name="id"]').on('blur', function() {
             data: JSON.stringify(dataToSend),
             contentType: 'application/json',
             success: function (response) {
-                alert("인증번호가 발송되었습니다.")
+                alert("인증번호가 발송되었습니다.");
             },
             error: function (xhr, status, error) {
-            	alert("하이픈('-')없이 숫자만 입력해주세요.")
+                alert("하이픈('-')없이 숫자만 입력해주세요.");
                 console.error('에러 : ', error);
             }
         });
@@ -89,88 +73,82 @@ $('input[name="id"]').on('blur', function() {
         verifySmsCode(true);
     });
 
-    $('#signupButton').on('click', function (event) {
+        $('#signupButton').on('click', function (event) {
         event.preventDefault();
 
-    var email = $('input[name="id"]').val();
-    var name = $('input[name="nm"]').val();
-    var phoneNumber = $('input[name="phNo"]').val();
-    var password = $('input[name="pwd"]').val();
-    var confirmPassword = $('input[name="confirmPwd"]').val();
+        var email = $('input[name="id"]').val();
+        var name = $('input[name="nm"]').val();
+        var phoneNumber = $('input[name="phNo"]').val();
+        var password = $('input[name="pwd"]').val();
+        var confirmPassword = $('input[name="confirmPwd"]').val();
 
-    var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
+        var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
 
-    // Check for matching passwords first
-    if (password !== confirmPassword) {
-        showError('#confirmPasswordError', "비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-        return;
-    } else {
-        hideError('#confirmPasswordError');
-    }
+        // 아이디 중복 체크를 수행하여 가입 처리 진행
+        $.ajax({
+            url: 'idvaild',
+            type: 'POST',
+            data: email, // 객체 형태로 데이터 전송
+            contentType: "text/plain",
+            success: function(data) {
+                if (data === "이미 존재하는 아이디입니다.") {
+                    showError('#emailError', data);
+                } else {
+                    hideError('#emailError');
 
-    // Validate other fields
-    if (!email) {
-        showError('#emailError', "이메일을 입력해주세요.");
-        return;
-    } else {
-        hideError('#emailError');
-    }
-
-    if (!name) {
-        showError('#nameError', "이름을 입력해주세요.");
-        return;
-    } else {
-        hideError('#nameError');
-    }
-
-    if (!phoneNumber) {
-        showError('#phoneError', "전화번호를 입력해주세요.");
-        return;
-    } else {
-        hideError('#phoneError');
-    }
-
-    if (!password) {
-        showError('#passwordError', "비밀번호를 입력해주세요.");
-        return;
-    } else {
-        hideError('#passwordError');
-    }
-
-    if (!passwordRegex.test(password)) {
-        showError('#passwordError', "비밀번호는 영문자, 숫자, 특수 문자를 모두 포함한 8~16자 사이여야 합니다.");
-        return;
-    } else {
-        hideError('#passwordError');
-    }
-
-    // 아이디 중복 체크를 수행하여 가입 처리 진행
-    $.ajax({
-        url: 'idvaild',
-        type: 'POST',
-        data: { id: email }, // 객체 형태로 데이터 전송
-        contentType: "application/json",
-        success: function(data) {
-            if (data === "이미 존재하는 아이디입니다.") {
-                showError('#emailError', data);
-            } else {
-                hideError('#emailError');
-
-                verifySmsCode().then(isSmsVerified => {
-                    if (isSmsVerified) {
-                        $("form").submit();
-                        alert("회원가입이 완료되었습니다.\n" + `환영합니다 ${name}님! \n` + "이메일을 확인하시고, 계정을 활성화 해주세요.");
+                    if (!email) {
+                        showError('#emailError', "이메일을 입력해주세요.");
+                    } else {
+                        hideError('#emailError');
                     }
-                }).catch(() => {
-                    showError('#verifyError', "휴대폰 인증을 확인해주세요.");
-                });
+
+                    if (!name) {
+                        showError('#nameError', "이름을 입력해주세요.");
+                    } else {
+                        hideError('#nameError');
+                    }
+
+                    if (!phoneNumber) {
+                        showError('#phoneError', "전화번호를 입력해주세요.");
+                    } else {
+                        hideError('#phoneError');
+                    }
+
+                    if (!password) {
+                        showError('#passwordError', "비밀번호를 입력해주세요.");
+                    } else {
+                        hideError('#passwordError');
+                    }
+
+                    if (!confirmPassword) {
+                        showError('#confirmPasswordError', "비밀번호를 다시 입력해주세요.");
+                    } else if (password !== confirmPassword) {
+                        showError('#confirmPasswordError', "비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+                    } else {
+                        hideError('#confirmPasswordError');
+                    }
+
+                    if (!passwordRegex.test(password)) {
+                        showError('#passwordError', "비밀번호는 영문자, 숫자, 특수 문자를 모두 포함한 8~16자 사이여야 합니다.");
+                    } else {
+                        hideError('#passwordError');
+                    }
+
+                    verifySmsCode().then(isSmsVerified => {
+                        if(isSmsVerified) {
+                            $("form").submit();
+                            alert("회원가입이 완료되었습니다.\n" + `환영합니다 ${name}님! \n` + "이메일을 확인하시고, 계정을 활성화 해주세요." );
+                        }
+                    }).catch(() => {
+                        showError('#verifyError', "휴대폰 인증을 확인해주세요.");
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX 요청 에러:", error); // AJAX 요청 에러 확인용 로그
             }
-        },
-        error: function(xhr, status, error) {
-            console.error("AJAX 요청 에러:", error); // AJAX 요청 에러 확인용 로그
-        }
+        });
     });
-});
 
     $('input[name="id"]').on('input', function() {
         hideError('#emailError');
