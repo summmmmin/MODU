@@ -100,51 +100,69 @@ $(document).ready(function() {
 
         var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
 
-        if (!email) {
-            showError('#emailError', "이메일을 입력해주세요.");
-        } else {
-            hideError('#emailError');
-        }
+        // 아이디 중복 체크를 수행하여 가입 처리 진행
+        $.ajax({
+            url: 'idvaild',
+            type: 'POST',
+            data: { id: email }, // 객체 형태로 데이터 전송
+            contentType: "application/json",
+            success: function(data) {
+                if (data === "이미 존재하는 아이디입니다.") {
+                    showError('#emailError', data);
+                } else {
+                    hideError('#emailError');
 
-        if (!name) {
-            showError('#nameError', "이름을 입력해주세요.");
-        } else {
-            hideError('#nameError');
-        }
+                    if (!email) {
+                        showError('#emailError', "이메일을 입력해주세요.");
+                    } else {
+                        hideError('#emailError');
+                    }
 
-        if (!phoneNumber) {
-            showError('#phoneError', "전화번호를 입력해주세요.");
-        } else {
-            hideError('#phoneError');
-        }
+                    if (!name) {
+                        showError('#nameError', "이름을 입력해주세요.");
+                    } else {
+                        hideError('#nameError');
+                    }
 
-        if (!password) {
-            showError('#passwordError', "비밀번호를 입력해주세요.");
-        } else {
-            hideError('#passwordError');
-        }
+                    if (!phoneNumber) {
+                        showError('#phoneError', "전화번호를 입력해주세요.");
+                    } else {
+                        hideError('#phoneError');
+                    }
 
-        if (!confirmPassword) {
-            showError('#confirmPasswordError', "비밀번호를 다시 입력해주세요.");
-        } else if (password !== confirmPassword) {
-            showError('#confirmPasswordError', "비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-        } else {
-            hideError('#confirmPasswordError');
-        }
+                    if (!password) {
+                        showError('#passwordError', "비밀번호를 입력해주세요.");
+                    } else {
+                        hideError('#passwordError');
+                    }
 
-        if (!passwordRegex.test(password)) {
-            showError('#passwordError', "비밀번호는 영문자, 숫자, 특수 문자를 모두 포함한 8~16자 사이여야 합니다.");
-        } else {
-            hideError('#passwordError');
-        }
+                    if (!confirmPassword) {
+                        showError('#confirmPasswordError', "비밀번호를 다시 입력해주세요.");
+                    } else if (password !== confirmPassword) {
+                        showError('#confirmPasswordError', "비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+                    } else {
+                        hideError('#confirmPasswordError');
+                    }
 
-        verifySmsCode().then(isSmsVerified => {
-            if(isSmsVerified) {
-                $("form").submit();
-                alert("회원가입이 완료되었습니다.\n" + `환영합니다 ${name}님!`);
+                    if (!passwordRegex.test(password)) {
+                        showError('#passwordError', "비밀번호는 영문자, 숫자, 특수 문자를 모두 포함한 8~16자 사이여야 합니다.");
+                    } else {
+                        hideError('#passwordError');
+                    }
+
+                    verifySmsCode().then(isSmsVerified => {
+                        if (isSmsVerified) {
+                            $("form").submit();
+                            alert("회원가입이 완료되었습니다.\n" + `환영합니다 ${name}님! \n` + "이메일을 확인하시고, 계정을 활성화 해주세요.");
+                        }
+                    }).catch(() => {
+                        showError('#verifyError', "휴대폰 인증을 확인해주세요.");
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX 요청 에러:", error); // AJAX 요청 에러 확인용 로그
             }
-        }).catch(() => {
-            showError('#verifyError', "휴대폰 인증을 확인해주세요.");
         });
     });
 

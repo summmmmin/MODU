@@ -11,6 +11,7 @@
 		from memb
 		where id= #{id}
 		AND QUIT = 'N'
+		AND email_auth = 'Y'
 	</select>
 
 	<!-- 아이디 중복체크 -->
@@ -30,6 +31,8 @@
 		, QUIT
 		, GRD
 		, REG_DT
+		, EMAIL_AUTH
+		, EMAIL_TOKEN
 		)
 		VALUES (
 		'mt' ||
@@ -42,6 +45,8 @@
 		,'N'
 		,'N'
 		,sysdate
+		,'N'
+		,#{emailToken}
 		)
 	</insert>
 

@@ -1,5 +1,7 @@
 package com.modu.app.prj.user.impl;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,7 +32,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 		return userVO;
 	}
-	
+	@Override
+	public String generateRandomToken() {
+        String token = UUID.randomUUID().toString();
+        return token;
+	}
 	@Override
 	public int signup(UserVO userVO) {
 		return userMapper.signup(userVO);

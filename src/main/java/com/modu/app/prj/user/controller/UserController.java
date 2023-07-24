@@ -94,12 +94,7 @@ public class UserController {
         }
     }
 
-
-
-
-
 	// 회원가입 처리
-	
 	@PostMapping("signup")
 	public String signup(UserVO userVO, Model model) {
 		
@@ -109,17 +104,16 @@ public class UserController {
 		// BCryptPasswordEncoder를 이용하여 비밀번호 암호화
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
 		String encryptedPassword = scpwd.encode(rawPassword);
-
 		System.out.println("암호화된 비밀번호: " + encryptedPassword);
-
 		userVO.setPassword(encryptedPassword);
-
-		userService.signup(userVO);
-		return "redirect:login";
 		
-		//TODO 회원가입 후 해당 이메일로 아이디 활성화 링크 보내기
-		//아이디 암호화해서 url/토큰값으로 생성해서 보내기
-		//해당링크에 접속시 아이디 활성화o
+		 // 토큰 생성
+        String emailToken = userService.generateRandomToken();
+        userVO.setEmailToken(emailToken);
+
+        // 회원가입 처리
+        userService.signup(userVO);
+		return "redirect:login";
 	}
 
 	// 사이트 회원 마이페이지
