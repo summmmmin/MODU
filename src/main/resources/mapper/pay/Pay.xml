@@ -12,4 +12,20 @@
 		 WHERE prj_uni_no = #{prjUniNo}
 		 ORDER BY pay_dt
  	</select>
+ 	
+ 	<!-- 프로젝트 첫결제 프로시저 -->
+ 	<insert id="insertPay" parameterType="PayVO" statementType="CALLABLE">
+ 		CALL create_pay
+		    (#{tid}, 
+		     #{partner_order_id}, 
+		     #{partner_user_id}, 
+		     #{approved_at}, 
+		     #{payment_method_type}, 
+		     #{amount.total}, 
+		     #{card_info.purchase_corp}, 
+		     #{name}, 
+		     #{email}, 
+		     #{phone},
+		     #{sid})
+ 	</insert>
  </mapper>

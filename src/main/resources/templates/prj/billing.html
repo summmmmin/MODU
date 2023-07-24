@@ -73,16 +73,16 @@
                                                 <div class="col-6">
                                                     <div class="col-md-12 col-12 mb-3">
                                                         <div class="form-group">
-                                                            <label for="first-name-column">이름</label>
-                                                            <input type="text" id="first-name-column" class="form-control"
-                                                                placeholder="이름" name="fname-column" th:value="${session.user.nm}">
+                                                            <label for="name-column">이름</label>
+                                                            <input type="text" id="name-column" class="form-control"
+                                                                placeholder="이름" name="name-column" th:value="${session.user.nm}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 col-12 mb-3">
                                                         <div class="form-group">
-                                                            <label for="last-name-column">연락처</label>
-                                                            <input type="text" id="last-name-column" class="form-control"
-                                                                placeholder="연락처" name="lname-column" th:value="${session.user.phNo}">
+                                                            <label for="phone-column">연락처</label>
+                                                            <input type="text" id="phone-column" class="form-control"
+                                                                placeholder="연락처" name="phone-column" th:value="${session.user.phNo}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 col-12 mb-3">
@@ -158,8 +158,8 @@
                                                     </div>
 
                                                     <div class="col-12 d-flex justify-content-end">
-                                                        <button type="submit"
-                                                            class="btn btn-primary btn-lg">결제하기</button>
+                                                        <button type="button"
+                                                            class="btn btn-primary btn-lg" onclick="payBtn()">결제하기</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -179,6 +179,26 @@
     <script src="assets/js/bootstrap.bundle.min.js"></script>
 
     <script src="assets/js/main.js"></script>
+    <script>
+    	function payBtn(){
+    		let name = document.querySelector('#name-column').value;
+    		let phone = document.querySelector('#phone-column').value;
+    		let email = document.querySelector('#email-id-column').value;
+    		let data = {'prjUniNo':'[[${prj.prjUniNo}]]','name': name, 'phone': phone, 'email': email}
+    		fetch("payment/ready",{
+				method : "post",
+				headers:{
+					'Content-Type' : 'application/json',
+				},
+				body : JSON.stringify(data),
+			}) 
+			.then((response) => response.json())
+			.then((data) => {
+					console.log(data)   
+					location.href = data.next_redirect_pc_url;
+				})
+    	}
+    </script>
 </body>
 
 </html>

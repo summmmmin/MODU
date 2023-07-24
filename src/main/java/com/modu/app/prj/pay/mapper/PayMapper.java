@@ -8,4 +8,7 @@ import com.modu.app.prj.pay.service.PayVO;
 public interface PayMapper {
 	// 프로젝트 결제 내역
 	public List<PayVO> selectPrjPay(String prjUniNo);
+	
+	// 프로젝트 결제 성공
+	public int insertPay(PayVO pay);
 }

@@ -57,9 +57,9 @@
                                         th:if="${prj.subspYn} == 'Y'">유료 플랜 해지</button>
                                         <button type="button" class="btn btn-primary me-1 mb-1" id="caOrRest1" data-bs-toggle="modal" data-bs-target="#cancelModal"
                                         th:if="${prj.subspYn} == 'C'">유료 플랜 재시작</button>
-                                        <button type="button" class="btn btn-primary me-1 mb-1" onclick=""
+                                        <button type="button" class="btn btn-primary me-1 mb-1" onclick="goBill()"
                                         th:if="${prj.subspYn} == 'N'">유료 플랜 시작</button>
-                                        <button type="button" class="btn btn-primary me-1 mb-1" onclick=""
+                                        <button type="button" class="btn btn-primary me-1 mb-1" onclick="goBill()"
                                         th:if="${prj.subspYn} == 'E'">유료 플랜 시작</button>
                                     </div>
                                   </div>
@@ -132,7 +132,7 @@
 				                                    <h4 class="card-title">유료 플랜</h4>
 				                                    <hr>
 				                                </div>
-				                                <h1 class="price"><span class="h2">월</span> 500 <span class="h2">원</span></h1>
+				                                <h1 class="price"><span class="h2">월</span> 12100 <span class="h2">원</span></h1>
 				                                <ul>
 				                                    <li><i class="bi bi-check-circle"></i>팀원 초대 무제한</li>
 				                                    <li><i class="bi bi-check-circle"></i>게시판 생성 무제한 </li>

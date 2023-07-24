@@ -24,4 +24,10 @@ public class PayController {
 
 		return "prj/billing";
 	}
+	
+	// 결제완료페이지
+	@GetMapping("billing/Success")
+	public String billSuccess() {
+		return "prj/success";
+	}
 }
