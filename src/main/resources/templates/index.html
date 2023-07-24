@@ -405,7 +405,7 @@ function clickInsert(){
 
 		//채팅방리스트
 		function showChatList(){
-			fetch("http://localhost/modu/chatrList")
+			fetch("/modu/chatrList")
 			.then(resolve => resolve.json())
 			.then(data => {
 				document.getElementById('chatrList').innerHTML = '';
@@ -424,23 +424,6 @@ function clickInsert(){
 		}
 		showChatList();
 
-		//채팅방생성모달안에페이지넣기
-		// document.getElementById('openMakeChatrModal').addEventListener('click', function () {
-		// 	let modalPlace = document.getElementById('makeChatrModal');
-		// 	let xhr = new XMLHttpRequest();
-		// 	xhr.onreadystatechange = function () {
-		// 		if (xhr.readyState === XMLHttpRequest.DONE) {
-		// 			if (xhr.status === 200) {
-		// 				modalPlace.innerHTML = xhr.responseText;
-		// 			} else {
-		// 				// Ajax 요청 실패 시 에러 처리
-		// 				console.error('Failed to load makeChatrForm :', xhr.status, xhr.statusText);
-		// 			}
-		// 		}
-		// 	};
-		// 	xhr.open('GET', 'http://localhost/modu/makeChatr', true);
-		// 	xhr.send();
-		// }) 
 
 		//채팅초대리스트
 		function callChatMemb(){
@@ -449,7 +432,7 @@ function clickInsert(){
 			let select = document.getElementById('memberSelect');
 			//console.log(select);
 
-			fetch("http://localhost:80/modu/chatMembs/" + pNum)
+			fetch("/modu/chatMembs/" + pNum)
 			.then(resolve => resolve.json())
 			.then(data => {
 				//console.log(data);
@@ -476,7 +459,7 @@ function clickInsert(){
 			makeChatInfo['particiMembUniNos'] = chatMembs;
 			//console.log(makeChatInfo);
 
-			fetch("http://localhost/modu/makeChatr", {
+			fetch("/modu/makeChatr", {
 					method: 'post',
 					headers: {
 						'content-type': 'application/json'
@@ -487,9 +470,6 @@ function clickInsert(){
 				.then(data => {
 					//console.log(data);
 					showChatList()
-					// setTimeout( () => {
-					// 	window.location.href = 'http://localhost:80/modu/chat/' + data.chatrNo;
-					// }, 5000);
 				})
 				.catch(err => console.log(err)) 
 		}

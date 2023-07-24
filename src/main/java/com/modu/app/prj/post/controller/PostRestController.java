@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.modu.app.prj.file.service.FileService;
+import com.modu.app.prj.file.service.FileVO;
 import com.modu.app.prj.post.service.MembDTO;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
@@ -37,6 +38,14 @@ public class PostRestController {
 	@GetMapping("post/{pNum}")
 	public PostVO postOne(@PathVariable("pNum") String postUniNo) {
 		return postService.getOnePost(postUniNo);
+	}
+	
+	// 첨부파일조회?
+	@GetMapping("attPost/{pNum}")
+	public List<FileVO> fileListWithPost(@PathVariable("pNum") String postUniNo){
+		FileVO fileVO = new FileVO();
+		fileVO.setPostUniNo(postUniNo);
+		return fileService.fileList(fileVO);
 	}
 	
 	// 등록

@@ -56,7 +56,8 @@
 									<p class="card-text">[[${post.postTagArm}]]</p>
 									<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 								</div>
-								첨부파일미리보기xxx아직안됨
+								<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}"></div>
+								첨부파일리스트 xxx미리보기아직안됨
 							</div>
 							<hr>
 							<div class="replyPlace card-body" th:data-postUniNo="${post.postUniNo}"></div>
@@ -182,7 +183,7 @@
 					getPnum.forEach(gNum => {
 					let pNum = gNum.value;
 
-					fetch('http://localhost:80/modu/replys/' + pNum)
+					fetch('/modu/replys/' + pNum)
 						.then(resolve => resolve.json())
 						.then(data => {
 							//console.log(data);
@@ -284,7 +285,7 @@
 					})
 					replyInfo["postUniNo"] = pNum;
 					
-					fetch('http://localhost:80/modu/replyInsert',{
+					fetch('/modu/replyInsert',{
 						method : 'post',
 						headers : {
 							'content-type' : 'application/json'
@@ -304,7 +305,7 @@
 			function callDeleteModal(e){
 				let rNum = e.target.parentElement.dataset.replyunino;
 				document.getElementById('deleteReplyBtn').addEventListener('click', function(e){
-					fetch('http://localhost:80/modu/replyDelete/'+rNum)
+					fetch('/modu/replyDelete/'+rNum)
 					//.then(resolve => resolve.json())
 					.then(data => {
 						showReplyList()
@@ -317,7 +318,7 @@
 			function callOneReply(e){
 				//console.log(e.target.parentElement.dataset.replyunino);
 				let rNum = e.target.parentElement.dataset.replyunino;
-				fetch('http://localhost:80/modu/reply/' + rNum)
+				fetch('/modu/reply/' + rNum)
 				.then(resolve => resolve.json())
 				.then(data => {
 					updateReplyForm.innerHTML = '';
@@ -349,7 +350,7 @@
 				let cntn = document.getElementById('updateReplyForm').children[1];
 				replyInfo['cntn'] = cntn.value;
 				//console.log(replyInfo);
-				fetch('http://localhost:80/modu/replyUpdate',{
+				fetch('/modu/replyUpdate',{
 					method : 'post',
 					headers : {
 						'content-type' : 'application/json'
@@ -428,23 +429,48 @@
 				let bNum = '[[${brdUniNo}]]'
 				document.getElementById('deleteBtn').addEventListener('click', function(e){
 
-					fetch('http://localhost:80/modu/postDelete/' + pNum)
+					fetch('/modu/postDelete/' + pNum)
 					//.then(resolve => resolve.json())
 					.then(data => {
 						console.log(data);
-						window.location.href = 'http://localhost:80/modu/postList?brdUniNo=' + bNum;
+						window.location.href = '/modu/postList?brdUniNo=' + bNum;
 					})
 					.catch(err => console.log(err)); 
 				})
-			
 			}
+
+			//첨부파일리스트
+			function attWithPost(){
+				let pNUMs = document.querySelectorAll('.getPostUniNo');
+				//console.log(pNUMs)
+				pNUMs.forEach(pNum => {
+					//console.log(pNum.value);
+					let apnum = pNum.value;
+					fetch('/modu/attPost/' + apnum)
+					.then(resolve => resolve.json())
+					.then(data => {
+						let aPlaceList = document.querySelectorAll('.attFilePlace');
+						aPlaceList.forEach(aPlace => {
+							if(aPlace.dataset.postunino == apnum){
+								data.forEach(atts => {
+									//console.log(atts.attNm);
+									let divTag = document.createElement('div');
+									divTag.textContent = atts.attNm;
+									aPlace.append(divTag);
+								})
+							}
+						})
+					})
+				})
+			}
+			attWithPost();
 
 			//공지리스트
 			function notiPostList(){
 				let bNum = '[[${brdUniNo}]]';
 				let notiPlace = document.querySelector('.notiPosts');
 				//console.log(notiPlace);
-				fetch('http://localhost:80/modu/notiPost/' + bNum)
+				fetch('/modu/notiPost/' + bNum)
 				.then(resolve => resolve.json())
 				.then(data => {
 					//console.log(data);
@@ -473,7 +499,7 @@
 					if(notiBTN.textContent == '공지등록'){
 						postInfo['postUniNo'] = pNum;
 						postInfo['notiYn'] = 'O';
-						fetch('http://localhost/modu/setPostNoti',{
+						fetch('/modu/setPostNoti',{
 							method : 'post',
 							headers : {
 								'content-type' : 'application/json'
@@ -490,7 +516,7 @@
 					}else{
 						postInfo['postUniNo'] = pNum;
 						postInfo['notiYn'] = 'X';
-						fetch('http://localhost/modu/setPostNoti',{
+						fetch('/modu/setPostNoti',{
 							method : 'post',
 							headers : {
 								'content-type' : 'application/json'
@@ -520,7 +546,7 @@
 						postInfo['postUniNo'] = pNum;
 						postInfo['replyArmYn'] = 'Y';
 				
-						fetch('http://localhost/modu/setPostReply',{
+						fetch('/modu/setPostReply',{
 							method : 'post',
 							headers : {
 								'content-type' : 'application/json'
@@ -536,7 +562,7 @@
 						postInfo['postUniNo'] = pNum;
 						postInfo['replyArmYn'] = 'N';
 				
-						fetch('http://localhost/modu/setPostReply',{
+						fetch('/modu/setPostReply',{
 							method : 'post',
 							headers : {
 								'content-type' : 'application/json'
