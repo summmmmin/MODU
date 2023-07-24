@@ -142,4 +142,33 @@ public class PrjRestController {
 		vo.setMemCnt(prjService.getPrjMemCnt(prjNo));
 		return vo;
 	}
+	
+	// 정기결제 해지/재시작
+	@GetMapping("payCancel")
+	public int payCancel(String prjNo) {
+		//프로젝트 정보
+		PrjVO vo = prjService.getPrjInfo(prjNo);
+
+		// 프로젝트 구독상태
+		String status = vo.getSubspYn();
+		if(status.equals("Y")) {
+			// 프로젝트 상태 구독중일때 해지 신청 상태로 변경(해지)
+			vo.setSubspYn("C");
+			if(prjService.setPrjSubsp(vo)>0) {
+				return 1;		// 업데이트 성공
+			}else {
+				return 0;
+			}
+		}else if(status.equals("C")) {
+			// 프로젝트 상태 구독중인데 해지 신청 상태일때 구독중으로 변경(재시작)
+			vo.setSubspYn("Y");
+			if(prjService.setPrjSubsp(vo)>0) {
+				return 2;		// 업데이트 성공
+			}else {
+				return 0;
+			}
+		}else {
+			return 0;
+		}
+	}
 }

@@ -1,31 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
-
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-	<link rel="stylesheet" href="assets/css/bootstrap.css">
+	
+	<!-- <link rel="stylesheet" href="assets/css/bootstrap.css">
 	<link rel="stylesheet" href="assets/css/app.css">
 	<link rel="stylesheet" href="assets/vendors/toastify/toastify.css">
-
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-
 	<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
 	<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
-
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
 	<link rel="stylesheet" href="assets/vendors/fontawesome/all.min.css">
 	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
 
-	<!-- Include Choices CSS -->
+	Include Choices CSS
 	<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
 	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-
-
-	
+	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css"> -->
 </head>
 
 <body>
@@ -35,7 +28,7 @@
 			<div class="col">
 				<div class="card">
 					<div class="card-body">
-						<form th:action="@{/postInsert}" method="POST" th:object="${post}">
+						<form th:action="@{/postInsert}" method="POST" th:object="${post}" enctype ="multipart/form-data">
 							<input type="hidden" th:field="*{brdUniNo}">
 							<input type="hidden" th:field="*{prjUniNo}">
 							<div class="form-group mb-3">
@@ -52,11 +45,11 @@
 								</div>
 								<hr>
 								<!--첨부파일부-->
-								첨부파일
 								<div class="form-group">
-									<!-- File uploader with multiple files upload -->
-									<input type="file" class="multiple-files-filepond" multiple>
-								</div>
+								<label for="basicInput" class="form-label">첨부파일</label><br>
+                                	<!-- File uploader with multiple files upload -->
+                                	<input type="file" name="file" class="multiple-files-filepond" multiple>
+                            	</div>
 								<hr>
 								<!--멤버호출부-->
 								<div class="form-group">
@@ -73,11 +66,9 @@
 								</div>
 							</div>
 						</form>
-
 					</div>
 				</div>
 			</div>
-
 		</div>
 		<script>
 			// Filepond: Multiple Files
@@ -88,6 +79,7 @@
 				required: false
 			});
 		</script>
+		
 		<!-- filepond validation -->
 		<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
 		</script>
@@ -95,7 +87,7 @@
 		</script>
 
 		<!-- image editor -->
-		<script
+		<!-- <script
 			src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js">
 		</script>
 		<script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
@@ -103,16 +95,16 @@
 		<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 		<script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
 
-		<!-- toastify -->
+		toastify
 		<script src="assets/vendors/toastify/toastify.js"></script>
 		<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 
-		<!-- filepond -->
+		filepond
 		<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
 		<script src="assets/js/bootstrap.bundle.min.js"></script>
-		<!-- Include Choices JavaScript -->
+		Include Choices JavaScript
 		<script src="assets/vendors/choices.js/choices.min.js"></script>
-		<script src="assets/js/main.js"></script>
+		<script src="assets/js/main.js"></script> -->
 		<!--end of layout-->
 	</div>
 </body>

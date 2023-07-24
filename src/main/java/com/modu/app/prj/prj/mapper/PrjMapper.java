@@ -40,4 +40,7 @@ public interface PrjMapper {
 	
 	// 프로젝트 정보
 	public PrjVO selectPrjInfo(String prjUniNo);
+	
+	// 프로젝트 구독 취소
+	public int updatePrjSubsp(PrjVO vo);
 }

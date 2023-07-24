@@ -37,4 +37,7 @@ public interface PrjService {
 	
 	// 프로젝트 정보
 	public PrjVO getPrjInfo(String prjUniNo);
+	
+	// 프로젝트 구독 해지/재시작
+	public int setPrjSubsp(PrjVO vo);
 }
