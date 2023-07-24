@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.modu.app.prj.post.service.ReplyService;
 import com.modu.app.prj.post.service.ReplyVO;
 
+// 230708 김자영 reply
+
 @RestController
 public class ReplyRestController {
-	// 230708 김자영 reply
 	
 	@Autowired
 	ReplyService replyService;
 	
 	//전체조회
-	@CrossOrigin
 	@GetMapping("replys/{pNum}")
 	public List<ReplyVO> replyList(@PathVariable("pNum") String postUniNo) {
 		return replyService.getAllReplyList(postUniNo);
@@ -37,11 +37,12 @@ public class ReplyRestController {
 	}
 	
 	//등록
-	@PostMapping("replyInsert/{pNum}")
-	public ReplyVO replyInsert(@RequestBody ReplyVO replyVO, @PathVariable("pNum") String postUniNo, HttpSession session) {
+	@PostMapping("replyInsert")
+	public ReplyVO replyInsert(@RequestBody ReplyVO replyVO, HttpSession session) {
+		//댓글작성자
 		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
-		replyVO.setPostUniNo(postUniNo);
 		replyVO.setParticiMembUniNo(particiMembUniNo);
+		
 		replyService.insertReply(replyVO);
 		return replyVO;
 	}
@@ -54,12 +55,10 @@ public class ReplyRestController {
 	}
 	
 	//삭제
-	@GetMapping("replyDelete/{rNum}")
-	public String replyDelete(@PathVariable("rNum") String replyUniNo) {
+	@GetMapping("replyDelete/{replyUniNo}")
+	public String replyDelete(@PathVariable String replyUniNo) {
 		replyService.deleteReply(replyUniNo);
 		return replyUniNo;
 	}
-	
-
 	
 }

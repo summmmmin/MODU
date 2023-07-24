@@ -137,7 +137,9 @@
                                                 </div>
                                             </div> -->
         <div class="card-body">
-          <p th:text="${prj.exdt}? '유료플랜 적용 기간 : '+${prj.exdt} : '무료플랜 이용중'">유료/무료</p>
+          <p th:text="${prj.exdt}? '유료플랜 적용 기간 : '+${#dates.format(prj.payDt, 'yyyy-MM-dd')}+' ~ '+${#dates.format(prj.exdt, 'yyyy-MM-dd')} : '무료플랜 이용중'">
+          	유료/무료
+          </p>
           <p th:text="${prj.cd}">등급</p>
           <p>프로젝트 이메일 : <span th:text="${prj.prjPubcId}? ${prj.prjPubcId} : ' '"></span></p>
         </div>
