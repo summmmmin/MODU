@@ -64,12 +64,15 @@ public class VoteController {
 	//투표 등록페이지 이동
 	@GetMapping("voteInsert")
 	public String todoInsertForm(HttpSession session,Model model){
+		
+		//내가 참여하고있는 프로젝트의 내가 참여하고있는 게시판 제목과 채팅방 제목들을 나열하기 위한 구문
 		BoardVO brd = new BoardVO();
 		brd.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		brd.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		List<BoardVO> boardList = boardService.BoardList(brd);
 		List<VoteVO> chatrList=voteService.chatrNm((String) session.getAttribute("particiMembUniNo"));
 		
+		//model에 한번에 넣는방법을 몰라서 새로운 객체를 만들어서 그 객체 안에 다 넣기
 		MyDataModel myDataModel = new MyDataModel();
 		myDataModel.setVoteVO(new VoteVO());
 		myDataModel.setChatrList(chatrList);
@@ -80,7 +83,7 @@ public class VoteController {
 		return "vote/voteInsert";
 	}
 	
-	// 투표 등록
+	// 투표
 	@PostMapping("voteInsert")
 	@ResponseBody
 	public String voteInsert(HttpSession session,@RequestBody VoteVO vote) {
@@ -91,7 +94,7 @@ public class VoteController {
 	}
 	
 	
-	// 투표 단건
+	// 투표 단건(=투표하는 페이지)
 	@GetMapping("voteInfo/{voteNo}")
 	public String voteInfo(HttpSession session,Model model,VoteVO vo, @PathVariable String voteNo,VoteDetaVO vdvo){
 		
@@ -129,7 +132,6 @@ public class VoteController {
 		voteService.voteDo(vo);
 		//변경 성공 여부
 		return vo;
-
 	}
 	// map 여러가지 넘기기
 //	Map<String, Object> map = new HashMap<>();

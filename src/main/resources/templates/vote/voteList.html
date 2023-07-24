@@ -23,8 +23,8 @@
 					투표 만들기</button>
 			</div>
 			<div class="card-content">
-				<div class="card-body" id="vote" th:each="i:${list}">
-				<div class="vote" onclick="voteInfo()" id=${i.voteNo}>
+				<div class="card-body" id="vote" >
+				<div class="vote" onclick="voteInfo()" th:each="i:${list}" th:id="${i.voteNo}">
 				<div th:if="${i.boardNm != null}">
 				<h4 class="card-title">장소:[[${i.boardNm}]]</h4>
 				</div>
@@ -43,47 +43,17 @@
 	</div>
 	
 <script>
-/* 	$.ajax("voteList")
-		.done(result=>{
-			console.log(result.);
-		for(i of result.list){
-			let div;
-			if (i.list.boardNm != null){
-			div=`<div class="vote" onclick="voteInfo()" id=${i.list.voteNo}>
-				<h4 class="card-title">장소:${i.list.boardNm}</h4>
-				<h2>제목:${i.ttl}</h2>
-				<small class="text-muted">${i.count.cnt}명 참여</small>
-				<p class="card-text">~${i.list.toDt}까지 마감</p>
-				</div>
-			`;
-			}else if(i.list.chatrNm != null){
-				div=`<div class="vote" onclick="voteInfo()" id=${i.voteNo}>
-					<h4 class="card-title">장소:${i.list.chatrNm}</h4>
-					<h2>제목:${i.ttl}</h2>
-					<small class="text-muted">${i.count.cnt}명 참여</small>
-					<p class="card-text">~${i.list.toDt}까지 마감</p>
-					</div>
-				`;
-			}
-			
-			$('#vote').append(div);
-			
-			
-			
-			}
- 		
- 			
-		
-		}) */
+
  		
 		//투표 상세로 가기
- 	function voteInfo(){
+/* 	function voteInfo(){
 		let vid = event.target.closest('div').id;
+		console.log(vid)
 		 $.ajax("voteInfo/"+vid)
 		.done(result =>{
 			$("#rsidebarContent").html(result);
 		}) 
-	}	
+	}	 */
 		
 		//투표 생성 폼으로 가기
   	function voteInsert(){
@@ -99,7 +69,41 @@
 		})	
 	} */
 	
+	</script>
 	
-</script>
+	<script>
+	/* 	$.ajax("voteList")
+	.done(result=>{
+		console.log(result.);
+	for(i of result.list){
+		let div;
+		if (i.list.boardNm != null){
+		div=`<div class="vote" onclick="voteInfo()" id=${i.list.voteNo}>
+			<h4 class="card-title">장소:${i.list.boardNm}</h4>
+			<h2>제목:${i.ttl}</h2>
+			<small class="text-muted">${i.count.cnt}명 참여</small>
+			<p class="card-text">~${i.list.toDt}까지 마감</p>
+			</div>
+		`;
+		}else if(i.list.chatrNm != null){
+			div=`<div class="vote" onclick="voteInfo()" id=${i.voteNo}>
+				<h4 class="card-title">장소:${i.list.chatrNm}</h4>
+				<h2>제목:${i.ttl}</h2>
+				<small class="text-muted">${i.count.cnt}명 참여</small>
+				<p class="card-text">~${i.list.toDt}까지 마감</p>
+				</div>
+			`;
+		}
+		
+		$('#vote').append(div);
+		
+		
+		
+		}
+		
+			
+	
+	}) */
+	</script>
 </body>
 </html>

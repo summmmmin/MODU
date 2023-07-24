@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.modu.app.cmmn.service.CmmnService;
+import com.modu.app.prj.file.service.FileService;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.todo.service.TodoService;
@@ -30,6 +32,9 @@ public class TodoController {
 	
 	@Autowired
 	CmmnService cmmnService;
+	
+	@Autowired
+	FileService fileService; //첨부파일용
 	
 	@Autowired
 	PrjService prjService;
@@ -65,12 +70,13 @@ public class TodoController {
 	//todo 등록
 	@PostMapping("todoInsert")
 	@ResponseBody
-	public String todoInsert(HttpSession session, TodoVO vo) {
+	public String todoInsert(HttpSession session, TodoVO vo, MultipartFile[] file) {
 		UserVO userVo = (UserVO) session.getAttribute("user");
-		vo.setWriter(userVo.getNm());
+		vo.setWriter((String) session.getAttribute("particiMembUniNo"));
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		System.out.println(vo);
 		todoService.insertTodo(vo);
+		fileService.insertFileWihtTodo(file, vo);
 		return "redirect:todo";
 	}
 	
