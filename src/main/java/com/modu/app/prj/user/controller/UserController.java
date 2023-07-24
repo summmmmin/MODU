@@ -85,11 +85,14 @@ public class UserController {
     @PostMapping("/idvaild")
     public ResponseEntity<String> checkIdDuplicate(@RequestBody String id) {
         int duplicateCount = userService.idVaild(id);
+        System.out.println(id);
         if (duplicateCount > 0) {
+        	System.out.println("아이디 중복체크 : " + duplicateCount);
             return ResponseEntity.ok("이미 존재하는 아이디입니다.");		//그냥 public string하면 이동해야 할 view를 지정해줘야 해서 ResponseEntity 사용
             														//ResponseEntity 객체를 사용하여 HTTP 응답의 상태 코드와 헤더, 바디를 모두 직접 제어O 
             														//문자열이 view 이름으로 인식되는 것을 방지
         } else {
+        	System.out.println("아이디 중복체크 : " +duplicateCount);
             return ResponseEntity.ok("사용 가능한 아이디입니다.");
         }
     }

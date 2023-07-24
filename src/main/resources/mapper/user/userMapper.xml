@@ -14,10 +14,12 @@
 		AND email_auth = 'Y'
 	</select>
 
-	<!-- 아이디 중복체크 -->
-	<select id="idVaild" resultType="int">
-		SELECT COUNT(*) FROM memb WHERE id = #{id}
-	</select>
+<!-- 아이디 중복체크 -->
+<select id="idVaild" resultType="int">
+    SELECT COUNT(*) FROM memb WHERE LOWER(id) = LOWER(#{id})
+</select>
+
+
 
 	<!-- 회원가입 -->
 	<insert id="signup" parameterType="UserVO">
