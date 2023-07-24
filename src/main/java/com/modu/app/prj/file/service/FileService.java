@@ -13,4 +13,7 @@ public interface FileService {
 	
 	//첨부파일리스트
 	public List<FileVO> fileList(FileVO fileVO);
+	
+	//첨부파일단건조회
+	public FileVO findFileById(String attNo);
 }

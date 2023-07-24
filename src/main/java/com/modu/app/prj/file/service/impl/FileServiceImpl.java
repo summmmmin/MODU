@@ -72,4 +72,9 @@ public class FileServiceImpl implements FileService {
 		return fileMapper.fileList(fileVO);
 	}
 
+	@Override
+	public FileVO findFileById(String attNo) {
+		return fileMapper.findFileById(attNo);
+	}
+
 }

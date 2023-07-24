@@ -89,4 +89,21 @@
 				todo_uni_no = #{todoUniNo}
 			 </if>
 	</select>
+	
+	<!-- 첨부파일단건조회 -->
+	<select id="findFileById" resultType="FileVO">
+		SELECT att_no, 
+			   partici_memb_uni_no, 
+			   att_nm, 
+			   server_att_nm, 
+			   f_size, 
+			   ext, 
+			   post_uni_no, 
+			   chat_no, dn_yn, 
+			   notice_uni_no, 
+			   faq_no, 
+			   todo_uni_no 
+		  FROM att 
+		 WHERE att_no = #{attNo} 
+	</select>
 </mapper>

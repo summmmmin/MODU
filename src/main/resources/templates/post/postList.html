@@ -10,8 +10,9 @@
 	<link rel="stylesheet" href="assets/css/bootstrap.css">
 	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
 	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-	<link rel="stylesheet" href="assets/css/app.css">
-	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon"> -->
+	<link rel="stylesheet" href="assets/css/app.css"> 
+	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon"> 
+	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">-->
 </head>
 
 <body>
@@ -54,11 +55,19 @@
 									<hr>
 									<p class="card-text">[[${post.cm}]]</p>
 									<p class="card-text">[[${post.postTagArm}]]</p>
-									<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 								</div>
-								<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}"></div>
+								<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}">
+									<div>
+										<a href = '#'>
+											<svg class="bi" width="1em" height="1em" fill="currentColor">
+												<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark" />
+											</svg>
+										</a>첨부파일이름
+									</div>
+								</div>
 								첨부파일리스트 xxx미리보기아직안됨
 							</div>
+									<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 							<hr>
 							<div class="replyPlace card-body" th:data-postUniNo="${post.postUniNo}"></div>
 							<hr>
@@ -453,10 +462,31 @@
 						aPlaceList.forEach(aPlace => {
 							if(aPlace.dataset.postunino == apnum){
 								data.forEach(atts => {
-									//console.log(atts.attNm);
 									let divTag = document.createElement('div');
-									divTag.textContent = atts.attNm;
+
+									let aTag = document.createElement('a');
+									aTag.setAttribute('href', "/modu/files/" + atts.attNo + "/download");
+									
+									// let icons = document.createElement('svg'); 
+									// icons.setAttribute('class', 'bi');
+									// icons.setAttribute('width', '1em');
+									// icons.setAttribute('height', '1em');
+									// icons.setAttribute('fill', 'currentColor');
+									// aTag.append(icons);
+									
+									// let icon = document.createElement('use');
+									// icon.setAttribute('xlink:href', 'assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark'); 
+									// icons.append(icon);
+									let icon = `<i class="bi bi-file-earmark"></i>`;
+									aTag.innerHTML += icon;
+									let spanTag = document.createElement('span'); // Create a new 'span' element to hold the file name
+									spanTag.textContent = atts.attNm;
+									aTag.append(spanTag);
+									
+									divTag.append(aTag);
+
 									aPlace.append(divTag);
+
 								})
 							}
 						})
