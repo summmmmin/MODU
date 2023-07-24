@@ -7,6 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Random;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -61,10 +63,27 @@ public class UserController {
 	public String signForm() {
 		return "user/signup";
 	}
+	
+	
+	// 회원가입 폼에서 인증번호 확인
+    @PostMapping("/verify")
+    public String verify(@RequestParam("verificationCode") String verificationCode, HttpSession session) {
+        // 세션에서 인증번호 가져오기
+        String storedCode = (String) session.getAttribute("smsConfirmNum");
+
+        // 인증번호 비교
+        if (verificationCode.equals(storedCode)) {
+            return "인증 성공";
+        } else {
+            return "인증 실패";
+        }
+    }
 
 	// 회원가입 처리
+	
 	@PostMapping("signup")
 	public String signup(UserVO userVO, Model model) {
+		
 		// 사용자가 입력한 비밀번호를 가져옴
 		String rawPassword = userVO.getPassword();
 
@@ -78,6 +97,10 @@ public class UserController {
 
 		userService.signup(userVO);
 		return "redirect:login";
+		
+		//TODO 회원가입 후 해당 이메일로 아이디 활성화 링크 보내기
+		//아이디 암호화해서 url/토큰값으로 생성해서 보내기
+		//해당링크에 접속시 아이디 활성화o
 	}
 
 	// 사이트 회원 마이페이지
@@ -114,7 +137,7 @@ public class UserController {
 	// 사이트 회원 비밀번호 찾기
 	@PostMapping("pwdSearch")
 	public @ResponseBody String pwdSearch(@RequestParam("id") String id) {
-		String newPassword = generateRandomPassword(); // Generate a new random password
+		String newPassword = generateRandomPassword();
 
 		// 이메일 발송
 		SendEmail.gmailSend(id, newPassword);
@@ -159,6 +182,8 @@ public class UserController {
 
 		return randomPassword.toString();
 	}
+
+
 
 	// 카카오 oauth방식 로그인
 	@RestController

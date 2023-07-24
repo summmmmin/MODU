@@ -14,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 public class SendEmail {
 	public static void gmailSend(String userId, String newPassword) {
 		String user = "qomo596@gmail.com"; // 발신 gmail 계정
-		String password = "mehkjbnookiyggaa"; // gmail 패스워드(2단계 앱보안 비밀번호)
+		String password = "mehkjbnookiyggaa"; // gmail 패스워드(2단계 앱보안 비밀번호 테스트파일에 넣어둠)
 
 		// SMTP 서버 정보를 설정한다.
 		Properties prop = new Properties();
@@ -45,6 +45,8 @@ public class SendEmail {
 			message.setText(emailContent);
 
 			Transport.send(message); //// 전송
+			
+			
 			System.out.println("비밀번호 재설정 메일 발송완료");
 		} catch (AddressException e) {
 			e.printStackTrace();
@@ -52,14 +54,16 @@ public class SendEmail {
 			e.printStackTrace();
 		}
 	}
-
-	public static void main(String[] args) {
-		String userId = "user@example.com"; // 수신자 이메일 주소
-		String newPassword = "newPassword"; // 새로운 비밀번호
-
-		SendEmail.gmailSend(userId, newPassword);
-
-		System.out.printf("이메일 전송되었습니다 > " + userId, newPassword);
-	}
+	
+	
+//	테스트용 코드
+//	public static void main(String[] args) {
+//		String userId = "user@example.com"; // 수신자 이메일 주소
+//		String newPassword = "newPassword"; // 새로운 비밀번호
+//
+//		SendEmail.gmailSend(userId, newPassword);
+//
+//		System.out.printf("이메일 전송되었습니다 > " + userId, newPassword);
+//	}
 
 }

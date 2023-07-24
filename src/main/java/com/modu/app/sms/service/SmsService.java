@@ -2,7 +2,6 @@ package com.modu.app.sms.service;
 
 import java.io.UnsupportedEncodingException;
 
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
@@ -31,15 +30,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
 
-
-
 @PropertySource("classpath:application.properties")
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class SmsService {
 	// 휴대폰 인증 번호
-	private final String smsConfirmNum = createSmsKey();
+	
 
 	@Value("${naver-cloud-sms.accessKey}")
 	private String accessKey;
@@ -52,7 +49,8 @@ public class SmsService {
 
 	@Value("${naver-cloud-sms.senderPhone}")
 	private String phone;
-	
+
+	private String smsConfirmNum;
 
 	public String getSignature(String time)
 			throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
@@ -75,10 +73,12 @@ public class SmsService {
 
 		return encodeBase64String;
 	}
-
+	
+	
 	public SmsResponseDTO sendSms(MessageDTO messageDTO) throws JsonProcessingException, RestClientException,
 			URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		String time = Long.toString(System.currentTimeMillis());
+		String smsConfirmNum = createSmsKey();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -89,14 +89,14 @@ public class SmsService {
 		List<MessageDTO> messages = new ArrayList<>();
 		messages.add(messageDTO);
 
-        SmsRequestDTO request = SmsRequestDTO.builder()
-                .type("SMS")
-                .contentType("COMM")
-                .countryCode("82")
-                .from(phone)
-                .content("인증번호 [" + smsConfirmNum + "]")
-                .messages(messages)
-                .build();
+		SmsRequestDTO request = SmsRequestDTO.builder()
+				.type("SMS")
+				.contentType("COMM")
+				.countryCode("82")
+				.from(phone)
+				.content("인증번호 [" + smsConfirmNum + "]")
+				.messages(messages)
+				.build();
 
 		// 쌓은 바디를 json형태로 반환
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -110,15 +110,24 @@ public class SmsService {
 		SmsResponseDTO smsResponseDTO = restTemplate.postForObject(
 				new URI("https://sens.apigw.ntruss.com/sms/v2/services/" + serviceId + "/messages"), httpBody,
 				SmsResponseDTO.class);
-		return smsResponseDTO;
+	    SmsResponseDTO responseDTO = new SmsResponseDTO(smsConfirmNum);
+	    return smsResponseDTO;
 	}
 
-	// 인증코드 만들기
-	public static String createSmsKey() {
-	    Random rnd = new Random();
-	    int code = 10000 + rnd.nextInt(90000); // 10000부터 99999 사이의 무작위 숫자 생성
+    // 인증코드 만들기
+    private String createSmsKey() {
+        StringBuffer key = new StringBuffer();
+        Random rnd = new Random();
 
-	    return String.valueOf(code);
-	}
+        for (int i = 0; i < 5; i++) { 						// 인증코드 5자리
+            key.append((rnd.nextInt(10)));
+        }
+        System.out.println("인증번호 확인: " +key);
+        return key.toString();
+    }
+
+    public boolean isSmsCodeValid(String inputSmsCode) {
+        return smsConfirmNum != null && smsConfirmNum.equals(inputSmsCode);
+    }
 
 }
