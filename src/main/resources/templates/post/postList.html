@@ -42,7 +42,7 @@
 										...
 									</button>
 									<div class="postDDM dropdown-menu" th:data-postUniNo="${post.postUniNo}" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item" href="#">즐겨찾기</a> 
+										<a class="dropdown-item" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
 										<a class="dropdown-item" th:if="${post.notiYn} == 'X'" href="#">공지등록</a>
 										<a class="dropdown-item" th:if="${post.notiYn} == 'O'" href="#">공지등록해제</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" class="dropdown-item" href="#">댓글알림ON</a>
@@ -487,6 +487,26 @@
 				}) 
 			})
 		</script>
+		
+<script> <!-- 게시글 즐겨찾기 등록 -->
+function PostBm(){
+	console.log(event.target.id);
+	
+	let postNo = event.target.id;
+	let particiMembUniNo = '[[${session.particiMembUniNo}]]';
+}
+	fetch('/modu/BmInsert',{
+		method:'POST',
+		headers : {
+			'content-type' : 'application/json'
+		},
+		body : JSON.stringify(data)
+	})
+	.then(response => response.json())
+	.then(data => {
+		console.log(data);
+	})
+</script>
 	</div>
 </div>
 </body>

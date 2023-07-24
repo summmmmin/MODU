@@ -1,6 +1,6 @@
 package com.modu.app.prj.bm.service;
 
-
+import java.util.List;
 
 public interface BmService {
 	
@@ -17,5 +17,5 @@ public interface BmService {
 	public BmVO BmInsert(BmVO vo);
 	
 	//파일, 채팅, 댓글 즐겨찾기 리스트
-	public BmVO BmSelect(BmVO vo);
+	public List<BmVO>BmSelect(BmVO vo);
 }

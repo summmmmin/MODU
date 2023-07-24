@@ -30,7 +30,7 @@
 	
 	<!-- 채팅,댓글,파일 즐겨찾기 등록 -->
 	<insert id="BmInsert" parameterType="BmVO">
-		INSERT INTO bm VALUES (bm_seq.nextval,sysdate,#{particiMembUniNo},#{postUniNo},#{attNo},#{chatNo})	
+		INSERT INTO bm VALUES ('bm'||bm_seq.nextval,sysdate,#{particiMembUniNo},#{postUniNo},#{attNo},#{chatNo})	
 	</insert>
 	
 	<!-- 채팅,댓글,파일 즐겨찾기 리스트 -->
