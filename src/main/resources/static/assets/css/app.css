@@ -318,7 +318,7 @@
 .pricing .card {
   box-shadow: none;
   border-right: 1px solid #e9ecef;
-  box-shadow: 0 10px 10px #e9ecef;
+  box-shadow: 0 10px 10px gray;
   margin-bottom: 0.5rem;
 }
 .pricing h1 {
@@ -1278,4 +1278,15 @@ a {
 }
 .icon-mid:before {
   vertical-align: middle;
+}
+
+/* 2023-07-23 하수민 요금안내 css 추가 */
+.pricing .card-highlighted button{
+  background-color: #fff;
+  color: #435ebe;
+}
+
+.pricing .card-highlighted h1 span,
+.pricing .card-highlighted h1 {
+  color: #fff;
 }

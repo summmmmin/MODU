@@ -30,9 +30,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 		return userVO;
 	}
-
+	
 	@Override
-	public UserVO loginCheck(String id) {
-		return userMapper.loginCheck(id);
+	public int signup(UserVO userVO) {
+		return userMapper.signup(userVO);
 	}
 }

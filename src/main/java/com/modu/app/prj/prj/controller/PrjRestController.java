@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
-
+// 2023-07-20 하수민 프로젝트 관리
 @RestController
 @RequestMapping("manage/")
 public class PrjRestController {
@@ -42,9 +42,8 @@ public class PrjRestController {
 	
 	// 프로젝트 이름 변경
 	@PostMapping("updatePrjNm")
-	public String updatePrjNm(@RequestBody PrjVO vo) {
-		String json = "";
-		System.out.println("받은값"+vo);
+	public Map<String, Object> updatePrjNm(@RequestBody PrjVO vo) {
+
 		Map<String, Object> map = new HashMap<>();
 		int result = prjService.setPrjNm(vo);
 		
@@ -55,16 +54,7 @@ public class PrjRestController {
 		}else {
 			map.put("retCode", "Fail");
 		}
-		
-		// Map을 JSON으로
-		ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            json = objectMapper.writeValueAsString(map);
-            System.out.println(json);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-		return json;
+		return map;
 	}
 	
 	// 프로젝트 삭제
@@ -97,17 +87,18 @@ public class PrjRestController {
 			// 등급이 '나무'인 사람 찾기
 			info = prjService.getMemInfo(info);
 			info.setGrd("G02");
+			// 원래 나무 등급인 사람 등급 새싹으로
 			prjService.setGrade(info);
-			
+			// 새로운 나무 등급
 			prjService.setGrade(vo);
 		}else {
 			prjService.setGrade(vo);
 		}
+		
 		// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
 		HttpSession session = request.getSession();
 		UserVO user = (UserVO) session.getAttribute("user");
 		info = new PrjVO();
-		info.setCd(null);
 		info.setMembUniNo(user.getMembUniNo());
 		info.setPrjUniNo(vo.getPrjUniNo());
 		info = prjService.getMemInfo(info);
@@ -122,6 +113,8 @@ public class PrjRestController {
 	// 프로젝트 회원 탈퇴
 	@PostMapping("kickMemb")
 	public String kickPrjParti(@RequestBody PrjVO vo, HttpServletRequest request) {
+		
+		// 탈퇴 시 프로젝트 참여 멤버 테이블 참여여부 'N'으로 바꾸기
 		prjService.kickPrjParti(vo);
 		
 		// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
@@ -141,11 +134,41 @@ public class PrjRestController {
 		}
 	}
 	
+	
 	@GetMapping("prjInfo")
 	public PrjVO prjInfo(String prjNo) {
 		System.out.println(prjNo);
 		PrjVO vo = prjService.getPrjInfo(prjNo);
 		vo.setMemCnt(prjService.getPrjMemCnt(prjNo));
 		return vo;
+	}
+	
+	// 정기결제 해지/재시작
+	@GetMapping("payCancel")
+	public int payCancel(String prjNo) {
+		//프로젝트 정보
+		PrjVO vo = prjService.getPrjInfo(prjNo);
+
+		// 프로젝트 구독상태
+		String status = vo.getSubspYn();
+		if(status.equals("Y")) {
+			// 프로젝트 상태 구독중일때 해지 신청 상태로 변경(해지)
+			vo.setSubspYn("C");
+			if(prjService.setPrjSubsp(vo)>0) {
+				return 1;		// 업데이트 성공
+			}else {
+				return 0;
+			}
+		}else if(status.equals("C")) {
+			// 프로젝트 상태 구독중인데 해지 신청 상태일때 구독중으로 변경(재시작)
+			vo.setSubspYn("Y");
+			if(prjService.setPrjSubsp(vo)>0) {
+				return 2;		// 업데이트 성공
+			}else {
+				return 0;
+			}
+		}else {
+			return 0;
+		}
 	}
 }

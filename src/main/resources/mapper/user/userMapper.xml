@@ -9,9 +9,10 @@
 		select *
 		from memb
 		where id= #{id}
+		AND QUIT = 'N'
 	</select>
 	
-	<insert id="signUp" parameterType="UserVO">
+	<insert id="signup" parameterType="UserVO">
 		INSERT INTO memb (
 											MEMB_UNI_NO
 											, ID
@@ -24,11 +25,12 @@
 											, REG_DT
 											)
 		VALUES						(
-											#{'m' || memb_seq.val}
+											'mt' || memb_seq.nextval
 											,#{id}
 											,#{pwd}
-											,{nm}
-											,{phNo}
+											,#{nm}
+											,#{phNo}
+											,'N'
 											,'N'
 											,'N'
 											,sysdate
