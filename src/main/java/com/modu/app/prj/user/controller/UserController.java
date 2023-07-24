@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.modu.app.prj.user.mapper.UserMapper;
 import com.modu.app.prj.user.service.KakaoToken;
 import com.modu.app.prj.user.service.UserService;
 import com.modu.app.prj.user.service.UserVO;
@@ -36,6 +38,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	UserMapper userMapper;
 
 	@Autowired
 	KakaoToken kakaoToken;
@@ -57,12 +62,11 @@ public class UserController {
 		return "user/signup";
 	}
 
+	// 회원가입 처리
 	@PostMapping("signup")
 	public String signup(UserVO userVO, Model model) {
 		// 사용자가 입력한 비밀번호를 가져옴
 		String rawPassword = userVO.getPassword();
-
-		System.out.println("입력받은 비밀번호: " + rawPassword);
 
 		// BCryptPasswordEncoder를 이용하여 비밀번호 암호화
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
@@ -76,6 +80,87 @@ public class UserController {
 		return "redirect:login";
 	}
 
+	// 사이트 회원 마이페이지
+	@GetMapping("userPage")
+	public String userPageForm(UserVO userVO, Model model) {
+		return "user/userPage";
+	}
+
+	// 사이트 회원 수정
+	@GetMapping("userModify")
+	public String userModifyForm(UserVO userVO) {
+		return "user/userModify";
+	}
+
+	// 사이트 회원 정보 수정 로직
+//	@PostMapping("userModify")
+//	public String userModify(UserVO userVO) {
+//		
+//	}
+
+	// 사이트 회원 아이디 찾기
+
+	@GetMapping("idSearch")
+	public String idSearchForm(UserVO userVO) {
+		return "user/idSearch";
+	}
+
+	// 사이트 회원 비밀번호 찾기페이지(팝업창으로 뜸)
+	@GetMapping("pwdSearch")
+	public String pwdSearchForm(UserVO userVO) {
+		return "user/pwdSearch";
+	}
+
+	// 사이트 회원 비밀번호 찾기
+	@PostMapping("pwdSearch")
+	public @ResponseBody String pwdSearch(@RequestParam("id") String id) {
+		String newPassword = generateRandomPassword(); // Generate a new random password
+
+		// 이메일 발송
+		SendEmail.gmailSend(id, newPassword);
+
+		System.out.println("비밀번호 재설정 완료 " + newPassword);
+
+		// 비밀번호 재설정
+		UserVO userVO = new UserVO();
+		userVO.setId(id);
+		userVO.setPwd(newPassword);
+
+		// 암호화
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String encryptedPassword = passwordEncoder.encode(newPassword);
+		userVO.setPwd(encryptedPassword);
+
+		userMapper.pwdSearch(userVO);
+
+		return newPassword;
+	}
+
+	// 비밀번호 재설정 때 사용할 랜덤 비밀번호
+	private String generateRandomPassword() {
+		// 생성할 비밀번호의 길이
+		int passwordLength = 8;
+
+		// 알파벳 대소문자와 숫자를 포함한 모든 가능한 문자
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+		// 무작위 문자열을 생성하기 위한 StringBuilder사용
+		StringBuilder randomPassword = new StringBuilder(passwordLength);
+
+		// 랜덤 객체 생성
+		Random random = new Random();
+
+		// 비밀번호 길이만큼 무작위 문자 선택하여 문자열 생성
+		for (int i = 0; i < passwordLength; i++) {
+			int index = random.nextInt(characters.length());
+			char randomChar = characters.charAt(index);
+			randomPassword.append(randomChar);
+		}
+
+		return randomPassword.toString();
+	}
+
+	// 카카오 oauth방식 로그인
 	@RestController
 	@AllArgsConstructor
 	@RequestMapping("oauth")
@@ -86,14 +171,12 @@ public class UserController {
 		public void kakaoCallback(@RequestParam String code) {
 			System.out.println(code);
 			String access_Token = kakaoToken.getKaKaoAccessToken(code);
-			
+
 			HashMap<String, Object> userInfo = kakaoToken.getUserInfo(access_Token);
 			System.out.println("###access_Token#### : " + access_Token);
 			System.out.println("###nickname#### : " + userInfo.get("nickname"));
 			System.out.println("###email#### : " + userInfo.get("email"));
 			System.out.println("카카오 토큰 발급 : " + access_Token);
-			
 		}
 	}
-
 }

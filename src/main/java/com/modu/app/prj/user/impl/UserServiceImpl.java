@@ -35,4 +35,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public int signup(UserVO userVO) {
 		return userMapper.signup(userVO);
 	}
+	
+	@Override
+	public int idSearch(UserVO userVO) {
+		return userMapper.idSearch(userVO);
+	}
+	
+	@Override
+	public int pwdSearch(UserVO userVO) {
+		return userMapper.pwdSearch(userVO);
+	}
 }

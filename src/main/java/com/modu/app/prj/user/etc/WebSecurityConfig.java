@@ -33,7 +33,7 @@ public class WebSecurityConfig {
 	       http
 	           .csrf().disable()
 	           .authorizeHttpRequests()
-	           .antMatchers("/assets/**", "/signup", "/sms/**").permitAll()
+	           .antMatchers("/assets/**", "/signup", "/sms/**", "/modu/**").permitAll()
 	           .anyRequest().authenticated()
 	           .and()
 	           .formLogin()
@@ -41,6 +41,7 @@ public class WebSecurityConfig {
 	           .successHandler(authenticationSuccessHandler())
 	           .failureHandler(authenticationFailureHandler())
 	           .loginPage("/login")
+	           .failureUrl("/login?error=true") // 로그인 실패
 	           .permitAll()
 	           .and()
 	           .logout((logout) -> logout.permitAll());
