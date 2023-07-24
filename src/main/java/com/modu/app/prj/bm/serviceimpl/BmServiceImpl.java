@@ -22,11 +22,11 @@ public class BmServiceImpl implements BmService {
 	public int BrdBmInsert(BmVO vo) {
 		int result = 0;
 		// 값 조회
-		int bmCount = bmMapper.BrdBmCount(vo);
-		System.out.println(bmCount);
+		int BrdbmCount = bmMapper.BrdBmCount(vo);
+		System.out.println(BrdbmCount);
 		System.out.println(vo);
 		// 값이 없으면 등록
-		if (bmCount == 0) {
+		if (BrdbmCount == 0) {
 			result = bmMapper.BrdBmInsert(vo);
 		// 값이 있으면 삭제
 		}else {
@@ -37,7 +37,7 @@ public class BmServiceImpl implements BmService {
 	
 	// 게시판 즐겨찾기 Count 0이면 등록 1이면 삭제
 	@Override
-	public int BmCount(BmVO vo) {
+	public int BrdBmCount(BmVO vo) {
 		return bmMapper.BrdBmCount(vo);
 	}
 	

@@ -34,6 +34,7 @@
 							<input class="getPostUniNo" type="hidden"	th:value="${post.postUniNo}">
 							<div class="row">
 								<h4 class="card-title col" th:id="${post.postUniNo}">[[${post.ttl}]]</h4>
+			
 								<small class="text-muted">[[${post.nnm}]]</small>
 							</div>
 							<div class="row">
@@ -61,7 +62,7 @@
 							<div class="replyPlace card-body" th:data-postUniNo="${post.postUniNo}"></div>
 							<hr>
 							<div class="form-group position-relative has-icon-right">
-								<input name="replyUniNo" type="hidden" class="replyInput form-control"> 
+								<input name="replyUniNo" type="hidden" class="replyInput form-control" id="replyId"> 
 								<input name="postUniNo" type="hidden" th:value="${post.postUniNo}" class="replyInput form-control"> 
 								<input name="cntn" type="text" class="replyInput form-control" placeholder="reply">
 								<div class="form-control-icon">
@@ -235,8 +236,12 @@
 												divTagDM.append(aTag);
 												divTag.append(divTagDM);
 												rPlace.append(divTag);
+												
+												
+												
+												
 											}
-											//end of reply-dropdown
+											//end of reply-dropdown 
 
 											let pTag = document.createElement('p');
 											pTag.setAttribute('class', 'card-text');
@@ -492,11 +497,14 @@
 function PostBm(){
 	console.log(event.target.id);
 	
- 	let postNo = event.target.id;
+	
+  	let postNo = event.target.id;
 	let particiMembUniNo = '[[${session.particiMembUniNo}]]';
+	let replyUniNo = document.getElementById();
 	let data = {
 			'particiMembUniNo' : particiMembUniNo,
 			'postUniNo' : postNo
+			'replyUniNo' : replyUniNo
 	}
 	fetch('/modu/BmInsert',{
 		method:'POST',
@@ -508,7 +516,7 @@ function PostBm(){
 	.then(response => response.json())
 	.then(data => {
 		console.log(data);
-	})
+	}) 
 }
 </script>
 	</div>

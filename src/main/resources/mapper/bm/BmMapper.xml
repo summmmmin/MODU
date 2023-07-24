@@ -35,8 +35,10 @@
 	
 	<!-- 채팅,댓글,파일 즐겨찾기 리스트 -->
 	<select id="BmSelect" resultType="BmVO" parameterType="BmVO">
-	select * from bm
+	SELECT * from bm
 	WHERE partici_memb_uni_no = #{particiMembUniNo}
 	</select>
+	
+	
 	
  </mapper>

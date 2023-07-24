@@ -63,13 +63,13 @@
 									<label for="basicInput" class="form-label">멤버호출</label>
 									<select class="choices form-select multiple-remove" multiple="multiple" th:field="*{postTagArm}">
 										<option th:each="memb : ${membList}" th:value="${memb.particiMembUniNo}">[[${memb.nnm}]]</option>
-									</select>
+									</select>		<button type="submit" class="btn btn-primary">등록</button>
+					
 								</div>
 								<!--버튼부-->
 								<hr>
 								<div class="buttons">
-									<button type="submit" class="btn btn-primary">등록</button>
-									<button type="reset" class="btn btn-light">취소</button>
+											<button type="reset" class="btn btn-light">취소</button>
 								</div>
 							</div>
 						</form>

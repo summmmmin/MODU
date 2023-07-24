@@ -18,13 +18,11 @@ public class BmController {
 	@Autowired
 	BmService bmService;
 
-	// 게시판 즐겨찾기 추가
+	// 게시판 즐겨찾기 등록
 	@PostMapping("BrdBmInsert")
 	@ResponseBody
 	public BmVO BrdBmInsert(@RequestBody BmVO vo) {
 		bmService.BrdBmInsert(vo);
-		System.out.println("asdasdasdasdasdlma;lsdm;alsmlams;dlmsaldmaknsoindaonsd");
-		System.out.println(vo);
 		return vo;
 	}
 	
@@ -34,8 +32,6 @@ public class BmController {
 	@ResponseBody
 	public BmVO BmInsert(@RequestBody BmVO vo) {
 		bmService.BmInsert(vo);
-		System.out.println("BmInsert까지 들어온다야 ");
-		System.out.println(vo);
 		return vo;
 	}
 	

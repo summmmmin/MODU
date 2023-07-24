@@ -20,5 +20,5 @@ public interface BmMapper {
 	
 	//파일, 채팅, 댓글 즐겨찾기 리스트
 	public List<BmVO>BmSelect(BmVO vo);
-
+	
 }

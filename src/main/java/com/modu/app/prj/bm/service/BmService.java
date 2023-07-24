@@ -8,7 +8,7 @@ public interface BmService {
 	public int BrdBmInsert(BmVO vo);
 	
 	//즐겨찾기 Count로 비교해서 별 색 유지
-	public int BmCount(BmVO vo);
+	public int BrdBmCount(BmVO vo);
 	
 	//즐겨찾기 해제
 	public int BmDelete(BmVO vo);
@@ -18,4 +18,5 @@ public interface BmService {
 	
 	//파일, 채팅, 댓글 즐겨찾기 리스트
 	public List<BmVO>BmSelect(BmVO vo);
+	
 }
