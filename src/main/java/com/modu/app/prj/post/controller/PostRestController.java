@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.modu.app.prj.file.service.FileService;
 import com.modu.app.prj.post.service.MembDTO;
-import com.modu.app.prj.post.service.PostDTO;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
 
