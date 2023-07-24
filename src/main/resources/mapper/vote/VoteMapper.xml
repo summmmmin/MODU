@@ -49,6 +49,7 @@
  	where vote_no=#{voteNo}
  	</select>
  	
+ 	<!-- 투표참여자수 -->
  	<select id="voteCount" resultType="VoteDetaVO">
  	select vote_no,sum(cnt) cnt
     from vote_deta

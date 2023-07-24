@@ -97,5 +97,10 @@ public class VoteServiceImpl implements VoteService {
 		return voteMapper.voteMaker(vid);
 	}
 
+	//투표 참여자수
+	public VoteDetaVO voteCount(String vno) {
+		return voteMapper.voteCount(vno);
+	}
+
 
 }

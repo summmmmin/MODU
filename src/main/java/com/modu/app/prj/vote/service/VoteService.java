@@ -23,6 +23,9 @@ public interface VoteService {
 	//재투표방지
 	public VoteDetaVO whoVote(VoteDetaVO vo);
 	
+	//투표 참여자수
+	public VoteDetaVO voteCount(String vno);
+	
 	//투표 제작자
 	public VoteVO voteMaker(String vid);
 	
