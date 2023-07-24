@@ -35,6 +35,7 @@
 							<input class="getPostUniNo" type="hidden"	th:value="${post.postUniNo}">
 							<div class="row">
 								<h4 class="card-title col" th:id="${post.postUniNo}">[[${post.ttl}]]</h4>
+			
 								<small class="text-muted">[[${post.nnm}]]</small>
 							</div>
 							<div class="row">
@@ -43,7 +44,7 @@
 										...
 									</button>
 									<div class="postDDM dropdown-menu" th:data-postUniNo="${post.postUniNo}" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item" href="#">즐겨찾기</a> 
+										<a class="dropdown-item" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
 										<a class="dropdown-item" th:if="${post.notiYn} == 'X'" href="#">공지등록</a>
 										<a class="dropdown-item" th:if="${post.notiYn} == 'O'" href="#">공지등록해제</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" class="dropdown-item" href="#">댓글알림ON</a>
@@ -62,7 +63,7 @@
 							<div class="replyPlace card-body" th:data-postUniNo="${post.postUniNo}"></div>
 							<hr>
 							<div class="form-group position-relative has-icon-right">
-								<input name="replyUniNo" type="hidden" class="replyInput form-control"> 
+								<input name="replyUniNo" type="hidden" class="replyInput form-control" id="replyId"> 
 								<input name="postUniNo" type="hidden" th:value="${post.postUniNo}" class="replyInput form-control"> 
 								<input name="cntn" type="text" class="replyInput form-control" placeholder="reply">
 								<div class="form-control-icon">
@@ -239,8 +240,12 @@
 												divTagDM.append(aTag);
 												divTag.append(divTagDM);
 												rPlace.append(divTag);
+												
+												
+												
+												
 											}
-											//end of reply-dropdown
+											//end of reply-dropdown 
 
 											let pTag = document.createElement('p');
 											pTag.setAttribute('class', 'card-text');
@@ -552,6 +557,29 @@
 				}) 
 			})
 		</script>
+		
+<script> <!-- 게시글 즐겨찾기 등록 -->
+function PostBm(){
+	console.log(event.target.id);
+  	let postNo = event.target.id;
+	let particiMembUniNo = '[[${session.particiMembUniNo}]]';
+	let data = {
+			'particiMembUniNo' : particiMembUniNo,
+			'postUniNo' : postNo
+	}
+	fetch('/modu/BmInsert',{
+		method:'POST',
+		headers : {
+			'content-type' : 'application/json'
+		},
+		body : JSON.stringify(data)
+	})
+	.then(response => response.json())
+	.then(data => {
+		console.log(data);
+	}) 
+}
+</script>
 	</div>
 </div>
 </body>
