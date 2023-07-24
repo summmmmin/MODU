@@ -14,7 +14,17 @@
 <link rel="stylesheet" href="assets/css/app.css">
 <link rel="stylesheet" href="assets/css/pages/auth.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+.error {
+    color: red;
+    display: none;
+}
 
+.error-border {
+    border: 1px solid red;
+}
+
+</style>
 </head>
 
 <body>
@@ -32,14 +42,18 @@
 					<form th:action="@{/signup}" method="post">
 						<div class="form-group position-relative has-icon-left mb-4">
 							<input type="email" class="form-control form-control-xl"
-								placeholder="이메일" name="id">
+								placeholder="이메일" name="id"> <small id="emailError"
+								class="error"></small>
+
 							<div class="form-control-icon">
 								<i class="bi bi-envelope"></i>
 							</div>
 						</div>
 						<div class="form-group position-relative has-icon-left mb-4">
 							<input type="text" class="form-control form-control-xl"
-								placeholder="이름" name="nm">
+								placeholder="이름" name="nm"> <small id="nameError"
+								class="error"></small>
+
 							<div class="form-control-icon">
 								<i class="bi bi-person"></i>
 							</div>
@@ -50,6 +64,8 @@
 								<div class="col-lg-6">
 									<input type="text" class="form-control form-control-xl"
 										placeholder="휴대전화" name="phNo" style="width: 230px;">
+									<small id="phoneError" class="error"></small>
+
 									<div class="form-control-icon">
 										<i class="bi bi-telephone"></i>
 									</div>
@@ -66,6 +82,7 @@
 									<input type="text" class="form-control form-control-xl"
 										placeholder="인증번호" name="verificationCode"
 										style="width: 230px;">
+								<small id="verifyError" class="error"></small>
 									<div class="form-control-icon">
 										<i class="bi bi-telephone-inbound"></i>
 									</div>
@@ -79,19 +96,24 @@
 						</div>
 						<div class="form-group position-relative has-icon-left mb-4">
 							<input type="password" class="form-control form-control-xl"
-								placeholder="비밀번호" name="pwd">
+								placeholder="비밀번호" name="pwd"> <small id="passwordError"
+								class="error"></small>
+
 							<div class="form-control-icon">
 								<i class="bi bi-shield-lock"></i>
 							</div>
 						</div>
 						<div class="form-group position-relative has-icon-left mb-4">
-							<input type="password" class="form-control form-control-xl" name="confirmPwd"
-								placeholder="비밀번호 확인">
+							<input type="password" class="form-control form-control-xl"
+								name="confirmPwd" placeholder="비밀번호 확인"> <small
+								id="confirmPasswordError" class="error"></small>
+
 							<div class="form-control-icon">
 								<i class="bi bi-shield-lock-fill"></i>
 							</div>
 						</div>
-						<button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" id="signupButton">가입</button>
+						<button class="btn btn-primary btn-block btn-lg shadow-lg mt-5"
+							id="signupButton">가입</button>
 					</form>
 					<div class="text-center mt-5 text-lg fs-4">
 						<p class='text-gray-600'>

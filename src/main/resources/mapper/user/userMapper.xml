@@ -13,6 +13,11 @@
 		AND QUIT = 'N'
 	</select>
 
+	<!-- 아이디 중복체크 -->
+	<select id="idVaild" resultType="int">
+		SELECT COUNT(*) FROM memb WHERE id = #{id}
+	</select>
+
 	<!-- 회원가입 -->
 	<insert id="signup" parameterType="UserVO">
 		INSERT INTO memb (
@@ -73,7 +78,8 @@
 	<select id="idSearch" parameterType="UserVO">
 		SELECT id
 		FROM memb
-		WHERE PH_NO = #{phNo}
+		WHERE
+		PH_NO = #{phNo}
 	</select>
 
 	<!-- 비밀번호 찾기 -->

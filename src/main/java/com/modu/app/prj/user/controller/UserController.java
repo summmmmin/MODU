@@ -5,11 +5,13 @@ import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -78,6 +80,23 @@ public class UserController {
             return "인증 실패";
         }
     }
+    
+ // 회원가입 폼에서 아이디(이메일) 중복체크
+    @PostMapping("/idvaild")
+    public ResponseEntity<String> checkIdDuplicate(@RequestBody String id) {
+        int duplicateCount = userService.idVaild(id);
+        if (duplicateCount > 0) {
+            return ResponseEntity.ok("이미 존재하는 아이디입니다.");		//그냥 public string하면 이동해야 할 view를 지정해줘야 해서 ResponseEntity 사용
+            														//ResponseEntity 객체를 사용하여 HTTP 응답의 상태 코드와 헤더, 바디를 모두 직접 제어O 
+            														//문자열이 view 이름으로 인식되는 것을 방지
+        } else {
+            return ResponseEntity.ok("사용 가능한 아이디입니다.");
+        }
+    }
+
+
+
+
 
 	// 회원가입 처리
 	

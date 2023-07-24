@@ -45,4 +45,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public int pwdSearch(UserVO userVO) {
 		return userMapper.pwdSearch(userVO);
 	}
+	
+	@Override
+	public int idVaild(String id) {
+	    return userMapper.idVaild(id);
+	}
 }

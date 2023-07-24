@@ -4,6 +4,8 @@ public interface UserService {
 	public int signup(UserVO userVO);
 	public int idSearch(UserVO userVO);
 	public int pwdSearch(UserVO userVO);
+	public int idVaild(String id);
+
 
 	
 		
