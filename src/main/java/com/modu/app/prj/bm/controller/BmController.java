@@ -44,7 +44,7 @@ public class BmController {
 		return vo;
 	}
 	
-	//즐겨찾기 리스트 페이지	
+	//즐겨찾기 리스트 페이지
 	@GetMapping("bm")
 	public String bm() {
 		return "bm/bmList";

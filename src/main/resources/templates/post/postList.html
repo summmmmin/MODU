@@ -496,15 +496,11 @@
 <script> <!-- 게시글 즐겨찾기 등록 -->
 function PostBm(){
 	console.log(event.target.id);
-	
-	
   	let postNo = event.target.id;
 	let particiMembUniNo = '[[${session.particiMembUniNo}]]';
-	let replyUniNo = document.getElementById();
 	let data = {
 			'particiMembUniNo' : particiMembUniNo,
 			'postUniNo' : postNo
-			'replyUniNo' : replyUniNo
 	}
 	fetch('/modu/BmInsert',{
 		method:'POST',
