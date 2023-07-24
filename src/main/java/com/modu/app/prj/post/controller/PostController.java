@@ -29,6 +29,7 @@ public class PostController {
 	public String postList(Model model, String brdUniNo) {
 		model.addAttribute("brdUniNo", brdUniNo);
 		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
+		
 		return "post/postList";
 	}
 

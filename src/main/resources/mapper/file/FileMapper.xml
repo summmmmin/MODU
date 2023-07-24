@@ -57,4 +57,36 @@
 								'N'
 							) 
 	</insert>
+	
+	<!-- 첨부파일리스트 -->
+	<select id="fileList" resultType="FileVO">
+		SELECT att_no, 
+			   partici_memb_uni_no, 
+			   att_nm, 
+			   server_att_nm, 
+			   f_size, 
+			   ext, 
+			   post_uni_no, 
+			   chat_no, dn_yn, 
+			   notice_uni_no, 
+			   faq_no, 
+			   todo_uni_no 
+		  FROM att 
+		 WHERE 
+			<if test="postUniNo != null and !postUniNo.equals('')">
+				post_uni_no = #{postUniNo}
+			 </if>
+			 <if test="chatNo != null and !chatNo.equals('')">
+				chatNo = #{chatNo}
+			 </if>
+			 <if test="noticeUniNo != null and !noticeUniNo.equals('')">
+				notice_uni_no = #{noticeUniNo}
+			 </if>
+			  <if test="faqNo != null and !faqNo.equals('')">
+				faq_no = #{faqNo}
+			 </if>
+			  <if test="todoUniNo != null and !todoUniNo.equals('')">
+				todo_uni_no = #{todoUniNo}
+			 </if>
+	</select>
 </mapper>

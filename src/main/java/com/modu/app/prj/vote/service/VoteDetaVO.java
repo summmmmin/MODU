@@ -10,4 +10,5 @@ public class VoteDetaVO {
 	private String voteDetaNo;				//투표상세번호
 	private int cnt;						//투표수
 	private String voteItem;				//투표항목
+	private String particiMembUniNo;		//참여멤버고유번호
 }

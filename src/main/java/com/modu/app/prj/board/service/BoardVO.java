@@ -26,7 +26,7 @@ public class BoardVO {
 	//참여자 고유번호
 	private String particiMembUniNo;
 	
-	
+	private String brdYn;
 	
 	
 }

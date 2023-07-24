@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,12 @@ public class FileServiceImpl implements FileService {
 		}
 		return 1;
 
+	}
+	
+	//첨부파일리스트
+	@Override
+	public List<FileVO> fileList(FileVO fileVO) {
+		return fileMapper.fileList(fileVO);
 	}
 
 }

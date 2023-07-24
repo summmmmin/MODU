@@ -17,6 +17,8 @@ import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
 
+// 2023-07-20 김성현 
+// 게시판 관리
 @Controller
 public class BoardController {
 
@@ -25,44 +27,37 @@ public class BoardController {
 
 	@Autowired
 	PrjService prjService;
-
-	// 사이드바 게시판 리스트
+	
+	// 프로젝트 메인페이지
 	@GetMapping("/main")
 	public String BoardList(Model model, PrjVO prjVO, HttpServletRequest request) {
+		//프로젝트 참여번호를 세션에 저장
 		HttpSession session = request.getSession();
 		prjVO.setMembUniNo(((UserVO) session.getAttribute("user")).getMembUniNo());
 		PrjVO vo = prjService.prjSession(prjVO);
 		session.setAttribute("prjUniNo", vo.getPrjUniNo());
 		session.setAttribute("particiMembUniNo", vo.getParticiMembUniNo());
+
+		// 사이드바 게시판 리스트
 		BoardVO brd = new BoardVO();
 		brd.setParticiMembUniNo(vo.getParticiMembUniNo());
 		brd.setPrjUniNo(vo.getPrjUniNo());
 		model.addAttribute("Brd", boardService.BoardList(brd));
+		System.out.println(boardService.BoardList(brd));
 		return "index";
 	}
 
-	@PostMapping("InsertBoard")
+	// 게시판 등록 
+	@PostMapping("InsertBoardBm")
 	@ResponseBody
 	public BoardVO InsertBoard(BoardVO vo) {
-		System.out.println(vo);
-		System.out.println("1111");
 		String check = vo.getPubcYn();
-		
-		System.out.println(check);
 		if (check.equals("on")) {
 			vo.setPubcYn("Y");
 		} else {
 			vo.setPubcYn("N");
 		}
 		boardService.InsertBoard(vo);
-		System.out.println(vo);
 		return vo;
 	}
-	
-	
-//	@GetMapping("/DeleteBoard")
-//	public String DeleteBoard(String brdUniNo) {
-//		boardService.DeleteBoard(brdUniNo);
-//		return "index";
-//	}
 }

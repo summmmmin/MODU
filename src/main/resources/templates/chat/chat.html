@@ -7,13 +7,13 @@
 <title>Insert title here</title>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="http://localhost/modu/assets/css/bootstrap.css">
-<link rel="stylesheet" href="http://localhost/modu/assets/css/widgets/chat.css">
+<link rel="stylesheet" href="assets/css/bootstrap.css">
+<link rel="stylesheet" href="assets/css/widgets/chat.css">
 
-<link rel="stylesheet" href="http://localhost/modu/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-<link rel="stylesheet" href="http://localhost/modu/assets/vendors/bootstrap-icons/bootstrap-icons.css">
-<link rel="stylesheet" href="http://localhost/modu/assets/css/app.css">
-<link rel="shortcut icon" href="http://localhost/modu/assets/images/favicon.svg" type="image/x-icon"> 
+<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon"> 
 
 </head>
 <body>
@@ -29,7 +29,7 @@
 						<div class="card-header">
 							<div class="media d-flex align-items-center">
 								<div class="avatar me-3">
-									<img src="http://localhost/modu/assets/images/faces/1.jpg" alt="" srcset=""> <span
+									<img src="assets/images/faces/1.jpg" alt="" srcset=""> <span
 										class="avatar-status bg-success"></span>
 								</div>
 								<div class="name flex-grow-1">
@@ -45,7 +45,7 @@
 												...
 										</button>
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-												<a class="dropdown-item" href="#">채팅방초대</a>
+												<a class="dropdown-item" href="#">채팅방초대(아직안됨)</a>
 												<a class="dropdown-item" id="calloneChatr" data-bs-toggle="modal" data-bs-target="#changeChatrNm">채팅방명변경</a>
 												<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leaveChatr">채팅방나가기</a>
 										</div>
@@ -168,7 +168,7 @@
 				let chatrNo = '[[${session.chatrNo}]]'
 				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
 
-				fetch("http://localhost/modu/msgList/" + chatrNo)
+				fetch("/modu/msgList/" + chatrNo)
 				.then(resolve => resolve.json())
 				.then(data => {
 					msgPlace.innerHTML = ''; // 지우고다시리스트
@@ -223,11 +223,11 @@
 				let chatMemb = '[[${session.chatParticiMembUniNo}]]';
 				let prjUniNo = '[[${session.prjUniNo}]]';
 
-				fetch("http://localhost/modu/leaveChatr/"+chatMemb)
+				fetch("/modu/leaveChatr/"+chatMemb)
 				.then(resolve => resolve.json())
 				.then(data => {
 					console.log(data);
-					window.location.href = 'http://localhost/modu/main?prjUniNo='+prjUniNo;
+					window.location.href = '/modu/main?prjUniNo='+prjUniNo;
 				})
 				.catch(err => console.log(err))
 			})
@@ -236,7 +236,7 @@
 			document.getElementById('calloneChatr').addEventListener('click', function(){
 				let chatMemb = '[[${session.chatParticiMembUniNo}]]';
 
-				fetch("http://localhost/modu/updateChatr/" + chatMemb)
+				fetch("/modu/updateChatr/" + chatMemb)
 				.then(resolve => resolve.json())
 				.then(data => {
 					//console.log(data);
@@ -250,7 +250,7 @@
 				let changeNm = {};
 				changeNm['chatrNm'] = newChatrNm;
 
-				fetch("http://localhost/modu/updateChatrNm",{
+				fetch("/modu/updateChatrNm",{
 					method:'post',
 					headers : {
 						'content-type' : 'application/json'
@@ -273,7 +273,7 @@
 			
 			// WebSocket 연결 설정
 			const stompClient = new StompJs.Client({
-    		brokerURL: 'ws://localhost/modu/socketserver' // WebSocket 서버 URL
+    		brokerURL: 'ws://192.168.0.27/modu/socketserver' // WebSocket 서버 URL
 			});
 
 			// 페이지 로드시 웹소켓 연결
@@ -320,7 +320,7 @@
 					let wantSend = {};
 					wantSend['cntn'] = cntn;
 
-					fetch("http://localhost/modu/chatMsg",{
+					fetch("/modu/chatMsg",{
 						method : 'post',
 							headers : {
 								'content-type' : 'application/json'
@@ -390,9 +390,9 @@
 			
 		</script>
 		
-		<script	src="http://localhost/modu/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-		<script src="http://localhost/modu/assets/js/bootstrap.bundle.min.js"></script>
-		<script src="http://localhost/modu/assets/js/main.js"></script> 
+		<script	src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+		<script src="assets/js/bootstrap.bundle.min.js"></script>
+		
 	</div>
 </body>
 </html>

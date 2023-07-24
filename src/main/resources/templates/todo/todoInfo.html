@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.todo:hover{
+	opacity:0.5;
+	cursor: pointer;	
+}
+</style>
+</head>
+<body>
+	<div class="row">
+		<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">할일</h4>
+					<hr>
+				</div>
+			<div class="card-content">
+				<div class="card-body" id="todo">
+				</div>
+			</div>
+		</div>
+	</div>
+<script>
+ 		$.ajax("todoInfo")
+ 		.done(result=>{
+ 		for(i of result){
+ 			let div = `<p></p>
+ 					<div>
+ 						<h4 class="card-title">진행률 :<span>${i.pct}</span> </h4>
+ 						<h2>${i.ttl}</h2>
+ 						<small class="text-muted">${i.cntn}</small>
+ 						<p class="card-text">담당자 : ${i.mgr}참가자: ${i.cm}</p>
+ 						<small class="text-muted"><span>${i.frDt}</span>~<span>${i.toDt}</span></small>
+ 						 <select>
+ 				        <option>${i.pct}</option>
+ 				        </select>
+ 					</div>
+ 		`;
+ 		$('#todo').append(div);
+ 		}
+ 		})
+ 		
+ 		function todoInsert(){
+ 			$.ajax("todoInsert")
+ 			.done(result=>{
+ 				$("#rsidebarContent").html(result);
+ 				})
+ 		}
+</script>
+</body>
+
+</html>
