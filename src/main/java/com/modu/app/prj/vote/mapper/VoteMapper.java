@@ -38,6 +38,9 @@ public interface VoteMapper {
 	//투표결과
 	public List<VoteVO> voteResult();
 	
+	//모든 투표 참여자
+	public VoteDetaVO allCount();
+	
 	//투표 참여자수
 	public VoteDetaVO voteCount(String no);
 	

@@ -37,19 +37,29 @@ public class VoteController {
 	
 	//투표 페이지 이동
 	@GetMapping("vote")
-	public String vote() {
+	public String vote(VoteVO vo,HttpSession session,Model model){
+		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		model.addAttribute("list",voteService.voteList(vo));
+		model.addAttribute("count",voteService.allCount());
+		System.out.println(model.getAttribute("list"));
+		System.out.println(model.getAttribute("count"));
 		return "vote/voteList";
 	}
 	
 	//투표 리스트 출력
-	@GetMapping("voteList")
-	@ResponseBody
-	public List<VoteVO> voteList(VoteVO vo,HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		return voteService.voteList(vo);
-	}
+	/* 바꾸기
+	 * @GetMapping("voteList")
+	 * 
+	 * @ResponseBody public Map<String, Object> voteList(VoteVO
+	 * vo,HttpServletRequest request) { HttpSession session = request.getSession();
+	 * vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+	 * vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+	 * Map<String, Object> map = new HashMap<>();
+	 * 
+	 * map.put("list",voteService.voteList(vo));
+	 * map.put("count",voteService.allCount()); return map; }
+	 */
 	
 	//투표 등록페이지 이동
 	@GetMapping("voteInsert")

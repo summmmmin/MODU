@@ -102,5 +102,10 @@ public class VoteServiceImpl implements VoteService {
 		return voteMapper.voteCount(vno);
 	}
 
+	@Override
+	public VoteDetaVO allCount() {
+		return voteMapper.allCount();
+	}
+
 
 }

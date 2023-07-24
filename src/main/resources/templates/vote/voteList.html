@@ -23,31 +23,45 @@
 					투표 만들기</button>
 			</div>
 			<div class="card-content">
-				<div class="card-body" id="vote">				
+				<div class="card-body" id="vote" th:each="i:${list}">
+				<div class="vote" onclick="voteInfo()" id=${i.voteNo}>
+				<div th:if="${i.boardNm != null}">
+				<h4 class="card-title">장소:[[${i.boardNm}]]</h4>
+				</div>
+				<div th:unless="${i.boardNm  != null}">
+				<h4 class="card-title">장소:[[${i.chatrNm}]]</h4>
+				</div>
+				<h2>제목:[[${i.ttl}]]</h2>
+				<p class="card-text">~[[${#dates.format(i.toDt,'yyyy-MM-dd')}]]까지 마감</p>
+				</div>
+				<div th:each="j:${count}">
+				<small class="text-muted">[[${j.cnt}]]명 참여</small>
+				</div>				
 				</div>
 			</div>
 		</div>
 	</div>
 	
 <script>
-	$.ajax("voteList")
+/* 	$.ajax("voteList")
 		.done(result=>{
-		for(i of result){
+			console.log(result.);
+		for(i of result.list){
 			let div;
-			if (i.boardNm != null){
-			div=`<div class="vote" onclick="voteInfo()" id=${i.voteNo}>
-				<h4 class="card-title">장소:${i.boardNm}</h4>
+			if (i.list.boardNm != null){
+			div=`<div class="vote" onclick="voteInfo()" id=${i.list.voteNo}>
+				<h4 class="card-title">장소:${i.list.boardNm}</h4>
 				<h2>제목:${i.ttl}</h2>
-				<small class="text-muted">${i.cnt}명 참여</small>
-				<p class="card-text">~${i.toDt}까지 마감</p>
+				<small class="text-muted">${i.count.cnt}명 참여</small>
+				<p class="card-text">~${i.list.toDt}까지 마감</p>
 				</div>
 			`;
-			}else if(i.chatrNm != null){
+			}else if(i.list.chatrNm != null){
 				div=`<div class="vote" onclick="voteInfo()" id=${i.voteNo}>
-					<h4 class="card-title">장소:${i.chatrNm}</h4>
+					<h4 class="card-title">장소:${i.list.chatrNm}</h4>
 					<h2>제목:${i.ttl}</h2>
-					<small class="text-muted">${i.cnt}명 참여</small>
-					<p class="card-text">~${i.toDt}까지 마감</p>
+					<small class="text-muted">${i.count.cnt}명 참여</small>
+					<p class="card-text">~${i.list.toDt}까지 마감</p>
 					</div>
 				`;
 			}
@@ -60,7 +74,7 @@
  		
  			
 		
-		})
+		}) */
  		
 		//투표 상세로 가기
  	function voteInfo(){

@@ -38,6 +38,9 @@ public interface VoteService {
 	//투표번호 게시판 이름 찾기
 	public VoteVO voteBrdNm(String voteNo);
 	
+	//모든 투표 참여자
+	public VoteDetaVO allCount();
+	
 	//채팅방 제목
 	public List<VoteVO> chatrNm(String no);
 	
