@@ -36,7 +36,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class SmsService {
 	// 휴대폰 인증 번호
-	
 
 	@Value("${naver-cloud-sms.accessKey}")
 	private String accessKey;
@@ -73,12 +72,12 @@ public class SmsService {
 
 		return encodeBase64String;
 	}
-	
-	
+
 	public SmsResponseDTO sendSms(MessageDTO messageDTO) throws JsonProcessingException, RestClientException,
 			URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		String time = Long.toString(System.currentTimeMillis());
 		String smsConfirmNum = createSmsKey();
+		this.smsConfirmNum = smsConfirmNum;
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -89,14 +88,8 @@ public class SmsService {
 		List<MessageDTO> messages = new ArrayList<>();
 		messages.add(messageDTO);
 
-		SmsRequestDTO request = SmsRequestDTO.builder()
-				.type("SMS")
-				.contentType("COMM")
-				.countryCode("82")
-				.from(phone)
-				.content("인증번호 [" + smsConfirmNum + "]")
-				.messages(messages)
-				.build();
+		SmsRequestDTO request = SmsRequestDTO.builder().type("SMS").contentType("COMM").countryCode("82").from(phone)
+				.content("인증번호 [" + smsConfirmNum + "]").messages(messages).build();
 
 		// 쌓은 바디를 json형태로 반환
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -110,24 +103,24 @@ public class SmsService {
 		SmsResponseDTO smsResponseDTO = restTemplate.postForObject(
 				new URI("https://sens.apigw.ntruss.com/sms/v2/services/" + serviceId + "/messages"), httpBody,
 				SmsResponseDTO.class);
-	    SmsResponseDTO responseDTO = new SmsResponseDTO(smsConfirmNum);
-	    return smsResponseDTO;
+		SmsResponseDTO responseDTO = new SmsResponseDTO(smsConfirmNum);
+		return smsResponseDTO;
 	}
 
-    // 인증코드 만들기
-    private String createSmsKey() {
-        StringBuffer key = new StringBuffer();
-        Random rnd = new Random();
+	// 인증코드 만들기
+	private String createSmsKey() {
+		StringBuffer key = new StringBuffer();
+		Random rnd = new Random();
 
-        for (int i = 0; i < 5; i++) { 						// 인증코드 5자리
-            key.append((rnd.nextInt(10)));
-        }
-        System.out.println("인증번호 확인: " +key);
-        return key.toString();
-    }
+		for (int i = 0; i < 5; i++) { // 인증코드 5자리
+			key.append((rnd.nextInt(10)));
+		}
+		System.out.println("인증번호 확인: " + key);
+		return key.toString();
+	}
 
-    public boolean isSmsCodeValid(String inputSmsCode) {
-        return smsConfirmNum != null && smsConfirmNum.equals(inputSmsCode);
-    }
+	public boolean isSmsCodeValid(String inputSmsCode) {
+		return smsConfirmNum != null && smsConfirmNum.equals(inputSmsCode);
+	}
 
 }
