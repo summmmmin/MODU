@@ -11,4 +11,5 @@ public class VoteDetaVO {
 	private int cnt;						//투표수
 	private String voteItem;				//투표항목
 	private String particiMembUniNo;		//참여멤버고유번호
+	private String grd;						//등급
 }

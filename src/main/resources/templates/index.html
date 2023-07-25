@@ -16,7 +16,7 @@
 <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
 <link rel="stylesheet" href="assets/css/modal.css">
 <!-- Include Choices CSS -->
-<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
+
 <link rel="stylesheet"
 	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
 <link rel="stylesheet"
@@ -42,6 +42,7 @@
 				<div class="sidebar-menu">
 					<ul class="menu">
 						<li class="sidebar-title">Menu</li>
+						<li class="sidebar-item active"> </li>
 
 <!--/* ************************ ChatRoom List Start *************************** */-->
 <li class="sidebar-item has-sub">
@@ -70,21 +71,6 @@
 </ul>
 
 <!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
-<script>
-    function click() {
-        console.log(event.target.className.animVal);
-        event.target.classList.toggle('clicked');
-        event.target.classList.toggle('cls-1');
-
-    }
-    document.getElementById('ultag').addEventListener('click', function (event) {
-        let target = event.target;
-        if (target.classList.contains('cls-1')) {
-            let brdUniNo = target.getAttribute('text-brdUniNo');
-            console.log(target);
-        }
-    });
-</script>
 <!--/* ************************ End *************************** */-->
 
 <!-- 즐겨찾기 등록 -->

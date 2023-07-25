@@ -15,7 +15,7 @@
 	  <form th:object="${vote.voteVO}" id="createVote">
 		<div class="card">
 			<div class="card-header">
-				<h4 class="card-title">투표생성</h4>
+				<h3><i class="bi bi-arrow-left backVote" onclick="voteList()"></i><h4 class="card-title">투표생성</h4>
 				<hr>
 			</div>
 			<div class="card-content">
@@ -84,7 +84,6 @@
 		</div>
 		</form>
 	</div>
-	<script src="assets/vendors/choices.js/choices.min.js"></script>
 	<!--  <script type="text/javascript">
               fetch('/modu/voteInsertForm')
   			.then(res => res.json())
@@ -111,7 +110,8 @@
 
 			// 저장하기 버튼
 			let select =$("#brdSel option:selected").val();
-
+			
+			console.log('111111111111')
 			
 			
 			
@@ -158,8 +158,8 @@
 			        data: JSON.stringify(additionalData),
 			        contentType: 'application/json',
 			        success: function(response) {
-			        	voteList();
-			        },
+			        	 voteList();
+			      	},
 			        error: function(error) {
 			            console.log(error)
 			        }
@@ -215,7 +215,7 @@
 				<p></p>
 					<div class="form-group has-icon-right" id="count${count}"> 
 						<div class="position-relative">
-							<input type="text" class="form-control voteItem"placeholder="투표항목을 입력해주세요" th:filed="*{voteItem}">
+							<input type="text" class="form-control voteItem"placeholder="투표항목을 입력해주세요" th:field="*{voteItem}">
 						<div class="form-control-icon">
 							<i class="bi bi-trash-fill" id="delete${count}" onclick="delIcon()"></i>
 						</div>

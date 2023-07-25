@@ -39,7 +39,8 @@
     or (g.pubc_yn = 'N' and h.partici_memb_uni_no = #{particiMembUniNo})
     AND g.prj_uni_no = #{prjUniNo})) j
     on e.post_uni_no = j.post_uni_no
-    where e.partici_memb_uni_no = #{particiMembUniNo} 
+    where prj_no=#{prjUniNo}
+     order by fr_dt desc
  	</select>
  	
  	<!-- 투표 제작자 찾기 -->
@@ -51,9 +52,10 @@
  	
  	<!-- 모든투표 참여자 수 -->
  	<select id="allCount" resultType="voteDetaVO">
- 	 	select vote_no,sum(cnt) cnt
-    from vote_deta
-    group by vote_no
+ 	SELECT vote_no, SUM(cnt) AS cnt
+	FROM vote_deta
+	GROUP BY vote_no
+	ORDER BY TO_NUMBER(SUBSTR(vote_no, 2)) desc
  	</select>
  	
  	<!-- 한 투표참여자수 -->
@@ -63,6 +65,14 @@
     where vote_no=#{voteNo}
     group by vote_no
  	</select>
+ 	
+ 	<!-- 등급 조회 -->
+ 	<select id="grdCheck" resultType="VoteDetaVO">
+ 	select grd 
+	from prj_partici_memb
+	where partici_memb_uni_no = #{particiMembUniNo}
+	</select>
+ 	
  	
 	<!--투표 단건 조회 -->
 	<select id="oneVote" resultType="VoteVO" parameterType="VoteVO">
@@ -121,6 +131,12 @@
 	where vote_no = #{voteNo} 
 	and partici_memb_uni_no=#{particiMembUniNo}
 	</select>
+	
+	<!-- 투표 삭제 -->
+	<delete id="voteDelete" parameterType="String">
+	delete from vote
+	where vote_no = #{vote_no}
+	</delete>
 	
 
   <!-- 투표 기간 수정 -->

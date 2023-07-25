@@ -38,8 +38,11 @@ public interface VoteMapper {
 	//투표결과
 	public List<VoteVO> voteResult();
 	
+	//등급조회
+	public VoteDetaVO grdCheck(String partici);
+	
 	//모든 투표 참여자
-	public VoteDetaVO allCount();
+	public List<VoteDetaVO> allCount();
 	
 	//투표 참여자수
 	public VoteDetaVO voteCount(String no);
@@ -56,6 +59,8 @@ public interface VoteMapper {
 	//게시판 제목
 	public List<VoteVO> brdNm(String no);
 	
+	//투표 삭제
+	public int voteDelete(String vno);
 	
 	
 }

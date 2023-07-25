@@ -38,8 +38,11 @@ public interface VoteService {
 	//투표번호 게시판 이름 찾기
 	public VoteVO voteBrdNm(String voteNo);
 	
+	//등급조회
+	public VoteDetaVO grdCheck(String partici);
+	
 	//모든 투표 참여자
-	public VoteDetaVO allCount();
+	public List<VoteDetaVO> allCount();
 	
 	//채팅방 제목
 	public List<VoteVO> chatrNm(String no);
@@ -49,5 +52,8 @@ public interface VoteService {
 	
 	//투표 리스트
 	public List<VoteVO>voteList(VoteVO vo);
+	
+	//투표 삭제
+	public int voteDelete(String vno);
 	
 }
