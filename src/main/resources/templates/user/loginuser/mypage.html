@@ -28,7 +28,7 @@
 			<div class="col-md-6 col-12">
 				<div class="card">
 					<div class="card-header">
-						<h4 class="card-title">Horizontal Form</h4>
+						<h4 class="card-title" th:text="${userVO.nm} + '님의 마이페이지'"></h4>
 					</div>
 					<div class="card-content">
 						<div class="card-body">
@@ -189,6 +189,7 @@ $(document).ready(function() {
             success: function(response) {
                 console.log(response);
                 $('#user-name').text(newName);
+                $('.card-title').text(newName + '님의 마이페이지');
                 toggleElement("#new-name-label, #new-name-group, #new-name-button-group","#name"); // 변경에 성공하면 토글 닫기
             },
             error: function(jqXHR, textStatus, errorThrown) {
