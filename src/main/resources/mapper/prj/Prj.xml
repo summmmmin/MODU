@@ -16,18 +16,18 @@
  	
  	<!-- 프로젝트 리스트 조회 -->
  	<select id="selectPrjList" parameterType="String" resultType="PrjVO">
- 		SELECT *
+ 		SELECT p.prj_uni_no, p.prj_nm, p.subsp_yn, p.exdt, 
+ 			   pm.partici_memb_uni_no, pm.memb_uni_no, 
+ 			   pm.att_no, pm.nnm, pm.grd, FIND_CODE_NAME(pm.grd) AS CD, 
+ 			   pm.partici_yn, pm.prj_pubc_id, pm.dept, pm.pos, c.pay_dt
  		
 		  FROM prj p 
 		  JOIN prj_partici_memb pm 
 		    on p.prj_uni_no = pm.prj_uni_no
-          JOIN memb m 
-            ON pm.memb_uni_no = m.memb_uni_no 
-          JOIN cmmn c 
-            ON c.cd_no=pm.grd
-          
+          LEFT OUTER JOIN pay c
+            ON c.pay_uni_no=p.pay_uni_no
 		 WHERE pm.partici_yn = 'Y'
-		   AND m.memb_uni_no = #{membUniNo}
+		   AND pm.memb_uni_no = #{membUniNo}
  	</select>
  	
  	<!-- 프로젝트 이름 변경 -->
@@ -38,8 +38,10 @@
  	</update>
  	
  	<!-- 프로젝트 구독 취소 -->
- 	<update id="updatePrjSubsp">
- 	
+ 	<update id="updatePrjSubsp" parameterType="PrjVO">
+ 		UPDATE prj
+		SET subsp_yn = #{subspYn}
+		WHERE prj_uni_no = #{prjUniNo}
  	</update>
  	
  	<!-- 프로젝트 참여 회원 리스트 -->
@@ -104,7 +106,8 @@
 				MEMB_UNI_NO, 
 				ATT_NO, 
 				NNM,
-				FIND_CODE_NAME(GRD) AS GRD, 
+				GRD,
+				FIND_CODE_NAME(GRD) AS CD, 
 				PARTICI_YN,    
 				PRJ_PUBC_ID , 
 				DEPT  , 
@@ -128,11 +131,12 @@
 		AND partici_yn = 'Y'
  	</select>
  	
- 	<!-- 프로젝트 정보 -->
+ 	<!-- 프로젝트 정보(결제정보포함) -->
  	<select id="selectPrjInfo" parameterType="String" resultType="PrjVO">
-	 	select * 
-		from prj
-		WHERE prj.prj_uni_no = #{prjUniNo}
+	 	SELECT *
+		 FROM prj 
+		    LEFT OUTER JOIN pay ON prj.pay_uni_no=pay.pay_uni_no
+		 WHERE prj.prj_uni_no = #{prjUniNo}
  	</select>
  	
  </mapper>

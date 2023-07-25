@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.modu.app.prj.pay.mapper.PayMapper">
+ 	
+ 	<!-- 프로젝트의 결제 내역 -->
+ 	<select id="selectPrjPay" parameterType="String" resultType="PayVO">
+ 		SELECT *
+		 FROM pay
+		 WHERE prj_uni_no = #{prjUniNo}
+		 ORDER BY pay_dt
+ 	</select>
+ 	
+ 	<!-- 프로젝트 첫결제 프로시저 -->
+ 	<insert id="insertPay" parameterType="PayVO" statementType="CALLABLE">
+ 		CALL create_pay
+		    (#{tid}, 
+		     #{partner_order_id}, 
+		     #{partner_user_id}, 
+		     #{approved_at}, 
+		     #{payment_method_type}, 
+		     #{amount.total}, 
+		     #{card_info.purchase_corp}, 
+		     #{name}, 
+		     #{email}, 
+		     #{phone},
+		     #{sid})
+ 	</insert>
+ </mapper>

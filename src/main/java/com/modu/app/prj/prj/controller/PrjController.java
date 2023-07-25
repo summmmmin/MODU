@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import com.modu.app.prj.pay.service.PayService;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
@@ -20,6 +20,8 @@ public class PrjController {
 	
 	@Autowired
 	PrjService prjService;
+	@Autowired
+	PayService payService;
 	
 	//프로젝트 생성 페이지 이동
 	@GetMapping("prjInsert")
@@ -57,7 +59,7 @@ public class PrjController {
 		info.setMembUniNo(user.getMembUniNo());
 		info.setPrjUniNo(prjVO.getPrjUniNo());
 		info = prjService.getMemInfo(info);
-
+		System.out.println(info);
 		if(info == null) {
 			return "redirect:prjList";
 		}else {
@@ -86,7 +88,15 @@ public class PrjController {
 	
 	//프로젝트관리페이지-결제관리
 	@GetMapping("prjPay")
-	public String prjPay() {		
+	public String prjPay(PrjVO prjVO, Model model) {	
+		// 프로젝트 관련 정보 prjVO에 담기
+		prjVO = prjService.getPrjInfo(prjVO.getPrjUniNo());
+		model.addAttribute("prj", prjVO);
+		
+		// 프로젝트 결제 내역
+		model.addAttribute("payList", payService.prjPayList(prjVO.getPrjUniNo()));
+		System.out.println(payService.prjPayList(prjVO.getPrjUniNo()));
 		return "prj/프로젝트 관리4";
 	}
+
 }

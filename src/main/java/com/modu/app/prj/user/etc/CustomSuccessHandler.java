@@ -36,7 +36,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 	      session.setAttribute("user", username);
 	      
 	      // 아이디 저장 체크 여부 확인
-	      boolean rememberId = request.getParameter("rememberMe") != null;
+	      boolean rememberId = request.getParameter("rememberId") != null;
 	      System.out.println(rememberId);
 	      
 	      if (rememberId) {
