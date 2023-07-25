@@ -102,8 +102,14 @@ public class PostRestController {
 	@GetMapping("postDelete/{pNum}")
 	public String postDelete(@PathVariable("pNum") String postUniNo) {
 		postService.deletePost(postUniNo);
+		
+		//게시글삭제시 첨부파일도 함께 삭제
+		FileVO fileVO = new FileVO();
+		fileVO.setPostUniNo(postUniNo);
+		fileService.deleteFiles(fileVO);
 		return postUniNo;
 	}
+	
 //	@DeleteMapping("post/{pNum}")
 //	public String postDelete(@PathVariable("pNum") String postUniNo) {
 //		postService.deletePost(postUniNo);

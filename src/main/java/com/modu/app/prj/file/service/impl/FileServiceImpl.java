@@ -30,7 +30,7 @@ public class FileServiceImpl implements FileService {
 
 	// 첨부파일등록(게시글)
 	@Override
-	public int insertFileWihtpost(MultipartFile[] files, PostVO postvo) {
+	public int insertFile(MultipartFile[] files, FileVO fileVO) {
 
 		for (MultipartFile file : files) {
 			// 첨부파일 있을 때
@@ -41,9 +41,9 @@ public class FileServiceImpl implements FileService {
 				String uploadFileName = uuid + "_" + file.getOriginalFilename();
 				String saveName = uploadFileName;
 
-				FileVO fileVO = new FileVO();
-				fileVO.setPostUniNo(postvo.getPostUniNo());
-				fileVO.setParticiMembUniNo(postvo.getParticiMembUniNo());
+				//FileVO fileVO = new FileVO();
+				//fileVO.setPostUniNo(postvo.getPostUniNo());
+				//fileVO.setParticiMembUniNo(postvo.getParticiMembUniNo());
 				fileVO.setAttNm(file.getOriginalFilename());
 				fileVO.setServerAttNm(saveName);
 				fileVO.setFSize(fileSize);
@@ -71,10 +71,28 @@ public class FileServiceImpl implements FileService {
 	public List<FileVO> fileList(FileVO fileVO) {
 		return fileMapper.fileList(fileVO);
 	}
-
+	
+	//첨부파일단건조회
 	@Override
 	public FileVO findFileById(String attNo) {
 		return fileMapper.findFileById(attNo);
 	}
+	
+	//첨부파일다운로드시다운로드여부업데이트
+	@Override
+	public int downloadYN(String attNo) {
+		return fileMapper.downloadYN(attNo);
+	}
+	
+	//첨부파일단건삭제(DB에서이름만삭제하는거임)
+	@Override
+	public int deleteFile(String attNo) {
+		return fileMapper.deleteFile(attNo);
+	}
 
+	//첨부파일List삭제(DB에서이름만삭제하는거임)
+	@Override
+	public int deleteFiles(FileVO fileVO) {
+		return fileMapper.deleteFiles(fileVO);
+	}
 }

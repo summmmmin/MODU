@@ -482,7 +482,8 @@
 									let spanTag = document.createElement('span'); // Create a new 'span' element to hold the file name
 									spanTag.textContent = atts.attNm;
 									aTag.append(spanTag);
-									
+									aTag.addEventListener('click', downloadYN);
+									aTag.setAttribute("data-attno", atts.attNo);
 									divTag.append(aTag);
 
 									aPlace.append(divTag);
@@ -491,9 +492,32 @@
 							}
 						})
 					})
+					.catch(err => console.log(err))
 				})
 			}
 			attWithPost();
+
+			//다운로드시 다운로드여부 업데이트
+			function downloadYN(e){
+				let attNo = e.target.parentElement.dataset.attno;
+				let dwYn = {};
+
+				dwYn['attNo'] = attNo;
+				dwYn['dwYn'] = 'Y';
+
+				fetch("/modu/file/" + attNo, {
+					method : 'post',
+					headers : {
+						'content-type' : 'application/json'
+					},
+					body : JSON.stringify(dwYn)
+				})
+				.then(resolve => resolve.json())
+				.then(data => {
+					console.log("다운로드완료")
+				})
+				.catch(err => console.log(err))
+			}
 
 			//공지리스트
 			function notiPostList(){

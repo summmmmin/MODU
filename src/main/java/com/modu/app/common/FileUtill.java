@@ -11,11 +11,10 @@ import org.springframework.stereotype.Component;
 
 import com.modu.app.prj.file.service.FileVO;
 
-@Component
 public class FileUtill {
 	
 	public static String makeFolder() {
-		String folderPath = "upload".replace("/", File.separator);
+		String folderPath = "upload".replace("/", File.separator); 
 		
 		File uploadPathFoler = new File(folderPath);
 		// File newFile= new File(dir,"파일명");
@@ -39,10 +38,10 @@ public class FileUtill {
      * @param file - 첨부파일 상세정보
      * @return 첨부파일(리소스)
      */
-    public static Resource readFileAsResource(FileVO file) {
+    public static Resource readFileAsResource(String uploadPath, FileVO file) {
         //String uploadedDate = file.getCreatedDate().toLocalDate().format(DateTimeFormatter.ofPattern("yyMMdd"));
         String filename = file.getServerAttNm();
-        Path filePath = Paths.get("/modu/upload", filename);
+        Path filePath = Paths.get(uploadPath, filename);
         
         try {
             Resource resource = new UrlResource(filePath.toUri());
