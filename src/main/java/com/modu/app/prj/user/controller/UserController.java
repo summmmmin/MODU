@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -284,17 +285,28 @@ public class UserController {
 	}
 
 
-	// 사이트 회원 수정
-	@GetMapping("userModify")
-	public String userModifyForm(UserVO userVO) {
-		return "user/userModify";
+	// 이름 수정
+	@PostMapping("loginuser/modifyNm")
+	@ResponseBody
+	public ResponseEntity<String> modifyNm(HttpServletRequest request, @RequestParam("newName") String newName) {
+	    HttpSession session = request.getSession();
+	    UserVO userVO = (UserVO) session.getAttribute("user");
+
+	 // 새로운 이름 설정
+	    userVO.setNm(newName);
+	        
+	    String updateResult = userService.updateNm(userVO.getId(), newName);
+
+	    if(updateResult.equals("success")) {
+	        session.setAttribute("user", userVO);
+	        return ResponseEntity.ok("이름 변경 성공");
+	    }
+	    else {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("컨트롤러 > 이름 변경 실패");
+	    }
 	}
 
-	// 사이트 회원 정보 수정 로직
-//	@PostMapping("userModify")
-//	public String userModify(UserVO userVO) {
-//		
-//	}
+
 
 
 }

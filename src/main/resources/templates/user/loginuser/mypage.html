@@ -147,56 +147,57 @@
 			</div>
 		</div>
 	</section>
-	<script>
-		$(document)
-				.ready(
-						function() {
-							let activeElement = "";
+<script>
+$(document).ready(function() {
+    let activeElement = "";
 
-							$(
-									"#user-id-horizontal, label[for='user-id-horizontal']")
-									.click(
-											function() {
-												toggleElement(
-														"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group",
-														"#user-id-horizontal");
-											});
+    $("#user-id-horizontal, label[for='user-id-horizontal']").click(function() {
+        toggleElement("#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group","#user-id-horizontal");
+    });
 
-							$("#name, label[for='name']")
-									.click(
-											function() {
-												toggleElement(
-														"#new-name-label, #new-name-group, #new-name-button-group",
-														"#name");
-											});
+    $("#name, label[for='name']").click(function() {
+        toggleElement("#new-name-label, #new-name-group, #new-name-button-group","#name");
+    });
 
-							$("#password-label, #new-password")
-									.click(
-											function() {
-												toggleElement(
-														"#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group",
-														"#new-password");
-											});
+    $("#password-label, #new-password").click(function() {
+        toggleElement("#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group","#new-password");
+    });
 
-							function hideAllSlides() {
-								$(
-										"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group")
-										.hide();
-							}
+    function hideAllSlides() {
+        $("#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group").hide();
+    }
 
-							function toggleElement(elementSelectors,
-									clickedElement) {
-								if (activeElement !== clickedElement) {
-									hideAllSlides();
-									$(elementSelectors).slideDown();
-									activeElement = clickedElement;
-								} else {
-									$(elementSelectors).slideUp();
-									activeElement = "";
-								}
-							}
-						});
-	</script>
+    function toggleElement(elementSelectors, clickedElement) {
+        if (activeElement !== clickedElement) {
+            hideAllSlides();
+            $(elementSelectors).slideDown();
+            activeElement = clickedElement;
+        } else {
+            $(elementSelectors).slideUp();
+            activeElement = "";
+        }
+    }
+
+    //이름변경
+    $("#new-name-check-button").click(function() {
+        var newName = $("#new-name-horizontal").val();
+
+        $.ajax({
+            type: "POST",
+            url: "modifyNm",
+            data: {newName: newName},
+            success: function(response) {
+                console.log(response);
+                $('#name').text(newName);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, textStatus, errorThrown);
+            }
+        });
+    });
+});
+</script>
+
 </body>
 
 </html>

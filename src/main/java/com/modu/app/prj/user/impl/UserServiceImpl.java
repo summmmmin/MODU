@@ -75,13 +75,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	    int result = userMapper.updateEmailAuthStatus(token);
 	    
 	    if (result > 0) {
-	        return "success";
+	        return "인증완료";
 	    } else {
-	        return "fail";
+	        return "오류 또는 실패";
 	    }
 	}
 
-
+	@Override
+    public String updateNm(String id, String nm) {
+        int result = userMapper.updateNm(id, nm);
+        if (result > 0) {
+            return "서비스 > 이름 변경 성공";
+        } else {
+            return "서비스 > 이름 변경 실패";
+        }
+    }
 
 
 }

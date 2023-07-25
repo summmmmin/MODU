@@ -11,5 +11,6 @@ public interface UserMapper {
 	public UserVO emailAuth(String id);
 	public int phNoVaild(String phNo);
 	public int updateEmailAuthStatus(String token);
+	public int updateNm(String id, String nm);
 	
 }

@@ -123,6 +123,13 @@
 		FROM memb
 		WHERE id=#{id}
 	</select>
+	
+	<!-- 회원 이름 변경 -->
+	<update id="updateNm" parameterType="String">
+		UPDATE memb
+		SET nm =#{nm}
+		WHERE id=#{id}
+	</update>
 
 </mapper>
   

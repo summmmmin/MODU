@@ -9,5 +9,5 @@ public interface UserService {
 	public UserVO emailAuth(String id);
 	public int phNoVaild(String phNo);	
 	public String updateEmailAuthStatus(String token);
-		
+	public String updateNm(String id, String nm);
 }
