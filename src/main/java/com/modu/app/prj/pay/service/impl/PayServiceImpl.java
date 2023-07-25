@@ -103,7 +103,31 @@ public class PayServiceImpl implements PayService {
 
 	@Override
 	public PayVO kakaoPaySubscrip(PayVO pay) {
-		// TODO Auto-generated method stub
+		// 정기결제 요청
+		
+//    	MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+//        parameters.add("cid", cid);
+//        parameters.add("sid", "S4b9db994cecf58662");
+//        parameters.add("partner_order_id", "가맹점 주문 번호");
+//        parameters.add("partner_user_id", "가맹점 회원 ID");
+//        parameters.add("item_name", "상품명");
+//        parameters.add("quantity", "1");
+//        parameters.add("total_amount", "1");
+//        parameters.add("tax_free_amount", "0");
+//        
+//        // 파라미터, 헤더
+//        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
+//        
+//        // 외부에 보낼 url
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        KakaoApproveResponse approveResponse = restTemplate.postForObject(
+//                "https://kapi.kakao.com/v1/payment/subscription",
+//                requestEntity,
+//                KakaoApproveResponse.class);
+//                
+//        return approveResponse;
+		
 		return null;
 	}
 
