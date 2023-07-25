@@ -1,5 +1,7 @@
 package com.modu.app.prj.user.mapper;
 
+import java.util.Map;
+
 import com.modu.app.prj.user.service.UserVO;
 
 public interface UserMapper {
@@ -11,6 +13,6 @@ public interface UserMapper {
 	public UserVO emailAuth(String id);
 	public int phNoVaild(String phNo);
 	public int updateEmailAuthStatus(String token);
-	public int updateNm(String id, String nm);
+	public int updateNm(Map<String, String> params);
 	
 }

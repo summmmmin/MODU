@@ -1,5 +1,7 @@
 package com.modu.app.prj.user.service;
 
+import java.util.Map;
+
 public interface UserService {
 	public int signup(UserVO userVO);
 	public String idSearch(UserVO userVO);
@@ -9,5 +11,5 @@ public interface UserService {
 	public UserVO emailAuth(String id);
 	public int phNoVaild(String phNo);	
 	public String updateEmailAuthStatus(String token);
-	public String updateNm(String id, String nm);
+	public String updateNm(Map<String, String> params);
 }

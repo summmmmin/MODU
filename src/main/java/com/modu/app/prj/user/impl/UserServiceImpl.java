@@ -2,6 +2,7 @@ package com.modu.app.prj.user.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,15 +82,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	    }
 	}
 
-	@Override
-    public String updateNm(String id, String nm) {
-        int result = userMapper.updateNm(id, nm);
+    @Override
+    public String updateNm(Map<String, String> params) {
+        int result = userMapper.updateNm(params);
         if (result > 0) {
-            return "서비스 > 이름 변경 성공";
+            return "이름 변경 성공";
         } else {
-            return "서비스 > 이름 변경 실패";
+            return "이름 변경 실패";
         }
     }
-
 
 }

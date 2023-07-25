@@ -1,11 +1,11 @@
 package com.modu.app.prj.user.controller;
 
 import java.io.UnsupportedEncodingException;
-
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +14,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -292,19 +290,24 @@ public class UserController {
 	    HttpSession session = request.getSession();
 	    UserVO userVO = (UserVO) session.getAttribute("user");
 
-	 // 새로운 이름 설정
-	    userVO.setNm(newName);
-	        
-	    String updateResult = userService.updateNm(userVO.getId(), newName);
+	    String userId = userVO.getId();
 
-	    if(updateResult.equals("success")) {
+	    // 파라미터 2개 받느라 Map에 넣어서 값넘김
+	    Map<String, String> params = new HashMap<>();
+	    params.put("id", userId);
+	    params.put("newName", newName);
+
+	    String updateResult = userService.updateNm(params);
+
+	    if ("이름 변경 성공".equals(updateResult)) {
+	        userVO.setNm(newName);
 	        session.setAttribute("user", userVO);
 	        return ResponseEntity.ok("이름 변경 성공");
-	    }
-	    else {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("컨트롤러 > 이름 변경 실패");
+	    } else {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이름 변경 실패");
 	    }
 	}
+
 
 
 

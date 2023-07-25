@@ -73,7 +73,7 @@
 											<label for="name" id=name>이름</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<div id="name" style="width: 300px;" th:text="${userVO.nm}"></div>
+											<div id="user-name" style="width: 300px;" th:text="${userVO.nm}"></div>
 										</div>
 										<div class="col-md-4" id="new-name-label"
 											style="display: none;">
@@ -156,7 +156,7 @@ $(document).ready(function() {
     });
 
     $("#name, label[for='name']").click(function() {
-        toggleElement("#new-name-label, #new-name-group, #new-name-button-group","#name");
+        toggleElement("#new-name-label, #new-name-group, #new-name-button-group","#name", "#user-name");
     });
 
     $("#password-label, #new-password").click(function() {
@@ -178,7 +178,7 @@ $(document).ready(function() {
         }
     }
 
-    //이름변경
+  //이름변경
     $("#new-name-check-button").click(function() {
         var newName = $("#new-name-horizontal").val();
 
@@ -188,13 +188,15 @@ $(document).ready(function() {
             data: {newName: newName},
             success: function(response) {
                 console.log(response);
-                $('#name').text(newName);
+                $('#user-name').text(newName);
+                toggleElement("#new-name-label, #new-name-group, #new-name-button-group","#name"); // 변경에 성공하면 토글 닫기
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR, textStatus, errorThrown);
             }
         });
     });
+
 });
 </script>
 
