@@ -1,6 +1,6 @@
 package com.modu.app.prj.bm.service;
 
-
+import java.util.List;
 
 public interface BmService {
 	
@@ -8,14 +8,15 @@ public interface BmService {
 	public int BrdBmInsert(BmVO vo);
 	
 	//즐겨찾기 Count로 비교해서 별 색 유지
-	public int BmCount(BmVO vo);
+	public int BrdBmCount(BmVO vo);
 	
 	//즐겨찾기 해제
 	public int BmDelete(BmVO vo);
 	
 	//파일, 채팅, 댓글 즐겨찾기 등록
-	public BmVO BmInsert(BmVO vo);
+	public int BmInsert(BmVO vo);
 	
 	//파일, 채팅, 댓글 즐겨찾기 리스트
-	public BmVO BmSelect(BmVO vo);
+	public List<BmVO>BmList(BmVO vo);
+	
 }

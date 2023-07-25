@@ -27,27 +27,22 @@ public class BoardController {
 
 	@Autowired
 	PrjService prjService;
-	
+
 	// 프로젝트 메인페이지
 	@GetMapping("/main")
 	public String BoardList(Model model, PrjVO prjVO, HttpServletRequest request) {
-		//프로젝트 참여번호를 세션에 저장
+		// 프로젝트 참여번호를 세션에 저장
 		HttpSession session = request.getSession();
 		prjVO.setMembUniNo(((UserVO) session.getAttribute("user")).getMembUniNo());
 		PrjVO vo = prjService.prjSession(prjVO);
 		session.setAttribute("prjUniNo", vo.getPrjUniNo());
 		session.setAttribute("particiMembUniNo", vo.getParticiMembUniNo());
+		session.setAttribute("grd", vo.getGrd());
 
-		// 사이드바 게시판 리스트
-		BoardVO brd = new BoardVO();
-		brd.setParticiMembUniNo(vo.getParticiMembUniNo());
-		brd.setPrjUniNo(vo.getPrjUniNo());
-		model.addAttribute("Brd", boardService.BoardList(brd));
-		System.out.println(boardService.BoardList(brd));
 		return "index";
 	}
 
-	// 게시판 등록 
+	// 게시판 등록
 	@PostMapping("InsertBoardBm")
 	@ResponseBody
 	public BoardVO InsertBoard(BoardVO vo) {
@@ -59,5 +54,16 @@ public class BoardController {
 		}
 		boardService.InsertBoard(vo);
 		return vo;
+	}
+
+	// 게시판 리스트
+	@GetMapping("boardList")
+	public String BoardList(Model model,HttpSession session) {
+		// 사이드바 게시판 리스트
+		BoardVO brd = new BoardVO();
+		brd.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		brd.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		model.addAttribute("Brd", boardService.BoardList(brd));
+		return "/boardLIst/boardList";
 	}
 }
