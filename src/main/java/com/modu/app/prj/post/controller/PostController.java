@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.modu.app.prj.bm.service.BmService;
+import com.modu.app.prj.bm.service.BmVO;
 import com.modu.app.prj.file.service.FileService;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
@@ -30,10 +31,12 @@ public class PostController {
 
 	// 전체조회페이지이동
 	@GetMapping("postList")
-	public String postList(Model model, String brdUniNo) {
+	public String postList(Model model, String brdUniNo, BmVO vo, HttpSession session) {
+		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo")); 
 		model.addAttribute("brdUniNo", brdUniNo);
 		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
-		System.out.println("1111ssss"+postService.getAllPostList(brdUniNo));
+		model.addAttribute("bmList",bmService.BmList(vo));
+		System.out.println("qqqqqq"+postService.getAllPostList(brdUniNo));
 		return "post/postList";
 	}
 

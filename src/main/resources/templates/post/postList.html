@@ -41,12 +41,11 @@
 								<div class="dropdown">
 									<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 									<div class="postDDM dropdown-menu" th:data-postUniNo="${post.postUniNo}" aria-labelledby="dropdownMenuButton">
-										<th:block th:if="${post.postUniNo != null && post.postUniNo != ''}"> 						
-											<a class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기 해제</a>
-										</th:block>
-										<th:block th:unless="${post.postUniNo != null && post.postUniNo != ''}">									
-											<a class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
-										</th:block>
+									<th:block th:each="bm : ${bmList}">
+										<a th:if="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}" class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기 해제</a>
+										<a th:unless="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}" class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
+									</th:block>
+										
 										<a class="dropdown-item" th:if="${post.notiYn} == 'X'" href="#">공지등록</a>
 										<a class="dropdown-item" th:if="${post.notiYn} == 'O'" href="#">공지등록해제</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" class="dropdown-item" href="#">댓글알림ON</a>
@@ -142,7 +141,7 @@
 				<!--end of 댓글 삭제 모달 -->
 
 				<!--start of 댓글수정모달 -->
-				<div class="modal fade text-left" id="updateReply" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+				<div class="modal fade text-left" id="updateReply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"	role="document">
 						<div class="modal-content">
 							<div class="modal-header bg-primary">
@@ -176,7 +175,6 @@
 				<!--end of 댓글수정모달 -->
 			<!--end of MODALS -->
 		<script>
-				console.log('asdasdasdd'+[[${postList}]])
 				//댓글리스트
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
