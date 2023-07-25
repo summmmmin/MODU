@@ -50,12 +50,14 @@
  	where vote_no=#{voteNo}
  	</select>
  	
- 	<!-- 모든투표 참여자 수 -->
- 	<select id="allCount" resultType="voteDetaVO">
- 	SELECT vote_no, SUM(cnt) AS cnt
-	FROM vote_deta
-	GROUP BY vote_no
-	ORDER BY TO_NUMBER(SUBSTR(vote_no, 2)) desc
+ 	<!-- 투표 참여자 수 -->
+ 	<select id="allCount" resultType="voteDetaVO" parameterType="voteDetaVO">
+    select a.vote_no,sum(cnt) as cnt
+    from vote_deta a  join vote b
+    on a.vote_no=b.vote_no
+    where prj_no=#{prjUniNo}
+    group by a.vote_no
+    ORDER BY TO_NUMBER(SUBSTR(a.vote_no, 2)) desc
  	</select>
  	
  	<!-- 한 투표참여자수 -->
@@ -181,11 +183,9 @@
   
   <!-- 투표 단건 -->
   <select id="getVote" resultType="VoteVO">
-  select partici_memb_uni_no,fr_dt,to_dt,vote_item,cnt
-  from vote a join vote_deta b
-  on a.vote_no = b.vote_no
+  select partici_memb_uni_no,vote_no
+  from vote 
   where vote_no =#{voteNo}
-  order by desc
   </select>
   
   <!-- 채팅방 제목 -->

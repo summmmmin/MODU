@@ -78,6 +78,8 @@
 	//마감날짜로만 투표가 마감됨 -> 현재날짜와 마감날짜를 비교하기 위해 현재날짜를 불러옴.
 	var today = new Date();
 	
+	
+	// 투표 만들기 버튼
 	function voteInsert(){
 	$.ajax("voteInsert")
 	.done(result=>{
@@ -85,15 +87,17 @@
 		})
 	} 
 	
+	
+	//투표 리스트 뽑기
 	$.ajax("voteList")
 	.done(result=>{
 		console.log(result.count);
 		console.log(result.list.length);
-
+		
 	for(let i=0; i<result.list.length; i++){
 		let div;
 		if(result.grd != 'G01'){
-		console.log(i)
+		console.log(result.count[i])
 		 if (result.list[i].boardNm != null){
 		div=`<div class="vote" onclick="voteInfo()" id=${result.list[i].voteNo}>
 			<h4 class="card-title">장소:${result.list[i].boardNm}</h4>

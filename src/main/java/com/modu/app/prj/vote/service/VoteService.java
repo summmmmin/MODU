@@ -42,7 +42,7 @@ public interface VoteService {
 	public VoteDetaVO grdCheck(String partici);
 	
 	//모든 투표 참여자
-	public List<VoteDetaVO> allCount();
+	public List<VoteDetaVO> allCount(String partici);
 	
 	//채팅방 제목
 	public List<VoteVO> chatrNm(String no);

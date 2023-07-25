@@ -103,8 +103,8 @@ public class VoteServiceImpl implements VoteService {
 	}
 
 	@Override
-	public List<VoteDetaVO> allCount() {
-		return voteMapper.allCount();
+	public List<VoteDetaVO> allCount(String partici) {
+		return voteMapper.allCount(partici);
 	}
 
 	@Override

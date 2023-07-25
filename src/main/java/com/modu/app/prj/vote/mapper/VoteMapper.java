@@ -42,7 +42,7 @@ public interface VoteMapper {
 	public VoteDetaVO grdCheck(String partici);
 	
 	//모든 투표 참여자
-	public List<VoteDetaVO> allCount();
+	public List<VoteDetaVO> allCount(String partici);
 	
 	//투표 참여자수
 	public VoteDetaVO voteCount(String no);
