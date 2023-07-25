@@ -1,5 +1,4 @@
-$(document).ready(function() {
-
+$(document).ready(function () {
     function showError(selector, message) {
         $(selector).text(message).show();
         $(selector).prev().addClass('error-border');
@@ -7,6 +6,45 @@ $(document).ready(function() {
 
     function hideError(selector) {
         $(selector).hide().prev().removeClass('error-border');
+    }
+
+    function verifySmsCode(showAlert = false) {
+        return new Promise((resolve, reject) => {
+            var code = $('input[name="verificationCode"]').val();
+
+            if (!code) {
+                showError('#verifyError', "휴대폰 인증을 해주십시오.");
+                reject(new Error("휴대폰 인증 실패"));
+            } else {
+                hideError('#verifyError');
+            }
+
+            var requestData = {
+                'code': code
+            };
+
+            $.ajax({
+                url: 'verifyCode',
+                type: 'POST',
+                data: JSON.stringify(requestData),
+                contentType: 'application/json',
+                success: function (response) {
+                    if (response.valid) {
+                        if (showAlert) {
+                            alert("인증번호 확인에 성공했습니다!");
+                        }
+                        resolve(true);
+                    } else {
+                        showError('#verifyError', "인증번호가 일치하지 않습니다.");
+                        reject(new Error("인증번호 불일치"));
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    showError('#verifyError', "인증 에러");
+                    reject(new Error("인증 실패"));
+                }
+            });
+        });
     }
 
     $('#sendVerificationCode').on('click', function () {
@@ -29,47 +67,12 @@ $(document).ready(function() {
         });
     });
 
-    function verifySmsCode(showAlert = false) {
-        return new Promise((resolve, reject) => {
-            var code = $('input[name="verificationCode"]').val();
-
-            if (!code) {
-                showError('#verifyError', "휴대폰 인증을 해주십시오.");
-                reject(false);
-            } else {
-                hideError('#verifyError');
-            }
-
-            var requestData = {
-                'code': code
-            };
-
-            $.ajax({
-                url: 'verifyCode',
-                type: 'POST',
-                data: JSON.stringify(requestData),
-                contentType: 'application/json',
-                success: function(response) {
-                    if (response.valid) {
-                        if (showAlert) {
-                            alert("인증번호 확인에 성공했습니다!");
-                        }
-                        resolve(true);
-                    } else {
-                        showError('#verifyError', "인증번호가 일치하지 않습니다.");
-                        reject(false);
-                    }
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    showError('#verifyError', "인증 에러");
-                    reject(false);
-                }
-            });
-        });
-    }
-
     $('#verifyCodeButton').on('click', function () {
-        verifySmsCode(true);
+        verifySmsCode(true)
+            .catch((error) => {
+                console.log("verifySmsCode catch:", error);
+                alert("휴대폰 인증에 실패하였습니다. 다시 시도해주세요.");
+            });
     });
 
     $('#signupButton').on('click', function (event) {
@@ -90,18 +93,18 @@ $(document).ready(function() {
                 type: 'POST',
                 data: phoneNumber,
                 contentType: "text/plain",
-                success: function(data) {
+                success: function (data) {
                     if (data === "이미 존재하는 번호입니다.") {
                         showError('#phoneError', data);
-                        reject(false);
+                        reject(new Error("휴대폰 번호 중복"));
                     } else {
                         hideError('#phoneError');
                         resolve(true);
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error("휴대폰 번호 중복 체크 AJAX 요청 에러:", error);
-                    reject(false);
+                    reject(new Error("휴대폰 번호 중복 체크 실패"));
                 }
             });
         });
@@ -113,18 +116,18 @@ $(document).ready(function() {
                 type: 'POST',
                 data: email,
                 contentType: "text/plain",
-                success: function(data) {
+                success: function (data) {
                     if (data === "이미 존재하는 아이디입니다.") {
                         showError('#emailError', data);
-                        reject(false);
+                        reject(new Error("이메일 중복"));
                     } else {
                         hideError('#emailError');
                         resolve(true);
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error("이메일 중복 체크 AJAX 요청 에러:", error);
-                    reject(false);
+                    reject(new Error("이메일 중복 체크 실패"));
                 }
             });
         });
@@ -138,43 +141,43 @@ $(document).ready(function() {
                     hideError('#nameError');
                 }
             })
-            .catch(() => {
-            console.log("promise.all catch")
+            .catch((error) => {
+                console.log("promise.all catch:", error);
+                alert("회원가입에 실패하였습니다. 다시 시도해주세요.");
             });
     });
 
-    $('input[name="id"]').on('input', function() {
+    $('input[name="id"]').on('input', function () {
         hideError('#emailError');
     });
 
-    $('input[name="nm"]').on('input', function() {
+    $('input[name="nm"]').on('input', function () {
         hideError('#nameError');
     });
 
-    $('input[name="phNo"]').on('input', function() {
+    $('input[name="phNo"]').on('input', function () {
         hideError('#phoneError');
     });
 
-    $('input[name="pwd"]').on('input', function() {
+    $('input[name="pwd"]').on('input', function () {
         hideError('#passwordError');
     });
 
-    $('input[name="confirmPwd"]').on('input', function() {
+    $('input[name="confirmPwd"]').on('input', function () {
         hideError('#confirmPasswordError');
     });
 
-    $('input[name="phNo"]').on('input', function() {
+    $('input[name="phNo"]').on('input', function () {
         hideError('#phoneError');
-        hideError('#idDuplicateMessage');
+        hideError('#phNoDuplicateMessage');
     });
 
-    $('input[name="id"]').on('input', function() {
+    $('input[name="id"]').on('input', function () {
         hideError('#emailError');
         hideError('#idDuplicateMessage');
     });
 
-    $('input[name="verificationCode"]').on('input', function() {
+    $('input[name="verificationCode"]').on('input', function () {
         hideError('#verifyError');
     });
-
 });
