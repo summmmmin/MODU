@@ -95,6 +95,7 @@
 		FROM memb
 		WHERE
 		PH_NO = #{phNo}
+		AND nm = #{nm}
 	</select>
 
 	<!-- 비밀번호 찾기 -->

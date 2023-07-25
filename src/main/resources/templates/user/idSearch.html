@@ -1,10 +1,93 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 
-</body>
-</html>
+<div>
+    <label for="name">이름</label> <input type="text" id="name" name="name" required>
+</div>
+<div>
+    <label for="phone">휴대폰 번호</label> <input type="text" id="phone" name="phone" required>
+    <button type="button" id="sendVerificationCode">인증번호 발송</button>
+</div>
+<div>
+    <label for="verificationCode">인증번호</label> <input type="text" id="verificationCode" name="verificationCode" required>
+    <span id="verifyError" style="color: red; display: none;">인증번호가 일치하지 않습니다.</span>
+</div>
+<div>
+    <button type="button" id="verifyButton">확인</button>
+</div>
+<button type="submit">확인</button>
+
+
+<script>
+function showError(selector, message) {
+    $(selector).text(message).show();
+    $(selector).prev().addClass('error-border');
+}
+
+function hideError(selector) {
+    $(selector).hide().prev().removeClass('error-border');
+}
+
+$('#sendVerificationCode').on('click', function () {
+    var phoneNumber = $('input[name="phone"]').val();
+    var dataToSend = {
+        to: phoneNumber
+    };
+    $.ajax({
+        url: 'send',
+        type: 'POST',
+        data: JSON.stringify(dataToSend),
+        contentType: 'application/json',
+        success: function (response) {
+            alert("인증번호가 발송되었습니다.");
+        },
+        error: function (xhr, status, error) {
+            alert("하이픈('-')없이 숫자만 입력해주세요.");
+            console.error('에러 : ', error);
+        }
+    });
+});
+
+function verifySmsCode(showAlert = false) {
+    return new Promise((resolve, reject) => {
+        var code = $('input[name="verificationCode"]').val();
+
+        if (!code) {
+            showError('#verifyError', "휴대폰 인증을 해주십시오.");
+            reject(false);
+        } else {
+            hideError('#verifyError');
+        }
+
+        var requestData = {
+            'code': code
+        };
+
+        $.ajax({
+            url: 'verifyCode',
+            type: 'POST',
+            data: JSON.stringify(requestData),
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.valid) {
+                    if (showAlert) {
+                        alert("인증번호 확인에 성공했습니다!");
+                    }
+                    resolve(true);
+                } else {
+                    showError('#verifyError', "인증번호가 일치하지 않습니다.");
+                    reject(false);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                showError('#verifyError', "인증 에러");
+                reject(false);
+            }
+        });
+    });
+}
+
+$('#verifyCodeButton').on('click', function () {
+    verifySmsCode(true);
+});
+
+    </script>

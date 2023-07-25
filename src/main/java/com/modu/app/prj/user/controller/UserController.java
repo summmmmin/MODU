@@ -107,7 +107,7 @@ public class UserController {
 
 		// BCryptPasswordEncoder를 이용하여 비밀번호 암호화
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-		String encryptedPassword = scpwd.encode(rawPassword);
+		String encryptedPassword = scpwd.encode(rawPassword);																																								
 		System.out.println("암호화된 비밀번호: " + encryptedPassword);
 		userVO.setPassword(encryptedPassword);
 		
@@ -155,11 +155,32 @@ public class UserController {
 //	}
 
 	// 사이트 회원 아이디 찾기
-
 	@GetMapping("idSearch")
 	public String idSearchForm(UserVO userVO) {
 		return "user/idSearch";
 	}
+	
+	@PostMapping("idSearch")
+	@ResponseBody
+	public ResponseEntity<Map<String, String>> idSearch(@RequestParam("name") String name, @RequestParam("phone") String phone) {
+	    try {
+	        UserVO userVO = new UserVO();
+	        userVO.setNm(name);
+	        userVO.setPhNo(phone);
+
+	        int idCount = userService.idSearch(userVO);
+	        if (idCount == 0) {
+	            return ResponseEntity.notFound().build();
+	        } else {
+	            Map<String, String> responseMap = new HashMap<>();
+	            responseMap.put("id", userVO.getId());
+	            return ResponseEntity.ok(responseMap);
+	        }
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
+	}
+
 
 	// 사이트 회원 비밀번호 찾기페이지(팝업창으로 뜸)
 	@GetMapping("pwdSearch")

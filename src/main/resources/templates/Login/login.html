@@ -71,7 +71,7 @@
 							href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=68caebee74c619b1dd3dfb0dab9d7a4c&redirect_uri=http%3A%2F%2Flocalhost%2Fmodu%2Foauth%2Fkakao">카카오</a>
 						<div class="text-center mt-2">
 							<p class="text-gray-600">
-								<a th:href="@{/idSearch}" class="font-bold">아이디 찾기</a> | <a
+								<a href="#" class="font-bold" id="forgotIdLink" onclick="openPopup1()">아이디 찾기</a> | <a
 									href="#" class="font-bold" id="forgotPasswordLink"
 									onclick="openPopup()">비밀번호 찾기</a>
 							</p>
@@ -117,6 +117,16 @@
 			// 팝업 창 옵션 설정 (크기, 위치, 스크롤 등)
 			var popupOptions = "width=500,height=300,top=100,left=100,scrollbars=1";
 			window.open(popupURL, "PasswordResetPopup", popupOptions);
+		}
+		
+		//아이디 찾기 팝업창
+		function openPopup1() {
+
+			// 팝업 창을 열 때 사용할 URL
+			var popupURL = "/modu/idSearch";
+			// 팝업 창 옵션 설정 (크기, 위치, 스크롤 등)
+			var popupOptions = "width=500,height=300,top=100,left=100,scrollbars=1";
+			window.open(popupURL, "idSearch", popupOptions);
 		}
 
 // 이메일 인증 요구
