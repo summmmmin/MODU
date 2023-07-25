@@ -9,7 +9,6 @@ $(document).ready(function() {
         $(selector).hide().prev().removeClass('error-border');
     }
 
-
     $('#sendVerificationCode').on('click', function () {
         var phoneNumber = $('input[name="phNo"]').val();
         var dataToSend = {
@@ -73,64 +72,83 @@ $(document).ready(function() {
         verifySmsCode(true);
     });
 
-        $('#signupButton').on('click', function (event) {
-    event.preventDefault();
+    $('#signupButton').on('click', function (event) {
+        event.preventDefault();
 
-    var email = $('input[name="id"]').val();
-    var name = $('input[name="nm"]').val();
-    var phoneNumber = $('input[name="phNo"]').val();
-    var password = $('input[name="pwd"]').val();
-    var confirmPassword = $('input[name="confirmPwd"]').val();
-    var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
+        var email = $('input[name="id"]').val();
+        var name = $('input[name="nm"]').val();
+        var phoneNumber = $('input[name="phNo"]').val();
+        var password = $('input[name="pwd"]').val();
+        var confirmPassword = $('input[name="confirmPwd"]').val();
+        var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
 
-    // Check for empty fields first
-    if (!email) {
-        showError('#emailError', "이메일을 입력해주세요.");
-        return;
-    }
+        // Check for empty fields first
+        if (!email) {
+            showError('#emailError', "이메일을 입력해주세요.");
+            return;
+        }
 
-    if (!name) {
-        showError('#nameError', "이름을 입력해주세요.");
-        return;
-    }
+        if (!name) {
+            showError('#nameError', "이름을 입력해주세요.");
+            return;
+        }
 
-    if (!phoneNumber) {
-        showError('#phoneError', "전화번호를 입력해주세요.");
-        return;
-    }
+        if (!phoneNumber) {
+            showError('#phoneError', "전화번호를 입력해주세요.");
+            return;
+        }
 
-    if (!password) {
-        showError('#passwordError', "비밀번호를 입력해주세요.");
-        return;
-    }
+        if (!password) {
+            showError('#passwordError', "비밀번호를 입력해주세요.");
+            return;
+        }
 
-    if (!confirmPassword) {
-        showError('#confirmPasswordError', "비밀번호를 다시 입력해주세요.");
-        return;
-    } 
+        if (!confirmPassword) {
+            showError('#confirmPasswordError', "비밀번호를 다시 입력해주세요.");
+            return;
+        } 
 
-    if (!passwordRegex.test(password)) {
-        showError('#passwordError', "비밀번호는 영문자, 숫자, 특수 문자를 모두 포함한 8~16자 사이여야 합니다.");
-        return;
-    } 
+        if (!passwordRegex.test(password)) {
+            showError('#passwordError', "비밀번호는 영문자, 숫자, 특수 문자를 모두 포함한 8~16자 사이여야 합니다.");
+            return;
+        } 
 
-    if (password !== confirmPassword) {
-        showError('#confirmPasswordError', "비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-        return;
-    }
+        if (password !== confirmPassword) {
+            showError('#confirmPasswordError', "비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+            return;
+        }
 
-    // 아이디 중복 체크를 수행하여 가입 처리 진행
-    $.ajax({
-        url: 'idvaild',
-        type: 'POST',
-        data: email, // 객체 형태로 데이터 전송
-        contentType: "text/plain",
-        success: function(data) {
-            if (data === "이미 존재하는 아이디입니다.") {
-                showError('#emailError', data);
+        // 아이디 중복 체크
+        var idCheck = $.ajax({
+            url: 'idvaild',
+            type: 'POST',
+            data: email,
+            contentType: "text/plain"
+        });
+
+        // 휴대폰 번호 중복 체크
+        var phoneNumberCheck = $.ajax({
+            url: 'phNoVaild',
+            type: 'POST',
+            data: phoneNumber,
+            contentType: "text/plain"
+        });
+
+        $.when(idCheck, phoneNumberCheck).done(function(idResponse, phoneResponse) {
+            // idCheck와 phoneNumberCheck 모두 성공
+            var idData = idResponse[0]; // idCheck 응답 데이터
+            var phoneData = phoneResponse[0]; // phoneNumberCheck 응답 데이터
+
+            if (idData === "이미 존재하는 아이디입니다.") {
+                showError('#emailError', idData);
+            } else if (phoneData === "이미 존재하는 번호입니다.") {
+                showError('#phoneError', phoneData);
             } else {
+                // 모든 검증이 완료되면
                 hideError('#emailError');
-                // Now all fields are filled and verified, proceed with SMS verification
+                hideError('#phoneError');
+
+                // 인증 코드 검사를 진행
                 verifySmsCode().then(isSmsVerified => {
                     if(isSmsVerified) {
                         $("form").submit();
@@ -140,12 +158,11 @@ $(document).ready(function() {
                     showError('#verifyError', "휴대폰 인증을 확인해주세요.");
                 });
             }
-        },
-        error: function(xhr, status, error) {
-            console.error("AJAX 요청 에러:", error); // AJAX 요청 에러 확인용 로그
-        }
-    });
-});
+        }).fail(function(idXhr, phoneXhr, idTextStatus, phoneTextStatus) {
+            // idCheck나 phoneNumberCheck 중 하나라도 실패
+            console.error("AJAX 요청 에러:", idTextStatus, phoneTextStatus);
+        });
+    }); // The extra parenthesis causing the error was removed from here
 
     $('input[name="id"]').on('input', function() {
         hideError('#emailError');
