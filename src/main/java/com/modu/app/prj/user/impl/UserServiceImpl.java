@@ -40,9 +40,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 	
 	@Override
-	public int idSearch(UserVO userVO) {
-		return userMapper.idSearch(userVO);
+	public String idSearch(UserVO userVO) {
+	    UserVO result = userMapper.idSearch(userVO);
+	    if (result == null) {
+	        return null;
+	    } else {
+	        return result.getId(); // 아이디가 존재할 때 아이디 값을 반환
+	    }
 	}
+
 	
 	@Override
 	public int pwdSearch(UserVO userVO) {

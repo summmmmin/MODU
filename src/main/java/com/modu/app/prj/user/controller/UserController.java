@@ -160,26 +160,28 @@ public class UserController {
 		return "user/idSearch";
 	}
 	
+	//아이디 찾기 
 	@PostMapping("idSearch")
 	@ResponseBody
-	public ResponseEntity<Map<String, String>> idSearch(@RequestParam("name") String name, @RequestParam("phone") String phone) {
+	public String idSearch(@RequestParam("name") String name, @RequestParam("phone") String phone) {
 	    try {
 	        UserVO userVO = new UserVO();
 	        userVO.setNm(name);
 	        userVO.setPhNo(phone);
 
-	        int idCount = userService.idSearch(userVO);
-	        if (idCount == 0) {
-	            return ResponseEntity.notFound().build();
+	        String id = userService.idSearch(userVO); 
+
+	        if (id == null) {
+	            return "아이디가 존재하지 않습니다.";
 	        } else {
-	            Map<String, String> responseMap = new HashMap<>();
-	            responseMap.put("id", userVO.getId());
-	            return ResponseEntity.ok(responseMap);
+	            return "아이디: " + id; // 아이디 값을 반환하도록 수정
 	        }
 	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	        return "서버 오류가 발생했습니다." + e;
 	    }
 	}
+
+
 
 
 	// 사이트 회원 비밀번호 찾기페이지(팝업창으로 뜸)
@@ -236,7 +238,6 @@ public class UserController {
 
 		return randomPassword.toString();
 	}
-
 
 
 	// 카카오 oauth방식 로그인
