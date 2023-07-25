@@ -8,5 +8,6 @@ public interface UserService {
 	public String generateRandomToken();
 	public UserVO emailAuth(String id);
 	public int phNoVaild(String phNo);	
+	public String updateEmailAuthStatus(String token);
 		
 }

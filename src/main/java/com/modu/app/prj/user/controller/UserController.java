@@ -1,6 +1,7 @@
 package com.modu.app.prj.user.controller;
 
 import java.io.UnsupportedEncodingException;
+
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.modu.app.prj.user.mapper.UserMapper;
@@ -100,42 +102,36 @@ public class UserController {
     }
 
 	// 회원가입 처리
-	@PostMapping("signup")
-	public String signup(UserVO userVO, Model model) {
-		
-		// 사용자가 입력한 비밀번호를 가져옴
-		String rawPassword = userVO.getPassword();
+    @PostMapping("signup")
+    public String signup(UserVO userVO, Model model, HttpServletRequest request) {
+    	
+    	// 사용자가 입력한 비밀번호를 가져옴
+    	String rawPassword = userVO.getPassword();
 
-		// BCryptPasswordEncoder를 이용하여 비밀번호 암호화
-		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-		String encryptedPassword = scpwd.encode(rawPassword);																																								
-		System.out.println("암호화된 비밀번호: " + encryptedPassword);
-		userVO.setPassword(encryptedPassword);
-		
-		 // 토큰 생성
+    	// BCryptPasswordEncoder를 이용하여 비밀번호 암호화
+    	BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+    	String encryptedPassword = scpwd.encode(rawPassword);																																								
+    	System.out.println("암호화된 비밀번호: " + encryptedPassword);
+    	userVO.setPassword(encryptedPassword);
+    	
+    	 // 토큰 생성
         String token = userService.generateRandomToken();
         userVO.setToken(token);
 
         userService.signup(userVO);
-		return "redirect:login";
-	}
-	
-//	  계정활성화N 유저
-//    @PostMapping("emailAuth")
-//    @ResponseBody
-//    public String emailAuth(@RequestBody String id) {
-//        UserVO user = userService.emailAuth(id);
-//        if (user == null) {
-//            return "존재하지 않는 유저";
-//        }
-//
-//        if ("N".equalsIgnoreCase(user.getEmailAuth())) {
-//            return "<small>계정활성화를 진행해주세요.</small>";
-//        } else {
-//
-//            return "";
-//        }
-//    }
+
+        // 회원가입 후 이메일 발송
+        String siteURL = getSiteURL(request);
+        System.out.println("유저 : " + userVO + "주소 : " + siteURL);
+        SendEmail.authSend(userVO, siteURL);
+
+        return "redirect:login";
+    }
+
+    private String getSiteURL(HttpServletRequest request) {
+        String siteURL = request.getRequestURL().toString();
+        return siteURL.replace(request.getServletPath(), "");
+    }
 	
 	// 회원가입 폼에서 휴대폰번호 중복체크
     @PostMapping("phNoVaild")
@@ -150,6 +146,22 @@ public class UserController {
             return ResponseEntity.ok("사용 가능한 번호입니다.");
         }
     }
+    
+    //아이디 활성화 링크
+    @GetMapping("/activate")
+    public String updateEmailAuthStatus(@RequestParam("token") String token, RedirectAttributes ra) {
+        String result = userService.updateEmailAuthStatus(token);
+
+        if ("success".equals(result)) {
+            ra.addFlashAttribute("message", "계정 활성화에 성공했습니다. 로그인하여 이용하세요.");
+            return "redirect:/login";
+        } else {
+            ra.addFlashAttribute("message", "계정 활성화에 실패했습니다. 잘못된 접근이거나 만료된 인증 링크입니다.");
+            return "redirect:/signup";
+        }
+    }
+
+
 
 	// 사이트 회원 아이디 찾기
 	@GetMapping("idSearch")

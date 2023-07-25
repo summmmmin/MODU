@@ -17,12 +17,14 @@
 
 	<!-- 아이디 중복체크 -->
 	<select id="idVaild" resultType="int">
-		SELECT COUNT(*) FROM memb WHERE id = #{id}
+		SELECT COUNT(*) FROM memb WHERE
+		id = #{id}
 	</select>
-	
+
 	<!-- 휴대폰번호 중복체크 -->
 	<select id="phNoVaild" resultType="int">
-		SELECT COUNT(*) FROM memb WHERE ph_no = #{phNo}
+		SELECT COUNT(*) FROM memb
+		WHERE ph_no = #{phNo}
 	</select>
 
 
@@ -57,15 +59,12 @@
 		)
 	</insert>
 
-	<!-- 이메일인증N -->
-	<select id="emailAuth" resultType="UserVO">
-		select *
-		from memb
-		where id=
-		#{id}
-		AND QUIT = 'N'
-		AND email_auth = 'N'
-	</select>
+	<!-- 아이디 활성화 -->
+	<update id="updateEmailAuthStatus">
+		UPDATE memb
+		SET email_auth = 'Y'
+		WHERE token=#{token}
+	</update>
 
 	<!-- 회원정보 수정 -->
 	<update id="updateBoard" parameterType="userVO">
@@ -98,7 +97,8 @@
 
 	<!-- 아이디 찾기 -->
 	<select id="idSearch" parameterType="UserVO" resultType="UserVO">
-		SELECT id
+		SELECT
+		id
 		FROM memb
 		WHERE PH_NO = #{phNo}
 		AND nm = #{nm}
@@ -116,7 +116,7 @@
 		SELECT *
 		FROM memb
 	</select>
-	
+
 	<!-- 단건 유저 정보 조회(마이페이지) -->
 	<select id="myInfo">
 		SLEECT *

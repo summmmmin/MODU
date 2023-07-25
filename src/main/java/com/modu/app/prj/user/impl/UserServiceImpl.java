@@ -70,6 +70,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return userMapper.phNoVaild(phNo);
 	}
 	
+	@Override
+	public String updateEmailAuthStatus(String token) {
+	    int result = userMapper.updateEmailAuthStatus(token);
+	    
+	    if (result > 0) {
+	        return "success";
+	    } else {
+	        return "fail";
+	    }
+	}
+
+
 
 
 }
