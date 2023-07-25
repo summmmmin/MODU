@@ -34,7 +34,7 @@
 		, GRD
 		, REG_DT
 		, EMAIL_AUTH
-		, EMAIL_TOKEN
+		, TOKEN
 		)
 		VALUES (
 		'mt' ||
