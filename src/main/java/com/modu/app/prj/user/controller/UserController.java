@@ -261,8 +261,11 @@ public class UserController {
 		return "user/loginuser/mypage";
 	}
 	
-//	@PostMapping("loginuser/mypage")
-//	public String 
+	@PostMapping("loginuser/mypage")
+	public String myPage(UserVO userVO, Model model) {
+		
+		return "";
+	}
 
 	// 사이트 회원 수정
 	@GetMapping("userModify")

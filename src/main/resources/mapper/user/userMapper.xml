@@ -116,6 +116,13 @@
 		SELECT *
 		FROM memb
 	</select>
+	
+	<!-- 단건 유저 정보 조회(마이페이지) -->
+	<select id="myInfo">
+		SLEECT *
+		FROM memb
+		WHERE id=#{id}
+	</select>
 
 </mapper>
   
