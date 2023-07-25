@@ -71,7 +71,7 @@ $(document).ready(function () {
         verifySmsCode(true)
             .catch((error) => {
                 console.log("verifySmsCode catch:", error);
-                alert("휴대폰 인증에 실패하였습니다. 다시 시도해주세요.");
+                alert("인증번호가 다릅니다.");
             });
     });
 
@@ -132,7 +132,7 @@ $(document).ready(function () {
             });
         });
 
-        Promise.all([phoneNumberPromise, emailPromise])
+        phoneNumberPromise
             .then(() => {
                 // 폼 데이터 유효성 검사 및 회원가입 처리
                 if (!name) {
@@ -140,9 +140,19 @@ $(document).ready(function () {
                 } else {
                     hideError('#nameError');
                 }
+
             })
             .catch((error) => {
-                console.log("promise.all catch:", error);
+                console.log("phoneNumberPromise catch:", error);
+                alert("회원가입에 실패하였습니다. 다시 시도해주세요.");
+            });
+
+        emailPromise
+            .then(() => {
+                // Additional logic for email validation, if needed
+            })
+            .catch((error) => {
+                console.log("emailPromise catch:", error);
                 alert("회원가입에 실패하였습니다. 다시 시도해주세요.");
             });
     });

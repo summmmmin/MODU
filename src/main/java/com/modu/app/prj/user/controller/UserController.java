@@ -148,24 +148,6 @@ public class UserController {
         }
     }
 
-	// 사이트 회원 마이페이지
-	@GetMapping("userPage")
-	public String userPageForm(UserVO userVO, Model model) {
-		return "user/userPage";
-	}
-
-	// 사이트 회원 수정
-	@GetMapping("userModify")
-	public String userModifyForm(UserVO userVO) {
-		return "user/userModify";
-	}
-
-	// 사이트 회원 정보 수정 로직
-//	@PostMapping("userModify")
-//	public String userModify(UserVO userVO) {
-//		
-//	}
-
 	// 사이트 회원 아이디 찾기
 	@GetMapping("idSearch")
 	public String idSearchForm(UserVO userVO) {
@@ -192,9 +174,6 @@ public class UserController {
 	        return "서버 오류가 발생했습니다." + e;
 	    }
 	}
-
-
-
 
 	// 사이트 회원 비밀번호 찾기페이지(팝업창으로 뜸)
 	@GetMapping("pwdSearch")
@@ -271,4 +250,31 @@ public class UserController {
 			System.out.println("카카오 토큰 발급 : " + access_Token);
 		}
 	}
+    
+	/*
+	 *  아래로는 로그인 유저 컨트롤러 아래로는 로그인 유저 컨트롤러 아래로는 로그인 유저 컨트롤러 아래로는 로그인 유저 컨트롤러 
+	 */
+    
+    // 사이트 회원 마이페이지
+	@GetMapping("loginuser/mypage")
+	public String myPageForm(UserVO userVO, Model model) {
+		return "user/loginuser/mypage";
+	}
+	
+//	@PostMapping("loginuser/mypage")
+//	public String 
+
+	// 사이트 회원 수정
+	@GetMapping("userModify")
+	public String userModifyForm(UserVO userVO) {
+		return "user/userModify";
+	}
+
+	// 사이트 회원 정보 수정 로직
+//	@PostMapping("userModify")
+//	public String userModify(UserVO userVO) {
+//		
+//	}
+
+
 }
