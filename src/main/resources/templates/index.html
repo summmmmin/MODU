@@ -42,6 +42,7 @@
             <div class="sidebar-menu">
                <ul class="menu">
                   <li class="sidebar-title">Menu</li>
+                  <li class="sidebar-item active"> </li>
 
 <!--/* ************************ ChatRoom List Start *************************** */-->
 <li class="sidebar-item has-sub">
@@ -70,21 +71,6 @@
 </ul>
 
 <!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
-<script>
-    function click() {
-        console.log(event.target.className.animVal);
-        event.target.classList.toggle('clicked');
-        event.target.classList.toggle('cls-1');
-
-    }
-    document.getElementById('ultag').addEventListener('click', function (event) {
-        let target = event.target;
-        if (target.classList.contains('cls-1')) {
-            let brdUniNo = target.getAttribute('text-brdUniNo');
-            console.log(target);
-        }
-    });
-</script>
 <!--/* ************************ End *************************** */-->
 
 <!-- 즐겨찾기 등록 -->
@@ -150,7 +136,7 @@
                </div>
             </div>
             
-            <div class="rsidebar-menu">         
+            <div class="rsidebar-menu">
                <div id="rsidebarContent"></div>
             </div>
             <button class="rsidebar-toggler btn x">
@@ -349,7 +335,6 @@
    <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
    <script src="assets/js/bootstrap.bundle.min.js"></script>
    <script src="assets/js/test.js"></script>
-
    <script>
     // 게시판 목록 출력
    $.ajax("boardList")
