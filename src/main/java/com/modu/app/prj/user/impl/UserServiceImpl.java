@@ -21,15 +21,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println("----------------------------------------------");
-		System.out.println(username);
 		UserVO userVO = userMapper.loginCheck(username);
 		
-		System.out.println(userVO);
-		System.out.println("----------------------------------------------");
-		
 		if(userVO == null) {
-			System.out.println("vo null !!!!!!!!!!!!!!!");
+			System.out.println("유저정보 없음");
 			throw new UsernameNotFoundException("no user");
 		}
 		return userVO;
@@ -57,6 +52,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public int idVaild(String id) {
 	    return userMapper.idVaild(id);
+	}
+	
+	@Override
+	public UserVO emailAuth(String id) {
+		return userMapper.emailAuth(id);
 	}
 
 

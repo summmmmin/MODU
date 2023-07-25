@@ -11,6 +11,7 @@ import java.util.Random;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -112,12 +113,28 @@ public class UserController {
 		
 		 // 토큰 생성
         String emailToken = userService.generateRandomToken();
-        userVO.setEmailToken(emailToken);
+        userVO.setToken(emailToken);
 
-        // 회원가입 처리
         userService.signup(userVO);
 		return "redirect:login";
 	}
+	
+	//계정활성화N 유저
+    @PostMapping("emailAuth")
+    @ResponseBody
+    public String emailAuth(@RequestBody String id) {
+        UserVO user = userService.emailAuth(id);
+        if (user == null) {
+            return "존재하지 않는 유저";
+        }
+
+        if ("N".equalsIgnoreCase(user.getEmailAuth())) {
+            return "<small>계정활성화를 진행해주세요.</small>";
+        } else {
+
+            return "";
+        }
+    }
 
 	// 사이트 회원 마이페이지
 	@GetMapping("userPage")

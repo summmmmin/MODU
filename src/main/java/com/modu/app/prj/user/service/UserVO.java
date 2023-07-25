@@ -51,7 +51,7 @@ public class UserVO implements UserDetails{
 	private String emailAuth;
 	
 	//아이디 고유 토큰값(이메일 인증에 필요)
-	private String emailToken;
+	private String Token;
 
 	@Override
 	public String getPassword() {

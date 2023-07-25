@@ -41,7 +41,7 @@ public class WebSecurityConfig {
 	           .successHandler(authenticationSuccessHandler())
 	           .failureHandler(authenticationFailureHandler())
 	           .loginPage("/login")
-	           .failureUrl("/login?error=true") // 로그인 실패
+	           .failureUrl("/login?error=true") // 로그인 실패(비밀번호 틀림)
 	           .permitAll()
 	           .and()
 	           .logout((logout) -> logout.permitAll());

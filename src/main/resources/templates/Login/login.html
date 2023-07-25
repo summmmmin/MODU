@@ -30,7 +30,7 @@
 					</div>
 					<h1 class="auth-title">로그인</h1>
 
-					<form th:action="@{/login}" method="post">
+					<form th:action="@{/login}" method="post" id="loginForm">
 						<div class="form-group position-relative has-icon-left mb-4">
 							<input type="text" name="username"
 								class="form-control form-control-xl" placeholder="이메일">
@@ -47,11 +47,13 @@
 						</div>
 						<div class="text mt-2" th:if="${param.error}">
 							<p class="text-gray-600">
-								<span style="color: red;">비밀번호가 틀렸습니다.</span>
+								<span th:if="${param.active} == 'false'" style="color: red;">이메일
+									인증이 필요합니다.</span> <span th:if="${param.active} != 'false'"
+									style="color: red;">비밀번호가 틀렸습니다.</span>
 							</p>
 						</div>
 						<div
-							class="form-check form-check-lg d-inline-flex align-items-end">
+							class="form-check for m-check-lg d-inline-flex align-items-end">
 							<input class="form-check-input me-2" type="checkbox"
 								name="rememberId" id="flexCheckDefault1"> <label
 								class="form-check-label text-gray-600" for="flexCheckDefault1">아이디
@@ -64,8 +66,7 @@
 							</p>
 
 						</div>
-						<button type="submit"
-							class="btn btn-primary btn-block btn-lg shadow-lg mt-2">로그인</button>
+						<button type="submit" id="loginButton" class="btn btn-primary btn-block btn-lg shadow-lg mt-2">로그인</button>
 						<a
 							href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=68caebee74c619b1dd3dfb0dab9d7a4c&redirect_uri=http%3A%2F%2Flocalhost%2Fmodu%2Foauth%2Fkakao">카카오</a>
 						<div class="text-center mt-2">
@@ -83,7 +84,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- <script src="assets/js/custom_yuna_login.js"></script> -->
 	<script>
 		// 페이지 로드 시 쿠키 값 가져오기 및 로그인 실패 여부 체크
 		window.onload = function() {
@@ -118,6 +118,26 @@
 			var popupOptions = "width=500,height=300,top=100,left=100,scrollbars=1";
 			window.open(popupURL, "PasswordResetPopup", popupOptions);
 		}
+
+		var id = $("input[name='username']").val();
+
+		$.ajax({
+			url : 'emailAuth',
+			type : 'POST',
+			data : JSON.stringify(id),
+			contentType : 'application/json',
+			success : function(response) {
+				if (response) {
+					$("#emailAuthMessage").html(response);
+					alert("메일함을 확인하여 계정을 활성화 해주세요.")
+				} else {
+					$("#loginForm")[0].submit();
+				}
+			},
+			error : function(xhr, status, error) {
+				console.error("AJAX 요청 에러:", error);
+			}
+		});
 	</script>
 </body>
 </html>
