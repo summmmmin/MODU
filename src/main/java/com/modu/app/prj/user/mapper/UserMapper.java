@@ -9,6 +9,6 @@ public interface UserMapper {
 	public int pwdSearch(UserVO userVO);
 	public int idVaild(String id);
 	public UserVO emailAuth(String id);
-
+	public int phNoVaild(String phNo);
 	
 }

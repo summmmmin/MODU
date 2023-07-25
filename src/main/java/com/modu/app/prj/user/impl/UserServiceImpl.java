@@ -64,6 +64,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public UserVO emailAuth(String id) {
 		return userMapper.emailAuth(id);
 	}
+	
+	@Override
+	public int phNoVaild(String phNo) {
+		return userMapper.phNoVaild(phNo);
+	}
 
 
 }

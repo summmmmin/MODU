@@ -5,13 +5,11 @@ import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -135,6 +133,20 @@ public class UserController {
 //            return "";
 //        }
 //    }
+	
+	// 회원가입 폼에서 휴대폰번호 중복체크
+    @PostMapping("phNoVaild")
+    public ResponseEntity<String> checkIdDuplicate1(@RequestBody String phNo) {
+        int duplicateCount = userService.idVaild(phNo);
+        System.out.println("회원가입 휴대폰 번호 : "  + phNo);
+        if (duplicateCount > 0) {
+        	System.out.println("휴대폰 중복체크 : " + duplicateCount);
+            return ResponseEntity.ok("이미 존재하는 번호입니다.");	
+        } else {
+        	System.out.println("휴대폰 중복체크 : " +duplicateCount);
+            return ResponseEntity.ok("사용 가능한 번호입니다.");
+        }
+    }
 
 	// 사이트 회원 마이페이지
 	@GetMapping("userPage")
