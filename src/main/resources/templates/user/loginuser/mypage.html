@@ -146,32 +146,36 @@
 	</section>
 	<script>
 	$(document).ready(function() {
-	    // 아이디 요소를 클릭했을 때
+	    let activeElement = "";
+
 	    $("#user-id-horizontal").click(function() {
-	        // 모든 슬라이드를 숨기고
-	        hideAllSlides();
-	        // 이메일 요소와 발송버튼, 인증번호 요소와 확인 버튼을 토글하여 슬라이드 업 또는 다운
-	        $("#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group").slideToggle();
+	        toggleElement("#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group", "#user-id-horizontal");
 	    });
-	    // 이름 요소를 클릭했을 때
+
 	    $("#name").click(function() {
-	        // 모든 슬라이드를 숨기고
-	        hideAllSlides();
-	        // 새로운 이름 요소를 토글하여 슬라이드 업 또는 다운
-	        $("#new-name-label, #new-name-group").slideToggle();
+	        toggleElement("#new-name-label, #new-name-group", "#name");
 	    });
-	    // 비밀번호 요소를 클릭했을 때
+
 	    $("#password-label").click(function() {
-	        // 모든 슬라이드를 숨기고
-	        hideAllSlides();
-	        // 현재 비밀번호, 새로운 비밀번호, 비밀번호 확인 요소를 토글하여 슬라이드 업 또는 다운
-	        $("#current-password-label, #current-password-group, #new-password-label, #new-password-group, #confirm-password-label, #confirm-password-group").slideToggle();
+	        toggleElement("#current-password-label, #current-password-group, #new-password-label, #new-password-group, #confirm-password-label, #confirm-password-group", "#password-label");
 	    });
 
 	    function hideAllSlides() {
 	        $("#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #confirm-password-label, #confirm-password-group").hide();
 	    }
+
+	    function toggleElement(elementSelectors, clickedElement) {
+	        if (activeElement !== clickedElement) {
+	            hideAllSlides();
+	            $(elementSelectors).slideDown();
+	            activeElement = clickedElement;
+	        } else {
+	            $(elementSelectors).slideUp();
+	            activeElement = "";
+	        }
+	    }
 	});
+
 
 
     </script>
