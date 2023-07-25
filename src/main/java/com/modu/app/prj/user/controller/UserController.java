@@ -112,8 +112,8 @@ public class UserController {
 		userVO.setPassword(encryptedPassword);
 		
 		 // 토큰 생성
-        String emailToken = userService.generateRandomToken();
-        userVO.setToken(emailToken);
+        String token = userService.generateRandomToken();
+        userVO.setToken(token);
 
         userService.signup(userVO);
 		return "redirect:login";

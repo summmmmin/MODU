@@ -48,7 +48,7 @@
 		,'N'
 		,sysdate
 		,'N'
-		,#{emailToken}
+		,#{Token}
 		)
 	</insert>
 
