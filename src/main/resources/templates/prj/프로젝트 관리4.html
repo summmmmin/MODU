@@ -1,10 +1,242 @@
+프로젝트 관리4.html
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Mazer Admin Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+
+    <link rel="stylesheet" href="assets/vendors/iconly/bold.css">
+
+    <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
+</head>
+
+<body>
+    <div id="app">
+        <div id="sidebar" class="active">
+            <div class="sidebar-wrapper active">
+                <div class="sidebar-header">
+                    <div class="d-flex justify-content-between">
+                        <div class="logo">
+                            <a href="index.html"><img src="assets/images/logo/logo.png" alt="Logo" srcset=""></a>
+                        </div>
+                        <div class="toggler">
+                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-menu">
+                    <ul class="menu">
+                        <li class="sidebar-title">Menu</li>
+
+                        <li class="sidebar-item">
+                            <a href="프로젝트 관리.html" class='sidebar-link'>
+                                <i class="bi bi-bar-chart-fill"></i>
+                                <span>대시보드</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="프로젝트 관리2.html" class='sidebar-link'>
+                                <i class="bi bi-person-badge-fill"></i>
+                                <span>팀원관리</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="프로젝트 관리3.html" class='sidebar-link'>
+                                <i class="bi bi-life-preserver"></i>
+                                <span>프로젝트 관리</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item ">
+                            <a href="프로젝트 관리4.html" class='sidebar-link'>
+                                <i class="bi bi-cash"></i>
+                                <span>결제정보</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+            </div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
 
             <div class="page-heading">
-                <h3>결제 관리</h3>
+                <h3>결제관리</h3>
             </div>
             <div class="page-content">
                 <section class="row">
-                    
+                    <div class="row">
+                        <div class="card mt-5">
+                            <div class="card-header">
+                              <h4 class="card-title">플랜 정보</h4>
+                              <hr>
+                            </div>
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-sm-6">
+                                    <h6>유료플랜</h6>
+                                    <a href="요금안내.html">플랜 선택하기</a>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h6>기간</h6>
+                                    <p>2023-07-07~2023-07-07</p>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="card mt-5 ">
+                                <div class="card-header">
+                                  <h4 class="card-title">결제 수단</h4>
+                                  <hr>
+                                </div>
+                                <div class="card-body">
+                                  <div class="row">
+                                    <h6>카드</h6>
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button type="button" class="btn btn-primary me-1 mb-1" data-bs-toggle="modal" data-bs-target="#cancelModal">유료 플랜 해지</button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="card mt-5 ">
+                                <div class="card-header">
+                                  <h4 class="card-title">결제이력</h4>
+                                  <hr>
+                                </div>
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-sm-4">
+                                        <h6>결제내역1</h6>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button type="button"
+                                            class="btn btn-light-secondary me-1 mb-1" data-bs-toggle="modal" data-bs-target="#moreModal">더보기</button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </div>
+
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p>2021 &copy; Mazer</p>
+                    </div>
+                    <div class="float-end">
+                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
+                                href="http://ahmadsaugi.com">A. Saugi</a></p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+
+        <!--더보기 Modal -->
+        <div class="modal fade" id="moreModal" tabindex="-1" role="dialog"
+        aria-labelledby="moreModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="moreModalTitle">
+                            Scrolling long
+                            Content</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Biscuit powder jelly beans. Lollipop candy canes croissant
+                            icing
+                            chocolate cake. Cake fruitcake
+                            powder pudding pastry
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary"
+                            data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                        <button type="button" class="btn btn-primary ml-1"
+                            data-bs-dismiss="modal">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Accept</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--해지 Modal -->
+        <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog"
+        aria-labelledby="cancelModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cancelModalTitle">
+                            Scrolling long
+                            Content</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Biscuit powder jelly beans. Lollipop candy canes croissant
+                            icing
+                            chocolate cake. Cake fruitcake
+                            powder pudding pastry
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary"
+                            data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                        <button type="button" class="btn btn-primary ml-1"
+                            data-bs-dismiss="modal">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Accept</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/pages/dashboard.js"></script>
+
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>
