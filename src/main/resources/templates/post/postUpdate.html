@@ -76,12 +76,23 @@
 				let attLi = e.target.closest('LI');
 				//console.log(attLi);
 				let attNo = e.target.dataset.attno;
-				fetch("/modu/delFile/" + attNo)
-				.then(resolve => resolve.json())
+				let delAtt = {};
+				delAtt['attNo'] = attNo;
+				console.log(delAtt);
+				//업로드된파일먼저삭제
+				fetch("/modu/removeFile",{
+					method : 'post',
+					headers : {
+						'content-type' : 'application/json'
+					},
+					body : JSON.stringify(delAtt)
+				})
+				.then(result => result.json())
 				.then(data => {
-					//console.log(data);
-					allLi.remove(); //이거 삭제 안 됨
-				})				
+					console.log(data);
+					
+				})
+				.catch(err => console.log(err))
 			}
 			
 			// Filepond: Multiple Files
