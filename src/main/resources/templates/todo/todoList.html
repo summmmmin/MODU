@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <style>
 .todo:hover{
-	opacity:0.8;
+	opacity:0.5;
 	cursor: pointer;	
 }
 </style>
@@ -18,7 +18,7 @@
 				<div class="card-header">
 					<h4 class="card-title">할일</h4>
 					<hr>
-					<button type="button"
+					<button type="button" onclick="todoInsert()"
 						class="btn btn-block btn-light-primary font-bold mt-3">+
 						할일 추가</button>
 				</div>
@@ -32,8 +32,9 @@
  		$.ajax("todoList")
  		.done(result=>{
  		for(i of result){
- 			let div = `<div class="todo">
- 						<h4 class="card-title">진행률 :<span>${i.pct}%</span> </h4>
+ 			let div = `<p></p>
+ 					<div class="todo">
+ 						<h4 class="card-title">진행률 :<span>${i.pct}</span> </h4>
  						<h2>${i.ttl}</h2>
  						<small class="text-muted">${i.cntn}</small>
  						<p class="card-text">담당자 : ${i.mgr}참가자: ${i.cm}</p>
@@ -43,6 +44,13 @@
  		$('#todo').append(div);
  		}
  		})
+ 		
+ 		function todoInsert(){
+ 			$.ajax("todoInsert")
+ 			.done(result=>{
+ 				$("#rsidebarContent").html(result);
+ 				})
+ 		}
 </script>
 </body>
 

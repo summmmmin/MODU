@@ -73,4 +73,9 @@ public class PrjServiceImpl implements PrjService {
 	public PrjVO getPrjInfo(String prjUniNo) {
 		return prjMapper.selectPrjInfo(prjUniNo);
 	}
+
+	@Override
+	public int setPrjSubsp(PrjVO vo) {
+		return prjMapper.updatePrjSubsp(vo);
+	}
 }

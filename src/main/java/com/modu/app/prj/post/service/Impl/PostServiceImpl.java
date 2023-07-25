@@ -1,8 +1,6 @@
 package com.modu.app.prj.post.service.Impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +36,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PostVO selectOneBoard(String brdUniNo) {
 		return postMapper.selectOneBoard(brdUniNo);
+
 	}
 	
 	//게시글등록

@@ -4,6 +4,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.vote:hover{
+	opacity:0.5;
+	cursor: pointer;	
+}
+</style>
 </head>
 
 <body>
@@ -28,22 +34,49 @@
 		.done(result=>{
 		for(i of result){
 			console.log(result)
-			let div=`
-				<h4 class="card-title">${i.boardNm}</h4>
-				<h2>${i.ttl}</h2>
+			let div;
+			if (i.chatrNm == null){
+			div=`<div class="vote" onclick="voteInfo()" id=${i.voteNo}>
+				<h4 class="card-title">장소:${i.boardNm}</h4>
+				<h2>제목:${i.ttl}</h2>
 				<small class="text-muted">${i.cnt}명 참여</small>
 				<p class="card-text">~${i.toDt}까지 마감</p>
+				</div>
 			`;
-			$('#vote').append(div);
+			}else{
+				div=`<div class="vote" onclick="voteInfo()" id=${i.voteNo}>
+					<h4 class="card-title">장소:${i.chatrNm}</h4>
+					<h2>제목:${i.ttl}</h2>
+					<small class="text-muted">${i.cnt}명 참여</small>
+					<p class="card-text">~${i.toDt}까지 마감</p>
+					</div>
+				`;
 			}
- 		})
+			$('#vote').append(div);
+			
+			
+			}
  		
- 	function voteInsert(){
-	$.ajax("voteInsertPage")
+ 			
+		
+		})
+ 		
+		//투표 상세로 가기
+ 	function voteInfo(){
+		let vid = event.target.closest('div').id;
+		 $.ajax("voteInfo/"+vid)
+		.done(result =>{
+			$("#rsidebarContent").html(result);
+		}) 
+	}	
+		
+		//투표 생성 폼으로 가기
+  	function voteInsert(){
+	$.ajax("voteInsert")
 	.done(result=>{
 		$("#rsidebarContent").html(result);
 		})
-		}
+		} 
 	
 	/* 	$.ajax("voteInsert")
 		.done(function(result){

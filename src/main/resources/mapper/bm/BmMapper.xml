@@ -4,17 +4,41 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.modu.app.prj.bm.mapper.BmMapper">
  	
-	<!-- 게시판 전체조회 --> 	
-	<select id="BmList" resultType="BmVO" parameterType="String">
-	SELECT *
-	FROM bm
-	WHERE partici_memb_uni_no=#{particiMembUniNo}
-	ORDER BY reg_dt DESC
+	<!-- 게시판 즐겨찾기 등록 -->
+	<insert id="BrdBmInsert" parameterType="BmVO">
+		INSERT INTO brd_bm (
+				brd_uni_no,
+		        partici_memb_uni_no
+		        )
+		VALUES (#{brdUniNo},
+				#{particiMembUniNo}
+				)
+	</insert>
+
+	<!-- 즐겨찾기 Count해서 별 색 유지,중복 방지 -->
+ 	<select id="BrdBmCount" resultType="int" parameterType="BmVO">
+		SELECT count(*)
+		FROM brd_bm
+		WHERE brd_uni_no = #{brdUniNo} and partici_memb_uni_no=#{particiMembUniNo}
 	</select>
 	
-	<insert id="bmInsert" parameterType="BmVO">
-	INSERT INTO bm (bm_uni_no,reg_dt,partici_memb_uni_no,post_uni_no,att_no,chat_no)
-	VALUES (bm_seq.nextval,sysdate,#{particiMembUniNo},#{postUniNo},#{attNo},#{chatNo}
+	<!-- 즐겨찾기 삭제 -->
+	<delete id="BrdBmDelete" parameterType="BmVO">
+		DELETE brd_bm
+		WHERE brd_uni_no = #{brdUniNo} AND partici_memb_uni_no=#{particiMembUniNo}
+	</delete>
+	
+	<!-- 채팅,댓글,파일 즐겨찾기 등록 -->
+	<insert id="BmInsert" parameterType="BmVO">
+		INSERT INTO bm VALUES ('bm'||bm_seq.nextval,sysdate,#{particiMembUniNo},#{postUniNo},#{attNo},#{chatNo})	
 	</insert>
+	
+	<!-- 채팅,댓글,파일 즐겨찾기 리스트 -->
+	<select id="BmList" resultType="BmVO" parameterType="BmVO">
+	SELECT * from bm
+	WHERE partici_memb_uni_no = #{particiMembUniNo}
+	</select>
+	
+	
 	
  </mapper>

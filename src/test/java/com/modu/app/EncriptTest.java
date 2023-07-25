@@ -10,7 +10,7 @@ public class EncriptTest {
 	//@Test
 	public void test() {
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder(); 
-		String password = scpwd.encode("1234"); 
+		String password = scpwd.encode("1234");
 		System.out.println(password);
 		
 		

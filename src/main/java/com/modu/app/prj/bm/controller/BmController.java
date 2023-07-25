@@ -1,7 +1,7 @@
 package com.modu.app.prj.bm.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,32 +11,52 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.bm.service.BmService;
 import com.modu.app.prj.bm.service.BmVO;
+import com.modu.app.prj.todo.service.TodoVO;
+import com.modu.app.prj.user.service.UserVO;
 
+
+//2023-07-20 즐겨찾기 관리 김성현 
 @Controller
 public class BmController {
 
 	@Autowired
 	BmService bmService;
+
+	// 게시판 즐겨찾기 등록
+	@PostMapping("BrdBmInsert")
+	@ResponseBody
+	public BmVO BrdBmInsert(@RequestBody BmVO vo) {
+		bmService.BrdBmInsert(vo);
+		return vo;
+	}
 	
-	@GetMapping("bmList")
-	public String BmList(Model model,BmVO vo,HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		model.addAttribute("bmList",bmService.BmList(vo));
+
+	//파일, 채팅, 댓글 즐겨찾기 등록
+	@PostMapping("BmInsert")
+	@ResponseBody
+	public BmVO BmInsert(@RequestBody BmVO vo) {
+		bmService.BmInsert(vo);
+		return vo;
+	}
+	
+	//즐겨찾기 리스트 페이지
+	@GetMapping("bm")
+	public String bm() {
 		return "bm/bmList";
 	}
 	
-	@PostMapping("bmInsert")
-	public String bmInsert(Model model,BmVO vo, HttpServletRequest request) {
+	//즐겨찾기 리스트 출력
+	@GetMapping("bmList")
+	@ResponseBody
+	public List<BmVO> bmList(BmVO vo,HttpServletRequest request) {
 		HttpSession session = request.getSession();
+		UserVO userVo = (UserVO) session.getAttribute("user");
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		model.addAttribute("bmInsert",bmService.bmInsert(vo));
-		return "index";
+		return bmService.BmList(vo);
 	}
-	
-	
-	
 }

@@ -5,19 +5,21 @@
 <head>
 	<meta charset="UTF-8">
 	<title>postList</title>
-	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<!-- <link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="assets/css/bootstrap.css">
 	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
 	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-	<link rel="stylesheet" href="assets/css/app.css">
-	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
+	<link rel="stylesheet" href="assets/css/app.css"> 
+	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon"> 
+	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">-->
 </head>
 
 <body>
 	<div layout:fragment="content">
 		<div class="buttons">
-			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}">글작성</a>
+			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" >글작성</a>
+			<!-- data-bs-toggle="modal" data-bs-target="#insertPostForm"-->
 		</div>
 
 		<hr>
@@ -34,6 +36,7 @@
 							<input class="getPostUniNo" type="hidden"	th:value="${post.postUniNo}">
 							<div class="row">
 								<h4 class="card-title col" th:id="${post.postUniNo}">[[${post.ttl}]]</h4>
+			
 								<small class="text-muted">[[${post.nnm}]]</small>
 							</div>
 							<div class="row">
@@ -42,26 +45,35 @@
 										...
 									</button>
 									<div class="postDDM dropdown-menu" th:data-postUniNo="${post.postUniNo}" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item" href="#">즐겨찾기</a> 
+										<a class="dropdown-item" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
 										<a class="dropdown-item" th:if="${post.notiYn} == 'X'" href="#">공지등록</a>
 										<a class="dropdown-item" th:if="${post.notiYn} == 'O'" href="#">공지등록해제</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" class="dropdown-item" href="#">댓글알림ON</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'Y'" class="dropdown-item" href="#">댓글알림OFF</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a> 
-										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deletePost">삭제</a>
+										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deletePost" onclick="callDeletePostModal(event)">삭제</a>
 									</div>
 									<hr>
 									<p class="card-text">[[${post.cm}]]</p>
 									<p class="card-text">[[${post.postTagArm}]]</p>
-									<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 								</div>
-								첨부파일미리보기
+								<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}">
+									<div>
+										<a href = '#'>
+											<svg class="bi" width="1em" height="1em" fill="currentColor">
+												<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark" />
+											</svg>
+										</a>첨부파일이름
+									</div>
+								</div>
+								첨부파일리스트 xxx미리보기아직안됨
 							</div>
+									<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 							<hr>
 							<div class="replyPlace card-body" th:data-postUniNo="${post.postUniNo}"></div>
 							<hr>
 							<div class="form-group position-relative has-icon-right">
-								<input name="replyUniNo" type="hidden" class="replyInput form-control"> 
+								<input name="replyUniNo" type="hidden" class="replyInput form-control" id="replyId"> 
 								<input name="postUniNo" type="hidden" th:value="${post.postUniNo}" class="replyInput form-control"> 
 								<input name="cntn" type="text" class="replyInput form-control" placeholder="reply">
 								<div class="form-control-icon">
@@ -69,7 +81,6 @@
 										<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
 									</svg>
 								</div>
-								
 							</div>
 						</div>
 					</div>
@@ -78,6 +89,10 @@
 			<!--end of 게시글List-->
 
 			<!--start of MODALS -->
+				<!-- start of 게시글 작성 모달 -->
+		
+				<!-- end of 게시글 작성 모달 -->
+
 				<!-- start of 게시글 삭제 모달 -->
 				<div class="modal fade text-left" id="deletePost" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160"	aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -168,7 +183,7 @@
 				<!--end of 댓글수정모달 -->
 			<!--end of MODALS -->
 		<script>
-
+				
 				//댓글리스트
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
@@ -178,7 +193,7 @@
 					getPnum.forEach(gNum => {
 					let pNum = gNum.value;
 
-					fetch('http://localhost:80/modu/replys/' + pNum)
+					fetch('/modu/replys/' + pNum)
 						.then(resolve => resolve.json())
 						.then(data => {
 							//console.log(data);
@@ -235,8 +250,12 @@
 												divTagDM.append(aTag);
 												divTag.append(divTagDM);
 												rPlace.append(divTag);
+												
+												
+												
+												
 											}
-											//end of reply-dropdown
+											//end of reply-dropdown 
 
 											let pTag = document.createElement('p');
 											pTag.setAttribute('class', 'card-text');
@@ -278,7 +297,9 @@
 					rInput.forEach(reply =>{
 						replyInfo[reply.name] = reply.value;
 					})
-					fetch('http://localhost:80/modu/replyInsert/'+pNum,{
+					replyInfo["postUniNo"] = pNum;
+					
+					fetch('/modu/replyInsert',{
 						method : 'post',
 						headers : {
 							'content-type' : 'application/json'
@@ -287,6 +308,7 @@
 					})
 					.then(result => result.json())
 					.then(data => {
+						//rInput.value = '';
 					showReplyList()
 					})
 					.catch(err => console.log(err))
@@ -297,7 +319,7 @@
 			function callDeleteModal(e){
 				let rNum = e.target.parentElement.dataset.replyunino;
 				document.getElementById('deleteReplyBtn').addEventListener('click', function(e){
-					fetch('http://localhost:80/modu/replyDelete/'+rNum)
+					fetch('/modu/replyDelete/'+rNum)
 					//.then(resolve => resolve.json())
 					.then(data => {
 						showReplyList()
@@ -310,7 +332,7 @@
 			function callOneReply(e){
 				//console.log(e.target.parentElement.dataset.replyunino);
 				let rNum = e.target.parentElement.dataset.replyunino;
-				fetch('http://localhost:80/modu/reply/' + rNum)
+				fetch('/modu/reply/' + rNum)
 				.then(resolve => resolve.json())
 				.then(data => {
 					updateReplyForm.innerHTML = '';
@@ -342,7 +364,7 @@
 				let cntn = document.getElementById('updateReplyForm').children[1];
 				replyInfo['cntn'] = cntn.value;
 				//console.log(replyInfo);
-				fetch('http://localhost:80/modu/replyUpdate',{
+				fetch('/modu/replyUpdate',{
 					method : 'post',
 					headers : {
 						'content-type' : 'application/json'
@@ -355,31 +377,159 @@
 					showReplyList()
 				})
 				.catch(err => console.log(err))
-
 			})
 
+			// //게시글등록
+			// document.getElementById('postInsertBtn').addEventListener('click', function(){
+			// 	let brdUniNo = document.getElementById('formBrdNo').value;
+			// 	let ttl = document.getElementById('formTtl').value;
+			// 	let cm = document.getElementById('formCm').value;
+			// 	let postTagArm = document.getElementById('formCall').value;
+			// 	let files = document.getElementById('attFile').files;
+			// 	//let attFiles = files.split(',');
+			// 	//일단여기까지? + 파일첨부기능넣을것
+
+			// 	//file객체로 받아서
+
+			// 	//console.log(document.getElementById('attFile').value);
+			// 	//console.log(typeof(document.getElementById('attFile').value));
+
+			// 	let postInfo = {};
+			// 	postInfo['brdUniNo'] = brdUniNo;
+			// 	postInfo['ttl'] = ttl;
+			// 	postInfo['cm'] = cm;
+			// 	postInfo['postTagArm'] = postTagArm;
+			// 	postInfo['attFiles'] = JSON.stringify(files[0]);
+
+			// 	console.log(postInfo);
+			// 	console.log(files);
+			// 	fetch("http://localhost:80/modu/postInsert",{
+			// 		method : 'post',
+			// 		headers : {
+			// 			'content-type' : 'application/json'
+			// 		},
+			// 		body : JSON.stringify(postInfo)
+			// 	})
+			// 	.then(result => result.json())
+			// 	.then(data => {
+			// 		console.log(data);
+			// 		//리다이렉트하기
+			// 	})
+			// })
+			// //멤버호출용리스트
+			// function callMembList(){
+			// 	let bNum = '[[${brdUniNo}]]';
+			// 	let user = '[[${session.particiMembUniNo}]]';
+			// 	fetch("http://localhost:80/modu/brdMembs/" + bNum)
+			// 	.then(resolve => resolve.json())
+			// 	.then(data => {
+			// 		//console.log(data);
+			// 		data.forEach(memb => {
+			// 			if(user != memb.particiMembUniNo){
+			// 			let optionTag = document.createElement('option');
+			// 			optionTag.setAttribute('value', memb.particiMembUniNo);
+			// 			optionTag.textContent = memb.nnm;
+			// 			document.getElementById('formCall').append(optionTag);
+			// 			}
+			// 		})
+			// 	})
+			// }
+			// callMembList();
+
 			//게시글삭제
-			document.getElementById('deleteBtn').addEventListener('click', function(event){
-				let getPnum = document.querySelectorAll('.getPostUniNo');
-				getPnum.forEach(gNum => {
-					let pNum = gNum.value;
-					//console.log(pNum);
-					fetch('http://localhost:80/modu/postDelete/' + pNum)
-					.then(resolve => resolve.json())
+			function callDeletePostModal(e){
+				let pNum = e.target.parentElement.dataset.postunino;
+				console.log(pNum);
+				let bNum = '[[${brdUniNo}]]'
+				document.getElementById('deleteBtn').addEventListener('click', function(e){
+
+					fetch('/modu/postDelete/' + pNum)
+					//.then(resolve => resolve.json())
 					.then(data => {
-							//console.log(data);
-							window.location.href = 'http://localhost:80/modu/postList?brdUniNo=' + bNum;
+						console.log(data);
+						window.location.href = '/modu/postList?brdUniNo=' + bNum;
 					})
 					.catch(err => console.log(err)); 
-				});
-			});
+				})
+			}
+
+			//첨부파일리스트
+			function attWithPost(){
+				let pNUMs = document.querySelectorAll('.getPostUniNo');
+				//console.log(pNUMs)
+				pNUMs.forEach(pNum => {
+					//console.log(pNum.value);
+					let apnum = pNum.value;
+					fetch('/modu/attPost/' + apnum)
+					.then(resolve => resolve.json())
+					.then(data => {
+						let aPlaceList = document.querySelectorAll('.attFilePlace');
+						aPlaceList.forEach(aPlace => {
+							if(aPlace.dataset.postunino == apnum){
+								data.forEach(atts => {
+									let divTag = document.createElement('div');
+
+									let aTag = document.createElement('a');
+									aTag.setAttribute('href', "/modu/files/" + atts.attNo + "/download");
+									
+									// let icons = document.createElement('svg'); 
+									// icons.setAttribute('class', 'bi');
+									// icons.setAttribute('width', '1em');
+									// icons.setAttribute('height', '1em');
+									// icons.setAttribute('fill', 'currentColor');
+									// aTag.append(icons);
+									
+									// let icon = document.createElement('use');
+									// icon.setAttribute('xlink:href', 'assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark'); 
+									// icons.append(icon);
+									let icon = `<i class="bi bi-file-earmark"></i>`;
+									aTag.innerHTML += icon;
+									let spanTag = document.createElement('span'); // Create a new 'span' element to hold the file name
+									spanTag.textContent = atts.attNm;
+									aTag.append(spanTag);
+									aTag.addEventListener('click', downloadYN);
+									aTag.setAttribute("data-attno", atts.attNo);
+									divTag.append(aTag);
+
+									aPlace.append(divTag);
+
+								})
+							}
+						})
+					})
+					.catch(err => console.log(err))
+				})
+			}
+			attWithPost();
+
+			//다운로드시 다운로드여부 업데이트
+			function downloadYN(e){
+				let attNo = e.target.parentElement.dataset.attno;
+				let dwYn = {};
+
+				dwYn['attNo'] = attNo;
+				dwYn['dwYn'] = 'Y';
+
+				fetch("/modu/file/" + attNo, {
+					method : 'post',
+					headers : {
+						'content-type' : 'application/json'
+					},
+					body : JSON.stringify(dwYn)
+				})
+				.then(resolve => resolve.json())
+				.then(data => {
+					console.log("다운로드완료")
+				})
+				.catch(err => console.log(err))
+			}
 
 			//공지리스트
 			function notiPostList(){
 				let bNum = '[[${brdUniNo}]]';
 				let notiPlace = document.querySelector('.notiPosts');
 				//console.log(notiPlace);
-				fetch('http://localhost:80/modu/notiPost/' + bNum)
+				fetch('/modu/notiPost/' + bNum)
 				.then(resolve => resolve.json())
 				.then(data => {
 					//console.log(data);
@@ -408,7 +558,7 @@
 					if(notiBTN.textContent == '공지등록'){
 						postInfo['postUniNo'] = pNum;
 						postInfo['notiYn'] = 'O';
-						fetch('http://localhost/modu/setPostNoti',{
+						fetch('/modu/setPostNoti',{
 							method : 'post',
 							headers : {
 								'content-type' : 'application/json'
@@ -425,7 +575,7 @@
 					}else{
 						postInfo['postUniNo'] = pNum;
 						postInfo['notiYn'] = 'X';
-						fetch('http://localhost/modu/setPostNoti',{
+						fetch('/modu/setPostNoti',{
 							method : 'post',
 							headers : {
 								'content-type' : 'application/json'
@@ -455,7 +605,7 @@
 						postInfo['postUniNo'] = pNum;
 						postInfo['replyArmYn'] = 'Y';
 				
-						fetch('http://localhost/modu/setPostReply',{
+						fetch('/modu/setPostReply',{
 							method : 'post',
 							headers : {
 								'content-type' : 'application/json'
@@ -471,7 +621,7 @@
 						postInfo['postUniNo'] = pNum;
 						postInfo['replyArmYn'] = 'N';
 				
-						fetch('http://localhost/modu/setPostReply',{
+						fetch('/modu/setPostReply',{
 							method : 'post',
 							headers : {
 								'content-type' : 'application/json'
@@ -487,10 +637,33 @@
 				}) 
 			})
 		</script>
+		
+<script> <!-- 게시글 즐겨찾기 등록 -->
+function PostBm(){
+	console.log(event.target.id);
+  	let postNo = event.target.id;
+	let particiMembUniNo = '[[${session.particiMembUniNo}]]';
+	let data = {
+			'particiMembUniNo' : particiMembUniNo,
+			'postUniNo' : postNo
+	}
+	fetch('/modu/BmInsert',{
+		method:'POST',
+		headers : {
+			'content-type' : 'application/json'
+		},
+		body : JSON.stringify(data)
+	})
+	.then(response => response.json())
+	.then(data => {
+		console.log(data);
+	}) 
+}
+</script>
 	</div>
 </div>
 </body>
-<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<!-- <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="assets/js/main.js"></script> -->
 </html>
