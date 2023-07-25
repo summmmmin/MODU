@@ -119,22 +119,22 @@ public class UserController {
 		return "redirect:login";
 	}
 	
-	//계정활성화N 유저
-    @PostMapping("emailAuth")
-    @ResponseBody
-    public String emailAuth(@RequestBody String id) {
-        UserVO user = userService.emailAuth(id);
-        if (user == null) {
-            return "존재하지 않는 유저";
-        }
-
-        if ("N".equalsIgnoreCase(user.getEmailAuth())) {
-            return "<small>계정활성화를 진행해주세요.</small>";
-        } else {
-
-            return "";
-        }
-    }
+//	  계정활성화N 유저
+//    @PostMapping("emailAuth")
+//    @ResponseBody
+//    public String emailAuth(@RequestBody String id) {
+//        UserVO user = userService.emailAuth(id);
+//        if (user == null) {
+//            return "존재하지 않는 유저";
+//        }
+//
+//        if ("N".equalsIgnoreCase(user.getEmailAuth())) {
+//            return "<small>계정활성화를 진행해주세요.</small>";
+//        } else {
+//
+//            return "";
+//        }
+//    }
 
 	// 사이트 회원 마이페이지
 	@GetMapping("userPage")
