@@ -1,68 +1,95 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>마이페이지</title>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/pages/auth.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <style type="text/css">
+    </style>
 </head>
+
 <body>
-    <!-- 이메일 변경 -->
-    <h3>이메일 변경</h3>
-    <div>
-        <input type="email" placeholder="기존 이메일">
-    </div>
-    <div>
-        <input type="email" placeholder="새로운 이메일">
-        <button>인증번호 발송</button>
-    </div>
-    <div>
-        <input type="text" placeholder="인증번호 입력">
-        <button>인증번호 확인</button>
-    </div>
-    <button>변경 완료</button>
-
-    <!-- 비밀번호 변경 -->
-    <h3>비밀번호 변경</h3>
-    <div>
-        <input type="password" placeholder="기존 비밀번호">
-    </div>
-    <div>
-        <input type="password" placeholder="현재 비밀번호">
-        <input type="password" placeholder="새로운 비밀번호">
-        <input type="password" placeholder="새로운 비밀번호 확인">
-    </div>
-    <button>변경 완료</button>
-
-    <!-- 이름 변경 -->
-    <h3>이름 변경</h3>
-    <div>
-        <input type="text" placeholder="기존 이름">
-    </div>
-    <div>
-        <input type="text" placeholder="새로운 이름">
-    </div>
-    <button>변경 완료</button>
-
-    <!-- 휴대폰 번호 변경 -->
-    <h3>휴대폰 번호 변경</h3>
-    <div>
-        <input type="tel" placeholder="기존 휴대폰 번호">
-    </div>
-    <div>
-        <input type="tel" placeholder="새로운 휴대폰 번호">
-        <button>인증번호 발송</button>
-    </div>
-    <div>
-        <input type="text" placeholder="인증번호 입력">
-        <button>인증번호 확인</button>
-    </div>
-    <button>변경 완료</button>
-
-    <!-- 계정 탈퇴 -->
-    <h3>계정 탈퇴</h3>
-    <button>계정 탈퇴</button>
+    <!-- Basic Horizontal form layout section start -->
+    <section id="basic-horizontal-layouts">
+        <div class="row match-height">
+            <div class="col-md-6 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Horizontal Form</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <form class="form form-horizontal">
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="user-id-horizontal">아이디 (ID)</label>
+                                        </div>
+                                        <div class="col-md-8 form-group">
+                                            <!-- Set the value of 아이디 (ID) input to userVO.id -->
+                                            <input type="text" id="user-id-horizontal" class="form-control" name="userId" placeholder="이메일" th:value="${userVO.id}">
+                                        </div>
+                                        <div class="col-md-4" id="email-label" style="display: none;">
+                                            <label for="email-horizontal">새로운 이메일</label>
+                                        </div>
+                                        <div class="col-md-8 form-group" id="email-group" style="display: none;">
+                                            <input type="email" id="email-horizontal" class="form-control" name="email-id" placeholder="Email">
+                                        </div>
+                                        <div class="col-md-4" id="contact-label" style="display: none;">
+                                            <label for="contact-info-horizontal">인증번호</label>
+                                        </div>
+                                        <div class="col-md-8 form-group" id="contact-group" style="display: none;">
+                                            <input type="number" id="contact-info-horizontal" class="form-control" name="contact" placeholder="Mobile">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="name">이름</label>
+                                        </div>
+                                        <div class="col-md-8 form-group">
+                                            <input type="email" id="new-email" class="form-control" name="new-email" th:value=${userVO.nm}>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="new-mobile">비밀번호</label>
+                                        </div>
+                                        <div class="col-md-8 form-group">
+                                            <input type="password" id="new-mobile" class="form-control" name="new-mobile" placeholder="New Mobile" th:value=${userVO.pwd}>
+                                        </div>
+                                        <div class="col-12 col-md-8 offset-md-4 form-group">
+                                            <div class='form-check'>
+                                                <div class="checkbox">
+                                                    <input type="checkbox" id="checkbox1" class='form-check-input' checked> <label for="checkbox1">Remember Me</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                            <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        $(document).ready(function() {
+            // firstname 요소를 클릭했을 때
+            $("#user-id-horizontal").click(function() {
+                // email과 mobile 요소를 토글하여 슬라이드 업 또는 다운
+                $("#email-label, #email-group, #contact-label, #contact-group").slideToggle();
+            });
+        });
+    </script>
 </body>
+
 </html>

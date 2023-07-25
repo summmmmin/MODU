@@ -7,6 +7,6 @@ public interface UserService {
 	public int idVaild(String id);	
 	public String generateRandomToken();
 	public UserVO emailAuth(String id);
-	public int phNoVaild(String phNo);
+	public int phNoVaild(String phNo);	
 		
 }

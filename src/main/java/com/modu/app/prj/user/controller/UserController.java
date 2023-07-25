@@ -7,10 +7,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -257,15 +260,17 @@ public class UserController {
     
     // 사이트 회원 마이페이지
 	@GetMapping("loginuser/mypage")
-	public String myPageForm(UserVO userVO, Model model) {
-		return "user/loginuser/mypage";
+	public String myPageForm(HttpServletRequest request, Model model) {
+	    // 세션에서 사용자 정보 가져오기
+	    HttpSession session = request.getSession();
+	    UserVO userVO = (UserVO) session.getAttribute("user");
+
+	    // 가져온 사용자 정보를 모델에 담아서 뷰로 전달
+	    model.addAttribute("userVO", userVO);
+
+	    return "user/loginuser/mypage";
 	}
-	
-	@PostMapping("loginuser/mypage")
-	public String myPage(UserVO userVO, Model model) {
-		
-		return "";
-	}
+
 
 	// 사이트 회원 수정
 	@GetMapping("userModify")
