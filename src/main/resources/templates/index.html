@@ -1,31 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Dashboard - Mazer Admin Dashboard</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard - Mazer Admin Dashboard</title>
 
-	<link rel="preconnect" href="https://fonts.gstatic.com" />
-	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
-	<link rel="stylesheet" href="assets/css/bootstrap.css" />
-	<link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
-	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
-	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
-	<link rel="stylesheet" href="assets/css/test.css" />
-	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
-	<link rel="stylesheet" href="assets/css/modal.css">
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-
-	<!-- Include Choices CSS -->
-	<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
-	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-
-	<link rel="stylesheet" href="assets/css/app.css">
-
-
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/bootstrap.css" />
+<link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
+<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+<link rel="stylesheet" href="assets/css/test.css" />
+<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
+<link rel="stylesheet" href="assets/css/modal.css">
+<!-- Include Choices CSS -->
+<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
+<link rel="stylesheet"
+	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -47,89 +43,82 @@
 					<ul class="menu">
 						<li class="sidebar-title">Menu</li>
 
-						<!--/* ************************ ChatRoom List Start *************************** */-->
-						<li class="sidebar-item has-sub">
-							<a href="#" class="sidebar-link"> 
-								<i class="bi bi-stack"></i>
-								<span>채팅방</span>
-								<button type="button" id="openMakeChatrModal" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#makeChatrForm" style="margin-left: 87px">+</button>
-							</a>
-							<ul class="submenu" id="chatrList">
-							</ul>
-						</li>
-						<!--/* ************************ End *************************** */-->
-
-						<!--/* ************************ Board List Start *************************** */-->
-						<li class="sidebar-item has-sub"><a href="#" class="sidebar-link"> <i class="bi bi-stack"></i>
-								<span>게시판</span>
-								<button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
-									data-bs-target="#inlineForm" style="margin-left: 87px">+</button>
-							</a>
-							<ul class="submenu" id="ultag">
-								<li class="submenu-item" th:each="list, stat : ${Brd}"><svg xmlns="http://www.w3.org/2000/svg"
-										width="10" height="10" viewBox="0 0 108.9 103.6">
-										<g id="Layer_2" data-name="Layer 2">
-											<g id="Layer_1-2" data-name="Layer 1">
-												<polygon onclick="click()" class="cls-1 clicked"
-													points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0"
-													th:class="${list.brdUniNo}">
-											</g>
-										</g>
-									</svg> <a th:href="@{/postList(brdUniNo=${list.brdUniNo})}" th:text="${list.boardNm}"></a></li>
-							</ul>
-						</li>
-					</ul>
-					<!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
-					<script>
-						function click() {
-							console.log(event.target.className.animVal);
-							event.target.classList.toggle('clicked');
-							event.target.classList.toggle('cls-1');
-
-						}
-						document.getElementById('ultag').addEventListener('click', function (event) {
-							let target = event.target;
-							if (target.classList.contains('cls-1')) {
-								let brdUniNo = target.getAttribute('text-brdUniNo');
-								console.log(target);
-							}
-						});
-					</script>
-					<!--/* ************************ End *************************** */-->
+<!--/* ************************ ChatRoom List Start *************************** */-->
+<li class="sidebar-item has-sub">
+    <a href="#" class="sidebar-link"> 
+        <i class="bi bi-stack"></i>
+        <span>채팅방</span>
+        <button type="button" id="openMakeChatrModal" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#makeChatrForm" style="margin-left: 87px">+</button>
+    </a>
+    <ul class="submenu" id="chatrList">
+    </ul>
+</li>
+<!--/* ************************ End *************************** */-->
 
 
+<!--/* ************************ Board List Start *************************** */-->
+<li class="sidebar-item has-sub"><a href="#" class="sidebar-link"> 
+    <i class="bi bi-stack"></i> 
+        <span>게시판</span>
+        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#inlineForm" style="margin-left: 87px">+</button>
+    </a>
+    <div id="boardList">
 
-<script> <!-- 즐겨찾기 등록 -->
-function clickInsert(){
-	console.log(event.target.id);
-      let star = event.target;
-      let brdUniNo = event.target.id;
-      let particiMembUniNo = '[[${session.particiMembUniNo}]]';
-      let data = {
-    	  'brdUniNo' : brdUniNo,
-    	  'particiMembUniNo' : particiMembUniNo
-      }
-      fetch('/modu/BrdBmInsert', {
-    	  method : 'POST',
-    	  headers : {
-    		  'content-type' : 'application/json'
-    	  },
-    	  body : JSON.stringify(data)
-      })
-      .then(response => response.json())
-      .then(data => {
-    	  console.log(data)
-    	  
-     	  if(data === 1){
-    	  star.classList.toggle('clicked');
-    	  }else{
-        	  star.classList.toggle('cls-1');
-        	  star.classList.toggle('clicked');
-    	  }
-      })
-      .catch(err => console.log(err));
-      
-}
+    </div>
+
+</li>
+</ul>
+
+<!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
+<script>
+    function click() {
+        console.log(event.target.className.animVal);
+        event.target.classList.toggle('clicked');
+        event.target.classList.toggle('cls-1');
+
+    }
+    document.getElementById('ultag').addEventListener('click', function (event) {
+        let target = event.target;
+        if (target.classList.contains('cls-1')) {
+            let brdUniNo = target.getAttribute('text-brdUniNo');
+            console.log(target);
+        }
+    });
+</script>
+<!--/* ************************ End *************************** */-->
+
+<!-- 즐겨찾기 등록 -->
+<script> 
+    function clickInsert(){
+        console.log(event.target.id);
+        let star = event.target;
+        let brdUniNo = event.target.id;
+        let particiMembUniNo = '[[${session.particiMembUniNo}]]';
+        let data = {
+            'brdUniNo' : brdUniNo,
+            'particiMembUniNo' : particiMembUniNo
+        }
+        fetch('/modu/BrdBmInsert', {
+            method : 'POST',
+            headers : {
+                'content-type' : 'application/json'
+            },
+            body : JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            
+            if(data === 1){
+            star.classList.toggle('clicked');
+            }else{
+                star.classList.toggle('cls-1');
+                star.classList.toggle('clicked');
+            }
+        })
+        .catch(err => console.log(err));
+        
+    }
 	/* 색 변환 JS */ 
    $('#ultag').on('click', function(event) {
     let target = event.target;
@@ -155,18 +144,19 @@ function clickInsert(){
 								alt="Logo" srcset="" /></a>
 						</div>
 						<div class="toggler">
-							<a href="#" class="rsidebar-hide d-block"><i class="bi bi-x bi-middle"></i></a>
+							<a href="#" class="rsidebar-hide d-block"><i
+								class="bi bi-x bi-middle"></i></a>
 						</div>
 					</div>
 				</div>
-
-				<div class="rsidebar-menu">
+				
+				<div class="rsidebar-menu">			
 					<div id="rsidebarContent"></div>
 				</div>
 				<button class="rsidebar-toggler btn x">
 					<i data-feather="x"></i>
 				</button>
-				<button class="buger-btn" style="display: none">
+				<button class="buger-btn" style="display:none">
 					<i data-feather="x"></i>
 				</button>
 			</div>
@@ -174,31 +164,35 @@ function clickInsert(){
 		<div id="main" class="layout-navbar">
 			<header class="mb-3">
 				<nav class="navbar navbar-expand navbar-light">
-
+				
 					<div class="container-fluid">
-						<a href="#" class="burger-btn d-block"> <i class="bi bi-justify fs-3"></i>
-						</a> <a href="#" class="rburger-btn d-block"> <i class="bi bi-justify fs-3" style="display: none"></i>
+						<a href="#" class="burger-btn d-block"> <i
+							class="bi bi-justify fs-3"></i>
+						</a> <a href="#" class="rburger-btn d-block"> <i
+							class="bi bi-justify fs-3" style="display:none"></i>
 						</a>
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-								<li class="nav-item me-1"><a class="nav-link active" href="#" aria-expanded="false"> <i
-											class="bi bi-search bi-sub fs-4 text-gray-600"></i>
+								<li class="nav-item me-1"><a class="nav-link active" href="#" aria-expanded="false"> <i class="bi bi-search bi-sub fs-4 text-gray-600"></i>
+										
 
-
-									</a></li>
-								<li class="nav-item me-1"><a class="nav-link active" href="#" aria-expanded="false"> <i
-											class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
-									</a></li>
-								<li class="nav-item dropdown me-3"><a class="nav-link active dropdown-toggle" href="#"
-										data-bs-toggle="dropdown" aria-expanded="false"> <i
-											class="bi bi-justify bi-sub fs-4 text-gray-600"></i>
-									</a>
-									<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-										<li><a class="dropdown-item rburger">일정</a></li>
+								</a></li>
+								<li class="nav-item me-1"><a class="nav-link active"
+									href="#" aria-expanded="false"> <i
+										class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
+								</a></li>
+								<li class="nav-item dropdown me-3"><a
+									class="nav-link active dropdown-toggle" href="#"
+									data-bs-toggle="dropdown" aria-expanded="false"> <i
+										class="bi bi-justify bi-sub fs-4 text-gray-600"></i>
+								</a>
+									<ul class="dropdown-menu dropdown-menu-end"
+										aria-labelledby="dropdownMenuButton">
+										<li><a class="dropdown-item rburger" >일정</a></li>
 										<li><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
 										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
-										<li><a class="dropdown-item rburger" onclick="BmSelect()">즐겨찾기</a></li>
+										<li><a class="dropdown-item rburger" onclick="bmList()">즐겨찾기</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
@@ -220,13 +214,15 @@ function clickInsert(){
 									<li>
 										<h6 class="dropdown-header">[[${session.user.nm}]]</h6>
 									</li>
-									<li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> 마이페이지</a></li>
-									<li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-gear me-2"></i> 설정</a></li>
+									<li><a class="dropdown-item" href="#"><i
+											class="icon-mid bi bi-person me-2"></i> 마이페이지</a></li>
+									<li><a class="dropdown-item" href="#"><i
+											class="icon-mid bi bi-gear me-2"></i> 설정</a></li>
 									<li>
 										<hr class="dropdown-divider" />
 									</li>
-									<li><a class="dropdown-item" href="logout"><i class="icon-mid bi bi-box-arrow-left me-2"></i>로그아웃</a>
-									</li>
+									<li><a class="dropdown-item" href="logout"><i
+											class="icon-mid bi bi-box-arrow-left me-2"></i>로그아웃</a></li>
 								</ul>
 							</div>
 						</div>
@@ -330,7 +326,7 @@ function clickInsert(){
 					</div>
 				</div>
 			</div>
-			<!-- end of 채팅방생성모달 -->
+			<!-- end of 채팅방생성모달 -->	
 
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
@@ -339,27 +335,27 @@ function clickInsert(){
 					</div>
 					<div class="float-end">
 						<p>
-							Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-								href="http://ahmadsaugi.com">A.
-								Saugi</a>
+							Crafted with 
+                            <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A. Saugi</a>
 						</p>
 					</div>
 				</div>
 			</footer>
 		</div>
 	</div>
-
-	<!-- Include Choices JavaScript -->
+	
+    <!-- Include Choices JavaScript -->
 	<script src="assets/vendors/choices.js/choices.min.js"></script>
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/test.js"></script>
 
-	<!-- Include Choices JavaScript -->
-	<script src="assets/vendors/choices.js/choices.min.js"></script>
-
-
 	<script>
+    // 게시판 목록 출력
+	$.ajax("boardList")
+	.done(result=>$("#boardList").html(result));
+    
+    // 게시판 생성
 	function addBoard(){
 		let check = document.querySelector('#checkbox');
 		let checkOk = '';
@@ -395,17 +391,19 @@ function clickInsert(){
 				<a href="/postList?brdUniNo="`+data.brdUniNo+`>`+data.boardNm+`</a>
 				</li>
 			`;
-
-					let submenu = document.querySelector('.submenu');
-					submenu.innerHTML += liTag;
-
-				})
-				.catch(err => console.log(err))
-		}
-
-		//채팅방리스트
+			
+			let submenu=document.querySelector('.submenu');
+			submenu.innerHTML+=liTag;
+			
+		})
+		.catch(err => console.log(err))
+	}
+	</script>
+	
+    <script>
+        //채팅방리스트
 		function showChatList(){
-			fetch("/modu/chatrList")
+			fetch("http://localhost/modu/chatrList")
 			.then(resolve => resolve.json())
 			.then(data => {
 				document.getElementById('chatrList').innerHTML = '';
@@ -424,6 +422,23 @@ function clickInsert(){
 		}
 		showChatList();
 
+		//채팅방생성모달안에페이지넣기
+		// document.getElementById('openMakeChatrModal').addEventListener('click', function () {
+		// 	let modalPlace = document.getElementById('makeChatrModal');
+		// 	let xhr = new XMLHttpRequest();
+		// 	xhr.onreadystatechange = function () {
+		// 		if (xhr.readyState === XMLHttpRequest.DONE) {
+		// 			if (xhr.status === 200) {
+		// 				modalPlace.innerHTML = xhr.responseText;
+		// 			} else {
+		// 				// Ajax 요청 실패 시 에러 처리
+		// 				console.error('Failed to load makeChatrForm :', xhr.status, xhr.statusText);
+		// 			}
+		// 		}
+		// 	};
+		// 	xhr.open('GET', 'http://localhost/modu/makeChatr', true);
+		// 	xhr.send();
+		// }) 
 
 		//채팅초대리스트
 		function callChatMemb(){
@@ -432,7 +447,7 @@ function clickInsert(){
 			let select = document.getElementById('memberSelect');
 			//console.log(select);
 
-			fetch("/modu/chatMembs/" + pNum)
+			fetch("http://localhost:80/modu/chatMembs/" + pNum)
 			.then(resolve => resolve.json())
 			.then(data => {
 				//console.log(data);
@@ -459,7 +474,7 @@ function clickInsert(){
 			makeChatInfo['particiMembUniNos'] = chatMembs;
 			//console.log(makeChatInfo);
 
-			fetch("/modu/makeChatr", {
+			fetch("http://localhost/modu/makeChatr", {
 					method: 'post',
 					headers: {
 						'content-type': 'application/json'
@@ -470,11 +485,14 @@ function clickInsert(){
 				.then(data => {
 					//console.log(data);
 					showChatList()
+					// setTimeout( () => {
+					// 	window.location.href = 'http://localhost:80/modu/chat/' + data.chatrNo;
+					// }, 5000);
 				})
 				.catch(err => console.log(err)) 
 		}
-	</script>
-	
+    </script>
+
 	<script>
  	function todoList(){
  	 $.ajax("todo")
@@ -484,8 +502,11 @@ function clickInsert(){
  	  $.ajax("vote")
  		.done(result=>$("#rsidebarContent").html(result))
  	}
+ 	function bmList(){
+ 		$.ajax("bm")
+ 		.done(result => $("#rsidebarContent").html(result))
+ 	}
  	</script>
  	
 </body>
-
 </html>
