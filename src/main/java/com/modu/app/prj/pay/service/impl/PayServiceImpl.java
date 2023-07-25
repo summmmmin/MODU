@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import com.modu.app.prj.pay.mapper.PayMapper;
 import com.modu.app.prj.pay.service.PayService;
 import com.modu.app.prj.pay.service.PayVO;
+import com.modu.app.prj.prj.mapper.PrjMapper;
 
 @Service
 public class PayServiceImpl implements PayService {
@@ -23,6 +25,8 @@ public class PayServiceImpl implements PayService {
     
 	@Autowired
 	PayMapper payMapper;
+	@Autowired
+	PrjMapper prjMapper;
 
 	@Override
 	public List<PayVO> prjPayList(String prjUniNO) {
@@ -136,5 +140,10 @@ public class PayServiceImpl implements PayService {
 		return payMapper.insertPay(pay);
 	}
 	
-	
+	//@Scheduled(fixedDelay = 10000)
+	public void run() {
+    	//prjMapper.selectPrjInfo();
+    	
+
+    }
 }

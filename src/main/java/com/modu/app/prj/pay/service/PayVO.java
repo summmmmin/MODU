@@ -43,4 +43,13 @@ public class PayVO {
     private LocalDateTime created_at; // 결제 요청 시간
     private LocalDateTime approved_at; // 결제 승인 시간
     private String payload; // 결제 승인 요청에 대해 저장 값, 요청 시 전달 내용
+    
+    
+    // 프로젝트 테이블
+//    PRJ_UNI_NO NOT NULL VARCHAR2(10)  
+//    PRJ_NM     NOT NULL VARCHAR2(20)  
+//    SUBSP_YN   NOT NULL CHAR(1)       
+//    EXDT                DATE          
+//    PAY_TOKEN           VARCHAR2(30)  
+//    PAY_UNI_NO          VARCHAR2(150) 
 }
