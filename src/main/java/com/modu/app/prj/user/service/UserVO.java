@@ -46,6 +46,12 @@ public class UserVO implements UserDetails{
 	
 	//회원가입 일자
 	private Date regDt;
+	
+	//이메일 인증 활성화 여부(링크클릭)
+	private String emailAuth;
+	
+	//아이디 고유 토큰값(이메일 인증에 필요)
+	private String Token;
 
 	@Override
 	public String getPassword() {
