@@ -4,17 +4,7 @@
 	layout:decorate="~{index}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/bootstrap.css">
-<link rel="stylesheet" href="assets/css/widgets/chat.css">
-
-<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-<link rel="stylesheet" href="assets/css/app.css">
-<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon"> 
-
+<title>chat</title>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -80,7 +70,7 @@
 							<div class="message-form d-flex flex-direction-column align-items-center">
 								<a href="http://" class="black"><i data-feather="smile"></i></a>
 								<div class="d-flex flex-grow-1 ml-4">
-									<input type="text" id="sendMsg" name="cntn" class="form-control" placeholder="Type your message..">
+									<input type="text" id="sendMsg" name="cntn" class="form-control" placeholder="Type your message.." required>
 									<div class="buttons">
 										<button type="button" id="sendMsgBtn" class="btn btn-primary rounded-pill">send</button>
 									</div>
@@ -277,7 +267,7 @@
 
 			// 연결 성공시
 			stompClient.onConnect = (frame) => {
-					//console.log('Connected: ' + frame);
+					console.log('Connected: ' + frame);
 					stompClient.subscribe('/sub/chat/msg/'+chatrNo, (chatMsg) => {
 					//console.log(chatMsg.body)
 					showChatMsg(JSON.parse(chatMsg.body));
@@ -382,10 +372,6 @@
 			//end of 웹소켓
 			
 		</script>
-		
-		<script	src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-		<script src="assets/js/bootstrap.bundle.min.js"></script>
-		
 	</div>
 </body>
 </html>

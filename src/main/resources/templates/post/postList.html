@@ -55,18 +55,18 @@
 									</div>
 									<hr>
 									<p class="card-text">[[${post.cm}]]</p>
-									<p class="card-text">[[${post.postTagArm}]]</p>
+									<p class="card-text postTagArm">[[${post.postTagArm}]]</p>
+
 								</div>
 								<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}">
 									<div>
-										<a href = '#'>
+										<!-- <a href = '#'>
 											<svg class="bi" width="1em" height="1em" fill="currentColor">
 												<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark" />
 											</svg>
-										</a>첨부파일이름
+										</a>첨부파일이름 -->
 									</div>
 								</div>
-								첨부파일리스트 xxx미리보기아직안됨
 							</div>
 									<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 							<hr>
@@ -75,7 +75,7 @@
 							<div class="form-group position-relative has-icon-right">
 								<input name="replyUniNo" type="hidden" class="replyInput form-control" id="replyId"> 
 								<input name="postUniNo" type="hidden" th:value="${post.postUniNo}" class="replyInput form-control"> 
-								<input name="cntn" type="text" class="replyInput form-control" placeholder="reply">
+								<input name="cntn" type="text" class="replyInput form-control" placeholder="reply" required>
 								<div class="form-control-icon">
 									<svg class="replyBtn bi" width="1em" height="1em" fill="currentColor">
 										<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
@@ -132,7 +132,7 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								이 페이지를 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다. 
+								이 댓글을 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다. 
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-light-secondary"	data-bs-dismiss="modal">
@@ -183,6 +183,25 @@
 				<!--end of 댓글수정모달 -->
 			<!--end of MODALS -->
 		<script>
+
+				//console.log(document.querySelectorAll('.postTagArm'));
+				//console.log(document.querySelectorAll('.postTagArm')[1].textContent);
+				let tagArmList = document.querySelectorAll('.postTagArm');
+				tagArmList.forEach(tags => {
+					//console.log(tags.textContent);
+				})
+
+				let getPnum = document.querySelectorAll('.getPostUniNo');
+				getPnum.forEach(gNum => {
+					let pNum = gNum.value;
+					fetch('/modu/post/' + pNum)
+					.then(resolve => resolve.json())
+					.then(data => {
+						data.forEach(tags => {
+							console.log(tags.postTagArm);
+						})
+					})
+				})
 				
 				//댓글리스트
 				function showReplyList() {
@@ -250,10 +269,7 @@
 												divTagDM.append(aTag);
 												divTag.append(divTagDM);
 												rPlace.append(divTag);
-												
-												
-												
-												
+
 											}
 											//end of reply-dropdown 
 
@@ -278,14 +294,15 @@
 			showReplyList();
 
 			//댓글input박스 입력시 아이콘변경
-			let reInputList = document.querySelectorAll('.replyInput');
-			reInputList.forEach(reIn => {
-				if(reIn.name == 'cntn'){
-					reIn.addEventListener('input', function(){
-						document.getElementsByTagName('use')[0].setAttribute('xlink:href','assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply-fill')
-					})
-				}
-			})
+			// let reInputList = document.querySelectorAll('.replyInput');
+			// reInputList.forEach(reIn => {
+			// 	if(reIn.name == 'cntn'){
+			// 		reIn.addEventListener('input', function(){
+			// 			document.getElementsByTagName('use')[0].setAttribute('xlink:href','assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply-fill')
+			// 		})
+			// 	}
+			// })
+
 			//댓글입력
 			let reBtnList = document.querySelectorAll('.replyBtn');
 			reBtnList.forEach(btn => {
@@ -294,24 +311,30 @@
 					let replyInfo = {};
 					let btnParent = btn.parentElement.parentElement;
 					let rInput = btnParent.querySelectorAll('.replyInput');
-					rInput.forEach(reply =>{
-						replyInfo[reply.name] = reply.value;
-					})
-					replyInfo["postUniNo"] = pNum;
-					
-					fetch('/modu/replyInsert',{
-						method : 'post',
-						headers : {
-							'content-type' : 'application/json'
-						},
-						body : JSON.stringify(replyInfo)
-					})
-					.then(result => result.json())
-					.then(data => {
-						//rInput.value = '';
-					showReplyList()
-					})
-					.catch(err => console.log(err))
+					//console.log(rInput[2]);
+					if(rInput[2].value != ""){
+						rInput.forEach(reply =>{
+							replyInfo[reply.name] = reply.value;
+						})
+						replyInfo["postUniNo"] = pNum;
+
+						fetch('/modu/replyInsert',{
+							method : 'post',
+							headers : {
+								'content-type' : 'application/json'
+							},
+							body : JSON.stringify(replyInfo)
+						})
+						.then(result => result.json())
+						.then(data => {
+							//rInput.value = '';
+							showReplyList()
+							rInput[2].value = '';
+						})
+						.catch(err => console.log(err))
+					}else{
+						alert('댓글작성해주세요')
+					}
 				})
 			})
 
@@ -379,63 +402,6 @@
 				.catch(err => console.log(err))
 			})
 
-			// //게시글등록
-			// document.getElementById('postInsertBtn').addEventListener('click', function(){
-			// 	let brdUniNo = document.getElementById('formBrdNo').value;
-			// 	let ttl = document.getElementById('formTtl').value;
-			// 	let cm = document.getElementById('formCm').value;
-			// 	let postTagArm = document.getElementById('formCall').value;
-			// 	let files = document.getElementById('attFile').files;
-			// 	//let attFiles = files.split(',');
-			// 	//일단여기까지? + 파일첨부기능넣을것
-
-			// 	//file객체로 받아서
-
-			// 	//console.log(document.getElementById('attFile').value);
-			// 	//console.log(typeof(document.getElementById('attFile').value));
-
-			// 	let postInfo = {};
-			// 	postInfo['brdUniNo'] = brdUniNo;
-			// 	postInfo['ttl'] = ttl;
-			// 	postInfo['cm'] = cm;
-			// 	postInfo['postTagArm'] = postTagArm;
-			// 	postInfo['attFiles'] = JSON.stringify(files[0]);
-
-			// 	console.log(postInfo);
-			// 	console.log(files);
-			// 	fetch("http://localhost:80/modu/postInsert",{
-			// 		method : 'post',
-			// 		headers : {
-			// 			'content-type' : 'application/json'
-			// 		},
-			// 		body : JSON.stringify(postInfo)
-			// 	})
-			// 	.then(result => result.json())
-			// 	.then(data => {
-			// 		console.log(data);
-			// 		//리다이렉트하기
-			// 	})
-			// })
-			// //멤버호출용리스트
-			// function callMembList(){
-			// 	let bNum = '[[${brdUniNo}]]';
-			// 	let user = '[[${session.particiMembUniNo}]]';
-			// 	fetch("http://localhost:80/modu/brdMembs/" + bNum)
-			// 	.then(resolve => resolve.json())
-			// 	.then(data => {
-			// 		//console.log(data);
-			// 		data.forEach(memb => {
-			// 			if(user != memb.particiMembUniNo){
-			// 			let optionTag = document.createElement('option');
-			// 			optionTag.setAttribute('value', memb.particiMembUniNo);
-			// 			optionTag.textContent = memb.nnm;
-			// 			document.getElementById('formCall').append(optionTag);
-			// 			}
-			// 		})
-			// 	})
-			// }
-			// callMembList();
-
 			//게시글삭제
 			function callDeletePostModal(e){
 				let pNum = e.target.parentElement.dataset.postunino;
@@ -472,16 +438,6 @@
 									let aTag = document.createElement('a');
 									aTag.setAttribute('href', "/modu/files/" + atts.attNo + "/download");
 									
-									// let icons = document.createElement('svg'); 
-									// icons.setAttribute('class', 'bi');
-									// icons.setAttribute('width', '1em');
-									// icons.setAttribute('height', '1em');
-									// icons.setAttribute('fill', 'currentColor');
-									// aTag.append(icons);
-									
-									// let icon = document.createElement('use');
-									// icon.setAttribute('xlink:href', 'assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark'); 
-									// icons.append(icon);
 									let icon = `<i class="bi bi-file-earmark"></i>`;
 									aTag.innerHTML += icon;
 									let spanTag = document.createElement('span'); // Create a new 'span' element to hold the file name
@@ -493,6 +449,15 @@
 
 									aPlace.append(divTag);
 
+									//이미지파일일때? 미리보기제공?
+									if(atts.ext == 'jpg' || atts.ext == 'jpeg' || atts.ext == 'png' || atts.ext == 'gif'){
+										divTag = document.createElement('div');
+										let imgTag = document.createElement('img');
+										imgTag.setAttribute('src','/modu/images/'+atts.attNo)
+										imgTag.setAttribute('height', '80px');
+										divTag.append(imgTag);
+										aPlace.append(divTag);
+									}
 								})
 							}
 						})

@@ -1,15 +1,22 @@
 package com.modu.app.prj.file.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URLEncoder;
+import java.nio.file.Files;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,8 +41,7 @@ public class FileController {
     @GetMapping("/files/{attNo}/download")
     public ResponseEntity<Resource> downloadFile(@PathVariable String attNo) {
         FileVO file = fileService.findFileById(attNo); //파일단건조회
-        Resource resource = FileUtill.readFileAsResource(uploadPath+"/upload",file); //파일리소스조회
-        
+        Resource resource = FileUtill.readFileAsResource(uploadPath+"/upload",file); //파일리소스조회        
         try {
             String filename = URLEncoder.encode(file.getAttNm(), "UTF-8"); //원래첨부파일이름
             return ResponseEntity.ok()
@@ -43,6 +49,7 @@ public class FileController {
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=\"" + filename + "\";")
                     .header(HttpHeaders.CONTENT_LENGTH, file.getFSize() + "")
                     .body(resource);
+            
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("filename encoding failed : " + file.getAttNm());
         }
@@ -58,6 +65,28 @@ public class FileController {
     	 }
     	return 1;
     }
+    
+    //img파일 미리보기??
+    @GetMapping("/images/{attNo}")
+    @ResponseBody
+    public Resource showImage(String attNm, @PathVariable String attNo) throws MalformedURLException {
+    	attNm = fileService.findFileById(attNo).getServerAttNm();
+        return new UrlResource("file:" + (uploadPath+"/upload/") + attNm);
+    }
+//    public ResponseEntity<byte[]> getFile(String attNo, String filePath){
+//    	FileVO fileVO = fileService.findFileById(attNo); //파일단건조회
+//    	File file = new File((uploadPath+"/upload")+File.separatorChar +filePath, attNo);
+//
+//        ResponseEntity<byte[]> result=null;
+//        try {
+//            HttpHeaders headers=new HttpHeaders();
+//            headers.add("Content-Type", Files.probeContentType(file.toPath()));
+//            result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),headers,HttpStatus.OK );
+//        }catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return result;
+//    }
     
     //첨부파일단건삭제(DB에서이름만삭제하는거임)
     @GetMapping("/delFile/{attNo}")

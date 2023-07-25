@@ -30,7 +30,6 @@ public class PostController {
 	public String postList(Model model, String brdUniNo) {
 		model.addAttribute("brdUniNo", brdUniNo);
 		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
-		
 		return "post/postList";
 	}
 
@@ -94,8 +93,19 @@ public class PostController {
 
 	// 수정처리
 	@PostMapping("postUpdate")
-	public String postUpdate(PostVO postVO) {
+	public String postUpdate(PostVO postVO, MultipartFile[] file) {
+		
 		postService.updatePost(postVO);
+		
+		PostVO upPost = postService.getOnePost(postVO.getPostUniNo());//업데이트 된 게시글 단건조회
+	
+		//첨부파일추가등록
+		FileVO fileVO = new FileVO();
+		fileVO.setPostUniNo(upPost.getPostUniNo());
+		fileVO.setParticiMembUniNo(upPost.getParticiMembUniNo());
+		
+		fileService.insertFile(file, fileVO); 
+		
 		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo();
 	}
 

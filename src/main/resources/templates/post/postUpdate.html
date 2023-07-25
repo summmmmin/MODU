@@ -18,7 +18,7 @@
 			<div class="col">
 				<div class="card">
 					<div class="card-body">
-						<form th:action="@{/postUpdate}" method="POST" th:object="${post}">
+						<form th:action="@{/postUpdate}" method="POST" th:object="${post}" enctype ="multipart/form-data">
 							<input type="hidden" th:value="${post.postUniNo}" th:field="*{postUniNo}"> 
 							<input type="hidden" th:value="${post.brdUniNo}" th:field="*{brdUniNo}"> 
 							<input type="hidden" th:value="${post.prjUniNo}" th:field="*{prjUniNo}">
@@ -52,7 +52,7 @@
 											</li>
 										</ul>
 									</div>
-									<input type="file" class="multiple-files-filepond" multiple>
+									<input type="file" name="file" class="multiple-files-filepond" multiple>
 								</div>
 								<!--멤버호출부-->
 							

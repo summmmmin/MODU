@@ -37,6 +37,7 @@ public class BoardController {
 		PrjVO vo = prjService.prjSession(prjVO);
 		session.setAttribute("prjUniNo", vo.getPrjUniNo());
 		session.setAttribute("particiMembUniNo", vo.getParticiMembUniNo());
+		session.setAttribute("grd", vo.getGrd());
 
 		return "index";
 	}
