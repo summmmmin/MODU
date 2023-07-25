@@ -1,10 +1,16 @@
 package com.modu.app.prj.post.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.modu.app.common.FileUtill;
 import com.modu.app.prj.file.service.FileService;
+import com.modu.app.prj.file.service.FileVO;
 import com.modu.app.prj.post.service.MembDTO;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
@@ -37,6 +45,14 @@ public class PostRestController {
 	@GetMapping("post/{pNum}")
 	public PostVO postOne(@PathVariable("pNum") String postUniNo) {
 		return postService.getOnePost(postUniNo);
+	}
+	
+	// 첨부파일조회?
+	@GetMapping("attPost/{pNum}")
+	public List<FileVO> fileListWithPost(@PathVariable("pNum") String postUniNo){
+		FileVO fileVO = new FileVO();
+		fileVO.setPostUniNo(postUniNo);
+		return fileService.fileList(fileVO);
 	}
 	
 	// 등록
@@ -86,8 +102,14 @@ public class PostRestController {
 	@GetMapping("postDelete/{pNum}")
 	public String postDelete(@PathVariable("pNum") String postUniNo) {
 		postService.deletePost(postUniNo);
+		
+		//게시글삭제시 첨부파일도 함께 삭제
+		FileVO fileVO = new FileVO();
+		fileVO.setPostUniNo(postUniNo);
+		fileService.deleteFiles(fileVO);
 		return postUniNo;
 	}
+	
 //	@DeleteMapping("post/{pNum}")
 //	public String postDelete(@PathVariable("pNum") String postUniNo) {
 //		postService.deletePost(postUniNo);
