@@ -45,7 +45,6 @@
 		WHERE post_uni_no = #{postUniNo} and partici_memb_uni_no = #{particiMembUniNo}
 	</select>
 	
-	
 	<!-- 즐겨찾기 삭제 -->
 	<delete id="BmDelete" parameterType="BmVO">
 		DELETE bm 
