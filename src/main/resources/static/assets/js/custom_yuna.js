@@ -1,4 +1,5 @@
-$(document).ready(function () {
+$(document).ready(function() {
+
     function showError(selector, message) {
         $(selector).text(message).show();
         $(selector).prev().addClass('error-border');
@@ -8,44 +9,6 @@ $(document).ready(function () {
         $(selector).hide().prev().removeClass('error-border');
     }
 
-    function verifySmsCode(showAlert = false) {
-        return new Promise((resolve, reject) => {
-            var code = $('input[name="verificationCode"]').val();
-
-            if (!code) {
-                showError('#verifyError', "휴대폰 인증을 해주십시오.");
-                reject(new Error("휴대폰 인증 실패"));
-            } else {
-                hideError('#verifyError');
-            }
-
-            var requestData = {
-                'code': code
-            };
-
-            $.ajax({
-                url: 'verifyCode',
-                type: 'POST',
-                data: JSON.stringify(requestData),
-                contentType: 'application/json',
-                success: function (response) {
-                    if (response.valid) {
-                        if (showAlert) {
-                            alert("인증번호 확인에 성공했습니다!");
-                        }
-                        resolve(true);
-                    } else {
-                        showError('#verifyError', "인증번호가 일치하지 않습니다.");
-                        reject(new Error("인증번호 불일치"));
-                    }
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    showError('#verifyError', "인증 에러");
-                    reject(new Error("인증 실패"));
-                }
-            });
-        });
-    }
 
     $('#sendVerificationCode').on('click', function () {
         var phoneNumber = $('input[name="phNo"]').val();
@@ -67,127 +30,144 @@ $(document).ready(function () {
         });
     });
 
+    function verifySmsCode(showAlert = false) {
+        return new Promise((resolve, reject) => {
+            var code = $('input[name="verificationCode"]').val();
+
+            if(!code) {
+                showError('#verifyError', "휴대폰 인증을 해주십시오.");
+                reject(false);
+            } else {
+                hideError('#verifyError');
+            }
+
+            var requestData = {
+                'code': code
+            };
+
+            $.ajax({
+                url: 'verifyCode',
+                type: 'POST',
+                data: JSON.stringify(requestData),
+                contentType: 'application/json',
+                success: function (response) {
+                    if (response.valid) {
+                        if (showAlert) {
+                            alert("인증번호 확인에 성공했습니다!");
+                        }
+                        resolve(true);
+                    } else {
+                        showError('#verifyError', "인증번호가 일치하지 않습니다.");
+                        reject(false);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    showError('#verifyError', "인증 에러");
+                    reject(false);
+                }
+            });
+        });
+    }
+
     $('#verifyCodeButton').on('click', function () {
-        verifySmsCode(true)
-            .catch((error) => {
-                console.log("verifySmsCode catch:", error);
-                alert("인증번호가 다릅니다.");
-            });
+        verifySmsCode(true);
     });
 
-    $('#signupButton').on('click', function (event) {
-        event.preventDefault();
+        $('#signupButton').on('click', function (event) {
+    event.preventDefault();
 
-        var email = $('input[name="id"]').val();
-        var name = $('input[name="nm"]').val();
-        var phoneNumber = $('input[name="phNo"]').val();
-        var password = $('input[name="pwd"]').val();
-        var confirmPassword = $('input[name="confirmPwd"]').val();
+    var email = $('input[name="id"]').val();
+    var name = $('input[name="nm"]').val();
+    var phoneNumber = $('input[name="phNo"]').val();
+    var password = $('input[name="pwd"]').val();
+    var confirmPassword = $('input[name="confirmPwd"]').val();
+    var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
 
-        var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
+    // Check for empty fields first
+    if (!email) {
+        showError('#emailError', "이메일을 입력해주세요.");
+        return;
+    }
 
-        // 휴대폰 번호 중복 체크
-        var phoneNumberPromise = new Promise((resolve, reject) => {
-            $.ajax({
-                url: 'phNoVaild',
-                type: 'POST',
-                data: phoneNumber,
-                contentType: "text/plain",
-                success: function (data) {
-                    if (data === "이미 존재하는 번호입니다.") {
-                        showError('#phoneError', data);
-                        reject(new Error("휴대폰 번호 중복"));
-                    } else {
-                        hideError('#phoneError');
-                        resolve(true);
+    if (!name) {
+        showError('#nameError', "이름을 입력해주세요.");
+        return;
+    }
+
+    if (!phoneNumber) {
+        showError('#phoneError', "전화번호를 입력해주세요.");
+        return;
+    }
+
+    if (!password) {
+        showError('#passwordError', "비밀번호를 입력해주세요.");
+        return;
+    }
+
+    if (!confirmPassword) {
+        showError('#confirmPasswordError', "비밀번호를 다시 입력해주세요.");
+        return;
+    } 
+
+    if (!passwordRegex.test(password)) {
+        showError('#passwordError', "비밀번호는 영문자, 숫자, 특수 문자를 모두 포함한 8~16자 사이여야 합니다.");
+        return;
+    } 
+
+    if (password !== confirmPassword) {
+        showError('#confirmPasswordError', "비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+        return;
+    }
+
+    // 아이디 중복 체크를 수행하여 가입 처리 진행
+    $.ajax({
+        url: 'idvaild',
+        type: 'POST',
+        data: email, // 객체 형태로 데이터 전송
+        contentType: "text/plain",
+        success: function(data) {
+            if (data === "이미 존재하는 아이디입니다.") {
+                showError('#emailError', data);
+            } else {
+                hideError('#emailError');
+                // Now all fields are filled and verified, proceed with SMS verification
+                verifySmsCode().then(isSmsVerified => {
+                    if(isSmsVerified) {
+                        $("form").submit();
+                        alert("회원가입이 완료되었습니다.\n" + `환영합니다 ${name}님! \n` + "이메일을 확인하시고, 계정을 활성화 해주세요." );
                     }
-                },
-                error: function (xhr, status, error) {
-                    console.error("휴대폰 번호 중복 체크 AJAX 요청 에러:", error);
-                    reject(new Error("휴대폰 번호 중복 체크 실패"));
-                }
-            });
-        });
-
-        // 이메일 중복 체크
-        var emailPromise = new Promise((resolve, reject) => {
-            $.ajax({
-                url: 'idvaild',
-                type: 'POST',
-                data: email,
-                contentType: "text/plain",
-                success: function (data) {
-                    if (data === "이미 존재하는 아이디입니다.") {
-                        showError('#emailError', data);
-                        reject(new Error("이메일 중복"));
-                    } else {
-                        hideError('#emailError');
-                        resolve(true);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("이메일 중복 체크 AJAX 요청 에러:", error);
-                    reject(new Error("이메일 중복 체크 실패"));
-                }
-            });
-        });
-
-        phoneNumberPromise
-            .then(() => {
-                // 폼 데이터 유효성 검사 및 회원가입 처리
-                if (!name) {
-                    showError('#nameError', "이름을 입력해주세요.");
-                } else {
-                    hideError('#nameError');
-                }
-
-            })
-            .catch((error) => {
-                console.log("phoneNumberPromise catch:", error);
-                alert("회원가입에 실패하였습니다. 다시 시도해주세요.");
-            });
-
-        emailPromise
-            .then(() => {
-                // Additional logic for email validation, if needed
-            })
-            .catch((error) => {
-                console.log("emailPromise catch:", error);
-                alert("회원가입에 실패하였습니다. 다시 시도해주세요.");
-            });
+                }).catch(() => {
+                    showError('#verifyError', "휴대폰 인증을 확인해주세요.");
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX 요청 에러:", error); // AJAX 요청 에러 확인용 로그
+        }
     });
+});
 
-    $('input[name="id"]').on('input', function () {
+    $('input[name="id"]').on('input', function() {
         hideError('#emailError');
     });
 
-    $('input[name="nm"]').on('input', function () {
+    $('input[name="nm"]').on('input', function() {
         hideError('#nameError');
     });
 
-    $('input[name="phNo"]').on('input', function () {
+    $('input[name="phNo"]').on('input', function() {
         hideError('#phoneError');
     });
 
-    $('input[name="pwd"]').on('input', function () {
+    $('input[name="pwd"]').on('input', function() {
         hideError('#passwordError');
     });
 
-    $('input[name="confirmPwd"]').on('input', function () {
+    $('input[name="confirmPwd"]').on('input', function() {
         hideError('#confirmPasswordError');
     });
 
-    $('input[name="phNo"]').on('input', function () {
-        hideError('#phoneError');
-        hideError('#phNoDuplicateMessage');
-    });
-
-    $('input[name="id"]').on('input', function () {
-        hideError('#emailError');
-        hideError('#idDuplicateMessage');
-    });
-
-    $('input[name="verificationCode"]').on('input', function () {
+    $('input[name="verificationCode"]').on('input', function() {
         hideError('#verifyError');
     });
 });
