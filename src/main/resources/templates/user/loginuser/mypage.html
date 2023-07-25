@@ -79,11 +79,16 @@
 											style="display: none;">
 											<label for="new-name-horizontal">새로운 이름</label>
 										</div>
-										<div class="col-md-8 form-group" id="new-name-group"
+										<div class="col-md-3 form-group" id="new-name-group"
 											style="display: none;">
 											<input type="text" id="new-name-horizontal"
 												class="form-control" name="new-name" placeholder="새로운 이름"
 												style="width: 300px;">
+										</div>
+										<div class="col-md-5 form-group" id="new-name-button-group"
+											style="display: none;">
+											<button type="button" id="new-name-check-button"
+												class="btn btn-primary">확인</button>
 										</div>
 										<div class="col-md-4" id="password-label">
 											<label for="new-password">비밀번호</label>
@@ -113,14 +118,21 @@
 										</div>
 										<div class="col-md-4" id="confirm-password-label"
 											style="display: none;">
-											<label for="confirm-password">새로운 비밀번호 확인</label>
+											<label for="confirm-password">비밀번호 확인</label>
 										</div>
-										<div class="col-md-8 form-group" id="confirm-password-group"
+										<div class="col-md-3 form-group" id="confirm-password-group"
 											style="display: none;">
 											<input type="password" id="confirm-password"
 												class="form-control" name="confirm-password"
 												placeholder="새로운 비밀번호 확인" style="width: 300px;">
 										</div>
+										<div class="col-md-5 form-group"
+											id="new-password-button-group" style="display: none;">
+											<button type="button" id="new-password-check-button"
+												class="btn btn-primary">확인</button>
+										</div>
+
+
 										<!-- 										<div class="col-sm-12 d-flex justify-content-end">
 											<button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
 											<button type="reset"
@@ -136,37 +148,54 @@
 		</div>
 	</section>
 	<script>
-	$(document).ready(function() {
-	    let activeElement = "";
+		$(document)
+				.ready(
+						function() {
+							let activeElement = "";
 
-	    $("#user-id-horizontal, label[for='user-id-horizontal']").click(function() {
-	        toggleElement("#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group", "#user-id-horizontal");
-	    });
+							$(
+									"#user-id-horizontal, label[for='user-id-horizontal']")
+									.click(
+											function() {
+												toggleElement(
+														"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group",
+														"#user-id-horizontal");
+											});
 
-	    $("#name, label[for='name']").click(function() {
-	        toggleElement("#new-name-label, #new-name-group", "#name");
-	    });
+							$("#name, label[for='name']")
+									.click(
+											function() {
+												toggleElement(
+														"#new-name-label, #new-name-group, #new-name-button-group",
+														"#name");
+											});
 
-	    $("#password-label, #new-password, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #confirm-password-label, #confirm-password-group").click(function() {
-	        toggleElement("#current-password-label, #current-password-group, #new-password-label, #new-password-group, #confirm-password-label, #confirm-password-group", "#password-label");
-	    });
+							$("#password-label, #new-password")
+									.click(
+											function() {
+												toggleElement(
+														"#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group",
+														"#new-password");
+											});
 
-	    function hideAllSlides() {
-	        $("#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #confirm-password-label, #confirm-password-group").hide();
-	    }
+							function hideAllSlides() {
+								$(
+										"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group")
+										.hide();
+							}
 
-	    function toggleElement(elementSelectors, clickedElement) {
-	        if (activeElement !== clickedElement) {
-	            hideAllSlides();
-	            $(elementSelectors).slideDown();
-	            activeElement = clickedElement;
-	        } else {
-	            $(elementSelectors).slideUp();
-	            activeElement = "";
-	        }
-	    }
-	});
-
+							function toggleElement(elementSelectors,
+									clickedElement) {
+								if (activeElement !== clickedElement) {
+									hideAllSlides();
+									$(elementSelectors).slideDown();
+									activeElement = clickedElement;
+								} else {
+									$(elementSelectors).slideUp();
+									activeElement = "";
+								}
+							}
+						});
 	</script>
 </body>
 
