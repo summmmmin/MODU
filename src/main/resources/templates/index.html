@@ -495,23 +495,29 @@
     </script>
 
 	<script>
+	//할 일 리스트로 이동
  	function todoList(){
  	 $.ajax("todo")
 		.done(result=>$("#rsidebarContent").html(result));
  	}
+	
+ 	//투표 리스트로 이동
  	function voteList(){
  	  $.ajax("vote")
  		.done(result=>$("#rsidebarContent").html(result))
  	}
+ 	
+ 	//즐겨찾기 리스트로 이동
  	function bmList(){
  		$.ajax("bm")
  		.done(result => $("#rsidebarContent").html(result))
  	}
+ 	
+ 	//검색 페이지로 이동
  	 function searchList(){
      	$.ajax("search")
      	.done(result => $("#rsidebarContent").html(result))
      }
  	</script>
- 	
 </body>
 </html>
