@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.modu.app.prj.chat.service.ChatService;
 import com.modu.app.prj.chat.service.ChatVO;
 import com.modu.app.prj.chat.service.ChatrDTO;
 import com.modu.app.prj.chat.service.ChatrParticiVO;
 import com.modu.app.prj.chat.service.ChatrVO;
+import com.modu.app.prj.file.service.FileVO;
 import com.modu.app.prj.post.service.MembDTO;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.prj.service.PrjService;
@@ -125,15 +128,23 @@ public class ChatController {
 	//채팅메세지insert
 	@PostMapping("chatMsg")
 	@ResponseBody
-	public ChatVO insertChat(@RequestBody ChatVO chatVO, HttpSession session) {
+	public ChatVO insertChat(ChatVO chatVO, HttpSession session, 
+							@RequestPart(value = "file") MultipartFile file) {
 		String chatrNo = (String) session.getAttribute("chatrNo");
 		String chatParticiMembUniNo = (String) session.getAttribute("chatParticiMembUniNo");
+		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 		
 		chatVO.setChatrNo(chatrNo);
 		chatVO.setChatParticiMembUniNo(chatParticiMembUniNo);
 		
-		//System.out.println(chatVO);
+		//채팅(메세지)등록
 		chatService.insertChat(chatVO);
+		
+		//첨부파일등록
+		FileVO fileVO = new FileVO();
+		fileVO.setChatNo((long) chatVO.getChatNo());
+		fileVO.setParticiMembUniNo(particiMembUniNo);
+		
 		return chatVO;
 	}
 	

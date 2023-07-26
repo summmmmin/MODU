@@ -16,6 +16,9 @@ public class ChatVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date WriteDt; //작성일자
 	
+	private String particiMembUniNo;
+	
+	
 	private ChatVO() {}
 	
 	//롬복있으니까 이거 필요없는 거 아님?
