@@ -275,20 +275,25 @@
 										}
 									});
 						});
-			      $.ajax({
-			        type: 'POST',
-			        url: 'quitUser',
-			        data: {
-			          id: userId
-			        },
-			        success: function(response) {
-			          alert("탈퇴메세지");
-			        },
-			        error: function() {
-			          alert("에러메세지");
-			        }
-			      });
-			</script>
+
+		$(document).ready(function() {
+			  $('#quitUserBtn').on('click', function() {
+			    $.ajax({
+			      type: 'POST',
+			      url: 'quitUser',
+			      data: { 
+			        id: '<%= session.getAttribute("id") %>'
+			      },
+			      success: function(response) {
+			        alert("탈퇴메세지");
+			      },
+			      error: function() {
+			        alert("에러메세지");
+			      }
+			    });
+			  });
+			});
+	</script>
 
 </body>
 

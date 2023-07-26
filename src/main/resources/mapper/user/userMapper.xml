@@ -154,13 +154,7 @@
 		SET quit = 'Y'
 		WHERE id = #{id}
 	</update>
-	
-	<!-- 회원 탈퇴(진짜) -->
-	<delete id="deleteUser" parameterType="String">
-	DELETE 
-	FROM memb
-	WHERE id = #{id}
-	</delete>
+
 
 </mapper>
   

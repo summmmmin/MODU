@@ -350,7 +350,7 @@ public class UserController {
 	
 	
 	// 회원 탈퇴
-	    @PostMapping("quitUser")
+	    @PostMapping("loginuser/quitUser")
 	    public ResponseEntity<String> quitUser(HttpServletRequest request) {
 	    	HttpSession session = request.getSession();
 	    	String id = (String)session.getAttribute("userId");
@@ -361,4 +361,24 @@ public class UserController {
 	        userService.quitUser(id);
 	        return ResponseEntity.ok("탈퇴 처리 완료");
 	    }
+	    
+	    
+	    
+	    
+	    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	    
+	    
+	    // 관리자 대시보드
+	    @GetMapping("admin/dashboard")
+	    public String dashboard() {
+	    	return "admin/dashboard";
+	    }
+	    
+	    // 관리자 유저목록
+	   @GetMapping("admin/userList")
+	   public String userList() {
+		   return "admin/userList";
+	   }
+	   
+	   
 	}

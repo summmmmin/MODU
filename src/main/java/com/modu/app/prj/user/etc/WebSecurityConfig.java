@@ -33,7 +33,7 @@ public class WebSecurityConfig {
 	       http
 	           .csrf().disable()		//csrf공격방지
 	           .authorizeHttpRequests()	//요청설정
-	           .antMatchers("/", "/static/**", "/signup/**", "/sms/**", "/modu/**", "/**").permitAll()
+	           .antMatchers("/", "/static/**", "/signup/**", "/sms/**", "/modu/**", "/**", "/admin/**").permitAll()
 	           .anyRequest().authenticated()	// antMatchers 외의 기능은 권한요구(인증)
 	           .and()
 	           .formLogin()					// 로그인
