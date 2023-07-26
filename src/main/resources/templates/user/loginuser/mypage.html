@@ -140,6 +140,44 @@
 											<button type="button" id="new-password-check-button"
 												class="btn btn-primary">확인</button>
 										</div>
+<div class="col-md-4">
+    <label id="phone-number-label" for="phone-number">휴대폰 번호</label>
+</div>
+
+										<div class="col-md-8 form-group">
+											<div id="phone-number" style="width: 300px;"
+												th:text="${userVO.phNo}"></div>
+										</div>
+										<div class="col-md-4" id="new-phone-label"
+											style="display: none;">
+											<label for="new-phone-horizontal">새로운 번호</label>
+										</div>
+										<div class="col-md-3 form-group" id="new-phone-group"
+											style="display: none;">
+											<input type="tel" id="new-phone-horizontal"
+												class="form-control" name="new-phone" placeholder="새로운 번호"
+												style="width: 300px;">
+										</div>
+										<div class="col-md-2 form-group" id="phone-button-group"
+											style="display: none;">
+											<button type="button" id="phone-send-button"
+												class="btn btn-primary">발송</button>
+										</div>
+										<div class="col-md-4" id="phone-code-label"
+											style="display: none;">
+											<label for="phone-code-horizontal">인증번호</label>
+										</div>
+										<div class="col-md-3 form-group" id="phone-code-group"
+											style="display: none;">
+											<input type="text" id="phone-code-horizontal"
+												class="form-control" name="phone-code" placeholder="인증번호"
+												style="width: 300px;">
+										</div>
+										<div class="col-md-2 form-group" id="phone-code-button-group"
+											style="display: none;">
+											<button type="button" id="phone-check-button"
+												class="btn btn-primary">확인</button>
+										</div>
 									</div>
 								</div>
 							</form>
@@ -150,36 +188,36 @@
 			</div>
 		</div>
 	</section>
-		<!--Danger theme Modal -->
-		<div class="modal fade text-left" id="danger" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-				role="document">
-				<div class="modal-content">
-					<div class="modal-header bg-danger">
-						<h5 class="modal-title white" id="myModalLabel120">탈퇴</h5>
-						<button type="button" class="close" data-bs-dismiss="modal"
-							aria-label="Close">
-							<i data-feather="x"></i>
-						</button>
-					</div>
-					<div class="modal-body">정말로 탈퇴하시겠습니까?</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-light-secondary"
-							data-bs-dismiss="modal">
-							<i class="bx bx-x d-block d-sm-none"></i> <span
-								class="d-none d-sm-block">취소</span>
-						</button>
-						<button type="button" class="btn btn-danger ml-1" id="confirmQuit"
-							data-bs-dismiss="modal">
-							<i class="bx bx-check d-block d-sm-none"></i> <span
-								class="d-none d-sm-block">탈퇴</span>
-						</button>
-					</div>
+	<!--Danger theme Modal -->
+	<div class="modal fade text-left" id="danger" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+			role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-danger">
+					<h5 class="modal-title white" id="myModalLabel120">탈퇴</h5>
+					<button type="button" class="close" data-bs-dismiss="modal"
+						aria-label="Close">
+						<i data-feather="x"></i>
+					</button>
+				</div>
+				<div class="modal-body">정말로 탈퇴하시겠습니까?</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light-secondary"
+						data-bs-dismiss="modal">
+						<i class="bx bx-x d-block d-sm-none"></i> <span
+							class="d-none d-sm-block">취소</span>
+					</button>
+					<button type="button" class="btn btn-danger ml-1" id="confirmQuit"
+						data-bs-dismiss="modal">
+						<i class="bx bx-check d-block d-sm-none"></i> <span
+							class="d-none d-sm-block">탈퇴</span>
+					</button>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 
 	<script>
@@ -188,23 +226,42 @@
 						function() {
 							let activeElement = "";
 
-						    $("#user-id-horizontal, label[for='user-id-horizontal']").click(function() {
-						        toggleElement("#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group", "#user-id-horizontal");
-						    });
+							$(
+									"#user-id-horizontal, label[for='user-id-horizontal']")
+									.click(
+											function() {
+												toggleElement(
+														"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group",
+														"#user-id-horizontal");
+											});
 
-						    $("#name, #user-name").click(function() {
-						        toggleElement("#new-name-label, #new-name-group, #new-name-button-group", "#name", "#user-name");
-						    });
+							$("#name, #user-name")
+									.click(
+											function() {
+												toggleElement(
+														"#new-name-label, #new-name-group, #new-name-button-group",
+														"#name", "#user-name");
+											});
 
-						    $("#password-label, #new-password").click(function() {
-						        toggleElement("#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group", "#new-password");
-						    });
+							$("#password-label, #new-password")
+									.click(
+											function() {
+												toggleElement(
+														"#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group",
+														"#new-password");
+											});
+							$("#phone-number-label, #phone-number").click(function() {
+							    toggleElement("#new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group");
+							});
+
+
 
 							function hideAllSlides() {
-								$(
-										"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group")
-										.hide();
+							    $(
+							        "#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group, #new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group"
+							    ).hide();
 							}
+
 
 							function toggleElement(elementSelectors,
 									clickedElement) {
@@ -218,7 +275,7 @@
 								}
 							}
 
-							// Name change
+							// 이름 변경
 							$("#new-name-check-button")
 									.click(
 											function() {
