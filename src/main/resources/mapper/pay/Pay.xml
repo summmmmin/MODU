@@ -36,4 +36,11 @@
 	  LEFT OUTER JOIN pay ON prj.pay_uni_no=pay.pay_uni_no
 	where exdt is not null
  	</select>
+ 	
+ 	<!-- 프로젝트 구독 상태 변경(Y: 구독중, N: 구독안함, E: 구독결제실패, C: 구독중인데 해지신청상태) -->
+ 	<update id="updateStat" parameterType="PayVO">
+ 	UPDATE prj
+	SET subsp_yn = #{subspYn}, exdt=null, pay_token=null, pay_uni_no=null
+	WHERE prj_uni_no = #{prjUniNo}
+ 	</update>
  </mapper>

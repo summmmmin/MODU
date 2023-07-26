@@ -1,5 +1,6 @@
 package com.modu.app.prj.pay.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -23,6 +24,12 @@ public class PayVO {
 	private String email;		//이메일
 	private String phone;		//전화번호
 	
+    // 프로젝트 테이블
+    private String prjNm;		// 프로젝트이름
+    private String subspYn;		// 구독여부	
+    private LocalDate exdt;		//구독만료일자
+    private String payToken;	// 정기결제토큰
+    
 	// 카카오페이
 	// 결제 요청시 카카오에게 받음
 	private String next_redirect_pc_url; //요청한 클라이언트가 PC 웹일 경우 카카오톡으로 결제 요청 메시지(TMS)를 보내기 위한 사용자 정보 입력 화면 Redirect URL
@@ -40,16 +47,12 @@ public class PayVO {
     private String item_name; // 상품명
     private String item_code; // 상품 코드
     private int quantity; // 상품 수량
-    private LocalDateTime created_at; // 결제 요청 시간
+    private LocalDateTime created_at; // 결제 요청 시간, sid발급시각
     private LocalDateTime approved_at; // 결제 승인 시간
     private String payload; // 결제 승인 요청에 대해 저장 값, 요청 시 전달 내용
     
-    
-    // 프로젝트 테이블
-//    PRJ_UNI_NO NOT NULL VARCHAR2(10)  
-//    PRJ_NM     NOT NULL VARCHAR2(20)  
-//    SUBSP_YN   NOT NULL CHAR(1)       
-//    EXDT                DATE          
-//    PAY_TOKEN           VARCHAR2(30)  
-//    PAY_UNI_NO          VARCHAR2(150) 
+    private String status;	//정기결제상태, Active or Inactive
+    private LocalDateTime last_approved_at;  //마지막결제승인시각
+    private LocalDateTime inactivated_at; //정기결제비활성화 시각
+    private boolean available; //사용 가능 여부
 }
