@@ -112,5 +112,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			return "아이디 변경 실패";
 		}
 	}
+	
+	@Override
+	public String quitUser(String id) {
+		return userMapper.quitUser(id);
+	}
 
 }

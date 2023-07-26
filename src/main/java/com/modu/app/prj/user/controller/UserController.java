@@ -344,29 +344,19 @@ public class UserController {
 	}
 	
 	// 아이디 변경을 위한 이메일 전송
-	
-	// 아이디 변경(인증번호)
-	 @PostMapping("send-email")
-	    public ResponseEntity<String> sendEmail(HttpSession session, @RequestParam String email) {
-	        String authCode = UUID.randomUUID().toString();
-	        boolean emailSent = sendEmail(email, authCode);
-	        if (emailSent) {
-	            session.setAttribute(email, authCode);
-	            return ResponseEntity.ok("인증 코드가 이메일로 발송되었습니다.");
-	        } else {
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이메일 발송 실패");
-	        }
-	    }
 
-	    @PostMapping("verify-email")
-	    public ResponseEntity<String> verifyEmail(HttpSession session, @RequestParam String email, @RequestParam String enteredAuthCode) {
-	        String storedAuthCode = (String) session.getAttribute(email);
-	        if (enteredAuthCode.equals(storedAuthCode)) {
-	            session.removeAttribute(email);
-	            return ResponseEntity.ok("인증 성공");
-	        } else {
-	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 코드 불일치");
-	        }
+	
+	// 휴대폰 번호 변경
+	
+	
+	// 회원 탈퇴
+	    @PostMapping("/quitUser")
+	    public ResponseEntity<String> quitUser(@RequestParam String id) {
+	        userService.quitUser(id);
+	        return ResponseEntity.ok("탈퇴 처리 완료");
 	    }
+	}
+
+	
 
 }

@@ -131,16 +131,10 @@
 											<button type="button" id="new-password-check-button"
 												class="btn btn-primary">확인</button>
 										</div>
-
-
-										<!-- 										<div class="col-sm-12 d-flex justify-content-end">
-											<button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
-											<button type="reset"
-												class="btn btn-light-secondary me-1 mb-1">Reset</button>
-										</div> -->
 									</div>
 								</div>
 							</form>
+							<a href="#" class="btn btn-danger">회원 탈퇴</a>
 						</div>
 					</div>
 				</div>
@@ -222,28 +216,6 @@ $("#new-password-check-button").click(function() {
                 toggleElement("#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group","#new-password");
             } else {
 
-                alert(response);
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR, textStatus, errorThrown);
-        }
-    });
-});
-
-//발송 버튼 클릭 시
-$("#send-button").click(function() {
-    var email = $("#email-horizontal").val();
-
-    $.ajax({
-        type: "POST",
-        url: "modifyId",  
-        data: {email: email}, 
-        success: function(response) {
-            console.log(response);
-            if (response === "이메일 발송 성공") {
-                alert("이메일이 성공적으로 발송되었습니다. 이메일을 확인해 주세요.");
-            } else {
                 alert(response);
             }
         },
