@@ -67,4 +67,9 @@ public class BoardController {
 		return "/boardLIst/boardList";
 	}
 	
+	@GetMapping("boardDelete")
+	public String BoardDelete(Model model) {
+		
+		return "";
+	}
 }
