@@ -22,8 +22,8 @@ import com.modu.app.prj.prj.mapper.PrjMapper;
 
 @Service
 public class PayServiceImpl implements PayService {
-	static final String cid = "TCSUBSCRIP"; // 정기결제 가맹점 테스트 코드
-    static final String admin_Key = "bb8281f41bca8ccd378d8d3fa648de84"; // 애플리케이션 어드민 키
+	static final String cid = ""; // 정기결제 가맹점 테스트 코드
+    static final String admin_Key = ""; // 애플리케이션 어드민 키
     private PayVO kakaoReady;
     private PayVO payInfo;
     
@@ -187,7 +187,7 @@ public class PayServiceImpl implements PayService {
 	}
 	
 	//@Scheduled(cron = "0 0 10 * * *") 
-	@Scheduled(fixedDelay = 10000)
+	//@Scheduled(fixedDelay = 10000)
 	public void run() {
 		LocalDate date = LocalDate.now().minusDays(1);	// 어제날짜
 
