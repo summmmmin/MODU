@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마이페이지</title>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/bootstrap.css">
+<link rel="stylesheet"
+	href="../assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/pages/auth.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<style type="text/css">
+</style>
+</head>
+
+<body>
+	<!-- Basic Horizontal form layout section start -->
+	<section id="basic-horizontal-layouts">
+		<div class="row match-height">
+			<div class="col-md-6 col-12">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title" th:text="${userVO.nm} + '님의 마이페이지'"></h4>
+					</div>
+					<div class="card-content">
+						<div class="card-body">
+							<form class="form form-horizontal">
+								<div class="form-body">
+									<div class="row">
+										<div class="col-md-4">
+											<label for="user-id-horizontal">아이디</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<div id="user-id-horizontal" style="width: 300px;"
+												th:text="${userVO.id}"></div>
+										</div>
+										<div class="col-md-4" id="email-label" style="display: none;">
+											<label for="email-horizontal">새로운 이메일</label>
+										</div>
+										<div class="col-md-3 form-group" id="email-group"
+											style="display: none;">
+											<input type="email" id="email-horizontal"
+												class="form-control" name="email-id" placeholder="새로운 이메일"
+												style="width: 300px;">
+										</div>
+										<div class="col-md-2 form-group" id="email-button-group"
+											style="display: none;">
+											<button type="button" id="send-button"
+												class="btn btn-primary">발송</button>
+										</div>
+										<div class="col-md-4" id="code-label" style="display: none;">
+											<label for="code-horizontal">인증번호</label>
+										</div>
+										<div class="col-md-3 form-group" id="code-group"
+											style="display: none;">
+											<input type="text" id="code-horizontal" class="form-control"
+												name="code" placeholder="인증번호" style="width: 300px;">
+										</div>
+										<div class="col-md-2 form-group" id="code-button-group"
+											style="display: none;">
+											<button type="button" id="check-button"
+												class="btn btn-primary">확인</button>
+										</div>
+										<div class="col-md-4">
+											<label for="name" id=name>이름</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<div id="user-name" style="width: 300px;" th:text="${userVO.nm}"></div>
+										</div>
+										<div class="col-md-4" id="new-name-label"
+											style="display: none;">
+											<label for="new-name-horizontal">새로운 이름</label>
+										</div>
+										<div class="col-md-3 form-group" id="new-name-group"
+											style="display: none;">
+											<input type="text" id="new-name-horizontal"
+												class="form-control" name="new-name" placeholder="새로운 이름"
+												style="width: 300px;">
+										</div>
+										<div class="col-md-5 form-group" id="new-name-button-group"
+											style="display: none;">
+											<button type="button" id="new-name-check-button"
+												class="btn btn-primary">확인</button>
+										</div>
+										<div class="col-md-4" id="password-label">
+											<label for="new-password">비밀번호</label>
+										</div>
+										<div class="col-md-8 form-group">
+											<div id="new-password" style="width: 300px;">******</div>
+										</div>
+										<div class="col-md-4" id="current-password-label"
+											style="display: none;">
+											<label for="current-password">현재 비밀번호</label>
+										</div>
+										<div class="col-md-8 form-group" id="current-password-group"
+											style="display: none;">
+											<input type="password" id="current-password"
+												class="form-control" name="current-password"
+												placeholder="현재 비밀번호" style="width: 300px;">
+										</div>
+										<div class="col-md-4" id="new-password-label"
+											style="display: none;">
+											<label for="new-password-confirm">새로운 비밀번호</label>
+										</div>
+										<div class="col-md-8 form-group" id="new-password-group"
+											style="display: none;">
+											<input type="password" id="new-password-confirm"
+												class="form-control" name="new-password-confirm"
+												placeholder="새로운 비밀번호" style="width: 300px;">
+										</div>
+										<div class="col-md-4" id="confirm-password-label"
+											style="display: none;">
+											<label for="confirm-password">비밀번호 확인</label>
+										</div>
+										<div class="col-md-3 form-group" id="confirm-password-group"
+											style="display: none;">
+											<input type="password" id="confirm-password"
+												class="form-control" name="confirm-password"
+												placeholder="새로운 비밀번호 확인" style="width: 300px;">
+										</div>
+										<div class="col-md-5 form-group"
+											id="new-password-button-group" style="display: none;">
+											<button type="button" id="new-password-check-button"
+												class="btn btn-primary">확인</button>
+										</div>
+
+
+										<!-- 										<div class="col-sm-12 d-flex justify-content-end">
+											<button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+											<button type="reset"
+												class="btn btn-light-secondary me-1 mb-1">Reset</button>
+										</div> -->
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+<script>
+$(document).ready(function() {
+    let activeElement = "";
+
+    $("#user-id-horizontal, label[for='user-id-horizontal']").click(function() {
+        toggleElement("#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group","#user-id-horizontal");
+    });
+
+    $("#name, label[for='name']").click(function() {
+        toggleElement("#new-name-label, #new-name-group, #new-name-button-group","#name", "#user-name");
+    });
+
+    $("#password-label, #new-password").click(function() {
+        toggleElement("#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group","#new-password");
+    });
+
+    function hideAllSlides() {
+        $("#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group").hide();
+    }
+
+    function toggleElement(elementSelectors, clickedElement) {
+        if (activeElement !== clickedElement) {
+            hideAllSlides();
+            $(elementSelectors).slideDown();
+            activeElement = clickedElement;
+        } else {
+            $(elementSelectors).slideUp();
+            activeElement = "";
+        }
+    }
+
+  //이름변경
+    $("#new-name-check-button").click(function() {
+        var newName = $("#new-name-horizontal").val();
+
+        $.ajax({
+            type: "POST",
+            url: "modifyNm",
+            data: {newName: newName},
+            success: function(response) {
+                console.log(response);
+                $('#user-name').text(newName);
+                $('.card-title').text(newName + '님의 마이페이지');
+                toggleElement("#new-name-label, #new-name-group, #new-name-button-group","#name"); // 변경에 성공하면 토글 닫기
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, textStatus, errorThrown);
+            }
+        });
+    });
+
+});
+</script>
+
+</body>
+
+</html>

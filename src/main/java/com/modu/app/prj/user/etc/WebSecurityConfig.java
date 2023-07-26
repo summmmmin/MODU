@@ -31,16 +31,17 @@ public class WebSecurityConfig {
 	   @Bean
 	   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	       http
-	           .csrf().disable()
-	           .authorizeHttpRequests()
-	           .antMatchers("/assets/**", "/signup", "/sms/**").permitAll()
-	           .anyRequest().authenticated()
+	           .csrf().disable()		//csrf공격방지
+	           .authorizeHttpRequests()	//요청설정
+	           .antMatchers("/", "/static/**", "/signup/**", "/sms/**", "/modu/**", "/**").permitAll()
+	           .anyRequest().authenticated()	// antMatchers 외의 기능은 권한요구(인증)
 	           .and()
-	           .formLogin()
-	           .passwordParameter("pwd")
-	           .successHandler(authenticationSuccessHandler())
+	           .formLogin()					// 로그인
+	           .passwordParameter("pwd")	// 비밀번호 받아옴
+	           .successHandler(authenticationSuccessHandler())	// 로그인 성공했을 경우
 	           .failureHandler(authenticationFailureHandler())
 	           .loginPage("/login")
+	           .failureUrl("/login?error=true") // 로그인 실패(비밀번호 틀림)
 	           .permitAll()
 	           .and()
 	           .logout((logout) -> logout.permitAll());

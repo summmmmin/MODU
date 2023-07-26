@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>인증 및 ID 검색</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+</head>
+
+<body>
+    <div>
+        <label for="name">이름</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+        <label for="phone">휴대폰 번호</label>
+        <input type="text" id="phone" name="phone" required>
+        <button type="button" id="sendVerificationCode">인증번호 발송</button>
+    </div>
+    <div>
+        <label for="verificationCode">인증번호</label>
+        <input type="text" id="verificationCode" name="verificationCode" required>
+        <span id="verifyError" style="color: red; display: none;">인증번호가 일치하지 않습니다.</span>
+    </div>
+    <div>
+        <button type="button" id="verifyButton">인증번호 확인</button>
+    </div>
+    <div>
+        <button type="button" id="idSearchButton" style="display: none;">확인</button>
+    </div>
+    <script>
+        function showError(selector, message) {
+            $(selector).text(message).show();
+            $(selector).prev().addClass('error-border');
+        }
+
+        function hideError(selector) {
+            $(selector).hide().prev().removeClass('error-border');
+        }
+
+        function verifySmsCode(showAlert = false) {
+            return new Promise((resolve, reject) => {
+                var code = $('input[name="verificationCode"]').val();
+
+                if (!code) {
+                    showError('#verifyError', "휴대폰 인증을 해주십시오.");
+                    reject(false);
+                } else {
+                    hideError('#verifyError');
+                }
+
+                var requestData = {
+                    'code': code
+                };
+
+                $.ajax({
+                    url: 'verifyCode',
+                    type: 'POST',
+                    data: JSON.stringify(requestData),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        if (response.valid) {
+                            if (showAlert) {
+                                alert("인증번호 확인에 성공했습니다!");
+                            }
+                            resolve(true);
+                        } else {
+                            showError('#verifyError', "인증번호가 일치하지 않습니다.");
+                            reject(false);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        showError('#verifyError', "인증 에러");
+                        reject(false);
+                    }
+                });
+            });
+        }
+
+        $('#sendVerificationCode').on('click', function () {
+            var phoneNumber = $('input[name="phone"]').val();
+            var dataToSend = {
+                to: phoneNumber
+            };
+            $.ajax({
+                url: 'send',
+                type: 'POST',
+                data: JSON.stringify(dataToSend),
+                contentType: 'application/json',
+                success: function (response) {
+                    alert("인증번호가 발송되었습니다.");
+                },
+                error: function (xhr, status, error) {
+                    alert("하이픈('-')없이 숫자만 입력해주세요.");
+                    console.error('에러 : ', error);
+                }
+            });
+        });
+
+        $('#verifyButton').on('click', function () {
+            verifySmsCode(true).then(isSmsVerified => {
+                if (isSmsVerified) {
+                    $('#idSearchButton').show();
+                }
+            }).catch(() => {
+                showError('#verifyError', "휴대폰 인증을 확인해주세요.");
+            });
+        });
+
+        $(document).ready(function () {
+            $('#idSearchButton').on('click', function () {
+                var name = $('#name').val();
+                var phone = $('#phone').val();
+
+                $.ajax({
+                    url: 'idSearch',
+                    type: 'POST',
+                    data: { name: name, phone: phone },
+                    success: function (response) {
+                        alert("idsearch 결과: " + response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('에러 : ', error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
