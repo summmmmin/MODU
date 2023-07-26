@@ -350,13 +350,15 @@ public class UserController {
 	
 	
 	// 회원 탈퇴
-	    @PostMapping("/quitUser")
-	    public ResponseEntity<String> quitUser(@RequestParam String id) {
+	    @PostMapping("quitUser")
+	    public ResponseEntity<String> quitUser(HttpServletRequest request) {
+	    	HttpSession session = request.getSession();
+	    	String id = (String)session.getAttribute("userId");
+	    	
+	    	if( id == null || id.isEmpty()) {
+	    		return ResponseEntity.badRequest().body("사용자가 아님");
+	    	}
 	        userService.quitUser(id);
 	        return ResponseEntity.ok("탈퇴 처리 완료");
 	    }
 	}
-
-	
-
-}

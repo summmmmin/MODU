@@ -73,7 +73,8 @@
 											<label for="name" id=name>이름</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<div id="user-name" style="width: 300px;" th:text="${userVO.nm}"></div>
+											<div id="user-name" style="width: 300px;"
+												th:text="${userVO.nm}"></div>
 										</div>
 										<div class="col-md-4" id="new-name-label"
 											style="display: none;">
@@ -134,99 +135,160 @@
 									</div>
 								</div>
 							</form>
-							<a href="#" class="btn btn-danger">회원 탈퇴</a>
+							<a href="#" class="btn btn-danger" id="quitUserBtn">회원 탈퇴</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-<script>
-$(document).ready(function() {
-    let activeElement = "";
+	<script>
+		$(document)
+				.ready(
+						function() {
+							let activeElement = "";
 
-    $("#user-id-horizontal, label[for='user-id-horizontal']").click(function() {
-        toggleElement("#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group","#user-id-horizontal");
-    });
+							$(
+									"#user-id-horizontal, label[for='user-id-horizontal']")
+									.click(
+											function() {
+												toggleElement(
+														"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group",
+														"#user-id-horizontal");
+											});
 
-    $("#name, label[for='name']").click(function() {
-        toggleElement("#new-name-label, #new-name-group, #new-name-button-group","#name", "#user-name");
-    });
+							$("#name, label[for='name']")
+									.click(
+											function() {
+												toggleElement(
+														"#new-name-label, #new-name-group, #new-name-button-group",
+														"#name", "#user-name");
+											});
 
-    $("#password-label, #new-password").click(function() {
-        toggleElement("#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group","#new-password");
-    });
+							$("#password-label, #new-password")
+									.click(
+											function() {
+												toggleElement(
+														"#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group",
+														"#new-password");
+											});
 
-    function hideAllSlides() {
-        $("#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group").hide();
-    }
+							function hideAllSlides() {
+								$(
+										"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group")
+										.hide();
+							}
 
-    function toggleElement(elementSelectors, clickedElement) {
-        if (activeElement !== clickedElement) {
-            hideAllSlides();
-            $(elementSelectors).slideDown();
-            activeElement = clickedElement;
-        } else {
-            $(elementSelectors).slideUp();
-            activeElement = "";
-        }
-    }
+							function toggleElement(elementSelectors,
+									clickedElement) {
+								if (activeElement !== clickedElement) {
+									hideAllSlides();
+									$(elementSelectors).slideDown();
+									activeElement = clickedElement;
+								} else {
+									$(elementSelectors).slideUp();
+									activeElement = "";
+								}
+							}
 
-  //이름변경
-    $("#new-name-check-button").click(function() {
-        var newName = $("#new-name-horizontal").val();
+							//이름변경
+							$("#new-name-check-button")
+									.click(
+											function() {
+												var newName = $(
+														"#new-name-horizontal")
+														.val();
 
-        $.ajax({
-            type: "POST",
-            url: "modifyNm",
-            data: {newName: newName},
-            success: function(response) {
-                console.log(response);
-                $('#user-name').text(newName);
-                $('.card-title').text(newName + '님의 마이페이지');
-                toggleElement("#new-name-label, #new-name-group, #new-name-button-group","#name"); // 변경에 성공하면 토글 닫기
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR, textStatus, errorThrown);
-            }
-        });
-    });
+												$
+														.ajax({
+															type : "POST",
+															url : "modifyNm",
+															data : {
+																newName : newName
+															},
+															success : function(
+																	response) {
+																console
+																		.log(response);
+																$('#user-name')
+																		.text(
+																				newName);
+																$('.card-title')
+																		.text(
+																				newName
+																						+ '님의 마이페이지');
+																toggleElement(
+																		"#new-name-label, #new-name-group, #new-name-button-group",
+																		"#name"); // 변경에 성공하면 토글 닫기
+															},
+															error : function(
+																	jqXHR,
+																	textStatus,
+																	errorThrown) {
+																console
+																		.log(
+																				jqXHR,
+																				textStatus,
+																				errorThrown);
+															}
+														});
+											});
 
-});
+						});
 
-// 비밀번호 변경
-$("#new-password-check-button").click(function() {
-    var currentPassword = $("#current-password").val();
-    var newPassword = $("#new-password-confirm").val();
-    var confirmPassword = $("#confirm-password").val();
+		// 비밀번호 변경
+		$("#new-password-check-button")
+				.click(
+						function() {
+							var currentPassword = $("#current-password").val();
+							var newPassword = $("#new-password-confirm").val();
+							var confirmPassword = $("#confirm-password").val();
 
-    if (newPassword !== confirmPassword) {
-        alert("새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-        return;
-    }
+							if (newPassword !== confirmPassword) {
+								alert("새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+								return;
+							}
 
-    $.ajax({
-        type: "POST",
-        url: "modifyPwd",
-        data: {currentPassword: currentPassword, newPassword: newPassword},
-        success: function(response) {
-            console.log(response);
-            if (response === "비밀번호 변경 성공") {
-                alert("비밀번호가 성공적으로 변경되었습니다.");
-                toggleElement("#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group","#new-password");
-            } else {
-
-                alert(response);
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR, textStatus, errorThrown);
-        }
-    });
-});
-
-
-</script>
+							$
+									.ajax({
+										type : "POST",
+										url : "modifyPwd",
+										data : {
+											currentPassword : currentPassword,
+											newPassword : newPassword
+										},
+										success : function(response) {
+											console.log(response);
+											if (response === "비밀번호 변경 성공") {
+												alert("비밀번호가 성공적으로 변경되었습니다.");
+												toggleElement(
+														"#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group",
+														"#new-password");
+											} else {
+												alert(response);
+											}
+										},
+										error : function(jqXHR, textStatus,
+												errorThrown) {
+											console.log(jqXHR, textStatus,
+													errorThrown);
+										}
+									});
+						});
+			      $.ajax({
+			        type: 'POST',
+			        url: 'quitUser',
+			        data: {
+			          id: userId
+			        },
+			        success: function(response) {
+			          alert("탈퇴메세지");
+			        },
+			        error: function() {
+			          alert("에러메세지");
+			        }
+			      });
+			</script>
 
 </body>
 
