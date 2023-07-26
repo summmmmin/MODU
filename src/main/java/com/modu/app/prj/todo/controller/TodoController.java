@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -71,7 +73,9 @@ public class TodoController {
 	//todo 등록
 	@PostMapping("todoInsert")
 	@ResponseBody
-	public String todoInsert(HttpSession session, TodoVO vo, MultipartFile[] file) {
+	public String todoInsert(HttpSession session, @RequestBody TodoVO vo,  @RequestParam("file") MultipartFile[] file) {
+		System.out.println(vo);
+		System.out.println(file);
 		UserVO userVo = (UserVO) session.getAttribute("user");
 		vo.setWriter((String) session.getAttribute("particiMembUniNo"));
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));

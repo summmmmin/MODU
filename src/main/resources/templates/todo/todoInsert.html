@@ -22,7 +22,7 @@ margin-left:5px;}
 					<hr>
 				</div>
 				<div class="card-content">
-					<form  th:object="${todo}" id="todoForm" enctype ="multipart/form-data">
+					<form  th:object="${todo}" id="todoForm" >
 						<div class="row">
 							<div class="form-group has-icon-left">
 								<div class="position-relative">
@@ -80,7 +80,7 @@ margin-left:5px;}
 						<div class="form-group">
 								<label for="basicInput" class="form-label">첨부파일</label><br>
                                 	<!-- File uploader with multiple files upload -->
-                                	<input type="file" name="file" class="multiple-files-filepond" multiple>
+                                	<input id="todoFile" type="file" name="file" class="multiple-files-filepond" multiple >
                             	</div>
 						<p></p>
 						<div class="col-12 d-flex justify-content-end">
@@ -94,6 +94,8 @@ margin-left:5px;}
 		<script>
 		let mgr =$("#mgr option:selected").val();
 		let cm =$("#cm option:selected").val();
+		let file = document.getElementById('todoFile').files[0];
+		console.log(file)
 		
 		function todoInsert(){
 			 var formData = $("#todoForm").serialize();	
@@ -102,12 +104,29 @@ margin-left:5px;}
 					 'mgr':mgr,
 					 'cm':cm
 			 }
+			 
+			 let formD = new FormData(); // 첨부파일 + 채팅메세지
+             formD.append('mgr', mgr);
+			 formD.append('cm', cm);
+			 formD.append('file', file[0]);
+
 			 console.log(formData)
+			 console.log(formD)
 			 console.log(otherdata)
-			 $.ajax({
+			 
+			   fetch("todoInsert",{
+                  method : 'post',
+                  body : formD
+               })
+               .then(result => result.json())
+               .then(data => {
+
+               })
+		}
+			 /* $.ajax({
 			        type: "POST",
 			        url: "todoInsert",
-			        data: formData + "&" + $.param(otherdata), // 폼 데이터와 추가 데이터를 합쳐서 전송
+			        data: formData + "&" + $.param(otherdata) + "&" + formD, // 폼 데이터와 추가 데이터를 합쳐서 전송
 			        success: function (data) {
 			            console.log(data)
 			            todoList();
@@ -116,7 +135,7 @@ margin-left:5px;}
 			            console.log(error)
 			        }
 			    });
-			}
+			} */
 		
 		
 		//input타입 date를 클릭했을때 나오는 달력에서 현재날짜 이전애들을 클릭 못하게 막는방법
