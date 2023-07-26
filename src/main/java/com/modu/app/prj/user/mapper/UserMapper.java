@@ -16,7 +16,7 @@ public interface UserMapper {
 	public int updateNm(Map<String, String> params);
 	public int updatePwd(Map<String, String> params);
 	public int updateId(Map<String, String> params);
-	public String quitUser(String id);
+	public int quitUser(String id);
 	
 	
 }

@@ -136,7 +136,8 @@
 	<!-- 회원 비밀번호 변경 -->
 	<update id="updatePwd" parameterType="map">
 		UPDATE memb
-		SET PWD = #{newPassword}
+		SET PWD =
+		#{newPassword}
 		WHERE id = #{id}
 	</update>
 
@@ -151,7 +152,8 @@
 	<!-- 회원 탈퇴(로그인 막기) -->
 	<update id="quitUser" parameterType="String">
 		UPDATE memb
-		SET quit = 'Y'
+		SET quit = 'Y',
+		PH_NO = '-'
 		WHERE id = #{id}
 	</update>
 

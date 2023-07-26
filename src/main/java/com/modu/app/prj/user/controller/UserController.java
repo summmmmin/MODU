@@ -360,15 +360,14 @@ public class UserController {
 	        String username = ((UserDetails)principal).getUsername();
 	        System.out.println("탈퇴대상 : " + username);
 	        userService.quitUser(username);
+
+	        // 로그아웃 (세션 종료)
+	        SecurityContextHolder.clearContext();
 	        return ResponseEntity.ok("탈퇴 처리 완료");
 	    } else {
 	        return ResponseEntity.badRequest().body("사용자가 아님");
 	    }
 	}
-	    
-	    
-	    
-	    
 	    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	    
 	    

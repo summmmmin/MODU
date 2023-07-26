@@ -112,10 +112,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			return "아이디 변경 실패";
 		}
 	}
-	
+
 	@Override
-	public String quitUser(String id) {
-		return userMapper.quitUser(id);
+	public int quitUser(String id) {
+	    int result = userMapper.quitUser(id);
+	    if (result == 1) {
+	        return result;
+	    } else {
+	        throw new RuntimeException("유저탈퇴실패");
+	    }
 	}
+
 
 }
