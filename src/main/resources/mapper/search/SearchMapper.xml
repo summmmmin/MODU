@@ -23,10 +23,24 @@
 		<if test="ttl != null and ttl != '' ">
 		AND ttl LIKE '%${ttl}%'
 		</if>
-		ORDER BY write_dt desc
+		ORDER BY write_dt DESC
  	</select>
  	
- 	<!-- 채팅 검색 -->
- 	
+ 	<select id="chatList" resultType="SearchVO" parameterType="SearchVO">
+ 	SELECT 
+    p.chat_no,
+    p.chatr_no,
+    p.chat_partici_memb_uni_no,
+    p.cntn,
+    p.write_dt,
+    m.prj_uni_no
+	FROM chat p
+	JOIN chatr m ON p.chatr_no = m.chatr_no
+	WHERE m.prj_uni_no = #{prjUniNo}
+	<if test="cntn != null and cntn != '' ">
+	AND cntn LIKE '%${cntn}%'
+	</if> 
+	ORDER BY write_dt DESC
+ 	</select>
  	
  </mapper>

@@ -20,4 +20,9 @@ public class SearchServiceImpl implements SearchService {
 		return searchMapper.BpList(vo);
 	}
 	
+	@Override
+	public List<SearchVO> chatList(SearchVO vo) {
+		return searchMapper.chatList(vo);
+	}
+	
 }

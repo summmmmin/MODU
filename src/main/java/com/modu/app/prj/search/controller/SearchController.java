@@ -32,6 +32,7 @@ public class SearchController {
 		return "search/search";
 	}
 	
+	//게시글 즐겨찾기 리스트
 	@ResponseBody
 	@GetMapping("BpList")
 	public List<SearchVO> BpList(Model model, SearchVO vo, HttpSession session) {
@@ -40,13 +41,32 @@ public class SearchController {
 		model.addAttribute("bpList",list);
 		return list;
 	}
-	
+	//게시글 즐겨찾기 리스트
 	@ResponseBody
 	@GetMapping("BpListSearch")
 	public List<SearchVO> BpList(@RequestParam String ttl, SearchVO vo, HttpSession session) {
  		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
  		vo.setTtl(ttl);
  		List<SearchVO> list = searchService.BpList(vo);
+		return list;
+	}
+
+	//채팅 즐겨찾기 리스트
+	@ResponseBody
+	@GetMapping("chatList")
+	public List<SearchVO> chatList(Model model, SearchVO vo, HttpSession session) {
+ 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+ 		List<SearchVO> list = searchService.chatList(vo);
+		model.addAttribute("chatList",list);
+		return list;
+	}
+	//채팅 즐겨찾기 리스트
+	@ResponseBody
+	@GetMapping("chatListSearch")
+	public List<SearchVO> chatList(@RequestParam String cntn, SearchVO vo, HttpSession session) {
+ 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+ 		vo.setTtl(cntn);
+ 		List<SearchVO> list = searchService.chatList(vo);
 		return list;
 	}
 }

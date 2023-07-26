@@ -27,10 +27,23 @@ public class SearchVO {
 	//게시판 알람여부
 	private String notiYn;
 	
-	//작성일자
+	//채팅 날짜
 	private Date writeDt;
 	
 	//작성자
 	private String nnm;
+	
+	//채팅 번호
+	private int chatNo;
+	
+	//채팅방 번호
+	private String chatrNo;
+	
+	//채팅 참여자 고유 번호
+	private String chatParticiMembUniNo;
+	
+	//채팅내용
+	private String cntn;
+	
 	
 }
