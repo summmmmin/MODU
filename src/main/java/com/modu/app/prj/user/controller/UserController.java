@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -350,17 +352,19 @@ public class UserController {
 	
 	
 	// 회원 탈퇴
-	    @PostMapping("loginuser/quitUser")
-	    public ResponseEntity<String> quitUser(HttpServletRequest request) {
-	    	HttpSession session = request.getSession();
-	    	String id = (String)session.getAttribute("userId");
-	    	
-	    	if( id == null || id.isEmpty()) {
-	    		return ResponseEntity.badRequest().body("사용자가 아님");
-	    	}
-	        userService.quitUser(id);
+	@PostMapping("loginuser/quitUser")
+	public ResponseEntity<String> quitUser() {
+	    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	    
+	    if (principal instanceof UserDetails) {
+	        String username = ((UserDetails)principal).getUsername();
+	        System.out.println("탈퇴대상 : " + username);
+	        userService.quitUser(username);
 	        return ResponseEntity.ok("탈퇴 처리 완료");
+	    } else {
+	        return ResponseEntity.badRequest().body("사용자가 아님");
 	    }
+	}
 	    
 	    
 	    

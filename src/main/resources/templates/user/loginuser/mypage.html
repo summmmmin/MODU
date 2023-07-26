@@ -22,7 +22,6 @@
 </head>
 
 <body>
-	<!-- Basic Horizontal form layout section start -->
 	<section id="basic-horizontal-layouts">
 		<div class="row match-height">
 			<div class="col-md-6 col-12">
@@ -142,6 +141,27 @@
 			</div>
 		</div>
 	</section>
+	<!-- 탈퇴 모달 -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmModalLabel">회원 탈퇴 확인</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        정말로 탈퇴하시겠습니까?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <button type="button" id="confirmQuit" class="btn btn-primary">탈퇴하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+	
 	<script>
 		$(document)
 				.ready(
@@ -276,23 +296,29 @@
 									});
 						});
 
-		$(document).ready(function() {
-			  $('#quitUserBtn').on('click', function() {
-			    $.ajax({
-			      type: 'POST',
-			      url: 'quitUser',
-			      data: { 
-			        id: '<%= session.getAttribute("id") %>'
-			      },
-			      success: function(response) {
-			        alert("탈퇴메세지");
-			      },
-			      error: function() {
-			        alert("에러메세지");
-			      }
-			    });
-			  });
-			});
+		$(document).ready(function(){
+		    // 탈퇴 버튼 클릭 이벤트
+		    $('#quitUserBtn').on('click', function(){
+		        $('#confirmModal').modal('show'); // 모달 띄우기
+		    });
+
+		    // 모달에서 '탈퇴하기' 버튼 클릭 이벤트
+		    $('#confirmQuit').on('click', function(){
+		        // Ajax 요청
+		        $.ajax({
+		            type: 'POST',
+		            url: 'quitUser',
+		            success: function(response) {
+		                // 성공 시 로그인 페이지로 이동
+		                window.location.href = "/login";
+		            },
+		            error: function() {
+		                alert("에러메세지");
+		            }
+		        });
+		    });
+		});
+
 	</script>
 
 </body>
