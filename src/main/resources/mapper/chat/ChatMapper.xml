@@ -66,15 +66,20 @@
 	</insert>
 	
 	<!-- 채팅메세지리스트 -->
-	<select id="chatMessageList" resultType="ChatVO">
-		SELECT chat_no,
-       		   chatr_no,
-       		   chat_partici_memb_uni_no,
-       		   cntn,
-       		   write_dt
-		  FROM chat
-		 WHERE chatr_no = #{chatrNo}
-		 ORDER BY write_dt
+	<select id="chatMessageList" resultType="ChatDTO">
+		SELECT c.chat_no, 
+		       c.cntn, 
+		       c.chat_partici_memb_uni_no, 
+		       c.write_dt, 
+		       cm.chatr_no,
+               p.partici_memb_uni_no, 
+               p.nnm
+          FROM chat c JOIN chatr_partici cm 
+            ON c.chat_partici_memb_uni_no = cm.chat_partici_memb_uni_no
+          JOIN prj_partici_memb p 
+            ON p.partici_memb_uni_no = cm.partici_memb_uni_no
+         WHERE c.chatr_no = #{chatrNo}
+      ORDER BY c.write_dt
 	</select>
 	
 	<!-- 채팅방나가기 -->

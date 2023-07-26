@@ -5,21 +5,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>postList</title>
-	<!-- <link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="assets/css/bootstrap.css">
-	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-	<link rel="stylesheet" href="assets/css/app.css"> 
-	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon"> 
-	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">-->
 </head>
 
 <body>
 	<div layout:fragment="content">
 		<div class="buttons">
 			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" >글작성</a>
-			<!-- data-bs-toggle="modal" data-bs-target="#insertPostForm"-->
 		</div>
 
 		<hr>
@@ -293,16 +284,6 @@
 			//댓글리스트 호출
 			showReplyList();
 
-			//댓글input박스 입력시 아이콘변경
-			// let reInputList = document.querySelectorAll('.replyInput');
-			// reInputList.forEach(reIn => {
-			// 	if(reIn.name == 'cntn'){
-			// 		reIn.addEventListener('input', function(){
-			// 			document.getElementsByTagName('use')[0].setAttribute('xlink:href','assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply-fill')
-			// 		})
-			// 	}
-			// })
-
 			//댓글입력
 			let reBtnList = document.querySelectorAll('.replyBtn');
 			reBtnList.forEach(btn => {
@@ -405,7 +386,7 @@
 			//게시글삭제
 			function callDeletePostModal(e){
 				let pNum = e.target.parentElement.dataset.postunino;
-				console.log(pNum);
+				//console.log(pNum);
 				let postInfo = {};
 				postInfo['postUniNo'] = pNum;
 				let bNum = '[[${brdUniNo}]]'
@@ -448,7 +429,7 @@
 									
 									let icon = `<i class="bi bi-file-earmark"></i>`;
 									aTag.innerHTML += icon;
-									let spanTag = document.createElement('span'); // Create a new 'span' element to hold the file name
+									let spanTag = document.createElement('span'); 
 									spanTag.textContent = atts.attNm;
 									aTag.append(spanTag);
 									aTag.addEventListener('click', downloadYN);
@@ -636,7 +617,4 @@ function PostBm(){
 	</div>
 </div>
 </body>
-<!-- <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/main.js"></script> -->
 </html>

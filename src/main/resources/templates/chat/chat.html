@@ -231,11 +231,11 @@
 
 							let cmdiv = document.createElement('div');
 							cmdiv.setAttribute('class', 'chat-message');
-							cmdiv.innerHTML = msg.cntn;
+							cmdiv.innerHTML = `<small>${msg.nnm}</small><br>${msg.cntn}<br><small>${msg.WriteDt}</small>`;
 							cbdiv.append(cmdiv);
 							cdiv.append(cbdiv);
 							msgPlace.append(cdiv);
-
+							
 						}
 					});
 				})
@@ -335,8 +335,8 @@
 					stompClient.publish({
 							destination: "/pub/chat/msg",
 							body: JSON.stringify({'chatrNo': chatrNo,
-												  'chatParticiMembUniNo' : chatWriter,
-												  'cntn': cntn})
+												            'chatParticiMembUniNo' : chatWriter,
+												            'cntn': cntn})
 					});
 
 					// 보낸 메세지 DB에 저장
@@ -364,7 +364,7 @@
 							stompClient.publish({
 							destination: "/pub/chat/msg",
 							body: JSON.stringify({
-										        'chatrNo': chatrNo,
+										    'chatrNo': chatrNo,
 	 											 'chatParticiMembUniNo': chatWriter,
 	 											 'cntn': '<a href="/modu/files/' + data.attNo + '/download">' + data.attNm +'</a>'})
 	 											})		
@@ -393,7 +393,6 @@
 
 					let cmdiv = document.createElement('div');
 					cmdiv.setAttribute('class', 'chat-message');
-					//cmdiv.textContent = chatMsg.cntn;
 					cmdiv.innerHTML = chatMsg.cntn;
 					cbdiv.append(cmdiv);
 					cdiv.append(cbdiv);
@@ -413,11 +412,10 @@
 
 					let cmdiv = document.createElement('div');
 					cmdiv.setAttribute('class', 'chat-message');
-					cmdiv.innerHTML = chatMsg.cntn;
+					cmdiv.innerHTML = `<small>${chatMsg.nnm}</small><br>${chatMsg.cntn}<br><small>${chatMsg.WriteDt}</small>`;
 					cbdiv.append(cmdiv);
 					cdiv.append(cbdiv);
 					msgPlace.append(cdiv);
-
 				}
 			}
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.modu.app.prj.chat.service.ChatDTO;
 import com.modu.app.prj.chat.service.ChatService;
 import com.modu.app.prj.chat.service.ChatVO;
 import com.modu.app.prj.chat.service.ChatrDTO;
@@ -173,7 +174,7 @@ public class ChatController {
 	//채팅메세지전체리스트
 	@GetMapping("msgList/{chatrNo}")
 	@ResponseBody
-	public List<ChatVO> chatMessageList(@PathVariable String chatrNo){
+	public List<ChatDTO> chatMessageList(@PathVariable String chatrNo){
 		return chatService.chatMessageList(chatrNo);
 	}
 	

@@ -86,20 +86,20 @@ public class PostRestController {
 //		return null;
 //	}
 	
-	//삭제
-	@GetMapping("postDelete/{pNum}")
-	public String postDelete(@PathVariable("pNum") String postUniNo) {
-		postService.deletePost(postUniNo);
-		
-		//게시글삭제시 첨부파일도 함께 삭제
-		FileVO fileVO = new FileVO();
-		fileVO.setPostUniNo(postUniNo);
-		fileService.fileList(fileVO); //파일리스트조회
-		
-		
-		
-		return postUniNo;
-	}
+	//삭제 => fileController에서 삭제
+//	@GetMapping("postDelete/{pNum}")
+//	public String postDelete(@PathVariable("pNum") String postUniNo) {
+//		postService.deletePost(postUniNo);
+//		
+//		//게시글삭제시 첨부파일도 함께 삭제
+//		FileVO fileVO = new FileVO();
+//		fileVO.setPostUniNo(postUniNo);
+//		fileService.fileList(fileVO); //파일리스트조회
+//		
+//		
+//		
+//		return postUniNo;
+//	}
 	
 //	@DeleteMapping("post/{pNum}")
 //	public String postDelete(@PathVariable("pNum") String postUniNo) {
