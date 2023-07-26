@@ -130,7 +130,21 @@
 		SET nm = #{newName}
 		WHERE id = #{id}
 	</update>
-
+	
+	
+	<!-- 회원 비밀번호 변경 -->
+	<update id="updatePwd" parameterType="map">
+	UPDATE memb	
+	SET PWD = #{newPassword}
+	WHERE id = #{id}
+	</update>
+	
+	<!-- 회원 아이디 변경 -->
+	<update id="updateId" parameterType="map">
+	UPDATE memb
+	SET id = #{id}
+	WHERE email_auth = 'Y'
+	</update>
 
 </mapper>
   
