@@ -257,22 +257,24 @@
 											});
 
 							function hideAllSlides() {
-								$(
-										"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group, #new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group")
-										.hide();
+							    var elements = "#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group, #new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group";
+
+							    $(elements).hide();
+							    $(elements).find('input').val(''); //열고닫을때마다input값초기화
 							}
 
-							function toggleElement(elementSelectors,
-									clickedElement) {
-								if (activeElement !== clickedElement) {
-									hideAllSlides();
-									$(elementSelectors).slideDown();
-									activeElement = clickedElement;
-								} else {
-									$(elementSelectors).slideUp();
-									activeElement = "";
-								}
+							function toggleElement(elementSelectors, clickedElement) {
+							    if (activeElement !== clickedElement) {
+							        hideAllSlides();
+							        $(elementSelectors).slideDown();
+							        activeElement = clickedElement;
+							    } else {
+							        $(elementSelectors).slideUp();
+							        activeElement = "";
+							    }
 							}
+
+
 
 							// 이름 변경
 							$("#new-name-check-button")
@@ -388,6 +390,7 @@
 								});
 							});
 
+							//휴대폰인증번호발송
 							$('#phone-send-button')
 									.on(
 											'click',
@@ -422,6 +425,7 @@
 														});
 											});
 
+							//인증번호 확인
 							$('#phone-check-button').on(
 									'click',
 									function() {
