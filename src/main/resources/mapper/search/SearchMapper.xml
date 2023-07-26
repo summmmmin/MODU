@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.modu.app.prj.search.mapper.SearchMapper">
+ 	
+ 	<select id="BpList" resultType="SearchVO" parameterType="SearchVO">
+ 		 SELECT p.post_uni_no,
+				p.brd_uni_no,
+				p.ttl,
+				p.cm,
+				p.partici_memb_uni_no,
+				p.post_tag_arm,
+				p.reply_arm_yn,
+				p.noti_yn,
+				p.noti_reg_dt,
+				p.write_dt,
+				m.nnm
+		FROM post p JOIN prj_partici_memb m
+		  ON p.partici_memb_uni_no = m.partici_memb_uni_no
+		WHERE p.partici_memb_uni_no = #{particiMembUniNo} 
+		<if test="ttl != null and ttl != '' ">
+		AND ttl LIKE '%${ttl}%' 
+		</if>
+		ORDER BY write_dt desc
+ 	</select>
+ 	
+ 	
+ 	
+ </mapper>

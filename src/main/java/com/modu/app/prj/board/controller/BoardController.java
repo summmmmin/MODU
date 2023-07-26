@@ -67,9 +67,4 @@ public class BoardController {
 		return "/boardLIst/boardList";
 	}
 	
-	@GetMapping("BrdSearch")
-	public String BrdSearch(Model model,HttpSession session) {
-		
-		return "";
-	}
 }
