@@ -67,4 +67,9 @@ public class BmServiceImpl implements BmService {
 	public int BmCount(BmVO vo) {
 		return bmMapper.BmCount(vo);
 	}
+	
+	@Override
+	public List<String> PostBmList(BmVO vo) {
+		return bmMapper.PostBmList(vo);
+	}
 }

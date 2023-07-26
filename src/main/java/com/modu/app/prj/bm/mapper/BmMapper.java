@@ -27,4 +27,7 @@ public interface BmMapper {
 	// 즐겨찾기 삭제
 	public int BmDelete(BmVO vo);
 	
+	//즐겨찾기 해제
+	public List<String> PostBmList(BmVO vo);
+	
 }

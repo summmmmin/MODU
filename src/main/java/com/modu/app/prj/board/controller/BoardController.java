@@ -66,4 +66,10 @@ public class BoardController {
 		model.addAttribute("Brd", boardService.BoardList(brd));
 		return "/boardLIst/boardList";
 	}
+	
+	@GetMapping("BrdSearch")
+	public String BrdSearch(Model model,HttpSession session) {
+		
+		return "";
+	}
 }
