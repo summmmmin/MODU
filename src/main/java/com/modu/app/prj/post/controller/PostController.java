@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.modu.app.prj.file.service.FileService;
+import com.modu.app.prj.file.service.FileVO;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.post.service.PostVO;
 // 230707 김자영 post
@@ -29,6 +30,7 @@ public class PostController {
 	public String postList(Model model, String brdUniNo) {
 		model.addAttribute("brdUniNo", brdUniNo);
 		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
+		
 		return "post/postList";
 	}
 
@@ -69,7 +71,10 @@ public class PostController {
 		//게시글등록
 		postService.insertPost(postVO);
 		//첨부파일등록
-		fileService.insertFileWihtpost(file, postVO);
+		FileVO fileVO = new FileVO();
+		fileVO.setPostUniNo(postVO.getPostUniNo());
+		fileVO.setParticiMembUniNo(particiMembUniNo);
+		fileService.insertFile(file, fileVO);
 			
 		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo();
 	}
@@ -79,7 +84,11 @@ public class PostController {
 	@GetMapping("postUpdate")
 	public String postUpdateForm(Model model, String postUniNo) {
 		PostVO post = postService.getOnePost(postUniNo);
-		model.addAttribute("post", post);
+		FileVO file = new FileVO();
+		file.setPostUniNo(postUniNo);
+		
+		model.addAttribute("post", post); //게시글단건조회
+		model.addAttribute("attList", fileService.fileList(file)); //게시글번호로첨부파일리스트
 		return "post/postUpdate";
 	}
 

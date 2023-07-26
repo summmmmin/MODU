@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.modu.app.cmmn.service.CmmnService;
 import com.modu.app.prj.file.service.FileService;
+import com.modu.app.prj.file.service.FileVO;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.todo.service.TodoService;
@@ -76,7 +77,11 @@ public class TodoController {
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		System.out.println(vo);
 		todoService.insertTodo(vo);
-		fileService.insertFileWihtTodo(file, vo);
+		
+		FileVO fileVO = new FileVO();
+		fileVO.setTodoUniNo(vo.getTodoUniNo());
+		fileVO.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		fileService.insertFile(file, fileVO);
 		return "redirect:todo";
 	}
 	

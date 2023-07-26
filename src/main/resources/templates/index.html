@@ -388,7 +388,7 @@
     <script>
         //채팅방리스트
 		function showChatList(){
-			fetch("http://localhost/modu/chatrList")
+			fetch("/modu/chatrList")
 			.then(resolve => resolve.json())
 			.then(data => {
 				document.getElementById('chatrList').innerHTML = '';
@@ -432,7 +432,7 @@
 			let select = document.getElementById('memberSelect');
 			//console.log(select);
 
-			fetch("http://localhost:80/modu/chatMembs/" + pNum)
+			fetch("/modu/chatMembs/" + pNum)
 			.then(resolve => resolve.json())
 			.then(data => {
 				//console.log(data);
@@ -459,7 +459,7 @@
 			makeChatInfo['particiMembUniNos'] = chatMembs;
 			//console.log(makeChatInfo);
 
-			fetch("http://localhost/modu/makeChatr", {
+			fetch("/modu/makeChatr", {
 					method: 'post',
 					headers: {
 						'content-type': 'application/json'

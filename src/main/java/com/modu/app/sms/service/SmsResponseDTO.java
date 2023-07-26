@@ -18,4 +18,7 @@ public class SmsResponseDTO {
 	private String statusName;
 	private String smsConfirmNum;
 
+    public SmsResponseDTO(String smsConfirmNum) {
+        this.smsConfirmNum = smsConfirmNum;
+    }
 }

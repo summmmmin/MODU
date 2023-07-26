@@ -18,4 +18,5 @@ public class SmsRequestDTO {
 	String from;
 	String content;
 	List<MessageDTO> messages;
+	String InputSmsCode;
 }

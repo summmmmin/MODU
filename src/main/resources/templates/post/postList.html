@@ -10,8 +10,9 @@
 	<link rel="stylesheet" href="assets/css/bootstrap.css">
 	<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
 	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-	<link rel="stylesheet" href="assets/css/app.css">
-	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon"> -->
+	<link rel="stylesheet" href="assets/css/app.css"> 
+	<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon"> 
+	<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">-->
 </head>
 
 <body>
@@ -55,10 +56,19 @@
 									<hr>
 									<p class="card-text">[[${post.cm}]]</p>
 									<p class="card-text">[[${post.postTagArm}]]</p>
-									<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 								</div>
-								첨부파일미리보기xxx아직안됨
+								<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}">
+									<div>
+										<a href = '#'>
+											<svg class="bi" width="1em" height="1em" fill="currentColor">
+												<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark" />
+											</svg>
+										</a>첨부파일이름
+									</div>
+								</div>
+								첨부파일리스트 xxx미리보기아직안됨
 							</div>
+									<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 							<hr>
 							<div class="replyPlace card-body" th:data-postUniNo="${post.postUniNo}"></div>
 							<hr>
@@ -183,7 +193,7 @@
 					getPnum.forEach(gNum => {
 					let pNum = gNum.value;
 
-					fetch('http://localhost:80/modu/replys/' + pNum)
+					fetch('/modu/replys/' + pNum)
 						.then(resolve => resolve.json())
 						.then(data => {
 							//console.log(data);
@@ -289,7 +299,7 @@
 					})
 					replyInfo["postUniNo"] = pNum;
 					
-					fetch('http://localhost:80/modu/replyInsert',{
+					fetch('/modu/replyInsert',{
 						method : 'post',
 						headers : {
 							'content-type' : 'application/json'
@@ -309,7 +319,7 @@
 			function callDeleteModal(e){
 				let rNum = e.target.parentElement.dataset.replyunino;
 				document.getElementById('deleteReplyBtn').addEventListener('click', function(e){
-					fetch('http://localhost:80/modu/replyDelete/'+rNum)
+					fetch('/modu/replyDelete/'+rNum)
 					//.then(resolve => resolve.json())
 					.then(data => {
 						showReplyList()
@@ -322,7 +332,7 @@
 			function callOneReply(e){
 				//console.log(e.target.parentElement.dataset.replyunino);
 				let rNum = e.target.parentElement.dataset.replyunino;
-				fetch('http://localhost:80/modu/reply/' + rNum)
+				fetch('/modu/reply/' + rNum)
 				.then(resolve => resolve.json())
 				.then(data => {
 					updateReplyForm.innerHTML = '';
@@ -354,7 +364,7 @@
 				let cntn = document.getElementById('updateReplyForm').children[1];
 				replyInfo['cntn'] = cntn.value;
 				//console.log(replyInfo);
-				fetch('http://localhost:80/modu/replyUpdate',{
+				fetch('/modu/replyUpdate',{
 					method : 'post',
 					headers : {
 						'content-type' : 'application/json'
@@ -433,15 +443,85 @@
 				let bNum = '[[${brdUniNo}]]'
 				document.getElementById('deleteBtn').addEventListener('click', function(e){
 
-					fetch('http://localhost:80/modu/postDelete/' + pNum)
+					fetch('/modu/postDelete/' + pNum)
 					//.then(resolve => resolve.json())
 					.then(data => {
 						console.log(data);
-						window.location.href = 'http://localhost:80/modu/postList?brdUniNo=' + bNum;
+						window.location.href = '/modu/postList?brdUniNo=' + bNum;
 					})
 					.catch(err => console.log(err)); 
 				})
-			
+			}
+
+			//첨부파일리스트
+			function attWithPost(){
+				let pNUMs = document.querySelectorAll('.getPostUniNo');
+				//console.log(pNUMs)
+				pNUMs.forEach(pNum => {
+					//console.log(pNum.value);
+					let apnum = pNum.value;
+					fetch('/modu/attPost/' + apnum)
+					.then(resolve => resolve.json())
+					.then(data => {
+						let aPlaceList = document.querySelectorAll('.attFilePlace');
+						aPlaceList.forEach(aPlace => {
+							if(aPlace.dataset.postunino == apnum){
+								data.forEach(atts => {
+									let divTag = document.createElement('div');
+
+									let aTag = document.createElement('a');
+									aTag.setAttribute('href', "/modu/files/" + atts.attNo + "/download");
+									
+									// let icons = document.createElement('svg'); 
+									// icons.setAttribute('class', 'bi');
+									// icons.setAttribute('width', '1em');
+									// icons.setAttribute('height', '1em');
+									// icons.setAttribute('fill', 'currentColor');
+									// aTag.append(icons);
+									
+									// let icon = document.createElement('use');
+									// icon.setAttribute('xlink:href', 'assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark'); 
+									// icons.append(icon);
+									let icon = `<i class="bi bi-file-earmark"></i>`;
+									aTag.innerHTML += icon;
+									let spanTag = document.createElement('span'); // Create a new 'span' element to hold the file name
+									spanTag.textContent = atts.attNm;
+									aTag.append(spanTag);
+									aTag.addEventListener('click', downloadYN);
+									aTag.setAttribute("data-attno", atts.attNo);
+									divTag.append(aTag);
+
+									aPlace.append(divTag);
+
+								})
+							}
+						})
+					})
+					.catch(err => console.log(err))
+				})
+			}
+			attWithPost();
+
+			//다운로드시 다운로드여부 업데이트
+			function downloadYN(e){
+				let attNo = e.target.parentElement.dataset.attno;
+				let dwYn = {};
+
+				dwYn['attNo'] = attNo;
+				dwYn['dwYn'] = 'Y';
+
+				fetch("/modu/file/" + attNo, {
+					method : 'post',
+					headers : {
+						'content-type' : 'application/json'
+					},
+					body : JSON.stringify(dwYn)
+				})
+				.then(resolve => resolve.json())
+				.then(data => {
+					console.log("다운로드완료")
+				})
+				.catch(err => console.log(err))
 			}
 
 			//공지리스트
@@ -449,7 +529,7 @@
 				let bNum = '[[${brdUniNo}]]';
 				let notiPlace = document.querySelector('.notiPosts');
 				//console.log(notiPlace);
-				fetch('http://localhost:80/modu/notiPost/' + bNum)
+				fetch('/modu/notiPost/' + bNum)
 				.then(resolve => resolve.json())
 				.then(data => {
 					//console.log(data);
@@ -478,7 +558,7 @@
 					if(notiBTN.textContent == '공지등록'){
 						postInfo['postUniNo'] = pNum;
 						postInfo['notiYn'] = 'O';
-						fetch('http://localhost/modu/setPostNoti',{
+						fetch('/modu/setPostNoti',{
 							method : 'post',
 							headers : {
 								'content-type' : 'application/json'
@@ -495,7 +575,7 @@
 					}else{
 						postInfo['postUniNo'] = pNum;
 						postInfo['notiYn'] = 'X';
-						fetch('http://localhost/modu/setPostNoti',{
+						fetch('/modu/setPostNoti',{
 							method : 'post',
 							headers : {
 								'content-type' : 'application/json'
@@ -525,7 +605,7 @@
 						postInfo['postUniNo'] = pNum;
 						postInfo['replyArmYn'] = 'Y';
 				
-						fetch('http://localhost/modu/setPostReply',{
+						fetch('/modu/setPostReply',{
 							method : 'post',
 							headers : {
 								'content-type' : 'application/json'
@@ -541,7 +621,7 @@
 						postInfo['postUniNo'] = pNum;
 						postInfo['replyArmYn'] = 'N';
 				
-						fetch('http://localhost/modu/setPostReply',{
+						fetch('/modu/setPostReply',{
 							method : 'post',
 							headers : {
 								'content-type' : 'application/json'
