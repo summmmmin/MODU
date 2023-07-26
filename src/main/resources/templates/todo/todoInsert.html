@@ -22,12 +22,12 @@ margin-left:5px;}
 					<hr>
 				</div>
 				<div class="card-content">
-					<form  th:object="${todo}" id="todoForm" >
+					<form th:object="${todo}" id="todoForm" >
 						<div class="row">
 							<div class="form-group has-icon-left">
 								<div class="position-relative">
 									<input type="text" class="form-control" placeholder="제목을 입력해주세여"
-										th:field="*{ttl}" id="">
+										th:field="*{ttl}" id="ttl">
 									<div class="form-control-icon">
 										<i class="bi bi-pen"></i>
 									</div>
@@ -37,7 +37,7 @@ margin-left:5px;}
 							<div class="form-group has-icon-left">
 								<div class="position-relative">
 									<textarea class="form-control" placeholder="설명을 입력해주세요"
-										id="first-name-icon" rows="2" th:field="*{cntn}"></textarea>
+										rows="2" th:field="*{cntn}" id="cntn"></textarea>
 									<div class="form-control-icon">
 										<i class="bi bi-chat-left-text"></i>
 									</div>
@@ -81,7 +81,7 @@ margin-left:5px;}
 								<label for="basicInput" class="form-label">첨부파일</label><br>
                                 	<!-- File uploader with multiple files upload -->
                                 	<input id="todoFile" type="file" name="file" class="multiple-files-filepond" multiple >
-                            	</div>
+                        </div>
 						<p></p>
 						<div class="col-12 d-flex justify-content-end">
 							<button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
@@ -95,33 +95,53 @@ margin-left:5px;}
 		let mgr =$("#mgr option:selected").val();
 		let cm =$("#cm option:selected").val();
 		let file = document.getElementById('todoFile').files[0];
+		
 		console.log(file)
 		
 		function todoInsert(){
-			 var formData = $("#todoForm").serialize();	
-			 
-			 var otherdata = {
-					 'mgr':mgr,
-					 'cm':cm
-			 }
-			 
-			 let formD = new FormData(); // 첨부파일 + 채팅메세지
-             formD.append('mgr', mgr);
-			 formD.append('cm', cm);
-			 formD.append('file', file[0]);
-
-			 console.log(formData)
-			 console.log(formD)
-			 console.log(otherdata)
-			 
-			   fetch("todoInsert",{
-                  method : 'post',
-                  body : formD
-               })
-               .then(result => result.json())
-               .then(data => {
-
-               })
+				 var formData = $("#todoForm").serialize();	
+				 
+				 var otherdata = {
+						 'mgr':mgr,
+						 'cm':cm
+				 }
+				 
+				mgr =$("#mgr option:selected").val();
+				cm =$("#cm option:selected").val();
+				file = document.getElementById('todoFile').files;
+				let ttl = $("#ttl").val();
+				let cntn = $("#cntn").val();
+				let Date = document.querySelector('#Date').value;
+				let lastDate = $("#lastDate").val();
+				
+				console.log(Date);
+				
+				 let formD = new FormData(); // 첨부파일 + 채팅메세지
+	             formD.append("mgr", mgr);
+				 formD.append("cm", cm);
+				 for(let i=0; i<file.length; i++){
+					 formD.append("file", file[i]);
+				 }
+				 
+				 formD.append("ttl",ttl);
+				 formD.append("cntn",cntn);
+				 formD.append("frDt",Date);
+				 formD.append("toDt",lastDate);
+		
+				 console.log(formData)
+				 console.log(formD)
+				 console.log(cntn)
+				 console.log(Date)
+				 
+				   fetch("todoInsert",{
+	                  method : 'post',
+	                  body : formD
+	               })
+	               .then(result => result.json())
+	               .then(data => {
+	            	   console.log(data);
+	            	   todoList();
+	               })
 		}
 			 /* $.ajax({
 			        type: "POST",

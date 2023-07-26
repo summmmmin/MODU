@@ -1,5 +1,8 @@
 package com.modu.app.prj.todo.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -73,21 +74,29 @@ public class TodoController {
 	//todo 등록
 	@PostMapping("todoInsert")
 	@ResponseBody
-	public String todoInsert(HttpSession session, @RequestBody TodoVO vo,  @RequestParam("file") MultipartFile[] file) {
+	public TodoVO todoInsert(HttpSession session,TodoVO vo, @RequestParam("file") MultipartFile[] file, @RequestParam("ttl") String ttl,
+			@RequestParam("cntn") String cntn,	@RequestParam("frDt") String Date, @RequestParam("toDt") String lastDate) throws ParseException {
 		System.out.println(vo);
 		System.out.println(file);
 		UserVO userVo = (UserVO) session.getAttribute("user");
 		vo.setWriter((String) session.getAttribute("particiMembUniNo"));
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		System.out.println(vo);
+		vo.setTtl(ttl);
+		vo.setCntn(cntn);
+		vo.setFrDt(Date);
+		vo.setToDt(lastDate);
+		
+		
 		todoService.insertTodo(vo);
 		
 		FileVO fileVO = new FileVO();
 		fileVO.setTodoUniNo(vo.getTodoUniNo());
 		fileVO.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		fileService.insertFile(file, fileVO);
-		return "redirect:todo";
+		return vo;
 	}
+	
+	
 	
 	@GetMapping("todoInfo/{todoNo}")
 	public String todoInfo(TodoVO vo,HttpSession session,Model model,@PathVariable String todoNo){
