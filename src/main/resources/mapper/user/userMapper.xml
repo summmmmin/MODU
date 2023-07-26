@@ -148,6 +148,12 @@
 		WHERE email_auth = 'Y'
 	</update>
 
+	<!-- 회원 휴대폰번호 변경 -->
+	<update id="updatePhone" parameterType="map">
+	UPDATE memb
+	SET ph_no = #{phNo}
+	WHERE id = #{id}
+	</update>
 
 	<!-- 회원 탈퇴(로그인 막기) -->
 	<update id="quitUser" parameterType="String">

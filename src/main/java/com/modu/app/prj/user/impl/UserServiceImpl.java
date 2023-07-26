@@ -122,6 +122,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	        throw new RuntimeException("유저탈퇴실패");
 	    }
 	}
+	
+	@Override
+	public String updatePhone(Map<String, String> params) {
+		return userMapper.updatePhone(params);
+	}
 
 
 }

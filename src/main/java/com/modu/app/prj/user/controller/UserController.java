@@ -306,82 +306,104 @@ public class UserController {
 		}
 	}
 
-	//비밀번호 변경
+	// 비밀번호 변경
 	@PostMapping("loginuser/modifyPwd")
 	@ResponseBody
-	public ResponseEntity<String> modifyPwd(HttpServletRequest request, 
-	                                        @RequestParam("currentPassword") String currentPassword, 
-	                                        @RequestParam("newPassword") String newPassword) {
-	    HttpSession session = request.getSession();
-	    UserVO userVO = (UserVO) session.getAttribute("user");
+	public ResponseEntity<String> modifyPwd(HttpServletRequest request,
+			@RequestParam("currentPassword") String currentPassword, @RequestParam("newPassword") String newPassword) {
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("user");
 
-	    String userId = userVO.getId();
+		String userId = userVO.getId();
 
-	    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	    String encodedNewPassword = passwordEncoder.encode(newPassword);
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String encodedNewPassword = passwordEncoder.encode(newPassword);
 
-	    String storedPassword = userVO.getPassword();
+		String storedPassword = userVO.getPassword();
 
-	    // 파라미터 2개 > Map에 넣어서 값넘김
-	    Map<String, String> params = new HashMap<>();
-	    params.put("id", userId);
-	    params.put("newPassword", encodedNewPassword);
+		// 파라미터 2개 > Map에 넣어서 값넘김
+		Map<String, String> params = new HashMap<>();
+		params.put("id", userId);
+		params.put("newPassword", encodedNewPassword);
 
-	    // 비밀번호 일치하는지 체크
-	    if (passwordEncoder.matches(currentPassword, storedPassword)) {
-	        String updateResult = userService.updatePwd(params);
+		// 비밀번호 일치하는지 체크
+		if (passwordEncoder.matches(currentPassword, storedPassword)) {
+			String updateResult = userService.updatePwd(params);
 
-	        if ("비밀번호 변경 성공".equals(updateResult)) {
-	            // Update the session user password
-	            userVO.setPassword(encodedNewPassword);
-	            session.setAttribute("user", userVO);
+			if ("비밀번호 변경 성공".equals(updateResult)) {
+				// Update the session user password
+				userVO.setPassword(encodedNewPassword);
+				session.setAttribute("user", userVO);
 
-	            return ResponseEntity.ok("비밀번호 변경 성공");
-	        } else {
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비밀번호 변경 실패");
-	        }
-	    } else {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("현재 비밀번호가 일치하지 않습니다");
-	    }
+				return ResponseEntity.ok("비밀번호 변경 성공");
+			} else {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비밀번호 변경 실패");
+			}
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("현재 비밀번호가 일치하지 않습니다");
+		}
 	}
-	
+
+	// 휴대폰 번호 변경
+	@PostMapping("/loginuser/modifyPhone")
+	@ResponseBody
+	public ResponseEntity<String> modifyPhone(HttpServletRequest request, @RequestParam("newPhoneNumber") String newPhoneNumber) {
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("user");
+
+		String userId = userVO.getId();
+
+		// 파라미터 2개 > Map에 넣어서 값넘김
+		Map<String, String> params = new HashMap<>();
+		params.put("id", userId);
+		params.put("newPhoneNumber", newPhoneNumber);
+		System.out.println(newPhoneNumber);
+
+		String updateResult = userService.updatePhone(params);
+
+		if ("휴대폰 번호 변경 성공".equals(updateResult)) {
+			userVO.setPhNo(newPhoneNumber);
+			session.setAttribute("user", userVO);
+
+			return ResponseEntity.ok("휴대폰 번호 변경 성공");
+		} else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("휴대폰 번호 변경 실패");
+		}
+	}
+
 	// 아이디 변경을 위한 이메일 전송
 
-	
 	// 휴대폰 번호 변경
-	
-	
+
 	// 회원 탈퇴
 	@PostMapping("loginuser/quitUser")
 	public ResponseEntity<String> quitUser() {
-	    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	    
-	    if (principal instanceof UserDetails) {
-	        String username = ((UserDetails)principal).getUsername();
-	        System.out.println("탈퇴대상 : " + username);
-	        userService.quitUser(username);
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-	        // 로그아웃 (세션 종료)
-	        SecurityContextHolder.clearContext();
-	        return ResponseEntity.ok("탈퇴 처리 완료");
-	    } else {
-	        return ResponseEntity.badRequest().body("사용자가 아님");
-	    }
+		if (principal instanceof UserDetails) {
+			String username = ((UserDetails) principal).getUsername();
+			System.out.println("탈퇴대상 : " + username);
+			userService.quitUser(username);
+
+			// 로그아웃 (세션 종료)
+			SecurityContextHolder.clearContext();
+			return ResponseEntity.ok("탈퇴 처리 완료");
+		} else {
+			return ResponseEntity.badRequest().body("사용자가 아님");
+		}
 	}
-	    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	    
-	    
-	    // 관리자 대시보드
-	    @GetMapping("admin/dashboard")
-	    public String dashboard() {
-	    	return "admin/dashboard";
-	    }
-	    
-	    // 관리자 유저목록
-	   @GetMapping("admin/userList")
-	   public String userList() {
-		   return "admin/userList";
-	   }
-	   
-	   
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// 관리자 대시보드
+	@GetMapping("admin/dashboard")
+	public String dashboard() {
+		return "admin/dashboard";
 	}
+
+	// 관리자 유저목록
+	@GetMapping("admin/userList")
+	public String userList() {
+		return "admin/userList";
+	}
+
+}

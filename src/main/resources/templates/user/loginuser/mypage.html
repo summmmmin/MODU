@@ -140,9 +140,10 @@
 											<button type="button" id="new-password-check-button"
 												class="btn btn-primary">확인</button>
 										</div>
-<div class="col-md-4">
-    <label id="phone-number-label" for="phone-number">휴대폰 번호</label>
-</div>
+										<div class="col-md-4">
+											<label id="phone-number-label" for="phone-number">휴대폰
+												번호</label>
+										</div>
 
 										<div class="col-md-8 form-group">
 											<div id="phone-number" style="width: 300px;"
@@ -250,18 +251,17 @@
 														"#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group",
 														"#new-password");
 											});
-							$("#phone-number-label, #phone-number").click(function() {
-							    toggleElement("#new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group");
-							});
-
-
+							$("#phone-number-label, #phone-number")
+									.click(
+											function() {
+												toggleElement("#new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group");
+											});
 
 							function hideAllSlides() {
-							    $(
-							        "#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group, #new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group"
-							    ).hide();
+								$(
+										"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group, #new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group")
+										.hide();
 							}
-
 
 							function toggleElement(elementSelectors,
 									clickedElement) {
@@ -388,7 +388,102 @@
 									}
 								});
 							});
-						});
+
+							$('#phone-send-button')
+									.on(
+											'click',
+											function() {
+												var phoneNumber = $(
+														'#new-phone-horizontal')
+														.val();
+												var dataToSend = {
+													to : phoneNumber
+												};
+												$
+														.ajax({
+															url : '/modu/send',
+															type : 'POST',
+															data : JSON
+																	.stringify(dataToSend),
+															contentType : 'application/json',
+															success : function(
+																	response) {
+																alert("인증번호가 발송되었습니다.");
+															},
+															error : function(
+																	xhr,
+																	status,
+																	error) {
+																alert("하이픈('-')없이 숫자만 입력해주세요.");
+																console
+																		.error(
+																				'에러 : ',
+																				error);
+															}
+														});
+											});
+
+							$('#phone-check-button').on(
+									'click',
+									function() {
+										var code = $('#phone-code-horizontal').val();
+
+										if (!code) {
+											alert("휴대폰 인증을 해주십시오.");
+											return;
+										}
+
+										var phoneNumber = $(
+										'#new-phone-horizontal')
+										.val();
+										console.log(phoneNumber);
+
+										var requestData = {
+											'code' : code
+										};
+
+										$.ajax({
+											url : '/modu/verifyCode',
+											type : 'POST',
+											data : JSON.stringify(requestData),
+											contentType : 'application/json',
+											success : function(response) {
+												if (response.valid) {
+													alert("인증번호 확인에 성공했습니다!");
+
+													var modifyPhoneRequest = {
+														'newPhoneNumber' : phoneNumber
+													};
+													console.log(phoneNumber);
+
+													$.ajax({
+														url: '/modu/loginuser/modifyPhone',
+														type: 'POST',
+														data: JSON.stringify(modifyPhoneRequest),
+														contentType: 'application/json',
+														success: function(response) {
+															$('#phone-number').text(phoneNumber);
+															$('#phone-code-horizontal').val('');
+															$('#new-phone-number').val('');
+															$('#mySlide').slideUp();
+															alert("휴대폰 번호 변경 성공");
+														},
+														error: function(xhr, textStatus, errorThrown) {
+															alert("휴대폰 번호 변경 실패");
+														}
+													});
+												} else {
+													alert("인증번호가 일치하지 않습니다.");
+												}
+											},
+											error : function(xhr, textStatus, errorThrown) {
+												alert("인증 에러");
+											}
+										});
+									});
+
+
+						}); //document.ready종료
 	</script>
 
 </body>
