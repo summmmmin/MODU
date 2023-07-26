@@ -219,7 +219,6 @@
 			</div>
 		</div>
 	</div>
-	</div>
 
 	<script>
 		$(document)
@@ -457,7 +456,7 @@
 													console.log(phoneNumber);
 
 													$.ajax({
-														url: '/modu/loginuser/modifyPhone',
+														url: 'modifyPhone',
 														type: 'POST',
 														data: JSON.stringify(modifyPhoneRequest),
 														contentType: 'application/json',
@@ -469,6 +468,7 @@
 															alert("휴대폰 번호 변경 성공");
 														},
 														error: function(xhr, textStatus, errorThrown) {
+															console.log(xhr, textStatus, errorThrown)
 															alert("휴대폰 번호 변경 실패");
 														}
 													});

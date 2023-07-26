@@ -331,7 +331,6 @@ public class UserController {
 			String updateResult = userService.updatePwd(params);
 
 			if ("비밀번호 변경 성공".equals(updateResult)) {
-				// Update the session user password
 				userVO.setPassword(encodedNewPassword);
 				session.setAttribute("user", userVO);
 
@@ -345,31 +344,34 @@ public class UserController {
 	}
 
 	// 휴대폰 번호 변경
-	@PostMapping("/loginuser/modifyPhone")
+	@PostMapping("loginuser/modifyPhone")
 	@ResponseBody
-	public ResponseEntity<String> modifyPhone(HttpServletRequest request, @RequestParam("newPhoneNumber") String newPhoneNumber) {
-		HttpSession session = request.getSession();
-		UserVO userVO = (UserVO) session.getAttribute("user");
+	public ResponseEntity<String> modifyPhone(HttpServletRequest request, @RequestBody Map<String, String> phoneNumberRequest) {
+	    HttpSession session = request.getSession();
+	    UserVO userVO = (UserVO) session.getAttribute("user");
 
-		String userId = userVO.getId();
+	    String userId = userVO.getId();
+	    String newPhoneNumber = phoneNumberRequest.get("newPhoneNumber");
 
-		// 파라미터 2개 > Map에 넣어서 값넘김
-		Map<String, String> params = new HashMap<>();
-		params.put("id", userId);
-		params.put("newPhoneNumber", newPhoneNumber);
-		System.out.println(newPhoneNumber);
+	    // 파라미터 2개 > Map에 넣어서 값넘김
+	    Map<String, String> params = new HashMap<>();
+	    params.put("id", userId);
+	    params.put("phNo", newPhoneNumber);
+	    System.out.println("새로운 휴대폰 값 ㅣ " + newPhoneNumber);
+	    System.out.println("params" + params);
 
-		String updateResult = userService.updatePhone(params);
+	    String updateResult = userService.updatePhone(params);
+	    System.out.println(updateResult);
 
-		if ("휴대폰 번호 변경 성공".equals(updateResult)) {
-			userVO.setPhNo(newPhoneNumber);
-			session.setAttribute("user", userVO);
-
-			return ResponseEntity.ok("휴대폰 번호 변경 성공");
-		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("휴대폰 번호 변경 실패");
-		}
+	    if ("휴대폰 번호 변경 성공".equals(updateResult)) {
+	        userVO.setPhNo(newPhoneNumber);
+	        session.setAttribute("user", userVO);
+	        return ResponseEntity.ok("휴대폰 번호 변경 성공");
+	    } else {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("휴대폰 번호 변경 실패");
+	    }
 	}
+
 
 	// 아이디 변경을 위한 이메일 전송
 

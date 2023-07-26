@@ -125,7 +125,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	@Override
 	public String updatePhone(Map<String, String> params) {
-		return userMapper.updatePhone(params);
+		int result = userMapper.updatePhone(params);
+		if (result > 0) {
+			return "휴대폰 번호 변경 성공";	// 이거랑 컨트롤러에서 전달하는 바디값이 오타났다고 다르게 전달하는 바람에 서버에서는 변경처리가 됐는데 클라이언트에선 실패로 뜸 ...... 진짜 이상한 문제
+		} else {
+			return "휴대폰 번호 변경 실패";
+		}
 	}
 
 
