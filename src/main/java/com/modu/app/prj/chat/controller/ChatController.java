@@ -2,7 +2,6 @@ package com.modu.app.prj.chat.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,12 +65,12 @@ public class ChatController {
 	}
 
 	//채팅방생성폼
-	@GetMapping("makeChatr") 
-	public String makeChatrForm(Model model, HttpSession session) {
-		String prjUniNo = (String) session.getAttribute("prjUniNo");
-		model.addAttribute("membList", postService.selectCallMembPub(prjUniNo));
-		return "chat/makeChatr";
-	}
+//	@GetMapping("makeChatr") 
+//	public String makeChatrForm(Model model, HttpSession session) {
+//		String prjUniNo = (String) session.getAttribute("prjUniNo");
+//		model.addAttribute("membList", postService.selectCallMembPub(prjUniNo));
+//		return "chat/makeChatr";
+//	}
 	
 	//채팅방생성용멤버리스트
 	@GetMapping("chatMembs/{pNum}")
@@ -133,7 +132,7 @@ public class ChatController {
 		chatVO.setChatrNo(chatrNo);
 		chatVO.setChatParticiMembUniNo(chatParticiMembUniNo);
 		
-		System.out.println(chatVO);
+		//System.out.println(chatVO);
 		chatService.insertChat(chatVO);
 		return chatVO;
 	}
@@ -165,12 +164,9 @@ public class ChatController {
 	@PostMapping("updateChatrNm")
 	@ResponseBody
 	public ChatrParticiVO changeChatrNm(@RequestBody ChatrParticiVO chatParticiVO, HttpSession session) {
-		System.out.println("어디");
 		String chatParticiMembUniNo = (String) session.getAttribute("chatParticiMembUniNo");
 		chatParticiVO.setChatParticiMembUniNo(chatParticiMembUniNo);
 		chatService.changeChatrNm(chatParticiVO);
 		return chatParticiVO;
 	}
-	
-	
 }

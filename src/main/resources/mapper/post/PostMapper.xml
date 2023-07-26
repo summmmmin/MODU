@@ -34,18 +34,18 @@
 	<!-- 단건조회 -->
 	<select id="selectOnePost" resultType="PostVO">
 		SELECT p.post_uni_no,
-		p.brd_uni_no,
-		p.ttl,
-		p.cm,
-		p.partici_memb_uni_no,
-		p.write_dt,
-		p.reply_arm_yn,
-		p.noti_reg_dt,
-		p.noti_yn,
-		b.board_nm
-		FROM post p JOIN brd b
-		ON p.brd_uni_no =
-		b.brd_uni_no
+			p.brd_uni_no,
+			p.ttl,
+			p.cm,
+			p.partici_memb_uni_no,
+			p.write_dt,
+			p.reply_arm_yn,
+			p.noti_reg_dt,
+			p.noti_yn,
+			b.board_nm
+			FROM post p JOIN brd b
+			ON p.brd_uni_no =
+			b.brd_uni_no
 		WHERE post_uni_no=#{postUniNO}
 	</select>
 

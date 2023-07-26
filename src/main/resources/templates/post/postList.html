@@ -191,17 +191,17 @@
 					//console.log(tags.textContent);
 				})
 
-				let getPnum = document.querySelectorAll('.getPostUniNo');
-				getPnum.forEach(gNum => {
-					let pNum = gNum.value;
-					fetch('/modu/post/' + pNum)
-					.then(resolve => resolve.json())
-					.then(data => {
-						data.forEach(tags => {
-							console.log(tags.postTagArm);
-						})
-					})
-				})
+				// let getPnum = document.querySelectorAll('.getPostUniNo');
+				// getPnum.forEach(gNum => {
+				// 	let pNum = gNum.value;
+				// 	fetch('/modu/post/' + pNum)
+				// 	.then(resolve => resolve.json())
+				// 	.then(data => {
+				// 		data.forEach(tags => {
+				// 			console.log(tags.postTagArm);
+				// 		})
+				// 	})
+				// })
 				
 				//댓글리스트
 				function showReplyList() {
@@ -406,11 +406,19 @@
 			function callDeletePostModal(e){
 				let pNum = e.target.parentElement.dataset.postunino;
 				console.log(pNum);
+				let postInfo = {};
+				postInfo['postUniNo'] = pNum;
 				let bNum = '[[${brdUniNo}]]'
 				document.getElementById('deleteBtn').addEventListener('click', function(e){
 
-					fetch('/modu/postDelete/' + pNum)
-					//.then(resolve => resolve.json())
+					fetch('/modu/removeFilesWith/',{
+						method :'post',
+						headers : {
+							'content-type' : 'application/json'
+						},
+						body : JSON.stringify(postInfo)
+					})
+					.then(result => result.json())
 					.then(data => {
 						console.log(data);
 						window.location.href = '/modu/postList?brdUniNo=' + bNum;

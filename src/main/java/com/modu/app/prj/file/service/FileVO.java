@@ -15,6 +15,5 @@ public class FileVO {
 	private char dnYn; // 다운로드여부
 	private String noticeUniNo; //사이트공지사항
 	private String faqNo; //사이트FAQ
-	private String todoUniNo; // 할일고유번호
-	
+	private String todoUniNo; // 할일고유번호	
 }

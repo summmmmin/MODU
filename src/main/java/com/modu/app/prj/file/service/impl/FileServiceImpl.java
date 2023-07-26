@@ -63,7 +63,6 @@ public class FileServiceImpl implements FileService {
 			}
 		}
 		return 1;
-
 	}
 	
 	//첨부파일리스트

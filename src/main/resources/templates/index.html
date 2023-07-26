@@ -408,24 +408,6 @@
       }
       showChatList();
 
-      //채팅방생성모달안에페이지넣기
-      // document.getElementById('openMakeChatrModal').addEventListener('click', function () {
-      //    let modalPlace = document.getElementById('makeChatrModal');
-      //    let xhr = new XMLHttpRequest();
-      //    xhr.onreadystatechange = function () {
-      //       if (xhr.readyState === XMLHttpRequest.DONE) {
-      //          if (xhr.status === 200) {
-      //             modalPlace.innerHTML = xhr.responseText;
-      //          } else {
-      //             // Ajax 요청 실패 시 에러 처리
-      //             console.error('Failed to load makeChatrForm :', xhr.status, xhr.statusText);
-      //          }
-      //       }
-      //    };
-      //    xhr.open('GET', 'http://localhost/modu/makeChatr', true);
-      //    xhr.send();
-      // }) 
-
       //채팅초대리스트
       function callChatMemb(){
          let pNum = '[[${session.prjUniNo}]]';
@@ -451,9 +433,15 @@
 
       //채팅방생성
       function makeChatrPlz(e) {
-         let chatNm = document.getElementById('chartNm').value;
-         let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
-         let chatMembs = selcetParticis.split(',');
+	  	 let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
+	  	 let chatNm = document.getElementById('chartNm').value;
+	  	 let selectedOptions = document.getElementById('memberSelect').selectedOptions;
+	  	 let chatMembs = [];
+	  	  
+		 // 선택된 모든 참여자의 값을 배열에 추가
+	     for (let i = 0; i < selectedOptions.length; i++) {
+	        chatMembs.push(selectedOptions[i].value);
+	     }
 
          let makeChatInfo = {};
          makeChatInfo['chartNm'] = chatNm;
@@ -470,10 +458,11 @@
             .then(result => result.json())
             .then(data => {
                //console.log(data);
-               showChatList()
-               // setTimeout( () => {
-               //    window.location.href = 'http://localhost:80/modu/chat/' + data.chatrNo;
-               // }, 5000);
+               showChatList();
+               if (data.chartNo) {
+                   window.location.href = "/modu/chat?chatrNo=" + data.chartNo;
+                }
+               //window.location.href = 'http://192.168.0.27/modu/chat?chatrNo=' + data.chatrNo;
             })
             .catch(err => console.log(err)) 
       }

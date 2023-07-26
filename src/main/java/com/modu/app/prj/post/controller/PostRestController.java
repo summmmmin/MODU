@@ -94,7 +94,9 @@ public class PostRestController {
 		//게시글삭제시 첨부파일도 함께 삭제
 		FileVO fileVO = new FileVO();
 		fileVO.setPostUniNo(postUniNo);
-		fileService.deleteFiles(fileVO);
+		fileService.fileList(fileVO); //파일리스트조회
+		
+		
 		
 		return postUniNo;
 	}
