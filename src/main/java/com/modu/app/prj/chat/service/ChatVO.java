@@ -19,7 +19,7 @@ public class ChatVO {
 	private String particiMembUniNo;
 	
 	
-	private ChatVO() {}
+	public ChatVO() {}
 	
 	//롬복있으니까 이거 필요없는 거 아님?
 	public ChatVO(String cntn) {

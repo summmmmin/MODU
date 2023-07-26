@@ -5,15 +5,17 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,12 +24,13 @@ import com.modu.app.prj.chat.service.ChatVO;
 import com.modu.app.prj.chat.service.ChatrDTO;
 import com.modu.app.prj.chat.service.ChatrParticiVO;
 import com.modu.app.prj.chat.service.ChatrVO;
+import com.modu.app.prj.file.service.FileService;
 import com.modu.app.prj.file.service.FileVO;
 import com.modu.app.prj.post.service.MembDTO;
 import com.modu.app.prj.post.service.PostService;
 import com.modu.app.prj.prj.service.PrjService;
 
-
+@Validated
 @Controller
 public class ChatController {
 	
@@ -41,12 +44,15 @@ public class ChatController {
 	PostService postService;
 	
 	@Autowired
+	FileService fileService;
+	
+	@Autowired
 	PrjService prjService;
 	
 	//이거웹소켓?
 	@MessageMapping("/chat/msg") 
 	//@SendTo("/chat/msg/{chatrNo}")
-	public void chatMessage(ChatVO chatVO) throws Exception {
+	public void chatMessage(ChatVO chatVO, FileVO fileVO) throws Exception {
 	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행
 		messagingTemplate.convertAndSend("/sub/chat/msg/"+chatVO.getChatrNo(), chatVO);
 	}
@@ -128,24 +134,40 @@ public class ChatController {
 	//채팅메세지insert
 	@PostMapping("chatMsg")
 	@ResponseBody
-	public ChatVO insertChat(ChatVO chatVO, HttpSession session, 
-							@RequestPart(value = "file") MultipartFile file) {
-		String chatrNo = (String) session.getAttribute("chatrNo");
-		String chatParticiMembUniNo = (String) session.getAttribute("chatParticiMembUniNo");
+	public FileVO insertChat(@RequestParam("chatrNo") String chatrNo,
+				             @RequestParam("chatParticiMembUniNo") String chatParticiMembUniNo,
+				             @RequestParam("cntn") String cntn,
+				             @Nullable @RequestParam("file") MultipartFile[] file,
+							 HttpSession session){
+		//String chatrNo = (String) session.getAttribute("chatrNo");
+		//String chatParticiMembUniNo = (String) session.getAttribute("chatParticiMembUniNo");
 		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 		
+		ChatVO chatVO = new ChatVO();
 		chatVO.setChatrNo(chatrNo);
 		chatVO.setChatParticiMembUniNo(chatParticiMembUniNo);
+		chatVO.setCntn(cntn);
 		
 		//채팅(메세지)등록
 		chatService.insertChat(chatVO);
 		
-		//첨부파일등록
+		//첨부파일DB등록
 		FileVO fileVO = new FileVO();
-		fileVO.setChatNo((long) chatVO.getChatNo());
-		fileVO.setParticiMembUniNo(particiMembUniNo);
 		
-		return chatVO;
+		if(file != null) {
+
+			fileVO.setChatNo((long) chatVO.getChatNo());
+			fileVO.setParticiMembUniNo(particiMembUniNo);
+			fileVO = fileService.insertFile(file, fileVO);
+			
+			//첨부파일 있을 때 첨부파일 다운로드 링크 자체를 채팅 메세지로 등록
+			ChatVO chatFile = new ChatVO();
+			chatFile.setChatrNo(chatrNo);
+			chatFile.setChatParticiMembUniNo(chatParticiMembUniNo);
+			chatFile.setCntn("<a href='/modu/files/" + fileVO.getAttNo() + "/download'>" + fileVO.getAttNm() +"</a>");
+			chatService.insertChat(chatFile);			
+		}
+		return fileVO;
 	}
 	
 	//채팅메세지전체리스트

@@ -73,7 +73,7 @@
 									<a href="http://" class="black"><i data-feather="smile"></i></a>
 									<div class="d-flex flex-grow-1 ml-4">
 										<input type="text" id="sendMsg" name="cntn" class="form-control" placeholder="Type your message.." required>
-										<input type="file" id="sendFile" name="file">
+										<input type="file" id="sendFile" name="file" multiple>
 										<div class="buttons">
 											<button type="button" id="sendMsgBtn" class="btn btn-primary rounded-pill">send</button>
 										</div>
@@ -147,6 +147,41 @@
 					</div>
 				</div>
 				<!-- end of 채팅방명변경 모달 -->
+				
+				<!-- start of 채팅참여자추가 모달 -->
+				<div class="modal fade text-left" id="makeChatrForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+		            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+		               <div class="modal-content">
+		                  <div class="modal-header">
+		                     <h4 class="modal-title" id="myModalLabel33">채팅방 생성</h4>
+		                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+		                        <i data-feather="x"></i>
+		                     </button>
+		                  </div>
+		                  <form action="makeChatr" method="POST" id="FormEvent">
+		                     <div class="modal-body">
+		                        <h5>채팅방 이름</h5>
+		                        <div class="form-group">
+		                           <input id="chartNm" name="chartNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
+		                           <input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display: none">
+		                           <input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text"    class="form-control" style="display: none">
+		                           <label for="basicInput" class="form-label">참여멤버선택</label>
+		                           <select id="memberSelect" class="form-select multiple-remove" multiple="multiple"></select>
+		                        </div>
+		                     </div>
+		                     <div class="modal-footer">
+		                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+		                           <i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
+		                        </button>
+		                        <button onclick="makeChatrPlz()" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+		                           <i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">채팅시작</span>
+		                        </button>
+		                     </div>
+		                  </form>
+		               </div>
+		            </div>
+		         </div>
+				<!-- end of 채팅참여자추가 모달 -->
 		<!-- end of MODALS -->
 		
 		<script>
@@ -177,7 +212,7 @@
 
 							let cmdiv = document.createElement('div');
 							cmdiv.setAttribute('class', 'chat-message');
-							cmdiv.textContent = msg.cntn;
+							cmdiv.innerHTML = msg.cntn;
 							cbdiv.append(cmdiv);
 							cdiv.append(cbdiv);
 							msgPlace.append(cdiv);
@@ -196,7 +231,7 @@
 
 							let cmdiv = document.createElement('div');
 							cmdiv.setAttribute('class', 'chat-message');
-							cmdiv.textContent = msg.cntn;
+							cmdiv.innerHTML = msg.cntn;
 							cbdiv.append(cmdiv);
 							cdiv.append(cbdiv);
 							msgPlace.append(cdiv);
@@ -260,9 +295,9 @@
 			let cntn = document.getElementById('sendMsg').value;
 			
 			// WebSocket 연결 설정
-			// const stompClient = new StompJs.Client({
-    	// 	brokerURL: 'ws://192.168.0.27/modu/socketserver' // WebSocket 서버 URL
-			// });
+			const stompClient = new StompJs.Client({
+    		brokerURL: 'ws://192.168.0.27/modu/socketserver' // WebSocket 서버 URL
+			});
 
 			// 페이지 로드시 웹소켓 연결
 			window.addEventListener("load", function(event) {
@@ -287,48 +322,63 @@
 					console.error('Broker reported error: ' + frame.headers['message']);
 					console.error('Additional details: ' + frame.body);
 			};
-
+	
 			// 보내기버튼누르면발생하는이벤트
 			function sendMessage() {
-
+		
 				let chatrNo = '[[${session.chatrNo}]]'
 				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
 				let cntn = document.getElementById('sendMsg').value;
-				let file = document.getElementById('sendFile').files;
-				console.log(file[0]);
-
+				let file = document.getElementById('sendFile').files[0];
+		
 					// 보낸 메세지 발행
-					// stompClient.publish({
-					// 		destination: "/pub/chat/msg",
-					// 		body: JSON.stringify({'chatrNo': chatrNo,
-					// 							  'chatParticiMembUniNo' : chatWriter,
-					// 							  'cntn': cntn})
-					// });
+					stompClient.publish({
+							destination: "/pub/chat/msg",
+							body: JSON.stringify({'chatrNo': chatrNo,
+												  'chatParticiMembUniNo' : chatWriter,
+												  'cntn': cntn})
+					});
 
 					// 보낸 메세지 DB에 저장
 					let wantSend = {};
+					wantSend['chatrNo'] = chatrNo;
+					wantSend['chatParticiMembUniNo'] = chatWriter;
 					wantSend['cntn'] = cntn;
-					wantSend['file'] = file[0];
 
+					let formData = new FormData(); // 첨부파일 + 채팅메세지
+					formData.append('chatrNo', chatrNo);
+					formData.append('chatParticiMembUniNo', chatWriter);
+					formData.append('cntn', cntn);
+					formData.append('file', file); 
+					
+					//채팅 메세지랑 첨부파일 DB에 저장
 					fetch("/modu/chatMsg",{
 						method : 'post',
-							headers : {
-								'content-type' : 'application/json'
-							},
-							body : JSON.stringify(wantSend)
+						body : formData
 					})
 					.then(result => result.json())
 					.then(data => {
-						console.log(data)
-					})
+						
+						//첨부파일이 있을 때 첨부파일 다운로드 링크를 발행
+						if(data.attNo != null){
+							stompClient.publish({
+							destination: "/pub/chat/msg",
+							body: JSON.stringify({
+										        'chatrNo': chatrNo,
+	 											 'chatParticiMembUniNo': chatWriter,
+	 											 'cntn': '<a href="/modu/files/' + data.attNo + '/download">' + data.attNm +'</a>'})
+	 											})		
+							}
+						})						
 					.catch(err => console.log(err))
 			}
+		
 
 			//채팅메세지추가
 			function showChatMsg(chatMsg) {
 				let msgPlace = document.getElementsByClassName('chat-content')[0];
 				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
-
+				//console.log(chatMsg)
 				if(chatMsg.chatParticiMembUniNo == chatWriter){	
 
 					//내가 쓴 채팅
@@ -343,7 +393,8 @@
 
 					let cmdiv = document.createElement('div');
 					cmdiv.setAttribute('class', 'chat-message');
-					cmdiv.textContent = chatMsg.cntn;
+					//cmdiv.textContent = chatMsg.cntn;
+					cmdiv.innerHTML = chatMsg.cntn;
 					cbdiv.append(cmdiv);
 					cdiv.append(cbdiv);
 					msgPlace.append(cdiv);
@@ -362,7 +413,7 @@
 
 					let cmdiv = document.createElement('div');
 					cmdiv.setAttribute('class', 'chat-message');
-					cmdiv.textContent = chatMsg.cntn;
+					cmdiv.innerHTML = chatMsg.cntn;
 					cbdiv.append(cmdiv);
 					cdiv.append(cbdiv);
 					msgPlace.append(cdiv);
