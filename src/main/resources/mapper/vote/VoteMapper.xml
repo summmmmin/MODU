@@ -40,7 +40,7 @@
     AND g.prj_uni_no = #{prjUniNo})) j
     on e.post_uni_no = j.post_uni_no
     where prj_no=#{prjUniNo}
-     order by fr_dt desc
+    order by fr_dt desc 
  	</select>
  	
  	<!-- 투표 제작자 찾기 -->
@@ -75,6 +75,12 @@
 	where partici_memb_uni_no = #{particiMembUniNo}
 	</select>
  	
+ 	<!-- 마감 날짜 조회 -->
+ 	<select id="toDtCheck" resultType="Date" parameterType="String">
+ 	select to_dt
+    from vote
+    where vote_no=#{voteNo}
+    </select> 
  	
 	<!--투표 단건 조회 -->
 	<select id="oneVote" resultType="VoteVO" parameterType="VoteVO">

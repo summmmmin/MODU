@@ -1,5 +1,6 @@
 package com.modu.app.prj.vote.service;
 
+import java.util.Date;
 import java.util.List;
 
 //2023/07/21 김동건
@@ -19,6 +20,9 @@ public interface VoteService {
 	
 	//투표하기 
 	public int voteDo(VoteDetaVO vo);
+	
+	//투표 날짜 확인
+	public Date toDtCheck(String vid);
 	
 	//재투표방지
 	public VoteDetaVO whoVote(VoteDetaVO vo);

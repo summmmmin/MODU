@@ -1,5 +1,8 @@
 package com.modu.app.prj.vote.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.board.service.BoardService;
 import com.modu.app.prj.board.service.BoardVO;
-import com.modu.app.prj.user.service.UserVO;
 import com.modu.app.prj.vote.service.ListModel;
 import com.modu.app.prj.vote.service.MyDataModel;
 import com.modu.app.prj.vote.service.VoteDetaVO;
@@ -126,6 +127,7 @@ public class VoteController {
 		model.addAttribute("voteInfo",voteService.voteOne(vo));
 		model.addAttribute("item",voteService.voteItem(voteNo));
 		
+			
 		// 투표를 만든 사람과 프로젝트 관리자는 단건에서 수정 삭제가 가능함
 		// 투표를 만든 사람을 알기위해서 model에 값을 넣어줌.
 		model.addAttribute("maker",voteService.voteMaker(voteNo));
@@ -139,9 +141,18 @@ public class VoteController {
 		System.out.println("1111111111111111111");
 		System.out.println(model.getAttribute("maker"));
 		
-		//로그인한 사람이 이미 해당 투표를 진행했다면 투표 결과 장소 
-		//이미 투표가 되어있지 않다면 투표하는 장소로 이동
-		if(voteService.whoVote(vdvo) != null) {
+		//투표가 마감날짜와 현재날짜를 비교하기 위해 날짜 가져오기
+		Date today = new Date(); // 현재날짜 가져오기
+		Date toDt = voteService.toDtCheck(voteNo); // 투표 마감날짜
+		
+		
+		
+		//1.로그인한 사람이 이미 해당 투표를 진행했거나 이미 마감날짜가 지나면 투표 결과 장소 
+		//2.투표를 하지 않았다면 투표하는 장소로 이동
+		//로그인 한사람이 get방식으로 1.투표하는 장소로 이동후 
+		//post방식으로 투표를 등록한후
+		//get방식으로 if문으로 2.투표를 행한 결과 장소로 이동 
+		if(voteService.whoVote(vdvo) != null || toDt.before(today)) {
 			return "vote/voteResult";
 		}else {
 			return "vote/voteInfo";
@@ -172,14 +183,6 @@ public class VoteController {
 			//변경 성공 여부
 			return vo;
 		}
-	
-	//투표 삭제
-	@PostMapping("")
-	@ResponseBody
-	public int delVote(HttpSession session,@RequestBody VoteVO vo,@PathVariable String voteNo){
-	 System.out.println(voteNo);
-		return voteService.voteDelete(voteNo);
-	}
 	
 	
 	

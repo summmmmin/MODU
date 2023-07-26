@@ -1,5 +1,6 @@
 package com.modu.app.prj.vote.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import com.modu.app.prj.vote.service.VoteDetaVO;
@@ -31,6 +32,9 @@ public interface VoteMapper {
 	
 	//투표 제작자
 	public VoteVO voteMaker(String vid);
+	
+	//투표 날짜 확인
+	public Date toDtCheck(String vid);
 	
 	//투표 기간 수정
 	public int voteDate(VoteVO voteVo);	

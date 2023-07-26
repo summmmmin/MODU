@@ -1,5 +1,6 @@
 package com.modu.app.prj.vote.service.Impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,20 +102,31 @@ public class VoteServiceImpl implements VoteService {
 	public VoteDetaVO voteCount(String vno) {
 		return voteMapper.voteCount(vno);
 	}
-
+	
+	
+	//모든 투표의 참여자수
 	@Override
 	public List<VoteDetaVO> allCount(String partici) {
 		return voteMapper.allCount(partici);
 	}
 
+	//회원등급확인
 	@Override
 	public VoteDetaVO grdCheck(String partici) {
 		return voteMapper.grdCheck(partici);
 	}
 
+	
+	//투표삭제
 	@Override
 	public int voteDelete(String vno) {
 		return voteMapper.voteDelete(vno);
+	}
+	
+	//투표 마감날짜 확인
+	@Override
+	public Date toDtCheck(String vid) {
+		return voteMapper.toDtCheck(vid);
 	}
 
 
