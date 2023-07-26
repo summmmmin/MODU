@@ -219,7 +219,6 @@
 			</div>
 		</div>
 	</div>
-
 	<script>
 		$(document)
 				.ready(
@@ -465,11 +464,13 @@
 														data: JSON.stringify(modifyPhoneRequest),
 														contentType: 'application/json',
 														success: function(response) {
-															$('#phone-number').text(phoneNumber);
-															$('#phone-code-horizontal').val('');
-															$('#new-phone-number').val('');
-															$('#mySlide').slideUp();
-															alert("휴대폰 번호 변경 성공");
+									                        $('#phone-number').text(phoneNumber);
+									                        $('#phone-code-horizontal').val('');
+									                        $('#new-phone-number').val('');
+									                        var elementSelectors = "#new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group";
+									                        $(elementSelectors).slideUp();
+									                        $(elementSelectors).find('input').val('');
+									                        alert("휴대폰 번호 변경 성공");
 														},
 														error: function(xhr, textStatus, errorThrown) {
 															console.log(xhr, textStatus, errorThrown)
