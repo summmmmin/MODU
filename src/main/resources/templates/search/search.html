@@ -105,6 +105,36 @@
              $('#bpList').append(div);
          });
  }
+     
+     
+    //채팅 검색 함수
+     function ChatSearch() {
+         let ttl = $('#ttl').val();
+         $.ajax({
+             url: "ChatListSearch",
+             data: { cntn },
+             method: "GET",
+             success: function(data) {
+                 console.log(data);
+                 $('#bpList').empty();
+                 let div = '';
+                 for (let i of data) {
+                     div += `
+                         <div class="card-content">
+                             <div class="card-body">
+                                 <td>${i.cntn}</td>
+                             </div>
+                         </div>
+                         <hr>
+                     `;
+                 }
+                 $('#bpList').append(div);
+             },
+             error: function(err) {
+                 console.log(err);
+             }
+         })
+     }
     </script>
 </body>
 </html>

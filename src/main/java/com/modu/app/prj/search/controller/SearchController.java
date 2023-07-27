@@ -62,7 +62,7 @@ public class SearchController {
 	@GetMapping("ChatListSearch")
 	public List<SearchVO> chatList(@RequestParam String cntn, SearchVO vo, HttpSession session) {
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		vo.setTtl(cntn);
+		vo.setCntn(cntn);
 		List<SearchVO> list = searchService.chatList(vo);
 		return list;
 	}
