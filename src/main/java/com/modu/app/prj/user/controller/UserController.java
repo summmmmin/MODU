@@ -415,13 +415,18 @@ public class UserController {
 	    if (storedCode != null && storedCode.equals(code)) {
 	        System.out.println("새로운 이메일 : " + newEmail);
 	        
-	        userVO.setId(newEmail);
+	        Map<String, String> params = new HashMap<>();
+	        params.put("id", userVO.getId());
+	        params.put("newEmail", newEmail); // 
+	        userService.updateId(params);
+	        
 	        session.removeAttribute("storedCode");
-	        return ResponseEntity.ok("인증 성공");
+	        return ResponseEntity.ok("아이디 변경 성공");
 	    } else {
-	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증 실패");
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("아이디 변경 실패");
 	    }
 	}
+
 
 
 
