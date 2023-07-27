@@ -1,12 +1,9 @@
 package com.modu.app.prj.pay.service.impl;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -194,7 +191,7 @@ public class PayServiceImpl implements PayService {
     	// 정기결제 중인 프로젝트 목록 조회
 		List<PayVO> subList = payMapper.subscriPrj();
 		for(PayVO vo : subList) {
-			System.out.println(vo);
+			//System.out.println(vo);
 			if(vo.getSubspYn().equals("Y") && vo.getExdt().equals(date)) {
 				// 구독 여부 'Y'이고 만료일자 +1 = 현재날짜 -> 정기결제 요청
 				PayVO result = kakaoPaySubscrip(vo);

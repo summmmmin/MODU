@@ -98,5 +98,16 @@ public class PrjController {
 		System.out.println(payService.prjPayList(prjVO.getPrjUniNo()));
 		return "prj/프로젝트 관리4";
 	}
+	
+	// 프로젝트 초대
+	// 초대하기 누르면
+	// 이메일로 링크 발송 (초대토큰, 무슨프로젝트, 등급?, 사용한 토큰여부) insert
+	
+	// 링크로 들어왔을때
+	// 토큰 저장, 로그인/회원가입 여부 확인 -> 로그인 회원가입
+	// 토큰 있으면 프로젝트에 초대시키기(insert, update사용한 토큰으로)
+	// 
+	
+	
 
 }
