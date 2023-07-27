@@ -14,7 +14,7 @@ public class ChatDTO {
 	private String chatParticiMembUniNo; //참여자번호
 	private String cntn; //채팅메세지내용
 	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date WriteDt; //작성일자
+	private Date writeDt; //작성일자
 	
 	private String particiMembUniNo; // 프로젝트참여자고유번호
 	private String nnm; // 프로젝트내 닉네임

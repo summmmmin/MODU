@@ -55,16 +55,13 @@ public class KakaoToken {
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-			System.out.println("response body : " + result);
+			System.out.println("액세스 토큰, 리프레시 토큰 : " + result);
 
 			// Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
 			JsonElement element = JsonParser.parseString(result);
 			access_Token = element.getAsJsonObject().get("access_token").getAsString();
 			refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
-
-			System.out.println("access_token : " + access_Token);
-			System.out.println("refresh_token : " + refresh_Token);
-
+			
 			br.close();
 			bw.close();
 		} catch (IOException e) {
@@ -75,37 +72,47 @@ public class KakaoToken {
 	}
 	
 	// 카카오 액세스토큰에서 유저정보 추출
-	public HashMap<String, Object> getUserInfo (String access_token) {
-		HashMap<String, Object> userInfo = new HashMap<>();
-	    String reqURL = "https://kapi.kakao.com/v2/user/me";
-	    try{
-	    	URL url = new URL(reqURL);
-	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	        conn.setRequestMethod("POST");
-	        conn.setRequestProperty("Authorization", "Bearer " + access_token);   
-	        int responseCode = conn.getResponseCode();       
-	        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8")); 
-	        String line = "";
-	        String result = "";    
-	        while ((line = br.readLine()) != null) {
-	        	result += line;
-	        }
-	        
-			JsonElement element = JsonParser.parseString(result);
+    public HashMap<String, Object> getUserInfo (String access_Token) {
 
-	        String id = element.getAsJsonObject().get("id").getAsString();
-	        JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();    
-	        String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-	        userInfo.put("id", id);
-	        userInfo.put("name", nickname);
-	        br.close();
-	            
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	        
-	    return userInfo;
-	}
+        //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
+        HashMap<String, Object> userInfo = new HashMap<>();
+        String reqURL = "https://kapi.kakao.com/v2/user/me";
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
 
+            //    요청에 필요한 Header에 포함될 내용
+            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 
+            int responseCode = conn.getResponseCode();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String line = "";
+            String result = "";
+
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+            System.out.println("카카오 유저 정보 : " + result);
+
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+
+            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+            JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();	//해당 값은 카카오 email 불러올 때 사용
+
+            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+            String email = kakao_account.getAsJsonObject().get("email").getAsString();
+
+            userInfo.put("nickname", nickname);
+            userInfo.put("email", email);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return userInfo;
+    }
 }

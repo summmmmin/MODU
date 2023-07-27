@@ -30,4 +30,10 @@ public interface ChatService {
 	
 	//채팅방명변경
 	public int changeChatrNm(ChatrParticiVO chatParticiVO);
+	
+	//채팅방참여자들리스트
+	public List<ChatrParticiVO> chatrParticiList(String chatrNo);
+	
+	//채팅읽음확인용INSERT
+	public int insertChatChm(ChatChmVO chatChmVO);
 }

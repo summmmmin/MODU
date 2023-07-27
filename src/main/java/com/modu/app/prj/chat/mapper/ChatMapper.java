@@ -2,6 +2,7 @@ package com.modu.app.prj.chat.mapper;
 
 import java.util.List;
 
+import com.modu.app.prj.chat.service.ChatChmVO;
 import com.modu.app.prj.chat.service.ChatDTO;
 import com.modu.app.prj.chat.service.ChatVO;
 import com.modu.app.prj.chat.service.ChatrParticiVO;
@@ -36,5 +37,10 @@ public interface ChatMapper {
 	//채팅방명변경
 	public int changeChatrNm(ChatrParticiVO chatParticiVO);
 	
+	//채팅방참여자들리스트
+	public List<ChatrParticiVO> chatrParticiList(String chatrNo);
+	
+	//채팅읽음확인용
+	public int insertChatChm(ChatChmVO chatChmVO);
 
 }

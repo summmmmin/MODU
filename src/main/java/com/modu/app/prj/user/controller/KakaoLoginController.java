@@ -5,9 +5,10 @@ import java.util.HashMap;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.modu.app.prj.user.service.KakaoToken;
@@ -22,22 +23,14 @@ public class KakaoLoginController {
 	@Autowired
 	KakaoToken kakaoToken;
 
-	
-	@RequestMapping(value="/kakaologin")
-	public String kakao() {
-		return "kakaologin";
-	}
-	
-	@RequestMapping(value="/kakaologindone")
-	public String login(@RequestParam("code") String code, HttpSession session) {
-		System.out.println("code: " + code);
-		String access_token = kakaoToken.getKaKaoAccessToken(code);
-		System.out.println("access_token" + access_token);
-		HashMap<String,Object> userInfo = kakaoToken.getUserInfo(access_token);
-		session.setAttribute("userId", userInfo.get("id"));
-		session.setAttribute("name", userInfo.get("name"));
-		System.out.println(userInfo);
-		return "redirect:/";
-	}
+	@ResponseBody
+	@GetMapping("kakao")	//그냥 sout출력용 주소, 실제로는 없는 주소가 맞음
+	public void kakaoCallback(@RequestParam String code) {
+		String access_Token = kakaoToken.getKaKaoAccessToken(code);
+		System.out.println("카카오 토큰 발급 : " + access_Token);
 
+		HashMap<String, Object> userInfo = kakaoToken.getUserInfo(access_Token);
+		System.out.println("유저 정보 : " + userInfo);
+	}
 }
+

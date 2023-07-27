@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.modu.app.prj.chat.service.ChatChmVO;
 import com.modu.app.prj.chat.service.ChatDTO;
 import com.modu.app.prj.chat.service.ChatService;
 import com.modu.app.prj.chat.service.ChatVO;
@@ -63,10 +64,11 @@ public class ChatController {
 	public String goChatPage(String chatrNo, Model model, ChatrParticiVO cptvo, HttpSession session) {
 		
 		//채팅세션
-		String prjParticiUniNo = (String) session.getAttribute("particiMembUniNo");
+		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 		cptvo.setChatrNo(chatrNo);
-		cptvo.setParticiMembUniNo(prjParticiUniNo);
+		cptvo.setParticiMembUniNo(particiMembUniNo);
 		ChatrParticiVO vo = chatService.chatSession(cptvo);
+	
 		session.setAttribute("chatrNo", chatrNo);
 		session.setAttribute("chatParticiMembUniNo", vo.getChatParticiMembUniNo());
 		
@@ -166,8 +168,41 @@ public class ChatController {
 			chatFile.setChatrNo(chatrNo);
 			chatFile.setChatParticiMembUniNo(chatParticiMembUniNo);
 			chatFile.setCntn("<a href='/modu/files/" + fileVO.getAttNo() + "/download'>" + fileVO.getAttNm() +"</a>");
-			chatService.insertChat(chatFile);			
+			chatService.insertChat(chatFile);
+			
+			//채팅알림테이블에 insert
+			List<ChatrParticiVO> membList = chatService.chatrParticiList(chatrNo);
+			for(ChatrParticiVO memb : membList) {
+				ChatChmVO chatChmVO = new ChatChmVO();
+				chatChmVO.setParticiMembUniNo(memb.getParticiMembUniNo());
+				chatChmVO.setChatrNo(chatrNo);
+				chatChmVO.setChatNo(chatFile.getChatNo());
+				if(memb.getChatParticiMembUniNo().equals(chatParticiMembUniNo)) {
+					chatChmVO.setCfmYn('Y');
+				}else{
+					chatChmVO.setCfmYn('N');
+				}
+				chatChmVO.setChatParticiMembUniNo(memb.getChatParticiMembUniNo());
+				chatService.insertChatChm(chatChmVO);
+			}
 		}
+		
+		//채팅알림테이블에 insert
+		List<ChatrParticiVO> membList = chatService.chatrParticiList(chatrNo);
+		for(ChatrParticiVO memb : membList) {
+			ChatChmVO chatChmVO = new ChatChmVO();
+			chatChmVO.setParticiMembUniNo(memb.getParticiMembUniNo());
+			chatChmVO.setChatrNo(chatrNo);
+			chatChmVO.setChatNo(chatVO.getChatNo());
+			if(memb.getChatParticiMembUniNo().equals(chatParticiMembUniNo)) {
+				chatChmVO.setCfmYn('Y');
+			}else{
+				chatChmVO.setCfmYn('N');
+			}
+			chatChmVO.setChatParticiMembUniNo(memb.getChatParticiMembUniNo());
+			chatService.insertChatChm(chatChmVO);
+		}
+		
 		return fileVO;
 	}
 	
@@ -203,4 +238,11 @@ public class ChatController {
 		chatService.changeChatrNm(chatParticiVO);
 		return chatParticiVO;
 	}
+	
+	//채팅방참여자들리스트
+	@GetMapping("chatMembList/{chatrNo}")
+	@ResponseBody
+	public List<ChatrParticiVO> chatrParticiList(@PathVariable String chatrNo){
+		return chatService.chatrParticiList(chatrNo);
+	} 
 }
