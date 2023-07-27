@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+
+<style>
+.person{
+margin-left:5px;}
+</style>
+
+</head>
+
+<body>
+		<div class="row">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">할일수정</h4>
+					<hr>
+				</div>
+				<div class="card-content">
+					<form th:object="${todo}" id="todoForm" >
+						<div class="row">
+							<div class="form-group has-icon-left">
+								<div class="position-relative">
+									<input type="text" class="form-control" placeholder="제목을 입력해주세여"
+										th:field="*{ttl}" id="ttl">
+									<div class="form-control-icon">
+										<i class="bi bi-pen"></i>
+									</div>
+								</div>
+							</div>
+							<p></p>
+							<div class="form-group has-icon-left">
+								<div class="position-relative">
+									<textarea class="form-control" placeholder="설명을 입력해주세요"
+										rows="2" th:field="*{cntn}" id="cntn"></textarea>
+									<div class="form-control-icon">
+										<i class="bi bi-chat-left-text"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p></p>
+							<div class="input-group col-md-1 mb-6 person">
+                       			<label class="input-group-text">담당자</label>
+								<select class="choices form-select" id="mgr">
+									<option th:value="${i.particiMembUniNo}" th:each="i:${membList}">[[${i.nnm}]]</option>
+								</select>
+							</div>
+				            <div class="input-group col-md-1 mb-6 person">
+                       			<label class="input-group-text">참여자</label>
+								<select class="choices form-select" id="cm">
+									<option th:value="${i.particiMembUniNo}" th:each="i:${membList}">[[${i.nnm}]]</option>
+								</select>
+							</div>
+						<div class="form-group has-icon-left mx-auto p-4">
+							<p>시작일</p>
+							<div class="position-relative">
+								<input type="date" class="form-control" id="Date1"
+									th:onchange="dateChange()" th:field="*{frDt}">
+								<div class="form-control-icon">
+									<i class="bi-calendar"></i>
+								</div>
+							</div>
+						</div>
+						<div class="form-group has-icon-left mx-auto p-4">
+							<p>마감일</p>
+							<div class="position-relative">
+								<input type="date" class="form-control" id="lastDate1"
+									 th:field="*{toDt}">
+								<div class="form-control-icon">
+									<i class="bi-calendar"></i>
+								</div>
+							</div>
+						</div>
+						<div>
+										<ul>
+											<li th:each="att : ${attList}" id="attPlace">
+												<svg class="bi" width="1em" height="1em" fill="currentColor">
+													<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark" />
+												</svg>
+												<span>[[${att.attNm}]]</span>
+												<svg class="bi" width="1em" height="1em" fill="currentColor">
+													<use th:data-attNo="${att.attNo}" onclick="deleteAtt(event)" xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#trash" />
+												</svg>
+											</li>
+										</ul>
+									</div>
+									<!-- <input type="file" class="multiple-files-filepond" multiple id="todoFile"> -->
+									<input type="file"  id="todoFile"> -
+						<p></p>
+						<div class="col-12 d-flex justify-content-end">
+							<button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
+							<button type="button" onclick="todoUpdate()" class="btn btn-primary me-1 mb-1">수정하기</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script>
+		let mgr =$("#mgr option:selected").val();
+		let cm =$("#cm option:selected").val();
+		/* let file = document.getElementById('todoFile').files[0];
+		
+		console.log(file) */
+		
+		function todoUpdate(){
+				 var formData = $("#todoForm").serialize();	
+				 
+				 var otherdata = {
+						 'mgr':mgr,
+						 'cm':cm
+				 }
+				 
+				mgr =$("#mgr option:selected").val();
+				cm =$("#cm option:selected").val();
+				/* file = document.getElementById('todoFile').files; */
+				let ttl = $("#ttl").val();
+				let cntn = $("#cntn").val();
+				let Date = document.querySelector('#Date1').value;
+				let lastDate = $("#lastDate1").val();
+				
+				
+				 let formD = new FormData(); 
+	             formD.append("mgr", mgr);
+				 formD.append("cm", cm);
+				/*  for(let i=0; i<file.length; i++){
+					 formD.append("file", file[i]);
+				 }
+				  */
+				 formD.append("ttl",ttl);
+				 formD.append("cntn",cntn);
+				 formD.append("frDt",Date);
+				 formD.append("toDt",lastDate);
+				 formD.append("todoUniNo",'[[${todoUniNo}]]')
+		
+				 console.log(formData)
+				 console.log(formD)
+				 console.log(cntn)
+				 console.log(Date)
+				 
+				   fetch("udpateTodo",{
+	                  method : 'GET',
+	                  body : formD
+	               })
+	               .then(result => result.json())
+	               .then(data => {
+	            	   console.log(data);
+	            	   todoList();
+	               })
+		}
+			 /* $.ajax({
+			        type: "POST",
+			        url: "todoInsert",
+			        data: formData + "&" + $.param(otherdata) + "&" + formD, // 폼 데이터와 추가 데이터를 합쳐서 전송
+			        success: function (data) {
+			            console.log(data)
+			            todoList();
+			        },
+			        error: function (xhr, status, error) {
+			            console.log(error)
+			        }
+			    });
+			} */
+		
+		
+		//input타입 date를 클릭했을때 나오는 달력에서 현재날짜 이전애들을 클릭 못하게 막는방법
+/* 		var now_utc = Date.now()
+		var timeOff = new Date().getTimezoneOffset()*60000;
+		var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
+		document.getElementById("Date").setAttribute("min", today);  */
+		
+		//input타입 date를 클릭했을때 나온는 달력에서 선택한 날짜 이전을 막는 구절
+		var date = document.getElementById("Date1")
+			function dateChange(){
+				document.getElementById("lastDate1").setAttribute("min", date.value); 
+			}
+		
+		function deleteAtt(e){
+			let attLi = e.target.closest('LI');
+			let attNo = e.target.dataset.attno;
+			fetch("/modu/delFile/" + attNo)
+			.then(resolve => resolve.json())
+			.then(data => {
+				//console.log(data);
+				allLi.remove(); //이거 삭제 안 됨
+			})				
+		}
+		
+		
+		</script>
+	</div>
+
+
+</body>
+
+</html>

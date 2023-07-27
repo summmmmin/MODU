@@ -31,6 +31,7 @@
 
 	
 	<script>
+	console.log("!11111111")
 	//마감날짜로만 투표가 마감됨 -> 현재날짜와 마감날짜를 비교하기 위해 현재날짜를 불러옴.
 	var today = new Date();
 	
@@ -54,7 +55,9 @@
 	for(let i=0; i<result.list.length; i++){
 		let div;
 		
-		//if(result.grd != 'G01'){
+		
+		//새싹이 아닌사람들인 경우
+		if(result.grd != 'G01'){
 		//  게시판 제목이 있으면
 		 if (result.list[i].boardNm != null){
 		div=`<div class="vote" onclick="voteInfo()" id=${result.list[i].voteNo}>
@@ -77,9 +80,8 @@
 		
 		}
 		
-		/* else{
-			
-			if(result.list.toDt < today && result.list.voteNo == result.count.voteNo){
+		 else{ // 새싹인 경우는 투표의 결과를 보이기만 해야한다.
+			if(result.list.toDt < today){
 				 if (result.list[i].boardNm != null){
 						div=`<div class="vote" onclick="voteInfo()" id=${result.list[i].voteNo}>
 							<h4 class="card-title">장소:${result.list[i].boardNm}</h4>
@@ -99,7 +101,7 @@
 						}
 						$('#vote').append(div);			
 			}	
-		} */
+		} 
 		
 		
 		}

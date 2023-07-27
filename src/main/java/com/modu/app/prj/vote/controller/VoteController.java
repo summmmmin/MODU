@@ -60,10 +60,13 @@ public class VoteController {
 	@GetMapping("voteList")
 	@ResponseBody 
 	public Map<String, Object> voteList(VoteVO vo,HttpServletRequest request) { 
+	
+	//투표 리스트를 뽑기위한 데이터를 세션에서 가져와서 넣어줌.
 	HttpSession session = request.getSession();
 	vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 	vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		  
+	
+	
 	Map<String, Object> map = new HashMap<>();
 	System.out.println(voteService.allCount((String) session.getAttribute("prjUniNo")));	  
 	map.put("list",voteService.voteList(vo)); //투표 리스트

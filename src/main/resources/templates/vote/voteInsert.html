@@ -106,7 +106,7 @@
   			.catch(err => console.log(err)); 
               </script> -->
 	<script>
-				let count = 2;
+			let count = 2;
 
 			// 저장하기 버튼
 			let select =$("#brdSel option:selected").val();
@@ -198,8 +198,10 @@
 					if(event.isTrusted == true){
 						$('#count'+count).remove();
 						count--;
-						if (count == 4){
+						console.log(count)
+						if (count == 3){
 							document.getElementById('voteBtn').disabled=false;
+							document.getElementById('voteBtn').innerText = '항목 추가'
 						}			
 					}
 				}
@@ -223,18 +225,15 @@
 				`;	
 					if (count<=4){	
 				
-					$('#item').after(input);
-
-							/* document.getElementById('delete'+count).click(function(){
-								//console.log('11111');
-								$('#count'+count).remove();
-								count--;
-							}) */
+					$('#voteItemList').append(input);
 				
 						if(count == 4) {
 							event.target.innerText ="더이상 항목을 늘릴 수 없습니다.";
 							event.target.disabled=true;
+							
 						}
+							
+						
 					}
 			
 			}

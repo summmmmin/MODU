@@ -11,6 +11,9 @@ public interface TodoMapper {
 	//단건조회
 	public TodoVO oneTodo(TodoVO vo);
 	
+	//담당자 확인
+	public TodoVO mgrCheck(String tno);
+	
 	//할일 생성
 	public int insertTodo(TodoVO vo);
 	

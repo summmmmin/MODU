@@ -26,6 +26,13 @@ public class TodoServiceImpl implements TodoService{
 	public TodoVO oneTodo(TodoVO vo) {
 		return todoMapper.oneTodo(vo);
 	}
+	
+
+	//담당자 확인
+	@Override
+	public TodoVO mgrCheck(String tno) {
+		return todoMapper.mgrCheck(tno);
+	}
 
 	//할일 생성
 	@Override

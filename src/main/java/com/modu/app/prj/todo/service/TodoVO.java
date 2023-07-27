@@ -24,6 +24,6 @@ public class TodoVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private String toDt;						//할일마감날짜
-	
+	private String particiMembUniNo;		//참여고유멤버
 
 }

@@ -1,19 +1,26 @@
 package com.modu.app.prj.todo.controller;
 
 
+import java.text.ParseException;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.modu.app.prj.file.service.FileService;
 import com.modu.app.prj.file.service.FileVO;
 import com.modu.app.prj.todo.service.TodoService;
 import com.modu.app.prj.todo.service.TodoVO;
+import com.modu.app.prj.user.service.UserVO;
 
 @RestController
 public class TodoRestContorller {
@@ -38,18 +45,33 @@ public class TodoRestContorller {
 		return fileService.fileList(fileVO);
 	}
 	
+
+	//할일 삭제 
+	@PostMapping("todoDelte")
+	public int deleteTodo(@RequestBody TodoVO vo) {
+		if(todoService.deleteTodo(vo.getTodoUniNo())>0) {
+			// 삭제 성공
+			return 1;
+		}else {
+			return 2;
+		}	
+	};
 	
-	//전체목록
-//		@GetMapping("todoList")
-//		public List<TodoVO> todoList(Model model, TodoVO vo,HttpServletRequest request) {
-//			HttpSession session = request.getSession();
-//			UserVO userVo = (UserVO) session.getAttribute("user");
-//			vo.setCm(userVo.getNm());
-//			vo.setMgr(userVo.getNm());
-//			vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-//			System.out.println(vo);
-//			model.addAttribute("todoList", todoService.todoList(vo));
-//			return todoService.todoList(vo);
-//		}
-//	
+//	//할일 수정
+//	@PutMapping("udpateTodo")
+//	public int updateTodo(HttpSession session,TodoVO vo, @RequestParam("ttl") String ttl,
+//			@RequestParam("cntn") String cntn,	@RequestParam("frDt") String Date, @RequestParam("toDt") String lastDate
+//			,@RequestParam("todoUnINo") String todoUniNo) throws ParseException {
+//		System.out.println(vo);
+//		UserVO userVo = (UserVO) session.getAttribute("user");
+//		vo.setWriter((String) session.getAttribute("particiMembUniNo"));
+//		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+//		vo.setTtl(ttl);
+//		vo.setCntn(cntn);
+//		vo.setFrDt(Date);
+//		vo.setToDt(lastDate);
+//		
+//		return 1;
+//	}
+	
 }
