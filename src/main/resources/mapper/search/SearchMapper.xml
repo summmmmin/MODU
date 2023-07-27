@@ -26,6 +26,7 @@
 		ORDER BY write_dt DESC
  	</select>
  	
+ 	<!-- 채팅 리스트 -->
  	<select id="chatList" resultType="SearchVO" parameterType="SearchVO">
  	SELECT 
     p.chat_no,
@@ -36,7 +37,7 @@
     m.prj_uni_no
 	FROM chat p
 	JOIN chatr m ON p.chatr_no = m.chatr_no
-	WHERE m.prj_uni_no = #{prjUniNo}
+	WHERE m.prj_uni_no = 'p66'
 	<if test="cntn != null and cntn != '' ">
 	AND cntn LIKE '%${cntn}%'
 	</if> 
