@@ -80,18 +80,18 @@
 
 				//업로드된파일삭제
 				fetch("/modu/removeFile", {
-		        method: 'post',
-		        headers: {
-		            'content-type': 'text/plain' 
-		        },
-		        body: attNo
-						})
-						.then(result => result.json())
-						.then(data => {
-								//console.log(data); true
-								attLi.remove();
-						})
-						.catch(err => console.log(err));
+				method: 'post',
+				headers: {
+						'content-type': 'text/plain' 
+				},
+				body: attNo
+				})
+				.then(result => result.json())
+				.then(data => {
+						//console.log(data); true
+						attLi.remove();
+				})
+				.catch(err => console.log(err));S
 					}
 					
 			// Filepond: Multiple Files

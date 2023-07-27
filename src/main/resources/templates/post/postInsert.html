@@ -40,7 +40,7 @@
 								<div class="form-group">
 									<label for="basicInput">멤버호출</label>
 									<select class="choices form-select multiple-remove" maxlength="5" multiple="multiple" th:field="*{postTagArm}">
-										<option th:each="memb : ${membList}" th:value="${memb.particiMembUniNo}">[[${memb.nnm}]]</option>
+										<option th:each="memb : ${membList}" th:if="${memb.particiMembUniNo != session.particiMembUniNo}" th:value="${memb.particiMembUniNo}">[[${memb.nnm}]]</option>
 									</select>
 								</div>
 								<!--버튼부-->
@@ -69,14 +69,7 @@
 					postBtn.setAttribute('disabled', 'false')
 				}
 			})
-			
-
 		</script>
-		<!-- filepond validation -->
-	<!-- 	<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-		<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-		<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-		<script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script> -->
 	</div>
 </body>
 

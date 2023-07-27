@@ -6,15 +6,130 @@
 
 	<!-- 로그인멤버=프로젝트참가자확인용(공개게시판) -->
 	<select id="isBrdParticiMemb" resultType="String">
-		SELECT prj_p
-		FROM
-		prj_partici_memb
-		WHERE memb_uni_no = #{membUniNo} AND prj_uni_no = #{postUniNo}
+		SELECT partici_memb_uni_no
+		  FROM prj_partici_memb
+		 WHERE memb_uni_no = #{membUniNo} AND prj_uni_no = #{postUniNo}
 	</select>
 
 	<!-- 게시글리스트 -->
 	<select id="selectAllPost" resultType="PostVO">
 		SELECT p.post_uni_no,
+			   p.brd_uni_no,
+			   p.ttl,
+			   p.cm,
+			   p.partici_memb_uni_no,
+			   p.post_tag_arm,
+			   p.reply_arm_yn,
+			   p.noti_yn,
+			   p.noti_reg_dt,
+			   p.write_dt,
+			   m.nnm
+		  FROM post p 
+		  JOIN prj_partici_memb m
+		    ON p.partici_memb_uni_no = m.partici_memb_uni_no
+	     WHERE p.brd_uni_no=#{brdUniNo}
+	  ORDER BY write_dt desc
+	</select>
+
+	<!-- 단건조회 -->
+	<select id="selectOnePost" resultType="PostVO">
+		SELECT p.post_uni_no,
+			   p.brd_uni_no,
+			   p.ttl,
+			   p.cm,
+			   p.partici_memb_uni_no,
+			   p.write_dt,
+			   p.reply_arm_yn,
+			   p.noti_reg_dt,
+			   p.noti_yn,
+			   b.board_nm
+		  FROM post p 
+		  JOIN brd b
+			ON p.brd_uni_no = b.brd_uni_no
+		WHERE post_uni_no=#{postUniNO}
+	</select>
+
+	<!-- 게시글등록, 수정폼용 게시판조회 -->
+	<select id="selectOneBoard" resultType="PostVO">
+		SELECT *
+		  FROM brd
+		 WHERE brd_uni_no = #{brdUniNo}
+	</select>
+
+	<!-- 게시글등록 -->
+	<insert id="insertPost" parameterType="PostVO">
+		<selectKey keyProperty="postUniNo" resultType="String" order="BEFORE">
+			SELECT 'pt' || (MAX(TO_NUMBER(SUBSTR(post_uni_no, 3)))+1) FROM post
+		</selectKey>
+		INSERT INTO post (post_uni_no,
+						  brd_uni_no,
+						  ttl,
+						  cm,
+						  partici_memb_uni_no,
+						  write_dt,
+						  <if test="postTagArm != null and !postTagArm.equals('')">
+							post_tag_arm,
+						  </if>
+						  noti_yn,
+						  reply_arm_yn
+						  )
+					VALUES (
+							#{postUniNo},
+							#{brdUniNo},
+							#{ttl},
+							#{cm},
+							#{particiMembUniNo},
+							sysdate,
+							<if test="postTagArm != null and !postTagArm.equals('')">
+								#{postTagArm},
+							</if>
+							'X',
+							'Y'
+					        )
+	</insert>
+
+	<!-- 게시글수정 -->
+	<update id="updatePost" parameterType="PostVO">
+		UPDATE post SET
+						<if test="ttl != null and !ttl.equals('')">
+							ttl=#{ttl}
+						</if>
+						<if test="cm != null and !cm.equals('')">
+							<if test="ttl != null and !ttl.equals('')">,</if>
+							cm=#{cm}
+						</if>
+		 WHERE post_uni_no=#{postUniNo}
+	</update>
+
+	<!-- 게시글삭제 -->
+	<delete id="deletePost" parameterType="String">
+		DELETE FROM post WHERE post_uni_no=#{postUniNo}
+	</delete>
+
+	<!-- 댓글알람on/off -->
+	<update id="replyOnOff" parameterType="PostVO">
+		UPDATE post SET
+						reply_arm_yn=#{replyArmYn}
+		 WHERE post_uni_no=#{postUniNo}
+	</update>
+
+	<!-- 공지등록on/off -->
+	<update id="notiOnOff" parameterType="PostVO">
+		UPDATE post SET	
+						noti_yn=#{notiYn},
+						<if test="notiYn == 'O'">
+							noti_reg_dt=sysdate
+						</if>
+						<if test="notiYn == 'X'">
+							noti_reg_dt=NULL
+						</if>
+		 WHERE post_uni_no=#{postUniNo}
+	</update>
+
+	<!-- 공지리스트 -->
+	<select id="selectAllNotiPost" resultType="PostVO">
+		SELECT
+				p.post_uni_no,
 				p.brd_uni_no,
 				p.ttl,
 				p.cm,
@@ -25,147 +140,28 @@
 				p.noti_reg_dt,
 				p.write_dt,
 				m.nnm
-		FROM post p JOIN prj_partici_memb m
-		  ON p.partici_memb_uni_no = m.partici_memb_uni_no
-		WHERE p.brd_uni_no=#{brdUniNo}
-		ORDER BY write_dt desc
-	</select>
-
-	<!-- 단건조회 -->
-	<select id="selectOnePost" resultType="PostVO">
-		SELECT p.post_uni_no,
-			p.brd_uni_no,
-			p.ttl,
-			p.cm,
-			p.partici_memb_uni_no,
-			p.write_dt,
-			p.reply_arm_yn,
-			p.noti_reg_dt,
-			p.noti_yn,
-			b.board_nm
-			FROM post p JOIN brd b
-			ON p.brd_uni_no =
-			b.brd_uni_no
-		WHERE post_uni_no=#{postUniNO}
-	</select>
-
-	<!-- 게시글등록, 수정폼용 게시판조회 -->
-	<select id="selectOneBoard" resultType="PostVO">
-		SELECT *
-		FROM brd
-		WHERE
-		brd_uni_no = #{brdUniNo}
-	</select>
-
-	<!-- 게시글등록 -->
-	<insert id="insertPost" parameterType="PostVO">
-		<selectKey keyProperty="postUniNo" resultType="String" order="BEFORE">
-			SELECT 'pt' || (MAX(TO_NUMBER(SUBSTR(post_uni_no, 3)))+1) FROM post
-		</selectKey>
-		INSERT INTO post (post_uni_no,
-		brd_uni_no,
-		ttl,
-		cm,
-		partici_memb_uni_no,
-		write_dt,
-		<if test="postTagArm != null and !postTagArm.equals('')">
-			post_tag_arm,
-		</if>
-		noti_yn,
-		reply_arm_yn
-		)
-		VALUES (
-		#{postUniNo},
-		#{brdUniNo},
-		#{ttl},
-		#{cm},
-		#{particiMembUniNo},
-		sysdate,
-		<if test="postTagArm != null and !postTagArm.equals('')">
-			#{postTagArm},
-		</if>
-		'X',
-		'Y'
-		)
-	</insert>
-
-	<!-- 게시글수정 -->
-	<update id="updatePost" parameterType="PostVO">
-		UPDATE post SET
-		<if test="ttl != null and !ttl.equals('')">
-			ttl=#{ttl}
-		</if>
-		<if test="cm != null and !cm.equals('')">
-			<if test="ttl != null and !ttl.equals('')">,</if>
-			cm=#{cm}
-		</if>
-		WHERE post_uni_no=#{postUniNo}
-	</update>
-
-	<!-- 게시글삭제 -->
-	<delete id="deletePost" parameterType="String">
-		DELETE FROM post WHERE
-		post_uni_no=#{postUniNo}
-	</delete>
-
-	<!-- 댓글알람on/off -->
-	<update id="replyOnOff" parameterType="PostVO">
-		UPDATE post SET
-		reply_arm_yn=#{replyArmYn}
-		WHERE post_uni_no=#{postUniNo}
-	</update>
-
-	<!-- 공지등록on/off -->
-	<update id="notiOnOff" parameterType="PostVO">
-		UPDATE post SET
-		noti_yn=#{notiYn},
-		<if test="notiYn == 'O'">
-			noti_reg_dt=sysdate
-		</if>
-		<if test="notiYn == 'X'">
-			noti_reg_dt=NULL
-		</if>
-		WHERE post_uni_no=#{postUniNo}
-	</update>
-
-	<!-- 공지리스트 -->
-	<select id="selectAllNotiPost" resultType="PostVO">
-		SELECT
-		p.post_uni_no,
-		p.brd_uni_no,
-		p.ttl,
-		p.cm,
-		p.partici_memb_uni_no,
-
-		p.post_tag_arm,
-
-		p.reply_arm_yn,
-		p.noti_yn,
-		p.noti_reg_dt,
-		p.write_dt,
-		m.nnm
-		FROM post p JOIN prj_partici_memb m
-		ON p.partici_memb_uni_no =
-		m.partici_memb_uni_no
-		WHERE p.noti_yn = 'O' AND
-		p.brd_uni_no=#{brdUniNo}
-		ORDER BY p.noti_reg_dt DESC
+		   FROM post p 
+		   JOIN prj_partici_memb m
+		     ON p.partici_memb_uni_no = m.partici_memb_uni_no
+		  WHERE p.noti_yn = 'O' AND p.brd_uni_no=#{brdUniNo}
+	   ORDER BY p.noti_reg_dt DESC
 	</select>
 
 	<!-- 멤버호출용리스트 -->	
 	<select id="selectCallMembPub" resultType="com.modu.app.prj.post.service.MembDTO">
 		SELECT nnm, 
 			   partici_memb_uni_no
-        FROM prj_partici_memb
-        WHERE prj_uni_no = #{prjUniNo}
+          FROM prj_partici_memb
+         WHERE prj_uni_no = #{prjUniNo} AND partici_yn = 'Y'
 	</select>
 	
 	<select id="selectCallMembNonPub" resultType="com.modu.app.prj.post.service.MembDTO">
 		SELECT p.nnm, 
 			   bm.partici_memb_uni_no
-        FROM prj_partici_memb p JOIN brd_cm bm
-        ON p.partici_memb_uni_no = bm.partici_memb_uni_no
-        WHERE bm.board_uni_no = #{brdUniNo}
+          FROM prj_partici_memb p 
+          JOIN brd_cm bm
+            ON p.partici_memb_uni_no = bm.partici_memb_uni_no
+         WHERE bm.board_uni_no = #{brdUniNo} AND p.partici_yn = 'Y'
 	</select>
 	
 	

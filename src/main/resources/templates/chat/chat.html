@@ -33,7 +33,7 @@
 												...
 										</button>
 										<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-												<a class="dropdown-item" href="#">채팅방초대(아직안됨)</a>
+												<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addChatPartici">채팅방초대(아직안됨)</a>
 												<a class="dropdown-item" id="calloneChatr" data-bs-toggle="modal" data-bs-target="#changeChatrNm">채팅방명변경</a>
 												<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leaveChatr">채팅방나가기</a>
 										</div>
@@ -150,7 +150,7 @@
 				<!-- end of 채팅방명변경 모달 -->
 				
 				<!-- start of 채팅참여자추가 모달 -->
-				<div class="modal fade text-left" id="makeChatrForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+				<div class="modal fade text-left" id="addChatPartici" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
 		            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 		               <div class="modal-content">
 		                  <div class="modal-header">
@@ -161,21 +161,21 @@
 		                  </div>
 		                  <form action="makeChatr" method="POST" id="FormEvent">
 		                     <div class="modal-body">
-		                        <h5>채팅방 이름</h5>
+		                        <h5>채팅 초대</h5>
 		                        <div class="form-group">
-		                           <input id="chartNm" name="chartNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
+		                           <input id="addChartNm" name="chartNm" type="text" class="form-control" style="display:none">
 		                           <input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display: none">
 		                           <input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text"    class="form-control" style="display: none">
 		                           <label for="basicInput" class="form-label">참여멤버선택</label>
-		                           <select id="memberSelect" class="form-select multiple-remove" multiple="multiple"></select>
+		                           <select id="addMembSelect" class="form-select multiple-remove" multiple="multiple"></select>
 		                        </div>
 		                     </div>
 		                     <div class="modal-footer">
 		                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
 		                           <i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
 		                        </button>
-		                        <button onclick="makeChatrPlz()" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-		                           <i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">채팅시작</span>
+		                        <button onclick="addMembPlz()" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+		                           <i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">초대</span>
 		                        </button>
 		                     </div>
 		                  </form>
@@ -257,10 +257,12 @@
 				fetch("/modu/chatMembList/" + chatrNo)
 				.then(resolve => resolve.json())
 				.then(data => {
+					chatNmplace.innerHTML = ''; 
+					chatMembPlace.innerHTML = ''; 
 					//console.log(data);
 					 data.forEach(memb => {
 						if(memb.chatParticiMembUniNo == cpmun){
-							chatNmplace.textContent = memb.chatrNm;
+							chatNmplace.textContent = memb.chatrNm; //개인이 설정한 채팅방 이름
 						}
 						let span = document.createElement('span');
 						span.textContent = memb.nnm;
@@ -269,7 +271,6 @@
 					})
 				})
 				.catch(err => console.log(err))
-				
 			}
 			chatrParticiList();
 			
@@ -313,8 +314,64 @@
 				})
 				.then(result => result.json())
 				.then(data => {
-					console.log(data);
+
+					//console.log(data);
+					chatrParticiList();
 				})
+			}
+
+			//채팅방가능멤버리스트
+			function addChatrParticiList(){
+				let prjUniNo = '[[${session.prjUniNo}]]';
+				let chatrNo = '[[${session.chatrNo}]]'
+				console.log(prjUniNo);
+				console.log(chatrNo);
+				fetch('/modu/addChatMembList/'+ chatrNo + '/' + prjUniNo)
+				.then(resolve => resolve.json())
+				.then(data => {
+					console.log(data);
+					data.forEach(memb => {
+						let optionTag = document.createElement('option');
+						optionTag.setAttribute('value', memb.particiMembUniNo);
+						optionTag.textContent = memb.nnm;
+						document.getElementById('addMembSelect').append(optionTag);  
+          })
+				})
+				.catch(err => console.log(err))
+			}
+			addChatrParticiList();
+
+			function addMembPlz(){
+			 //let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
+				let chatNm = document.getElementById('chatNmPlace').textContent;
+				let chartNo = '[[${session.chatrNo}]]'
+				let selectedOptions = document.getElementById('addMembSelect').selectedOptions;
+				let chatMembs = [];
+					
+				for (let i = 0; i < selectedOptions.length; i++) {
+					chatMembs.push(selectedOptions[i].value);
+				}
+
+        let addMemb = {};
+				addMemb['chartNo'] = chartNo;
+        addMemb['chartNm'] = chatNm;
+        addMemb['particiMembUniNos'] = chatMembs;
+        console.log(addMemb);
+
+				fetch("/modu/addChatMemb",{
+					method : 'post',
+					headers : {
+						'content-type' : 'application/json'
+					},
+					body : JSON.stringify(addMemb)
+				})
+				.then(result => result.json())
+				.then(data => {
+					console.log(data);
+					chatrParticiList();
+				})
+				.catch(err => console.log(err))
+
 			}
 
 			//보내기버튼누르면 sendMessage호출
@@ -354,7 +411,7 @@
 					console.error('Additional details: ' + frame.body);
 			};
 	
-			// 보내기버튼누르면발생하는이벤트
+			// 보내기버튼 누르면 발생하는 이벤트
 			function sendMessage() {
 		
 				let chatrNo = '[[${session.chatrNo}]]'
@@ -383,7 +440,6 @@
 																		'nnm' : nnm,
 																		'writeDt' : writeDt})
 					});
-
 	
 					let formData = new FormData(); // 첨부파일 + 채팅메세지
 					formData.append('chatrNo', chatrNo);
@@ -391,7 +447,7 @@
 					formData.append('cntn', cntn);
 					formData.append('file', file); 
 					
-					//채팅 메세지랑 첨부파일 DB에 저장
+					//채팅메세지 + 첨부파일 DB에 저장
 					fetch("/modu/chatMsg",{
 						method : 'post',
 						body : formData
@@ -420,7 +476,6 @@
 			function showChatMsg(chatMsg) {
 				let msgPlace = document.getElementsByClassName('chat-content')[0];
 				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
-				//console.log(chatMsg)
 
 				const originalDateStr = chatMsg.writeDt;
 				const date = new Date(originalDateStr);
@@ -466,12 +521,11 @@
 				}
 			}
 
-			//채팅방 떠나면 웹소켓 연결 끊음
+			//채팅방 떠나면 웹소켓 연결 끊음 //이거 필요한거?
 			function disconnectWebSocket() {
 					stompClient.deactivate();
 			}
 			window.addEventListener("beforeunload", disconnectWebSocket);
-			
 			//end of 웹소켓
 			
 		</script>

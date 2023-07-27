@@ -12,5 +12,6 @@ public class ChatrParticiVO {
 	private String chatrNm; // 채팅방이름(각자지정)
 	
 	private String nnm; //닉네임
+	private String prjUniNo; //프로젝트번호
 	
 }

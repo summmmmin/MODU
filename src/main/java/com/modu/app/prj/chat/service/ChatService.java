@@ -36,4 +36,7 @@ public interface ChatService {
 	
 	//채팅읽음확인용INSERT
 	public int insertChatChm(ChatChmVO chatChmVO);
+	
+	//채팅참여자추가용리스트
+	public List<ChatrParticiVO> addChatrParticiList(ChatrParticiVO chatParticiVO);
 }

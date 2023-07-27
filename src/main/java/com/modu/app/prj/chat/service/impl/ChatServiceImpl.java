@@ -85,7 +85,10 @@ public class ChatServiceImpl implements ChatService{
 		return chatMapper.insertChatChm(chatChmVO);
 	}
 	
-	
-	
+	//채팅참여자추가용리스트
+	@Override
+	public List<ChatrParticiVO> addChatrParticiList(ChatrParticiVO chatParticiVO) {
+		return chatMapper.addChatrParticiList(chatParticiVO);
+	}
 
 }

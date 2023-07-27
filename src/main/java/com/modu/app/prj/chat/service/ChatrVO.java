@@ -14,7 +14,4 @@ public class ChatrVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date crtDt; //채팅방개설일자
 	
-}
-//CHATR_NO   NOT NULL VARCHAR2(10) 
-//PRJ_UNI_NO NOT NULL VARCHAR2(10) 
-//CRT_DT     NOT NULL DATE         
+}      

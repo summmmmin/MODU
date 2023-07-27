@@ -74,7 +74,8 @@
 		       cm.chatr_no,
                p.partici_memb_uni_no, 
                p.nnm
-          FROM chat c JOIN chatr_partici cm 
+          FROM chat c 
+          JOIN chatr_partici cm 
             ON c.chat_partici_memb_uni_no = cm.chat_partici_memb_uni_no
           JOIN prj_partici_memb p 
             ON p.partici_memb_uni_no = cm.partici_memb_uni_no
@@ -109,7 +110,8 @@
         	   c.chatr_nm, 
         	   p.partici_memb_uni_no, 
         	   p.nnm
-          FROM chatr_partici c JOIN prj_partici_memb p 
+          FROM chatr_partici c 
+          JOIN prj_partici_memb p 
             ON c.partici_memb_uni_no = p.partici_memb_uni_no
          WHERE chatr_no = #{chatrNo}
 	</select>
@@ -124,5 +126,14 @@
 									#{chatParticiMembUniNo}
 									)
 	</insert>
+	
+	<!-- 채팅참여자추가용리스트 -->
+	<select id="addChatrParticiList" resultType="ChatrParticiVO">
+		 SELECT pp.partici_memb_uni_no, pp.nnm
+           FROM prj_partici_memb pp
+      LEFT JOIN chatr_partici cc 
+             ON pp.partici_memb_uni_no = cc.partici_memb_uni_no AND cc.chatr_no = #{chatrNo}
+          WHERE pp.prj_uni_no = #{prjUniNo} AND pp.partici_yn = 'Y' AND cc.partici_memb_uni_no IS NULL
+	</select>
  
 </mapper>

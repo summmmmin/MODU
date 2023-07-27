@@ -178,9 +178,9 @@ public class ChatController {
 				chatChmVO.setChatrNo(chatrNo);
 				chatChmVO.setChatNo(chatFile.getChatNo());
 				if(memb.getChatParticiMembUniNo().equals(chatParticiMembUniNo)) {
-					chatChmVO.setCfmYn('Y');
+					chatChmVO.setCfmYn('Y'); //채팅 쓴 사람
 				}else{
-					chatChmVO.setCfmYn('N');
+					chatChmVO.setCfmYn('N'); //다른 사람
 				}
 				chatChmVO.setChatParticiMembUniNo(memb.getChatParticiMembUniNo());
 				chatService.insertChatChm(chatChmVO);
@@ -195,9 +195,9 @@ public class ChatController {
 			chatChmVO.setChatrNo(chatrNo);
 			chatChmVO.setChatNo(chatVO.getChatNo());
 			if(memb.getChatParticiMembUniNo().equals(chatParticiMembUniNo)) {
-				chatChmVO.setCfmYn('Y');
+				chatChmVO.setCfmYn('Y'); //채팅 쓴 사람
 			}else{
-				chatChmVO.setCfmYn('N');
+				chatChmVO.setCfmYn('N'); // 다른 사람
 			}
 			chatChmVO.setChatParticiMembUniNo(memb.getChatParticiMembUniNo());
 			chatService.insertChatChm(chatChmVO);
@@ -245,4 +245,40 @@ public class ChatController {
 	public List<ChatrParticiVO> chatrParticiList(@PathVariable String chatrNo){
 		return chatService.chatrParticiList(chatrNo);
 	} 
+	
+	//채팅참여자추가용리스트
+	@GetMapping("addChatMembList/{chatrNo}/{prjUniNo}")
+	@ResponseBody
+	public List<ChatrParticiVO> addChatrParticiList(@PathVariable String chatrNo, @PathVariable String prjUniNo, HttpSession session){
+		//chatrNo = (String) session.getAttribute("chatrNo");
+		//prjUniNo = (String) session.getAttribute("prjUniNo");
+		//System.out.println(chatrNo);
+		//System.out.println(prjUniNo);
+		ChatrParticiVO chatParticiVO = new ChatrParticiVO();
+		chatParticiVO.setChatrNo(chatrNo);
+		chatParticiVO.setPrjUniNo(prjUniNo);
+		return chatService.addChatrParticiList(chatParticiVO);
+	}
+	
+	//채팅참여자추가
+	@PostMapping("addChatMemb")
+	@ResponseBody
+	public int addChatMemb(@RequestBody ChatrDTO chatrDTO) {
+		String chatrNm = chatrDTO.getChartNm();
+		String chatrNo = chatrDTO.getChartNo();
+		System.out.println(chatrNo);
+		System.out.println(chatrDTO);
+		int membCount = 0;
+		List<String> membList = chatrDTO.getParticiMembUniNos();
+		for(String memb : membList) {
+			ChatrParticiVO charMem = new ChatrParticiVO();
+			charMem.setParticiMembUniNo(memb); //프로젝트참여자
+			charMem.setChatrNo(chatrNo); //채팅방번호
+			charMem.setChatrNm(chatrNm); //채팅방이름(초대한사람의채팅방이름)
+			//참여테이블에 INSERT
+			chatService.insertChatMemb(charMem);
+			membCount++;
+		}
+		return membCount;
+	}
 }
