@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class ChatDTO {
-	
+	//채팅리스트용
 	private int chatNo; //채팅메세지번호
 	private String chatrNo; //채팅방번호
 	private String chatParticiMembUniNo; //참여자번호
