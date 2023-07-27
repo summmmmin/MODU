@@ -12,22 +12,21 @@
 		<div class="card">
 			<div class="card-header">
 				<div class="card-body">
-					<div class="clearfix"></div>
-					<div class="btn-group btn-group-lg" role="group"
-						aria-label="Basic example">
+					<div class="clearfix" id="aaa"></div>
+					<div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
 						<button type="button" onclick="bpList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">게시글</button>
 						<button type="button" onclick="fileList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">파일</button>
 						<button type="button" onclick="chatList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">채팅</button>
 					</div>
-					<input id="ttl" name="ttl" type="text" placeholder="검색어를 입력해주세요." class="form-control">
-					<button type="button" id="srhBtn" class="btn btn-primary">검색</button>
+					<!-- <input id="ttl" name="ttl" type="text" placeholder="검색어를 입력해주세요." class="form-control"> -->
+					<button type="button" id="srhBtn" class="btn btn-primary" onclick="performSearch()">검색</button>
 				</div>
 				<hr>
 			</div>
 			<div class="card-content" id="bpList"></div>
 		</div>
 	</div>
-	<script th:inline="javascript">
+	<script th:inline="javascript"> 
       //게시글 리스트 함수
         function bpList() {
             $.ajax("BpList")
@@ -46,6 +45,7 @@
                         `;
                     }
                     $('#bpList').append(div);
+                    $('#aaa').append($('<input/>').attr('id','ttl').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
                 });
         }
     	//게시글 검색 함수
@@ -77,8 +77,6 @@
             })
         }
 	//엔터 이벤트
-        $('#srhBtn').on('click', performSearch);
-
         $('#ttl').on('keyup', function(event) {
             if (event.keyCode === 13) {
                 performSearch();

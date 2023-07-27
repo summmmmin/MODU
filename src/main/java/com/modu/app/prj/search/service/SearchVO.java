@@ -48,5 +48,10 @@ public class SearchVO {
 	//프로젝트 고유번호
 	private String prjUniNo;
 	
+	//채팅방 이름
+	private String chatrNm;
+	
+	//채팅방 참여자
+	private String chatrPartici;
 	
 }

@@ -52,6 +52,7 @@ public class SearchController {
 	@GetMapping("ChatList")
 	public List<SearchVO> chatList(Model model, SearchVO vo, HttpSession session) {
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		List<SearchVO> list = searchService.chatList(vo);
 		model.addAttribute("chatList", list);
 		return list;
@@ -62,8 +63,12 @@ public class SearchController {
 	@GetMapping("ChatListSearch")
 	public List<SearchVO> chatList(@RequestParam String cntn, SearchVO vo, HttpSession session) {
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vo.setCntn(cntn);
 		List<SearchVO> list = searchService.chatList(vo);
+		System.out.println(list);
+		System.out.println(vo);
+		System.out.println("141414114");
 		return list;
 	}
 }
