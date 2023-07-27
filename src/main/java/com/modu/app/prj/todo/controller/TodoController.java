@@ -71,6 +71,7 @@ public class TodoController {
 		return "todo/todoInsert";
 	}
 	
+	
 	//todo 등록
 	@PostMapping("todoInsert")
 	@ResponseBody
@@ -98,12 +99,16 @@ public class TodoController {
 	
 	
 	
+	//투표 단건 페이지
 	@GetMapping("todoInfo/{todoNo}")
-	public String todoInfo(TodoVO vo,HttpSession session,Model model,@PathVariable String todoNo){
-		todoService.oneTodo(todoNo);
-		todoService.udpatePercent(vo);
+	public String todoInfo(HttpSession session,Model model,@PathVariable String todoNo){
+		model.addAttribute("todoInfo",todoService.oneTodo(todoNo));
+		model.addAttribute("pctList",cmmnService.getCmmn("퍼센트"));
+		System.out.println(model.getAttribute("pctList"));
+		System.out.println(model.getAttribute("todoInfo"));
 		return "todo/todoInfo";	
 	}
+	
 	
 	
 }
