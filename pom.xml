@@ -67,13 +67,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-		
+
 		<!--웹 소켓 사용 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
-		
+
 		<!-- sms인증 -->
 		<dependency>
 			<groupId>net.nurigo</groupId>
@@ -101,11 +101,11 @@
 
 
 		<!-- 암호화 -->
-	     <dependency>
-	         <groupId>com.github.ulisesbocchio</groupId>
-	         <artifactId>jasypt-spring-boot-starter</artifactId>
-         <version>3.0.5</version>
-         </dependency>
+		<dependency>
+			<groupId>com.github.ulisesbocchio</groupId>
+			<artifactId>jasypt-spring-boot-starter</artifactId>
+			<version>3.0.5</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -113,8 +113,14 @@
 			<version>2.9.1</version>
 		</dependency>
 
+		<!-- 스케쥴러 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-quartz</artifactId>
+		</dependency>
+
 	</dependencies>
-	
+
 
 	<build>
 		<plugins>
