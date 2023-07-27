@@ -127,7 +127,39 @@
 	<!-- 회원 이름 변경 -->
 	<update id="updateNm" parameterType="map">
 		UPDATE memb
-		SET nm = #{newName}
+		SET nm =
+		#{newName}
+		WHERE id = #{id}
+	</update>
+
+
+	<!-- 회원 비밀번호 변경 -->
+	<update id="updatePwd" parameterType="map">
+		UPDATE memb
+		SET PWD =
+		#{newPassword}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 회원 아이디 변경 -->
+	<update id="updateId" parameterType="map">
+		UPDATE memb
+		SET id = #{id}
+		WHERE email_auth = 'Y'
+	</update>
+
+	<!-- 회원 휴대폰번호 변경 -->
+	<update id="updatePhone" parameterType="map">
+	UPDATE memb
+	SET ph_no = #{phNo}
+	WHERE id = #{id}
+	</update>
+
+	<!-- 회원 탈퇴(로그인 막기) -->
+	<update id="quitUser" parameterType="String">
+		UPDATE memb
+		SET quit = 'Y',
+		PH_NO = '-'
 		WHERE id = #{id}
 	</update>
 

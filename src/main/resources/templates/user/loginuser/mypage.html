@@ -6,7 +6,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>마이페이지</title>
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <link
 	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
 	rel="stylesheet">
@@ -15,14 +14,23 @@
 	href="../assets/vendors/bootstrap-icons/bootstrap-icons.css">
 <link rel="stylesheet" href="../assets/css/app.css">
 <link rel="stylesheet" href="../assets/css/pages/auth.css">
+<!-- jQuery -->
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper.JS -->
+<script
+	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 <style type="text/css">
 </style>
 </head>
 
 <body>
-	<!-- Basic Horizontal form layout section start -->
 	<section id="basic-horizontal-layouts">
 		<div class="row match-height">
 			<div class="col-md-6 col-12">
@@ -73,7 +81,8 @@
 											<label for="name" id=name>이름</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<div id="user-name" style="width: 300px;" th:text="${userVO.nm}"></div>
+											<div id="user-name" style="width: 300px;"
+												th:text="${userVO.nm}"></div>
 										</div>
 										<div class="col-md-4" id="new-name-label"
 											style="display: none;">
@@ -131,75 +140,356 @@
 											<button type="button" id="new-password-check-button"
 												class="btn btn-primary">확인</button>
 										</div>
+										<div class="col-md-4">
+											<label id="phone-number-label" for="phone-number">휴대폰
+												번호</label>
+										</div>
 
-
-										<!-- 										<div class="col-sm-12 d-flex justify-content-end">
-											<button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
-											<button type="reset"
-												class="btn btn-light-secondary me-1 mb-1">Reset</button>
-										</div> -->
+										<div class="col-md-8 form-group">
+											<div id="phone-number" style="width: 300px;"
+												th:text="${userVO.phNo}"></div>
+										</div>
+										<div class="col-md-4" id="new-phone-label"
+											style="display: none;">
+											<label for="new-phone-horizontal">새로운 번호</label>
+										</div>
+										<div class="col-md-3 form-group" id="new-phone-group"
+											style="display: none;">
+											<input type="tel" id="new-phone-horizontal"
+												class="form-control" name="new-phone" placeholder="새로운 번호"
+												style="width: 300px;">
+										</div>
+										<div class="col-md-2 form-group" id="phone-button-group"
+											style="display: none;">
+											<button type="button" id="phone-send-button"
+												class="btn btn-primary">발송</button>
+										</div>
+										<div class="col-md-4" id="phone-code-label"
+											style="display: none;">
+											<label for="phone-code-horizontal">인증번호</label>
+										</div>
+										<div class="col-md-3 form-group" id="phone-code-group"
+											style="display: none;">
+											<input type="text" id="phone-code-horizontal"
+												class="form-control" name="phone-code" placeholder="인증번호"
+												style="width: 300px;">
+										</div>
+										<div class="col-md-2 form-group" id="phone-code-button-group"
+											style="display: none;">
+											<button type="button" id="phone-check-button"
+												class="btn btn-primary">확인</button>
+										</div>
 									</div>
 								</div>
 							</form>
+							<a href="#" class="btn btn-danger" id="quitUserBtn">회원 탈퇴</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-<script>
-$(document).ready(function() {
-    let activeElement = "";
+	<!--Danger theme Modal -->
+	<div class="modal fade text-left" id="danger" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+			role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-danger">
+					<h5 class="modal-title white" id="myModalLabel120">탈퇴</h5>
+					<button type="button" class="close" data-bs-dismiss="modal"
+						aria-label="Close">
+						<i data-feather="x"></i>
+					</button>
+				</div>
+				<div class="modal-body">정말로 탈퇴하시겠습니까?</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light-secondary"
+						data-bs-dismiss="modal">
+						<i class="bx bx-x d-block d-sm-none"></i> <span
+							class="d-none d-sm-block">취소</span>
+					</button>
+					<button type="button" class="btn btn-danger ml-1" id="confirmQuit"
+						data-bs-dismiss="modal">
+						<i class="bx bx-check d-block d-sm-none"></i> <span
+							class="d-none d-sm-block">탈퇴</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document)
+				.ready(
+						function() {
+							let activeElement = "";
 
-    $("#user-id-horizontal, label[for='user-id-horizontal']").click(function() {
-        toggleElement("#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group","#user-id-horizontal");
-    });
+							$(
+									"#user-id-horizontal, label[for='user-id-horizontal']")
+									.click(
+											function() {
+												toggleElement(
+														"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group",
+														"#user-id-horizontal");
+											});
 
-    $("#name, label[for='name']").click(function() {
-        toggleElement("#new-name-label, #new-name-group, #new-name-button-group","#name", "#user-name");
-    });
+							$("#name, #user-name")
+									.click(
+											function() {
+												toggleElement(
+														"#new-name-label, #new-name-group, #new-name-button-group",
+														"#name", "#user-name");
+											});
 
-    $("#password-label, #new-password").click(function() {
-        toggleElement("#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group","#new-password");
-    });
+							$("#password-label, #new-password")
+									.click(
+											function() {
+												toggleElement(
+														"#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group",
+														"#new-password");
+											});
+							$("#phone-number-label, #phone-number")
+									.click(
+											function() {
+												toggleElement("#new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group");
+											});
 
-    function hideAllSlides() {
-        $("#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group").hide();
-    }
+							function hideAllSlides() {
+							    var elements = "#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group, #new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group";
 
-    function toggleElement(elementSelectors, clickedElement) {
-        if (activeElement !== clickedElement) {
-            hideAllSlides();
-            $(elementSelectors).slideDown();
-            activeElement = clickedElement;
-        } else {
-            $(elementSelectors).slideUp();
-            activeElement = "";
-        }
-    }
+							    $(elements).hide();
+							    $(elements).find('input').val(''); //열고닫을때마다input값초기화
+							}
 
-  //이름변경
-    $("#new-name-check-button").click(function() {
-        var newName = $("#new-name-horizontal").val();
+							function toggleElement(elementSelectors, clickedElement) {
+							    if (activeElement !== clickedElement) {
+							        hideAllSlides();
+							        $(elementSelectors).slideDown();
+							        activeElement = clickedElement;
+							    } else {
+							        $(elementSelectors).slideUp();
+							        activeElement = "";
+							    }
+							}
 
-        $.ajax({
-            type: "POST",
-            url: "modifyNm",
-            data: {newName: newName},
-            success: function(response) {
-                console.log(response);
-                $('#user-name').text(newName);
-                $('.card-title').text(newName + '님의 마이페이지');
-                toggleElement("#new-name-label, #new-name-group, #new-name-button-group","#name"); // 변경에 성공하면 토글 닫기
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR, textStatus, errorThrown);
-            }
-        });
-    });
 
-});
-</script>
+
+							// 이름 변경
+							$("#new-name-check-button")
+									.click(
+											function() {
+												var newName = $(
+														"#new-name-horizontal")
+														.val();
+												$
+														.ajax({
+															type : "POST",
+															url : "modifyNm",
+															data : {
+																newName : newName
+															},
+															success : function(
+																	response) {
+																console
+																		.log(response);
+																$('#user-name')
+																		.text(
+																				newName);
+																$('.card-title')
+																		.text(
+																				newName
+																						+ '님의 마이페이지');
+																toggleElement(
+																		"#new-name-label, #new-name-group, #new-name-button-group",
+																		"#name"); // If the change is successful, toggle off
+															},
+															error : function(
+																	jqXHR,
+																	textStatus,
+																	errorThrown) {
+																console
+																		.log(
+																				jqXHR,
+																				textStatus,
+																				errorThrown);
+															}
+														});
+											});
+
+							// 비밀번호 변경
+							$("#new-password-check-button")
+									.click(
+											function() {
+												var currentPassword = $(
+														"#current-password")
+														.val();
+												var newPassword = $(
+														"#new-password-confirm")
+														.val();
+												var confirmPassword = $(
+														"#confirm-password")
+														.val();
+
+												if (newPassword !== confirmPassword) {
+													alert("새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+													return;
+												}
+
+												$
+														.ajax({
+															type : "POST",
+															url : "modifyPwd",
+															data : {
+																currentPassword : currentPassword,
+																newPassword : newPassword
+															},
+															success : function(
+																	response) {
+																console
+																		.log(response);
+																if (response === "비밀번호 변경 성공") {
+																	alert("비밀번호가 성공적으로 변경되었습니다.");
+																	toggleElement(
+																			"#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group",
+																			"#new-password");
+																} else {
+																	alert(response);
+																}
+															},
+															error : function(
+																	jqXHR,
+																	textStatus,
+																	errorThrown) {
+																console
+																		.log(
+																				jqXHR,
+																				textStatus,
+																				errorThrown);
+															}
+														});
+											});
+
+							//탈퇴
+							$('#quitUserBtn').on('click', function() {
+								$('#danger').modal('show');
+							});
+
+							$('#confirmQuit').on('click', function() {
+								$.ajax({
+									type : 'POST',
+									url : 'quitUser',
+									success : function(response) {
+
+										window.location.href = '/modu/login';
+									},
+									error : function() {
+										alert("에러메세지");
+									}
+								});
+							});
+
+							//휴대폰인증번호발송
+							$('#phone-send-button')
+									.on(
+											'click',
+											function() {
+												var phoneNumber = $(
+														'#new-phone-horizontal')
+														.val();
+												var dataToSend = {
+													to : phoneNumber
+												};
+												$
+														.ajax({
+															url : '/modu/send',
+															type : 'POST',
+															data : JSON
+																	.stringify(dataToSend),
+															contentType : 'application/json',
+															success : function(
+																	response) {
+																alert("인증번호가 발송되었습니다.");
+															},
+															error : function(
+																	xhr,
+																	status,
+																	error) {
+																alert("하이픈('-')없이 숫자만 입력해주세요.");
+																console
+																		.error(
+																				'에러 : ',
+																				error);
+															}
+														});
+											});
+
+							//인증번호 확인
+							$('#phone-check-button').on(
+									'click',
+									function() {
+										var code = $('#phone-code-horizontal').val();
+
+										if (!code) {
+											alert("휴대폰 인증을 해주십시오.");
+											return;
+										}
+
+										var phoneNumber = $(
+										'#new-phone-horizontal')
+										.val();
+										console.log(phoneNumber);
+
+										var requestData = {
+											'code' : code
+										};
+
+										$.ajax({
+											url : '/modu/verifyCode',
+											type : 'POST',
+											data : JSON.stringify(requestData),
+											contentType : 'application/json',
+											success : function(response) {
+												if (response.valid) {
+													alert("인증번호 확인에 성공했습니다!");
+
+													var modifyPhoneRequest = {
+														'newPhoneNumber' : phoneNumber
+													};
+													console.log(phoneNumber);
+
+													$.ajax({
+														url: 'modifyPhone',
+														type: 'POST',
+														data: JSON.stringify(modifyPhoneRequest),
+														contentType: 'application/json',
+														success: function(response) {
+									                        $('#phone-number').text(phoneNumber);
+									                        $('#phone-code-horizontal').val('');
+									                        $('#new-phone-number').val('');
+									                        var elementSelectors = "#new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group";
+									                        $(elementSelectors).slideUp();
+									                        $(elementSelectors).find('input').val('');
+									                        alert("휴대폰 번호 변경 성공");
+														},
+														error: function(xhr, textStatus, errorThrown) {
+															console.log(xhr, textStatus, errorThrown)
+															alert("휴대폰 번호 변경 실패");
+														}
+													});
+												} else {
+													alert("인증번호가 일치하지 않습니다.");
+												}
+											},
+											error : function(xhr, textStatus, errorThrown) {
+												alert("인증 에러");
+											}
+										});
+									});
+
+
+						}); //document.ready종료
+	</script>
 
 </body>
 
