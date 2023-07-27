@@ -55,6 +55,7 @@ public class VoteController {
 		return "vote/voteList";
 	}
 	
+	
 	//투표 리스트 출력
 	@GetMapping("voteList")
 	@ResponseBody 
@@ -183,8 +184,6 @@ public class VoteController {
 			//변경 성공 여부
 			return vo;
 		}
-	
-	
 	
 	
 // map 여러가지 넘기기 map 공부

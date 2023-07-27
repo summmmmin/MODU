@@ -2,6 +2,7 @@ package com.modu.app.prj.file.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,5 +67,10 @@ public class FileController {
     	fileService.deleteFile(attNo);
     	return 1;
     }
-
+    @GetMapping("attTodo/{todoUniNo1}")
+	public List<FileVO> fileListWithTodo(@PathVariable("todoUniNo1") String todoUniNo){
+		FileVO fileVO = new FileVO();
+		fileVO.setTodoUniNo(todoUniNo);
+		return fileService.fileList(fileVO);
+	}
 }

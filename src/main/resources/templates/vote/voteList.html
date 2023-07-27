@@ -24,55 +24,11 @@
 			</div>
 			<div class="card-content">
 				<div class="card-body" id="vote" >
-				<!--/* 
-				<div class="vote" onclick="voteInfo()" th:each="i:${voteList}" th:id="${i.list.voteNo}">
-					<div th:if="${i.list.boardNm != null}">
-					<h4 class="card-title">장소:[[${i.list.boardNm}]]</h4>
-					</div>
-					<div th:unless="${i.list.boardNm  != null}">
-					<h4 class="card-title">장소:[[${i.list.chatrNm}]]</h4>
-					</div>
-					<h2>제목:[[${i.list.ttl}]]</h2>
-					<p class="card-text">~[[${#dates.format(i.list.toDt,'yyyy-MM-dd')}]]까지 마감</p>
-				<div>
-				<small class="text-muted">[[${i.count.cnt}]]명 참여</small>
-				</div>				
-				</div>  */-->
 				</div>
 			</div>
 		</div>
 	</div>
 
-<!--/* <body>
-	<div class="row">
-		<div class="card">
-			<div class="card-header">
-				<h4 class="card-title">투표</h4>
-				<hr>
-				<button type="button" onclick="voteInsert()"
-					class="btn btn-block btn-light-primary font-bold mt-3">+
-					투표 만들기</button>
-			</div>
-			<div class="card-content">
-				<div class="card-body" id="vote" >
-				
-				<div class="vote" onclick="voteInfo()" th:each="i:${list}" th:id="${i.voteNo}">
-					<div th:if="${i.boardNm != null}">
-					<h4 class="card-title">장소:[[${i.boardNm}]]</h4>
-					</div>
-					<div th:unless="${i.boardNm  != null}">
-					<h4 class="card-title">장소:[[${i.chatrNm}]]</h4>
-					</div>
-					<h2>제목:[[${i.ttl}]]</h2>
-					<p class="card-text">~[[${#dates.format(i.toDt,'yyyy-MM-dd')}]]까지 마감</p>
-				<div>
-				<small class="text-muted">[[${i.cnt}]]명 참여</small>
-				</div>				
-				</div>
-				</div>
-			</div>
-		</div>
-	</div> */-->
 	
 	<script>
 	//마감날짜로만 투표가 마감됨 -> 현재날짜와 마감날짜를 비교하기 위해 현재날짜를 불러옴.
@@ -91,13 +47,15 @@
 	//투표 리스트 뽑기
 	$.ajax("voteList")
 	.done(result=>{
-		console.log(result.count);
-		console.log(result.list.length);
+		console.log(result.count); //투표 참가자수
+		console.log(result.list); // 투표 리스트
+		
 		
 	for(let i=0; i<result.list.length; i++){
 		let div;
-		if(result.grd != 'G01'){
-		console.log(result.count[i])
+		
+		//if(result.grd != 'G01'){
+		//  게시판 제목이 있으면
 		 if (result.list[i].boardNm != null){
 		div=`<div class="vote" onclick="voteInfo()" id=${result.list[i].voteNo}>
 			<h4 class="card-title">장소:${result.list[i].boardNm}</h4>
@@ -105,7 +63,7 @@
 			<small class="text-muted">${result.count[i].cnt}명 참여</small>
 			<p class="card-text">~${result.list[i].toDt}까지 마감</p>
 			</div><p></p>
-		`;
+		`; //채팅방 제목이 있으면
 		}else if(result.list[i].chatrNm != null){
 			div=`<div class="vote" onclick="voteInfo()" id=${result.list[i].voteNo}>
 				<h4 class="card-title">장소:${result.list[i].chatrNm}</h4>
@@ -117,7 +75,10 @@
 		}
 		$('#vote').append(div);
 		
-		}else{
+		}
+		
+		/* else{
+			
 			if(result.list.toDt < today && result.list.voteNo == result.count.voteNo){
 				 if (result.list[i].boardNm != null){
 						div=`<div class="vote" onclick="voteInfo()" id=${result.list[i].voteNo}>
@@ -136,17 +97,17 @@
 								</div><p></p>
 							`; 
 						}
-						$('#vote').append(div);		
-				
-			}
-			
-		}
-			
-			
+						$('#vote').append(div);			
+			}	
+		} */
+		
+		
 		}
 		  //for문 종료
 		
 	})
+	
+	
 	//투표 상세로 가기
  	function voteInfo(){
 		let vid = event.target.closest('div').id;
@@ -155,18 +116,7 @@
 		.done(result =>{
 			$("#rsidebarContent").html(result);
 		}) 
-	}	 
-		
-	
-	/* 	$.ajax("voteInsert")
-		.done(function(result){
-			$("#rsidebarContent").html(result);
-		})	
-	} */
-	
-		//투표 생성 폼으로 가기
-	
-	 
+	}	
 	</script>
 </body>
 </html>

@@ -87,7 +87,6 @@ public class TodoController {
 		vo.setFrDt(Date);
 		vo.setToDt(lastDate);
 		
-		
 		todoService.insertTodo(vo);
 		
 		FileVO fileVO = new FileVO();
@@ -100,15 +99,24 @@ public class TodoController {
 	
 	
 	//투표 단건 페이지
-	@GetMapping("todoInfo/{todoNo}")
-	public String todoInfo(HttpSession session,Model model,@PathVariable String todoNo){
-		model.addAttribute("todoInfo",todoService.oneTodo(todoNo));
+	@GetMapping("todoInfo/{todoUniNo}")
+	public String todoInfo(HttpSession session,TodoVO vo,Model model,@PathVariable String todoUniNo){
+		
+		FileVO fileVO = new FileVO(); 
+		fileVO.setTodoUniNo(todoUniNo);
+		
+		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		vo.setCm((String) session.getAttribute("particiMembUniNo"));
+		vo.setMgr((String) session.getAttribute("particiMembUniNo"));
+		vo.setTodoUniNo(todoUniNo);
+		
+		model.addAttribute("todoInfo",fileService.fileList(fileVO));
+		model.addAttribute("todoInfo",todoService.oneTodo(vo));
 		model.addAttribute("pctList",cmmnService.getCmmn("퍼센트"));
 		System.out.println(model.getAttribute("pctList"));
 		System.out.println(model.getAttribute("todoInfo"));
 		return "todo/todoInfo";	
 	}
-	
-	
-	
+
+			
 }

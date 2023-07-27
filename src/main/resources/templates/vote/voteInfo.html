@@ -349,7 +349,8 @@
                 })
                 .catch(err => console.log(err));  */
             }
-        //------------------투표 수정하기
+        //--------------------------------------------투표 수정하기
+        
         let now_utc = Date.now()
 		let timeOff = new Date().getTimezoneOffset()*60000;
 		let today33 = new Date(now_utc-timeOff).toISOString().split("T")[0]
@@ -357,11 +358,14 @@
         let firstDate = document.getElementById("firstTodt")
         let secondDate = document.getElementById("secondTodt")
         
+        
         function dateChange(){
 				secondDate.setAttribute("min", today33); 
 			}
         
         
+		
+		//---------------투표 수정하기
         function updateVote(){
         	let data2 = {
         		"toDt":secondDate.value,

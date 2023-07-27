@@ -9,8 +9,8 @@
 	select  TODO_UNI_NO,
 			FR_DT,
 			TO_DT,
-			FIND_NICKNAME(PRJ_UNI_NO,MGR)  MGR,
-			FIND_NICKNAME(PRJ_UNI_NO,CM)  CM,
+			FIND_NICKNAME(MGR)  MGR,
+			FIND_NICKNAME(CM)  CM,
 			WRITER,
 			CNTN,
 			FIND_CODE_NAME(PCT) PCT,
@@ -18,19 +18,18 @@
 			TTL
 	  from todo 
 	  where prj_uni_no=#{prjUniNo} 
-	  and (MGR=#{mgr} or cm=#{cm})
+	  and (MGR=#{particiMembUniNo} or cm=#{particiMembUniNo})
 	</select>
 
 	<!-- 단건 조회 -->
-	<select id="oneTodo" parameterType="String" resultType="TodoVO">
+	<select id="oneTodo" parameterType="TodoVO" resultType="TodoVO">
 	select  TODO_UNI_NO,
 			FR_DT,
 			TO_DT,
-			FIND_NICKNAME(PRJ_UNI_NO,MGR)  MGR,
-			FIND_NICKNAME(PRJ_UNI_NO,CM)  CM,
-			partici_memb_uni_no,
+			FIND_NICKNAME(MGR)  MGR,
+			FIND_NICKNAME(CM)  CM,
 			CNTN,
-			FIND_CODENAME(PCT) PCT,
+			FIND_CODE_NAME(PCT) PCT,
 			PRJ_UNI_NO,
 			TTL 
 		from todo 

@@ -94,7 +94,7 @@
 	e.post_uni_no,
 	board_Nm,
 	brd_uni_no,
-	FIND_NICKNAME(#{prjUniNo},#{particiMembUniNo}) particiMembUniNo
+	FIND_NICKNAME(#{particiMembUniNo}) particiMembUniNo
     from vote e left outer join (
                     	select chatr_nm,c.chat_no
                     	from chat c  join (

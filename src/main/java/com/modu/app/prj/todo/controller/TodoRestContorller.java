@@ -1,11 +1,7 @@
 package com.modu.app.prj.todo.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,9 +30,9 @@ public class TodoRestContorller {
 		return todoService.udpatePercent(vo);
 	}
 	
-	// 첨부파일조회?
-	@GetMapping("attPost/{todoUniNo}")
-	public List<FileVO> fileListWithPost(@PathVariable("todoUniNo") String todoUniNo){
+	// 첨부파일조회
+	@GetMapping("attTodo/{todoUniNo}")
+	public List<FileVO> fileListWithTodo(@PathVariable("todoUniNo") String todoUniNo){
 		FileVO fileVO = new FileVO();
 		fileVO.setTodoUniNo(todoUniNo);
 		return fileService.fileList(fileVO);
