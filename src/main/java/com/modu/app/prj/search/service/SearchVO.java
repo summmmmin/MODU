@@ -45,5 +45,8 @@ public class SearchVO {
 	//채팅내용
 	private String cntn;
 	
+	//프로젝트 고유번호
+	private String prjUniNo;
+	
 	
 }

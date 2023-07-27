@@ -69,5 +69,4 @@
 	      SELECT post_uni_no from bm
 	      WHERE partici_memb_uni_no = #{particiMembUniNo} and post_uni_no is not null
 	   </select>
-	
  </mapper>

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.modu.app.prj.bm.service.BmService;
+import com.modu.app.prj.bm.service.BmVO;
 import com.modu.app.prj.file.service.FileService;
 import com.modu.app.prj.file.service.FileVO;
 import com.modu.app.prj.post.service.PostService;
@@ -24,12 +26,18 @@ public class PostController {
 
 	@Autowired
 	FileService fileService; //첨부파일용
+	
+	@Autowired
+	BmService bmService;
 
 	// 전체조회페이지이동
 	@GetMapping("postList")
-	public String postList(Model model, String brdUniNo) {
+	public String postList(Model model, String brdUniNo, HttpSession session) {
 		model.addAttribute("brdUniNo", brdUniNo);
 		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
+		BmVO vo = new BmVO();
+		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		model.addAttribute("postbm", bmService.PostBmList(vo));
 		
 		return "post/postList";
 	}

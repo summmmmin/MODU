@@ -37,7 +37,7 @@
     m.prj_uni_no
 	FROM chat p
 	JOIN chatr m ON p.chatr_no = m.chatr_no
-	WHERE m.prj_uni_no = 'p66'
+	WHERE m.prj_uni_no = #{prjUniNo}
 	<if test="cntn != null and cntn != '' ">
 	AND cntn LIKE '%${cntn}%'
 	</if> 

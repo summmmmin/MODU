@@ -28,6 +28,27 @@
 		</div>
 	</div>
 	<script th:inline="javascript">
+      //게시글 리스트 함수
+        function bpList() {
+            $.ajax("BpList")
+                .done(result => {
+                    console.log(result)
+                    $('#bpList').empty();
+                    let div = '';
+                    for (let i of result) {
+                        div += `
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <td>게시글 제목 <br> ${i.ttl}</td>
+                                </div>
+                            </div>
+                            <hr>
+                        `;
+                    }
+                    $('#bpList').append(div);
+                });
+        }
+    	//게시글 검색 함수
         function performSearch() {
             let ttl = $('#ttl').val();
             $.ajax({
@@ -55,6 +76,7 @@
                 }
             })
         }
+	//엔터 이벤트
         $('#srhBtn').on('click', performSearch);
 
         $('#ttl').on('keyup', function(event) {
@@ -62,26 +84,27 @@
                 performSearch();
             }
         });
-        function bpList() {
-            $.ajax("BpList")
-                .done(result => {
-                    console.log(result)
-                    $('#bpList').empty();
-                    let div = '';
-                    for (let i of result) {
-                        div += `
-                            <div class="card-content">
-                                <div class="card-body">
-                                    <td>제목 : ${i.ttl}</td>
-                                </div>
-                            </div>
-                            <hr>
-                        `;
-                    }
-                    $('#bpList').append(div);
-                });
-        }
+        
+     //채팅 리스트 함수
+     function chatList() {
+    	 $.ajax("ChatList")
+         .done(result => {
+             console.log(result)
+             $('#bpList').empty();
+             let div = '';
+             for (let i of result) {
+                 div += `
+                     <div class="card-content">
+                         <div class="card-body">
+                             <td>${i.cntn}</td>
+                         </div>
+                     </div>
+                     <hr>
+                 `;
+             }
+             $('#bpList').append(div);
+         });
+ }
     </script>
 </body>
-
 </html>

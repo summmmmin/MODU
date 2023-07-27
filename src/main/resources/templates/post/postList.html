@@ -48,6 +48,7 @@
 									</th:block>
 										<a class="dropdown-item" th:if="${post.notiYn} == 'X'" href="#">공지등록</a>
 										<a class="dropdown-item" th:if="${post.notiYn} == 'O'" href="#">공지등록해제</a>
+										<a class="dropdown-item bm" th:text="${#lists.contains(postbm, post.postUniNo)} ? '즐겨찾기 해제' : '즐겨찾기'" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" class="dropdown-item" href="#">댓글알림ON</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'Y'" class="dropdown-item" href="#">댓글알림OFF</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a> 
