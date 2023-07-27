@@ -3,9 +3,11 @@ package com.modu.app.prj.user.impl;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -115,23 +117,38 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public int quitUser(String id) {
-	    int result = userMapper.quitUser(id);
-	    if (result == 1) {
-	        return result;
-	    } else {
-	        throw new RuntimeException("유저탈퇴실패");
-	    }
+		int result = userMapper.quitUser(id);
+		if (result == 1) {
+			return result;
+		} else {
+			throw new RuntimeException("유저탈퇴실패");
+		}
 	}
-	
+
 	@Override
 	public String updatePhone(Map<String, String> params) {
 		int result = userMapper.updatePhone(params);
 		if (result > 0) {
-			return "휴대폰 번호 변경 성공";	// 이거랑 컨트롤러에서 전달하는 바디값이 오타났다고 다르게 전달하는 바람에 서버에서는 변경처리가 됐는데 클라이언트에선 실패로 뜸 ...... 진짜 이상한 문제
+			return "휴대폰 번호 변경 성공"; // 오타나면 받는값이 달라서 서버에선 변경되더라도 클라이언트에선 오류 남
+															// return ResponseEntity.ok("휴대폰 번호 변경 성공"); 이대로 받아오기
 		} else {
 			return "휴대폰 번호 변경 실패";
 		}
 	}
 
+	@Override
+	public String emailCode() {
+		int codeLength = 6;
+		String validChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		Random random = new Random();
 
+		StringBuilder code = new StringBuilder();
+		for (int i = 0; i < codeLength; i++) {
+			int index = random.nextInt(validChars.length());
+			String randomChar = validChars.substring(index, index + 1);
+			code.append(randomChar);
+		}
+
+		return code.toString();
+	}
 }

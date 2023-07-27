@@ -2,6 +2,8 @@ package com.modu.app.prj.user.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -244,25 +246,25 @@ public class UserController {
 		return randomPassword.toString();
 	}
 
-	// 카카오 oauth방식 로그인
-	@RestController
-	@AllArgsConstructor
-	@RequestMapping("oauth")
-	public class OAuthController {
-
-		@ResponseBody
-		@GetMapping("kakao")
-		public void kakaoCallback(@RequestParam String code) {
-			System.out.println(code);
-			String access_Token = kakaoToken.getKaKaoAccessToken(code);
-
-			HashMap<String, Object> userInfo = kakaoToken.getUserInfo(access_Token);
-			System.out.println("###access_Token#### : " + access_Token);
-			System.out.println("###nickname#### : " + userInfo.get("nickname"));
-			System.out.println("###email#### : " + userInfo.get("email"));
-			System.out.println("카카오 토큰 발급 : " + access_Token);
-		}
-	}
+//	// 카카오 oauth방식 로그인
+//	@RestController
+//	@AllArgsConstructor
+//	@RequestMapping("oauth")
+//	public class OAuthController {
+//
+//		@ResponseBody
+//		@GetMapping("kakao")
+//		public void kakaoCallback(@RequestParam String code) {
+//			System.out.println(code);
+//			String access_Token = kakaoToken.getKaKaoAccessToken(code);
+//
+//			HashMap<String, Object> userInfo = kakaoToken.getUserInfo(access_Token);
+//			System.out.println("###access_Token#### : " + access_Token);
+//			System.out.println("###nickname#### : " + userInfo.get("nickname"));
+//			System.out.println("###email#### : " + userInfo.get("email"));
+//			System.out.println("카카오 토큰 발급 : " + access_Token);
+//		}
+//	}
 
 	/*
 	 * 아래로는 로그인 유저 컨트롤러 아래로는 로그인 유저 컨트롤러 아래로는 로그인 유저 컨트롤러 아래로는 로그인 유저 컨트롤러
@@ -281,7 +283,7 @@ public class UserController {
 		return "user/loginuser/mypage";
 	}
 
-	// 이름 수정
+	// 이름 변경
 	@PostMapping("loginuser/modifyNm")
 	@ResponseBody
 	public ResponseEntity<String> modifyNm(HttpServletRequest request, @RequestParam("newName") String newName) {
@@ -346,36 +348,84 @@ public class UserController {
 	// 휴대폰 번호 변경
 	@PostMapping("loginuser/modifyPhone")
 	@ResponseBody
-	public ResponseEntity<String> modifyPhone(HttpServletRequest request, @RequestBody Map<String, String> phoneNumberRequest) {
+	public ResponseEntity<String> modifyPhone(HttpServletRequest request,
+			@RequestBody Map<String, String> phoneNumberRequest) {
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("user");
+
+		String userId = userVO.getId();
+		String newPhoneNumber = phoneNumberRequest.get("newPhoneNumber");
+
+		// 파라미터 2개 > Map에 넣어서 값넘김
+		Map<String, String> params = new HashMap<>();
+		params.put("id", userId);
+		params.put("phNo", newPhoneNumber);
+		System.out.println("새로운 휴대폰 값 ㅣ " + newPhoneNumber);
+		System.out.println("params" + params);
+
+		String updateResult = userService.updatePhone(params);
+		System.out.println(updateResult);
+
+		if ("휴대폰 번호 변경 성공".equals(updateResult)) {
+			userVO.setPhNo(newPhoneNumber);
+			session.setAttribute("user", userVO);
+			return ResponseEntity.ok("휴대폰 번호 변경 성공");
+		} else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("휴대폰 번호 변경 실패");
+		}
+	}
+
+	// 이메일 변경
+	@PostMapping("loginuser/modifyEmail")
+	@ResponseBody
+	public ResponseEntity<String> modifyEmail(String newEmail, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("user");
+
+		Map<String, String> verificationCodes = new HashMap<>();
+
+		String verificationCode = userService.emailCode();
+		verificationCodes.put(userVO.getId(), verificationCode);
+		System.out.println("인증코드 : " + verificationCode);
+		System.out.println(" 이메일 : " + newEmail);
+
+		//세션에 인증번호 저장
+	    session.setAttribute("storedCode", verificationCode);
+
+	    SendEmail.idMail(userVO.getId(), newEmail, verificationCode);
+
+	    return ResponseEntity.ok("이메일 전송 성공");
+	}
+
+	@PostMapping("loginuser/emailVerify")
+	@ResponseBody
+	public ResponseEntity<String> emailVerify(@RequestParam String newEmail, @RequestParam String code, HttpServletRequest request) {
 	    HttpSession session = request.getSession();
+	    
 	    UserVO userVO = (UserVO) session.getAttribute("user");
 
-	    String userId = userVO.getId();
-	    String newPhoneNumber = phoneNumberRequest.get("newPhoneNumber");
+	    String storedCode = (String) session.getAttribute("storedCode");
+	    System.out.println("storedCode : " + storedCode);
+	    try {
+	        newEmail = URLDecoder.decode(newEmail, StandardCharsets.UTF_8.name());
+	    } catch (UnsupportedEncodingException e) {
+	        e.printStackTrace();
+	    }
 
-	    // 파라미터 2개 > Map에 넣어서 값넘김
-	    Map<String, String> params = new HashMap<>();
-	    params.put("id", userId);
-	    params.put("phNo", newPhoneNumber);
-	    System.out.println("새로운 휴대폰 값 ㅣ " + newPhoneNumber);
-	    System.out.println("params" + params);
-
-	    String updateResult = userService.updatePhone(params);
-	    System.out.println(updateResult);
-
-	    if ("휴대폰 번호 변경 성공".equals(updateResult)) {
-	        userVO.setPhNo(newPhoneNumber);
-	        session.setAttribute("user", userVO);
-	        return ResponseEntity.ok("휴대폰 번호 변경 성공");
+	    if (storedCode != null && storedCode.equals(code)) {
+	        System.out.println("새로운 이메일 : " + newEmail);
+	        
+	        userVO.setId(newEmail);
+	        session.removeAttribute("storedCode");
+	        return ResponseEntity.ok("인증 성공");
 	    } else {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("휴대폰 번호 변경 실패");
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증 실패");
 	    }
 	}
 
 
-	// 아이디 변경을 위한 이메일 전송
 
-	// 휴대폰 번호 변경
+
 
 	// 회원 탈퇴
 	@PostMapping("loginuser/quitUser")
@@ -394,6 +444,7 @@ public class UserController {
 			return ResponseEntity.badRequest().body("사용자가 아님");
 		}
 	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// 관리자 대시보드
