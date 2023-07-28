@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,16 +12,15 @@
 <link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
 <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
 <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
-<link rel="stylesheet" href="assets/css/widgets/chat.css">
 <link rel="stylesheet" href="assets/css/test.css" />
 <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
 <link rel="stylesheet" href="assets/css/modal.css">
 <!-- Include Choices CSS -->
-
+<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
 <link rel="stylesheet"
-   href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
 <link rel="stylesheet"
-   href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
 
@@ -40,12 +39,10 @@
 					</div>
 				</div>
 
-            <div class="sidebar-menu">
-               <ul class="menu">
-                  <li class="sidebar-title">Menu</li>
-                  <li class="sidebar-item active"> </li>
-                  <li class="sidebar-item active"> </li>
-
+				<div class="sidebar-menu">
+					<ul class="menu">
+						<li class="sidebar-title">Menu</li>
+						<li class="sidebar-item active"> </li>
 <!--/* ************************ ChatRoom List Start *************************** */-->
 <li class="sidebar-item has-sub">
     <a href="#" class="sidebar-link"> 
@@ -107,7 +104,7 @@
         .catch(err => console.log(err));
         
     }
-   /* 색 변환 JS */ 
+	/* 색 변환 JS */ 
    $('#ultag').on('click', function(event) {
     let target = event.target;
     if ($(target).hasClass('cls-1')) {
@@ -116,373 +113,396 @@
 });
 </script>
 <!--/* ************************ End *************************** */-->
-         </div>
+			</div>
 
-            <button class="sidebar-toggler btn x">
-               <i data-feather="x"></i>
-            </button>
-         </div>
-      </div>
-      <div id="rsidebar" class="active">
-         <div class="rsidebar-wrapper active">
-            <div class="rsidebar-header">
-               <div class="d-flex justify-content-between">
-                  <div class="logo">
-                     <a href="#"><img src="assets/images/logo/logo.png"
-                        alt="Logo" srcset="" /></a>
-                  </div>
-                  <div class="toggler">
-                     <a href="#" class="rsidebar-hide d-block"><i
-                        class="bi bi-x bi-middle"></i></a>
-                  </div>
-               </div>
-            </div>
-            
-            <div class="rsidebar-menu">
-               <div id="rsidebarContent"></div>
-            </div>
-            <button class="rsidebar-toggler btn x">
-               <i data-feather="x"></i>
-            </button>
-            <button class="buger-btn" style="display:none">
-               <i data-feather="x"></i>
-            </button>
-         </div>
-      </div>
-      <div id="main" class="layout-navbar">
-         <header class="mb-3">
-            <nav class="navbar navbar-expand navbar-light">
-            
-               <div class="container-fluid">
-                  <a href="#" class="burger-btn d-block"> <i
-                     class="bi bi-justify fs-3"></i>
-                  </a> <a href="#" class="rburger-btn d-block"> <i
-                     class="bi bi-justify fs-3" style="display:none"></i>
-                  </a>
+				<button class="sidebar-toggler btn x">
+					<i data-feather="x"></i>
+				</button>
+			</div>
+		</div>
+		<div id="rsidebar" class="active">
+			<div class="rsidebar-wrapper active">
+				<div class="rsidebar-header">
+					<div class="d-flex justify-content-between">
+						<div class="logo">
+							<a href="#"><img src="assets/images/logo/logo.png"
+								alt="Logo" srcset="" /></a>
+						</div>
+						<div class="toggler">
+							<a href="#" class="rsidebar-hide d-block"><i
+								class="bi bi-x bi-middle"></i></a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="rsidebar-menu">			
+					<div id="rsidebarContent"></div>
+				</div>
+				<button class="rsidebar-toggler btn x">
+					<i data-feather="x"></i>
+				</button>
+				<button class="buger-btn" style="display:none">
+					<i data-feather="x"></i>
+				</button>
+			</div>
+		</div>
+		<div id="main" class="layout-navbar">
+			<header class="mb-3">
+				<nav class="navbar navbar-expand navbar-light">
+				
+					<div class="container-fluid">
+						<a href="#" class="burger-btn d-block"> <i
+							class="bi bi-justify fs-3"></i>
+						</a> <a href="#" class="rburger-btn d-block"> <i
+							class="bi bi-justify fs-3" style="display:none"></i>
+						</a>
 
-                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item me-1"><a class="nav-link active" href="#" aria-expanded="false"> <i class="bi bi-search bi-sub fs-4 text-gray-600"></i>
-                              
+						<div class="collapse navbar-collapse" id="navbarSupportedContent">
+							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+								 <li class="nav-item me-1">
+								 <a class="nav-link active rburger" onclick="searchList()" aria-expanded="false"><i class="bi bi-search bi-sub fs-4 text-gray-600"></i>
+										
 
-                        </a></li>
-                        <li class="nav-item me-1"><a class="nav-link active"
-                           href="#" aria-expanded="false"> <i
-                              class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
-                        </a></li>
-                        <li class="nav-item dropdown me-3"><a
-                           class="nav-link active dropdown-toggle" href="#"
-                           data-bs-toggle="dropdown" aria-expanded="false"> <i
-                              class="bi bi-justify bi-sub fs-4 text-gray-600"></i>
-                        </a>
-                           <ul class="dropdown-menu dropdown-menu-end"
-                              aria-labelledby="dropdownMenuButton">
-                              <li><a class="dropdown-item rburger" >일정</a></li>
-                              <li><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
-                              <li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
-                              <li><a class="dropdown-item rburger" onclick="bmList()">즐겨찾기</a></li>
-                           </ul></li>
-                     </ul>
-                     <div class="dropdown">
-                        <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                           <div class="user-menu d-flex">
-                              <div class="user-name text-end me-3">
-                                 <h6 class="mb-0 text-gray-600">[[${session.user.nm}]]</h6>
-                                 <p class="mb-0 text-sm text-gray-600">Administrator</p>
-                              </div>
-                              <div class="user-img d-flex align-items-center">
-                                 <div class="avatar avatar-md">
-                                    <img src="assets/images/faces/1.jpg" />
-                                 </div>
-                              </div>
-                           </div>
-                        </a>                        
-                        <ul class="dropdown-menu dropdown-menu-end"
-                           aria-labelledby="dropdownMenuButton">
-                           <li>
-                              <h6 class="dropdown-header">[[${session.user.nm}]]</h6>
-                           </li>
-                           <li><a class="dropdown-item" href="#"><i
-                                 class="icon-mid bi bi-person me-2"></i> 마이페이지</a></li>
-                           <li><a class="dropdown-item" href="#"><i
-                                 class="icon-mid bi bi-gear me-2"></i> 설정</a></li>
-                           <li>
-                              <hr class="dropdown-divider" />
-                           </li>
-                           <li><a class="dropdown-item" href="logout"><i
-                                 class="icon-mid bi bi-box-arrow-left me-2"></i>로그아웃</a></li>
-                        </ul>
-                     </div>
-                  </div>
-               </div>
-            </nav>
-         </header>
+								</a></li>
+								<li class="nav-item me-1"><a class="nav-link active"
+									href="#" aria-expanded="false"> <i
+										class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
+								</a></li>
+								<li class="nav-item dropdown me-3"><a
+									class="nav-link active dropdown-toggle" href="#"
+									data-bs-toggle="dropdown" aria-expanded="false"> <i
+										class="bi bi-justify bi-sub fs-4 text-gray-600"></i>
+								</a>
+									<ul class="dropdown-menu dropdown-menu-end"
+										aria-labelledby="dropdownMenuButton">
+										<li><a class="dropdown-item rburger" >일정</a></li>
+										<li><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
+										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
+										<li><a class="dropdown-item rburger" onclick="bmList()">즐겨찾기</a></li>
+									</ul></li>
+							</ul>
+							<div class="dropdown">
+								<a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+									<div class="user-menu d-flex">
+										<div class="user-name text-end me-3">
+											<h6 class="mb-0 text-gray-600">[[${session.user.nm}]]</h6>
+											<p class="mb-0 text-sm text-gray-600">Administrator</p>
+										</div>
+										<div class="user-img d-flex align-items-center">
+											<div class="avatar avatar-md">
+												<img src="assets/images/faces/1.jpg" />
+											</div>
+										</div>
+									</div>
+								</a>								
+								<ul class="dropdown-menu dropdown-menu-end"
+									aria-labelledby="dropdownMenuButton">
+									<li>
+										<h6 class="dropdown-header">[[${session.user.nm}]]</h6>
+									</li>
+									<li><a class="dropdown-item" href="#"><i
+											class="icon-mid bi bi-person me-2"></i> 마이페이지</a></li>
+									<li><a class="dropdown-item" href="#"><i
+											class="icon-mid bi bi-gear me-2"></i> 설정</a></li>
+									<li>
+										<hr class="dropdown-divider" />
+									</li>
+									<li><a class="dropdown-item" href="logout"><i
+											class="icon-mid bi bi-box-arrow-left me-2"></i>로그아웃</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</header>
 
-         <div class="page-heading">
-            <h3>Profile Statistics</h3>
-         </div>
-         <div class="page-content">
-            <section class="row">
-               <article layout:fragment="content"></article>
-            </section>
-            
-            
-            <!--Modal -->
-            <div class="modal fade text-left" id="inlineForm" tabindex="-1"
-               role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-               <div
-                  class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-                  role="document">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel33">게시판 생성</h4>
-                        <button type="button" class="close" data-bs-dismiss="modal"
-                           aria-label="Close">
-                           <i data-feather="x"></i>
-                        </button>
-                     </div>
-                     <form action="InsertBoard" method="POST" id="FormEvent">
-                        <div class="modal-body">
-                           <h5>게시판 이름</h5>
-                           <div class="form-group">
-                              <input id="boardNm" name="boardNm" type="text"
-                                 placeholder="40자까지 입력 가능합니다." class="form-control">
-                           </div>
-                           <div class="form-group">
-                              <input id="particiMembUniNo" name="particiMembUniNo"
-                                 th:value="${session.particiMembUniNo}" type="text"
-                                 class="form-control" style="display: none"> <input
-                                 id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
-                                 type="text" class="form-control" style="display: none">
-                              <div class="form-group">
-                                 <h6>공개여부</h6>
-                                 <input type="checkbox" id="checkbox" name="pubcYn" checked>
+			<div class="page-heading">
+				<h3>Profile Statistics</h3>
+			</div>
+			<div class="page-content">
+				<section class="row">
+					<article layout:fragment="content"></article>
+				</section>
+				
+				
+				<!--Modal -->
+				<div class="modal fade text-left" id="inlineForm" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+						role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title" id="myModalLabel33">게시판 생성</h4>
+								<button type="button" class="close" data-bs-dismiss="modal"
+									aria-label="Close">
+									<i data-feather="x"></i>
+								</button>
+							</div>
+							<form action="InsertBoard" method="POST" id="FormEvent">
+								<div class="modal-body">
+									<h5>게시판 이름</h5>
+									<div class="form-group">
+										<input id="boardNm" name="boardNm" type="text"
+											placeholder="40자까지 입력 가능합니다." class="form-control">
+									</div>
+									<div class="form-group">
+										<input id="particiMembUniNo" name="particiMembUniNo"
+											th:value="${session.particiMembUniNo}" type="text"
+											class="form-control" style="display: none"> <input
+											id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
+											type="text" class="form-control" style="display: none">
+										<div class="form-group">
+											<h6>공개여부</h6>
+											<input type="checkbox" id="checkbox" name="pubcYn" checked>
 
-                                 <label for="checkbox"><span></span></label>
-                              </div>
-                           </div>
-                           <div class="modal-footer">
-                              <button type="button" class="btn btn-light-secondary"
-                                 data-bs-dismiss="modal">
-                                 <i class="bx bx-x d-block d-sm-none"></i> <span
-                                    class="d-none d-sm-block">닫기</span>
-                              </button>
-                              <button id="formbtn" type="button"
-                                 class="btn btn-primary ml-1" data-bs-dismiss="modal"
-                                 onclick="addBoard()">
-                                 <i class="bx bx-check d-block d-sm-none"></i> <span
-                                    class="d-none d-sm-block">생성</span>
-                              </button>
-                           </div>
-                        </div>
-                     </form>
-                  </div>
-               </div>
-            </div>
-         </div>
+											<label for="checkbox"><span></span></label>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-light-secondary"
+											data-bs-dismiss="modal">
+											<i class="bx bx-x d-block d-sm-none"></i> <span
+												class="d-none d-sm-block">닫기</span>
+										</button>
+										<button id="formbtn" type="button"
+											class="btn btn-primary ml-1" data-bs-dismiss="modal"
+											onclick="addBoard()">
+											<i class="bx bx-check d-block d-sm-none"></i> <span
+												class="d-none d-sm-block">생성</span>
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 
-         <!-- start of 채팅방생성모달 -->
-         <div class="modal fade text-left" id="makeChatrForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-               <div class="modal-content">
-                  <div class="modal-header">
-                     <h4 class="modal-title" id="myModalLabel33">채팅방 생성</h4>
-                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                     </button>
-                  </div>
-                  <form action="makeChatr" method="POST" id="FormEvent">
-                     <div class="modal-body">
-                        <h5>채팅방 이름</h5>
-                        <div class="form-group">
-                           <input id="chartNm" name="chartNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
-                           <input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display: none">
-                           <input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text"    class="form-control" style="display: none">
-                           <label for="basicInput" class="form-label">참여멤버선택</label>
-                           <select id="memberSelect" class="form-select multiple-remove" multiple="multiple"></select>
-                        </div>
-                     </div>
-                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                           <i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
-                        </button>
-                        <button onclick="makeChatrPlz()" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                           <i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">채팅시작</span>
-                        </button>
-                     </div>
-                  </form>
-               </div>
-            </div>
-         </div>
-         <!-- end of 채팅방생성모달 -->   
+			<!-- start of 채팅방생성모달 -->
+			<div class="modal fade text-left" id="makeChatrForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel33">채팅방 생성</h4>
+							<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+								<i data-feather="x"></i>
+							</button>
+						</div>
+						<form action="makeChatr" method="POST" id="FormEvent">
+							<div class="modal-body">
+								<h5>채팅방 이름</h5>
+								<div class="form-group">
+									<input id="chartNm" name="chartNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
+									<input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display: none">
+									<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" 	class="form-control" style="display: none">
+									<label for="basicInput" class="form-label">참여멤버선택</label>
+									<select id="memberSelect" class="form-select multiple-remove" multiple="multiple"></select>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
+								</button>
+								<button onclick="makeChatrPlz()" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+									<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">채팅시작</span>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- end of 채팅방생성모달 -->	
 
-         <footer>
-            <div class="footer clearfix mb-0 text-muted">
-               <div class="float-start">
-                  <p>2021 &copy; Mazer</p>
-               </div>
-               <div class="float-end">
-                  <p>
-                     Crafted with 
+			<footer>
+				<div class="footer clearfix mb-0 text-muted">
+					<div class="float-start">
+						<p>2021 &copy; Mazer</p>
+					</div>
+					<div class="float-end">
+						<p>
+							Crafted with 
                             <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A. Saugi</a>
-                  </p>
-               </div>
-            </div>
-         </footer>
-      </div>
-   </div>
-   
+						</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+	
     <!-- Include Choices JavaScript -->
-   <script src="assets/vendors/choices.js/choices.min.js"></script>
-   <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-   <script src="assets/js/bootstrap.bundle.min.js"></script>
-   <script src="assets/js/test.js"></script>
-   <script>
+	<script src="assets/vendors/choices.js/choices.min.js"></script>
+	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script src="assets/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/js/test.js"></script>
+
+	<script>
     // 게시판 목록 출력
-   $.ajax("boardList")
-   .done(result=>$("#boardList").html(result));
+	$.ajax("boardList")
+	.done(result=>$("#boardList").html(result));
     
     // 게시판 생성
-   function addBoard(){
-      let check = document.querySelector('#checkbox');
-      let checkOk = '';
-      if(check.checked){
-         checkOk = 'on';
-      }else{
-         checkOk = '';
-      }
-      checkbox.value
-      fetch("/modu/InsertBoardBm",{
-         method : 'POST',
-         headers:{
-            "Content-Type":"application/x-www-form-urlencoded"
-         },
-         body: 
-         "particiMembUniNo="+particiMembUniNo.value
-         +"&prjUniNo="+prjUniNo.value
-         +"&boardNm="+boardNm.value
-         +"&pubcYn="+checkOk
-      })
-      .then(result=>result.json())
-      .then(data => {
-         console.log(data);
-         let liTag=`
-            <li class="submenu-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 108.9 103.6">
-             <g id="Layer_2" data-name="Layer 2">
-                 <g id="Layer_1-2" data-name="Layer 1">
-                     <polygon onclick="clickInsert()" class="cls-1 "`+data.brdUniNo+` points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0">
-                 </g>
-             </g>
-         </svg>
-            <a href="/postList?brdUniNo="`+data.brdUniNo+`>`+data.boardNm+`</a>
-            </li>
-         `;
-         
-         let submenu=document.querySelector('.submenu');
-         submenu.innerHTML+=liTag;
-         
-      })
-      .catch(err => console.log(err))
-   }
-   </script>
-   
+	function addBoard(){
+		let check = document.querySelector('#checkbox');
+		let checkOk = '';
+		if(check.checked){
+			checkOk = 'on';
+		}else{
+			checkOk = '';
+		}
+		checkbox.value
+		fetch("/modu/InsertBoardBm",{
+			method : 'POST',
+			headers:{
+				"Content-Type":"application/x-www-form-urlencoded"
+			},
+			body: 
+			"particiMembUniNo="+particiMembUniNo.value
+			+"&prjUniNo="+prjUniNo.value
+			+"&boardNm="+boardNm.value
+			+"&pubcYn="+checkOk
+		})
+		.then(result=>result.json())
+		.then(data => {
+			console.log(data);
+			let liTag=`
+				<li class="submenu-item">
+				<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 108.9 103.6">
+			    <g id="Layer_2" data-name="Layer 2">
+			        <g id="Layer_1-2" data-name="Layer 1">
+			            <polygon onclick="clickInsert()" class="cls-1 "`+data.brdUniNo+` points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0">
+			        </g>
+			    </g>
+			</svg>
+				<a href="/postList?brdUniNo="`+data.brdUniNo+`>`+data.boardNm+`</a>
+				</li>
+			`;
+			
+			let submenu=document.querySelector('.submenu');
+			submenu.innerHTML+=liTag;
+			
+		})
+		.catch(err => console.log(err))
+	}
+	</script>
+	
     <script>
         //채팅방리스트
-      function showChatList(){
-         fetch("/modu/chatrList")
-         .then(resolve => resolve.json())
-         .then(data => {
-            document.getElementById('chatrList').innerHTML = '';
-            data.forEach(chatr => {
-               let liTag = document.createElement('li');
-               liTag.setAttribute("class", "submenu-item")
-               document.getElementById('chatrList').append(liTag);
+		function showChatList(){
+			fetch("/modu/chatrList")
+			.then(resolve => resolve.json())
+			.then(data => {
+				document.getElementById('chatrList').innerHTML = '';
+				data.forEach(chatr => {
+					let liTag = document.createElement('li');
+					liTag.setAttribute("class", "submenu-item")
+					document.getElementById('chatrList').append(liTag);
 
-               let tagA = document.createElement('a');
-               tagA.setAttribute("href", "chat?chatrNo=" + chatr.chatrNo);
-               tagA.textContent = chatr.chatrNm;
-               liTag.append(tagA);
-               document.getElementById('chatrList').append(liTag);
-            });
-         })
-      }
-      showChatList();
+					let tagA = document.createElement('a');
+					tagA.setAttribute("href", "chat?chatrNo=" + chatr.chatrNo);
+					tagA.textContent = chatr.chatrNm;
+					liTag.append(tagA);
+					document.getElementById('chatrList').append(liTag);
+				});
+			})
+		}
+		showChatList();
 
-      //채팅초대리스트
-      function callChatMemb(){
-         let pNum = '[[${session.prjUniNo}]]';
-         let user = '[[${session.particiMembUniNo}]]';
-         let select = document.getElementById('memberSelect');
-         //console.log(select);
+		//채팅방생성모달안에페이지넣기
+		// document.getElementById('openMakeChatrModal').addEventListener('click', function () {
+		// 	let modalPlace = document.getElementById('makeChatrModal');
+		// 	let xhr = new XMLHttpRequest();
+		// 	xhr.onreadystatechange = function () {
+		// 		if (xhr.readyState === XMLHttpRequest.DONE) {
+		// 			if (xhr.status === 200) {
+		// 				modalPlace.innerHTML = xhr.responseText;
+		// 			} else {
+		// 				// Ajax 요청 실패 시 에러 처리
+		// 				console.error('Failed to load makeChatrForm :', xhr.status, xhr.statusText);
+		// 			}
+		// 		}
+		// 	};
+		// 	xhr.open('GET', 'http://localhost/modu/makeChatr', true);
+		// 	xhr.send();
+		// }) 
 
-         fetch("/modu/chatMembs/" + pNum)
-         .then(resolve => resolve.json())
-         .then(data => {
-            //console.log(data);
-            data.forEach(memb => {
-               if(user != memb.particiMembUniNo){
-                  let optionTag = document.createElement('option');
-                  optionTag.setAttribute('value', memb.particiMembUniNo);
-                  optionTag.textContent = memb.nnm;
-                  document.getElementById('memberSelect').append(optionTag);
-               }
-            })
-         })
-      }
-      callChatMemb();
+		//채팅초대리스트
+		function callChatMemb(){
+			let pNum = '[[${session.prjUniNo}]]';
+			let user = '[[${session.particiMembUniNo}]]';
+			let select = document.getElementById('memberSelect');
+			//console.log(select);
 
-      //채팅방생성
-      function makeChatrPlz(e) {
-	  	 let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
-	  	 let chatNm = document.getElementById('chartNm').value;
-	  	 let selectedOptions = document.getElementById('memberSelect').selectedOptions;
-	  	 let chatMembs = [];
-	  	  
-		 // 선택된 모든 참여자의 값을 배열에 추가
-	     for (let i = 0; i < selectedOptions.length; i++) {
-	        chatMembs.push(selectedOptions[i].value);
-	     }
+			fetch("/modu/chatMembs/" + pNum)
+			.then(resolve => resolve.json())
+			.then(data => {
+				//console.log(data);
+				data.forEach(memb => {
+					if(user != memb.particiMembUniNo){
+						let optionTag = document.createElement('option');
+						optionTag.setAttribute('value', memb.particiMembUniNo);
+						optionTag.textContent = memb.nnm;
+						document.getElementById('memberSelect').append(optionTag);
+					}
+				})
+			})
+		}
+		callChatMemb();
 
-         let makeChatInfo = {};
-         makeChatInfo['chartNm'] = chatNm;
-         makeChatInfo['particiMembUniNos'] = chatMembs;
-         //console.log(makeChatInfo);
+		//채팅방생성
+		function makeChatrPlz(e) {
+			let chatNm = document.getElementById('chartNm').value;
+			let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
+			let chatMembs = selcetParticis.split(',');
 
-         fetch("/modu/makeChatr", {
-               method: 'post',
-               headers: {
-                  'content-type': 'application/json'
-               },
-               body: JSON.stringify(makeChatInfo)
-            })
-            .then(result => result.json())
-            .then(data => {
-               //console.log(data);
-               showChatList();
-               if (data.chartNo) {
-                   window.location.href = "/modu/chat?chatrNo=" + data.chartNo;
-                }
-               //window.location.href = 'http://192.168.0.27/modu/chat?chatrNo=' + data.chatrNo;
-            })
-            .catch(err => console.log(err)) 
-      }
+			let makeChatInfo = {};
+			makeChatInfo['chartNm'] = chatNm;
+			makeChatInfo['particiMembUniNos'] = chatMembs;
+			//console.log(makeChatInfo);
+
+			fetch("/modu/makeChatr", {
+					method: 'post',
+					headers: {
+						'content-type': 'application/json'
+					},
+					body: JSON.stringify(makeChatInfo)
+				})
+				.then(result => result.json())
+				.then(data => {
+					//console.log(data);
+					showChatList()
+					// setTimeout( () => {
+					// 	window.location.href = 'http://localhost:80/modu/chat/' + data.chatrNo;
+					// }, 5000);
+				})
+				.catch(err => console.log(err)) 
+		}
     </script>
 
-   <script>
-    function todoList(){
-     $.ajax("todo")
-      .done(result=>$("#rsidebarContent").html(result));
-    }
-    function voteList(){
-      $.ajax("vote")
-       .done(result=>$("#rsidebarContent").html(result))
-    }
-    function bmList(){
-       $.ajax("bm")
-       .done(result => $("#rsidebarContent").html(result))
-    }
-    </script>
-    
+	<script>
+	//할 일 리스트로 이동
+ 	function todoList(){
+ 	 $.ajax("todo")
+		.done(result=>$("#rsidebarContent").html(result));
+ 	}
+	
+ 	//투표 리스트로 이동
+ 	function voteList(){
+ 	  $.ajax("vote")
+ 		.done(result=>$("#rsidebarContent").html(result))
+ 	}
+ 	
+ 	//즐겨찾기 리스트로 이동
+ 	function bmList(){
+ 		$.ajax("bm")
+ 		.done(result => $("#rsidebarContent").html(result))
+ 	}
+ 	
+ 	//검색 페이지로 이동
+ 	 function searchList(){
+     	$.ajax("search")
+     	.done(result => $("#rsidebarContent").html(result))
+     }
+ 	</script>
 </body>
 </html>
