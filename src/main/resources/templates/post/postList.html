@@ -1,77 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
 
 <head>
-<meta charset="UTF-8">
-<title>postList</title>
+	<meta charset="UTF-8">
+	<title>postList</title>
 </head>
 
 <body>
 	<div layout:fragment="content">
 		<div class="buttons">
-			<a class="btn btn-primary"
-				th:href="@{postInsert(brdUniNo=${brdUniNo})}">글작성</a>
+			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" >글작성</a>
 		</div>
 		<hr>
-		<div th:if="${#lists.isEmpty(postList)}">게시글이없습니다</div>
-		<!--게시글없을때-->
-		<div th:unless="${#lists.isEmpty(postList)}">
-			<!--게시글있을때-->
+		<div th:if="${#lists.isEmpty(postList)}">게시글이없습니다</div> <!--게시글없을때-->
+		<div th:unless="${#lists.isEmpty(postList)}"> <!--게시글있을때-->
 			<!--공지등록된게시글이있을때-->
-			<div class="notiPosts">
-				<ul></ul>
-			</div>
-
+			<div class="notiPosts"><ul></ul></div>
+			
 			<!--start of 게시글List-->
 			<div class="col-md-10 col-sm-12 mx-auto">
 				<div th:each="post : ${postList}" class="card postPlace">
 					<div class="card-content">
 						<div class="card-body">
-							<input class="getPostUniNo" type="hidden"
-								th:value="${post.postUniNo}">
+							<input class="getPostUniNo" type="hidden"	th:value="${post.postUniNo}">
 							<div class="row">
 								<h4 class="card-title col" th:id="${post.postUniNo}">[[${post.ttl}]]</h4>
-
+			
 								<small class="text-muted">[[${post.nnm}]]</small>
 							</div>
 							<div class="row">
 								<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle me-1"
-										type="button" id="dropdownMenuButton"
-										data-bs-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"></button>
-									<div class="postDDM dropdown-menu"
-										th:data-postUniNo="${post.postUniNo}"
-										aria-labelledby="dropdownMenuButton">
-										<th:block th:each="bm : ${bmList}">
-											<a
-												th:if="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}"
-												class="dropdown-item bm" th:onclick="PostBm()"
-												th:id="${post.postUniNo}">즐겨찾기 해제</a>
-											<a
-												th:unless="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}"
-												class="dropdown-item bm" th:onclick="PostBm()"
-												th:id="${post.postUniNo}">즐겨찾기</a>
-										</th:block>
-										<a class="dropdown-item" th:if="${post.notiYn} == 'X'"
-											href="#">공지등록</a> <a class="dropdown-item"
-											th:if="${post.notiYn} == 'O'" href="#">공지등록해제</a> <a
-											class="dropdown-item bm"
-											th:text="${#lists.contains(postbm, post.postUniNo)} ? '즐겨찾기 해제' : '즐겨찾기'"
-											th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a> <a
-											th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'"
-											class="dropdown-item" href="#">댓글알림ON</a> <a
-											th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'Y'"
-											class="dropdown-item" href="#">댓글알림OFF</a> <a
-											th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}"
-											class="dropdown-item"
-											th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a> <a
-											th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}"
-											class="dropdown-item" data-bs-toggle="modal"
-											data-bs-target="#deletePost"
-											onclick="callDeletePostModal(event)">삭제</a>
+									<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+									<div class="postDDM dropdown-menu" th:data-postUniNo="${post.postUniNo}" aria-labelledby="dropdownMenuButton">
+									<th:block th:each="bm : ${bmList}">
+										<a th:if="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}" class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기 해제</a>
+										<a th:unless="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}" class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
+									</th:block>
+										<a class="dropdown-item" th:if="${post.notiYn} == 'X'" th:onclick="setPostNoti(event)">공지등록</a>
+										<a class="dropdown-item" th:if="${post.notiYn} == 'O'" th:onclick="setPostNoti(event)">공지등록해제</a>
+										<a class="dropdown-item bm" th:text="${#lists.contains(postbm, post.postUniNo)} ? '즐겨찾기 해제' : '즐겨찾기'" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
+										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" th:onclick="setPostReply(event)" class="dropdown-item">댓글알림ON</a>
+										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'Y'" th:onclick="setPostReply(event)" class="dropdown-item">댓글알림OFF</a>
+										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a> 
+										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deletePost" onclick="callDeletePostModal(event)">삭제</a>
 									</div>
 									<hr>
 									<p class="card-text">[[${post.cm}]]</p>
@@ -80,31 +52,20 @@
 								</div>
 								<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}">
 									<div>
-										<!-- <a href = '#'>
-											<svg class="bi" width="1em" height="1em" fill="currentColor">
-												<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark" />
-											</svg>
-										</a>첨부파일이름 -->
 									</div>
 								</div>
 							</div>
-							<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
+									<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 							<hr>
-							<div class="replyPlace card-body"
-								th:data-postUniNo="${post.postUniNo}"></div>
+							<div class="replyPlace card-body" th:data-postUniNo="${post.postUniNo}"></div>
 							<hr>
 							<div class="form-group position-relative has-icon-right">
-								<input name="replyUniNo" type="hidden"
-									class="replyInput form-control" id="replyId"> <input
-									name="postUniNo" type="hidden" th:value="${post.postUniNo}"
-									class="replyInput form-control"> <input name="cntn"
-									type="text" class="replyInput form-control" placeholder="reply"
-									required>
+								<input name="replyUniNo" type="hidden" class="replyInput form-control" id="replyId"> 
+								<input name="postUniNo" type="hidden" th:value="${post.postUniNo}" class="replyInput form-control"> 
+								<input name="cntn" type="text" class="replyInput form-control" placeholder="reply" required>
 								<div class="form-control-icon">
-									<svg class="replyBtn bi" width="1em" height="1em"
-										fill="currentColor">
-										<use
-											xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
+									<svg class="replyBtn bi" width="1em" height="1em" fill="currentColor">
+										<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
 									</svg>
 								</div>
 							</div>
@@ -115,126 +76,106 @@
 			<!--end of 게시글List-->
 
 			<!--start of MODALS -->
-			<!-- start of 게시글 작성 모달 -->
+				<!-- start of 게시글 작성 모달 -->
+		
+				<!-- end of 게시글 작성 모달 -->
 
-			<!-- end of 게시글 작성 모달 -->
-
-			<!-- start of 게시글 삭제 모달 -->
-			<div class="modal fade text-left" id="deletePost" tabindex="-1"
-				role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
-				<div
-					class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-					role="document">
-					<div class="modal-content">
-						<div class="modal-header bg-primary">
-							<h5 class="modal-title white" id="myModalLabel160">게시글 삭제</h5>
-							<button type="button" class="close" data-bs-dismiss="modal"
-								aria-label="Close">
-								<i data-feather="x"></i>
-							</button>
-						</div>
-						<div class="modal-body">
-							이 페이지를 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다.
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-light-secondary"
-								data-bs-dismiss="modal">
-								<i class="bx bx-x d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">취소</span>
-							</button>
-							<button id="deleteBtn" type="button" class="btn btn-primary ml-1"
-								data-bs-dismiss="modal">
-								<i class="bx bx-check d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">확인</span>
-							</button>
+				<!-- start of 게시글 삭제 모달 -->
+				<div class="modal fade text-left" id="deletePost" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160"	aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h5 class="modal-title white" id="myModalLabel160">게시글	삭제</h5>
+								<button type="button" class="close" data-bs-dismiss="modal"	aria-label="Close">
+									<i data-feather="x"></i>
+								</button>
+							</div>
+							<div class="modal-body">
+								이 페이지를 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다. 
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-secondary"	data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> 
+									<span	class="d-none d-sm-block">취소</span>
+								</button>
+								<button id="deleteBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+									<i class="bx bx-check d-block d-sm-none"></i> 
+									<span class="d-none d-sm-block">확인</span>
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!-- end of 게시글 삭제 모달 -->
+				<!-- end of 게시글 삭제 모달 -->
 
-			<!-- start of 댓글 삭제 모달 -->
-			<div class="modal fade text-left" id="deleteReply" tabindex="-1"
-				role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
-				<div
-					class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-					role="document">
-					<div class="modal-content">
-						<div class="modal-header bg-primary">
-							<h5 class="modal-title white" id="myModalLabel160">댓글 삭제</h5>
-							<button type="button" class="close" data-bs-dismiss="modal"
-								aria-label="Close">
-								<i data-feather="x"></i>
-							</button>
-						</div>
-						<div class="modal-body">
-							이 댓글을 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다.
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-light-secondary"
-								data-bs-dismiss="modal">
-								<i class="bx bx-x d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">취소</span>
-							</button>
-							<button id="deleteReplyBtn" type="button"
-								class="btn btn-primary ml-1" data-bs-dismiss="modal">
-								<i class="bx bx-check d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">확인</span>
-							</button>
+				<!-- start of 댓글 삭제 모달 -->
+				<div class="modal fade text-left" id="deleteReply" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h5 class="modal-title white" id="myModalLabel160">댓글	삭제</h5>
+								<button type="button" class="close" data-bs-dismiss="modal"	aria-label="Close">
+									<i data-feather="x"></i>
+								</button>
+							</div>
+							<div class="modal-body">
+								이 댓글을 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다. 
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-secondary"	data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> 
+									<span	class="d-none d-sm-block">취소</span>
+								</button>
+								<button id="deleteReplyBtn" type="button"	class="btn btn-primary ml-1" data-bs-dismiss="modal">
+									<i class="bx bx-check d-block d-sm-none"></i> 
+									<span class="d-none d-sm-block">확인</span>
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!--end of 댓글 삭제 모달 -->
+				<!--end of 댓글 삭제 모달 -->
 
-			<!--start of 댓글수정모달 -->
-			<div class="modal fade text-left" id="updateReply" tabindex="-1"
-				role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
-				<div
-					class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-					role="document">
-					<div class="modal-content">
-						<div class="modal-header bg-primary">
-							<h5 class="modal-title white" id="myModalLabel160">댓글 수정</h5>
-							<button type="button" class="close" data-bs-dismiss="modal"
-								aria-label="Close">
-								<i data-feather="x"></i>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form action="replyUpdate" method="POST">
-								<div class="modal-body">
-									댓글:
-									<div id="updateReplyForm"></div>
-									<div></div>
+				<!--start of 댓글수정모달 -->
+				<div class="modal fade text-left" id="updateReply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"	role="document">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h5 class="modal-title white" id="myModalLabel160">댓글 수정</h5>
+								<button type="button" class="close" data-bs-dismiss="modal"	aria-label="Close">
+									<i data-feather="x"></i>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form action="replyUpdate" method="POST">
+									<div class="modal-body">
+											댓글:
+											<div id="updateReplyForm"></div>
+											<div>
+									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-light-secondary"
-											data-bs-dismiss="modal">
-											<i class="bx bx-x d-block d-sm-none"></i> <span
-												class="d-none d-sm-block">취소</span>
+										<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+											<i class="bx bx-x d-block d-sm-none"></i>
+											<span class="d-none d-sm-block">취소</span>
 										</button>
-										<button type="button" id="updateReplyBtn"
-											class="btn btn-primary ml-1" data-bs-dismiss="modal">
-											<i class="bx bx-check d-block d-sm-none"></i> <span
-												class="d-none d-sm-block">수정</span>
+										<button type="button" id="updateReplyBtn" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+											<i class="bx bx-check d-block d-sm-none"></i>
+											<span class="d-none d-sm-block">수정</span>
 										</button>
 									</div>
-							</form>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!--end of 댓글수정모달 -->
+				<!--end of 댓글수정모달 -->
 			<!--end of MODALS -->
-			<script>
-
-				let tagArmList = document.querySelectorAll('.postTagArm');
-				tagArmList.forEach(tags => {
-				})
+		<script>
 
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
 					let user = '[[${session.particiMembUniNo}]]';
+					//console.log(user);
 					
 					getPnum.forEach(gNum => {
 					let pNum = gNum.value;
@@ -242,6 +183,7 @@
 					fetch('/modu/replys/' + pNum)
 						.then(resolve => resolve.json())
 						.then(data => {
+							//console.log(data);
 							let rPlaceList = document.querySelectorAll('.replyPlace');
 
 							rPlaceList.forEach(rPlace => {
@@ -256,6 +198,7 @@
 											h5Tag.textContent = reply.nnm;
 											rPlace.append(h5Tag);
 
+											//start of reply-dropdown
 											if(user == reply.particiMembUniNo){
 												let divTag = document.createElement('div');
 												divTag.setAttribute('class', 'dropdown');
@@ -279,6 +222,7 @@
 												aTag.setAttribute('data-bs-toggle','modal');
 												aTag.setAttribute('data-bs-target','#updateReply');
 												aTag.addEventListener('click', callOneReply);
+												//document.getElementById('updateReplyUniNo').value=reply.replyUniNo;
 												aTag.textContent='수정';
 												divTagDM.append(aTag);
 												divTag.append(divTagDM);
@@ -288,12 +232,14 @@
 												aTag.setAttribute('data-bs-toggle','modal');
 												aTag.setAttribute('data-bs-target','#deleteReply');
 												aTag.addEventListener('click', callDeleteModal);
+												//document.getElementById('replyUniNo').value=reply.replyUniNo;
 												aTag.textContent='삭제';
 												divTagDM.append(aTag);
 												divTag.append(divTagDM);
 												rPlace.append(divTag);
 
 											}
+											//end of reply-dropdown 
 
 											let pTag = document.createElement('p');
 											pTag.setAttribute('class', 'card-text');
@@ -323,6 +269,7 @@
 					let replyInfo = {};
 					let btnParent = btn.parentElement.parentElement;
 					let rInput = btnParent.querySelectorAll('.replyInput');
+					//console.log(rInput[2]);
 					if(rInput[2].value != ""){
 						rInput.forEach(reply =>{
 							replyInfo[reply.name] = reply.value;
@@ -338,6 +285,7 @@
 						})
 						.then(result => result.json())
 						.then(data => {
+							//rInput.value = '';
 							showReplyList()
 							rInput[2].value = '';
 						})
@@ -353,6 +301,7 @@
 				let rNum = e.target.parentElement.dataset.replyunino;
 				document.getElementById('deleteReplyBtn').addEventListener('click', function(e){
 					fetch('/modu/replyDelete/'+rNum)
+					//.then(resolve => resolve.json())
 					.then(data => {
 						showReplyList()
 					})
@@ -362,6 +311,7 @@
 
 			//댓글수정폼
 			function callOneReply(e){
+				//console.log(e.target.parentElement.dataset.replyunino);
 				let rNum = e.target.parentElement.dataset.replyunino;
 				fetch('/modu/reply/' + rNum)
 				.then(resolve => resolve.json())
@@ -394,6 +344,7 @@
 				})
 				let cntn = document.getElementById('updateReplyForm').children[1];
 				replyInfo['cntn'] = cntn.value;
+				//console.log(replyInfo);
 				fetch('/modu/replyUpdate',{
 					method : 'post',
 					headers : {
@@ -403,6 +354,7 @@
 				})
 				.then(result => result.json())
 				.then(data => {
+					//console.log(data);
 					showReplyList()
 				})
 				.catch(err => console.log(err))
@@ -411,6 +363,7 @@
 			//게시글삭제
 			function callDeletePostModal(e){
 				let pNum = e.target.parentElement.dataset.postunino;
+				//console.log(pNum);
 				let postInfo = {};
 				postInfo['postUniNo'] = pNum;
 				let bNum = '[[${brdUniNo}]]'
@@ -435,7 +388,9 @@
 			//첨부파일리스트
 			function attWithPost(){
 				let pNUMs = document.querySelectorAll('.getPostUniNo');
+				//console.log(pNUMs)
 				pNUMs.forEach(pNum => {
+					//console.log(pNum.value);
 					let apnum = pNum.value;
 					fetch('/modu/attPost/' + apnum)
 					.then(resolve => resolve.json())
@@ -504,9 +459,11 @@
 			function notiPostList(){
 				let bNum = '[[${brdUniNo}]]';
 				let notiPlace = document.querySelector('.notiPosts');
+				//console.log(notiPlace);
 				fetch('/modu/notiPost/' + bNum)
 				.then(resolve => resolve.json())
 				.then(data => {
+					//console.log(data);
 					notiPlace.innerHTML = '';
 					data.forEach(noti => {
 						let liTag = document.createElement('li');
@@ -521,9 +478,94 @@
 			//공지리스트호출
 			notiPostList();
 
-		</script>
+			//공지등록on/off
+			function setPostNoti(e){
+					//e.preventDefault();
+					let pNum = e.target.parentElement.dataset.postunino;
+					let notiBTN = e.target;
+					let postInfo = {};
+					if(notiBTN.textContent == '공지등록'){
+						postInfo['postUniNo'] = pNum;
+						postInfo['notiYn'] = 'O';
+						fetch('/modu/setPostNoti',{
+							method : 'post',
+							headers : {
+								'content-type' : 'application/json'
+							},
+							body : JSON.stringify(postInfo)
+						})
+						.then(result => result.json())
+						.then(data => {
+							//console.log(data);
+							//공지리스트
+							notiPostList();
+						})
+						.catch(err => console.log(err))
+					}else{
+						postInfo['postUniNo'] = pNum;
+						postInfo['notiYn'] = 'X';
+						fetch('/modu/setPostNoti',{
+							method : 'post',
+							headers : {
+								'content-type' : 'application/json'
+							},
+							body : JSON.stringify(postInfo)
+						})
+						.then(result => result.json())
+						.then(data => {
+							//console.log(data);
+							//공지리스트
+							notiPostList();
+						})
+						.catch(err => console.log(err))
+					}
+				}
 
-			<script> <!-- 게시글 즐겨찾기 등록 -->
+			//댓글등록알림ON/OFF
+			function setPostReply(e){
+				//e.preventDefault();
+				let pNum = e.target.parentElement.dataset.postunino;
+				let reOnOffBTN = e.target;
+				let postInfo = {};
+				console.log(e.target);
+				console.log(pNum);
+				if(reOnOffBTN.textContent == '댓글알림ON'){
+					postInfo['postUniNo'] = pNum;
+					postInfo['replyArmYn'] = 'Y';
+					fetch('/modu/setPostReply',{
+						method : 'post',
+						headers : {
+							'content-type' : 'application/json'
+						},
+						body : JSON.stringify(postInfo)
+					})
+					.then(result => result.json())
+					.then(data => {
+						//console.log(data);
+						reOnOffBTN.textContent ='댓글알림OFF';
+					})
+					.catch(err => console.log(err))
+				}else{
+					postInfo['postUniNo'] = pNum;
+					postInfo['replyArmYn'] = 'N';
+					fetch('/modu/setPostReply',{
+						method : 'post',
+						headers : {
+							'content-type' : 'application/json'
+						},
+						body : JSON.stringify(postInfo)
+					})
+					.then(result => result.json())
+					.then(data => {
+						reOnOffBTN.textContent ='댓글알림ON';
+					})
+					.catch(err => console.log(err))
+				}
+			}
+		</script>
+		
+<script> <!-- 게시글 즐겨찾기 등록 -->
+	//console.log($('.bm').text());
 function PostBm(){
 	console.log(event.target.id);
    	let postNo = event.target.id;
@@ -547,7 +589,7 @@ function PostBm(){
 }
 </script>
 
-			<script>
+<script>
 fetch('/modu/bmList')
 .then(response => response.json()) 
 .then(data => {
@@ -560,7 +602,7 @@ fetch('/modu/bmList')
   console.error(err); 
 });
 </script>
-		</div>
 	</div>
+</div>
 </body>
 </html>
