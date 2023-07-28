@@ -15,9 +15,12 @@
 					<div class="clearfix" id="aaa"></div>
 					<div class="btn-group btn-group-lg" role="group"
 						aria-label="Basic example">
-				<button type="button" onclick="bpList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">게시글</button>
-				<button type="button" onclick="fileList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">파일</button>
-				<button type="button" onclick="ChatList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">채팅</button>
+						<button type="button" onclick="BpList()" class="btn btn-primary"
+							style="width: 70px; height: 30px; font-size: 10px">게시글</button>
+						<button type="button" onclick="FileList()" class="btn btn-primary"
+							style="width: 70px; height: 30px; font-size: 10px">파일</button>
+						<button type="button" onclick="ChatList()" class="btn btn-primary"
+							style="width: 70px; height: 30px; font-size: 10px">채팅</button>
 					</div>
 					<div id="searchDiv"></div>
 				</div>
@@ -28,28 +31,29 @@
 	</div>
 	<script th:inline="javascript"> 
       //게시글 리스트 함수
-        function bpList() {
+        function BpList() {
             $.ajax("BpList")
-                .done(result => {
-                    console.log(result)
-                    $('#bpList').empty();
-                    $('#searchDiv').empty();
-                    let div = '';
-                    for (let i of result) {
-                        div += `
-                            <div class="card-content">
-                                <div class="card-body">
-                                    <td>게시글 제목 <br> ${i.ttl}</td>
-                                </div>
-                            </div>
-                            <hr>
-                        `;
-                    }
-                    $('#bpList').append(div);
-                    $('#searchDiv').append($('<input/>').attr('id','ttl').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
-                    $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(BpSearch));
-                });
-        }
+              .done(result => {
+                  console.log(result)
+                  $('#bpList').empty();
+                  $('#searchDiv').empty();
+                  let div = '';
+                  for (let i of result) {
+                      div += `
+                          <div class="card-content">
+                              <div class="card-body">
+                                  <td>등록 날짜 : ${i.writeDt}</td><br>
+                                  <td>게시글 제목 <br> ${i.ttl}</td><br>
+                              </div>
+                          </div>
+                          <hr>
+                      `;
+                  }
+                  $('#bpList').append(div);
+                  $('#searchDiv').append($('<input/>').attr('id','ttl').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+                  $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(BpSearch));
+              });
+      }
     	//게시글 검색 함수
         function BpSearch() {
             let ttl = $('#ttl').val();
@@ -141,6 +145,58 @@
                                  <td>${i.nnm}</td>
                                  <td>`+formattedDate+`</td>
                                  <td>${i.cntn}</td>
+                             </div>
+                         </div>
+                         <hr>
+                     `;
+                 }
+                 $('#bpList').append(div);
+             },
+             error: function(err) {
+                 console.log(err);
+             }
+         })
+     }
+    
+     function FileList() {
+    	 $.ajax("FileList")
+         .done(result => {
+             console.log(result)
+             $('#bpList').empty();
+             $('#searchDiv').empty();
+             let div = '';
+             for (let i of result) {
+            	 div += `
+                     <div class="card-content">
+                         <div class="card-body">
+                             <td>${i.attNm}</td>
+                         </div>
+                     </div>
+                     <hr>
+                 `;
+             }
+             $('#bpList').append(div);
+             $('#searchDiv').append($('<input/>').attr('id','attNm').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+             $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(FileSearch));
+         });
+ }
+     
+     //채팅 검색 함수
+     function FileSearch() {
+         let attNm = $('#attNm').val();
+         $.ajax({
+             url: "FileListSearch",
+             data: { attNm },
+             method: "GET",
+             success: function(data) {
+                 console.log(data);
+                 $('#bpList').empty();
+                 let div = '';
+                 for (let i of data) {
+                     div += `
+                         <div class="card-content">
+                             <div class="card-body">
+                                 <td>${i.attNm}</td>
                              </div>
                          </div>
                          <hr>

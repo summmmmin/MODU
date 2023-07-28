@@ -73,13 +73,6 @@
 					</div>
 				</div>
 			</div>
-			<!--end of 게시글List-->
-
-			<!--start of MODALS -->
-				<!-- start of 게시글 작성 모달 -->
-		
-				<!-- end of 게시글 작성 모달 -->
-
 				<!-- start of 게시글 삭제 모달 -->
 				<div class="modal fade text-left" id="deletePost" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160"	aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -175,7 +168,6 @@
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
 					let user = '[[${session.particiMembUniNo}]]';
-					//console.log(user);
 					
 					getPnum.forEach(gNum => {
 					let pNum = gNum.value;
@@ -183,7 +175,6 @@
 					fetch('/modu/replys/' + pNum)
 						.then(resolve => resolve.json())
 						.then(data => {
-							//console.log(data);
 							let rPlaceList = document.querySelectorAll('.replyPlace');
 
 							rPlaceList.forEach(rPlace => {
@@ -222,7 +213,6 @@
 												aTag.setAttribute('data-bs-toggle','modal');
 												aTag.setAttribute('data-bs-target','#updateReply');
 												aTag.addEventListener('click', callOneReply);
-												//document.getElementById('updateReplyUniNo').value=reply.replyUniNo;
 												aTag.textContent='수정';
 												divTagDM.append(aTag);
 												divTag.append(divTagDM);
@@ -232,14 +222,12 @@
 												aTag.setAttribute('data-bs-toggle','modal');
 												aTag.setAttribute('data-bs-target','#deleteReply');
 												aTag.addEventListener('click', callDeleteModal);
-												//document.getElementById('replyUniNo').value=reply.replyUniNo;
 												aTag.textContent='삭제';
 												divTagDM.append(aTag);
 												divTag.append(divTagDM);
 												rPlace.append(divTag);
 
 											}
-											//end of reply-dropdown 
 
 											let pTag = document.createElement('p');
 											pTag.setAttribute('class', 'card-text');
@@ -301,7 +289,6 @@
 				let rNum = e.target.parentElement.dataset.replyunino;
 				document.getElementById('deleteReplyBtn').addEventListener('click', function(e){
 					fetch('/modu/replyDelete/'+rNum)
-					//.then(resolve => resolve.json())
 					.then(data => {
 						showReplyList()
 					})
@@ -311,7 +298,6 @@
 
 			//댓글수정폼
 			function callOneReply(e){
-				//console.log(e.target.parentElement.dataset.replyunino);
 				let rNum = e.target.parentElement.dataset.replyunino;
 				fetch('/modu/reply/' + rNum)
 				.then(resolve => resolve.json())
@@ -354,7 +340,6 @@
 				})
 				.then(result => result.json())
 				.then(data => {
-					//console.log(data);
 					showReplyList()
 				})
 				.catch(err => console.log(err))
@@ -363,7 +348,6 @@
 			//게시글삭제
 			function callDeletePostModal(e){
 				let pNum = e.target.parentElement.dataset.postunino;
-				//console.log(pNum);
 				let postInfo = {};
 				postInfo['postUniNo'] = pNum;
 				let bNum = '[[${brdUniNo}]]'
@@ -388,9 +372,7 @@
 			//첨부파일리스트
 			function attWithPost(){
 				let pNUMs = document.querySelectorAll('.getPostUniNo');
-				//console.log(pNUMs)
 				pNUMs.forEach(pNum => {
-					//console.log(pNum.value);
 					let apnum = pNum.value;
 					fetch('/modu/attPost/' + apnum)
 					.then(resolve => resolve.json())
@@ -459,11 +441,9 @@
 			function notiPostList(){
 				let bNum = '[[${brdUniNo}]]';
 				let notiPlace = document.querySelector('.notiPosts');
-				//console.log(notiPlace);
 				fetch('/modu/notiPost/' + bNum)
 				.then(resolve => resolve.json())
 				.then(data => {
-					//console.log(data);
 					notiPlace.innerHTML = '';
 					data.forEach(noti => {
 						let liTag = document.createElement('li');
@@ -480,7 +460,6 @@
 
 			//공지등록on/off
 			function setPostNoti(e){
-					//e.preventDefault();
 					let pNum = e.target.parentElement.dataset.postunino;
 					let notiBTN = e.target;
 					let postInfo = {};
@@ -496,7 +475,6 @@
 						})
 						.then(result => result.json())
 						.then(data => {
-							//console.log(data);
 							//공지리스트
 							notiPostList();
 						})
@@ -513,7 +491,6 @@
 						})
 						.then(result => result.json())
 						.then(data => {
-							//console.log(data);
 							//공지리스트
 							notiPostList();
 						})
@@ -523,7 +500,6 @@
 
 			//댓글등록알림ON/OFF
 			function setPostReply(e){
-				//e.preventDefault();
 				let pNum = e.target.parentElement.dataset.postunino;
 				let reOnOffBTN = e.target;
 				let postInfo = {};
@@ -541,7 +517,6 @@
 					})
 					.then(result => result.json())
 					.then(data => {
-						//console.log(data);
 						reOnOffBTN.textContent ='댓글알림OFF';
 					})
 					.catch(err => console.log(err))
@@ -565,7 +540,6 @@
 		</script>
 		
 <script> <!-- 게시글 즐겨찾기 등록 -->
-	//console.log($('.bm').text());
 function PostBm(){
 	console.log(event.target.id);
    	let postNo = event.target.id;

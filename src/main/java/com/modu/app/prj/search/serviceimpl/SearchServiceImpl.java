@@ -25,4 +25,8 @@ public class SearchServiceImpl implements SearchService {
 		return searchMapper.chatList(vo);
 	}
 	
+	@Override
+	public List<SearchVO> fileList(SearchVO vo) {
+		return searchMapper.fileList(vo);
+	}
 }
