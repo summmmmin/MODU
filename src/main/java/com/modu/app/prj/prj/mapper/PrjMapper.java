@@ -52,4 +52,7 @@ public interface PrjMapper {
 	
 	// 프로젝트의 회원 별 게시글,답글,채팅 수(기간내)
 	public List<PrjVO> selectPrjCnt(PrjVO vo);
+	
+	//  프로젝트 등급별 인원
+	public List<PrjVO> selectGrdCnt(String prjUniNo);
 }

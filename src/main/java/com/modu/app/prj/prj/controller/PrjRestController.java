@@ -177,4 +177,10 @@ public class PrjRestController {
 		System.out.println(vo);
 		return prjService.getPrjCnt(vo);
 	}
+	
+	// 등급별 회원 수
+	@GetMapping("getGrdCnt")
+	public Map<String, Object> getGrdCnt(String prjNo){
+		return prjService.getGrdCnt(prjNo);
+	}
 }
