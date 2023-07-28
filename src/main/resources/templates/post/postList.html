@@ -40,7 +40,7 @@
 										<a class="dropdown-item" th:if="${post.notiYn} == 'X'" href="#">공지등록</a>
 										<a class="dropdown-item" th:if="${post.notiYn} == 'O'" href="#">공지등록해제</a>
 										<a class="dropdown-item bm" th:text="${#lists.contains(postbm, post.postUniNo)} ? '즐겨찾기 해제' : '즐겨찾기'" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
-										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" class="dropdown-item" href="#">댓글알림ON</a>
+										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" onclick="" class="dropdown-item" href="#">댓글알림ON</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'Y'" class="dropdown-item" href="#">댓글알림OFF</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a> 
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deletePost" onclick="callDeletePostModal(event)">삭제</a>
@@ -176,29 +176,6 @@
 				<!--end of 댓글수정모달 -->
 			<!--end of MODALS -->
 		<script>
-<<<<<<< HEAD
-
-				//console.log(document.querySelectorAll('.postTagArm'));
-				//console.log(document.querySelectorAll('.postTagArm')[1].textContent);
-				let tagArmList = document.querySelectorAll('.postTagArm');
-				tagArmList.forEach(tags => {
-					//console.log(tags.textContent);
-				})
-
-				// let getPnum = document.querySelectorAll('.getPostUniNo');
-				// getPnum.forEach(gNum => {
-				// 	let pNum = gNum.value;
-				// 	fetch('/modu/post/' + pNum)
-				// 	.then(resolve => resolve.json())
-				// 	.then(data => {
-				// 		data.forEach(tags => {
-				// 			console.log(tags.postTagArm);
-				// 		})
-				// 	})
-				// })
-				
-=======
->>>>>>> branch 'test' of https://github.com/happypotatoC/MODU.git
 				//댓글리스트
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
