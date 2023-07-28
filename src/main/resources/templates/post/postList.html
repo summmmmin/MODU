@@ -176,30 +176,12 @@
 				<!--end of 댓글수정모달 -->
 			<!--end of MODALS -->
 		<script>
-<<<<<<< HEAD
-
 				//console.log(document.querySelectorAll('.postTagArm'));
 				//console.log(document.querySelectorAll('.postTagArm')[1].textContent);
 				let tagArmList = document.querySelectorAll('.postTagArm');
 				tagArmList.forEach(tags => {
 					//console.log(tags.textContent);
 				})
-
-				// let getPnum = document.querySelectorAll('.getPostUniNo');
-				// getPnum.forEach(gNum => {
-				// 	let pNum = gNum.value;
-				// 	fetch('/modu/post/' + pNum)
-				// 	.then(resolve => resolve.json())
-				// 	.then(data => {
-				// 		data.forEach(tags => {
-				// 			console.log(tags.postTagArm);
-				// 		})
-				// 	})
-				// })
-				
-=======
->>>>>>> branch 'test' of https://github.com/happypotatoC/MODU.git
-				//댓글리스트
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
 					let user = '[[${session.particiMembUniNo}]]';
@@ -509,7 +491,8 @@
 			//공지등록on/off
 			let postDDMList = document.querySelectorAll('.postDDM');
 			postDDMList.forEach(postDDM => {
-				let notiBTN = postDDM.children[1];
+				let notiBTN = postDDM.children[2];
+				console.log(notiBTN);
 				notiBTN.addEventListener('click', function(e){
 					e.preventDefault();
 					let pNum = e.target.parentElement.dataset.postunino;
