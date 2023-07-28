@@ -54,7 +54,7 @@ public class PrjController {
 		HttpSession session = request.getSession();
 		UserVO user = (UserVO) session.getAttribute("user");
 		
-		//로그인한 사람의 프로젝트 내 등급 확인(프로젝트 관리페이지는 관리자와 생성자만)
+		//로그인한 사람의 프로젝트 내 등급 확인(프로젝트  관리페이지는 관리자와 생성자만)
 		PrjVO info = new PrjVO();
 		info.setMembUniNo(user.getMembUniNo());
 		info.setPrjUniNo(prjVO.getPrjUniNo());
