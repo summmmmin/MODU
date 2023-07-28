@@ -18,6 +18,9 @@
 						<button type="button" onclick="fileList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">파일</button>
 						<button type="button" onclick="chatList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">채팅</button>
 					</div>
+					<div id="asd">
+					
+					</div>
 					<!-- <input id="ttl" name="ttl" type="text" placeholder="검색어를 입력해주세요." class="form-control"> -->
 					<button type="button" id="srhBtn" class="btn btn-primary" onclick="performSearch()">검색</button>
 				</div>
@@ -45,7 +48,7 @@
                         `;
                     }
                     $('#bpList').append(div);
-                    $('#aaa').append($('<input/>').attr('id','ttl').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+                    $('#asd').append($('<input/>').attr('id','ttl').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
                 });
         }
     	//게시글 검색 함수
@@ -101,13 +104,14 @@
                  `;
              }
              $('#bpList').append(div);
+             $('#asd').append($('<input/>').attr('id','cntn').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
          });
  }
      
      
     //채팅 검색 함수
      function ChatSearch() {
-         let ttl = $('#ttl').val();
+         let ttl = $('#cntn').val();
          $.ajax({
              url: "ChatListSearch",
              data: { cntn },
