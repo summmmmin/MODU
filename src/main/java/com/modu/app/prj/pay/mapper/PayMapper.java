@@ -11,4 +11,10 @@ public interface PayMapper {
 	
 	// 프로젝트 결제 성공
 	public int insertPay(PayVO pay);
+	
+	// 결제중인 프로젝트 리스트
+	public List<PayVO> subscriPrj();
+	
+	// 프로젝트 구독 상태 변경
+	public int updateStat(PayVO vo);
 }

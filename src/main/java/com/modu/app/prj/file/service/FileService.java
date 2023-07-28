@@ -10,7 +10,7 @@ import com.modu.app.prj.todo.service.TodoVO;
 public interface FileService {
 	
 	// 첨부파일등록
-	public int insertFile(MultipartFile[] files, FileVO file);
+	public FileVO insertFile(MultipartFile[] files, FileVO file);
 	
 	//첨부파일리스트
 	public List<FileVO> fileList(FileVO fileVO);

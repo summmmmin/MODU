@@ -13,6 +13,7 @@ import com.modu.app.prj.file.service.FileVO;
 
 public class FileUtill {
 	
+	
 	public static String makeFolder() {
 		String folderPath = "upload".replace("/", File.separator); 
 		

@@ -43,4 +43,13 @@ public interface PrjMapper {
 	
 	// 프로젝트 구독 취소
 	public int updatePrjSubsp(PrjVO vo);
+	
+	// 프로젝트 게시판 수
+	public int selectBrdCnt(String prjUniNo);
+	
+	// 프로젝트 채팅방 수
+	public int selectChatrCnt(String prjUniNo);
+	
+	// 프로젝트의 회원 별 게시글,답글,채팅 수(기간내)
+	public List<PrjVO> selectPrjCnt(PrjVO vo);
 }
