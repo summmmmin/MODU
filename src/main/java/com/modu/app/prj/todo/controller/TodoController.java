@@ -76,24 +76,24 @@ public class TodoController {
 	//todo 등록
 	@PostMapping("todoInsert")
 	@ResponseBody
-	public TodoVO todoInsert(HttpSession session,TodoVO vo, @RequestParam("file") MultipartFile[] file, @RequestParam("ttl") String ttl,
-			@RequestParam("cntn") String cntn,	@RequestParam("frDt") String Date, @RequestParam("toDt") String lastDate) throws ParseException {
-		System.out.println(vo);
-		System.out.println(file);
-		UserVO userVo = (UserVO) session.getAttribute("user");
+	public TodoVO todoInsert(HttpSession session, @RequestParam(value="file",required=false) MultipartFile[] file, @RequestParam("ttl") String ttl,
+			@RequestParam("cntn") String cntn,	@RequestParam("frDt") String Date, @RequestParam("toDt") String lastDate,@RequestParam("cm") String cm, @RequestParam("mgr") String mgr) throws ParseException {
+		TodoVO vo = new TodoVO();
 		vo.setWriter((String) session.getAttribute("particiMembUniNo"));
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		vo.setTtl(ttl);
 		vo.setCntn(cntn);
 		vo.setFrDt(Date);
+		vo.setCm(cm);
+		vo.setMgr(mgr);
 		vo.setToDt(lastDate);
 		
-		todoService.insertTodo(vo);
+		todoService.insertTodo(vo);// 할일 만들면서 시퀀스로 생긴 고유번호를
 		
 		System.out.println(vo);
 		
 		FileVO fileVO = new FileVO();
-		fileVO.setTodoUniNo(vo.getTodoUniNo());
+		fileVO.setTodoUniNo(vo.getTodoUniNo()); 
 		fileVO.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		fileService.insertFile(file, fileVO);
 		return vo;

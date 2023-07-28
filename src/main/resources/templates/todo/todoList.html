@@ -40,7 +40,7 @@
  						<h2>${i.ttl}</h2>
  						<small class="text-muted">${i.cntn}</small>
  						<p class="card-text">담당자 : ${i.mgr}참가자: ${i.cm}</p>
- 						<small class="text-muted"><span>[[${#temporals.format(i.frDt, 'yyyy-MM-dd HH')]]></span>~<span>[[${#temporals.format(i.toDt, 'yyyy-MM-dd HH')]]></span></small>
+ 						<small class="text-muted"><span>${i.frDt}></span>~<span>${i.toDt}></span></small>
  					</div>
  		`;
  		$('#todo').append(div);
