@@ -1,6 +1,9 @@
 package com.modu.app.prj.prj.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,5 +95,21 @@ public class PrjServiceImpl implements PrjService {
 	@Override
 	public List<PrjVO> getPrjCnt(PrjVO vo) {
 		return prjMapper.selectPrjCnt(vo);
+	}
+
+	@Override
+	public Map<String, Object> getGrdCnt(String prjUniNo) {
+		List<PrjVO> list = prjMapper.selectGrdCnt(prjUniNo);
+		
+		List<String> grd = new ArrayList<String>();		// 등급 이름 담을 list
+		List<Integer> cnt = new ArrayList<Integer>();	// count 수 담을 list
+		for(PrjVO vo : list) {
+			grd.add(vo.getCd());
+			cnt.add(vo.getMemCnt());
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("grd", grd);
+		map.put("cnt", cnt);
+		return map;
 	}
 }

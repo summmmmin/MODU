@@ -37,7 +37,7 @@
                         <li class="sidebar-title">Menu</li>
 
                         <li class="sidebar-item active">
-                            <a href="#" class='sidebar-link'>
+                            <a href="#" onclick="mng()" class='sidebar-link'>
                                 <i class="bi bi-bar-chart-fill"></i>
                                 <span>대시보드</span>
                             </a>
@@ -96,12 +96,27 @@
     <script src="assets/js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script>
+    $.ajax("prjDash?prjUniNo="+'[[${prjNo}]]')
+		.done(function(result){
+			$("#test").html(result);
+		})
      function sideact(){
     	 document.querySelectorAll('.sidebar-item').forEach(function(item){
     		item.classList.remove('active'); 
     	 })
-    	 event.target.closest('li').classList.add('active')
+	     event.target.closest('li').classList.add('active')
+    		 
      }
+     // 사이드 메뉴 첫번째
+     function mng(){
+    	 sideact();
+    	 
+    	 $.ajax("prjDash?prjUniNo="+'[[${prjNo}]]')
+ 		.done(function(result){
+ 			$("#test").html(result);
+ 		})
+     }
+  	// 사이드 메뉴 두번째
      function mng1(){
     	 sideact();
     	 
@@ -112,6 +127,7 @@
  			makeGrdCd();
  		})
      }
+  	// 사이드 메뉴 세번째
      function mng2(){
     	 sideact();
     	 $.ajax("prjUpdate")
@@ -135,6 +151,7 @@
  		   }); */
  		})
      }
+  // 사이드 메뉴 네번째
      function mng3(){
     	 sideact();
     	 $.ajax("prjPay?prjUniNo="+'[[${prjNo}]]')
@@ -376,6 +393,8 @@
 				 })
 			}
 		}
+		
+		
 	</script>
 </body>
 </html>
