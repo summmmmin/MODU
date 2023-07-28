@@ -66,6 +66,8 @@ public class SearchController {
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vo.setCntn(cntn);
 		List<SearchVO> list = searchService.chatList(vo);
+		System.out.println("11111111111111111");
+		System.out.println(vo);
 		return list;
 	}
 }
