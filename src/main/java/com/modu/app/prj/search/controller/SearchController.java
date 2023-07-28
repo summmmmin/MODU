@@ -61,7 +61,7 @@ public class SearchController {
 	// 채팅 즐겨찾기 리스트
 	@ResponseBody
 	@GetMapping("ChatListSearch")
-	public List<SearchVO> chatList(@RequestParam String cntn, SearchVO vo, HttpSession session) {
+	public List<SearchVO> ChatList(@RequestParam String cntn, SearchVO vo, HttpSession session) {
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vo.setCntn(cntn);
