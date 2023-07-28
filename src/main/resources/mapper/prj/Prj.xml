@@ -136,7 +136,7 @@
 	 	SELECT *
 		 FROM prj 
 		    LEFT OUTER JOIN pay ON prj.pay_uni_no=pay.pay_uni_no
-		 WHERE prj.prj_uni_no = #{prjUniNo}
+			 WHERE prj.prj_uni_no = #{prjUniNo}		 
  	</select>
  	
  	<!-- 프로젝트 게시판 수 -->
