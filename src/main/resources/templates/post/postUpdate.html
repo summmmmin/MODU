@@ -18,7 +18,7 @@
 			<div class="col">
 				<div class="card">
 					<div class="card-body">
-						<form th:action="@{/postUpdate}" method="POST" th:object="${post}">
+						<form th:action="@{/postUpdate}" method="POST" th:object="${post}" enctype ="multipart/form-data">
 							<input type="hidden" th:value="${post.postUniNo}" th:field="*{postUniNo}"> 
 							<input type="hidden" th:value="${post.brdUniNo}" th:field="*{brdUniNo}"> 
 							<input type="hidden" th:value="${post.prjUniNo}" th:field="*{prjUniNo}">
@@ -52,7 +52,7 @@
 											</li>
 										</ul>
 									</div>
-									<input type="file" class="multiple-files-filepond" multiple>
+									<input type="file" name="file" class="multiple-files-filepond" multiple>
 								</div>
 								<!--멤버호출부-->
 							
@@ -69,21 +69,31 @@
 			</div>
 		</div>
 		<script>
-			
-			//첨부파일단건삭제
+		
+			//첨부파일 단건 삭제
+			//(만약에 첨부파일을 변경하고 싶다면 삭제 후 다시 새롭게 INSERT)
 			function deleteAtt(e){
-				//console.log(e.target.dataset.attno);
 				let attLi = e.target.closest('LI');
-				//console.log(attLi);
 				let attNo = e.target.dataset.attno;
-				fetch("/modu/delFile/" + attNo)
-				.then(resolve => resolve.json())
+				let delAtt = {};
+				delAtt['attNo'] = attNo;
+
+				//업로드된파일삭제
+				fetch("/modu/removeFile", {
+				method: 'post',
+				headers: {
+						'content-type': 'text/plain' 
+				},
+				body: attNo
+				})
+				.then(result => result.json())
 				.then(data => {
-					//console.log(data);
-					allLi.remove(); //이거 삭제 안 됨
-				})				
-			}
-			
+						//console.log(data); true
+						attLi.remove();
+				})
+				.catch(err => console.log(err));S
+					}
+					
 			// Filepond: Multiple Files
 	/* 		FilePond.create(document.querySelector('.multiple-files-filepond'), {
 				allowImagePreview: false,

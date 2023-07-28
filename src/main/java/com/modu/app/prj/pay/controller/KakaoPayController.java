@@ -56,8 +56,6 @@ public class KakaoPayController {
     public void fail() {
     	System.out.println("결제 실패");
     }
-	
-	// 정기결제요청
-	//@PostMapping("/subscript")
+
 	
 }

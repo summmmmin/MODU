@@ -13,10 +13,14 @@ public class ChatVO {
 	private String chatrNo; //채팅방번호
 	private String chatParticiMembUniNo; //참여자번호
 	private String cntn; //채팅메세지내용
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date WriteDt; //작성일자
+	@DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
+	private Date writeDt; //작성일자
 	
-	private ChatVO() {}
+	private String particiMembUniNo; //프로젝트참여번호
+	private String nnm; //닉네임
+	
+	
+	public ChatVO() {}
 	
 	//롬복있으니까 이거 필요없는 거 아님?
 	public ChatVO(String cntn) {
