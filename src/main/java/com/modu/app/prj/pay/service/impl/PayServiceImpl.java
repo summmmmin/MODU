@@ -1,10 +1,12 @@
 package com.modu.app.prj.pay.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -13,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import com.modu.app.prj.pay.mapper.PayMapper;
 import com.modu.app.prj.pay.service.PayService;
 import com.modu.app.prj.pay.service.PayVO;
+import com.modu.app.prj.prj.mapper.PrjMapper;
 
 @Service
 public class PayServiceImpl implements PayService {
@@ -23,6 +26,8 @@ public class PayServiceImpl implements PayService {
     
 	@Autowired
 	PayMapper payMapper;
+	@Autowired
+	PrjMapper prjMapper;
 
 	@Override
 	public List<PayVO> prjPayList(String prjUniNO) {
@@ -103,14 +108,107 @@ public class PayServiceImpl implements PayService {
 
 	@Override
 	public PayVO kakaoPaySubscrip(PayVO pay) {
-		// TODO Auto-generated method stub
-		return null;
+		// 정기결제 요청
+		
+    	MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+        parameters.add("cid", cid);
+        parameters.add("sid", pay.getPayToken());
+        parameters.add("partner_order_id", pay.getPrjUniNo());
+        parameters.add("partner_user_id", pay.getMembUniNo());
+        parameters.add("item_name", "유료플랜 정기결제");
+        parameters.add("quantity", "1");
+        parameters.add("total_amount", "12100");
+        parameters.add("tax_free_amount", "0");
+        
+        // 파라미터, 헤더
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
+        
+        // 외부에 보낼 url
+        RestTemplate restTemplate = new RestTemplate();
+
+        PayVO approveResponse = restTemplate.postForObject(
+                "https://kapi.kakao.com/v1/payment/subscription",
+                requestEntity,
+                PayVO.class);
+        
+        approveResponse.setName(pay.getName());
+        approveResponse.setPhone(pay.getPhone());
+        approveResponse.setEmail(pay.getEmail());
+        return approveResponse;
 	}
 
+	public PayVO kakaoPayInactive(String sid) {
+		// 정기결제 비활성화
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+        parameters.add("cid", cid);
+        parameters.add("sid", sid);
+        
+        // 파라미터, 헤더
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
+        
+        // 외부에 보낼 url
+        RestTemplate restTemplate = new RestTemplate();
+
+        PayVO inactiveResponse = restTemplate.postForObject(
+                "https://kapi.kakao.com/v1/payment/manage/subscription/inactive",
+                requestEntity,
+                PayVO.class);
+                
+        return inactiveResponse;
+	}
+	
+	public PayVO kakaoPayStatus(String sid) {
+		// 정기결제 상태 조회
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+        parameters.add("cid", cid);
+        parameters.add("sid", sid);
+        
+        // 파라미터, 헤더
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
+        
+        // 외부에 보낼 url
+        RestTemplate restTemplate = new RestTemplate();
+
+        PayVO statusResponse = restTemplate.postForObject(
+                "https://kapi.kakao.com/v1/payment/manage/subscription/status",
+                requestEntity,
+                PayVO.class);
+                
+        return statusResponse;
+	}
+	
 	@Override
 	public int insertPay(PayVO pay) {
+		// 결제 완료 시 db에 데이터 넣기
 		return payMapper.insertPay(pay);
 	}
 	
-	
+	//@Scheduled(cron = "0 0 10 * * *") 
+	//@Scheduled(fixedDelay = 10000)
+	public void run() {
+		LocalDate date = LocalDate.now().minusDays(1);	// 어제날짜
+
+    	// 정기결제 중인 프로젝트 목록 조회
+		List<PayVO> subList = payMapper.subscriPrj();
+		for(PayVO vo : subList) {
+			//System.out.println(vo);
+			if(vo.getSubspYn().equals("Y") && vo.getExdt().equals(date)) {
+				// 구독 여부 'Y'이고 만료일자 +1 = 현재날짜 -> 정기결제 요청
+				PayVO result = kakaoPaySubscrip(vo);
+				// 실패시 구독 여부 'E' 만료일자 결제토큰 결제번호 삭제
+				
+				// 정기결제 성공 시 db에 저장
+				insertPay(result);
+			}else if(vo.getSubspYn().equals("C") && vo.getExdt().equals(date)) {
+				// 구독 여부 'C'이고 만료일자 +1 = 현재날짜 -> 정기결제 비활성화
+				kakaoPayInactive(vo.getPayToken());
+				
+				// 구독 여부 'N' 만료일자 결제토큰 결제번호 삭제
+				vo.setSubspYn("N");
+				payMapper.updateStat(vo);
+			}
+		}
+
+    }
+
 }

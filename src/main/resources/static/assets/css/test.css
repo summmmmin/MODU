@@ -1746,3 +1746,7 @@ a {
 .clicked {
 	fill: gold;	
 }
+
+.backVote:hover{
+    cursor:pointer;
+ }

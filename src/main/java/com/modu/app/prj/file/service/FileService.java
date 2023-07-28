@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.modu.app.prj.post.service.PostVO;
+import com.modu.app.prj.todo.service.TodoVO;
 
 public interface FileService {
 	

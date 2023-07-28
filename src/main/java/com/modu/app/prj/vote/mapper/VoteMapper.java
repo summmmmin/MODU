@@ -1,5 +1,6 @@
 package com.modu.app.prj.vote.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import com.modu.app.prj.vote.service.VoteDetaVO;
@@ -26,11 +27,29 @@ public interface VoteMapper {
 	//투표하기 
 	public int voteDo(VoteDetaVO vo);
 	
+	//재투표방지
+	public VoteDetaVO whoVote(VoteDetaVO vo);
+	
+	//투표 제작자
+	public VoteVO voteMaker(String vid);
+	
+	//투표 날짜 확인
+	public Date toDtCheck(String vid);
+	
 	//투표 기간 수정
 	public int voteDate(VoteVO voteVo);	
 	
 	//투표결과
 	public List<VoteVO> voteResult();
+	
+	//등급조회
+	public VoteDetaVO grdCheck(String partici);
+	
+	//모든 투표 참여자
+	public List<VoteDetaVO> allCount(String partici);
+	
+	//투표 참여자수
+	public VoteDetaVO voteCount(String no);
 	
 	//투표번호 채팅방 이름찾기
 	public VoteVO voteChatr(String voteNo);
@@ -44,6 +63,8 @@ public interface VoteMapper {
 	//게시판 제목
 	public List<VoteVO> brdNm(String no);
 	
+	//투표 삭제
+	public int voteDelete(String vno);
 	
 	
 }
