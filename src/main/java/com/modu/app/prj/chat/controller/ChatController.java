@@ -83,14 +83,6 @@ public class ChatController {
 		model.addAttribute("info", vo);
 		return "chat/chat";
 	}
-
-	//채팅방생성폼
-//	@GetMapping("makeChatr") 
-//	public String makeChatrForm(Model model, HttpSession session) {
-//		String prjUniNo = (String) session.getAttribute("prjUniNo");
-//		model.addAttribute("membList", postService.selectCallMembPub(prjUniNo));
-//		return "chat/makeChatr";
-//	}
 	
 	//채팅방생성용멤버리스트
 	@GetMapping("chatMembs/{pNum}")
