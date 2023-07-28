@@ -15,4 +15,6 @@ public interface BoardService {
 	
 	public String DeleteBoard(String brdUniNo);
 	
+	//게시판 검색
+	public BoardVO BrdSearch(BoardVO vo);
 }

@@ -39,4 +39,9 @@ public class BoardServiceImpl implements BoardService {
 	public BoardVO BoardGet() {
 		return null;
 	}
+	
+	@Override
+	public BoardVO BrdSearch(BoardVO vo) {
+		return boardMapper.BrdSearch(vo);
+	}
 }

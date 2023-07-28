@@ -39,6 +39,34 @@
 	WHERE partici_memb_uni_no = #{particiMembUniNo}
 	</select>
 	
+	<select id="BmCount" resultType="int" parameterType="BmVO">
+		SELECT COUNT(*) 
+		FROM bm
+		WHERE post_uni_no = #{postUniNo} and partici_memb_uni_no = #{particiMembUniNo}
+	</select>
 	
+	<!-- 즐겨찾기 삭제 -->
+	<delete id="BmDelete" parameterType="BmVO">
+		DELETE bm 
+		WHERE
+		<if test="bmUniNo != null and !bmUniNo.equals('')">
+		bm_uni_no = #{bmUniNo}
+		</if>
+		<if test="attNo != null and !attNo.equals('')">
+		partici_memb_uni_no = #{particiMembUniNo} AND att_no = #{attNo}
+		</if>
+		
+		<if test="postUniNo != null and !postUniNo.equals('')">
+		partici_memb_uni_no = #{particiMembUniNo} AND post_uni_no = #{postUniNo}
+		</if>
+		
+		<if test="chatNo != null and !chatNo.equals('')">
+		partici_memb_uni_no = #{particiMembUniNo} AND chat_no = #{chatNo}
+		</if>
+	</delete>
 	
+		<select id="PostBmList" resultType="String" parameterType="BmVO">
+	      SELECT post_uni_no from bm
+	      WHERE partici_memb_uni_no = #{particiMembUniNo} and post_uni_no is not null
+	   </select>
  </mapper>

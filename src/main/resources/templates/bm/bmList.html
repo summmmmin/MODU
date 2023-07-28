@@ -45,5 +45,22 @@
     });
 /*]]>*/
 </script>
+<script>
+    function click() {
+        console.log(event.target.className.animVal);
+        event.target.classList.toggle('clicked');
+        event.target.classList.toggle('cls-1');
+
+    }
+    document.getElementById('ultag').addEventListener('click', function (event) {
+        let target = event.target;
+        if (target.classList.contains('cls-1')) {
+            let brdUniNo = target.getAttribute('text-brdUniNo');
+            console.log(target);
+        }
+    });
+</script>
+
+
 </body>
 </html>

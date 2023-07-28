@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+
+<body>
+	<div class="row">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-body">
+					<div class="clearfix" id="aaa"></div>
+					<div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
+						<button type="button" onclick="bpList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">게시글</button>
+						<button type="button" onclick="fileList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">파일</button>
+						<button type="button" onclick="chatList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">채팅</button>
+					</div>
+					<div id="asd">
+					
+					</div>
+					<!-- <input id="ttl" name="ttl" type="text" placeholder="검색어를 입력해주세요." class="form-control"> -->
+					<button type="button" id="srhBtn" class="btn btn-primary" onclick="performSearch()">검색</button>
+				</div>
+				<hr>
+			</div>
+			<div class="card-content" id="bpList"></div>
+		</div>
+	</div>
+	<script th:inline="javascript"> 
+      //게시글 리스트 함수
+        function bpList() {
+            $.ajax("BpList")
+                .done(result => {
+                    console.log(result)
+                    $('#bpList').empty();
+                    let div = '';
+                    for (let i of result) {
+                        div += `
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <td>게시글 제목 <br> ${i.ttl}</td>
+                                </div>
+                            </div>
+                            <hr>
+                        `;
+                    }
+                    $('#bpList').append(div);
+                    $('#asd').append($('<input/>').attr('id','ttl').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+                });
+        }
+    	//게시글 검색 함수
+        function performSearch() {
+            let ttl = $('#ttl').val();
+            $.ajax({
+                url: "BpListSearch",
+                data: { ttl },
+                method: "GET",
+                success: function(data) {
+                    console.log(data);
+                    $('#bpList').empty();
+                    let div = '';
+                    for (let i of data) {
+                        div += `
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <td>${i.ttl}</td>
+                                </div>
+                            </div>
+                            <hr>
+                        `;
+                    }
+                    $('#bpList').append(div);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            })
+        }
+	//엔터 이벤트
+        $('#ttl').on('keyup', function(event) {
+            if (event.keyCode === 13) {
+                performSearch();
+            }
+        });
+        
+     //채팅 리스트 함수
+     function chatList() {
+    	 $.ajax("ChatList")
+         .done(result => {
+             console.log(result)
+             $('#bpList').empty();
+             let div = '';
+             for (let i of result) {
+                 div += `
+                     <div class="card-content">
+                         <div class="card-body">
+                             <td>${i.cntn}</td>
+                         </div>
+                     </div>
+                     <hr>
+                 `;
+             }
+             $('#bpList').append(div);
+             $('#asd').append($('<input/>').attr('id','cntn').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+         });
+ }
+     
+     
+    //채팅 검색 함수
+     function ChatSearch() {
+         let ttl = $('#cntn').val();
+         $.ajax({
+             url: "ChatListSearch",
+             data: { cntn },
+             method: "GET",
+             success: function(data) {
+                 console.log(data);
+                 $('#bpList').empty();
+                 let div = '';
+                 for (let i of data) {
+                     div += `
+                         <div class="card-content">
+                             <div class="card-body">
+                                 <td>${i.cntn}</td>
+                             </div>
+                         </div>
+                         <hr>
+                     `;
+                 }
+                 $('#bpList').append(div);
+             },
+             error: function(err) {
+                 console.log(err);
+             }
+         })
+     }
+    </script>
+</body>
+</html>

@@ -33,4 +33,9 @@
 	WHERE brd_uni_no = #{brdUniNo}
 	</delete>
 	
+	<select id="BrdSearch" resultType="BoardVO" parameterType="BoardVO">
+	SELECT *
+  	FROM brd
+	</select>
+	
  </mapper>
