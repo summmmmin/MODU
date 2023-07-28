@@ -40,4 +40,7 @@ public class PrjVO {
 	private String payWay;		//결제방식 (현금, 카드)
 	private int payAmt;			//결제금액
 	private String cardName;	//카드이름
+	
+	private Date fromDt;
+	private Date toDt;
 }

@@ -40,4 +40,13 @@ public interface PrjService {
 	
 	// 프로젝트 구독 해지/재시작
 	public int setPrjSubsp(PrjVO vo);
+	
+	// 프로젝트 게시판 수
+	public int getBrdCnt(String prjUniNo);
+	
+	// 프로젝트 채팅방 수
+	public int getChatrCnt(String prjUniNo);
+	
+	// 프로젝트의 회원 별 게시글,답글,채팅 수(기간내)
+	public List<PrjVO> getPrjCnt(PrjVO vo);
 }
