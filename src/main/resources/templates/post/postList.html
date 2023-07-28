@@ -12,16 +12,15 @@
 		<div class="buttons">
 			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" >글작성</a>
 		</div>
-
 		<hr>
 		<div th:if="${#lists.isEmpty(postList)}">게시글이없습니다</div> <!--게시글없을때-->
 		<div th:unless="${#lists.isEmpty(postList)}"> <!--게시글있을때-->
 			<!--공지등록된게시글이있을때-->
 			<div class="notiPosts"><ul></ul></div>
-
+			
 			<!--start of 게시글List-->
 			<div class="col-md-10 col-sm-12 mx-auto">
-				<div th:each="post : ${postList}" id="postPlace" class="card">
+				<div th:each="post : ${postList}" class="card postPlace">
 					<div class="card-content">
 						<div class="card-body">
 							<input class="getPostUniNo" type="hidden"	th:value="${post.postUniNo}">
@@ -32,13 +31,15 @@
 							</div>
 							<div class="row">
 								<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										...
-									</button>
+									<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 									<div class="postDDM dropdown-menu" th:data-postUniNo="${post.postUniNo}" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
+									<th:block th:each="bm : ${bmList}">
+										<a th:if="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}" class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기 해제</a>
+										<a th:unless="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}" class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
+									</th:block>
 										<a class="dropdown-item" th:if="${post.notiYn} == 'X'" href="#">공지등록</a>
 										<a class="dropdown-item" th:if="${post.notiYn} == 'O'" href="#">공지등록해제</a>
+										<a class="dropdown-item bm" th:text="${#lists.contains(postbm, post.postUniNo)} ? '즐겨찾기 해제' : '즐겨찾기'" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" class="dropdown-item" href="#">댓글알림ON</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'Y'" class="dropdown-item" href="#">댓글알림OFF</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a> 
@@ -141,7 +142,7 @@
 				<!--end of 댓글 삭제 모달 -->
 
 				<!--start of 댓글수정모달 -->
-				<div class="modal fade text-left" id="updateReply" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+				<div class="modal fade text-left" id="updateReply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"	role="document">
 						<div class="modal-content">
 							<div class="modal-header bg-primary">
@@ -155,6 +156,7 @@
 									<div class="modal-body">
 											댓글:
 											<div id="updateReplyForm"></div>
+											<div>
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
@@ -174,6 +176,7 @@
 				<!--end of 댓글수정모달 -->
 			<!--end of MODALS -->
 		<script>
+<<<<<<< HEAD
 
 				//console.log(document.querySelectorAll('.postTagArm'));
 				//console.log(document.querySelectorAll('.postTagArm')[1].textContent);
@@ -194,6 +197,8 @@
 				// 	})
 				// })
 				
+=======
+>>>>>>> branch 'test' of https://github.com/happypotatoC/MODU.git
 				//댓글리스트
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
@@ -593,9 +598,10 @@
 		</script>
 		
 <script> <!-- 게시글 즐겨찾기 등록 -->
+	//console.log($('.bm').text());
 function PostBm(){
 	console.log(event.target.id);
-  	let postNo = event.target.id;
+   	let postNo = event.target.id;
 	let particiMembUniNo = '[[${session.particiMembUniNo}]]';
 	let data = {
 			'particiMembUniNo' : particiMembUniNo,
@@ -611,8 +617,31 @@ function PostBm(){
 	.then(response => response.json())
 	.then(data => {
 		console.log(data);
-	}) 
+		location.href='postList?brdUniNo='+'[[${brdUniNo}]]';
+	})
 }
+</script>
+
+<script>
+fetch('/modu/bmList')
+.then(response => response.json()) 
+.then(data => {
+  console.log(data); 
+  
+  for (const item of data) {
+    console.log(item);
+
+    let bmUniNo = item.bmUniNo; 
+    console.log('즐찾 번호 : '+bmUniNo); 
+
+    let particiMembUniNo = item.particiMembUniNo;
+    console.log('참여자 번호 : '+particiMembUniNo);
+
+  }
+})
+.catch(err => { 
+  console.error(err); 
+});
 </script>
 	</div>
 </div>
