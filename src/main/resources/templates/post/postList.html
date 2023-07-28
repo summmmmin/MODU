@@ -176,7 +176,6 @@
 				<!--end of 댓글수정모달 -->
 			<!--end of MODALS -->
 		<script>
-<<<<<<< HEAD
 
 				//console.log(document.querySelectorAll('.postTagArm'));
 				//console.log(document.querySelectorAll('.postTagArm')[1].textContent);
@@ -197,8 +196,6 @@
 				// 	})
 				// })
 				
-=======
->>>>>>> branch 'test' of https://github.com/happypotatoC/MODU.git
 				//댓글리스트
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
@@ -626,17 +623,9 @@ function PostBm(){
 fetch('/modu/bmList')
 .then(response => response.json()) 
 .then(data => {
-  console.log(data); 
-  
   for (const item of data) {
-    console.log(item);
-
     let bmUniNo = item.bmUniNo; 
-    console.log('즐찾 번호 : '+bmUniNo); 
-
     let particiMembUniNo = item.particiMembUniNo;
-    console.log('참여자 번호 : '+particiMembUniNo);
-
   }
 })
 .catch(err => { 

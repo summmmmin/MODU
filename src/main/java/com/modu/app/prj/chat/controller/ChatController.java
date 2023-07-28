@@ -58,6 +58,13 @@ public class ChatController {
 	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행
 		messagingTemplate.convertAndSend("/sub/chat/msg/"+chatVO.getChatrNo(), chatVO);
 	}
+	
+//	@MessageMapping("/chat/msg") 
+//	//@SendTo("/chat/msg/{chatrNo}")
+//	public void chatTypingArm(String typingArm) throws Exception {
+//	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행
+//		messagingTemplate.convertAndSend("/sub/chat/msg/"+chatVO.getChatrNo()+"/typing", typingArm);
+//	}
 
 	//채팅방으로이동
 	@GetMapping("/chat") 

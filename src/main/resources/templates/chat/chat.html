@@ -320,7 +320,7 @@
 				})
 			}
 
-			//채팅방가능멤버리스트
+			//채팅방가능멤버리스트(프로젝트 참여자이며 해당 채팅에 참여하지 않는 사람)
 			function addChatrParticiList(){
 				let prjUniNo = '[[${session.prjUniNo}]]';
 				let chatrNo = '[[${session.chatrNo}]]'
@@ -341,6 +341,7 @@
 			}
 			addChatrParticiList();
 
+			//채팅방참여자추가
 			function addMembPlz(){
 			 //let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
 				let chatNm = document.getElementById('chatNmPlace').textContent;
@@ -352,11 +353,11 @@
 					chatMembs.push(selectedOptions[i].value);
 				}
 
-        let addMemb = {};
-				addMemb['chartNo'] = chartNo;
-        addMemb['chartNm'] = chatNm;
-        addMemb['particiMembUniNos'] = chatMembs;
-        console.log(addMemb);
+		        let addMemb = {};
+						addMemb['chartNo'] = chartNo;
+		        addMemb['chartNm'] = chatNm;
+		        addMemb['particiMembUniNos'] = chatMembs;
+		        console.log(addMemb);
 
 				fetch("/modu/addChatMemb",{
 					method : 'post',
@@ -367,7 +368,7 @@
 				})
 				.then(result => result.json())
 				.then(data => {
-					console.log(data);
+					//console.log(data);
 					chatrParticiList();
 				})
 				.catch(err => console.log(err))
@@ -395,10 +396,18 @@
 			// 연결 성공시
 			stompClient.onConnect = (frame) => {
 					console.log('Connected: ' + frame);
-					stompClient.subscribe('/sub/chat/msg/'+chatrNo, (chatMsg) => {
-					console.log(chatMsg.body)
-					showChatMsg(JSON.parse(chatMsg.body));
+
+					stompClient.subscribe('/sub/chat/msg/'+chatrNo, 
+						(chatMsg) => {
+											console.log(chatMsg.body)
+											showChatMsg(JSON.parse(chatMsg.body));
 					});
+
+				/* 	stompClient.subscribe('/sub/chat/msg/'+chatrNo + '/typing', 
+						(typingArm) => {
+											console.log(typingArm.body)
+											showTypingMsg(JSON.parse(typingArm.body));
+					}); */
 			};
 
 			//에러
