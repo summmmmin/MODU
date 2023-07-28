@@ -7,11 +7,9 @@ import com.modu.app.prj.board.service.BoardVO;
 import lombok.Data;
 
 @Data
-public class MyDataModel {
+public class ListModel {
 
-	private VoteVO voteVO;
 	private List<VoteVO> chatrList;
-    private List<BoardVO> boardList;
     private List<VoteDetaVO> voteDataList;
 	
 }

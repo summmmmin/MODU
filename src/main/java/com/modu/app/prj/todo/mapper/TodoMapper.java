@@ -9,7 +9,10 @@ public interface TodoMapper {
 	public List<TodoVO> todoList(TodoVO vo);
 	
 	//단건조회
-	public TodoVO oneTodo(String tno);
+	public TodoVO oneTodo(TodoVO vo);
+	
+	//담당자 확인
+	public TodoVO mgrCheck(String tno);
 	
 	//할일 생성
 	public int insertTodo(TodoVO vo);

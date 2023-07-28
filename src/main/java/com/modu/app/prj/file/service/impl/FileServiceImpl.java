@@ -17,6 +17,7 @@ import com.modu.app.prj.file.mapper.FileMapper;
 import com.modu.app.prj.file.service.FileService;
 import com.modu.app.prj.file.service.FileVO;
 import com.modu.app.prj.post.service.PostVO;
+import com.modu.app.prj.todo.service.TodoVO;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -28,9 +29,9 @@ public class FileServiceImpl implements FileService {
 	@Autowired
 	FileMapper fileMapper;
 
-	// 첨부파일등록(게시글)
+	// 첨부파일등록
 	@Override
-	public int insertFile(MultipartFile[] files, FileVO fileVO) {
+	public FileVO insertFile(MultipartFile[] files, FileVO fileVO) {
 
 		for (MultipartFile file : files) {
 			// 첨부파일 있을 때
@@ -62,8 +63,7 @@ public class FileServiceImpl implements FileService {
 				}
 			}
 		}
-		return 1;
-
+		return fileVO;
 	}
 	
 	//첨부파일리스트

@@ -78,4 +78,19 @@ public class PrjServiceImpl implements PrjService {
 	public int setPrjSubsp(PrjVO vo) {
 		return prjMapper.updatePrjSubsp(vo);
 	}
+
+	@Override
+	public int getBrdCnt(String prjUniNo) {
+		return prjMapper.selectBrdCnt(prjUniNo);
+	}
+
+	@Override
+	public int getChatrCnt(String prjUniNo) {
+		return prjMapper.selectChatrCnt(prjUniNo);
+	}
+
+	@Override
+	public List<PrjVO> getPrjCnt(PrjVO vo) {
+		return prjMapper.selectPrjCnt(vo);
+	}
 }

@@ -9,38 +9,43 @@
 	select  TODO_UNI_NO,
 			FR_DT,
 			TO_DT,
-			FIND_NICKNAME(PRJ_UNI_NO,MGR)  MGR,
-			FIND_NICKNAME(PRJ_UNI_NO,CM)  CM,
+			FIND_NICKNAME(MGR)  MGR,
+			FIND_NICKNAME(CM)  CM,
 			WRITER,
 			CNTN,
 			FIND_CODE_NAME(PCT) PCT,
 			PRJ_UNI_NO,
 			TTL
 	  from todo 
-	  where prj_uni_no=#{prjUniNo} 
-	  and (MGR=#{mgr} or cm=#{cm})
+	  where MGR=#{particiMembUniNo} or cm=#{particiMembUniNo}
 	</select>
 
 	<!-- 단건 조회 -->
-	<select id="oneTodo" parameterType="String" resultType="TodoVO">
+	<select id="oneTodo" parameterType="TodoVO" resultType="TodoVO">
 	select  TODO_UNI_NO,
 			FR_DT,
 			TO_DT,
-			FIND_NICKNAME(PRJ_UNI_NO,MGR)  MGR,
-			FIND_NICKNAME(PRJ_UNI_NO,CM)  CM,
-			partici_memb_uni_no,
+			FIND_NICKNAME(MGR)  MGR,
+			FIND_NICKNAME(CM)  CM,
 			CNTN,
-			FIND_CODENAME(PCT) PCT,
+			FIND_CODE_NAME(PCT) PCT,
 			PRJ_UNI_NO,
 			TTL 
 		from todo 
 		where todo_uni_no=#{todoUniNo}
 	</select>
+	
+	<!-- 담당자 확인 -->
+	<select id="mgrCheck" parameterType="String">
+	select mgr
+	from todo
+	where todo_uni_no=#{todoUniNo}
+	</select>
 
 	<!-- 할일 생성-->
 	<insert id="insertTodo" parameterType="TodoVO">
 	insert into todo(todo_uni_no,fr_dt,to_dt,mgr,cm,writer,cntn,pct,prj_uni_no,ttl)
-	values('t'||todo_seq.nextval,#{frDt},#{toDt},#{mgr},#{cm},#{writer},#{cntn},'p01',#{prjUniNo},#{ttl})
+	values('t'||todo_seq.nextval,#{frDt},#{toDt},#{mgr},#{cm},#{writer},#{cntn},'P01',#{prjUniNo},#{ttl})
 	</insert>
 	
 	<!-- 퍼센트 공통코드 -->
@@ -55,7 +60,7 @@
 	<update id="udpatePercent" parameterType="TodoVO">
 	update todo set
 				pct = #{pct}
-	where todo_uni_no = #{toDoUniNo}
+	where todo_uni_no = #{todoUniNo}
 	</update>
 	
 	<!-- 할일 삭제 -->

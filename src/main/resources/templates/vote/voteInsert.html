@@ -15,7 +15,7 @@
 	  <form th:object="${vote.voteVO}" id="createVote">
 		<div class="card">
 			<div class="card-header">
-				<h4 class="card-title">투표생성</h4>
+				<h3><i class="bi bi-arrow-left backVote" onclick="voteList()"></i><h4 class="card-title">투표생성</h4>
 				<hr>
 			</div>
 			<div class="card-content">
@@ -84,7 +84,6 @@
 		</div>
 		</form>
 	</div>
-	<script src="assets/vendors/choices.js/choices.min.js"></script>
 	<!--  <script type="text/javascript">
               fetch('/modu/voteInsertForm')
   			.then(res => res.json())
@@ -107,11 +106,14 @@
   			.catch(err => console.log(err)); 
               </script> -->
 	<script>
-				let count = 2;
+			let count = 2;
 
 			// 저장하기 버튼
 			let select =$("#brdSel option:selected").val();
-
+			
+			console.log('111111111111')
+			
+			
 			
 			
 			
@@ -156,13 +158,15 @@
 			        data: JSON.stringify(additionalData),
 			        contentType: 'application/json',
 			        success: function(response) {
-			        	voteList();
-			        },
+			        	 voteList();
+			      	},
 			        error: function(error) {
 			            console.log(error)
 			        }
 			    }); 
 		   } 
+			
+		
 /*  			function VoteInsert (){
 				fetch("/modu/voteInsert",{
 					method:"POST",
@@ -194,8 +198,10 @@
 					if(event.isTrusted == true){
 						$('#count'+count).remove();
 						count--;
-						if (count == 4){
+						console.log(count)
+						if (count == 3){
 							document.getElementById('voteBtn').disabled=false;
+							document.getElementById('voteBtn').innerText = '항목 추가'
 						}			
 					}
 				}
@@ -211,7 +217,7 @@
 				<p></p>
 					<div class="form-group has-icon-right" id="count${count}"> 
 						<div class="position-relative">
-							<input type="text" class="form-control voteItem"placeholder="투표항목을 입력해주세요" th:filed="*{voteItem}">
+							<input type="text" class="form-control voteItem"placeholder="투표항목을 입력해주세요" th:field="*{voteItem}">
 						<div class="form-control-icon">
 							<i class="bi bi-trash-fill" id="delete${count}" onclick="delIcon()"></i>
 						</div>
@@ -219,18 +225,15 @@
 				`;	
 					if (count<=4){	
 				
-					$('#item').after(input);
-
-							/* document.getElementById('delete'+count).click(function(){
-								//console.log('11111');
-								$('#count'+count).remove();
-								count--;
-							}) */
+					$('#voteItemList').append(input);
 				
 						if(count == 4) {
 							event.target.innerText ="더이상 항목을 늘릴 수 없습니다.";
 							event.target.disabled=true;
+							
 						}
+							
+						
 					}
 			
 			}

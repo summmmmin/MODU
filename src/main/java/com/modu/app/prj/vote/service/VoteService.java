@@ -1,5 +1,6 @@
 package com.modu.app.prj.vote.service;
 
+import java.util.Date;
 import java.util.List;
 
 //2023/07/21 김동건
@@ -20,6 +21,18 @@ public interface VoteService {
 	//투표하기 
 	public int voteDo(VoteDetaVO vo);
 	
+	//투표 날짜 확인
+	public Date toDtCheck(String vid);
+	
+	//재투표방지
+	public VoteDetaVO whoVote(VoteDetaVO vo);
+	
+	//투표 참여자수
+	public VoteDetaVO voteCount(String vno);
+	
+	//투표 제작자
+	public VoteVO voteMaker(String vid);
+	
 	//투표결과
 	public List<VoteVO> voteResult();
 	
@@ -29,6 +42,12 @@ public interface VoteService {
 	//투표번호 게시판 이름 찾기
 	public VoteVO voteBrdNm(String voteNo);
 	
+	//등급조회
+	public VoteDetaVO grdCheck(String partici);
+	
+	//모든 투표 참여자
+	public List<VoteDetaVO> allCount(String partici);
+	
 	//채팅방 제목
 	public List<VoteVO> chatrNm(String no);
 	
@@ -37,5 +56,8 @@ public interface VoteService {
 	
 	//투표 리스트
 	public List<VoteVO>voteList(VoteVO vo);
+	
+	//투표 삭제
+	public int voteDelete(String vno);
 	
 }

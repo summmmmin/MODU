@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.modu.app.prj.chat.mapper.ChatMapper;
+import com.modu.app.prj.chat.service.ChatChmVO;
+import com.modu.app.prj.chat.service.ChatDTO;
 import com.modu.app.prj.chat.service.ChatService;
 import com.modu.app.prj.chat.service.ChatVO;
 import com.modu.app.prj.chat.service.ChatrParticiVO;
@@ -49,7 +51,7 @@ public class ChatServiceImpl implements ChatService{
 
 	//채팅메세지리스트
 	@Override
-	public List<ChatVO> chatMessageList(String chatrNo) {
+	public List<ChatDTO> chatMessageList(String chatrNo) {
 		return chatMapper.chatMessageList(chatrNo);
 	}
 	
@@ -70,4 +72,23 @@ public class ChatServiceImpl implements ChatService{
 	public int changeChatrNm(ChatrParticiVO chatParticiVO) {
 		return chatMapper.changeChatrNm(chatParticiVO);
 	}
+
+	//채팅방참여자들리스트
+	@Override
+	public List<ChatrParticiVO> chatrParticiList(String chatrNo) {
+		return chatMapper.chatrParticiList(chatrNo);
+	}
+	
+	//채팅읽음확인용INSERT
+	@Override
+	public int insertChatChm(ChatChmVO chatChmVO) {
+		return chatMapper.insertChatChm(chatChmVO);
+	}
+	
+	//채팅참여자추가용리스트
+	@Override
+	public List<ChatrParticiVO> addChatrParticiList(ChatrParticiVO chatParticiVO) {
+		return chatMapper.addChatrParticiList(chatParticiVO);
+	}
+
 }

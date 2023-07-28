@@ -30,8 +30,8 @@
 	           tag_arm,
 	           post_uni_no,
 	           partici_memb_uni_no
-	    FROM reply
-	    WHERE reply_uni_no=#{replyUniNo}
+	      FROM reply
+	     WHERE reply_uni_no=#{replyUniNo}
 	</select>
 	
 	<!-- 댓글생성 -->
@@ -65,13 +65,12 @@
 		UPDATE reply SET
 	 		   			cntn=#{cntn},
 						mod_dt=sysdate
-	 	WHERE reply_uni_no=#{replyUniNo}
+	 	 WHERE reply_uni_no=#{replyUniNo}
 	</update>
 	
 	<!-- 댓글삭제 -->
 	<delete id="deleteReply" parameterType="String">
-		DELETE FROM reply 
-		 WHERE reply_uni_no=#{replyUniNo}
+		DELETE FROM reply WHERE reply_uni_no=#{replyUniNo}
 	</delete>
 
  </mapper>
