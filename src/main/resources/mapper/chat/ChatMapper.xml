@@ -66,15 +66,21 @@
 	</insert>
 	
 	<!-- 채팅메세지리스트 -->
-	<select id="chatMessageList" resultType="ChatVO">
-		SELECT chat_no,
-       		   chatr_no,
-       		   chat_partici_memb_uni_no,
-       		   cntn,
-       		   write_dt
-		  FROM chat
-		 WHERE chatr_no = #{chatrNo}
-		 ORDER BY write_dt
+	<select id="chatMessageList" resultType="ChatDTO">
+		SELECT c.chat_no, 
+		       c.cntn, 
+		       c.chat_partici_memb_uni_no, 
+		       c.write_dt, 
+		       cm.chatr_no,
+               p.partici_memb_uni_no, 
+               p.nnm
+          FROM chat c 
+          JOIN chatr_partici cm 
+            ON c.chat_partici_memb_uni_no = cm.chat_partici_memb_uni_no
+          JOIN prj_partici_memb p 
+            ON p.partici_memb_uni_no = cm.partici_memb_uni_no
+         WHERE c.chatr_no = #{chatrNo}
+      ORDER BY c.write_dt
 	</select>
 	
 	<!-- 채팅방나가기 -->
@@ -97,5 +103,37 @@
 		UPDATE chatr_partici SET chatr_nm = #{chatrNm} WHERE chat_partici_memb_uni_no = #{chatParticiMembUniNo}
 	</update>
 	
+	<!-- 채팅방참여자들리스트 -->
+	<select id="chatrParticiList" resultType="ChatrParticiVO">        
+        SELECT c.chat_partici_memb_uni_no, 
+        	   c.chatr_no, 
+        	   c.chatr_nm, 
+        	   p.partici_memb_uni_no, 
+        	   p.nnm
+          FROM chatr_partici c 
+          JOIN prj_partici_memb p 
+            ON c.partici_memb_uni_no = p.partici_memb_uni_no
+         WHERE chatr_no = #{chatrNo}
+	</select>
+	
+	<!-- 채팅읽음확인용 -->
+	<insert id="insertChatChm" parameterType="ChatChmVO">
+		INSERT INTO chat_chm VALUES (
+									#{particiMembUniNo},
+									#{chatrNo},
+									#{chatNo},
+									#{cfmYn},
+									#{chatParticiMembUniNo}
+									)
+	</insert>
+	
+	<!-- 채팅참여자추가용리스트 -->
+	<select id="addChatrParticiList" resultType="ChatrParticiVO">
+		 SELECT pp.partici_memb_uni_no, pp.nnm
+           FROM prj_partici_memb pp
+      LEFT JOIN chatr_partici cc 
+             ON pp.partici_memb_uni_no = cc.partici_memb_uni_no AND cc.chatr_no = #{chatrNo}
+          WHERE pp.prj_uni_no = #{prjUniNo} AND pp.partici_yn = 'Y' AND cc.partici_memb_uni_no IS NULL
+	</select>
  
 </mapper>

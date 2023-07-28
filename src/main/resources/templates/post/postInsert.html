@@ -7,6 +7,7 @@
 </head>
 <body>
 	<div layout:fragment="content">
+	
 		<h2>신규 게시글 작성</h2> <h5>[[${post.boardNm}]]</h5>
 		<div class="row">
 			<div class="col">
@@ -19,34 +20,33 @@
 								<!--제목부-->
 								<div class="form-group">
 									<label for="basicInput">제목*</label>
-									<input type="text" class="form-control" id="basicInput" placeholder="tilte" th:field="*{ttl}">
+									<input type="text" class="form-control" id="basicInput" placeholder="tilte" th:field="*{ttl}" required >
 								</div>
 								<hr>
 								<!--본문부-->
 								<div class="form-group">
 									<label for="basicInput">게시글 본문*</label>
-									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" th:field="*{cm}"></textarea>
+									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" th:field="*{cm}" required></textarea>
 								</div>
 								<hr>
 								<!--첨부파일부-->
 								<div class="form-group">
-								<label for="basicInput">첨부파일</label>
-                                	<!-- File uploader with multiple files upload -->
-                                	<input type="file" name="file" class="multiple-files-filepond" multiple>
-                            	</div>
+									<label for="basicInput">첨부파일</label>
+									<!-- File uploader with multiple files upload -->
+									<input type="file" name="file" maxlength="4"  max-size="4" class="multiple-files-filepond" multiple>
+								</div>
 								<hr>
 								<!--멤버호출부-->
 								<div class="form-group">
 									<label for="basicInput">멤버호출</label>
-									<select class="choices form-select multiple-remove" multiple="multiple" th:field="*{postTagArm}">
-										<option th:each="memb : ${membList}" th:value="${memb.particiMembUniNo}">[[${memb.nnm}]]</option>
-									</select>		<button type="submit" class="btn btn-primary">등록</button>
-					
+									<select class="choices form-select multiple-remove" maxlength="5" multiple="multiple" th:field="*{postTagArm}">
+										<option th:each="memb : ${membList}" th:if="${memb.particiMembUniNo != session.particiMembUniNo}" th:value="${memb.particiMembUniNo}">[[${memb.nnm}]]</option>
+									</select>
 								</div>
 								<!--버튼부-->
 								<hr>
 								<div class="buttons">
-									<button type="submit" class="btn btn-primary">등록</button>
+									<button type="submit" id="postInsertBtn" class="btn btn-primary">등록</button>
 									<button type="button"  class="btn btn-light"><a th:href="@{postList(brdUniNo=${post.brdUniNo})}">취소</a></button>
 								</div>
 							</div>
@@ -57,20 +57,19 @@
 		</div>
 			
 		<script>
-			// Filepond: Multiple Files
-/* 			FilePond.create(document.querySelector('.multiple-files-filepond'), {
-				allowImagePreview: false,
-				allowMultiple: true,
-				allowFileEncode: false,
-				required: false
-			}); */
+			
+			//제목, 본문 미작성시 등록 안 됨
+			let postBtn = document.querySelector('#postInsertBtn');
+			let ttl = document.querySelectorAll('INPUT')[2];
+			let cm = document.querySelectorAll('TEXTAREA')[0];
+			postBtn.addEventListener('load', function(){
+				if(ttl.value == '' || cm.value ==''){
+					postBtn.setAttribute('disabled', 'true')
+				}else{
+					postBtn.setAttribute('disabled', 'false')
+				}
+			})
 		</script>
-		
-		<!-- filepond validation -->
-		<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-		<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-		<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
-		<script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script>
 	</div>
 </body>
 

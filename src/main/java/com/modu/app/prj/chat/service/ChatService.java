@@ -20,7 +20,7 @@ public interface ChatService {
 	public int insertChat(ChatVO chatVO);
 	
 	//채팅메세지리스트
-	public List<ChatVO> chatMessageList(String chatrNo);
+	public List<ChatDTO> chatMessageList(String chatrNo);
 	
 	//채팅방나가기
 	public int leaveChatr (String chatParticiMembUniNo);
@@ -30,4 +30,13 @@ public interface ChatService {
 	
 	//채팅방명변경
 	public int changeChatrNm(ChatrParticiVO chatParticiVO);
+	
+	//채팅방참여자들리스트
+	public List<ChatrParticiVO> chatrParticiList(String chatrNo);
+	
+	//채팅읽음확인용INSERT
+	public int insertChatChm(ChatChmVO chatChmVO);
+	
+	//채팅참여자추가용리스트
+	public List<ChatrParticiVO> addChatrParticiList(ChatrParticiVO chatParticiVO);
 }
