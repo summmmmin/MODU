@@ -32,7 +32,7 @@
 	FROM chat
 	LEFT OUTER JOIN chatr_partici ON chat.chat_partici_memb_uni_no = chatr_partici.chat_partici_memb_uni_no
 	LEFT OUTER  JOIN prj_partici_memb ON prj_partici_memb.partici_memb_uni_no = chatr_partici.partici_memb_uni_no
-	WHERE chatr_partici.partici_memb_uni_no=#{particiMembUniNo} 
+	WHERE chatr_partici.partici_memb_uni_no=#{particiMembUniNo}
 	<if test="cntn != null and cntn != '' ">
 	AND chat.cntn LIKE '%${cntn}%'
  	</if>

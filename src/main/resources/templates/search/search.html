@@ -15,12 +15,9 @@
 					<div class="clearfix" id="aaa"></div>
 					<div class="btn-group btn-group-lg" role="group"
 						aria-label="Basic example">
-						<button type="button" onclick="bpList()" class="btn btn-primary"
-							style="width: 70px; height: 30px; font-size: 10px">게시글</button>
-						<button type="button" onclick="fileList()" class="btn btn-primary"
-							style="width: 70px; height: 30px; font-size: 10px">파일</button>
-						<button type="button" onclick="ChatList()" class="btn btn-primary"
-							style="width: 70px; height: 30px; font-size: 10px">채팅</button>
+				<button type="button" onclick="bpList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">게시글</button>
+				<button type="button" onclick="fileList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">파일</button>
+				<button type="button" onclick="ChatList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">채팅</button>
 					</div>
 					<div id="searchDiv"></div>
 				</div>
@@ -91,11 +88,20 @@
              $('#searchDiv').empty();
              let div = '';
              for (let i of result) {
-                 div += `
+            	 let date = new Date(i.writeDt); 
+            	 let year = date.getFullYear();
+            	 let month = (date.getMonth() + 1).toString().padStart(2, '0');
+            	 let day = date.getDate().toString().padStart(2, '0');
+            	 let hours = date.getHours().toString().padStart(2, '0');
+            	 let minutes = date.getMinutes().toString().padStart(2, '0');
+            	 let seconds = date.getSeconds().toString().padStart(2, '0');
+
+            	 let formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+            	 div += `
                      <div class="card-content">
                          <div class="card-body">
                              <td>${i.nnm}</td>
-                             <td>${i.writeDt}</td>
+                             <td>`+formattedDate+`</td>
                              <td>${i.cntn}</td>
                          </div>
                      </div>
@@ -107,7 +113,6 @@
              $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(ChatSearch));
          });
  }
-     
      
     //채팅 검색 함수
      function ChatSearch() {
@@ -121,11 +126,20 @@
                  $('#bpList').empty();
                  let div = '';
                  for (let i of data) {
+                	 let date = new Date(i.writeDt); 
+                	 let year = date.getFullYear();
+                	 let month = (date.getMonth() + 1).toString().padStart(2, '0');
+                	 let day = date.getDate().toString().padStart(2, '0');
+                	 let hours = date.getHours().toString().padStart(2, '0');
+                	 let minutes = date.getMinutes().toString().padStart(2, '0');
+                	 let seconds = date.getSeconds().toString().padStart(2, '0');
+                	 
+                	 let formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
                      div += `
                          <div class="card-content">
                              <div class="card-body">
                                  <td>${i.nnm}</td>
-                                 <td>${#dates.format(i.writeDt, 'dd/MMM/yyyy HH:mm')}</td>
+                                 <td>`+formattedDate+`</td>
                                  <td>${i.cntn}</td>
                              </div>
                          </div>

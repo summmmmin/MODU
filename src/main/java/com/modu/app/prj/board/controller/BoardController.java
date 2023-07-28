@@ -39,27 +39,30 @@ public class BoardController {
 		session.setAttribute("prjUniNo", vo.getPrjUniNo());
 		session.setAttribute("particiMembUniNo", vo.getParticiMembUniNo());
 		session.setAttribute("grd", vo.getGrd());
-
+		System.out.println(session);
 		return "index";
 	}
 
 	// 게시판 등록
 	@PostMapping("InsertBoardBm")
 	@ResponseBody
-	public BoardVO InsertBoard(BoardVO vo) {
+	public BoardVO InsertBoard(BoardVO vo, HttpSession session) {
 		String check = vo.getPubcYn();
 		if (check.equals("on")) {
 			vo.setPubcYn("Y");
 		} else {
 			vo.setPubcYn("N");
 		}
+		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		System.out.println(vo);
 		boardService.InsertBoard(vo);
 		return vo;
 	}
 
 	// 게시판 리스트
 	@GetMapping("boardList")
-	public String BoardList(Model model,HttpSession session) {
+	public String BoardList(Model model, HttpSession session) {
 		// 사이드바 게시판 리스트
 		BoardVO brd = new BoardVO();
 		brd.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
@@ -67,10 +70,10 @@ public class BoardController {
 		model.addAttribute("Brd", boardService.BoardList(brd));
 		return "/boardLIst/boardList";
 	}
-	
+
 	@GetMapping("boardDelete")
 	public String BoardDelete(Model model) {
-		
+
 		return "";
 	}
 }

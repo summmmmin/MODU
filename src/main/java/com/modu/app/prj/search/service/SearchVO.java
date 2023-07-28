@@ -30,7 +30,7 @@ public class SearchVO {
 	private String notiYn;
 	
 	//채팅 날짜
-	@DateTimeFormat(pattern="yyyy-MM-dd-HH-mm")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date writeDt;
 	
 	//작성자
