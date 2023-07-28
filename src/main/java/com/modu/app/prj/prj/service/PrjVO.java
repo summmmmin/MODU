@@ -41,6 +41,9 @@ public class PrjVO {
 	private int payAmt;			//결제금액
 	private String cardName;	//카드이름
 	
-	private Date fromDt;
-	private Date toDt;
+	private String fromDt;	//시작 기간
+	private String toDt;		//끝
+	private int postcnt;	//게시글수
+	private int replycnt;	//답글수
+	private int chatcnt;	//chat수
 }

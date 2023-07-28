@@ -156,10 +156,10 @@
  	<!-- 프로젝트의 회원 별 게시글,답글,채팅 수(기간내) -->
  	<select id="selectPrjCnt" parameterType="PrjVO" resultType="PrjVO">
  		SELECT  partici_memb_uni_no, prj_uni_no, memb_uni_no, att_no, 
- 				nnm, grd, partici_yn, prj_pubc_id, dept, pos, 
-		        cnt_post(partici_memb_uni_no, #{fromDt}, #{toDt}), 
-		        cnt_reply(partici_memb_uni_no, #{fromDt}, #{toDt}), 
-		        cnt_chat(partici_memb_uni_no, #{fromDt}, #{toDt})
+ 				nnm, grd, partici_yn, prj_pubc_id, dept, pos, FIND_CODE_NAME(GRD) AS CD,
+		        cnt_post(partici_memb_uni_no, #{fromDt}, #{toDt}) postcnt, 
+		        cnt_reply(partici_memb_uni_no, #{fromDt}, #{toDt}) replycnt, 
+		        cnt_chat(partici_memb_uni_no, #{fromDt}, #{toDt}) chatcnt
 		FROM    prj_partici_memb
 		WHERE   prj_uni_no = #{prjUniNo} and partici_yn='Y'
  	</select>

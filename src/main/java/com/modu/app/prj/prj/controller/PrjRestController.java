@@ -171,4 +171,10 @@ public class PrjRestController {
 			return 0;
 		}
 	}
+	
+	@PostMapping("getPrjCnt")
+	public List<PrjVO> prjcnt(@RequestBody PrjVO vo){
+		System.out.println(vo);
+		return prjService.getPrjCnt(vo);
+	}
 }

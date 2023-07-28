@@ -99,6 +99,16 @@ public class PrjController {
 		return "prj/프로젝트 관리4";
 	}
 	
+	// 프로젝트 관리 - 대시보드
+	@GetMapping("prjDash")
+	public String prjDash(String prjUniNo, Model model) {
+		model.addAttribute("memCnt", prjService.getPrjMemCnt(prjUniNo));
+		model.addAttribute("brdCnt", prjService.getBrdCnt(prjUniNo));
+		model.addAttribute("chatrCnt", prjService.getChatrCnt(prjUniNo));
+		model.addAttribute("prjNo", prjUniNo);
+		return "prj/프로젝트 관리3";
+	}
+	
 	// 프로젝트 초대
 	// 초대하기 누르면
 	// 이메일로 링크 발송 (초대토큰, 무슨프로젝트, 등급?, 사용한 토큰여부) insert

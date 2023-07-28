@@ -1,185 +1,179 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>프로젝트 Dashboard</title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Mazer Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/bootstrap.css" />
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
 
-    <link rel="stylesheet" href="assets/vendors/iconly/bold.css">
+    <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css"/>
+    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css"/>
+    <link rel="stylesheet" href="assets/css/app.css" />
+    <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon"/>
+  </head>
 
-    <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
-</head>
-
-<body>
-    <div id="app">
-        <div id="sidebar" class="active">
-            <div class="sidebar-wrapper active">
-                <div class="sidebar-header">
-                    <div class="d-flex justify-content-between">
-                        <div class="logo">
-                            <a href="index.html"><img src="assets/images/logo/logo.png" alt="Logo" srcset=""></a>
-                        </div>
-                        <div class="toggler">
-                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
-                        </div>
+  <body>
+    <div class="page-content">
+      <section class="row">
+        <div class="row">
+          <div class="col-6 col-lg-3 col-md-6">
+            <div class="card">
+              <div class="card-body px-3 py-4-5">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="stats-icon purple">
+                      <i class="iconly-boldShow"></i>
                     </div>
+                  </div>
+                  <div class="col-md-8">
+                    <h6 class="text-muted font-semibold">Profile Views</h6>
+                    <h6 class="font-extrabold mb-0">112.000</h6>
+                  </div>
                 </div>
-                <div class="sidebar-menu">
-                    <ul class="menu">
-                        <li class="sidebar-title">Menu</li>
-
-                        <li class="sidebar-item ">
-                            <a href="프로젝트 관리.html" class='sidebar-link'>
-                                <i class="bi bi-bar-chart-fill"></i>
-                                <span>대시보드</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a href="프로젝트 관리2.html" class='sidebar-link'>
-                                <i class="bi bi-person-badge-fill"></i>
-                                <span>팀원관리</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a href="프로젝트 관리3.html" class='sidebar-link'>
-                                <i class="bi bi-life-preserver"></i>
-                                <span>프로젝트 관리</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item ">
-                            <a href="프로젝트 관리4.html" class='sidebar-link'>
-                                <i class="bi bi-cash"></i>
-                                <span>결제정보</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+              </div>
             </div>
+          </div>
+          <div class="col-6 col-lg-3 col-md-6">
+            <div class="card">
+              <div class="card-body px-3 py-4-5">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="stats-icon blue">
+                      <i class="iconly-boldProfile"></i>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <h6 class="text-muted font-semibold">팀원</h6>
+                    <h6 class="font-extrabold mb-0" th:text="${memCnt}+' 명'">
+                      0명
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3 col-md-6">
+            <div class="card">
+              <div class="card-body px-3 py-4-5">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="stats-icon green">
+                      <i class="iconly-boldAdd-User"></i>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <h6 class="text-muted font-semibold">채팅방수</h6>
+                    <h6 class="font-extrabold mb-0" th:text="${chatrCnt}+' 개'">
+                      8개
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3 col-md-6">
+            <div class="card">
+              <div class="card-body px-3 py-4-5">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="stats-icon red">
+                      <i class="iconly-boldBookmark"></i>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <h6 class="text-muted font-semibold">게시판수</h6>
+                    <h6 class="font-extrabold mb-0" th:text="${brdCnt}+' 개'">
+                      1개
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div id="main">
-            <header class="mb-3">
-                <a href="#" class="burger-btn d-block d-xl-none">
-                    <i class="bi bi-justify fs-3"></i>
-                </a>
-            </header>
 
-            <div class="page-heading">
-                <h3>프로젝트 관리</h3>
-            </div>
-            <div class="page-content">
-                <section class="row">
-                    <div class="card mt-5">
-                        <div class="card-header">
-                          <h4 class="card-title">프로젝트명 변경</h4>
-                        </div>
-                        <div class="card-body">
-                          <div class="row">
-                            <form id="prjsubmit" class="needs-validation">
-                                <div class="col-sm-4">
-                                    <h6>프로젝트명</h6>
-                                    <input class="form-control form-control-lg is-invalid" type="text" id="prjNm"
-                                        placeholder="원래프로젝트명" required oninput="check()">
-                                </div>
-                                <div class="col-12 d-flex justify-content-end">
-                                    <button type="submit"
-                                        class="btn btn-primary me-1 mb-1">변경하기</button>
-                                    <button type="reset"
-                                        class="btn btn-light-secondary me-1 mb-1">Reset</button>
-                                </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                    <div class="card mt-5">
-                        <div class="card-header">
-                            <h4 class="card-title">프로젝트 삭제</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="accordion" id="cardAccordion">
-                                <div class="card collapse-header">
-                                    <div class="card-header" id="headingTwo" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseTwo" aria-expanded="false"
-                                        aria-controls="collapseTwo" role="button">
-                                        <span class="collapsed collapse-title">프로젝트 삭제하기</span>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse pt-1" aria-labelledby="headingTwo"
-                                        data-parent="#cardAccordion">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <p>프로젝트를 삭제하시겠습니까?</p>
-                                                <p>프로젝트 삭제 시 복구는 불가능합니다.</p>
-                                                <p>프로젝트명을 입력 후 삭제하기 버튼을 누르면 삭제 가능합니다.</p>    
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-4">
-                                                    <input type="text" placeholder="프로젝트명" class="form-control form-control-lg">
-                                                </div>
-                                                <div class="col-sm-4 d-flex">
-                                                    <button type="button"
-                                                    class="btn btn-primary me-1 mb-1">삭제하기</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <script>
-                // 입력값 크기 확인(6자 이하)
-                let valid = false;
-                function check(){
-                    let name = document.getElementById('prjNm');
-                    //console.log(name)
-                    valid = name.value.length > 0 && name.value.length<7
-                    if(valid){
-                        name.classList.replace('is-invalid', 'is-valid');
-                    }else{
-                        name.classList.replace('is-valid', 'is-invalid')
-                    }
-                }
-            
-                document.querySelector("#prjsubmit").addEventListener("submit", function(e){
-                  // 조건 충족 하지 않을때 submit 막기
-                  if(!valid){
-                     e.preventDefault();
-                  }
-               });
-              </script>
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                        <p>2021 &copy; Mazer</p>
-                    </div>
-                    <div class="float-end">
-                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                                href="http://ahmadsaugi.com">A. Saugi</a></p>
-                    </div>
+        <div class="row" id="table-hover-row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">table</h4>
+              </div>
+              <div class="card-content">
+                <div class="card-body">
+                  <p>
+                    Add <code class="highlighter-rouge">&lt;기간설정&gt;</code>.
+                  </p>
+                  <input type="date" id="fromDt" />
+                  <input type="date" id="toDt" />
+                  <button type="button" onclick="findBtn()">검색</button>
                 </div>
-            </footer>
+
+                <div class="table-responsive">
+                  <table class="table table-hover mb-0">
+                    <thead>
+                      <tr>
+                        <th>닉네임</th>
+                        <th>이메일</th>
+                        <th>게시글</th>
+                        <th>댓글</th>
+                        <th>채팅</th>
+                        <th>등급</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbltbd">
+                        <!-- 기간 설정 시 테이블에 tr 생성 -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
     </div>
-    <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-
-    <script src="assets/js/pages/dashboard.js"></script>
-
-    <script src="assets/js/main.js"></script>
-</body>
-
+    <script>
+      // 테이블 기간설정 검색
+      function findBtn() {
+        let fromDt = document.querySelector("#fromDt").value;
+        let toDt = document.querySelector("#toDt").value;
+        let data = { prjUniNo: '[[${prjNo}]]', fromDt: fromDt, toDt: toDt };
+        console.log(data);
+        fetch("manage/getPrjCnt", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result);
+            document.querySelector("#tbltbd").innerText = "";
+            let field = [
+              "nnm",
+              "prjPubcId",
+              "postcnt",
+              "replycnt",
+              "chatcnt",
+              "cd",
+            ];
+            result.forEach((item) => {
+              let tr = document.createElement("tr");
+              let td = document.createElement("td");
+              for (let i of field) {
+                td = document.createElement("td");
+                td.textContent = item[i];
+                tr.append(td);
+              }
+              document.querySelector("#tbltbd").append(tr);
+            });
+          });
+      }
+    </script>
+  </body>
 </html>
