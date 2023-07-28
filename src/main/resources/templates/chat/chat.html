@@ -377,6 +377,9 @@
 
 			//보내기버튼누르면 sendMessage호출
 			document.getElementById('sendMsgBtn').addEventListener('click', sendMessage);
+
+			//타이핑 중일 때 sendTypingArm호출
+			
 			
 			//start of 웹소켓
 			let chatrNo = '[[${session.chatrNo}]]'
@@ -396,18 +399,18 @@
 			// 연결 성공시
 			stompClient.onConnect = (frame) => {
 					console.log('Connected: ' + frame);
-
+					//구독
 					stompClient.subscribe('/sub/chat/msg/'+chatrNo, 
 						(chatMsg) => {
 											console.log(chatMsg.body)
 											showChatMsg(JSON.parse(chatMsg.body));
 					});
 
-				/* 	stompClient.subscribe('/sub/chat/msg/'+chatrNo + '/typing', 
+					stompClient.subscribe('/sub/chat/msg/'+chatrNo + '/typing', 
 						(typingArm) => {
 											console.log(typingArm.body)
 											showTypingMsg(JSON.parse(typingArm.body));
-					}); */
+					}); 
 			};
 
 			//에러
