@@ -1,6 +1,8 @@
 package com.modu.app.prj.search.service;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -28,6 +30,7 @@ public class SearchVO {
 	private String notiYn;
 	
 	//채팅 날짜
+	@DateTimeFormat(pattern="yyyy-MM-dd-HH-mm")
 	private Date writeDt;
 	
 	//작성자

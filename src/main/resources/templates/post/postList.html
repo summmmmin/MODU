@@ -176,12 +176,14 @@
 				<!--end of 댓글수정모달 -->
 			<!--end of MODALS -->
 		<script>
+
 				//console.log(document.querySelectorAll('.postTagArm'));
 				//console.log(document.querySelectorAll('.postTagArm')[1].textContent);
 				let tagArmList = document.querySelectorAll('.postTagArm');
 				tagArmList.forEach(tags => {
 					//console.log(tags.textContent);
 				})
+
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
 					let user = '[[${session.particiMembUniNo}]]';
@@ -489,7 +491,7 @@
 			notiPostList();
 
 			//공지등록on/off
-			let postDDMList = document.querySelectorAll('.postDDM');
+			/* let postDDMList = document.querySelectorAll('.postDDM');
 			postDDMList.forEach(postDDM => {
 				let notiBTN = postDDM.children[2];
 				console.log(notiBTN);
@@ -533,10 +535,10 @@
 						.catch(err => console.log(err))
 					}
 				}) 
-			})
+			}) */
 
 			//댓글등록알림ON/OFF
-			postDDMList.forEach(postDDM => {
+			/* postDDMList.forEach(postDDM => {
 				let reOnOffBTN = postDDM.children[2];
 				//console.log(reOnOffBTN.textContent);
 				reOnOffBTN.addEventListener('click', function(e){
@@ -577,7 +579,7 @@
 						.catch(err => console.log(err))
 					}
 				}) 
-			})
+			}) */
 		</script>
 		
 <script> <!-- 게시글 즐겨찾기 등록 -->
@@ -609,17 +611,9 @@ function PostBm(){
 fetch('/modu/bmList')
 .then(response => response.json()) 
 .then(data => {
-  console.log(data); 
-  
   for (const item of data) {
-    console.log(item);
-
     let bmUniNo = item.bmUniNo; 
-    console.log('즐찾 번호 : '+bmUniNo); 
-
     let particiMembUniNo = item.particiMembUniNo;
-    console.log('참여자 번호 : '+particiMembUniNo);
-
   }
 })
 .catch(err => { 
