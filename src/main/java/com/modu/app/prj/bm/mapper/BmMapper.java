@@ -21,4 +21,13 @@ public interface BmMapper {
 	//파일, 채팅, 댓글 즐겨찾기 리스트
 	public List<BmVO>BmList(BmVO vo);
 	
+	// 중복 즐겨찾기 방지
+	public int BmCount(BmVO vo);
+	
+	// 즐겨찾기 삭제
+	public int BmDelete(BmVO vo);
+	
+	//즐겨찾기 해제
+	public List<String> PostBmList(BmVO vo);
+	
 }

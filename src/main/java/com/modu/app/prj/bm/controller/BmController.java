@@ -39,9 +39,14 @@ public class BmController {
 	//파일, 채팅, 댓글 즐겨찾기 등록
 	@PostMapping("BmInsert")
 	@ResponseBody
-	public BmVO BmInsert(@RequestBody BmVO vo) {
-		bmService.BmInsert(vo);
-		return vo;
+	public int BmInsert(@RequestBody BmVO vo) {
+		int result = bmService.BmInsert(vo);
+		if(result == 1) {
+			return 1;
+		}else if(result == 2){
+			return 2;
+		}else
+		return 0;
 	}
 	
 	//즐겨찾기 리스트 페이지
@@ -53,10 +58,13 @@ public class BmController {
 	//즐겨찾기 리스트 출력
 	@GetMapping("bmList")
 	@ResponseBody
-	public List<BmVO> bmList(BmVO vo,HttpServletRequest request) {
+	public List<BmVO> bmList(BmVO vo,HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		UserVO userVo = (UserVO) session.getAttribute("user");
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		model.addAttribute("postbm", bmService.PostBmList(vo));
 		return bmService.BmList(vo);
 	}
+	
+	
 }

@@ -16,7 +16,7 @@
 <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
 <link rel="stylesheet" href="assets/css/modal.css">
 <!-- Include Choices CSS -->
-
+<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
 <link rel="stylesheet"
 	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
 <link rel="stylesheet"
@@ -31,7 +31,7 @@
 				<div class="sidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a href="index.html"><img src="assets/images/logo/logo.png" alt="Logo" srcset="" /></a>
+							<a th:href="@{/}"><img src="assets/images/logo/logo.png" alt="Logo" srcset="" /></a>
 						</div>
 						<div class="toggler">
 							<a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -42,7 +42,6 @@
 				<div class="sidebar-menu">
 					<ul class="menu">
 						<li class="sidebar-title">Menu</li>
-						<li class="sidebar-item active"> </li>
 
 <!--/* ************************ ChatRoom List Start *************************** */-->
 <li class="sidebar-item has-sub">
@@ -71,6 +70,21 @@
 </ul>
 
 <!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
+<script>
+    function click() {
+        console.log(event.target.className.animVal);
+        event.target.classList.toggle('clicked');
+        event.target.classList.toggle('cls-1');
+
+    }
+    document.getElementById('ultag').addEventListener('click', function (event) {
+        let target = event.target;
+        if (target.classList.contains('cls-1')) {
+            let brdUniNo = target.getAttribute('text-brdUniNo');
+            console.log(target);
+        }
+    });
+</script>
 <!--/* ************************ End *************************** */-->
 
 <!-- 즐겨찾기 등록 -->
@@ -136,7 +150,7 @@
 					</div>
 				</div>
 				
-				<div class="rsidebar-menu">
+				<div class="rsidebar-menu">			
 					<div id="rsidebarContent"></div>
 				</div>
 				<button class="rsidebar-toggler btn x">
@@ -160,7 +174,8 @@
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-								<li class="nav-item me-1"><a class="nav-link active" href="#" aria-expanded="false"> <i class="bi bi-search bi-sub fs-4 text-gray-600"></i>
+								 <li class="nav-item me-1">
+								 <a class="nav-link active rburger" onclick="searchList()" aria-expanded="false"><i class="bi bi-search bi-sub fs-4 text-gray-600"></i>
 										
 
 								</a></li>
@@ -335,6 +350,7 @@
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/test.js"></script>
+
 	<script>
     // 게시판 목록 출력
 	$.ajax("boardList")
@@ -388,7 +404,7 @@
     <script>
         //채팅방리스트
 		function showChatList(){
-			fetch("/modu/chatrList")
+			fetch("http://localhost/modu/chatrList")
 			.then(resolve => resolve.json())
 			.then(data => {
 				document.getElementById('chatrList').innerHTML = '';
@@ -432,7 +448,7 @@
 			let select = document.getElementById('memberSelect');
 			//console.log(select);
 
-			fetch("/modu/chatMembs/" + pNum)
+			fetch("http://localhost:80/modu/chatMembs/" + pNum)
 			.then(resolve => resolve.json())
 			.then(data => {
 				//console.log(data);
@@ -459,7 +475,7 @@
 			makeChatInfo['particiMembUniNos'] = chatMembs;
 			//console.log(makeChatInfo);
 
-			fetch("/modu/makeChatr", {
+			fetch("http://localhost/modu/makeChatr", {
 					method: 'post',
 					headers: {
 						'content-type': 'application/json'
@@ -479,19 +495,29 @@
     </script>
 
 	<script>
+	//할 일 리스트로 이동
  	function todoList(){
  	 $.ajax("todo")
 		.done(result=>$("#rsidebarContent").html(result));
  	}
+	
+ 	//투표 리스트로 이동
  	function voteList(){
  	  $.ajax("vote")
  		.done(result=>$("#rsidebarContent").html(result))
  	}
+ 	
+ 	//즐겨찾기 리스트로 이동
  	function bmList(){
  		$.ajax("bm")
  		.done(result => $("#rsidebarContent").html(result))
  	}
- 	</script>
  	
+ 	//검색 페이지로 이동
+ 	 function searchList(){
+     	$.ajax("search")
+     	.done(result => $("#rsidebarContent").html(result))
+     }
+ 	</script>
 </body>
 </html>
