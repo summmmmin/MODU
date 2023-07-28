@@ -52,17 +52,10 @@ body {
 						</div>
 						<div class="recent-message d-flex px-4 py-3">
 							<div class="avatar avatar-lg">
-								<div class="attFilePlace"
-										th:data-todoUniNo="${todoInfo.todoUniNo}">
-										<div>
-											<a href='#'> <svg class="bi" width="1em" height="1em"
-													fill="currentColor">
-												<use
-														xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark" />
-											</svg>
-											</a>첨부파일이름
-										</div>
+								<div class="attFilePlace" th:data-todoUniNo="${todoInfo.todoUniNo}">
+									<div>
 									</div>
+								</div>
 							</div>
 							<div class="name ms-4">
 								<h6 class="text-muted mb-0"></h6>
@@ -150,32 +143,45 @@ body {
 		}
 		
 		let tno = "[[${todoInfo.todoUniNo}]]";
-		//파일 다운로드
 		
+		
+		//파일 다운로드
 		function attWithTodo(){
-		fetch('/modu/attPost/' + tno )
-		.then(resolve => resolve.json())
-		.then(data => {
-			let aPlace = document.querySelector('.attFilePlace');
-			if(aPlace.dataset.todoUniNo == tno){
-			let divTag = document.createElement('div');
-			let aTag = document.createElement('a');
-			aTag.setAttribute('href', "/modu/files/" + data.attNo + "/download");
-			let icon = `<i class="bi bi-file-earmark"></i>`;
-			aTag.innerHTML = icon;
-			let spanTag = document.createElement('span'); 
-			spanTag.textContent = data.attNm;
-			aTag.append(spanTag);
-			aTag.addEventListener('click', downloadYN);
-			aTag.setAttribute("data-attno", atts.attNo);
-			divTag.append(aTag);
-
-			aPlace.append(divTag);
-
+			fetch('/modu/attTodo/' + tno )
+			.then(resolve => resolve.json())
+			.then(data => {			
+				let aPlace = document.querySelector('.attFilePlace');
+					if(aPlace.dataset.todoUniNo == tno){
+						data.forEach(atts => {
+					let divTag = document.createElement('div');
+					let aTag = document.createElement('a');
+					aTag.setAttribute('href', "/modu/files/" + atts.attNo + "/download");
+					let icon = `<i class="bi bi-file-earmark"></i>`;
+					aTag.innerHTML += icon;
+					let spanTag = document.createElement('span'); 
+					spanTag.textContent = atts.attNm;
+					aTag.append(spanTag);
+					aTag.addEventListener('click', downloadYN);
+					aTag.setAttribute("data-attno", atts.attNo);
+					divTag.append(aTag);
+							
+						aPlace.append(divTag);
+							
+							
+						//이미지파일일때? 미리보기제공?
+						if(atts.ext == 'jpg' || atts.ext == 'jpeg' || atts.ext == 'png' || atts.ext == 'gif'){
+							divTag = document.createElement('div');
+							let imgTag = document.createElement('img');
+							imgTag.setAttribute('src','/modu/images/'+atts.attNo)
+							imgTag.setAttribute('height', '80px');
+							divTag.append(imgTag);
+							aPlace.append(divTag);
+						}
+					})
+				}
+			})
+				.catch(err => console.log(err))
 			}
-				})
-			.catch(err => console.log(err))
-		}
 		attWithTodo();
 		//todo 삭제
 		
