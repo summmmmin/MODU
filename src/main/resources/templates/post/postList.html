@@ -12,7 +12,86 @@
 		<div class="buttons">
 			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" >글작성</a>
 		</div>
-		<hr>
+		
+		<!-- ============= 게시판 수정, 삭제 (성현) =============-->
+<div class="dropdown">
+<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+<div class="postDDM dropdown-menu" aria-labelledby="dropdownMenuButton">
+<a id="editBoardLink" class="dropdown-item">게시판 수정</a>
+<a id="deletBrdModal" class="dropdown-item">게시판 삭제</a>
+</div>
+</div>
+<hr>
+<!-- ========================게시판 수정 Modal 시작 (성현) ======================== -->
+<div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="myModalLabel33">게시판 수정</h4>
+<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+<i data-feather="x"></i>
+</button>
+</div>
+<form action="InsertBoard" method="POST" id="FormEvent">
+<div class="modal-body">
+<h5>게시판 이름</h5>
+<div class="form-group">
+<input id="boardNm" name="boardNm" type="text" placeholder="변경 하실 이름을 입력해주세요." class="form-control">
+</div>
+<div class="form-group">
+<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" class="form-control" style="display: none"> <input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display: none">
+<div class="form-group">
+<h6>공개여부</h6>
+<input type="checkbox" id="checkbox" name="pubcYn" checked>
+<label for="checkbox"><span></span></label>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
+</button>
+<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="BoardUpdate()">
+<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">수정</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- ========================게시판 수정 Modal 끗 ======================== -->
+				
+<!-- ========================게시판 삭제 Modal 시작 (성현)======================== -->
+<div class="modal fade text-left" id="deleteBrd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+ <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+ <div class="modal-content">
+ <div class="modal-header bg-primary">
+<h5 class="modal-title white" id="myModalLabel160">게시판 삭제</h5>
+<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+<i data-feather="x"></i>
+</button>
+</div>
+<div class="modal-body">
+이 게시판을 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다.
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+<i class="bx bx-x d-block d-sm-none"></i>
+<span class="d-none d-sm-block">취소</span>
+</button>
+<button id="deleteBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="BrdDelete()">
+<i class="bx bx-check d-block d-sm-none"></i>
+<span class="d-none d-sm-block">확인</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- ========================게시판 삭제Modal 끗 ======================== -->
+
+
+
+
 		<div th:if="${#lists.isEmpty(postList)}">게시글이없습니다</div> <!--게시글없을때-->
 		<div th:unless="${#lists.isEmpty(postList)}"> <!--게시글있을때-->
 			<!--공지등록된게시글이있을때-->
@@ -162,6 +241,8 @@
 					</div>
 				</div>
 				<!--end of 댓글수정모달 -->
+				
+				
 			<!--end of MODALS -->
 		<script>
 
@@ -539,7 +620,13 @@
 			}
 		</script>
 		
-<script> <!-- 게시글 즐겨찾기 등록 -->
+		
+		
+		
+		
+		
+		
+<script> <!-- 게시글 즐겨찾기 등록 (성현) -->
 function PostBm(){
 	console.log(event.target.id);
    	let postNo = event.target.id;
@@ -563,6 +650,7 @@ function PostBm(){
 }
 </script>
 
+<!-- 즐겨찾기 리스트  (성현)-->
 <script>
 fetch('/modu/bmList')
 .then(response => response.json()) 
@@ -576,6 +664,46 @@ fetch('/modu/bmList')
   console.error(err); 
 });
 </script>
+
+<!-- 게시글 수정 모달 띄우는 함수 (성현)  -->
+<script>
+$(document).ready(function() {
+  // "게시판 수정" 링크를 클릭했을 때 
+  $("#editBoardLink").on("click", function() {
+    // 모달창 띄우기
+    $("#inlineForm").modal("show");
+  });
+});
+</script>
+
+<!-- 게시글 삭제 모달 띄우는 함수 (성현)  -->
+<script>
+$(document).ready(function() {
+  $("#deletBrdModal").on("click", function() {
+    $("#deleteBrd").modal("show");
+  });
+});
+
+// 게시판 삭제
+function BrdDelete(){
+	fetch("/modu/InsertBoardBm",{
+		method : 'POST',
+		headers:{
+			"Content-Type":"application/x-www-form-urlencoded"
+		},
+		body: 
+		"brdUniNo="+brdUniNo.value
+	})
+	.then(result=>result.json())
+	.then(data => {
+		console.log(data);
+		
+	})
+	.catch(err => console.log(err))
+}
+</script>
+
+
 	</div>
 </div>
 </body>

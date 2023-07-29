@@ -34,7 +34,6 @@
         function BpList() {
             $.ajax("BpList")
               .done(result => {
-                  console.log(result)
                   $('#bpList').empty();
                   $('#searchDiv').empty();
                   let div = '';
@@ -62,7 +61,6 @@
                 data: { ttl },
                 method: "GET",
                 success: function(data) {
-                    console.log(data);
                     $('#bpList').empty();
                     let div = '';
                     for (let i of data) {
@@ -87,7 +85,6 @@
      function ChatList() {
     	 $.ajax("ChatList")
          .done(result => {
-             console.log(result)
              $('#bpList').empty();
              $('#searchDiv').empty();
              let div = '';
@@ -126,7 +123,6 @@
              data: { cntn },
              method: "GET",
              success: function(data) {
-                 console.log(data);
                  $('#bpList').empty();
                  let div = '';
                  for (let i of data) {
@@ -161,7 +157,6 @@
      function FileList() {
     	 $.ajax("FileList")
          .done(result => {
-             console.log(result)
              $('#bpList').empty();
              $('#searchDiv').empty();
              let div = '';
@@ -189,7 +184,6 @@
              data: { attNm },
              method: "GET",
              success: function(data) {
-                 console.log(data);
                  $('#bpList').empty();
                  let div = '';
                  for (let i of data) {
