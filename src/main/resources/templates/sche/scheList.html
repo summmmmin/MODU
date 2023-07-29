@@ -30,7 +30,7 @@
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+        right: 'dayGridMonth,listMonth'
       },
       eventClick: function(info) {
           console.log('이벤트: ' + info.event.title);
@@ -62,7 +62,10 @@
       businessHours: false, // display business hours
       editable: true,
       selectable: false,
-      //locale:'ko',
+      allDaySlot:false,
+      displayEventTime:true,
+      locale:'ko',
+      dayMaxEvents:true,
       events: formattedEvents
     });
     calendar.render();
