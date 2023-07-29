@@ -103,6 +103,7 @@
 					<div class="card-content">
 						<div class="card-body">
 							<input class="getPostUniNo" type="hidden"	th:value="${post.postUniNo}">
+							<input class="aaa" th:value="${post.particiMembUniNo}">
 							<div class="row">
 								<h4 class="card-title col" th:id="${post.postUniNo}">[[${post.ttl}]]</h4>
 			
@@ -245,7 +246,7 @@
 				
 			<!--end of MODALS -->
 		<script>
-
+		
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
 					let user = '[[${session.particiMembUniNo}]]';
@@ -329,7 +330,9 @@
 				}
 			//댓글리스트 호출
 			showReplyList();
-
+			
+			
+			
 			//댓글입력
 			let reBtnList = document.querySelectorAll('.replyBtn');
 			reBtnList.forEach(btn => {
@@ -357,6 +360,16 @@
 							//rInput.value = '';
 							showReplyList()
 							rInput[2].value = '';
+							
+							console.log(data);
+							armClient.publish({
+								destination: "/pubArm/reply/ppm26",
+								body: JSON.stringify({
+									'postUniNo': data.postUniNo,
+									'particiMembUniNo' : 'ppm26'
+								})
+						});
+							
 						})
 						.catch(err => console.log(err))
 					}else{
@@ -686,7 +699,7 @@ $(document).ready(function() {
 
 // 게시판 삭제
 function BrdDelete(){
-	fetch("/modu/InsertBoardBm",{
+	fetch("BoardDelete",{
 		method : 'POST',
 		headers:{
 			"Content-Type":"application/x-www-form-urlencoded"
@@ -703,6 +716,15 @@ function BrdDelete(){
 }
 </script>
 
+<script>
+/* let aaa = document.getElementsByClassName('aaa');
+
+for(let i=0; i<aaa.length; i++){
+	let bb = aaa[i].value;
+	console.log(bb)
+}
+console.log(aaa); */
+</script>
 
 	</div>
 </div>

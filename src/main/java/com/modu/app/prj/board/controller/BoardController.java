@@ -73,7 +73,7 @@ public class BoardController {
 	}
 	
 	// 게시판 삭제
-	@GetMapping("boardDelete")
+	@GetMapping("BoardDelete")
 	public String boardDelete(String brdUniNo) {
 		boardService.DeleteBoard(brdUniNo);
 		return brdUniNo;
