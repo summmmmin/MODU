@@ -69,7 +69,7 @@
 	<!-- 할일 삭제 -->
 	<delete id="deleteTodo" parameterType="String">
 	delete from todo
-	where todo_uni_no = #{toDoUniNo}
+	where todo_uni_no = #{todoUniNo}
 	</delete>
 	
 	<!-- 할일 수정  -->
@@ -91,6 +91,6 @@
  		   			to_dt=#{toDt},
  		   			</if>
  		  </set>
- 	where todo_uni_no = #{toDoUniNo}
+ 	where todo_uni_no = #{todoUniNo}
 	</update>
 </mapper>

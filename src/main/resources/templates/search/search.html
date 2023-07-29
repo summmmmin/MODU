@@ -13,16 +13,13 @@
 			<div class="card-header">
 				<div class="card-body">
 					<div class="clearfix" id="aaa"></div>
-					<div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
-						<button type="button" onclick="bpList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">게시글</button>
-						<button type="button" onclick="fileList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">파일</button>
-						<button type="button" onclick="chatList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">채팅</button>
+					<div class="btn-group btn-group-lg" role="group"
+						aria-label="Basic example">
+				<button type="button" onclick="bpList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">게시글</button>
+				<button type="button" onclick="fileList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">파일</button>
+				<button type="button" onclick="ChatList()" class="btn btn-primary" style="width: 70px; height: 30px; font-size: 10px">채팅</button>
 					</div>
-					<div id="asd">
-					
-					</div>
-					<!-- <input id="ttl" name="ttl" type="text" placeholder="검색어를 입력해주세요." class="form-control"> -->
-					<button type="button" id="srhBtn" class="btn btn-primary" onclick="performSearch()">검색</button>
+					<div id="searchDiv"></div>
 				</div>
 				<hr>
 			</div>
@@ -36,6 +33,7 @@
                 .done(result => {
                     console.log(result)
                     $('#bpList').empty();
+                    $('#searchDiv').empty();
                     let div = '';
                     for (let i of result) {
                         div += `
@@ -48,11 +46,12 @@
                         `;
                     }
                     $('#bpList').append(div);
-                    $('#asd').append($('<input/>').attr('id','ttl').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+                    $('#searchDiv').append($('<input/>').attr('id','ttl').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+                    $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(BpSearch));
                 });
         }
     	//게시글 검색 함수
-        function performSearch() {
+        function BpSearch() {
             let ttl = $('#ttl').val();
             $.ajax({
                 url: "BpListSearch",
@@ -79,24 +78,30 @@
                 }
             })
         }
-	//엔터 이벤트
-        $('#ttl').on('keyup', function(event) {
-            if (event.keyCode === 13) {
-                performSearch();
-            }
-        });
         
      //채팅 리스트 함수
-     function chatList() {
+     function ChatList() {
     	 $.ajax("ChatList")
          .done(result => {
              console.log(result)
              $('#bpList').empty();
+             $('#searchDiv').empty();
              let div = '';
              for (let i of result) {
-                 div += `
+            	 let date = new Date(i.writeDt); 
+            	 let year = date.getFullYear();
+            	 let month = (date.getMonth() + 1).toString().padStart(2, '0');
+            	 let day = date.getDate().toString().padStart(2, '0');
+            	 let hours = date.getHours().toString().padStart(2, '0');
+            	 let minutes = date.getMinutes().toString().padStart(2, '0');
+            	 let seconds = date.getSeconds().toString().padStart(2, '0');
+
+            	 let formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+            	 div += `
                      <div class="card-content">
                          <div class="card-body">
+                             <td>${i.nnm}</td>
+                             <td>`+formattedDate+`</td>
                              <td>${i.cntn}</td>
                          </div>
                      </div>
@@ -104,14 +109,14 @@
                  `;
              }
              $('#bpList').append(div);
-             $('#asd').append($('<input/>').attr('id','cntn').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+             $('#searchDiv').append($('<input/>').attr('id','cntn').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+             $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(ChatSearch));
          });
  }
      
-     
     //채팅 검색 함수
      function ChatSearch() {
-         let ttl = $('#cntn').val();
+         let cntn = $('#cntn').val();
          $.ajax({
              url: "ChatListSearch",
              data: { cntn },
@@ -121,9 +126,20 @@
                  $('#bpList').empty();
                  let div = '';
                  for (let i of data) {
+                	 let date = new Date(i.writeDt); 
+                	 let year = date.getFullYear();
+                	 let month = (date.getMonth() + 1).toString().padStart(2, '0');
+                	 let day = date.getDate().toString().padStart(2, '0');
+                	 let hours = date.getHours().toString().padStart(2, '0');
+                	 let minutes = date.getMinutes().toString().padStart(2, '0');
+                	 let seconds = date.getSeconds().toString().padStart(2, '0');
+                	 
+                	 let formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
                      div += `
                          <div class="card-content">
                              <div class="card-body">
+                                 <td>${i.nnm}</td>
+                                 <td>`+formattedDate+`</td>
                                  <td>${i.cntn}</td>
                              </div>
                          </div>

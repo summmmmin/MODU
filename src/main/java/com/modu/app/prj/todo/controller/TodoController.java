@@ -119,8 +119,6 @@ public class TodoController {
 		//담당자만 수정이 가능 -> html 단에서 현재 로그인 한사람의 partici == 담당자 partici일시 수정삭제 버튼등장
 		//담당자의 조회 정보를 model 따로 담아서보냄
 		model.addAttribute("mgrCheck",todoService.mgrCheck(todoUniNo));
-		
-		System.out.println(model.getAttribute("mgrCheck"));
 		return "todo/todoInfo";	
 	}
 	
@@ -132,13 +130,43 @@ public class TodoController {
 		TodoVO todoVo = new TodoVO();
 		FileVO fileVO = new FileVO();
 		fileVO.setTodoUniNo(todoUniNo);
+		
+		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		model.addAttribute("membList", prjService.getPrjPartiList(vo));
-		model.addAttribute("todo",new TodoVO());
 		model.addAttribute("attList", fileService.fileList(fileVO)); 
+		model.addAttribute("todoUniNo",todoUniNo);	
+		model.addAttribute("todo",new TodoVO());
 		return "todo/todoUpdate";
 	}
 	
+	
+	//할일 수정
+	@PostMapping("updateTodo")
+	@ResponseBody
+	public int updateTodo(HttpSession session, @RequestParam(value="file",required=false) MultipartFile[] file, @RequestParam("ttl") String ttl,
+			@RequestParam("cntn") String cntn,	@RequestParam("frDt") String Date, @RequestParam("toDt") String lastDate
+			,@RequestParam("cm") String cm, @RequestParam("mgr") String mgr,
+			@RequestParam("todoUniNo") String todoUniNo) throws ParseException {
+		System.out.println("111111111111111111111111111111111111111111111111");
+		TodoVO vo = new TodoVO();
+		UserVO userVo = (UserVO) session.getAttribute("user");
+		vo.setWriter((String) session.getAttribute("particiMembUniNo"));
+		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		vo.setTtl(ttl);
+		vo.setCntn(cntn);
+		vo.setFrDt(Date);
+		vo.setToDt(lastDate);
+		vo.setCm(cm);
+		vo.setCntn(cntn);
+		vo.setTodoUniNo(todoUniNo);
+		
+		System.out.println(vo);
+		todoService.updateTodo(vo);
+		
+		return 1;
+	}
 	
 			
 }

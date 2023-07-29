@@ -127,7 +127,7 @@ body {
 		console.log(pct)
 		let data = {
 				"pct":pct,
-				"todoUniNo":[[${todoInfo.todoUniNo}]]
+				"todoUniNo":'[[${todoInfo.todoUniNo}]]'
 		};
 		fetch("udpatePct", {
 			method : "POST",
@@ -149,8 +149,19 @@ body {
 		function attWithTodo(){
 			fetch('/modu/attTodo/' + tno )
 			.then(resolve => resolve.json())
-			.then(data => {			
-				let aPlace = document.querySelector('.attFilePlace');
+			.then(data => {
+				for(let i=0; i<data.length;i++){
+					console.log(data)
+					let div=`
+					<div>
+						<a href="/modu/files/${data[i].attNo}/download" onclick="downloadYN(e)" data-attno=${data[i].attNo}>
+							${data[i].attNm}<i class="bi bi-file-earmark"></i></a></div>`
+							
+					$('.attFilePlace').append(div)
+				}
+					
+
+				/* let aPlace = document.querySelector('.attFilePlace');
 					if(aPlace.dataset.todoUniNo == tno){
 						data.forEach(atts => {
 					let divTag = document.createElement('div');
@@ -163,31 +174,51 @@ body {
 					aTag.append(spanTag);
 					aTag.addEventListener('click', downloadYN);
 					aTag.setAttribute("data-attno", atts.attNo);
-					divTag.append(aTag);
-							
-						aPlace.append(divTag);
+					divTag.append(aTag); */
+							/* 
+						aPlace.append(divTag); */
 							
 							
 						//이미지파일일때? 미리보기제공?
-						if(atts.ext == 'jpg' || atts.ext == 'jpeg' || atts.ext == 'png' || atts.ext == 'gif'){
+					/* 	if(atts.ext == 'jpg' || atts.ext == 'jpeg' || atts.ext == 'png' || atts.ext == 'gif'){
 							divTag = document.createElement('div');
 							let imgTag = document.createElement('img');
 							imgTag.setAttribute('src','/modu/images/'+atts.attNo)
 							imgTag.setAttribute('height', '80px');
 							divTag.append(imgTag);
-							aPlace.append(divTag);
-						}
+						aPlace.append(divTag);
+						} */
 					})
-				}
-			})
 				.catch(err => console.log(err))
 			}
 		attWithTodo();
+		function downloadYN(e){
+			let attNo = e.target.parentElement.dataset.attno;
+			let dwYn = {};
+			console.log(attNo);
+			dwYn['attNo'] = attNo;
+			dwYn['dwYn'] = 'Y';
+
+			fetch("/modu/file/" + attNo, {
+				method : 'post',
+				headers : {
+					'content-type' : 'application/json'
+				},
+				body : JSON.stringify(dwYn)
+			})
+			.then(resolve => resolve.json())
+			.then(data => {
+				console.log("다운로드완료")
+			})
+			.catch(err => console.log(err))
+		}
+		
+		
 		//todo 삭제
 		
         function delTodo(){
         	
-        	let data = {"todoUniNo":[[${todoInfo.todoUniNo}]]}
+        	let data = {"todoUniNo":'[[${todoInfo.todoUniNo}]]'}
         	
         	fetch("todoDelte",{
         		method : "post",

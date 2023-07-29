@@ -58,6 +58,14 @@ public class ChatController {
 	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행
 		messagingTemplate.convertAndSend("/sub/chat/msg/"+chatVO.getChatrNo(), chatVO);
 	}
+	
+	@MessageMapping("/chat/typing") 
+	//@SendTo("/chat/msg/{chatrNo}")
+	public void chatTypingArm(ChatVO chatVO) throws Exception {
+	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행
+		//String typingArm = chatVO.getNnm() + "is typing"; //"'닉네임' is typing"
+		messagingTemplate.convertAndSend("/sub/chat/"+chatVO.getChatrNo()+"/typing", chatVO);
+	}
 
 	//채팅방으로이동
 	@GetMapping("/chat") 
@@ -75,14 +83,6 @@ public class ChatController {
 		model.addAttribute("info", vo);
 		return "chat/chat";
 	}
-
-	//채팅방생성폼
-//	@GetMapping("makeChatr") 
-//	public String makeChatrForm(Model model, HttpSession session) {
-//		String prjUniNo = (String) session.getAttribute("prjUniNo");
-//		model.addAttribute("membList", postService.selectCallMembPub(prjUniNo));
-//		return "chat/makeChatr";
-//	}
 	
 	//채팅방생성용멤버리스트
 	@GetMapping("chatMembs/{pNum}")

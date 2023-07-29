@@ -19,7 +19,6 @@ public class ScheController {
 	public String ScheList(Model model,HttpSession session) {
 		// 리스트 뽑기 , 리스트에 필요한 세션 값가져와서 바로 집어넣음.
 		model.addAttribute("scheList",scheService.scheList((String) session.getAttribute("prjUniNo")));
-		System.out.println(model.getAttribute("scheList"));
 		return "sche/scheList";
 	}
 	

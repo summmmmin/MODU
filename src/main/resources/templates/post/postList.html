@@ -37,11 +37,11 @@
 										<a th:if="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}" class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기 해제</a>
 										<a th:unless="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}" class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
 									</th:block>
-										<a class="dropdown-item" th:if="${post.notiYn} == 'X'" href="#">공지등록</a>
-										<a class="dropdown-item" th:if="${post.notiYn} == 'O'" href="#">공지등록해제</a>
+										<a class="dropdown-item" th:if="${post.notiYn} == 'X'" th:onclick="setPostNoti(event)">공지등록</a>
+										<a class="dropdown-item" th:if="${post.notiYn} == 'O'" th:onclick="setPostNoti(event)">공지등록해제</a>
 										<a class="dropdown-item bm" th:text="${#lists.contains(postbm, post.postUniNo)} ? '즐겨찾기 해제' : '즐겨찾기'" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
-										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" class="dropdown-item" href="#">댓글알림ON</a>
-										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'Y'" class="dropdown-item" href="#">댓글알림OFF</a>
+										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" th:onclick="setPostReply(event)" class="dropdown-item">댓글알림ON</a>
+										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'Y'" th:onclick="setPostReply(event)" class="dropdown-item">댓글알림OFF</a>
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a> 
 										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deletePost" onclick="callDeletePostModal(event)">삭제</a>
 									</div>
@@ -52,11 +52,6 @@
 								</div>
 								<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}">
 									<div>
-										<!-- <a href = '#'>
-											<svg class="bi" width="1em" height="1em" fill="currentColor">
-												<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark" />
-											</svg>
-										</a>첨부파일이름 -->
 									</div>
 								</div>
 							</div>
@@ -176,30 +171,7 @@
 				<!--end of 댓글수정모달 -->
 			<!--end of MODALS -->
 		<script>
-<<<<<<< HEAD
 
-				//console.log(document.querySelectorAll('.postTagArm'));
-				//console.log(document.querySelectorAll('.postTagArm')[1].textContent);
-				let tagArmList = document.querySelectorAll('.postTagArm');
-				tagArmList.forEach(tags => {
-					//console.log(tags.textContent);
-				})
-
-				// let getPnum = document.querySelectorAll('.getPostUniNo');
-				// getPnum.forEach(gNum => {
-				// 	let pNum = gNum.value;
-				// 	fetch('/modu/post/' + pNum)
-				// 	.then(resolve => resolve.json())
-				// 	.then(data => {
-				// 		data.forEach(tags => {
-				// 			console.log(tags.postTagArm);
-				// 		})
-				// 	})
-				// })
-				
-=======
->>>>>>> branch 'test' of https://github.com/happypotatoC/MODU.git
-				//댓글리스트
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
 					let user = '[[${session.particiMembUniNo}]]';
@@ -507,12 +479,10 @@
 			notiPostList();
 
 			//공지등록on/off
-			let postDDMList = document.querySelectorAll('.postDDM');
-			postDDMList.forEach(postDDM => {
-				let notiBTN = postDDM.children[1];
-				notiBTN.addEventListener('click', function(e){
-					e.preventDefault();
+			function setPostNoti(e){
+					//e.preventDefault();
 					let pNum = e.target.parentElement.dataset.postunino;
+					let notiBTN = e.target;
 					let postInfo = {};
 					if(notiBTN.textContent == '공지등록'){
 						postInfo['postUniNo'] = pNum;
@@ -549,52 +519,49 @@
 						})
 						.catch(err => console.log(err))
 					}
-				}) 
-			})
+				}
 
 			//댓글등록알림ON/OFF
-			postDDMList.forEach(postDDM => {
-				let reOnOffBTN = postDDM.children[2];
-				//console.log(reOnOffBTN.textContent);
-				reOnOffBTN.addEventListener('click', function(e){
-					e.preventDefault();
-					let pNum = e.target.parentElement.dataset.postunino;
-					let postInfo = {};
-					if(reOnOffBTN.textContent == '댓글알림ON'){
-						postInfo['postUniNo'] = pNum;
-						postInfo['replyArmYn'] = 'Y';
-				
-						fetch('/modu/setPostReply',{
-							method : 'post',
-							headers : {
-								'content-type' : 'application/json'
-							},
-							body : JSON.stringify(postInfo)
-						})
-						.then(result => result.json())
-						.then(data => {
-							//console.log(data);
-						})
-						.catch(err => console.log(err))
-					}else{
-						postInfo['postUniNo'] = pNum;
-						postInfo['replyArmYn'] = 'N';
-				
-						fetch('/modu/setPostReply',{
-							method : 'post',
-							headers : {
-								'content-type' : 'application/json'
-							},
-							body : JSON.stringify(postInfo)
-						})
-						.then(result => result.json())
-						.then(data => {
-							//console.log(data);
-						})
-						.catch(err => console.log(err))
-					}
-				}) 
-			})
+			function setPostReply(e){
+				//e.preventDefault();
+				let pNum = e.target.parentElement.dataset.postunino;
+				let reOnOffBTN = e.target;
+				let postInfo = {};
+				console.log(e.target);
+				console.log(pNum);
+				if(reOnOffBTN.textContent == '댓글알림ON'){
+					postInfo['postUniNo'] = pNum;
+					postInfo['replyArmYn'] = 'Y';
+					fetch('/modu/setPostReply',{
+						method : 'post',
+						headers : {
+							'content-type' : 'application/json'
+						},
+						body : JSON.stringify(postInfo)
+					})
+					.then(result => result.json())
+					.then(data => {
+						//console.log(data);
+						reOnOffBTN.textContent ='댓글알림OFF';
+					})
+					.catch(err => console.log(err))
+				}else{
+					postInfo['postUniNo'] = pNum;
+					postInfo['replyArmYn'] = 'N';
+					fetch('/modu/setPostReply',{
+						method : 'post',
+						headers : {
+							'content-type' : 'application/json'
+						},
+						body : JSON.stringify(postInfo)
+					})
+					.then(result => result.json())
+					.then(data => {
+						reOnOffBTN.textContent ='댓글알림ON';
+					})
+					.catch(err => console.log(err))
+				}
+			}
 		</script>
 		
 <script> <!-- 게시글 즐겨찾기 등록 -->
@@ -626,17 +593,9 @@ function PostBm(){
 fetch('/modu/bmList')
 .then(response => response.json()) 
 .then(data => {
-  console.log(data); 
-  
   for (const item of data) {
-    console.log(item);
-
     let bmUniNo = item.bmUniNo; 
-    console.log('즐찾 번호 : '+bmUniNo); 
-
     let particiMembUniNo = item.particiMembUniNo;
-    console.log('참여자 번호 : '+particiMembUniNo);
-
   }
 })
 .catch(err => { 
