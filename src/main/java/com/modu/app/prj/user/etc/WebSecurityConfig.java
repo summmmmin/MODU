@@ -55,16 +55,16 @@ public class WebSecurityConfig {
 	           .failureUrl("/login?error=true") // 로그인 실패(비밀번호 틀림)
 	           .permitAll()
 	           .and()
-				.logout((logout) -> logout
-						.logoutSuccessUrl("/")
+	           .logout((logout) -> logout
+						.logoutSuccessUrl("/login")
 						.invalidateHttpSession(true)
 						.permitAll())
-			.oauth2Login()				// OAuth2기반의 로그인
-            .loginPage("/login")		// 인증이 필요한 URL에 접근하면 /loginForm으로 이동
-            .successHandler(authenticationSuccessHandler())		// 로그인 성공하면 "/" 으로 이동
-            .failureHandler(authenticationFailureHandler())		// 로그인 실패 시 /loginForm으로 이동
+			.oauth2Login()				
+            .loginPage("/login")		
+            .successHandler(authenticationSuccessHandler())		// 로그인 성공
+            .failureHandler(authenticationFailureHandler())		// 로그인 실패
             .userInfoEndpoint()			// 로그인 성공 후 사용자정보를 가져온다
-            .userService(principalOauth2UserService);	//사용자정보를 처리할 때 사용한다
+            .userService(principalOauth2UserService);	//사용자정보를 처리
 
 	       return http.build();
 	   }

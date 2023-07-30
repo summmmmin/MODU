@@ -72,7 +72,7 @@
 						<button type="submit" id="loginButton"
 							class="btn btn-primary btn-block btn-lg shadow-lg mt-2">로그인</button>
 						<!-- 카카오로그인 버튼 -->
-						<button class="simple_login_logo" id="Kakao">카카오로그인</button>
+						<button class="kakao_login" id="kakao">카카오로그인</button>
 						<div class="text-center mt-2">
 							<p class="text-gray-600">
 								<a href="#" class="font-bold" id="forgotIdLink"
@@ -90,15 +90,11 @@
 		</div>
 	</div>
 	<script>
-	 $('.simple_login_logo').on('click', kakaoLogin);
-
-	 function kakaoLogin() {
-	   let path = $(this).attr('id'); // 클릭된 버튼의 id 값 가져오기
-	   let popupURL = `/oauth2/authorization/Kakao`; // 팝업으로 열 URL 설정
-	   let popupOptions = "width=500,height=600,top=100,left=100,scrollbars=1"; // 팝업 창 옵션 설정
-
-	   window.open(popupURL, "LoginPopup", popupOptions);
-	 }
+		$('.kakao_login').on('click', function() {
+			let path = $(this).attr('id');
+			let url = `oauth2/authorization/${path}`;
+			window.open(url, 'Login with Kakao', 'width=500,height=500');
+		});
 
 		// 페이지 로드 시 쿠키 값 가져오기 및 로그인 실패 여부 체크
 		window.onload = function() {
@@ -164,10 +160,6 @@
 		 console.error("AJAX 요청 에러:", error);
 		 }
 		 }); */
-
-
-
-
 	</script>
 </body>
 </html>

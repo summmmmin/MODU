@@ -45,7 +45,7 @@ public class UserVO implements UserDetails{
 	private String Token;
 	
 	//소셜로그인 PROVIDER
-	private String providerId;
+	private String providerID;
 
 	@Override
 	public String getPassword() {

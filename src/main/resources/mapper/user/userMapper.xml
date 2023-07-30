@@ -63,7 +63,7 @@
 		,sysdate
 		,'N'
 		,#{Token}
-		,#{PROVIDER_ID}
+		,#{providerID}
 		)
 	</insert>
 
