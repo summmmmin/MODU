@@ -67,7 +67,7 @@
 	
 	<!-- 채팅메세지리스트 -->
 	<select id="chatMessageList" resultType="ChatDTO">
-		SELECT c.chat_no, 
+		<!-- SELECT c.chat_no, 
 		       c.cntn, 
 		       c.chat_partici_memb_uni_no, 
 		       c.write_dt, 
@@ -80,7 +80,32 @@
           JOIN prj_partici_memb p 
             ON p.partici_memb_uni_no = cm.partici_memb_uni_no
          WHERE c.chatr_no = #{chatrNo}
-      ORDER BY c.write_dt
+      ORDER BY c.write_dt -->
+      
+	      SELECT c.chat_no, 
+		         c.cntn, 
+		         c.chat_partici_memb_uni_no, 
+		         c.write_dt, 
+		         cm.chatr_no,
+		         p.partici_memb_uni_no, 
+		         p.nnm,
+		         COUNT(chm.chat_no) AS readCount
+		    FROM chat c 
+		    JOIN chatr_partici cm 
+		      ON c.chat_partici_memb_uni_no = cm.chat_partici_memb_uni_no
+		    JOIN prj_partici_memb p 
+		      ON p.partici_memb_uni_no = cm.partici_memb_uni_no
+	   LEFT JOIN chat_chm chm 
+		      ON c.chat_no = chm.chat_no
+		   WHERE c.chatr_no = #{chatrNo} AND chm.cfm_yn = 'N'
+		GROUP BY c.chat_no, 
+		         c.cntn, 
+		         c.chat_partici_memb_uni_no, 
+		         c.write_dt, 
+		         cm.chatr_no,
+		         p.partici_memb_uni_no, 
+		         p.nnm
+		ORDER BY c.write_dt
 	</select>
 	
 	<!-- 채팅방나가기 -->

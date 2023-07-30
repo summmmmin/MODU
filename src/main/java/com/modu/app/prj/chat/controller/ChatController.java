@@ -52,18 +52,19 @@ public class ChatController {
 	PrjService prjService;
 	
 	//이거웹소켓?
-	@MessageMapping("/chat/msg") 
+	@MessageMapping("/chat/msg") // pub
 	//@SendTo("/chat/msg/{chatrNo}")
 	public void chatMessage(ChatVO chatVO, FileVO fileVO) throws Exception {
 	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행
 		messagingTemplate.convertAndSend("/sub/chat/msg/"+chatVO.getChatrNo(), chatVO);
 	}
 	
+	//타이핑중메세지
 	@MessageMapping("/chat/typing") 
 	//@SendTo("/chat/msg/{chatrNo}")
 	public void chatTypingArm(ChatVO chatVO) throws Exception {
 	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행
-		//String typingArm = chatVO.getNnm() + "is typing"; //"'닉네임' is typing"
+		// String typingArm = chatVO.getNnm() + "is typing"; //"'닉네임' is typing"
 		messagingTemplate.convertAndSend("/sub/chat/"+chatVO.getChatrNo()+"/typing", chatVO);
 	}
 
@@ -163,7 +164,7 @@ public class ChatController {
 			fileVO.setParticiMembUniNo(particiMembUniNo);
 			fileVO = fileService.insertFile(file, fileVO);
 			
-			//첨부파일 있을 때 첨부파일 다운로드 링크 자체를 채팅 메세지로 등록
+			//첨부파일 있을 때 첨부파일 다운로드 링크 자체를 다음 채팅 메세지로 등록
 			ChatVO chatFile = new ChatVO();
 			chatFile.setChatrNo(chatrNo);
 			chatFile.setChatParticiMembUniNo(chatParticiMembUniNo);

@@ -10,7 +10,7 @@
 <body>
 	<div layout:fragment="content">
 		<div class="buttons">
-			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" >글작성</a>
+			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}"  >글작성</a>
 		</div>
 		<hr>
 		<div th:if="${#lists.isEmpty(postList)}">게시글이없습니다</div> <!--게시글없을때-->
@@ -109,7 +109,7 @@
 				<!-- end of 게시글 삭제 모달 -->
 
 				<!-- start of 댓글 삭제 모달 -->
-				<div class="modal fade text-left" id="deleteReply" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+				<div class="modal fade text-left" id="deleteReply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 						<div class="modal-content">
 							<div class="modal-header bg-primary">
@@ -288,6 +288,9 @@
 							//rInput.value = '';
 							showReplyList()
 							rInput[2].value = '';
+							
+							//발행
+							
 						})
 						.catch(err => console.log(err))
 					}else{
