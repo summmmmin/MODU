@@ -32,4 +32,11 @@ public class ArmController {
 		messagingTemplate.convertAndSend("/subArm/brd/"+memno,vo);
 	}
 	
+	//채팅 등록 알림
+	@MessageMapping("/chat/{memno}")
+	public void chatarm(ArmVO vo,@DestinationVariable String memno) throws Exception {
+		messagingTemplate.convertAndSend("/subArm/chat/"+memno,vo);
+	}
+	
+	
 }
