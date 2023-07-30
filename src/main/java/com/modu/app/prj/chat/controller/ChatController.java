@@ -282,4 +282,16 @@ public class ChatController {
 		}
 		return membCount;
 	}
+	
+	//채팅읽음업데이트
+	@PostMapping("updateReadChat")
+	@ResponseBody
+	public int updateReadChat(@RequestBody ChatChmVO chatChmVO, HttpSession session) {
+		String chatrNo = (String) session.getAttribute("chatrNo");
+		String chatParticiMembUniNo = (String) session.getAttribute("chatParticiMembUniNo");
+		
+		chatChmVO.setChatParticiMembUniNo(chatParticiMembUniNo);
+		chatChmVO.setChatrNo(chatrNo);
+		return chatService.updateReadChat(chatChmVO);
+	}
 }

@@ -25,8 +25,7 @@
 								</div>
 								<div class="name flex-grow-1">
 									<h6 class="mb-0" id="chatNmPlace"></h6>
-									<span class="text-xs" id="chatMembPlace"></span>
-									
+									<span class="text-xs chatMemb" id="chatMembPlace"></span>
 								</div>
 								<div class="dropdown">
 										<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -238,7 +237,11 @@
 
 							let cmdiv = document.createElement('div');
 							cmdiv.setAttribute('class', 'chat-message');
-							cmdiv.innerHTML = `<small>${msg.nnm} : </small><br>${msg.cntn}<br><small>`+formattedDate+` || ${msg.readCount}</small>`;
+							if(msg.readCount > 0){
+								cmdiv.innerHTML = `<small>${msg.nnm} : </small><br>${msg.cntn}<br><small>`+formattedDate+` || ${msg.readCount}</small>`;
+							}else{
+								cmdiv.innerHTML = `<small>${msg.nnm} : </small><br>${msg.cntn}<br><small>`+formattedDate+`</small>`;
+							}
 							cbdiv.append(cmdiv);
 							cdiv.append(cbdiv);
 							msgPlace.append(cdiv);
@@ -392,9 +395,32 @@
 				brokerURL: 'ws://localhost/modu/socketserver'
 			});
 
-			// 페이지 로드시 웹소켓 연결
+			// 페이지 로드시 
 			window.addEventListener("load", function(event) {
+				//웹소켓 연결
 				stompClient.activate();
+
+				//이전 채팅메세지 전부 읽음 처리
+				let chatrNo = '[[${session.chatrNo}]]';
+				let chatParticiMembUniNo = '[[${session.chatParticiMembUniNo}]]';
+				let readChat = {};
+				readChat['chatrNo'] = chatrNo;
+				readChat['chatParticiMembUniNo'] = chatParticiMembUniNo;
+				
+				fetch("/modu/updateReadChat" ,{
+					method : 'post',
+					headers : {
+						'content-type' : 'application/json'
+					},
+					body : JSON.stringify(readChat)
+				})
+				.then(result => result.json())
+				.then(data => {
+					console.log(data);
+					showChatMsgList(); //채팅 메세지 리스트 다시 띄우기
+				})
+				.catch(err => console.log(err))
+
 			});
 
 			// 연결 성공시
@@ -448,6 +474,10 @@
 					}
 				})
 				
+				//현재 참여중인 채팅멤버 수
+				let chatMembCount = document.getElementById('chatMembPlace').children.length;
+				let readCount = chatMembCount - 1; //작성자제외 
+				
 					// 보낸 메세지 발행
 					stompClient.publish({
 							destination: "/pub/chat/msg",
@@ -455,7 +485,8 @@
 												            'chatParticiMembUniNo' : chatWriter,
 												            'cntn': cntn,
 																		'nnm' : nnm,
-																		'writeDt' : writeDt})
+																		'writeDt' : writeDt,
+																		'readCount' : readCount})
 					});
 	
 					let formData = new FormData(); // 첨부파일 + 채팅메세지
@@ -481,14 +512,14 @@
 	 											 'chatParticiMembUniNo': chatWriter,
 	 											 'cntn': '<a href="/modu/files/' + data.attNo + '/download">' + data.attNm +'</a>',
 												 'nnm' : nnm,
-												 'writeDt' : writeDt})
+												 'writeDt' : writeDt,
+												 'readCount' : readCount})
 	 											})		
 							}
 						})						
 					.catch(err => console.log(err))
 			}
-		
-
+			
 			//채팅메세지추가
 			function showChatMsg(chatMsg) {
 				let msgPlace = document.getElementsByClassName('chat-content')[0];
@@ -532,7 +563,7 @@
 
 					let cmdiv = document.createElement('div');
 					cmdiv.setAttribute('class', 'chat-message');
-					cmdiv.innerHTML = `<small>${chatMsg.nnm} : </small><br>${chatMsg.cntn}<br><small>` + formattedDate + `</small>`;
+					cmdiv.innerHTML = `<small>${chatMsg.nnm} : </small><br>${chatMsg.cntn}<br><small>` + formattedDate + ` || ${chatMsg.readCount}</small>`;
 					cbdiv.append(cmdiv);
 					cdiv.append(cbdiv);
 					msgPlace.append(cdiv);
