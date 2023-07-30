@@ -16,6 +16,6 @@ public interface BoardMapper {
 	public String DeleteBoard(String brdUniNo);
 
 	// 게시판 수정
-	public BoardVO BrdUpdate(BoardVO vo);
+	public int BrdUpdate(BoardVO vo);
 
 }

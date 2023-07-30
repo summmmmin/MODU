@@ -2,7 +2,6 @@ package com.modu.app.prj.user.etc;
 
 import java.io.IOException;
 
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +18,7 @@ import com.modu.app.prj.user.service.UserVO;
 
 
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
+	
 	   
 	   @Override
 	   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,

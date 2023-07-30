@@ -524,16 +524,6 @@
 	 											})		
 							}
 						})						
-						
-								//채팅 알람
-									armClient.publish({
-										destination: "/pubArm/chat/"+particiMembUniNo,
-										body: JSON.stringify({
-											'particiMembUniNo' : particiMembUniNo
-										})
-								});
-						
-						
 					.catch(err => console.log(err))
 			}
 		

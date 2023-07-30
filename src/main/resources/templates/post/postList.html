@@ -37,25 +37,22 @@
 <i data-feather="x"></i>
 </button>
 </div>
-<form action="InsertBoard" method="POST" id="FormEvent">
+<form action="BrdUpdate" method="POST">
 <div class="modal-body">
 <h5>게시판 이름</h5>
 <div class="form-group">
 <input id="boardNm" name="boardNm" type="text" placeholder="변경 하실 이름을 입력해주세요." class="form-control">
 </div>
 <div class="form-group">
-<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" class="form-control" style="display: none"> <input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display: none">
-<div class="form-group">
 <h6>공개여부</h6>
 <input type="checkbox" id="checkbox" name="pubcYn" checked>
 <label for="checkbox"><span></span></label>
-</div>
 </div>
 <div class="modal-footer">
 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
 <i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
 </button>
-<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="BoardUpdate()">
+<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="BrdUpdate()">
 <i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">수정</span>
 </button>
 </div>
@@ -105,7 +102,7 @@
 					<div class="card-content">
 						<div class="card-body">
 							<input class="getPostUniNo" type="hidden"	th:value="${post.postUniNo}">
-							<input class="aaa" th:value="${post.particiMembUniNo}">
+							<input class="aaa" th:value="${post.particiMembUniNo}" style="display:none">
 							<div class="row">
 								<h4 class="card-title col" th:id="${post.postUniNo}">[[${post.ttl}]]</h4>
 			
@@ -373,7 +370,6 @@
 									'particiMembUniNo' : particiMembUniNo
 								})
 						});
-							
 						})
 						.catch(err => console.log(err))
 					}else{
@@ -700,7 +696,6 @@ $(document).ready(function() {
       $("#deleteBrd").modal("show");
     });
   });
-// 게시판 삭제
 //게시판 번호 찾아오기
 let brdNo = document.getElementById('brdNo').textContent;
 	console.log(brdNo);
@@ -708,7 +703,7 @@ let brdNo = document.getElementById('brdNo').textContent;
 //프로젝트 번호 찾아오기
 let prjNo = document.getElementById('prjNo').textContent;
 	console.log(prjNo);
-	
+//게시판 삭제
 function BrdDelete(){
 	fetch("/modu/BoardDelete",{
 		method : 'POST',
@@ -724,6 +719,44 @@ function BrdDelete(){
 		window.location.href = "/modu/main?prjUniNo="+prjNo;
 	})
 	.catch(err => console.log(err))
+}
+</script>
+
+
+<script>
+function BrdUpdate() {
+	//게시판 번호 찾아오기
+	let brdNo = document.getElementById('brdNo').textContent;
+		console.log(brdNo);
+		
+	let brdNm = document.getElementById('boardNm').value;
+	console.log('1234444'+brdNm);
+	
+  // CheckBox 값 여부(공개 비공개 여부)
+  let check1 = document.querySelector('#checkbox');
+  let checkOk1 = '';
+  if (check1.checked) {
+    checkOk1 = 'on';
+  } else {
+    checkOk1 = '';
+  }
+
+  fetch("/modu/BrdUpdate", {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body:
+       	  "brdUniNo="+brdNo
+         +"&boardNm="+brdNm
+         +"&pubcYn="+checkOk1
+  })
+  .then(result => result.text())
+  .then(data => {
+	  console.log(data);
+	  alert('수정이 완료 되었습니다 !');
+  })
+  .catch(err => console.log(err));
 }
 </script>
 

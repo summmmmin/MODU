@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.board.service.BoardService;
@@ -77,5 +77,19 @@ public class BoardController {
 		System.out.println(vo.getBrdUniNo());
 		boardService.DeleteBoard(vo.getBrdUniNo());
 		return vo.getBrdUniNo();
+	}
+	
+	//게시판 업데이트
+	@PostMapping("BrdUpdate")
+	@ResponseBody
+	public BoardVO BrdUpdate(BoardVO vo) {
+		String check1 = vo.getPubcYn();
+		if (check1.equals("on")) {
+			vo.setPubcYn("Y");
+		} else {
+			vo.setPubcYn("N");
+		}
+		boardService.BrdUpdate(vo);
+		return vo;
 	}
 }

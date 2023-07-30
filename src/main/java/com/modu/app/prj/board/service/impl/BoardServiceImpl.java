@@ -35,7 +35,7 @@ public class BoardServiceImpl implements BoardService {
 
 	// 게시판 수정
 	@Override
-	public BoardVO BrdUpdate(BoardVO vo) {
+	public int BrdUpdate(BoardVO vo) {
 		return boardMapper.BrdUpdate(vo);
 	}
 }
