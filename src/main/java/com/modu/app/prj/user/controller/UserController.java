@@ -456,9 +456,9 @@ public class UserController {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// 관리자 대시보드
-	@GetMapping("admin/dashboard")
+	@GetMapping("admin/dashBoard")
 	public String dashboard() {
-		return "admin/dashboard";
+		return "admin/dashBoard";
 	}
 
 	// 관리자 유저목록
@@ -469,14 +469,6 @@ public class UserController {
 	    System.out.println(userList);
 	    return "admin/userList";
 	}
-	
-	// 관리자 유저목록 조회
-//	@PostMapping("admin/userList")
-//	public String userList(Model model) {
-//	    List<UserVO> userList = userService.userList();
-//	    model.addAttribute("userList", userList);
-//	    System.out.println(userList);
-//	    return "admin/userList";
-//	}
+
 
 }
