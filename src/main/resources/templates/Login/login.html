@@ -81,7 +81,8 @@
 							</p>
 						</div>
 					</form>
-						<button class="kakao_login" id="kakao">카카오로그인</button>
+						<button class="social_login" id="kakao">카카오로그인</button>
+						<button class="social_login" id="naver">네이버로그인</button>
 				</div>
 			</div>
 			<div class="col-lg-7 d-none d-lg-block"> 
@@ -90,7 +91,7 @@
 		</div>
 	</div>
 	<script>
-		$('.kakao_login').on('click', function() {
+		$('.social_login').on('click', function() {
 			let path = $(this).attr('id');
 			let url = `oauth2/authorization/${path}`;
 			window.location.href = url;

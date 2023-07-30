@@ -144,7 +144,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		int result = userMapper.updatePhone(params);
 		if (result > 0) {
 			return "휴대폰 번호 변경 성공"; // 오타나면 받는값이 달라서 서버에선 변경되더라도 클라이언트에선 오류 남
-									// return ResponseEntity.ok("휴대폰 번호 변경 성공"); 이대로 받아오기
+										// return ResponseEntity.ok("휴대폰 번호 변경 성공"); 이대로 받아오기
 		} else {
 			return "휴대폰 번호 변경 실패";
 		}
