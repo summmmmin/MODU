@@ -8,10 +8,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.modu.app.prj.pay.service.PayService;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
+import com.modu.app.prj.user.controller.SendEmail;
+import com.modu.app.prj.user.service.UserService;
 import com.modu.app.prj.user.service.UserVO;
 
 // 2023-07-20 하수민 프로젝트 관리
@@ -22,6 +28,8 @@ public class PrjController {
 	PrjService prjService;
 	@Autowired
 	PayService payService;
+	@Autowired
+	UserService userService;
 	
 	//프로젝트 생성 페이지 이동
 	@GetMapping("prjInsert")
@@ -41,8 +49,7 @@ public class PrjController {
 	
 	// 프로젝트 리스트 페이지
 	@GetMapping("prjList")
-	public String prjList(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
+	public String prjList(Model model, HttpSession session) {
 		UserVO vo = (UserVO) session.getAttribute("user");
 		model.addAttribute("prjList",prjService.getPrjList(vo.getMembUniNo()));
 		return "prj/prjList";
@@ -110,14 +117,67 @@ public class PrjController {
 	}
 	
 	// 프로젝트 초대
-	// 초대하기 누르면
-	// 이메일로 링크 발송 (초대토큰, 무슨프로젝트, 등급?, 사용한 토큰여부) insert
+	@PostMapping("invitePrj")
+	@ResponseBody
+	public String invite(@RequestBody PrjVO prj, HttpSession session, HttpServletRequest request) {
+		prj.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		// 토큰 생성
+		String token = userService.generateRandomToken();
+		prj.setTk(token);
+		
+		// 초대테이블 insert
+		String id = prjService.insertInvite(prj);
+		prj.setId(id);
+		// 이메일 보내기
+		String siteURL = request.getRequestURL().toString().replace(request.getServletPath(), "");
+		SendEmail.inviteSend(prj, siteURL);		
+		return "0";
+	}
 	
-	// 링크로 들어왔을때
-	// 토큰 저장, 로그인/회원가입 여부 확인 -> 로그인 회원가입
-	// 토큰 있으면 프로젝트에 초대시키기(insert, update사용한 토큰으로)
-	// 
-	
-	
+	// 초대링크로 들어왔을때
+	@GetMapping("/invite")
+	public String getInviteTk(@RequestParam("token") String token, RedirectAttributes ra, HttpSession session) {
+		PrjVO invite = prjService.selectInvite(token);
+		UserVO user = (UserVO)session.getAttribute("user");
 
+		if(invite.getPrjUniNo() == null) {
+			System.out.println("유효하지않는 초대링크");
+			return "";
+		}else if(invite.getCk() == "Y") {
+			System.out.println("이미 사용한 링크");
+			return "";
+		}else {
+			// 유효한 링크
+			// 유효하면 그 프로젝트에 지금 몇명인지
+			session.setAttribute("inviteTk", token);
+			
+			if(user == null) {
+				System.out.println("로그인x");
+				return "redirect:/login";
+			}else {
+				// 로그인 돼있을때
+				// 프로젝트에 insert
+				invite.setMembUniNo(user.getMembUniNo());
+				invite.setNnm(user.getNm());
+				invite.setPrjPubcId(user.getId());
+				int result = prjService.insertPartiMemb(invite);
+				if(result == 0) {
+					System.out.println("이미 참여중인 프로젝트");
+				}else if(result == 1) {
+					System.out.println("초대 성공");
+				}else if(result == 2) {
+					System.out.println("초대 insert 오류");
+				}else if(result == 3) {
+					System.out.println("무료 플랜 초대 10명 초과");
+				}else if(result == 4) {
+					System.out.println("초대 오류");
+				}
+				// session token 삭제
+				session.removeAttribute("inviteTk");
+				// 프로젝트리스트로
+				return "redirect:prjList";
+			}
+		}
+	}
+	
 }

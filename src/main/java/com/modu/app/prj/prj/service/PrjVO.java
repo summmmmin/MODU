@@ -42,8 +42,13 @@ public class PrjVO {
 	private String cardName;	//카드이름
 	
 	private String fromDt;	//시작 기간
-	private String toDt;		//끝
+	private String toDt;	//끝
 	private int postcnt;	//게시글수
 	private int replycnt;	//답글수
 	private int chatcnt;	//chat수
+	
+	private String id;		//초대 시퀀스
+	private String tk;		//초대 토큰
+	private String email;	//초대 이메일
+	private String ck;		//초대 토큰 사용 여부
 }

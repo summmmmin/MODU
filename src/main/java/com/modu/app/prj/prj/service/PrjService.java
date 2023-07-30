@@ -53,4 +53,13 @@ public interface PrjService {
 	
 	// 프로젝트 등급별 인원
 	public Map<String, Object> getGrdCnt(String prjUniNo);
+	
+	// 초대시 insert
+	public String insertInvite(PrjVO vo);
+	
+	// 초대테이블 조회
+	public PrjVO selectInvite(String tk);
+	
+	// 프로젝트 참여 테이블 insert
+	public int insertPartiMemb(PrjVO vo);
 }

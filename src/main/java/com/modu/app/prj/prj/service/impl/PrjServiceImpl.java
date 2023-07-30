@@ -112,4 +112,48 @@ public class PrjServiceImpl implements PrjService {
 		map.put("cnt", cnt);
 		return map;
 	}
+
+	@Override
+	public String insertInvite(PrjVO vo) {
+		prjMapper.insertInvite(vo);
+		return vo.getId();
+	}
+
+	@Override
+	public PrjVO selectInvite(String tk) {
+		System.out.println("서비스 토큰"+tk);
+		return prjMapper.selectInvite(tk);
+	}
+
+	@Override
+	public int insertPartiMemb(PrjVO vo) {
+		PrjVO check = prjMapper.prjSession(vo);
+
+		if(check != null) {
+			// 이 사람이 원래 프로젝트에 있을때
+			return 0;
+		}else {
+			if((getPrjMemCnt(vo.getPrjUniNo()) < 10 && getPrjInfo(vo.getPrjUniNo()).getExdt() == null) 
+					|| getPrjInfo(vo.getPrjUniNo()).getExdt() != null) {
+				// 무료 플랜 이용중이고 10명 이하일때 / 유료플랜 = 초대가능
+				int result = prjMapper.insertPartiMemb(vo);
+				if(result == 1) {
+					// insert 성공
+					if(vo.getId() != null) {
+						// 참여테이블 쓴 거로 update
+						prjMapper.updateInvite(vo.getId());
+					}
+					return 1;
+				}else {
+					// insert 오류
+					return 2;
+				}
+			}else if((getPrjMemCnt(vo.getPrjUniNo()) >= 10 && getPrjInfo(vo.getPrjUniNo()).getExdt() == null)) {
+				// 무료 플랜 이용중인데 10명 이상 
+				return 3;
+			}else {
+				return 4;
+			}			
+		}
+	}
 }
