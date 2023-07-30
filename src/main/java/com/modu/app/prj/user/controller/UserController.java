@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -243,14 +244,15 @@ public class UserController {
 		return randomPassword.toString();
 	}
 	
+	//소셜로그인
 	@GetMapping("info/oauth/login")
 	public Map<String, Object> oauthLoginInfo(Authentication authentication,
 			@AuthenticationPrincipal OAuth2User oAuth2UserPrincipal) {
 		OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 		Map<String, Object> attributes = oAuth2User.getAttributes();
 		System.out.println(attributes);
-		// PrincipalOauth2UserService의 getAttributes내용과 같음
-		return attributes; // 세션에 담긴 user가져올 수 있음음
+		
+		return attributes; // 세션에 담긴 user
 	}
 
 	@GetMapping("info/loginInfo")
@@ -461,8 +463,20 @@ public class UserController {
 
 	// 관리자 유저목록
 	@GetMapping("admin/userList")
-	public String userList() {
-		return "admin/userList";
+	public String userList(Model model) {
+	    List<UserVO> userList = userService.userList();
+	    model.addAttribute("userList", userList);
+	    System.out.println(userList);
+	    return "admin/userList";
 	}
+	
+	// 관리자 유저목록 조회
+//	@PostMapping("admin/userList")
+//	public String userList(Model model) {
+//	    List<UserVO> userList = userService.userList();
+//	    model.addAttribute("userList", userList);
+//	    System.out.println(userList);
+//	    return "admin/userList";
+//	}
 
 }

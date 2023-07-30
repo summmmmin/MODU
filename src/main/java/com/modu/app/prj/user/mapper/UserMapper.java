@@ -1,5 +1,6 @@
 package com.modu.app.prj.user.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import com.modu.app.prj.user.service.UserVO;
@@ -19,6 +20,7 @@ public interface UserMapper {
 	public int updateId(Map<String, String> params);
 	public int updatePhone(Map<String, String> params);
 	public int quitUser(String id);
+	public List<UserVO> userList();
 
 	
 	

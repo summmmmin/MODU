@@ -132,7 +132,7 @@
 	</update>
 
 	<!-- 회원 리스트 -->
-	<select id="userList">
+	<select id="userList" resultType="UserVO">
 		SELECT *
 		FROM memb
 	</select>

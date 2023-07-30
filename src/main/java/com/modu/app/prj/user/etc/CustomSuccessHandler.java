@@ -27,13 +27,10 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 	        
 	        UserVO vo;
 	        
-	        // if userDetails is actually a PrincipalDetails instance, get UserVO from it
 	        if (userDetails instanceof PrincipalDetails) {
 	            vo = ((PrincipalDetails) userDetails).getUserVO();
 	        } else {
-	            // userDetails is not a PrincipalDetails instance, can't get UserVO
-	            // handle this case appropriately
-	            // for now, let's just print a message and return
+
 	            System.out.println("UserDetails instance is not a PrincipalDetails instance, can't get UserVO.");
 	            return;
 	        }

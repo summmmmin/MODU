@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 
 import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -164,6 +165,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 
 		return code.toString();
+	}
+	
+	@Override
+	public List<UserVO> userList() {
+		return userMapper.userList();
 	}
 
 }
