@@ -409,7 +409,15 @@
 			let submenu=document.querySelector('.brdinsert');
 
 			submenu.innerHTML += liTag;
+
+			let particiMembUniNo = data.particiMembUniNo;
 			
+ 			armClient.publish({
+				destination: "/pubArm/brd/"+particiMembUniNo,
+				body: JSON.stringify({
+					'particiMembUniNo' : particiMembUniNo
+				})
+		}); 			
 		})
 		.catch(err => console.log(err))
 	}
@@ -526,9 +534,12 @@
 	  // 연결 성공시
 	  armClient.onConnect = (frame) => {
 	    console.log('Connected: ' + frame);
-	    // 구독(채팅메세지)		
+	    // 구독(댓글등록)		
 	    armClient.subscribe('/subArm/reply/' + particiMembUniNo, (armMsg) => {
-	      showArm(JSON.parse(armMsg.body));
+	      replyArm(JSON.parse(armMsg.body));
+	    });
+	    armClient.subscribe('/subArm/brd/' + particiMembUniNo, (armMsg) => {
+	      brdArm(JSON.parse(armMsg.body));
 	    });
 	  };
 
@@ -542,8 +553,19 @@
 			console.error('Additional details: ' + frame.body);
 	};
 	
-	function showArm(arm) {
-		alert(arm.postUniNo);
+	//댓글 작성 시 보내 줄 알람
+	function replyArm(arm) {
+		alert('새로운 댓글 알림');
+	  }
+	
+	//게시판 작성 시 보내 줄 알람
+	function brdArm(arm) {
+		alert('새로운 게시글 알림');
+	  }
+	
+	//채팅 작성 시 보내 줄 알람
+	function brdArm(arm) {
+		alert('새로운 채팅 알림');
 	  }
 	
  </script>
