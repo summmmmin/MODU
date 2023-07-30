@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.modu.app.prj.user.mapper.UserMapper;
+import com.modu.app.prj.user.service.PrincipalDetails;
 import com.modu.app.prj.user.service.UserService;
 import com.modu.app.prj.user.service.UserVO;
 
@@ -36,14 +37,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserVO userVO = userMapper.loginCheck(username);
+	    UserVO userVO = userMapper.loginCheck(username);
 
-		if (userVO == null) {
-			System.out.println("유저정보 없음");
-			throw new UsernameNotFoundException("no user");
-		}
-		return userVO;
+	    if (userVO == null) {
+	        System.out.println("유저정보 없음");
+	        throw new UsernameNotFoundException("no user");
+	    }
+	    return new PrincipalDetails(userVO);
 	}
+
 
 	@Override
 	public String generateRandomToken() {
