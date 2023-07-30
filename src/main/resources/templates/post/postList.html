@@ -63,34 +63,31 @@
 				
 <!-- ========================게시판 삭제 Modal 시작 (성현)======================== -->
 <div class="modal fade text-left" id="deleteBrd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
- <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
- <div class="modal-content">
- <div class="modal-header bg-primary">
-<h5 class="modal-title white" id="myModalLabel160">게시판 삭제</h5>
-<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-<i data-feather="x"></i>
-</button>
-</div>
-<div class="modal-body">
-이 게시판을 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다.
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-<i class="bx bx-x d-block d-sm-none"></i>
-<span class="d-none d-sm-block">취소</span>
-</button>
-<button id="deleteBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="BrdDelete()">
-<i class="bx bx-check d-block d-sm-none"></i>
-<span class="d-none d-sm-block">확인</span>
-</button>
-</div>
-</div>
-</div>
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title white" id="myModalLabel160">게시판 삭제</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <i data-feather="x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        이 게시판을 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+          <i class="bx bx-x d-block d-sm-none"></i>
+          <span class="d-none d-sm-block">취소</span>
+        </button>
+        <button id="deleteBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="BrdDelete()">
+          <i class="bx bx-check d-block d-sm-none"></i>
+          <span class="d-none d-sm-block">확인</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 <!-- ========================게시판 삭제Modal 끗 ======================== -->
-
-
-
 
 		<div th:if="${#lists.isEmpty(postList)}">게시글이없습니다</div> <!--게시글없을때-->
 		<div th:unless="${#lists.isEmpty(postList)}"> <!--게시글있을때-->
@@ -693,13 +690,14 @@ $(document).ready(function() {
 
 <!-- 게시글 삭제 모달 띄우는 함수 (성현)  -->
 <script>
-$(document).ready(function() {
-  $("#deletBrdModal").on("click", function() {
-    $("#deleteBrd").modal("show");
+  $(document).ready(function() {
+    $("#deletBrdModal").on("click", function() {
+      $("#deleteBrd").modal("show");
+    });
   });
-});
-
 // 게시판 삭제
+
+
 function BrdDelete(){
 	fetch("BoardDelete",{
 		method : 'POST',
@@ -707,7 +705,7 @@ function BrdDelete(){
 			"Content-Type":"application/x-www-form-urlencoded"
 		},
 		body: 
-		"brdUniNo="+brdUniNo.value
+		"brdUniNo="+brdUniNo
 	})
 	.then(result=>result.json())
 	.then(data => {
@@ -718,17 +716,8 @@ function BrdDelete(){
 }
 </script>
 
-<script>
-/* let aaa = document.getElementsByClassName('aaa');
-
-for(let i=0; i<aaa.length; i++){
-	let bb = aaa[i].value;
-	console.log(bb)
-}
-console.log(aaa); */
-</script>
-
 	</div>
 </div>
+
 </body>
 </html>

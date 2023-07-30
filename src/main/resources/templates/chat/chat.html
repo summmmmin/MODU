@@ -497,7 +497,7 @@
 				const date = new Date(originalDateStr);
 				const formattedDate = `${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, "0")}. ${String(date.getDate()).padStart(2, "0")}. ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
 
-				if(chatMsg.chatParticiMembUniNo == chatWriter){	
+				if(chatMsg.chatParticiMembUniNo == chatWriter){
 
 					//내가 쓴 채팅
 					let cdiv = document.createElement('div');
