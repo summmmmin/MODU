@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
@@ -17,14 +18,17 @@ import com.modu.app.prj.user.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-	
+
 	@Autowired
 	UserService userService;
 	@Autowired
 	PrincipalOauth2UserService principalOauth2UserService;
 
+	private static final ClearSiteDataHeaderWriter.Directive[] SOURCE = { ClearSiteDataHeaderWriter.Directive.CACHE,
+			ClearSiteDataHeaderWriter.Directive.COOKIES, ClearSiteDataHeaderWriter.Directive.STORAGE,
+			ClearSiteDataHeaderWriter.Directive.EXECUTION_CONTEXTS };
 
-	@Bean // == @Component
+	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
@@ -40,33 +44,22 @@ public class WebSecurityConfig {
 	}
 
 	@Bean
-	   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	       http
-	           .csrf().disable()		//csrf공격방지
-	           .authorizeHttpRequests()	//요청설정
-	           .antMatchers("/", "/static/**", "/signup/**", "/sms/**", "/modu/**", "/**").permitAll()
-	           .anyRequest().authenticated()	// antMatchers 외의 기능은 권한요구(인증)
-	           .and()
-	           .formLogin()					// 로그인
-	           .passwordParameter("pwd")	// 비밀번호 받아옴
-	           .successHandler(authenticationSuccessHandler())	// 로그인 성공했을 경우
-	           .failureHandler(authenticationFailureHandler())
-	           .loginPage("/login")
-	           .failureUrl("/login?error=true") // 로그인 실패(비밀번호 틀림)
-	           .permitAll()
-	           .and()
-	           .logout((logout) -> logout
-						.logoutSuccessUrl("/login")
-						.invalidateHttpSession(true)
-						.permitAll())
-			.oauth2Login()				
-            	.loginPage("/login")		
-            	.successHandler(authenticationSuccessHandler())		// 로그인 성공
-            	.failureHandler(authenticationFailureHandler())		// 로그인 실패
-            	.userInfoEndpoint()			// 로그인 성공 후 사용자정보를 가져온다
-            	.userService(principalOauth2UserService);	//사용자정보를 처리
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.csrf().disable().authorizeHttpRequests()
+				.antMatchers("/", "/static/**", "/signup/**", "/sms/**", "/modu/**", "/**").permitAll().anyRequest()
+				.authenticated().and().formLogin().passwordParameter("pwd")
+				.successHandler(authenticationSuccessHandler()).failureHandler(authenticationFailureHandler())
+				.loginPage("/login").permitAll().and() 
+				.logout((logout) -> logout.logoutSuccessUrl("/login").invalidateHttpSession(true).permitAll())
+				.oauth2Login() // OAuth2기반의 로그인인 경우
+				.loginPage("/login") // 인증이 필요한 URL에 접근하면 /loginForm으로 이동
+				.successHandler(authenticationSuccessHandler()) // 로그인 성공하면 "/" 으로 이동
+				.failureHandler(authenticationFailureHandler()) // 로그인 실패 시 /loginForm으로 이동
+				.userInfoEndpoint() // 로그인 성공 후 사용자정보를 가져온다
+				.userService(principalOauth2UserService) // 사용자정보를 처리할 때 사용한다
 
-	       return http.build();
-	   }
+		;
 
+		return http.build();
+	}
 }

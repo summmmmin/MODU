@@ -22,6 +22,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
 		OAuth2User oAuth2User = super.loadUser(userRequest);
+		System.out.println(oAuth2User);
 
 		OAuth2UserInfo oAuth2UserInfo = null;
 		String provider = userRequest.getClientRegistration().getRegistrationId();
@@ -43,6 +44,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		String email = oAuth2UserInfo.getid();
 
 		UserVO byEmail = userMapper.idCheck(email);
+		System.out.println("byEmail : " + byEmail);
+
 
 		// DB에 없는 사용자라면 회원가입처리
 		if (byEmail == null) {
@@ -57,6 +60,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		    byEmail.setGrd("N");
 		    userMapper.signup(byEmail);
 		}
+
+		System.out.println("if > byEmail : " + byEmail);
 
 		return new PrincipalDetails(byEmail, oAuth2User.getAttributes());
 	}

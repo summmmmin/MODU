@@ -1,7 +1,6 @@
 package com.modu.app.prj.user.controller;
 
 import java.io.UnsupportedEncodingException;
-
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -10,7 +9,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,30 +16,31 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.modu.app.prj.user.mapper.UserMapper;
+import com.modu.app.prj.user.service.PrincipalDetails;
 import com.modu.app.prj.user.service.UserService;
 import com.modu.app.prj.user.service.UserVO;
 import com.modu.app.sms.service.MessageDTO;
 import com.modu.app.sms.service.SmsResponseDTO;
 import com.modu.app.sms.service.SmsService;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -243,6 +242,34 @@ public class UserController {
 
 		return randomPassword.toString();
 	}
+	
+	@GetMapping("info/oauth/login")
+	public Map<String, Object> oauthLoginInfo(Authentication authentication,
+			@AuthenticationPrincipal OAuth2User oAuth2UserPrincipal) {
+		OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+		Map<String, Object> attributes = oAuth2User.getAttributes();
+		System.out.println(attributes);
+		// PrincipalOauth2UserService의 getAttributes내용과 같음
+		return attributes; // 세션에 담긴 user가져올 수 있음음
+	}
+
+	@GetMapping("info/loginInfo")
+	public String loginInfo(Authentication authentication) {
+	    String result = "";
+	    Object principal = authentication.getPrincipal();
+
+	    if (principal instanceof PrincipalDetails) {
+	        PrincipalDetails principalDetails = (PrincipalDetails) principal;
+	        // OAuth2 로그인 처리
+	        result = "OAuth2 로그인 : " + principalDetails;
+	    } else if (principal instanceof UserVO) {
+	        // Form 로그인 처리
+	        UserVO user = (UserVO) principal;
+	        result = "Form 로그인 : " + user;
+	    }
+	    return result;
+	}
+
 
 	/*
 	 * 아래로는 로그인 유저 컨트롤러 아래로는 로그인 유저 컨트롤러 아래로는 로그인 유저 컨트롤러 아래로는 로그인 유저 컨트롤러

@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.modu.app.prj.user.service.PrincipalDetails;
 import com.modu.app.prj.user.service.UserVO;
 
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
@@ -51,7 +52,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
 		}
 
-		UserVO vo = (UserVO) authentication.getPrincipal();
+		UserVO vo = ((PrincipalDetails)authentication.getPrincipal()).getUserVO();
 		System.out.println(vo.getNm());
 
 		if (vo != null) {

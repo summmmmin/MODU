@@ -46,6 +46,9 @@ public class UserVO implements UserDetails{
 	
 	//소셜로그인 PROVIDER
 	private String providerID;
+	
+	// 소셜로그인 로그인경로
+	private String loginPath;
 
 	@Override
 	public String getPassword() {
