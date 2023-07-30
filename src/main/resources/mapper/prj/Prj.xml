@@ -71,6 +71,7 @@
 		  FROM prj_partici_memb
 		  WHERE prj_uni_no = #{prjUniNo}
 			AND memb_uni_no = #{membUniNo}
+			AND partici_yn = 'Y'
 	</select>
  	
  	<!-- 등급 공통코드 -->
@@ -156,12 +157,50 @@
  	<!-- 프로젝트의 회원 별 게시글,답글,채팅 수(기간내) -->
  	<select id="selectPrjCnt" parameterType="PrjVO" resultType="PrjVO">
  		SELECT  partici_memb_uni_no, prj_uni_no, memb_uni_no, att_no, 
- 				nnm, grd, partici_yn, prj_pubc_id, dept, pos, 
-		        cnt_post(partici_memb_uni_no, #{fromDt}, #{toDt}), 
-		        cnt_reply(partici_memb_uni_no, #{fromDt}, #{toDt}), 
-		        cnt_chat(partici_memb_uni_no, #{fromDt}, #{toDt})
+ 				nnm, grd, partici_yn, prj_pubc_id, dept, pos, FIND_CODE_NAME(GRD) AS CD,
+		        cnt_post(partici_memb_uni_no, #{fromDt}, #{toDt}) postcnt, 
+		        cnt_reply(partici_memb_uni_no, #{fromDt}, #{toDt}) replycnt, 
+		        cnt_chat(partici_memb_uni_no, #{fromDt}, #{toDt}) chatcnt
 		FROM    prj_partici_memb
 		WHERE   prj_uni_no = #{prjUniNo} and partici_yn='Y'
  	</select>
-
+	
+	<!-- 프로젝트 등급별 인원 -->
+	<select id="selectGrdCnt" parameterType="String" resultType="PrjVO">
+		SELECT COUNT(grd) memCnt, FIND_CODE_NAME(grd) cd
+		FROM   prj_partici_memb
+		WHERE  prj_uni_no = #{prjUniNo}	and partici_yn='Y'
+		GROUP BY grd
+		ORDER BY grd
+	</select>
+	
+	<!-- 프로젝트 초대(초대테이블 insert) -->
+	<insert id="insertInvite" parameterType="PrjVO" useGeneratedKeys="true" keyProperty="id">
+	    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+	        select LPAD(invite_seq.nextval, 5, '0')
+			from dual
+    	</selectKey>
+		INSERT INTO invite
+		VALUES(#{id}, #{tk}, #{prjUniNo}, #{grd}, #{email}, 'N', sysdate)
+	</insert>
+	
+	<!-- 참여테이블 조회 -->
+	<select id="selectInvite" parameterType="String" resultType="PrjVO">
+		SELECT id, prj prj_uni_no, grd, ck
+		FROM   invite
+		WHERE id||tk like #{tk}
+	</select>
+	
+	<!-- 초대받은 멤버 넣기 -->
+	<insert id="insertPartiMemb" parameterType="PrjVO">
+ 		INSERT INTO prj_partici_memb(partici_memb_uni_no, prj_uni_no, memb_uni_no, nnm, grd, partici_yn, prj_pubc_id)
+    	VALUES ('ppm'||prj_partici_seq.nextval, #{prjUniNo}, #{membUniNo}, #{nnm}, #{grd}, 'Y', #{prjPubcId})
+	</insert>
+	
+	<!-- 초대테이블 확인 여부 업뎃 -->
+	<update id="updateInvite" parameterType="String">
+		UPDATE invite
+		SET    ck = 'Y'
+		WHERE  id = #{id}
+	</update>
  </mapper>
