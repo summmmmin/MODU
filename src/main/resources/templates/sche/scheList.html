@@ -30,29 +30,39 @@
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,listMonth'
+        right: 'dayGridMonth'
       },
       eventClick: function(info) {
           console.log('이벤트: ' + info.event.title);
           let scheNo = info.event.extendedProps.scheUniNo;
           console.log(info.event.extendedProps);
-          console.log(info.event.url);
-          info.jsEvent.preventDefault();
+   		  let scheData = info.event.extendedProps;
+          fetch("scheInfo/"+scheData.sche_uni_no)
+		.then((response) => response.json())
+		.then((result) => {
+			let scheInfo = result.scheInfo;
+			console.log(result.partici);
+			$('#ttl').text(scheInfo.title);
+			$('#cntn').text(scheInfo.cntn);
+			if(result.partici.length > 0){
+			$('#partici').text(result.partici);
+			}else{
+				$('#partici').text('참여멤버가 없습니다')
+			}
+			document.getElementById('startDate').value =scheInfo.start;
+			// $('#startDate').text(scheInfo.start);
+			$('#finishDate').val(scheInfo.end); 
+		 })
+   		  
           if (info.event.url) {
               window.open(info.event.url);
             }
-          var $buttons = $('.sideWork');
-          var $modals = $('.custom-modal');
-          $modals.not('#modal' + scheNo).removeClass('show-modal');
-
-          $('#modal' + scheNo).toggleClass('show-modal');
-
-
-          // X버튼으로 닫기
-          $('.closeModalButton').click(function () {
-                $(this).closest('.custom-modal').removeClass('show-modal');
-          });
+          $("#scheInfo").modal("show");
       },
+      dateClick: function(info) {
+    	  console.log(info)
+    	  $("#scheInsert").modal("show");
+      },     
       dayMaxEventRows: true, // for all non-TimeGrid views
       views: {
         timeGrid: {
@@ -60,7 +70,7 @@
         }
       },
       initialDate: new Date(),
-      navLinks: true, // can click day/week names to navigate views
+      navLinks: false, // can click day/week names to navigate views
       businessHours: false, // display business hours
       editable: true,
       selectable: false,
@@ -72,11 +82,154 @@
     });
     calendar.render();
   });
+  
+
 </script>
 
 
   <div id='calendar'></div>
+  
+  <!-- 일정 생성 모달 -->
+                                              <div class="modal fade text-left" id="scheInsert" tabindex="-1"
+                                                role="dialog" aria-labelledby="myModalLabel3752" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+                                                    role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myModalLabel3752">일정 추가</h4>
+                                                            <button type="button" class="close" data-bs-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <i data-feather="x"></i>
+                                                            </button>
+                                                        </div>
+                                                        <form action="#" id="scheInsert1">
+                                                            <div class="modal-body">
+                                                                <label>제목: </label>
+                                                                <div class="form-group">
+                                                                    <input type="text" placeholder="제목을 입력해주세요"
+                                                                        class="form-control">
+                                                                </div>
+                                                                <label>내용: </label>
+                                                                <div class="form-group">
+                                                                    <input type="text" placeholder="내용을 입력해주세요"
+                                                                        class="form-control">
+                                                                </div>
+                                                                <div class="form-group">
+                                  								 	<div class="col-sm-10">
+									                       			<label class="input-group-text">초대멤버</label>
+																		<select class="choices form-select" multiple="multiple" id="cm">
+																		<option th:value="${i.particiMembUniNo}" th:each="i:${membList}">[[${i.nnm}]]</option>
+																	</select>
+																	</div>
+																</div>
+                                                                <label> </label>
+                                                                <div class="row">
+                                                                <div class="col-sm-5">
+                                                                <div class="form-group">
+                                                                    <input type="datetime-local"
+                                                                        class="form-control"></div>
+                                                                        </div>
+                                                                         &nbsp~&nbsp
+                                                                <div class="col-sm-5">
+                                                                <div class="form-group">
+                                                                <input type="datetime-local" placeholder="Email Address"
+                                                                        class="form-control"></div>
+                                  									            </div>
+                                  								</div>
+                                  								 
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-light-secondary"
+                                                                    data-bs-dismiss="modal">
+                                                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                                                    <span class="d-none d-sm-block">취소</span>
+                                                                </button>
+                                                                <button type="button" onclick="insertSche()" class="btn btn-primary ml-1"
+                                                                    data-bs-dismiss="modal">
+                                                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                                                    <span class="d-none d-sm-block">저장하기</span>
+                                                                </button>
+                                                            </div>
+                                                            </div>
+                                                        
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+            <!-- 일정 생성 모달 끝 -->
+                                              <div class="modal fade text-left" id="scheInfo" tabindex="-1"
+                                                role="dialog" aria-labelledby="myModalLabel37521" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+                                                    role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myModalLabel37521">일정 상세</h4>
+                                                            <button type="button" class="close" data-bs-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <i data-feather="x"></i>
+                                                            </button>
+                                                        </div>
+                                                            <div class="modal-body">
+                                                                <label>제목: </label>
+                                                                <div class="form-group">
+                                                                <p id="ttl"></p>
+                                                                </div>
+                                                                <label>참여멤버: </label>
+                                                                <div class="form-group">
+                                                                <p id="partici"></p>
+                                                                </div>
+                                                                <label>내용:</label>
+                                                                <div class="form-group">
+                                                                    <p id="cntn"></p>
+                                                                </div>
+                                                                <label> </label>
+                                                                <div class="row">
+                                                                <div class="col-sm-5">
+                                                                <div class="form-group">
+                                                                    <input type="datetime-local"
+                                                                        class="form-control" id="startDate"></div>
+                                                                        </div>
+                                                                         &nbsp~&nbsp
+                                                                <div class="col-sm-5">
+                                                                <div class="form-group">
+                                                                <input type="datetime-local" id="finishDate"
+                                                                        class="form-control"></div>
+                                  									            </div>
+                                  								</div>
+                                  								 
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-light-secondary"
+                                                                    data-bs-dismiss="modal">
+                                                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                                                    <span class="d-none d-sm-block">취소</span>
+                                                                </button>
+                                                                <button type="button" class="btn btn-primary ml-1"
+                                                                    data-bs-dismiss="modal">
+                                                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                                                    <span class="d-none d-sm-block">저장하기</span>
+                                                                </button>
+                                                            </div>
+                                                            </div>
+                                                    </div>
+                                                </div>
 
+            <!-- 일정 상세 보기 모달 -->
+            
+                     <script>
+                     function insertSche(){
+                   	  let scheData1 = $('#scheInsert1').serialize();
+                   	  console.log(scheData1)
+                   	  fetch("scheInsert",{
+                             method : 'post',
+                             body : scheData1
+                          })
+                          .then(result => result.json())
+                          .then(data => {
+                       	   console.log(data);
+                          })
+                     }
+                     </script>                       
+                                            
+<!-- 레이아웃 끝 -->
 </div>
 </html>
 

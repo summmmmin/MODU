@@ -4,10 +4,44 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.modu.app.prj.sche.mapper.ScheMapper">
  
- <!-- 프로젝트 리스트 -->
- <select id="scheList" resultType="scheVO" parameterType="String">
- select sche_uni_no,prj_uni_no,ttl title,partici_memb_uni_no,cntn,fg,fr_dt "start",to_dt "end"
- from sche
- where prj_uni_no=#{prjUniNo}
- </select>
+	 <!-- 일정 리스트 -->
+	 <select id="scheList" resultType="scheVO" parameterType="String">
+	 select sche_uni_no,prj_uni_no,ttl "title",partici_memb_uni_no,cntn,fg,fr_dt "start",to_dt "end"
+	 from sche
+	 where prj_uni_no=#{prjUniNo}
+	 </select>
+ 
+	 <!-- 일정 등록 -->
+	 <insert id="scheInsert" statementType="CALLABLE">
+			call CREATE_SCHE(
+					#{cntn},
+					#{fg},	
+					#{fgDt},
+					#{toDt},
+					#{ttl},
+					#{prjUniNo},
+					#{particiMembUniNo},
+					#{scheParticiMembUniNo,typeHandler=com.modu.app.oracle.OracleArrayHandler}
+					)
+	</insert>
+
+	<!-- 단건 조회 -->
+	<select id="scheInfo" resultType="scheVO" parameterType="String">
+	    select SCHE_UNI_NO, PRJ_UNI_NO, TTL "title", PARTICI_MEMB_UNI_NO, CNTN, FG, FR_DT "start", TO_DT "end"
+	    from  sche 
+	    where sche_uni_no=#{scheUniNo}
+	</select>
+	
+	<!-- 참여자들 -->
+	<select id="schePartici" resultType="scheVO">
+	SELECT SCHE_UNI_NO,FIND_NICKNAME(partici_memb_uni_no) particiMembUniNo
+	FROM SCHE_PARTICI
+	 where sche_uni_no=#{scheUniNo}
+	</select>
+
+	<!-- 일정 삭제 -->
+	<delete id = "scheDelete" parameterType="String">
+	delete from sche
+	where sche_uni_no=#{scheUniNo}
+	</delete>
  </mapper>

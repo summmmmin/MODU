@@ -237,51 +237,6 @@
 					}
 			
 			}
-/* 			// JavaScript
-			fetch('/modu/voteInsertForm')
-			    .then(res => res.json())
-			    .then(data => {
-			        let brdNm = document.querySelector('#brdNm');
-			        for (let i = 0; i < data.boardNm.length; i++) {
-			            let option = document.createElement('option');
-			            option.text = data.boardNm[i].boardNm;
-			            brdNm.appendChild(option);
-			        }
-			    })
-			    .catch(error => {
-			        console.error('Error fetching data:', error);
-			    }); */
-
-			
- 			
-			/* $.ajax({
-				url: "/modu/voteInsertForm",
-				method:"GET",
-				success: function(data){
-					console.log(data);
-					for(let i = 0 ; i <data.boardNm.length ; i++ ){
-						$('#brdSel').append($('#brdNm').add($('<option/>').text(data.boardNm[i].boardNm)));
-						
-					}
-				},
-				error: function(err){
-					console.log(err);
-				}
-			}) */
-			/* $.ajax("voteInsertForm")
-			.done(result=>{
-				for(let i = 0 ; i <result.boardNm.length ; i++ ){
-					console.log(result.boardNm[i].boardNm);
-				 let option = `<option>${result.boardNm[i].boardNm}</option>`;
-				 $('#brdNm').append(option);
-				
-				}
-				})
-				
-				 // optgroup.add($("<option></option>")
-				
-				/* $('#brdNm').add($('<option/>').text(result.boardNm[i].boardNm)); 
-				} */
 
 		</script>
 
