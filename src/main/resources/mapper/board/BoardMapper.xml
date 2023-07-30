@@ -31,13 +31,13 @@
 	</insert>
 
 	<!-- 게시판 삭제 -->
-	<delete id="DeleteBoard" parameterType="int">
+	<delete id="DeleteBoard" parameterType="BoardVO">
 		DELETE brd
 		WHERE brd_uni_no = #{brdUniNo}
 	</delete>
 
 	<!-- 게시판 수정 -->
-	<update id="BrdUpdate" parameterType="BoardVo">
+	<update id="BrdUpdate" parameterType="BoardVO">
 		UPDATE brd SET
 		board_nm = #{boardNm},
 		pubc_yn = #{pubcYn}

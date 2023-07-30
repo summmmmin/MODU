@@ -25,10 +25,12 @@
 <link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
 <link rel="stylesheet"
 	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-	
-			<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-		<script	src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 </head>
 
 <body>
@@ -74,7 +76,7 @@
 							<div id="boardList"></div></li>
 					</ul>
 					<!--/* ************************ End *************************** */-->
-
+					<p id="prjNo" style="display: none;">[[${session.prjUniNo}]]</p>
 					<!-- 즐겨찾기 등록 -->
 					<script> 
     function clickInsert(){
@@ -177,7 +179,8 @@
 								</a>
 									<ul class="dropdown-menu dropdown-menu-end"
 										aria-labelledby="dropdownMenuButton">
-										<li><a class="dropdown-item rburger" th:href="@{/scheList}">일정</a></li>
+										<li><a class="dropdown-item rburger"
+											th:href="@{/scheList}">일정</a></li>
 										<li><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
 										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
 										<li><a class="dropdown-item rburger" onclick="bmList()">즐겨찾기</a></li>
@@ -196,9 +199,7 @@
 											</div>
 										</div>
 									</div>
-									<div id="asdasdasd">
-									
-									</div>
+									<div id="asdasdasd"></div>
 								</a>
 								<ul class="dropdown-menu dropdown-menu-end"
 									aria-labelledby="dropdownMenuButton">
@@ -513,9 +514,9 @@
      	.done(result => $("#rsidebarContent").html(result))
      }
  	</script>
- 	
- 	<!-- 소켓 알람 -->
- <script>
+
+	<!-- 소켓 알람 -->
+	<script>
  let particiMembUniNo = '[[${session.particiMembUniNo}]]';
  
 // WebSocket 연결 설정
@@ -535,9 +536,14 @@
 	    armClient.subscribe('/subArm/reply/' + particiMembUniNo, (armMsg) => {
 	      replyArm(JSON.parse(armMsg.body));
 	    });
+	 // 구독(게시판 등록)
 	    armClient.subscribe('/subArm/brd/' + particiMembUniNo, (armMsg) => {
 	      brdArm(JSON.parse(armMsg.body));
 	    });
+	 // 구독(채팅 등록)
+	    armClient.subscribe('/subArm/chat/' + particiMembUniNo, (armMsg) => {
+		      chatArm(JSON.parse(armMsg.body));
+		    });
 	  };
 
 	//에러
@@ -561,12 +567,12 @@
 	  }
 	
 	//채팅 작성 시 보내 줄 알람
-	function brdArm(arm) {
-		alert('새로운 채팅 알림');
+	function chatArm(arm) {
+		alert('arm.cntn');
 	  }
 	
  </script>
- 
- 
+
+
 </body>
 </html>
