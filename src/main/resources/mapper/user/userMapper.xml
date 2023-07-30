@@ -23,19 +23,20 @@
 
 	<!-- 소셜로그인 아이디 체크 -->
 	<select id="idCheck" resultType="userVO">
-		SELECT 		
-				MEMB_UNI_NO
-				, ID
-				, PWD
-				, NM
-				, PH_NO
-				, SNS
-				, QUIT
-				, GRD
-				, REG_DT
-				, EMAIL_AUTH
-				, TOKEN
-				, PROVIDER_ID
+		SELECT
+		MEMB_UNI_NO
+		, ID
+		, PWD
+		, NM
+		,
+		PH_NO
+		, SNS
+		, QUIT
+		, GRD
+		, REG_DT
+		, EMAIL_AUTH
+		, TOKEN
+		, PROVIDER_ID
 		FROM memb
 		WHERE id=#{id}
 	</select>
@@ -137,9 +138,46 @@
 		FROM memb
 	</select>
 
+	<!-- 회원 수 -->
+	<select id="userCount" resultType="int">
+		SELECT COUNT(*)
+		FROM memb
+	</select>
+
+	<!-- 당일 가입한 회원 수 -->
+	<select id="newUsersCount" resultType="int">
+		SELECT COUNT(*)
+		FROM memb
+		WHERE TRUNC(reg_dt) = TRUNC(SYSDATE)
+	</select>
+
+	<!-- 월별 회원 가입 수 -->
+	<select id="monthlyNewUsersCount" resultType="String">
+		SELECT TO_CHAR(reg_dt, 'YYYY-MM') AS month
+		FROM memb
+		GROUP BY TO_CHAR(reg_dt, 'YYYY-MM')
+		ORDER BY month
+	</select>
+
+
+
+
+
+
 	<!-- 단건 유저 정보 조회(마이페이지) -->
-	<select id="myInfo">
-		SLEECT *
+	<select id="myInfo" resultType="UserVO">
+		SELECT 		MEMB_UNI_NO
+		, ID
+		, PWD
+		, NM
+		, PH_NO
+		, SNS
+		, QUIT
+		, GRD
+		, REG_DT
+		, EMAIL_AUTH
+		, TOKEN
+		, PROVIDER_ID
 		FROM memb
 		WHERE id=#{id}
 	</select>

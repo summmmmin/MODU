@@ -21,6 +21,12 @@ public interface UserMapper {
 	public int updatePhone(Map<String, String> params);
 	public int quitUser(String id);
 	public List<UserVO> userList();
+	public int userCount();
+	public int newUsersCount();
+	public List<String> monthlyNewUsersCount();
+	public UserVO myInfo(String id);
+	
+
 
 	
 	

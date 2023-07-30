@@ -171,5 +171,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public List<UserVO> userList() {
 		return userMapper.userList();
 	}
+	
+	@Override
+	public int userCount() {
+		return userMapper.userCount();
+	}
+	
+	@Override
+	public int newUsersCount() {
+		return userMapper.newUsersCount();
+	}
+	@Override
+	public UserVO myInfo(String id) {
+		return userMapper.myInfo(id);
+	}
+    @Override
+    public List<String> monthlyNewUsersCount() {
+        return userMapper.monthlyNewUsersCount();
+    }
 
 }

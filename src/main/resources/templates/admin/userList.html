@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
@@ -27,8 +26,14 @@
 	href="../assets/vendors/bootstrap-icons/bootstrap-icons.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-
 <script src="../assets/vendors/simple-datatables/simple-datatables.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+	console.log($.fn.modal ? '부트스트랩 로드O' : '부트스트랩 로드X');
+</script>
+
 <style>
 .sidebar {
 	position: fixed;
@@ -75,14 +80,13 @@
 	max-width: 1200px;
 	margin: 0 auto;
 }
-
 </style>
 </head>
 <body>
 	<div class="sidebar">
 		<h5>Admin Menu</h5>
 		<ul>
-			<li><a th:href="@{/admin/dashBoard}">Dashboard</a></li>
+			<li><a th:href="@{/admin/dashBoard}">대시보드</a></li>
 			<li><a th:href="@{/admin/userList}">유저목록</a></li>
 			<li><a href="#">Settings</a></li>
 		</ul>
@@ -97,9 +101,7 @@
 					</div>
 					<div class="col-12 col-md-6 order-md-2 order-first">
 						<nav aria-label="breadcrumb"
-							class="breadcrumb-header float-start float-lg-end">
-
-						</nav>
+							class="breadcrumb-header float-start float-lg-end"></nav>
 					</div>
 				</div>
 			</div>
@@ -118,7 +120,9 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="user : ${userList}">
+								<tr th:each="user : ${userList}" th:data-user-id="${user.id}"
+									class="user-row">
+
 									<td th:text="${user.nm}"></td>
 									<td th:text="${user.id}"></td>
 									<td th:text="${user.phNo}"></td>
@@ -131,14 +135,69 @@
 						</table>
 					</div>
 				</div>
-
 			</section>
+			<!-- 모달 -->
+			<div class="modal fade" id="userInfoModal" tabindex="-1"
+				aria-labelledby="userInfoModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="userInfoModalLabel">유저 정보</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<p>
+								이름: <span id="userName"></span>
+							</p>
+							<p>
+								이메일: <span id="userEmail"></span>
+							</p>
+							<p>
+								전화번호: <span id="userPhone"></span>
+							</p>
+							<p>
+								가입일자: <span id="userRegDt"></span>
+							</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">닫기</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-
 	<script>
-		let table1 = document.querySelector('#table1');
-		let dataTable = new simpleDatatables.DataTable(table1);
+		$(document).ready(function() {
+			let table1 = document.querySelector('#table1');
+			let dataTable = new simpleDatatables.DataTable(table1);
+
+			$(document).on('click', '.user-row', function() {
+				var userId = $(this).data('userId');
+				console.log(userId);
+
+				// 서버에 유저 정보 요청
+				$.ajax({
+					url : '/modu/admin/userList/' + userId,
+					method : 'POST',
+					dataType : 'json', 
+					success : function(data) {
+						$('#userName').text(data.nm);
+						$('#userEmail').text(data.id);
+						$('#userPhone').text(data.phNo);
+						$('#userRegDt').text(data.regDt);
+						$('#userInfoModal').modal('show');
+					},
+					error : function(error) {
+						console.error('에러 : ', error);
+					}
+				});
+			});
+		});
 	</script>
+
 </body>
 </html>
