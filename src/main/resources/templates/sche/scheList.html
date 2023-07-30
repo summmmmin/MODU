@@ -35,6 +35,8 @@
       eventClick: function(info) {
           console.log('이벤트: ' + info.event.title);
           let scheNo = info.event.extendedProps.scheUniNo;
+          console.log(info.event.extendedProps);
+          console.log(info.event.url);
           info.jsEvent.preventDefault();
           if (info.event.url) {
               window.open(info.event.url);
@@ -54,7 +56,7 @@
       dayMaxEventRows: true, // for all non-TimeGrid views
       views: {
         timeGrid: {
-          dayMaxEventRows: 3 // adjust to 6 only for timeGridWeek/timeGridDay
+          dayMaxEventRows: 6 // adjust to 6 only for timeGridWeek/timeGridDay
         }
       },
       initialDate: new Date(),
