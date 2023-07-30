@@ -43,10 +43,9 @@ import com.modu.app.prj.prj.service.PrjService;
 @Controller
 public class ChatController {
 	
-	// 현재 접속 중인 클라이언트의 세션을 저장하는 Set
+	// 현재 접속 중인 세션을 저장하는 Set?
     private static final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
 
-	
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
 	
@@ -62,7 +61,7 @@ public class ChatController {
 	@Autowired
 	PrjService prjService;
 	
-	//이거웹소켓?
+	//채팅메세지
 	@MessageMapping("/chat/msg") 
 	//@SendTo("/chat/msg/{chatrNo}")
 	public void chatMessage(ChatVO chatVO, FileVO fileVO) throws Exception {
@@ -79,20 +78,20 @@ public class ChatController {
 		messagingTemplate.convertAndSend("/sub/chat/"+chatVO.getChatrNo()+"/typing", chatVO);
 	}
 	
-	// 접속 시 세션 추가
+	// 접속시 세션추가
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
         sessions.add((WebSocketSession) event.getSource());
     }
 
-    // 접속 해제 시 세션 제거
+    // 접속해제시 세션제거
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         WebSocketSession session = (WebSocketSession) event.getSource();
         sessions.remove(session);
     }
 
-    // 채팅방의 접속자 수 업데이트
+    // 접속자 수 업데이트
     private int updateReadCount(String chatrNo) {
         int readCount = sessions.size(); // 참여자 수
         return readCount;
@@ -128,7 +127,7 @@ public class ChatController {
 	@ResponseBody
 	public ChatrDTO makeChatr(@RequestBody ChatrDTO chatrDTO, HttpSession session) {
 		
-		//채팅만드는사람
+		//채팅방만드는사람
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
 		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 		
