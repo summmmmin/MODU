@@ -376,31 +376,10 @@
 				.catch(err => console.log(err))
 
 			}
-
-			//보내기버튼누르면 sendMessage호출
-			document.getElementById('sendMsgBtn').addEventListener('click', sendMessage);
-
-			//타이핑 중일 때 sendTypingArm호출
-			document.getElementById('sendMsg').addEventListener('keydown', sendTypingArm)
 			
-			
-			//start of 웹소켓
-			let chatrNo = '[[${session.chatrNo}]]'
-			let chatWriter = '[[${session.chatParticiMembUniNo}]]';
-			let cntn = document.getElementById('sendMsg').value;
-			
-			// WebSocket 연결 설정
-			const stompClient = new StompJs.Client({
-    		//brokerURL: 'ws://192.168.0.27/modu/socketserver' // WebSocket 서버 URL
-				brokerURL: 'ws://localhost/modu/socketserver'
-			});
-
-			// 페이지 로드시 
-			window.addEventListener("load", function(event) {
-				//웹소켓 연결
-				stompClient.activate();
-
-				//이전 채팅메세지 전부 읽음 처리
+			//이전 채팅메세지 전부 읽음 처리
+			function readChatMsg(){
+				
 				let chatrNo = '[[${session.chatrNo}]]';
 				let chatParticiMembUniNo = '[[${session.chatParticiMembUniNo}]]';
 				let readChat = {};
@@ -421,6 +400,36 @@
 				})
 				.catch(err => console.log(err))
 
+			}
+
+			//보내기버튼누르면 sendMessage호출
+			document.getElementById('sendMsgBtn').addEventListener('click', sendMessage);
+
+			//타이핑 중일 때 sendTypingArm호출
+			document.getElementById('sendMsg').addEventListener('keydown', sendTypingArm)
+			
+			
+			//start of 웹소켓
+			let chatrNo = '[[${session.chatrNo}]]'
+			let chatWriter = '[[${session.chatParticiMembUniNo}]]';
+			let cntn = document.getElementById('sendMsg').value;
+
+			let userCount = 0;
+
+			
+			// WebSocket 연결 설정
+			const stompClient = new StompJs.Client({
+    		//brokerURL: 'ws://192.168.0.27/modu/socketserver' // WebSocket 서버 URL
+				brokerURL: 'ws://localhost/modu/socketserver'
+			});
+
+			// 페이지 로드시 
+			window.addEventListener("load", function(event) {
+				//웹소켓 연결
+				stompClient.activate();
+				
+				//이전 채팅메세지 전부 읽음 처리
+				readChatMsg();
 			});
 
 			// 연결 성공시
