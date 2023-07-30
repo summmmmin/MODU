@@ -1,10 +1,14 @@
 package com.modu.app.prj.chat.controller;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.lang.Nullable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -18,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.messaging.SessionConnectedEvent;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import com.modu.app.prj.chat.service.ChatChmVO;
 import com.modu.app.prj.chat.service.ChatDTO;
@@ -36,6 +43,10 @@ import com.modu.app.prj.prj.service.PrjService;
 @Controller
 public class ChatController {
 	
+	// 현재 접속 중인 클라이언트의 세션을 저장하는 Set
+    private static final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
+
+	
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
 	
@@ -52,7 +63,7 @@ public class ChatController {
 	PrjService prjService;
 	
 	//이거웹소켓?
-	@MessageMapping("/chat/msg") // pub
+	@MessageMapping("/chat/msg") 
 	//@SendTo("/chat/msg/{chatrNo}")
 	public void chatMessage(ChatVO chatVO, FileVO fileVO) throws Exception {
 	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행
@@ -67,7 +78,26 @@ public class ChatController {
 		// String typingArm = chatVO.getNnm() + "is typing"; //"'닉네임' is typing"
 		messagingTemplate.convertAndSend("/sub/chat/"+chatVO.getChatrNo()+"/typing", chatVO);
 	}
+	
+	// 접속 시 세션 추가
+    @EventListener
+    public void handleWebSocketConnectListener(SessionConnectedEvent event) {
+        sessions.add((WebSocketSession) event.getSource());
+    }
 
+    // 접속 해제 시 세션 제거
+    @EventListener
+    public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+        WebSocketSession session = (WebSocketSession) event.getSource();
+        sessions.remove(session);
+    }
+
+    // 채팅방의 접속자 수 업데이트
+    private int updateReadCount(String chatrNo) {
+        int readCount = sessions.size(); // 참여자 수
+        return readCount;
+    }
+    
 	//채팅방으로이동
 	@GetMapping("/chat") 
 	public String goChatPage(String chatrNo, Model model, ChatrParticiVO cptvo, HttpSession session) {
