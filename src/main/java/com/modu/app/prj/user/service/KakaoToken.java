@@ -75,7 +75,7 @@ public class KakaoToken {
     public HashMap<String, Object> getUserInfo (String access_Token) {
 
         //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
-        HashMap<String, Object> userInfo = new HashMap<>();
+        HashMap<String, Object> KakaoVO = new HashMap<>();
         String reqURL = "https://kapi.kakao.com/v2/user/me";
         try {
             URL url = new URL(reqURL);
@@ -106,13 +106,15 @@ public class KakaoToken {
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
             String email = kakao_account.getAsJsonObject().get("email").getAsString();
 
-            userInfo.put("nickname", nickname);
-            userInfo.put("email", email);
+            KakaoVO.put("nickname", nickname);
+            KakaoVO.put("email", email);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return userInfo;
+        return KakaoVO;
     }
+    
+    
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,14 +15,26 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.modu.app.prj.user.mapper.UserMapper;
+import com.modu.app.prj.user.service.KakaoVO;
 import com.modu.app.prj.user.service.UserService;
 import com.modu.app.prj.user.service.UserVO;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
+	
+	SqlSession sqlsession;
+	
 	@Autowired
 	UserMapper userMapper;
+	
+	@Autowired
+	public UserServiceImpl(SqlSession sqlsession) {
+		super();
+		this.sqlsession = sqlsession;
+	}
 
+	
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserVO userVO = userMapper.loginCheck(username);
@@ -150,5 +163,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 
 		return code.toString();
+	}
+	
+	@Override
+	public int kakaoinsert(KakaoVO kakaoVO) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	@Override
+	public int kakaoinsertNull(KakaoVO kakaoVO) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

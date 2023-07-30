@@ -1,5 +1,6 @@
 package com.modu.app.prj.user.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public interface UserService {
@@ -17,4 +18,6 @@ public interface UserService {
 	public String emailCode();
 	public String updatePhone(Map<String, String> params);
 	public int quitUser(String id);
+	public int kakaoinsert(HashMap<String, Object> kakaoVO);
+	public int kakaoinsertNull(HashMap<String, Object> kakaoVO);
 }

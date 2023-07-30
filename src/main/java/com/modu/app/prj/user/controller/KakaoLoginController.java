@@ -24,7 +24,7 @@ public class KakaoLoginController {
 	KakaoToken kakaoToken;
 
 	@ResponseBody
-	@GetMapping("kakao")	//그냥 sout출력용 주소, 실제로는 없는 주소가 맞음
+	@GetMapping("oauth/kakao")	//그냥 sout출력용 주소, 실제로는 없는 주소가 맞음
 	public void kakaoCallback(@RequestParam String code) {
 		String access_Token = kakaoToken.getKaKaoAccessToken(code);
 		System.out.println("카카오 토큰 발급 : " + access_Token);

@@ -59,6 +59,70 @@
 		)
 	</insert>
 
+	<!-- 카카오유저 회원가입 -->
+	<insert id=kakaoinsert " parameterMap="KakaoVO">
+		INSERT INTO memb (
+		MEMB_UNI_NO
+		, ID
+		, PWD
+		, NM
+		, PH_NO
+		, SNS
+		, QUIT
+		, GRD
+		, REG_DT
+		,
+		EMAIL_AUTH
+		, TOKEN
+		)
+		VALUES (
+		'mt' ||
+		memb_seq.nextval
+		,#{email}
+		,'정보없음'
+		,#{nickname}
+		,'정보없음'
+		,'Y'
+		,'N'
+		,'N'
+		,sysdate
+		,'Y'
+		,#{Token}
+		)
+	</insert>
+
+	<!-- 카카오유저 회원가입2(이메일 거부) -->
+	<insert id=kakaoinsertNull" parameterMap="KakaoVO">
+		INSERT INTO memb (
+		MEMB_UNI_NO
+		, ID
+		, PWD
+		, NM
+		, PH_NO
+		, SNS
+		, QUIT
+		, GRD
+		, REG_DT
+		,
+		EMAIL_AUTH
+		, TOKEN
+		)
+		VALUES (
+		'mt' ||
+		memb_seq.nextval
+		,'정보없음'
+		,'정보없음'
+		,#{nickname}
+		,'정보없음'
+		,'Y'
+		,'N'
+		,'N'
+		,sysdate
+		,'Y'
+		,#{Token}
+		)
+	</insert>
+
 	<!-- 아이디 활성화 -->
 	<update id="updateEmailAuthStatus">
 		UPDATE memb
@@ -144,14 +208,16 @@
 	<!-- 회원 아이디 변경 -->
 	<update id="updateId" parameterType="map">
 		UPDATE memb
-		SET id = #{newEmail}
+		SET id =
+		#{newEmail}
 		WHERE id = #{id}
 	</update>
 
 	<!-- 회원 휴대폰번호 변경 -->
 	<update id="updatePhone" parameterType="map">
 		UPDATE memb
-		SET ph_no = #{phNo}
+		SET ph_no =
+		#{phNo}
 		WHERE id = #{id}
 	</update>
 
