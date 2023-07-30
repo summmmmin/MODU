@@ -10,15 +10,6 @@ import lombok.Data;
 
 @Data
 public class UserVO implements UserDetails{
-//	MEMB_UNI_NO NOT NULL VARCHAR2(10) 
-//	ID          NOT NULL VARCHAR2(30) 
-//	PWD         NOT NULL VARCHAR2(32) 
-//	NM          NOT NULL VARCHAR2(20) 
-//	PH_NO                VARCHAR2(13) 
-//	SNS         NOT NULL CHAR(1)      
-//	QUIT        NOT NULL CHAR(1)      
-//	GRD         NOT NULL CHAR(1)      
-//	REG_DT      NOT NULL DATE  
 	
 	//회원 고유번호
 	private String membUniNo;
@@ -52,6 +43,9 @@ public class UserVO implements UserDetails{
 	
 	//아이디 고유 토큰값(이메일 인증에 필요)
 	private String Token;
+	
+	//소셜로그인 PROVIDER
+	private String providerId;
 
 	@Override
 	public String getPassword() {

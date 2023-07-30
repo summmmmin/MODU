@@ -21,6 +21,12 @@
 		id = #{id}
 	</select>
 
+	<!-- 소셜로그인 아이디 체크 -->
+	<select id="idCheck" resultType="String">
+		SELECT id
+		FROM memb
+		WHERE id=#{id}
+	</select>
 	<!-- 휴대폰번호 중복체크 -->
 	<select id="phNoVaild" resultType="int">
 		SELECT COUNT(*) FROM memb
@@ -42,6 +48,7 @@
 		, REG_DT
 		, EMAIL_AUTH
 		, TOKEN
+		, PROVIDER_ID
 		)
 		VALUES (
 		'mt' ||
@@ -56,72 +63,10 @@
 		,sysdate
 		,'N'
 		,#{Token}
+		,#{PROVIDER_ID}
 		)
 	</insert>
 
-	<!-- 카카오유저 회원가입 -->
-	<insert id=kakaoinsert " parameterMap="KakaoVO">
-		INSERT INTO memb (
-		MEMB_UNI_NO
-		, ID
-		, PWD
-		, NM
-		, PH_NO
-		, SNS
-		, QUIT
-		, GRD
-		, REG_DT
-		,
-		EMAIL_AUTH
-		, TOKEN
-		)
-		VALUES (
-		'mt' ||
-		memb_seq.nextval
-		,#{email}
-		,'정보없음'
-		,#{nickname}
-		,'정보없음'
-		,'Y'
-		,'N'
-		,'N'
-		,sysdate
-		,'Y'
-		,#{Token}
-		)
-	</insert>
-
-	<!-- 카카오유저 회원가입2(이메일 거부) -->
-	<insert id=kakaoinsertNull" parameterMap="KakaoVO">
-		INSERT INTO memb (
-		MEMB_UNI_NO
-		, ID
-		, PWD
-		, NM
-		, PH_NO
-		, SNS
-		, QUIT
-		, GRD
-		, REG_DT
-		,
-		EMAIL_AUTH
-		, TOKEN
-		)
-		VALUES (
-		'mt' ||
-		memb_seq.nextval
-		,'정보없음'
-		,'정보없음'
-		,#{nickname}
-		,'정보없음'
-		,'Y'
-		,'N'
-		,'N'
-		,sysdate
-		,'Y'
-		,#{Token}
-		)
-	</insert>
 
 	<!-- 아이디 활성화 -->
 	<update id="updateEmailAuthStatus">
@@ -157,7 +102,6 @@
 		SET QUIT='Y'
 		WHERE memb_uni_no = #{membUniNo}
 	</update>
-
 
 	<!-- 아이디 찾기 -->
 	<select id="idSearch" parameterType="UserVO" resultType="UserVO">

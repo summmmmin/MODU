@@ -1,6 +1,7 @@
 package com.modu.app.prj.user.controller;
 
 import java.io.UnsupportedEncodingException;
+
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -34,7 +35,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.modu.app.prj.user.mapper.UserMapper;
-import com.modu.app.prj.user.service.KakaoToken;
 import com.modu.app.prj.user.service.UserService;
 import com.modu.app.prj.user.service.UserVO;
 import com.modu.app.sms.service.MessageDTO;
@@ -54,8 +54,6 @@ public class UserController {
 	@Autowired
 	UserMapper userMapper;
 
-	@Autowired
-	KakaoToken kakaoToken;
 
 	private final SmsService smsService;
 

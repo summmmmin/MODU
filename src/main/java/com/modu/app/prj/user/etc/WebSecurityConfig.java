@@ -1,5 +1,6 @@
 package com.modu.app.prj.user.etc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,28 +8,38 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 
+import com.modu.app.prj.user.service.PrincipalOauth2UserService;
+import com.modu.app.prj.user.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 	
-		@Bean   //== @Component
-	   PasswordEncoder passwordEncoder() {
-	      return new BCryptPasswordEncoder();
-	   }
-	   
-	   @Bean
-	   CustomFailureHandler authenticationFailureHandler() {
-	      return new CustomFailureHandler();
-	   }
-	   
-	   @Bean
-	   CustomSuccessHandler authenticationSuccessHandler() {
-	      return new CustomSuccessHandler();
-	   }
-	   
-	   @Bean
+	@Autowired
+	UserService userService;
+	@Autowired
+	PrincipalOauth2UserService principalOauth2UserService;
+
+
+	@Bean // == @Component
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	CustomFailureHandler authenticationFailureHandler() {
+		return new CustomFailureHandler();
+	}
+
+	@Bean
+	CustomSuccessHandler authenticationSuccessHandler() {
+		return new CustomSuccessHandler();
+	}
+
+	@Bean
 	   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	       http
 	           .csrf().disable()		//csrf공격방지
@@ -44,7 +55,16 @@ public class WebSecurityConfig {
 	           .failureUrl("/login?error=true") // 로그인 실패(비밀번호 틀림)
 	           .permitAll()
 	           .and()
-	           .logout((logout) -> logout.permitAll());
+				.logout((logout) -> logout
+						.logoutSuccessUrl("/")
+						.invalidateHttpSession(true)
+						.permitAll())
+			.oauth2Login()				// OAuth2기반의 로그인
+            .loginPage("/login")		// 인증이 필요한 URL에 접근하면 /loginForm으로 이동
+            .successHandler(authenticationSuccessHandler())		// 로그인 성공하면 "/" 으로 이동
+            .failureHandler(authenticationFailureHandler())		// 로그인 실패 시 /loginForm으로 이동
+            .userInfoEndpoint()			// 로그인 성공 후 사용자정보를 가져온다
+            .userService(principalOauth2UserService);	//사용자정보를 처리할 때 사용한다
 
 	       return http.build();
 	   }
