@@ -9,17 +9,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.modu.app.prj.prj.service.PrjService;
+import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
 
 
 
 
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
-	   
+	@Autowired   
+	PrjService prjService;
+	
 	   @Override
 	   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 	         Authentication authentication) throws IOException, ServletException {
@@ -60,6 +65,28 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 	      
 	      if (vo != null) {
 	          session.setAttribute("user", vo);
+	          String inviteTk = (String) session.getAttribute("inviteTk");
+	          if(inviteTk != null) {
+	        	  PrjVO invite = prjService.selectInvite(inviteTk);
+	        	  invite.setMembUniNo(vo.getMembUniNo());
+				  invite.setNnm(vo.getNm());
+				  invite.setPrjPubcId(vo.getId());
+	        	  int result = prjService.insertPartiMemb(invite);
+					if(result == 1) {
+						System.out.println("초대 성공");
+					}else if(result == 2) {
+						System.out.println("초대 insert 오류");
+					}else if(result == 3) {
+						System.out.println("무료 플랜 초대 10명 초과");
+					}else if(result == 4) {
+						System.out.println("초대 오류");
+					}
+
+				  // session token 삭제
+				  session.removeAttribute("inviteTk");
+	          }else {
+	        	  
+	          }
 	      }
 	      
 	      response.sendRedirect("/modu/prjList");
