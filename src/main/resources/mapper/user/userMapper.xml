@@ -22,7 +22,7 @@
 	</select>
 
 	<!-- 소셜로그인 아이디 체크 -->
-	<select id="idCheck" resultType="String">
+	<select id="idCheck" resultType="userVO">
 		SELECT id
 		FROM memb
 		WHERE id=#{id}

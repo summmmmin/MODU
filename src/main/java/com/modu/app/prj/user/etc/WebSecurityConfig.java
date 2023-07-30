@@ -60,11 +60,11 @@ public class WebSecurityConfig {
 						.invalidateHttpSession(true)
 						.permitAll())
 			.oauth2Login()				
-            .loginPage("/login")		
-            .successHandler(authenticationSuccessHandler())		// 로그인 성공
-            .failureHandler(authenticationFailureHandler())		// 로그인 실패
-            .userInfoEndpoint()			// 로그인 성공 후 사용자정보를 가져온다
-            .userService(principalOauth2UserService);	//사용자정보를 처리
+            	.loginPage("/login")		
+            	.successHandler(authenticationSuccessHandler())		// 로그인 성공
+            	.failureHandler(authenticationFailureHandler())		// 로그인 실패
+            	.userInfoEndpoint()			// 로그인 성공 후 사용자정보를 가져온다
+            	.userService(principalOauth2UserService);	//사용자정보를 처리
 
 	       return http.build();
 	   }

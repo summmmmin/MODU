@@ -34,11 +34,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 			oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
 			loginPath = "카카오";
 		}
-
+    
 		String providerId = oAuth2UserInfo.getProviderId();
 
 		String uuid = UUID.randomUUID().toString().substring(0, 6);		//소셜로그인은 랜덤비밀번호
-		String password = scpwd.encode("패스워드" + uuid);
+		String password = scpwd.encode("패스워드" + uuid); 
 		String name = oAuth2UserInfo.getnm();
 		String email = oAuth2UserInfo.getid();
 
@@ -52,7 +52,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		    byEmail.setPwd(password);
 		    byEmail.setPhNo("정보없음");
 		    byEmail.setSns(loginPath);
-		    byEmail.setId(providerId);
+		    byEmail.setProviderID(providerId);
 		    byEmail.setGrd("N");
 		    userMapper.signup(byEmail);
 		}
