@@ -12,14 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.sche.service.ScheService;
 import com.modu.app.prj.sche.service.ScheVO;
-import com.modu.app.prj.vote.service.VoteVO;
 
 @Controller
 public class ScheController {
@@ -57,7 +55,7 @@ public class ScheController {
 	//투표 등록
 	@PostMapping("scheInsert")
 	@ResponseBody
-	public String voteInsert(HttpSession session,@RequestBody ScheVO vo) {
+	public String scheInsert(HttpSession session, @RequestBody ScheVO vo) {
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		
@@ -68,6 +66,7 @@ public class ScheController {
 	
 	//삭제
 	@PostMapping("scheDelte")
+	@ResponseBody
 	public int deleteSche(@RequestBody ScheVO vo) {
 		if(scheService.scheDelete(vo.getScheUniNo()) >0) {
 			return 1;

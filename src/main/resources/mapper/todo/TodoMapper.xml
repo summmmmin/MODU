@@ -45,7 +45,7 @@
 	<!-- 할일 생성-->
 	<insert id="insertTodo" parameterType="TodoVO">
 	<selectKey keyProperty="todoUniNo" resultType="String" order="BEFORE">
-			SELECT 't' || (MAX(TO_NUMBER(SUBSTR(todo_uni_no, 3)))+1) FROM todo
+			SELECT 't' || TODO_SEQ.nextVal from dual
 		</selectKey>
 	insert into todo(todo_uni_no,fr_dt,to_dt,mgr,cm,writer,cntn,pct,prj_uni_no,ttl)
 	values(#{todoUniNo},#{frDt},#{toDt},#{mgr},#{cm},#{writer},#{cntn},'P01',#{prjUniNo},#{ttl})

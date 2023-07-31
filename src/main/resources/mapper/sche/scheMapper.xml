@@ -6,7 +6,7 @@
  
 	 <!-- 일정 리스트 -->
 	 <select id="scheList" resultType="scheVO" parameterType="String">
-	 select sche_uni_no,prj_uni_no,ttl "title",partici_memb_uni_no,cntn,fg,fr_dt "start",to_dt "end"
+	 select sche_uni_no,prj_uni_no,title,partici_memb_uni_no,cntn,fg,fr_dt "start",to_dt "end"
 	 from sche
 	 where prj_uni_no=#{prjUniNo}
 	 </select>
@@ -15,10 +15,9 @@
 	 <insert id="scheInsert" statementType="CALLABLE">
 			call CREATE_SCHE(
 					#{cntn},
-					#{fg},	
-					#{fgDt},
-					#{toDt},
-					#{ttl},
+					#{start},
+					#{end},
+					#{title},
 					#{prjUniNo},
 					#{particiMembUniNo},
 					#{scheParticiMembUniNo,typeHandler=com.modu.app.oracle.OracleArrayHandler}
@@ -27,7 +26,7 @@
 
 	<!-- 단건 조회 -->
 	<select id="scheInfo" resultType="scheVO" parameterType="String">
-	    select SCHE_UNI_NO, PRJ_UNI_NO, TTL "title", PARTICI_MEMB_UNI_NO, CNTN, FG, FR_DT "start", TO_DT "end"
+	    select SCHE_UNI_NO, PRJ_UNI_NO, title, PARTICI_MEMB_UNI_NO, CNTN, FG, FR_DT "start", TO_DT "end"
 	    from  sche 
 	    where sche_uni_no=#{scheUniNo}
 	</select>
