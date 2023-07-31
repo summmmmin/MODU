@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.modu.app.prj.bm.service.BmService;
 import com.modu.app.prj.bm.service.BmVO;
+import com.modu.app.prj.board.service.BoardService;
+import com.modu.app.prj.board.service.BoardVO;
 import com.modu.app.prj.file.service.FileService;
 import com.modu.app.prj.file.service.FileVO;
 import com.modu.app.prj.post.service.PostService;
@@ -30,15 +32,20 @@ public class PostController {
 	@Autowired
 	BmService bmService;
 
+	@Autowired
+	BoardService boardService;
+	
 	// 전체조회페이지이동
 	@GetMapping("postList")
 	public String postList(Model model, String brdUniNo, HttpSession session) {
 		model.addAttribute("brdUniNo", brdUniNo);
 		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
-
 		BmVO vo = new BmVO();
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		model.addAttribute("postbm", bmService.PostBmList(vo));
+		BoardVO vo1 = new BoardVO();
+		vo1.setBrdUniNo(brdUniNo);
+		model.addAttribute("checkNM", boardService.brdNm(vo1));
 	
 		return "post/postList";
 	}

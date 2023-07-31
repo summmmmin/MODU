@@ -38,4 +38,10 @@ public class BoardServiceImpl implements BoardService {
 	public int BrdUpdate(BoardVO vo) {
 		return boardMapper.BrdUpdate(vo);
 	}
+	
+	//PostControl에 쓰일 List
+	@Override
+	public List<BoardVO> brdNm(BoardVO vo) {
+		return boardMapper.brdNm(vo);
+	}
 }
