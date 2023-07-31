@@ -433,14 +433,14 @@
 			document.getElementById('sendMsg').addEventListener('keydown', sendTypingArm)
 			
 			
-			//start of 웹소켓
+			//start of 웹소켓 - 성현
 			let chatrNo = '[[${session.chatrNo}]]'
 			let chatWriter = '[[${session.chatParticiMembUniNo}]]';
 			let cntn = document.getElementById('sendMsg').value;
 			
 			// WebSocket 연결 설정
 			const stompClient = new StompJs.Client({
-    		brokerURL: 'ws://192.168.219.101/modu/socketserver' // WebSocket 서버 URL
+    		brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
 			});
 
 			// 페이지 로드시 웹소켓 연결
@@ -534,6 +534,16 @@
 												 'writeDt' : writeDt})
 	 											})		
 							}
+						
+						//채팅 전송 알람 (성현)- 아직 본인이 보내면 본인한테만 알람 옴
+						console.log(data);
+			 			armClient.publish({
+							destination: "/pubArm/chat/"+particiMembUniNo,
+							body: JSON.stringify({
+								'particiMembUniNo' : particiMembUniNo
+							})
+					});
+						
 						})						
 					.catch(err => console.log(err))
 			}
