@@ -17,8 +17,12 @@
 		<!-- ============= 게시판 수정, 삭제 (성현) =============-->
 		
 <!-- 값 찾아오기 귀찮아서 이렇게 만듦 ! (성현) -->
-<p id="brdNo" style="display:none">[[${brdUniNo}]]</p> 
+<p id="brdNo" style="display:none">[[${brdUniNo}]]</p>
+<p id="brdNo123">[[${particiMembUniNo}]]</p>
 <p id="prjNo" style="display:none">[[${session.prjUniNo}]]</p>
+<p id="particiNo">[[${session.particiMembUniNo}	]]</p> <!-- 현재 내 참여 번호와 게시판 테이블의 particiMemb이거랑 비교해야함 -->
+<p id="particiNo11">[[${particiMembUniNo}]]</p>
+<p></p>
 <div class="dropdown"> <!--/* 게시판 생성자만 이 Div가 나오게 수정  */-->
 <button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 <div class="postDDM dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -358,6 +362,8 @@
 						})
 						.then(result => result.json())
 						.then(data => {
+							let cntn = data.cntn
+							console.log(cntn);
 							//rInput.value = '';
 							showReplyList()
 							rInput[2].value = '';
@@ -367,7 +373,8 @@
 								destination: "/pubArm/reply/"+particiMembUniNo,
 								body: JSON.stringify({
 									'postUniNo': data.postUniNo,
-									'particiMembUniNo' : particiMembUniNo
+									'particiMembUniNo' : particiMembUniNo,
+									'cntn' : cntn
 								})
 						});
 						})
