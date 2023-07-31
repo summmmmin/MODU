@@ -22,6 +22,5 @@ public interface BmService {
 	// 즐겨찾기 해제
 	public int BmDelete(BmVO vo);
 	
-	
 	public List<String> PostBmList(BmVO vo);
 }

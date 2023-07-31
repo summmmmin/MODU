@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.board.service.BoardService;
@@ -27,7 +26,7 @@ public class BoardController {
 
 	@Autowired
 	PrjService prjService;
-
+	
 	// 프로젝트 메인페이지
 	@GetMapping("/main")
 	public String BoardList(Model model, PrjVO prjVO, HttpServletRequest request) {
@@ -51,9 +50,16 @@ public class BoardController {
 		} else {
 			vo.setPubcYn("N");
 		}
-		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		boardService.InsertBoard(vo);
+		String prjNo = (String)session.getAttribute("prjUniNo");
+		String particiMembUniNo = (String)session.getAttribute("particiMembUniNo");
+		
+		 if((boardService.BrdCount(prjNo) < 4 && prjService.getPrjInfo(prjNo).getExdt() == null) ||
+				 prjService.getPrjInfo(prjNo).getExdt() != null) { 
+			 
+			 vo.setParticiMembUniNo(particiMembUniNo);
+			 vo.setPrjUniNo(prjNo);
+			 boardService.InsertBoard(vo);
+		 }
 		return vo;
 	}
 
@@ -67,17 +73,16 @@ public class BoardController {
 		model.addAttribute("Brd", boardService.BoardList(brd));
 		return "/boardLIst/boardList";
 	}
-	
+
 	// 게시판 삭제
 	@PostMapping("BoardDelete")
 	@ResponseBody
 	public String boardDelete(BoardVO vo) {
-		System.out.println(vo.getBrdUniNo());
 		boardService.DeleteBoard(vo.getBrdUniNo());
 		return vo.getBrdUniNo();
 	}
-	
-	//게시판 업데이트
+
+	// 게시판 업데이트
 	@PostMapping("BrdUpdate")
 	@ResponseBody
 	public BoardVO BrdUpdate(BoardVO vo) {

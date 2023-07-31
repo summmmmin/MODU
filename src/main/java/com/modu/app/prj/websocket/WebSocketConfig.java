@@ -20,7 +20,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/socketserver"); // 웹소켓 연결할 때 쓰는 서버 연결 URL
-				//.withSockJS(); 
 	}
 
 }

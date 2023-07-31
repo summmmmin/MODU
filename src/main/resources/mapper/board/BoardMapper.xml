@@ -56,5 +56,11 @@
 		SELECT * FROM brd
 		WHERE brd_uni_no = #{brdUniNo}
 	</select>
+	
+	<select id="BrdCount" resultType="int" parameterType="BoardVO">
+	SELECT count(*)
+	FROM brd
+	WHERE prj_uni_no=#{prjUniNo}
+	</select> 
 
 </mapper>
