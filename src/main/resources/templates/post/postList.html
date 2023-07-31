@@ -372,7 +372,7 @@
 				let bNum = '[[${brdUniNo}]]'
 				document.getElementById('deleteBtn').addEventListener('click', function(e){
 
-					fetch('/modu/removeFilesWith/',{
+					fetch('/modu/removeFilesWith',{
 						method :'post',
 						headers : {
 							'content-type' : 'application/json'
