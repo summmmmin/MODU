@@ -556,7 +556,6 @@
      }
  	</script>
  	
- 	
 	<!-- 소켓 알람 -->
 	<script>
  let particiMembUniNo = '[[${session.particiMembUniNo}]]';
@@ -586,6 +585,10 @@
 	    armClient.subscribe('/subArm/chat/' + particiMembUniNo, (armMsg) => {
 		      chatArm(JSON.parse(armMsg.body));
 		    });
+	 // 구독(할 일 등록)
+	    armClient.subscribe('/subArm/todo/' + particiMembUniNo, (armMsg) => {
+		      todoArm(JSON.parse(armMsg.body));
+		    });
 	  };
 
 	//에러
@@ -600,17 +603,24 @@
 	
 	//댓글 작성 시 보내 줄 알람
 	function replyArm(arm) {
-		alert('새로운 댓글 알림');
+		alert('새로운 댓글 알림이 있습니다'+arm.cntn);
 	  }
 	
 	//게시판 작성 시 보내 줄 알람
 	function brdArm(arm) {
 		alert('새로운 게시글 알림');
+		console.log(arm);
 	  }
 	
 	//채팅 작성 시 보내 줄 알람
 	function chatArm(arm) {
-		alert('새로운 채팅 알림');
+		alert('새로운 채팅 알림'+arm.cntn);
+		console.log(arm);
+	  }
+	
+	//할 일 작성 시 보내 줄 알람
+	function todoArm(arm) {
+		alert('새로운 할 일 알림');
 	  }
 	
  </script>

@@ -143,6 +143,13 @@ margin-left:5px;}
 	            	   console.log(data);
 	            	   todoList();
 	            	   
+			//할 일 생성 알람 (성현)
+ 			armClient.publish({
+				destination: "/pubArm/todo/"+particiMembUniNo,
+				body: JSON.stringify({
+					'particiMembUniNo' : particiMembUniNo
+				})
+		});
 	            	   
 	               })
 		}
