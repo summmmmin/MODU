@@ -17,5 +17,9 @@ public interface BoardMapper {
 
 	// 게시판 수정
 	public int BrdUpdate(BoardVO vo);
+	
+	//게시판 이름으로 리스트 찾기 - PostControl에 쓰일 List
+	public List<BoardVO> brdNm(BoardVO vo);
+	
 
 }
