@@ -21,10 +21,8 @@ public interface UserService {
 	public List<UserVO> userList();
 	public int userCount();
 	public int newUsersCount();
-	public List<String> monthlyNewUsersCount();
+	public List<Map<String, Object>> monthlyNewUsersCount();
 	public UserVO myInfo(String id);
-
-
-
+	public int totalPay();
 
 }
