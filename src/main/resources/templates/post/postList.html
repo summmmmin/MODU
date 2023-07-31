@@ -10,7 +10,7 @@
 <body>
 	<div layout:fragment="content">
 		<div class="buttons">
-			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}"  >글작성</a>
+			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}">글작성</a>
 		</div>
 		<hr>
 		<div th:if="${#lists.isEmpty(postList)}">게시글이없습니다</div> <!--게시글없을때-->
@@ -457,6 +457,29 @@
 				})
 				.catch(err => console.log(err))
 			}
+
+			//호출멤버를 닉네임으로 바꾸기
+			/* function callMembsNnm(){
+				let pNum = '[[${session.prjUniNo}]]';
+				let tagArms = document.getElementsByClassName('postTagArm');
+				for(let arms of tagArms){
+					console.log(arms.textContent);
+				}
+				//console.log(tagArms);
+				
+				let membs = [];
+
+				fetch("/modu/chatMembs/" + pNum)
+				.then(resolve => resolve.json())
+				.then(data => {
+					//console.log(data);
+					data.forEach(memb => {
+						membs.push({'particiMembUniNo' : memb.particiMembUniNo, 'nnm' : memb.nnm});
+					})
+					console.log(membs);
+				})
+			}
+			callMembsNnm(); */
 
 			//공지리스트
 			function notiPostList(){
