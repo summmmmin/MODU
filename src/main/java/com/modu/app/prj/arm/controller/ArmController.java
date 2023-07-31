@@ -19,7 +19,6 @@ public class ArmController {
 	// 댓글 등록 알림
 	@MessageMapping("/reply/{memno}")
 	public void arm(ArmVO vo, @DestinationVariable String memno) throws Exception {
-		// 클라이언트로부터 받은 메시지를 다시 /sub/rply 주제로 발행
 		messagingTemplate.convertAndSend("/subArm/reply/" + memno, vo);
 	}
 
