@@ -11,7 +11,8 @@
 	<div layout:fragment="content">
 		<!-- start of 웹소켓용 -->
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-		<script	src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 		<!-- end of 웹소켓용 -->
 		<section class="section">
 			<div class="row">
@@ -28,14 +29,18 @@
 									<span class="text-xs chatMemb" id="chatMembPlace"></span>
 								</div>
 								<div class="dropdown">
-										<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												...
-										</button>
-										<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-												<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addChatPartici">채팅방초대</a>
-												<a class="dropdown-item" id="calloneChatr" data-bs-toggle="modal" data-bs-target="#changeChatrNm">채팅방명변경</a>
-												<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leaveChatr">채팅방나가기</a>
-										</div>
+									<button class="btn btn-primary dropdown-toggle me-1"
+										type="button" id="dropdownMenuButton"
+										data-bs-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">...</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item" data-bs-toggle="modal"
+											data-bs-target="#addChatPartici">채팅방초대</a> <a
+											class="dropdown-item" id="calloneChatr"
+											data-bs-toggle="modal" data-bs-target="#changeChatrNm">채팅방명변경</a>
+										<a class="dropdown-item" data-bs-toggle="modal"
+											data-bs-target="#leaveChatr">채팅방나가기</a>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -68,15 +73,20 @@
 							</div>
 						</div>
 						<div class="card-footer">
-							<form action="chatMsg" method="POST" enctype ="multipart/form-data">
-								<div class="message-form d-flex flex-direction-column align-items-center">
+							<form action="chatMsg" method="POST"
+								enctype="multipart/form-data">
+								<div
+									class="message-form d-flex flex-direction-column align-items-center">
 									<a href="http://" class="black"><i data-feather="smile"></i></a>
 									<div class="d-flex flex-grow-1 ml-4">
 										<div id="typingArmPlace"></div>
-										<input type="text" id="sendMsg" name="cntn" class="form-control" autocomplete="off" placeholder="Type your message.." required>
-										<input type="file" id="sendFile" name="file" multiple>
+										<input type="text" id="sendMsg" name="cntn"
+											class="form-control" autocomplete="off"
+											placeholder="Type your message.." required> <input
+											type="file" id="sendFile" name="file" multiple>
 										<div class="buttons">
-											<button type="button" id="sendMsgBtn" class="btn btn-primary rounded-pill">send</button>
+											<button type="button" id="sendMsgBtn"
+												class="btn btn-primary rounded-pill">send</button>
 										</div>
 									</div>
 								</div>
@@ -88,103 +98,134 @@
 		</section>
 
 		<!-- start of MODALS -->
-				<!-- start of 채팅방 나가기 모달 -->
-				<div class="modal fade text-left" id="leaveChatr" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160"	aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-						<div class="modal-content">
-							<div class="modal-header bg-primary">
-								<h5 class="modal-title white" id="myModalLabel160">채팅방 나가기</h5>
-								<button type="button" class="close" data-bs-dismiss="modal"	aria-label="Close">
-									<i data-feather="x"></i>
-								</button>
+		<!-- start of 채팅방 나가기 모달 -->
+		<div class="modal fade text-left" id="leaveChatr" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+				role="document">
+				<div class="modal-content">
+					<div class="modal-header bg-primary">
+						<h5 class="modal-title white" id="myModalLabel160">채팅방 나가기</h5>
+						<button type="button" class="close" data-bs-dismiss="modal"
+							aria-label="Close">
+							<i data-feather="x"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						채팅방을 나가시면 다시 초대 받지 않는 한<br> 동일한 채팅방에 참여하실 수 없습니다. <br>이
+						채팅방에서 나가시겠습니까?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-light-secondary"
+							data-bs-dismiss="modal">
+							<i class="bx bx-x d-block d-sm-none"></i> <span
+								class="d-none d-sm-block">취소</span>
+						</button>
+						<button id="leaveChatrBtn" type="button"
+							class="btn btn-primary ml-1" data-bs-dismiss="modal">
+							<i class="bx bx-check d-block d-sm-none"></i> <span
+								class="d-none d-sm-block">확인</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end of 채팅방 나가기 모달 -->
+
+		<!-- start of 채팅방명변경 모달 -->
+		<div class="modal fade text-left" id="changeChatrNm" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+				role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel33">채팅방명변경</h4>
+						<button type="button" class="close" data-bs-dismiss="modal"
+							aria-label="Close">
+							<i data-feather="x"></i>
+						</button>
+					</div>
+					<form action="updateChatrNm" method="POST" id="FormEvent">
+						<div class="modal-body">
+							<div id="chatrNamePlace" class="form-group">
+								<input id="chatrNm" name="chatrNm" type="text"
+									class="form-control">
 							</div>
-							<div class="modal-body">
-								채팅방을 나가시면 다시 초대 받지 않는 한<br> 동일한 채팅방에 참여하실 수 없습니다. <br>이 채팅방에서 나가시겠습니까? 
+							<div class="form-group">
+								<input id="chatParticiMembUniNo" name="chatParticiMembUniNo"
+									th:value="${session.chatParticiMembUniNo}" type="text"
+									class="form-control">
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-light-secondary"	data-bs-dismiss="modal">
-									<i class="bx bx-x d-block d-sm-none"></i> 
-									<span class="d-none d-sm-block">취소</span>
+								<button type="button" class="btn btn-light-secondary"
+									data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> <span
+										class="d-none d-sm-block">닫기</span>
 								</button>
-								<button id="leaveChatrBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-									<i class="bx bx-check d-block d-sm-none"></i> 
-									<span class="d-none d-sm-block">확인</span>
+								<button id="formbtn" type="button" class="btn btn-primary ml-1"
+									data-bs-dismiss="modal" onclick="updateChatr()">
+									<i class="bx bx-check d-block d-sm-none"></i> <span
+										class="d-none d-sm-block">변경</span>
 								</button>
 							</div>
 						</div>
-					</div>
+					</form>
 				</div>
-				<!-- end of 채팅방 나가기 모달 -->
-				
-				<!-- start of 채팅방명변경 모달 -->
-				<div class="modal fade text-left" id="changeChatrNm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title" id="myModalLabel33">채팅방명변경</h4>
-								<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-									<i data-feather="x"></i>
-								</button>
+			</div>
+		</div>
+		<!-- end of 채팅방명변경 모달 -->
+
+		<!-- start of 채팅참여자추가 모달 -->
+		<div class="modal fade text-left" id="addChatPartici" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+				role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel33">채팅방 생성</h4>
+						<button type="button" class="close" data-bs-dismiss="modal"
+							aria-label="Close">
+							<i data-feather="x"></i>
+						</button>
+					</div>
+					<form action="makeChatr" method="POST" id="FormEvent">
+						<div class="modal-body">
+							<h5>채팅 초대</h5>
+							<div class="form-group">
+								<input id="addChartNm" name="chartNm" type="text"
+									class="form-control" style="display: none"> <input
+									id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
+									type="text" class="form-control" style="display: none">
+								<input id="particiMembUniNo" name="particiMembUniNo"
+									th:value="${session.particiMembUniNo}" type="text"
+									class="form-control" style="display: none"> <label
+									for="basicInput" class="form-label">참여멤버선택</label> <select
+									id="addMembSelect" class="form-select multiple-remove"
+									multiple="multiple"></select>
 							</div>
-							<form action="updateChatrNm" method="POST" id="FormEvent">
-								<div class="modal-body">
-									<div id="chatrNamePlace" class="form-group">
-										<input id="chatrNm" name="chatrNm" type="text" class="form-control">
-									</div>
-									<div class="form-group">
-										<input id="chatParticiMembUniNo" name="chatParticiMembUniNo" th:value="${session.chatParticiMembUniNo}" type="text" class="form-control"> 
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-											<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
-										</button>
-										<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="updateChatr()">
-											<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">변경</span>
-										</button>
-									</div>
-								</div>
-							</form>
 						</div>
-					</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-light-secondary"
+								data-bs-dismiss="modal">
+								<i class="bx bx-x d-block d-sm-none"></i> <span
+									class="d-none d-sm-block">닫기</span>
+							</button>
+							<button onclick="addMembPlz()" type="button"
+								class="btn btn-primary ml-1" data-bs-dismiss="modal">
+								<i class="bx bx-check d-block d-sm-none"></i> <span
+									class="d-none d-sm-block">초대</span>
+							</button>
+						</div>
+					</form>
 				</div>
-				<!-- end of 채팅방명변경 모달 -->
-				
-				<!-- start of 채팅참여자추가 모달 -->
-				<div class="modal fade text-left" id="addChatPartici" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-		            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-		               <div class="modal-content">
-		                  <div class="modal-header">
-		                     <h4 class="modal-title" id="myModalLabel33">채팅방 생성</h4>
-		                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-		                        <i data-feather="x"></i>
-		                     </button>
-		                  </div>
-		                  <form action="makeChatr" method="POST" id="FormEvent">
-		                     <div class="modal-body">
-		                        <h5>채팅 초대</h5>
-		                        <div class="form-group">
-		                           <input id="addChartNm" name="chartNm" type="text" class="form-control" style="display:none">
-		                           <input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display: none">
-		                           <input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text"    class="form-control" style="display: none">
-		                           <label for="basicInput" class="form-label">참여멤버선택</label>
-		                           <select id="addMembSelect" class="form-select multiple-remove" multiple="multiple"></select>
-		                        </div>
-		                     </div>
-		                     <div class="modal-footer">
-		                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-		                           <i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
-		                        </button>
-		                        <button onclick="addMembPlz()" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-		                           <i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">초대</span>
-		                        </button>
-		                     </div>
-		                  </form>
-		               </div>
-		            </div>
-		         </div>
-				<!-- end of 채팅참여자추가 모달 -->
+			</div>
+		</div>
+		<!-- end of 채팅참여자추가 모달 -->
 		<!-- end of MODALS -->
-		
+
 		<script>
 			
 			//채팅메세지리스트
@@ -372,6 +413,17 @@
 				.then(data => {
 					//console.log(data);
 					chatrParticiList();
+					
+		 	armClient.publish({
+				destination: "/pubArm/chat/"+particiMembUniNo,
+				body: JSON.stringify({
+					'particiMembUniNo' : particiMembUniNo
+				})
+			});
+					
+					
+					
+					
 				})
 				.catch(err => console.log(err))
 
@@ -404,12 +456,12 @@
 
 			//보내기버튼누르면 sendMessage호출
 			document.getElementById('sendMsgBtn').addEventListener('click', sendMessage);
-
+			
 			//타이핑 중일 때 sendTypingArm호출
 			document.getElementById('sendMsg').addEventListener('keydown', sendTypingArm)
 			
 			
-			//start of 웹소켓
+			//start of 웹소켓 - 성현
 			let chatrNo = '[[${session.chatrNo}]]'
 			let chatWriter = '[[${session.chatParticiMembUniNo}]]';
 			let cntn = document.getElementById('sendMsg').value;
@@ -525,6 +577,16 @@
 												 'readCount' : readCount})
 	 											})		
 							}
+						
+						//채팅 전송 알람 (성현)- 아직 본인이 보내면 본인한테만 알람 옴
+						console.log(data);
+			 			armClient.publish({
+							destination: "/pubArm/chat/"+particiMembUniNo,
+							body: JSON.stringify({
+								'particiMembUniNo' : particiMembUniNo
+							})
+					});
+						
 						})						
 					.catch(err => console.log(err))
 			}
@@ -539,7 +601,7 @@
 				const date = new Date(originalDateStr);
 				const formattedDate = `${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, "0")}. ${String(date.getDate()).padStart(2, "0")}. ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
 
-				if(chatMsg.chatParticiMembUniNo == chatWriter){	
+				if(chatMsg.chatParticiMembUniNo == chatWriter){
 
 					//내가 쓴 채팅
 					let cdiv = document.createElement('div');
@@ -557,7 +619,6 @@
 					cbdiv.append(cmdiv);
 					cdiv.append(cbdiv);
 					msgPlace.append(cdiv);
-
 				}else{
 
 					//상대가 쓴 채팅

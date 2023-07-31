@@ -52,4 +52,19 @@ public interface PrjMapper {
 	
 	// 프로젝트의 회원 별 게시글,답글,채팅 수(기간내)
 	public List<PrjVO> selectPrjCnt(PrjVO vo);
+	
+	//  프로젝트 등급별 인원
+	public List<PrjVO> selectGrdCnt(String prjUniNo);
+	
+	// 초대테이블 insert
+	public void insertInvite(PrjVO vo);
+	
+	// 초대테이블 조회
+	public PrjVO selectInvite(String tk);
+	
+	// 초대 멤버 프로젝트 참여 테이블로
+	public int insertPartiMemb(PrjVO vo);
+	
+	// 초대테이블 확인 여부 업뎃
+	public int updateInvite(String id);
 }

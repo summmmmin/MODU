@@ -139,11 +139,12 @@ public class FileController {
         postService.deletePost(postUniNo); //게시글삭제
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
-    @GetMapping("attTodo/{todoUniNo1}")
-	public List<FileVO> fileListWithTodo(@PathVariable("todoUniNo1") String todoUniNo){
-		FileVO fileVO = new FileVO();
-		fileVO.setTodoUniNo(todoUniNo);
-		return fileService.fileList(fileVO);
-	}
+    
+//    @GetMapping("attTodo/{todoUniNo1}")
+//	public List<FileVO> fileListWithTodo(@PathVariable("todoUniNo1") String todoUniNo){
+//		FileVO fileVO = new FileVO();
+//		fileVO.setTodoUniNo(todoUniNo);
+//		return fileService.fileList(fileVO);
+//	}
   
 }

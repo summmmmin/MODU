@@ -18,12 +18,8 @@ public class TodoVO {
 	private String cntn;					//내용
 	private String ttl;						//제목
 	private String pct;						//진행도
-	@DateTimeFormat(pattern="yyyy-MM-dd")	
-	@JsonFormat(pattern="yyyy-MM-dd")
-	private String frDt;						//할일시작날짜
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@JsonFormat(pattern="yyyy-MM-dd")
-	private String toDt;						//할일마감날짜
+	private String frDt;					//할일시작날짜
+	private String toDt;					//할일마감날짜
 	private String particiMembUniNo;		//참여고유멤버
 
 }
