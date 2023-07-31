@@ -39,6 +39,7 @@ public class SendEmail {
 
 			// 수신자메일주소 (회원아이디)
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(userId));
+			
 
 			// 메일제목
 			message.setSubject("MODU 사이트의 비밀번호 찾기를 요청하셨습니다");
@@ -115,7 +116,7 @@ public class SendEmail {
 	    prop.put("mail.smtp.ssl.enable", "true");
 	    prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 
-	    Session session = Session.getDefaultInstance(prop, new javax.mail.Authenticator() {
+	    Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
 	        protected PasswordAuthentication getPasswordAuthentication() {
 	            return new PasswordAuthentication(user, password);
 	        }
