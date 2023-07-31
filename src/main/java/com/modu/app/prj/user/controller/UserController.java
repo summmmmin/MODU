@@ -472,6 +472,12 @@ public class UserController {
 		return "admin/dashBoard";
 	}
 
+	// 관리자 대시보드 그래프
+	@GetMapping("admin/dashBoard/monthlyNewUsersCount")
+	@ResponseBody
+	public List<Map<String, Object>> getMonthlyNewUsersCount() {
+		return userService.monthlyNewUsersCount();
+	}
 
 	// 관리자 유저목록
 	@GetMapping("admin/userList")
