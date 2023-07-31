@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head>
 
 <meta charset="utf-8">
@@ -19,6 +20,7 @@
 	rel="stylesheet">
 <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
 </head>
+
 <body id="page-top">
 	<div id="wrapper">
 		<ul
@@ -112,64 +114,36 @@
 						</div>
 					</div>
 					<div class="row">
+
+						<!-- Area Chart -->
 						<div class="col-xl-8 col-lg-7">
 							<div class="card shadow mb-4">
+								<!-- Card Header - Dropdown -->
 								<div
 									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-primary">월별 가입자 수</h6>
-									<div class="dropdown no-arrow">
-										<a class="dropdown-toggle" href="#" role="button"
-											id="dropdownMenuLink" data-toggle="dropdown"
-											aria-haspopup="true" aria-expanded="false"> <i
-											class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-										</a>
-										<div
-											class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-											aria-labelledby="dropdownMenuLink">
-											<div class="dropdown-header">Dropdown Header:</div>
-											<a class="dropdown-item" href="#">Action</a> <a
-												class="dropdown-item" href="#">Another action</a>
-											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#">Something else here</a>
-										</div>
-									</div>
+									<h6 class="m-0 font-weight-bold text-primary">Earnings
+										Overview</h6>
 								</div>
-								<!-- 그래프 -->
+								<!-- Card Body -->
 								<div class="card-body">
 									<div class="chart-area">
 										<canvas id="myAreaChart"></canvas>
 									</div>
 								</div>
-								<!-- 그래프 -->
 							</div>
 						</div>
+A
+						<!-- Pie Chart -->
 						<div class="col-xl-4 col-lg-5">
 							<div class="card shadow mb-4">
 								<div
 									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 									<h6 class="m-0 font-weight-bold text-primary">Revenue
 										Sources</h6>
-									<div class="dropdown no-arrow">
-										<a class="dropdown-toggle" href="#" role="button"
-											id="dropdownMenuLink" data-toggle="dropdown"
-											aria-haspopup="true" aria-expanded="false"> <i
-											class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-										</a>
-										<div
-											class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-											aria-labelledby="dropdownMenuLink">
-											<div class="dropdown-header">Dropdown Header:</div>
-											<a class="dropdown-item" href="#">Action</a> <a
-												class="dropdown-item" href="#">Another action</a>
-											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#">Something else here</a>
-										</div>
-									</div>
 								</div>
-								<!-- Card Body -->
 								<div class="card-body">
 									<div class="chart-pie pt-4 pb-2">
-										<canvas id="myAreaChart"></canvas>
+										<canvas id="myPieChart"></canvas>
 									</div>
 									<div class="mt-4 text-center small">
 										<span class="mr-2"> <i
@@ -210,54 +184,14 @@
 
 	<!-- Custom scripts for all pages-->
 	<script src="../assets/js/sb-admin-2.min.js"></script>
-	<script>
-function getMonthlyNewUsersData() {
-	  $.ajax({
-	    url: 'dashBoard', 
-	    method: 'GET',
-	    dataType: 'json',
-	    success: function (data) {
-	      createChart(data);
-	      console.log(data);
-	    },
-	    error: function (error) {
-	      console.error('에러', error);		
-	    },
-	  });
-	}
 
-	function createChart(data) {
-	  const months = data.map((item) => item.month);
-	  const counts = data.map((item) => item.count);
-	  console.log(months);
-	  console.log(counts);
 
-	  const ctx = document.getElementById('myAreaChart').getContext('2d');
-	  const myChart = new Chart(ctx, {
-	    type: 'line',
-	    data: {
-	      labels:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
-	      datasets: [
-	        {
-	          label: '월별 가입자 수',
-	          data: [12, 11, 10, 4, 55, 12],
-	          borderColor: 'rgb(75, 192, 192)',
-	          tension: 0.1,
-	        },
-	      ],
-	    },
-	    options: {
-	      scales: {
-	        y: {
-	          beginAtZero: true,
-	        },
-	      },
-	    },
-	  });
-	}
+	<!-- Page level plugins -->
+	<script src="../assets/vendors/chart.js/Chart.min.js"></script>
 
-	getMonthlyNewUsersData();
-</script>
+	<!-- Page level custom scripts -->
+	<script src="../assets/js/demo/chart-area-demo.js"></script>
+	<script src="../assets/js/demo/chart-pie-demo.js"></script>
 </body>
 
 </html>
