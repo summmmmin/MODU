@@ -21,6 +21,25 @@
 		id = #{id}
 	</select>
 
+	<!-- 소셜로그인 아이디 체크 -->
+	<select id="idCheck" resultType="userVO">
+		SELECT
+		MEMB_UNI_NO
+		, ID
+		, PWD
+		, NM
+		,
+		PH_NO
+		, SNS
+		, QUIT
+		, GRD
+		, REG_DT
+		, EMAIL_AUTH
+		, TOKEN
+		, PROVIDER_ID
+		FROM memb
+		WHERE id=#{id}
+	</select>
 	<!-- 휴대폰번호 중복체크 -->
 	<select id="phNoVaild" resultType="int">
 		SELECT COUNT(*) FROM memb
@@ -42,6 +61,7 @@
 		, REG_DT
 		, EMAIL_AUTH
 		, TOKEN
+		, PROVIDER_ID
 		)
 		VALUES (
 		'mt' ||
@@ -56,8 +76,10 @@
 		,sysdate
 		,'N'
 		,#{Token}
+		,#{providerID}
 		)
 	</insert>
+
 
 	<!-- 아이디 활성화 -->
 	<update id="updateEmailAuthStatus">
@@ -94,7 +116,6 @@
 		WHERE memb_uni_no = #{membUniNo}
 	</update>
 
-
 	<!-- 아이디 찾기 -->
 	<select id="idSearch" parameterType="UserVO" resultType="UserVO">
 		SELECT
@@ -112,14 +133,51 @@
 	</update>
 
 	<!-- 회원 리스트 -->
-	<select id="userList">
+	<select id="userList" resultType="UserVO">
 		SELECT *
 		FROM memb
 	</select>
 
+	<!-- 회원 수 -->
+	<select id="userCount" resultType="int">
+		SELECT COUNT(*)
+		FROM memb
+	</select>
+
+	<!-- 당일 가입한 회원 수 -->
+	<select id="newUsersCount" resultType="int">
+		SELECT COUNT(*)
+		FROM memb
+		WHERE TRUNC(reg_dt) = TRUNC(SYSDATE)
+	</select>
+
+	<!-- 월별 회원 가입 수 -->
+	<select id="monthlyNewUsersCount" resultType="String">
+		SELECT TO_CHAR(reg_dt, 'YYYY-MM') AS month
+		FROM memb
+		GROUP BY TO_CHAR(reg_dt, 'YYYY-MM')
+		ORDER BY month
+	</select>
+
+
+
+
+
+
 	<!-- 단건 유저 정보 조회(마이페이지) -->
-	<select id="myInfo">
-		SLEECT *
+	<select id="myInfo" resultType="UserVO">
+		SELECT 		MEMB_UNI_NO
+		, ID
+		, PWD
+		, NM
+		, PH_NO
+		, SNS
+		, QUIT
+		, GRD
+		, REG_DT
+		, EMAIL_AUTH
+		, TOKEN
+		, PROVIDER_ID
 		FROM memb
 		WHERE id=#{id}
 	</select>
@@ -144,15 +202,17 @@
 	<!-- 회원 아이디 변경 -->
 	<update id="updateId" parameterType="map">
 		UPDATE memb
-		SET id = #{id}
-		WHERE email_auth = 'Y'
+		SET id =
+		#{newEmail}
+		WHERE id = #{id}
 	</update>
 
 	<!-- 회원 휴대폰번호 변경 -->
 	<update id="updatePhone" parameterType="map">
-	UPDATE memb
-	SET ph_no = #{phNo}
-	WHERE id = #{id}
+		UPDATE memb
+		SET ph_no =
+		#{phNo}
+		WHERE id = #{id}
 	</update>
 
 	<!-- 회원 탈퇴(로그인 막기) -->

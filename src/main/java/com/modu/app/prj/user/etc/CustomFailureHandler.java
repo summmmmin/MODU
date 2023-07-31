@@ -15,6 +15,7 @@ public class CustomFailureHandler implements AuthenticationFailureHandler{
    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
          AuthenticationException exception) throws IOException, ServletException {
       System.out.println("Fail");
-      response.sendRedirect("/login");
+      System.out.println("로그인 실패" + response + "" + request + "" + exception);
+      response.sendRedirect("login");
    }
 }
