@@ -70,12 +70,12 @@
 
 <body>
 <div class="buttons">
-<a class="btn btn-primary">공지사항 작성</a>
+<a class="btn btn-primary" th:href="@{noticeInsert}">공지사항 작성</a>
 </div>
 <hr>
 
-	<div th:if="${#lists.isEmpty(postList)}">공지사항이없습니다</div> <!--게시글없을때-->
-  <div th:unless="${#lists.isEmpty(postList)}"> <!--게시글있을때-->
+	<div th:if="${#lists.isEmpty(noticeList)}">공지사항이없습니다</div> <!--게시글없을때-->
+  <div th:unless="${#lists.isEmpty(noticeList)}"> <!--게시글있을때-->
 		<div class="container">
 			<div class="page-heading">
 				<div class="page-title">
@@ -107,9 +107,9 @@
 									<tr th:each="notice : ${noticeList}" class="user-row">
 										<td th:text="${notice.noticeUniNo}"></td>
 										<td th:text="${notice.ttl}"></td>
-										<td th:text="${notice.phNo}"></td>
-										<td th:text="${notice.regDt}"></td>
-										<td th:if="${notice.modDt} != null" th:text="${notice.modDt}"></td>
+										<td th:text="${notice.nm}"></td>
+										<td th:text="${notice.ergDt}"></td>
+										<td th:text="${notice.modDt}"></td>
 									</tr>
 								</tbody>
 							</table>

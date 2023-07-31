@@ -17,4 +17,6 @@ public class NoticeVO {
 	private Date ergDt; // 사이트 공지사항 작성일자
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date modDt; // 사이트 공지사항 수정일자
+	
+	private String nm; //이름
 }

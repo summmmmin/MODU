@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>noticePage</title>
+</head>
+
+<body>
+
+
+	<h2>공지사항 단건조회</h2>
+	<div class="row">
+		<div class="col">
+			<div class="card">
+				<div class="card-body">
+
+					<div class="form-group mb-3">
+
+						<div class="form-group">
+							<table>
+								<tr>
+									<th>제목</th>
+									<td>[[${notice.ttl}]]</td>
+								</tr>
+								<tr>
+									<th>본문</th>
+									<td>[[${notice.cntn}]]</td>
+								</tr>
+							</table>
+
+							<!--버튼부-->
+							<hr>
+							<div class="buttons">
+								<button type="button" class="btn btn-primary"><a th:href="@{/noticeUpdate}">수정</a></button>
+								<button type="button" class="btn btn-light"><a th:href="@{/noticeList}">돌아가기</a></button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+
+		</script>
+	</div>
+</body>
+
+</html>

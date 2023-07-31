@@ -6,20 +6,36 @@
   
   <!-- 	사이트 공지사항 리스트 -->
   <select id="noticeList" resultType="NoticeVO">
-	  	SELECT notice_uni_no
-	  		  , ttl
-	  		  , memb_uni_no
-	  		  , cntn
-	  		  , erg_dt
-	  		  , mod_dt 
-	  	 FROM notice 
+	  	SELECT n.notice_uni_no
+		      , n.ttl
+		      , n.memb_uni_no
+		      , n.cntn
+		      , n.erg_dt
+		      , n.mod_dt 
+		      , m.nm
+		 FROM notice n JOIN memb m
+		   ON n.memb_uni_no = m.memb_uni_no
 	 ORDER BY erg_dt DESC
+  </select>
+  
+  <!-- 사이트 공지사항 단건조회 -->
+  <select id="selectNotice" resultType="NoticeVO">
+  		SELECT n.notice_uni_no
+		      , n.ttl
+		      , n.memb_uni_no
+		      , n.cntn
+		      , n.erg_dt
+		      , n.mod_dt 
+		      , m.nm
+		 FROM notice n JOIN memb m
+		   ON n.memb_uni_no = m.memb_uni_no
+		WHERE n.notice_uni_no = #{noticeUniNo}
   </select>
   
   <!-- 사이트 공지사항 인서트 -->
   <insert id="insertNotice" parameterType="NoticeVO">
   	<selectKey keyProperty="noticeUniNo" resultType="String" order="BEFORE">
-			SELECT 'nt' || (MAX(TO_NUMBER(NVL(SUBSTR(notice_uni_no, 3),'0')))+1) FROM notice
+		SELECT 'nt' || (MAX(TO_NUMBER(NVL(SUBSTR(notice_uni_no, 3),'0')))+1) FROM notice
 	</selectKey>
   	INSERT INTO notice (
   						notice_uni_no
@@ -36,5 +52,22 @@
   						, sysdate
   						) 
   </insert>
+  
+  <!-- 사이트 공지사항 업데이트 -->
+  <update id="updateNotice" parameterType="NoticeVO">
+  	UPDATE notice SET <if test="ttl != null and !ttl.equals('')">
+							ttl=#{ttl},
+					 </if>
+					 <if test="cntn != null and !cntn.equals('')">
+							cntn=#{cntn},
+					 </if>
+					 mod_dt=sysdate
+		 	   WHERE notice_uni_no=#{noticeUniNo}
+  </update>
+  
+  <!-- 사이트 공지사항 삭제 -->
+  <delete id="deleteNotice" parameterType="String">
+  	DELETE FROM notice WHERE notice_uni_no = #{noticeUniNo}
+  </delete>
   
   </mapper>
