@@ -56,22 +56,6 @@ public class TodoRestContorller {
 			return 2;
 		}	
 	};
-	
-//	//할일 수정
-//	@PutMapping("udpateTodo")
-//	public int updateTodo(HttpSession session,TodoVO vo, @RequestParam("ttl") String ttl,
-//			@RequestParam("cntn") String cntn,	@RequestParam("frDt") String Date, @RequestParam("toDt") String lastDate
-//			,@RequestParam("todoUnINo") String todoUniNo) throws ParseException {
-//		System.out.println(vo);
-//		UserVO userVo = (UserVO) session.getAttribute("user");
-//		vo.setWriter((String) session.getAttribute("particiMembUniNo"));
-//		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-//		vo.setTtl(ttl);
-//		vo.setCntn(cntn);
-//		vo.setFrDt(Date);
-//		vo.setToDt(lastDate);
-//		
-//		return 1;
-//	}
+
 	
 }

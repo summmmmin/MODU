@@ -7,14 +7,20 @@
 <title>Dashboard - Mazer Admin Dashboard</title>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" />
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/bootstrap.css" />
 <link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
-<link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
-<link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+<link rel="stylesheet"
+	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
 <link rel="stylesheet" href="assets/css/test.css" />
-<link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
+<link rel="shortcut icon" href="assets/images/favicon.svg"
+	type="image/x-icon" />
 <link rel="stylesheet" href="assets/css/modal.css">
+<link rel="stylesheet" href="assets/css/widgets/chat.css">
 <!-- Include Choices CSS -->
 <link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
 <link rel="stylesheet"
@@ -22,6 +28,7 @@
 <link rel="stylesheet"
 	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="fullcalendar-6.1.8/dist/index.global.js"></script>
 </head>
 
 <body>
@@ -31,10 +38,12 @@
 				<div class="sidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a th:href="@{/}"><img src="assets/images/logo/logo.png" alt="Logo" srcset="" /></a>
+							<a th:href="@{/}"><img src="assets/images/logo/logo.png"
+								alt="Logo" srcset="" /></a>
 						</div>
 						<div class="toggler">
-							<a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+							<a href="#" class="sidebar-hide d-xl-none d-block"><i
+								class="bi bi-x bi-middle"></i></a>
 						</div>
 					</div>
 				</div>
@@ -42,38 +51,34 @@
 				<div class="sidebar-menu">
 					<ul class="menu">
 						<li class="sidebar-title">Menu</li>
-						<li class="sidebar-item active"> </li>
-<!--/* ************************ ChatRoom List Start *************************** */-->
-<li class="sidebar-item has-sub">
-    <a href="#" class="sidebar-link"> 
-        <i class="bi bi-stack"></i>
-        <span>채팅방</span>
-        <button type="button" id="openMakeChatrModal" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#makeChatrForm" style="margin-left: 87px">+</button>
-    </a>
-    <ul class="submenu" id="chatrList">
-    </ul>
-</li>
-<!--/* ************************ End *************************** */-->
+						<li class="sidebar-item active"></li>
+						<!--/* ************************ ChatRoom List Start *************************** */-->
+						<li class="sidebar-item has-sub"><a href="#"
+							class="sidebar-link"> <i class="bi bi-stack"></i> <span>채팅방</span>
+								<button type="button" id="openMakeChatrModal"
+									class="btn btn-outline-success" data-bs-toggle="modal"
+									data-bs-target="#makeChatrForm" style="margin-left: 87px">+</button>
+						</a>
+							<ul class="submenu" id="chatrList">
+							</ul></li>
+						<!--/* ************************ End *************************** */-->
 
 
-<!--/* ************************ Board List Start *************************** */-->
-<li class="sidebar-item has-sub"><a href="#" class="sidebar-link"> 
-    <i class="bi bi-stack"></i> 
-        <span>게시판</span>
-        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#inlineForm" style="margin-left: 87px">+</button>
-    </a>
-    <div id="boardList">
+						<!--/* ************************ Board List Start *************************** */-->
+						<li class="sidebar-item has-sub"><a href="#"
+							class="sidebar-link"> <i class="bi bi-stack"></i> <span>게시판</span>
+								<button type="button" class="btn btn-outline-success"
+									data-bs-toggle="modal" data-bs-target="#inlineForm"
+									style="margin-left: 87px">+</button>
+						</a>
+							<div id="boardList"></div></li>
+					</ul>
 
-    </div>
+					<!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
+					<!--/* ************************ End *************************** */-->
 
-</li>
-</ul>
-
-<!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
-<!--/* ************************ End *************************** */-->
-
-<!-- 즐겨찾기 등록 -->
-<script> 
+					<!-- 즐겨찾기 등록 -->
+					<script> 
     function clickInsert(){
         console.log(event.target.id);
         let star = event.target;
@@ -112,8 +117,8 @@
     }
 });
 </script>
-<!--/* ************************ End *************************** */-->
-			</div>
+					<!--/* ************************ End *************************** */-->
+				</div>
 
 				<button class="sidebar-toggler btn x">
 					<i data-feather="x"></i>
@@ -125,8 +130,8 @@
 				<div class="rsidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a href="#"><img src="assets/images/logo/logo.png"
-								alt="Logo" srcset="" /></a>
+							<a href="#"><img src="assets/images/logo/logo.png" alt="Logo"
+								srcset="" /></a>
 						</div>
 						<div class="toggler">
 							<a href="#" class="rsidebar-hide d-block"><i
@@ -134,14 +139,14 @@
 						</div>
 					</div>
 				</div>
-				
-				<div class="rsidebar-menu">			
+
+				<div class="rsidebar-menu">
 					<div id="rsidebarContent"></div>
 				</div>
 				<button class="rsidebar-toggler btn x">
 					<i data-feather="x"></i>
 				</button>
-				<button class="buger-btn" style="display:none">
+				<button class="buger-btn" style="display: none">
 					<i data-feather="x"></i>
 				</button>
 			</div>
@@ -149,21 +154,20 @@
 		<div id="main" class="layout-navbar">
 			<header class="mb-3">
 				<nav class="navbar navbar-expand navbar-light">
-				
+
 					<div class="container-fluid">
 						<a href="#" class="burger-btn d-block"> <i
 							class="bi bi-justify fs-3"></i>
 						</a> <a href="#" class="rburger-btn d-block"> <i
-							class="bi bi-justify fs-3" style="display:none"></i>
+							class="bi bi-justify fs-3" style="display: none"></i>
 						</a>
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-								 <li class="nav-item me-1">
-								 <a class="nav-link active rburger" onclick="searchList()" aria-expanded="false"><i class="bi bi-search bi-sub fs-4 text-gray-600"></i>
-										
-
-								</a></li>
+								<li class="nav-item me-1"><a
+									class="nav-link active rburger" onclick="searchList()"
+									aria-expanded="false"><i
+										class="bi bi-search bi-sub fs-4 text-gray-600"></i> </a></li>
 								<li class="nav-item me-1"><a class="nav-link active"
 									href="#" aria-expanded="false"> <i
 										class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
@@ -175,7 +179,7 @@
 								</a>
 									<ul class="dropdown-menu dropdown-menu-end"
 										aria-labelledby="dropdownMenuButton">
-										<li><a class="dropdown-item rburger" >일정</a></li>
+										<li><a class="dropdown-item rburger" th:href="@{/scheList}">일정</a></li>
 										<li><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
 										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
 										<li><a class="dropdown-item rburger" onclick="bmList()">즐겨찾기</a></li>
@@ -194,7 +198,7 @@
 											</div>
 										</div>
 									</div>
-								</a>								
+								</a>
 								<ul class="dropdown-menu dropdown-menu-end"
 									aria-labelledby="dropdownMenuButton">
 									<li>
@@ -204,6 +208,7 @@
 											class="icon-mid bi bi-person me-2"></i> 마이페이지</a></li>
 									<li><a class="dropdown-item" href="#"><i
 											class="icon-mid bi bi-gear me-2"></i> 설정</a></li>
+									<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#inviteModal"><i class="icon-mid bi bi-gear me-2"></i> 초대하기</a></li>
 									<li>
 										<hr class="dropdown-divider" />
 									</li>
@@ -223,8 +228,8 @@
 				<section class="row">
 					<article layout:fragment="content"></article>
 				</section>
-				
-				
+
+
 				<!--Modal -->
 				<div class="modal fade text-left" id="inlineForm" tabindex="-1"
 					role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
@@ -280,12 +285,16 @@
 			</div>
 
 			<!-- start of 채팅방생성모달 -->
-			<div class="modal fade text-left" id="makeChatrForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+			<div class="modal fade text-left" id="makeChatrForm" tabindex="-1"
+				role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+					role="document">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h4 class="modal-title" id="myModalLabel33">채팅방 생성</h4>
-							<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+							<button type="button" class="close" data-bs-dismiss="modal"
+								aria-label="Close">
 								<i data-feather="x"></i>
 							</button>
 						</div>
@@ -293,27 +302,76 @@
 							<div class="modal-body">
 								<h5>채팅방 이름</h5>
 								<div class="form-group">
-									<input id="chartNm" name="chartNm" type="text" placeholder="40자까지 입력 가능합니다." class="form-control">
-									<input id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control" style="display: none">
-									<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text" 	class="form-control" style="display: none">
-									<label for="basicInput" class="form-label">참여멤버선택</label>
-									<select id="memberSelect" class="form-select multiple-remove" multiple="multiple"></select>
+									<input id="chartNm" name="chartNm" type="text"
+										placeholder="40자까지 입력 가능합니다." class="form-control"> <input
+										id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
+										type="text" class="form-control" style="display: none">
+									<input id="particiMembUniNo" name="particiMembUniNo"
+										th:value="${session.particiMembUniNo}" type="text"
+										class="form-control" style="display: none"> <label
+										for="basicInput" class="form-label">참여멤버선택</label> <select
+										id="memberSelect" class="form-select multiple-remove"
+										multiple="multiple"></select>
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-									<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
+								<button type="button" class="btn btn-light-secondary"
+									data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> <span
+										class="d-none d-sm-block">닫기</span>
 								</button>
-								<button onclick="makeChatrPlz()" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-									<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">채팅시작</span>
+								<button onclick="makeChatrPlz()" type="button"
+									class="btn btn-primary ml-1" data-bs-dismiss="modal">
+									<i class="bx bx-check d-block d-sm-none"></i> <span
+										class="d-none d-sm-block">채팅시작</span>
 								</button>
 							</div>
 						</form>
 					</div>
 				</div>
 			</div>
-			<!-- end of 채팅방생성모달 -->	
-
+			<!-- end of 채팅방생성모달 -->
+			
+		    <!--초대하기 Modal -->
+		    <div class="modal fade text-left" id="inviteModal" tabindex="-1"
+		        role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true">
+		        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+		            role="document">
+		            <div class="modal-content">
+		                <div class="modal-header">
+		                    <h4 class="modal-title" id="inviteModalLabel">초대하기 </h4>
+		                    <button type="button" class="close" data-bs-dismiss="modal"
+		                        aria-label="Close">
+		                        <i data-feather="x"></i>
+		                    </button>
+		                </div>
+	                    <div class="modal-body">
+	                        <label>권한: </label>
+	                        <div class="form-group">
+	                            <select class="form-select" id="grdSelect">
+	                                <option value="G01">씨앗</option>
+	                                <option value="G02">새싹</option>
+	                            </select>
+	                        </div>
+	                        <label>Email: </label>
+	                        <div class="form-group">
+	                            <input type="email" placeholder="Email Address" class="form-control" id="inviteEmail">
+	                        </div>
+	                    </div>
+	                    <div class="modal-footer">
+	                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+	                            <i class="bx bx-x d-block d-sm-none"></i>
+	                            <span class="d-none d-sm-block">Close</span>
+	                        </button>
+	                        <button type="button" class="btn btn-primary ml-1" onclick="inviteSubmit()">
+	                            <i class="bx bx-check d-block d-sm-none"></i>
+	                            <span class="d-none d-sm-block">초대하기</span>
+	                        </button>
+	                    </div> 
+		            </div>
+		        </div>
+		    </div>
+		    
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
 					<div class="float-start">
@@ -321,16 +379,17 @@
 					</div>
 					<div class="float-end">
 						<p>
-							Crafted with 
-                            <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A. Saugi</a>
+							Crafted with <span class="text-danger"><i
+								class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A.
+								Saugi</a>
 						</p>
 					</div>
 				</div>
 			</footer>
 		</div>
 	</div>
-	
-    <!-- Include Choices JavaScript -->
+
+	<!-- Include Choices JavaScript -->
 	<script src="assets/vendors/choices.js/choices.min.js"></script>
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
@@ -367,26 +426,33 @@
 			console.log(data);
 			let liTag=`
 				<li class="submenu-item">
-				<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 108.9 103.6">
-			    <g id="Layer_2" data-name="Layer 2">
-			        <g id="Layer_1-2" data-name="Layer 1">
-			            <polygon onclick="clickInsert()" class="cls-1 "`+data.brdUniNo+` points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0">
-			        </g>
-			    </g>
-			</svg>
-				<a href="/postList?brdUniNo="`+data.brdUniNo+`>`+data.boardNm+`</a>
+				<div class="row">
+					<div class="col-2">
+						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 108.9 103.6">
+							<g id="Layer_2" data-name="Layer 2">
+								<g id="Layer_1-2" data-name="Layer 1">
+									<polygon th:onclick="clickInsert()" class="cls-1" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" id=`+data.brdUniNo+`>
+								</g>
+							</g>
+						</svg>
+					</div>
+					<div class="col-10">
+						<a href="/postList?brdUniNo="`+data.brdUniNo+`>`+data.boardNm+`</a>
+					</div>
+				</div>
 				</li>
-			`;
+				`;
 			
-			let submenu=document.querySelector('.submenu');
-			submenu.innerHTML+=liTag;
+			let submenu=document.querySelector('.brdinsert');
+
+			submenu.innerHTML += liTag;
 			
 		})
 		.catch(err => console.log(err))
 	}
 	</script>
-	
-    <script>
+
+	<script>
         //채팅방리스트
 		function showChatList(){
 			fetch("/modu/chatrList")
@@ -408,35 +474,15 @@
 		}
 		showChatList();
 
-		//채팅방생성모달안에페이지넣기
-		// document.getElementById('openMakeChatrModal').addEventListener('click', function () {
-		// 	let modalPlace = document.getElementById('makeChatrModal');
-		// 	let xhr = new XMLHttpRequest();
-		// 	xhr.onreadystatechange = function () {
-		// 		if (xhr.readyState === XMLHttpRequest.DONE) {
-		// 			if (xhr.status === 200) {
-		// 				modalPlace.innerHTML = xhr.responseText;
-		// 			} else {
-		// 				// Ajax 요청 실패 시 에러 처리
-		// 				console.error('Failed to load makeChatrForm :', xhr.status, xhr.statusText);
-		// 			}
-		// 		}
-		// 	};
-		// 	xhr.open('GET', 'http://localhost/modu/makeChatr', true);
-		// 	xhr.send();
-		// }) 
-
 		//채팅초대리스트
 		function callChatMemb(){
 			let pNum = '[[${session.prjUniNo}]]';
 			let user = '[[${session.particiMembUniNo}]]';
 			let select = document.getElementById('memberSelect');
-			//console.log(select);
 
 			fetch("/modu/chatMembs/" + pNum)
 			.then(resolve => resolve.json())
 			.then(data => {
-				//console.log(data);
 				data.forEach(memb => {
 					if(user != memb.particiMembUniNo){
 						let optionTag = document.createElement('option');
@@ -458,7 +504,6 @@
 			let makeChatInfo = {};
 			makeChatInfo['chartNm'] = chatNm;
 			makeChatInfo['particiMembUniNos'] = chatMembs;
-			//console.log(makeChatInfo);
 
 			fetch("/modu/makeChatr", {
 					method: 'post',
@@ -469,11 +514,7 @@
 				})
 				.then(result => result.json())
 				.then(data => {
-					//console.log(data);
 					showChatList()
-					// setTimeout( () => {
-					// 	window.location.href = 'http://localhost:80/modu/chat/' + data.chatrNo;
-					// }, 5000);
 				})
 				.catch(err => console.log(err)) 
 		}
@@ -503,6 +544,35 @@
      	$.ajax("search")
      	.done(result => $("#rsidebarContent").html(result))
      }
+ 	</script>
+ 	
+ 	<script>
+ 		//초대하기 버튼 클릭
+ 		function inviteSubmit(){
+ 			let grd = document.getElementById("grdSelect").value;
+ 			let email = document.getElementById("inviteEmail").value;
+ 			let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ 			if(!emailPattern.test(email)){
+ 				console.log('email패턴안맞음')
+ 				return;
+ 			}else{
+		       // fetch를 사용하여 비동기적으로 서버로 데이터 전송
+		       fetch("invitePrj", {
+		           method: "POST",
+		           headers: {
+		               "Content-Type": "application/json"
+		           },
+		           body: JSON.stringify({'grd': grd, 'email':email})
+		       })
+		       .then(response => response.json())
+		       .then(data => {
+		           // 성공 시 alert 초대성공
+		           console.log(data);
+		           alert('초대 성공')
+		       })
+		       .catch(error => console.error("Error:", error));
+ 			}
+ 		}
  	</script>
 </body>
 </html>

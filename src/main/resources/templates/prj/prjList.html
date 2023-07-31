@@ -35,8 +35,8 @@
   <body>
     <nav class="navbar navbar-light">
       <div class="container d-block">
-        <a href="index.html"><i class="bi bi-chevron-left"></i></a>
-        <a class="navbar-brand ms-4" href="index.html">
+        <a href="javascript:window.history.back();"><i class="bi bi-chevron-left"></i></a>
+        <a class="navbar-brand ms-4" th:href="@{/}">
           <img src="assets/images/logo/logo.png" />
         </a>
       </div>
@@ -501,7 +501,7 @@
       // modal 안에서 탈퇴 눌렀을때
       // 프로젝트 명이랑 일차하는 지 확인
       // 프로젝트 멤버 참여 테이블에서 update(참여여부)
-      console.log(document.querySelector('.image-resize-filepond'))
+      //console.log(document.querySelector('.image-resize-filepond'))
       function myFunction(){
     	  console.log(event.target.classList.contains('email'))
     	  //console.log(document.querySelector('.email').value)
