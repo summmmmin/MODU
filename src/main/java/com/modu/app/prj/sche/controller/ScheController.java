@@ -86,6 +86,13 @@ public class ScheController {
 	      
 	   }
 	   
+	   //일정 업데이트
+	   @PostMapping("scheUpdate")
+	   @ResponseBody
+	   public String scheUpdate(HttpSession session, @RequestBody ScheVO vo) {
+	   scheService.scheUpdate(vo);
+		   return "111";
+	   }
 	   
 
 	

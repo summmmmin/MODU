@@ -23,4 +23,7 @@ public interface ScheService {
 	
 	//제외 참가자목록
 	public List<ScheVO> yetPartici(ScheVO vo);
+	
+	//일정 업데이트
+	public int scheUpdate(ScheVO vo);
 }

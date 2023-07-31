@@ -51,5 +51,10 @@ public class ScheServiceImpl implements ScheService{
 	public List<ScheVO> yetPartici(ScheVO vo) {
 		return scheMapper.yetPartici(vo);
 	}
+
+	@Override
+	public int scheUpdate(ScheVO vo) {
+		return scheMapper.scheUpdate(vo);
+	}
 	
 }

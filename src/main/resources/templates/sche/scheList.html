@@ -47,7 +47,6 @@
             .then((result) => {
               let scheInfo = result.scheInfo; //단건조회 일정정보
               
-              console.log(result.yetPartici); // 단건조회 일정 참가자 정보
               $('#ttl').text(scheInfo.title);
               $('#cntn').text(scheInfo.cntn);
               
@@ -61,16 +60,22 @@
                 $('#partici').text('참여멤버가 없습니다')
               }
               
+              
               //참가하지 않은 목록리스트
-              $('#cm1').empty();
+              /* console.log(result.yetPartici); // 단건조회 일정 참가자 정보
+              populateSelectOptions(result.yetPartici); */
+              
+              /*  $('#cm1').empty();
               for (let i = 0; i < result.yetPartici.length; i++) {
 			    $('#cm1').val(result.yetPartici[i].particiMembUniNo);
 			
-			    let option1 = `<option value='${result.yetPartici[i].particiMembUniNo}'>
-			                  ${result.yetPartici[i].title}</option>`;
+			    let option1 = `<option value='result.yetPartici[i].particiMembUniNo'>
+			                  result.yetPartici[i].title</option>`;
 			    $('#cm1').append(option1);
-}
+				} */
 					
+              
+              
               changeTimes(scheInfo.start);
               changeTimes(scheInfo.end); 
               document.getElementById('startDate').value = scheInfo.start;
@@ -82,8 +87,10 @@
               $('#startDate').val(newDate);
               $('#finishDate').val(newDate2); */
               $('#noInfo').val(scheInfo.scheUniNo);
+            
+            
             })
-
+            
           if (info.event.url) {
             window.open(info.event.url);
           }
@@ -114,7 +121,7 @@
       calendar.render();
     });
 
-    
+    //날짜 타입을 풀캘린더에 맞춰서 변환해주기위한 함수
      function changeTimes(dateTimeStr) {
         const date = new Date();
         const year = date.getFullYear();
@@ -126,7 +133,19 @@
         return `${year}-${month}-${day} ${dateTimeStr}`;
       } 
     
-  
+    //
+	/* function populateSelectOptions(data) {
+		  const selectElement = document.getElementById('cm1');
+		  selectElement.innerHTML = '';
+		
+		  data.forEach((optionData) => {
+		    const optionElement = document.createElement('option');
+		    optionElement.textContent = optionData.title;
+		    optionElement.value = optionData.particiMembUniNo;
+		    selectElement.appendChild(optionElement);
+		  });
+		} */
+    
    
 
   </script>
@@ -336,7 +355,7 @@
 							<input type="text" placeholder="내용을 입력해주세요" id="22"
 								class="form-control" name="cntn1">
 						</div>
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<div class="col-sm-10">
 								<label class="input-group-text">초대멤버</label> 
 								<select
@@ -345,7 +364,7 @@
 									<option></option>
 								</select>
 							</div>
-						</div>
+						</div> -->
 						<label> </label>
 						<div class="row">
 							<div class="col-sm-5">
@@ -369,7 +388,7 @@
 								<i class="bx bx-x d-block d-sm-none"></i> <span
 									class="d-none d-sm-block">취소</span>
 							</button>
-							<button type="button" onclick="insertSche()"
+							<button type="button" onclick="updateSche()"
 								class="btn btn-primary ml-1" data-bs-dismiss="modal">
 								<i class="bx bx-check d-block d-sm-none"></i> <span
 									class="d-none d-sm-block">수정하기</span>
@@ -433,6 +452,35 @@
 
           })
       }
+    
+    //일정 업데이트
+    
+    function updateSche(){
+    	let scheUniNo = $('#noInfo').val();
+    	let scheUpdateData = {
+    	"title": $('#11').val(),
+        "cntn": $('#22').val(),
+        "start": $('#33').val(),
+        "end": $('#44').val(),
+    	"scheUniNo":scheUniNo
+    	}
+    	
+        fetch("scheUpdate", {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(scheUpdateData)
+        })
+        .then(result => result.json())
+        .then(data => {
+            console.log(data);
+            location.reload();
+        })
+    	
+    	
+    	
+    }
     </script>
 
 	<!-- 레이아웃 끝 -->

@@ -83,4 +83,22 @@
 	where sche_uni_no=#{scheUniNo}
 	</delete>
 	
+	<!-- 일정 업데이트 -->
+	<update id = "scheUpdate" parameterType="scheVO">
+	update sche set
+				<if test="title != null and !title.equals('')">
+							title=#{title}
+				</if>
+				<if test="cntn != null and !cntn.equals('')">
+							cntn=#{cntn}
+				</if>
+				<if test="start != null and !start.equals('')">
+							fr_dt=#{start}
+				</if>
+				<if test="end != null and !end.equals('')">
+							to_dt=#{end}
+				</if>
+	WHERE sche_uni_no=#{scheUniNo}
+	</update>
+	
  </mapper>
