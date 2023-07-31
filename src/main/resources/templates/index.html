@@ -523,6 +523,9 @@
 				.then(result => result.json())
 				.then(data => {
 					showChatList()
+					if (data.chartNo) {
+                   		window.location.href = "/modu/chat?chatrNo=" + data.chartNo;
+                	}
 				})
 				.catch(err => console.log(err)) 
 		}
