@@ -117,6 +117,18 @@
 					</div>
 			</section>
 		</div>
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+   			 let rows = document.getElementsByClassName('user-row');
+					for (let i = 0; i < rows.length; i++) {
+						rows[i].addEventListener('click', function () {
+								let noticeUniNo = this.getElementsByTagName('td')[0].innerText; 
+								let url = '/modu/noticePage?noticeUniNo=' + noticeUniNo;
+								window.location.href = url;
+						});
+   		 }		
+			});
+		</script>
 	</div>
 </body>
 

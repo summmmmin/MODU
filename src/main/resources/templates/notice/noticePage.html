@@ -18,6 +18,7 @@
 					<div class="form-group mb-3">
 
 						<div class="form-group">
+						
 							<table>
 								<tr>
 									<th>제목</th>
@@ -32,7 +33,8 @@
 							<!--버튼부-->
 							<hr>
 							<div class="buttons">
-								<button type="button" class="btn btn-primary"><a th:href="@{/noticeUpdate}">수정</a></button>
+								<button type="button" class="btn btn-primary"><a th:href="@{/noticeUpdate(noticeUniNo=${notice.noticeUniNo})}">수정</a></button>
+								<button type="button" class="btn btn-primary" th:data-noticeUniNo="${notice.noticeUniNo}" id="delNoticeBtn" th:onclick="deleteNotice(event)">삭제</button>
 								<button type="button" class="btn btn-light"><a th:href="@{/noticeList}">돌아가기</a></button>
 							</div>
 						</div>
@@ -43,7 +45,28 @@
 		</div>
 
 		<script>
+			function deleteNotice(e){
+				console.log(e.target);
+				let notiNum = e.target.dataset.noticeunino;
+				console.log(notiNum);
 
+				let delNo = notiNum;
+
+				fetch('/modu/noticeDelete',{
+					method : 'post',
+					headers : {
+						'Content-Type': 'text/plain' 
+					},
+					body : delNo
+				})
+				.then(result => result.text())
+				.then(data => {
+					console.log(data);
+					window.location.href = "/modu/noticeList";
+					
+				})
+				.catch(err => console.log(err))
+			}
 		</script>
 	</div>
 </body>
