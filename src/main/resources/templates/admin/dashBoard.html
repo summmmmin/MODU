@@ -192,9 +192,10 @@
 	<script src="../assets/js/demo/chart-area-demo.js"></script>
 	<script src="../assets/js/demo/chart-pie-demo.js"></script>
 	<script>
+	
 	function getMonthlyNewUsersData() {
 	    $.ajax({
-	        url: 'monthlyNewUsersCount', 
+	        url: '/modu/admin/dashBoard/monthlyNewUsersCount', 
 	        method: 'GET',
 	        dataType: 'json',
 	        success: function (data) {
