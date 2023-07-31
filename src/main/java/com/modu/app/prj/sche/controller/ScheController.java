@@ -1,6 +1,7 @@
 package com.modu.app.prj.sche.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -46,23 +47,40 @@ public class ScheController {
 	public Map<String, Object> scheInfo(@PathVariable String scheUniNo,Model model,HttpSession session) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("scheInfo",scheService.scheInfo(scheUniNo));
-		model.addAttribute("scheInfo",scheService.scheInfo(scheUniNo));
 		map.put("partici", scheService.schePartici(scheUniNo));
 		System.out.println(map);
 		return map;
 	}
 	
-	//투표 등록
-	@PostMapping("scheInsert")
-	@ResponseBody
-	public String scheInsert(HttpSession session, @RequestBody ScheVO vo) {
-		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		
-		scheService.scheInsert(vo);
-		return "success"; 
-		
-	}
+	   //일정 등록
+	   @PostMapping("scheInsert")
+	   @ResponseBody
+	   public String scheInsert(HttpSession session, @RequestBody ScheVO vo) {
+	      
+		  //일정 등록 사람
+		  vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+	      vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+	      
+	      
+	      scheService.scheInsert(vo);
+	      
+	      //참가자 등록을 위한 새로운 일정 VO 
+	      ScheVO scheVO = new ScheVO();
+	      scheVO.setScheUniNo(vo.getScheUniNo());
+	      
+	      if(vo.getParticiMembUniNos() != null) {
+	      List<String> membList = vo.getParticiMembUniNos();
+	      for(String memb : membList) {
+	    	  scheVO.setParticiMembUniNo(memb);
+	    	  scheService.scheInsertPartici(scheVO);
+	      }
+	      }
+	      return "111"; 
+	      
+	   }
+	   
+	   
+
 	
 	//삭제
 	@PostMapping("scheDelte")

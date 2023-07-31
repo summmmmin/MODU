@@ -6,27 +6,55 @@
  
 	 <!-- 일정 리스트 -->
 	 <select id="scheList" resultType="scheVO" parameterType="String">
-	 select sche_uni_no,prj_uni_no,title,partici_memb_uni_no,cntn,fg,fr_dt "start",to_dt "end"
+	 select sche_uni_no,prj_uni_no,title,partici_memb_uni_no,cntn,fr_dt "start",to_dt "end"
 	 from sche
 	 where prj_uni_no=#{prjUniNo}
 	 </select>
  
 	 <!-- 일정 등록 -->
-	 <insert id="scheInsert" statementType="CALLABLE">
-			call CREATE_SCHE(
-					#{cntn},
-					#{start},
-					#{end},
-					#{title},
+	 <insert id="scheInsert" parameterType="ScheVO">
+	 <selectKey keyProperty="scheUniNo" resultType="String" order="BEFORE">
+			SELECT  'S'||sche_seq.nextval FROM dual
+	</selectKey>
+	INSERT INTO sche(
+					SCHE_UNI_NO,
+					 PRJ_UNI_NO,
+					 PARTICI_MEMB_UNI_NO, 
+					 TITLE, 
+					 CNTN, 
+					 FR_DT, 
+					 TO_DT
+					)
+		values(#{scheUniNo},
 					#{prjUniNo},
 					#{particiMembUniNo},
-					#{scheParticiMembUniNo,typeHandler=com.modu.app.oracle.OracleArrayHandler}
+					#{title},
+					#{cntn},
+					#{start},
+					#{end}
+			)
+	</insert>
+	
+	<!-- 일정 참가자 등록 -->
+	<insert id="scheInsertPartici" parameterType="ScheVO">
+	<selectKey keyProperty="scheParticiMembUniNo" resultType="String" order="BEFORE">
+			SELECT 'SQ'||SCHE_PARTICI_SEQ.nextVal FROM dual
+	</selectKey>
+	INSERT INTO SCHE_PARTICI(
+							SCHE_PARTICI_MEMB_UNI_NO,
+							PARTICI_MEMB_UNI_NO,
+							SCHE_UNI_NO
+							)
+					values(
+							#{scheParticiMembUniNo},
+							#{particiMembUniNo},
+							#{scheUniNo}
 					)
 	</insert>
 
 	<!-- 단건 조회 -->
 	<select id="scheInfo" resultType="scheVO" parameterType="String">
-	    select SCHE_UNI_NO, PRJ_UNI_NO, title, PARTICI_MEMB_UNI_NO, CNTN, FG, FR_DT "start", TO_DT "end"
+	    select SCHE_UNI_NO, PRJ_UNI_NO, title, PARTICI_MEMB_UNI_NO, CNTN,FR_DT "start", TO_DT "end"
 	    from  sche 
 	    where sche_uni_no=#{scheUniNo}
 	</select>
@@ -43,4 +71,5 @@
 	delete from sche
 	where sche_uni_no=#{scheUniNo}
 	</delete>
+	
  </mapper>

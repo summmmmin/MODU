@@ -9,7 +9,10 @@ public interface ScheMapper {
 	public List<ScheVO> scheList(String prj);
 	
 	//일정 등록
-	public void scheInsert(ScheVO vo);
+	public int scheInsert(ScheVO vo);
+	
+	//일정 참가자 등록
+	public int scheInsertPartici(ScheVO vo);
 	
 	//일정 조회
 	public ScheVO scheInfo(String sno);

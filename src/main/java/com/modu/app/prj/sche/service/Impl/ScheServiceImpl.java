@@ -41,5 +41,10 @@ public class ScheServiceImpl implements ScheService{
 	public int scheDelete(String sno) {
 		return scheMapper.scheDelete(sno);
 	}
+
+	@Override
+	public int scheInsertPartici(ScheVO vo) {
+		return scheMapper.scheInsertPartici(vo);
+	}
 	
 }
