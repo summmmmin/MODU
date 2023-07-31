@@ -4,9 +4,12 @@ import java.util.List;
 
 public interface SearchService {
 	
-	// 파일, 채팅, 댓글 즐겨찾기 리스트
+	//게시글 검색
 	public List<SearchVO>BpList(SearchVO vo);
 	
-	//참여하고 있는 프로젝트에 참여하고있는 모든 채팅방의 채팅 리스트
+	//채팅 검색
 	public List<SearchVO>chatList(SearchVO vo);
+	
+	//파일 검색
+	public List<SearchVO>fileList(SearchVO vo);
 }

@@ -38,5 +38,24 @@
  	</if>
  	</select>
  	
+ 	<select id="fileList" resultType="SearchVO" parameterType="SearchVO">
+ 	SELECT att.att_no, att.att_nm, att.chat_no, chatr_partici.partici_memb_uni_no, att.post_uni_no, post.ttl, brd.prj_uni_no, att.todo_uni_no, todo.ttl, todo.prj_uni_no
+	FROM att
+	LEFT OUTER JOIN post ON att.post_uni_no = post.post_uni_no
+	LEFT OUTER JOIN brd ON post.brd_uni_no = brd.brd_uni_no
+	LEFT OUTER JOIN brd_cm ON post.brd_uni_no = brd_cm.board_uni_no
+	LEFT OUTER JOIN prj_partici_memb pm ON pm.prj_uni_no = brd.prj_uni_no 
+	LEFT OUTER JOIN chat ON att.chat_no = chat.chat_no
+	LEFT OUTER JOIN chatr_partici ON chat.chatr_no = chatr_partici.chatr_no
+	LEFT OUTER JOIN todo ON att.todo_uni_no = todo.todo_uni_no
+	WHERE (chatr_partici.partici_memb_uni_no = #{particiMembUniNo} 
+	OR (brd_cm.partici_memb_uni_no = #{particiMembUniNo} and brd.pubc_yn='N') 
+	OR (brd.pubc_yn='Y' AND pm.partici_memb_uni_no = #{particiMembUniNo})
+	OR (todo.cm = #{particiMembUniNo} OR todo.mgr = #{particiMembUniNo}))
+	<if test="attNm != null and attNm != '' ">
+	 AND att.att_nm LIKE '%${attNm}%'
+	 </if>
+ 	</select>
+ 	
 
  </mapper>

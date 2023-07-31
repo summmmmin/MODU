@@ -2,40 +2,46 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.modu.app.prj.board.mapper.BoardMapper">
- 	
-	<!-- 게시판 전체조회 --> 	
- 	<select id="BoardList" resultType="BoardVO" parameterType="BoardVO">
-	SELECT q.brd_uni_no ,q.board_nm, q.pubc_yn, q.reg_dt,q.prj_uni_no, p.partici_memb_uni_no, p.brd_yn
-	FROM brd_bm p right JOIN (SELECT *
-	FROM brd a left outer join brd_cm b
-	ON a.brd_uni_no=b.board_uni_no
-	WHERE (a.pubc_yn = 'Y'
-	OR (a.pubc_yn = 'N' and b.partici_memb_uni_no = #{particiMembUniNo}))
-	AND a.prj_uni_no = #{prjUniNo}) q
-	ON p.brd_uni_no = q.brd_uni_no
+<mapper namespace="com.modu.app.prj.board.mapper.BoardMapper">
+
+	<!-- 게시판 전체조회 -->
+	<select id="BoardList" resultType="BoardVO"
+		parameterType="BoardVO">
+		SELECT q.brd_uni_no ,q.board_nm, q.pubc_yn, q.reg_dt,q.prj_uni_no,
+		p.partici_memb_uni_no, p.brd_yn
+		FROM brd_bm p right JOIN (SELECT *
+		FROM brd a left outer join brd_cm b
+		ON a.brd_uni_no=b.board_uni_no
+		WHERE (a.pubc_yn = 'Y'
+		OR (a.pubc_yn = 'N' and b.partici_memb_uni_no = #{particiMembUniNo}))
+		AND a.prj_uni_no = #{prjUniNo}) q
+		ON p.brd_uni_no = q.brd_uni_no
 	</select>
 
 	<!-- 게시판 생성 -->
-	<insert id="InsertBoard" parameterType="BoardVO" statementType="CALLABLE">
- 		CALL
- 			create_brd(
- 					  #{boardNm},
- 					  #{pubcYn},
- 					  #{prjUniNo},
- 					  #{particiMembUniNo}
- 					  )
+	<insert id="InsertBoard" parameterType="BoardVO"
+		statementType="CALLABLE">
+		CALL
+		create_brd(
+		#{boardNm},
+		#{pubcYn},
+		#{prjUniNo},
+		#{particiMembUniNo}
+		)
 	</insert>
-	
+
 	<!-- 게시판 삭제 -->
-	<delete id="DeleteBoard" parameterType="int">
-	DELETE brd
-	WHERE brd_uni_no = #{brdUniNo}
+	<delete id="DeleteBoard" parameterType="BoardVO">
+		DELETE brd
+		WHERE brd_uni_no = #{brdUniNo}
 	</delete>
-	
-	<select id="BrdSearch" resultType="BoardVO" parameterType="BoardVO">
-	SELECT *
-  	FROM brd
-	</select>
-	
- </mapper>
+
+	<!-- 게시판 수정 -->
+	<update id="BrdUpdate" parameterType="BoardVO">
+		UPDATE brd SET
+		board_nm = #{boardNm},
+		pubc_yn = #{pubcYn}
+		WHERE brd_uni_no = #{brdUniNo}
+	</update>
+
+</mapper>
