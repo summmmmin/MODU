@@ -113,9 +113,11 @@ public class FileController {
     	
         List<FileVO> files = fileService.fileList(fileVO); // 파일 리스트 조회
         String postUniNo = fileVO.getPostUniNo();
+        System.out.println("왔니");
   
         for(FileVO file : files) {
         	if (file == null) {
+        		System.out.println("왔니2");
         		return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         	}
         	String fileName = file.getServerAttNm();
@@ -123,12 +125,15 @@ public class FileController {
         		File filef = new File(uploadPath+"/upload" + File.separator, fileName);
         		
         		if (filef.exists()) {
+        			System.out.println("왔니3");
         			boolean result = filef.delete(); // 서버에서 파일 삭제
         			if (result) {
+        				System.out.println("왔니4");
         				fileService.deleteFile(file.getAttNo()); //DB에서 이름 삭제
         			}
         		} else {
         			// 파일이 서버에 존재하지 않는 경우
+        			System.out.println("왔니5");
         			return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         		}
         	} catch (Exception e) {
@@ -136,6 +141,7 @@ public class FileController {
         		return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
         	}
         }
+        System.out.println("왔니6");
         postService.deletePost(postUniNo); //게시글삭제
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
