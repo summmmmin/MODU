@@ -1,5 +1,6 @@
 package com.modu.app.prj.user.service;
 
+import java.util.List;
 import java.util.Map;
 
 public interface UserService {
@@ -17,4 +18,13 @@ public interface UserService {
 	public String emailCode();
 	public String updatePhone(Map<String, String> params);
 	public int quitUser(String id);
+	public List<UserVO> userList();
+	public int userCount();
+	public int newUsersCount();
+	public List<String> monthlyNewUsersCount();
+	public UserVO myInfo(String id);
+
+
+
+
 }
