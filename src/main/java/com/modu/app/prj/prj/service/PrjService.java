@@ -1,6 +1,7 @@
 package com.modu.app.prj.prj.service;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PrjService {
 	// 프로젝트 생성
@@ -49,4 +50,16 @@ public interface PrjService {
 	
 	// 프로젝트의 회원 별 게시글,답글,채팅 수(기간내)
 	public List<PrjVO> getPrjCnt(PrjVO vo);
+	
+	// 프로젝트 등급별 인원
+	public Map<String, Object> getGrdCnt(String prjUniNo);
+	
+	// 초대시 insert
+	public String insertInvite(PrjVO vo);
+	
+	// 초대테이블 조회
+	public PrjVO selectInvite(String tk);
+	
+	// 프로젝트 참여 테이블 insert
+	public int insertPartiMemb(PrjVO vo);
 }

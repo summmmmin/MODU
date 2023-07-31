@@ -25,10 +25,12 @@
 <link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
 <link rel="stylesheet"
 	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-<link rel="stylesheet"
-	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-<script src="fullcalendar-6.1.8/dist/index.global.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 </head>
 
 <body>
@@ -73,10 +75,8 @@
 						</a>
 							<div id="boardList"></div></li>
 					</ul>
-
-					<!-- 별 아이콘 클릭 시 brdUniNo 값 받아오는 Script -->
 					<!--/* ************************ End *************************** */-->
-
+					<p id="prjNo" style="display: none;">[[${session.prjUniNo}]]</p>
 					<!-- 즐겨찾기 등록 -->
 					<script> 
     function clickInsert(){
@@ -179,7 +179,8 @@
 								</a>
 									<ul class="dropdown-menu dropdown-menu-end"
 										aria-labelledby="dropdownMenuButton">
-										<li><a class="dropdown-item rburger" th:href="@{/scheList}">일정</a></li>
+										<li><a class="dropdown-item rburger"
+											th:href="@{/scheList}">일정</a></li>
 										<li><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
 										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
 										<li><a class="dropdown-item rburger" onclick="bmList()">즐겨찾기</a></li>
@@ -198,16 +199,16 @@
 											</div>
 										</div>
 									</div>
+									<div id="asdasdasd"></div>
 								</a>
 								<ul class="dropdown-menu dropdown-menu-end"
 									aria-labelledby="dropdownMenuButton">
 									<li>
 										<h6 class="dropdown-header">[[${session.user.nm}]]</h6>
 									</li>
-									<li><a class="dropdown-item" href="#"><i
+									<li><a class="dropdown-item" th:href="@{loginuser/mypage}"><i
 											class="icon-mid bi bi-person me-2"></i> 마이페이지</a></li>
-									<li><a class="dropdown-item" href="#"><i
-											class="icon-mid bi bi-gear me-2"></i> 설정</a></li>
+									<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#inviteModal"><i class="icon-mid bi bi-gear me-2"></i> 초대하기</a></li>
 									<li>
 										<hr class="dropdown-divider" />
 									</li>
@@ -330,7 +331,47 @@
 				</div>
 			</div>
 			<!-- end of 채팅방생성모달 -->
-
+			
+		    <!--초대하기 Modal -->
+		    <div class="modal fade text-left" id="inviteModal" tabindex="-1"
+		        role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true">
+		        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+		            role="document">
+		            <div class="modal-content">
+		                <div class="modal-header">
+		                    <h4 class="modal-title" id="inviteModalLabel">초대하기 </h4>
+		                    <button type="button" class="close" data-bs-dismiss="modal"
+		                        aria-label="Close">
+		                        <i data-feather="x"></i>
+		                    </button>
+		                </div>
+	                    <div class="modal-body">
+	                        <label>권한: </label>
+	                        <div class="form-group">
+	                            <select class="form-select" id="grdSelect">
+	                                <option value="G01">씨앗</option>
+	                                <option value="G02">새싹</option>
+	                            </select>
+	                        </div>
+	                        <label>Email: </label>
+	                        <div class="form-group">
+	                            <input type="email" placeholder="Email Address" class="form-control" id="inviteEmail">
+	                        </div>
+	                    </div>
+	                    <div class="modal-footer">
+	                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+	                            <i class="bx bx-x d-block d-sm-none"></i>
+	                            <span class="d-none d-sm-block">Close</span>
+	                        </button>
+	                        <button type="button" class="btn btn-primary ml-1" onclick="inviteSubmit()">
+	                            <i class="bx bx-check d-block d-sm-none"></i>
+	                            <span class="d-none d-sm-block">초대하기</span>
+	                        </button>
+	                    </div> 
+		            </div>
+		        </div>
+		    </div>
+		    
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
 					<div class="float-start">
@@ -405,7 +446,15 @@
 			let submenu=document.querySelector('.brdinsert');
 
 			submenu.innerHTML += liTag;
+
+			let particiMembUniNo = data.particiMembUniNo;
 			
+ 			armClient.publish({
+				destination: "/pubArm/brd/"+particiMembUniNo,
+				body: JSON.stringify({
+					'particiMembUniNo' : particiMembUniNo
+				})
+		});
 		})
 		.catch(err => console.log(err))
 	}
@@ -503,6 +552,105 @@
      	$.ajax("search")
      	.done(result => $("#rsidebarContent").html(result))
      }
+ 	</script>
+ 	
+	<!-- 소켓 알람 -->
+	<script>
+ let particiMembUniNo = '[[${session.particiMembUniNo}]]';
+ 
+// WebSocket 연결 설정
+	const armClient = new StompJs.Client({
+	brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
+	});
+
+	// 페이지 로드시 웹소켓 연결
+	window.addEventListener("load", function(event) {
+		armClient.activate();
+	});
+
+	  // 연결 성공시
+	  armClient.onConnect = (frame) => {
+	    console.log('Connected: ' + frame);
+	    // 구독(댓글등록)		
+	    armClient.subscribe('/subArm/reply/' + particiMembUniNo, (armMsg) => {
+	      replyArm(JSON.parse(armMsg.body));
+	    });
+	 // 구독(게시판 등록)
+	    armClient.subscribe('/subArm/brd/' + particiMembUniNo, (armMsg) => {
+	      brdArm(JSON.parse(armMsg.body));
+	    });
+	 // 구독(채팅 등록)
+	    armClient.subscribe('/subArm/chat/' + particiMembUniNo, (armMsg) => {
+		      chatArm(JSON.parse(armMsg.body));
+		    });
+	 // 구독(할 일 등록)
+	    armClient.subscribe('/subArm/todo/' + particiMembUniNo, (armMsg) => {
+		      todoArm(JSON.parse(armMsg.body));
+		    });
+	  };
+
+	//에러
+	armClient.onWebSocketError = (error) => {
+			console.error('Error with websocket', error);
+	};
+
+	armClient.onStompError = (frame) => {
+			console.error('Broker reported error: ' + frame.headers['message']);
+			console.error('Additional details: ' + frame.body);
+	};
+	
+	//댓글 작성 시 보내 줄 알람
+	function replyArm(arm) {
+		alert('새로운 댓글 알림이 있습니다'+arm.cntn);
+	  }
+	
+	//게시판 작성 시 보내 줄 알람
+	function brdArm(arm) {
+		alert('새로운 게시글 알림');
+		console.log(arm);
+	  }
+	
+	//채팅 작성 시 보내 줄 알람
+	function chatArm(arm) {
+		alert('새로운 채팅 알림'+arm.cntn);
+		console.log(arm);
+	  }
+	
+	//할 일 작성 시 보내 줄 알람
+	function todoArm(arm) {
+		alert('새로운 할 일 알림');
+	  }
+	
+ </script>
+
+
+ 	<script>
+ 		//초대하기 버튼 클릭
+ 		function inviteSubmit(){
+ 			let grd = document.getElementById("grdSelect").value;
+ 			let email = document.getElementById("inviteEmail").value;
+ 			let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ 			if(!emailPattern.test(email)){
+ 				console.log('email패턴안맞음')
+ 				return;
+ 			}else{
+		       // fetch를 사용하여 비동기적으로 서버로 데이터 전송
+		       fetch("invitePrj", {
+		           method: "POST",
+		           headers: {
+		               "Content-Type": "application/json"
+		           },
+		           body: JSON.stringify({'grd': grd, 'email':email})
+		       })
+		       .then(response => response.json())
+		       .then(data => {
+		           // 성공 시 alert 초대성공
+		           console.log(data);
+		           alert('초대 성공')
+		       })
+		       .catch(error => console.error("Error:", error));
+ 			}
+ 		}
  	</script>
 </body>
 </html>
