@@ -59,6 +59,17 @@
 	    where sche_uni_no=#{scheUniNo}
 	</select>
 	
+	<!-- 제외 참여자 조회 -->
+	<select id="yetPartici" resultType="scheVO">
+	SELECT FIND_NICKNAME(partici_memb_uni_no) title, partici_memb_uni_no
+	FROM prj_partici_memb
+	WHERE prj_uni_no =#{prjUniNo} AND partici_memb_uni_no NOT IN (
+    															SELECT partici_memb_uni_no
+															    FROM sche_partici
+															    WHERE sche_uni_no = #{scheUniNo}
+																)
+	</select>
+	
 	<!-- 참여자들 -->
 	<select id="schePartici" resultType="scheVO">
 	SELECT SCHE_UNI_NO,FIND_NICKNAME(partici_memb_uni_no) particiMembUniNo

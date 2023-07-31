@@ -46,8 +46,15 @@ public class ScheController {
 	@ResponseBody
 	public Map<String, Object> scheInfo(@PathVariable String scheUniNo,Model model,HttpSession session) {
 		Map<String, Object> map = new HashMap<>();
+		
+		ScheVO vo = new ScheVO();
+		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		vo.setScheUniNo(scheUniNo);
+		
 		map.put("scheInfo",scheService.scheInfo(scheUniNo));
-		map.put("partici", scheService.schePartici(scheUniNo));
+		map.put("partici", scheService.schePartici(scheUniNo)); //일정 참여자 번호/닉네임
+		map.put("yetPartici", scheService.yetPartici(vo));
+		
 		System.out.println(map);
 		return map;
 	}

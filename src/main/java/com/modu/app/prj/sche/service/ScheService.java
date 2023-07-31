@@ -20,4 +20,7 @@ public interface ScheService {
 	
 	//일정 삭제
 	public int scheDelete(String sno);
+	
+	//제외 참가자목록
+	public List<ScheVO> yetPartici(ScheVO vo);
 }
