@@ -53,6 +53,20 @@ public class BoardVO {
 	//뭐지 이거
 	private String pos;
 	
+	//채팅 참여자 번호
+	private String chatParticiMembUniNo;
+	
+	//채팅방 번호
+	private String chatrNo;
+	
+	// 알람 여부
+	private String armYn;
+	
+	//채팅방 이름
+	private String chatrNm;
+	
+	
+	
 	
 	
 }

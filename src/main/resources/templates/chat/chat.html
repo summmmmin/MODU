@@ -45,31 +45,30 @@
 							</div>
 						</div>
 						<div class="card-body pt-4 bg-grey">
-							<div class="chat-content">
-						</div>
-						<div class="card-footer">
-							<form action="chatMsg" method="POST"
-								enctype="multipart/form-data">
-								<div
-									class="message-form d-flex flex-direction-column align-items-center">
-									<a href="http://" class="black"><i data-feather="smile"></i></a>
-									<div class="d-flex flex-grow-1 ml-4">
-										<div id="typingArmPlace"></div>
-										<input type="text" id="sendMsg" name="cntn"
-											class="form-control" autocomplete="off"
-											placeholder="Type your message.." required> <input
-											type="file" id="sendFile" name="file" multiple>
-										<div class="buttons">
-											<button type="button" id="sendMsgBtn"
-												class="btn btn-primary rounded-pill">send</button>
+							<div class="chat-content"></div>
+							<div class="card-footer">
+								<form action="chatMsg" method="POST"
+									enctype="multipart/form-data">
+									<div
+										class="message-form d-flex flex-direction-column align-items-center">
+										<a href="http://" class="black"><i data-feather="smile"></i></a>
+										<div class="d-flex flex-grow-1 ml-4">
+											<div id="typingArmPlace"></div>
+											<input type="text" id="sendMsg" name="cntn"
+												class="form-control" autocomplete="off"
+												placeholder="Type your message.." required> <input
+												type="file" id="sendFile" name="file" multiple>
+											<div class="buttons">
+												<button type="button" id="sendMsgBtn"
+													class="btn btn-primary rounded-pill">send</button>
+											</div>
 										</div>
 									</div>
-								</div>
-							</form>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 		</section>
 
 		<!-- start of MODALS -->
@@ -447,7 +446,7 @@
 			// WebSocket 연결 설정
 			const stompClient = new StompJs.Client({
     			brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
-				//brokerURL: 'ws://localhost/modu/socketserver'
+
 			});
 
 			// 페이지 로드시 
@@ -553,20 +552,26 @@
 	 											})		
 							}
 						
-						
-						//이 부분에 채팅 참여자 List Fetch 사용
-						
-						
-						//채팅 전송 알람 (성현)- 아직 본인이 보내면 본인한테만 알람 옴
-						console.log(data);
+						//성현 채팅 알림 조건
+					$.ajax('ChatParticiMemb')
+					.done(result => {
+						console.log(result);
+						for(let i=0; i<result.length; i++){
+							console.log(result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]');
+							console.log(result[i].particiMembUniNo)
+							if(result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]'){
 			 			armClient.publish({
-							destination: "/pubArm/chat/"+particiMembUniNo,
+							destination: "/pubArm/chat/"+result[i].particiMembUniNo,
 							body: JSON.stringify({
-								'particiMembUniNo' : particiMembUniNo
+								'particiMembUniNo' : result[i].particiMembUniNo
 							})
-					});
+						});
+					}
+				}
+			})
+		})
 						
-						})						
+						// 성현
 					.catch(err => console.log(err))
 			}
 			
