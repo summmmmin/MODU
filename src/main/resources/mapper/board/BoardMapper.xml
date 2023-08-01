@@ -5,27 +5,22 @@
 <mapper namespace="com.modu.app.prj.board.mapper.BoardMapper">
 
 	<!-- 게시판 전체조회 -->
-	<select id="BoardList" resultType="BoardVO"
-		parameterType="BoardVO">
-		SELECT q.brd_uni_no ,q.board_nm, q.pubc_yn,
-		q.reg_dt,q.prj_uni_no,
-		p.partici_memb_uni_no, p.brd_yn
+	<select id="BoardList" resultType="BoardVO" parameterType="BoardVO">
+        SELECT q.partici_memb_uni_no, q.brd_uni_no ,q.board_nm, q.pubc_yn, q.reg_dt,q.prj_uni_no, p.brd_yn
 		FROM brd_bm p
-		right JOIN (SELECT *
+		right JOIN (SELECT a.partici_memb_uni_no, a.brd_uni_no, a.board_nm, a.pubc_yn, a.reg_dt, a.prj_uni_no
 		FROM brd a left outer join brd_cm b
 		ON
 		a.brd_uni_no=b.board_uni_no
 		WHERE (a.pubc_yn = 'Y'
 		OR (a.pubc_yn = 'N'
 		and b.partici_memb_uni_no = #{particiMembUniNo}))
-		AND a.prj_uni_no =
-		#{prjUniNo}) q
+		AND a.prj_uni_no = #{prjUniNo}) q
 		ON p.brd_uni_no = q.brd_uni_no
 	</select>
 
 	<!-- 게시판 생성 -->
-	<insert id="InsertBoard" parameterType="BoardVO"
-		statementType="CALLABLE">
+	<insert id="InsertBoard" parameterType="BoardVO" statementType="CALLABLE">
 		CALL
 		create_brd(
 		#{boardNm},
@@ -56,5 +51,17 @@
 		SELECT * FROM brd
 		WHERE brd_uni_no = #{brdUniNo}
 	</select>
-
+	
+	<select id="BrdCount" resultType="int" parameterType="BoardVO">
+	SELECT count(*)
+	FROM brd
+	WHERE prj_uni_no=#{prjUniNo}
+	</select>
+	
+	<select id="prjList" resultType="BoardVO" parameterType="BoardVO">
+	SELECT *
+	FROM prj_partici_memb
+	WHERE prj_uni_no = #{prjUniNo}
+	</select>
+	
 </mapper>

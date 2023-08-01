@@ -371,7 +371,6 @@
 								body: JSON.stringify({
 									'postUniNo': data.postUniNo,
 									'particiMembUniNo' : particiMembUniNo,
-									'cntn' : cntn
 								})
 						});
 
@@ -674,7 +673,9 @@ function PostBm(){
 	let particiMembUniNo = '[[${session.particiMembUniNo}]]';
 	let data = {
 			'particiMembUniNo' : particiMembUniNo,
-			'postUniNo' : postNo
+			'postUniNo' : postNo,
+			'brdUniNo' : '[[${brdUniNo}]]'
+			
 	}
 	fetch('/modu/BmInsert',{
 		method:'POST',

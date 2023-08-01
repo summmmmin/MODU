@@ -25,17 +25,19 @@
     .done(result => {
         let div = '';
         for (let i of result) { 
+        	console.log(i);
             const regDate = new Date(i.regDt);
             const formattedDate = `${regDate.getFullYear()}-${String(regDate.getMonth() + 1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`;
 
             div += `
                 <div class="card-content">
-                    <div class="card-body">
-                        <th>등록일자</th><br>
-                        <td>${formattedDate}</td>
-                        <td>${i.attNo}</td>
-                        <td>${i.chatNo}</td> 
-                        <td>${i.postUniNo}</td>
+                    <div class="card-body" style="padding:15px;">
+                    	<tr onclick="">
+                        	<td>등록일자</td><br>
+                        	<td>${formattedDate}</td>
+                        	<td>${i.brdUniNo}</td>
+                        	<td>${i.postUniNo}</td>
+                        </tr>
                     </div>
                 </div>
                 <hr>
@@ -44,6 +46,9 @@
         $('#bmList').append(div);
     });
 /*]]>*/
+function trHref(){
+	location.href = '';
+}
 </script>
 <script>
     function click() {

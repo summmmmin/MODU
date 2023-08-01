@@ -44,4 +44,17 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> brdNm(BoardVO vo) {
 		return boardMapper.brdNm(vo);
 	}
+	
+	//무료 게시판이면 Count 해서 게시판 4개까지 생성 가능
+	@Override
+	public int BrdCount(String prjNo) {
+		return boardMapper.BrdCount(prjNo);
+	}
+	
+	
+	// 현재 참여한 프로젝트 내에 회원에게 알람 발송
+	@Override
+	public List<BoardVO> prjList(BoardVO vo) {
+		return boardMapper.prjList(vo);
+	}
 }
