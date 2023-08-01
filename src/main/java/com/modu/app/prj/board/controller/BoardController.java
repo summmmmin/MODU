@@ -38,7 +38,6 @@ public class BoardController {
 		session.setAttribute("prjUniNo", vo.getPrjUniNo());
 		session.setAttribute("particiMembUniNo", vo.getParticiMembUniNo());
 		session.setAttribute("grd", vo.getGrd());
-		System.out.println(session);
 		return "index";
 	}
 
@@ -54,7 +53,6 @@ public class BoardController {
 		}
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		System.out.println(vo);
 		boardService.InsertBoard(vo);
 		return vo;
 	}

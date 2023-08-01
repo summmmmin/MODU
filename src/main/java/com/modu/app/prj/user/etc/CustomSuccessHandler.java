@@ -13,9 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.modu.app.prj.user.service.PrincipalDetails;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
+import com.modu.app.prj.user.service.PrincipalDetails;
 import com.modu.app.prj.user.service.UserVO;
 
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
@@ -26,20 +26,19 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		
-		
+
 		Object principal = authentication.getPrincipal();
 
 		if (principal instanceof UserDetails) {
 			UserDetails userDetails = (UserDetails) principal;
 
-			UserVO userVO;
+			UserVO vo;
 
 			if (userDetails instanceof PrincipalDetails) {
-				userVO = ((PrincipalDetails) userDetails).getUserVO();
+				vo = ((PrincipalDetails) userDetails).getUserVO();
+				System.out.println("회원 로그인 : " + vo);
 			} else {
-
-				System.out.println("UserDetails 인스턴스는 PrincipalDetails의 인스턴스가 아님 UserVO GET X");
+				System.out.println("로그인 실패");
 				return;
 			}
 
@@ -47,7 +46,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
 			// 세션에 사용자 정보 저장
 			HttpSession session = request.getSession();
-			session.setAttribute("user", userVO);
+			session.setAttribute("user", vo);
 
 			// 아이디 저장 체크 여부 확인
 			boolean rememberId = request.getParameter("rememberId") != null;
@@ -55,7 +54,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
 			if (rememberId) {
 				// 아이디 저장을 위한 쿠키 생성
-				Cookie cookie = new Cookie("savedUsername", userVO.getId());
+				Cookie cookie = new Cookie("savedUsername", vo.getId());
 				cookie.setMaxAge(30 * 24 * 60 * 60); // 쿠키 수명 설정 (일단 30일)
 				cookie.setPath("/");
 				response.addCookie(cookie);
@@ -67,9 +66,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 				cookie.setPath("/");
 				response.addCookie(cookie);
 			}
-			UserVO vo = (UserVO) authentication.getPrincipal();
-			System.out.println(vo.getNm());
-
 			if (vo != null) {
 				session.setAttribute("user", vo);
 				String inviteTk = (String) session.getAttribute("inviteTk");
@@ -95,8 +91,8 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
 				}
 			}
-
-			response.sendRedirect("/modu/prjList");
 		}
+
+		response.sendRedirect("/modu/prjList");
 	}
 }

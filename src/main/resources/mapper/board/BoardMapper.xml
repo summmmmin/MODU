@@ -7,14 +7,19 @@
 	<!-- 게시판 전체조회 -->
 	<select id="BoardList" resultType="BoardVO"
 		parameterType="BoardVO">
-		SELECT q.brd_uni_no ,q.board_nm, q.pubc_yn, q.reg_dt,q.prj_uni_no,
+		SELECT q.brd_uni_no ,q.board_nm, q.pubc_yn,
+		q.reg_dt,q.prj_uni_no,
 		p.partici_memb_uni_no, p.brd_yn
-		FROM brd_bm p right JOIN (SELECT *
+		FROM brd_bm p
+		right JOIN (SELECT *
 		FROM brd a left outer join brd_cm b
-		ON a.brd_uni_no=b.board_uni_no
+		ON
+		a.brd_uni_no=b.board_uni_no
 		WHERE (a.pubc_yn = 'Y'
-		OR (a.pubc_yn = 'N' and b.partici_memb_uni_no = #{particiMembUniNo}))
-		AND a.prj_uni_no = #{prjUniNo}) q
+		OR (a.pubc_yn = 'N'
+		and b.partici_memb_uni_no = #{particiMembUniNo}))
+		AND a.prj_uni_no =
+		#{prjUniNo}) q
 		ON p.brd_uni_no = q.brd_uni_no
 	</select>
 
@@ -33,15 +38,23 @@
 	<!-- 게시판 삭제 -->
 	<delete id="DeleteBoard" parameterType="BoardVO">
 		DELETE brd
-		WHERE brd_uni_no = #{brdUniNo}
+		WHERE
+		brd_uni_no = #{brdUniNo}
 	</delete>
 
 	<!-- 게시판 수정 -->
 	<update id="BrdUpdate" parameterType="BoardVO">
 		UPDATE brd SET
-		board_nm = #{boardNm},
+		board_nm =
+		#{boardNm},
 		pubc_yn = #{pubcYn}
 		WHERE brd_uni_no = #{brdUniNo}
 	</update>
+
+	<!-- PostControl에 쓰임  -->
+	<select id="brdNm" resultType="BoardVO" parameterType="BoardVO">
+		SELECT * FROM brd
+		WHERE brd_uni_no = #{brdUniNo}
+	</select>
 
 </mapper>

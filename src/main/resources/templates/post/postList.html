@@ -10,20 +10,17 @@
 <body>
 	<div layout:fragment="content">
 		<div class="buttons">
-			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" >글작성</a>
+			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" th:if="${session.grd} != 'G01'">글작성</a>
 		</div>
 		
 		
 		<!-- ============= 게시판 수정, 삭제 (성현) =============-->
 		
-<!-- 값 찾아오기 귀찮아서 이렇게 만듦 ! (성현) -->
+<!-- 값 찾아오기 귀찮아서 이렇게 만들었어요 죄송 ! (성현) -->
 <p id="brdNo" style="display:none">[[${brdUniNo}]]</p>
-<p id="brdNo123">[[${particiMembUniNo}]]</p>
 <p id="prjNo" style="display:none">[[${session.prjUniNo}]]</p>
-<p id="particiNo">[[${session.particiMembUniNo}	]]</p> <!-- 현재 내 참여 번호와 게시판 테이블의 particiMemb이거랑 비교해야함 -->
-<p id="particiNo11">[[${particiMembUniNo}]]</p>
-<p></p>
-<div class="dropdown"> <!--/* 게시판 생성자만 이 Div가 나오게 수정  */-->
+<!-- 게시판 작성자만 수정,삭제 버튼이 나옴 (성현) -->
+<div class="dropdown" th:each="check : ${checkNM}" th:if="${check.particiMembUniNo == session.particiMembUniNo}"> <!--/* 게시판 생성자만 이 Div가 나오게 수정  */-->
 <button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 <div class="postDDM dropdown-menu" aria-labelledby="dropdownMenuButton">
 <a id="editBoardLink" class="dropdown-item">게시판 수정</a>
@@ -174,7 +171,7 @@
 									<i class="bx bx-x d-block d-sm-none"></i> 
 									<span	class="d-none d-sm-block">취소</span>
 								</button>
-								<button id="deleteBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+								<button id="deletePostBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
 									<i class="bx bx-check d-block d-sm-none"></i> 
 									<span class="d-none d-sm-block">확인</span>
 								</button>
@@ -185,7 +182,7 @@
 				<!-- end of 게시글 삭제 모달 -->
 
 				<!-- start of 댓글 삭제 모달 -->
-				<div class="modal fade text-left" id="deleteReply" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+				<div class="modal fade text-left" id="deleteReply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 						<div class="modal-content">
 							<div class="modal-header bg-primary">
@@ -377,6 +374,7 @@
 									'cntn' : cntn
 								})
 						});
+
 						})
 						.catch(err => console.log(err))
 					}else{
@@ -452,9 +450,9 @@
 				let postInfo = {};
 				postInfo['postUniNo'] = pNum;
 				let bNum = '[[${brdUniNo}]]'
-				document.getElementById('deleteBtn').addEventListener('click', function(e){
-
-					fetch('/modu/removeFilesWith/',{
+				
+				document.getElementById('deletePostBtn').addEventListener('click', function(e){		
+					fetch('/modu/removeFilesWith',{
 						method :'post',
 						headers : {
 							'content-type' : 'application/json'
@@ -537,6 +535,29 @@
 				})
 				.catch(err => console.log(err))
 			}
+
+			//호출멤버를 닉네임으로 바꾸기
+			/* function callMembsNnm(){
+				let pNum = '[[${session.prjUniNo}]]';
+				let tagArms = document.getElementsByClassName('postTagArm');
+				for(let arms of tagArms){
+					console.log(arms.textContent);
+				}
+				//console.log(tagArms);
+				
+				let membs = [];
+
+				fetch("/modu/chatMembs/" + pNum)
+				.then(resolve => resolve.json())
+				.then(data => {
+					//console.log(data);
+					data.forEach(memb => {
+						membs.push({'particiMembUniNo' : memb.particiMembUniNo, 'nnm' : memb.nnm});
+					})
+					console.log(membs);
+				})
+			}
+			callMembsNnm(); */
 
 			//공지리스트
 			function notiPostList(){
@@ -766,7 +787,6 @@ function BrdUpdate() {
   .catch(err => console.log(err));
 }
 </script>
-
 	</div>
 </div>
 
