@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -20,7 +20,10 @@ import com.modu.app.prj.prj.mapper.PrjMapper;
 @Service
 public class PayServiceImpl implements PayService {
 	static final String cid = ""; // 정기결제 가맹점 테스트 코드
-    static final String admin_Key = ""; // 애플리케이션 어드민 키
+	
+	 @Value("${kakao-admin-key}")
+    private String admin_Key; // 애플리케이션 어드민 키
+	 
     private PayVO kakaoReady;
     private PayVO payInfo;
     
