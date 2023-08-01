@@ -2,12 +2,14 @@ package com.modu.app.prj.user.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,31 +17,32 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.modu.app.prj.user.mapper.UserMapper;
-import com.modu.app.prj.user.service.KakaoToken;
+import com.modu.app.prj.user.service.PrincipalDetails;
 import com.modu.app.prj.user.service.UserService;
 import com.modu.app.prj.user.service.UserVO;
 import com.modu.app.sms.service.MessageDTO;
 import com.modu.app.sms.service.SmsResponseDTO;
 import com.modu.app.sms.service.SmsService;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -51,9 +54,6 @@ public class UserController {
 
 	@Autowired
 	UserMapper userMapper;
-
-	@Autowired
-	KakaoToken kakaoToken;
 
 	private final SmsService smsService;
 
@@ -244,24 +244,32 @@ public class UserController {
 		return randomPassword.toString();
 	}
 
-	// 카카오 oauth방식 로그인
-	@RestController
-	@AllArgsConstructor
-	@RequestMapping("oauth")
-	public class OAuthController {
+	// 소셜로그인
+	@GetMapping("info/oauth/login")
+	public Map<String, Object> oauthLoginInfo(Authentication authentication,
+			@AuthenticationPrincipal OAuth2User oAuth2UserPrincipal) {
+		OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+		Map<String, Object> attributes = oAuth2User.getAttributes();
+		System.out.println(attributes);
 
-		@ResponseBody
-		@GetMapping("kakao")
-		public void kakaoCallback(@RequestParam String code) {
-			System.out.println(code);
-			String access_Token = kakaoToken.getKaKaoAccessToken(code);
+		return attributes; // 세션에 담긴 user
+	}
 
-			HashMap<String, Object> userInfo = kakaoToken.getUserInfo(access_Token);
-			System.out.println("###access_Token#### : " + access_Token);
-			System.out.println("###nickname#### : " + userInfo.get("nickname"));
-			System.out.println("###email#### : " + userInfo.get("email"));
-			System.out.println("카카오 토큰 발급 : " + access_Token);
+	@GetMapping("info/loginInfo")
+	public String loginInfo(Authentication authentication) {
+		String result = "";
+		Object principal = authentication.getPrincipal();
+
+		if (principal instanceof PrincipalDetails) {
+			PrincipalDetails principalDetails = (PrincipalDetails) principal;
+			// OAuth2 로그인 처리
+			result = "OAuth2 로그인 : " + principalDetails;
+		} else if (principal instanceof UserVO) {
+			// Form 로그인 처리
+			UserVO user = (UserVO) principal;
+			result = "Form 로그인 : " + user;
 		}
+		return result;
 	}
 
 	/*
@@ -281,7 +289,7 @@ public class UserController {
 		return "user/loginuser/mypage";
 	}
 
-	// 이름 수정
+	// 이름 변경
 	@PostMapping("loginuser/modifyNm")
 	@ResponseBody
 	public ResponseEntity<String> modifyNm(HttpServletRequest request, @RequestParam("newName") String newName) {
@@ -346,36 +354,85 @@ public class UserController {
 	// 휴대폰 번호 변경
 	@PostMapping("loginuser/modifyPhone")
 	@ResponseBody
-	public ResponseEntity<String> modifyPhone(HttpServletRequest request, @RequestBody Map<String, String> phoneNumberRequest) {
-	    HttpSession session = request.getSession();
-	    UserVO userVO = (UserVO) session.getAttribute("user");
+	public ResponseEntity<String> modifyPhone(HttpServletRequest request,
+			@RequestBody Map<String, String> phoneNumberRequest) {
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("user");
 
-	    String userId = userVO.getId();
-	    String newPhoneNumber = phoneNumberRequest.get("newPhoneNumber");
+		String userId = userVO.getId();
+		String newPhoneNumber = phoneNumberRequest.get("newPhoneNumber");
 
-	    // 파라미터 2개 > Map에 넣어서 값넘김
-	    Map<String, String> params = new HashMap<>();
-	    params.put("id", userId);
-	    params.put("phNo", newPhoneNumber);
-	    System.out.println("새로운 휴대폰 값 ㅣ " + newPhoneNumber);
-	    System.out.println("params" + params);
+		// 파라미터 2개 > Map에 넣어서 값넘김
+		Map<String, String> params = new HashMap<>();
+		params.put("id", userId);
+		params.put("phNo", newPhoneNumber);
+		System.out.println("새로운 휴대폰 값 ㅣ " + newPhoneNumber);
+		System.out.println("params" + params);
 
-	    String updateResult = userService.updatePhone(params);
-	    System.out.println(updateResult);
+		String updateResult = userService.updatePhone(params);
+		System.out.println(updateResult);
 
-	    if ("휴대폰 번호 변경 성공".equals(updateResult)) {
-	        userVO.setPhNo(newPhoneNumber);
-	        session.setAttribute("user", userVO);
-	        return ResponseEntity.ok("휴대폰 번호 변경 성공");
-	    } else {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("휴대폰 번호 변경 실패");
-	    }
+		if ("휴대폰 번호 변경 성공".equals(updateResult)) {
+			userVO.setPhNo(newPhoneNumber);
+			session.setAttribute("user", userVO);
+			return ResponseEntity.ok("휴대폰 번호 변경 성공");
+		} else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("휴대폰 번호 변경 실패");
+		}
 	}
 
+	// 이메일 변경
+	@PostMapping("loginuser/modifyEmail")
+	@ResponseBody
+	public ResponseEntity<String> modifyEmail(String newEmail, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute("user");
 
-	// 아이디 변경을 위한 이메일 전송
+		Map<String, String> verificationCodes = new HashMap<>();
 
-	// 휴대폰 번호 변경
+		String verificationCode = userService.emailCode();
+		verificationCodes.put(userVO.getId(), verificationCode);
+		System.out.println("인증코드 : " + verificationCode);
+		System.out.println(" 이메일 : " + newEmail);
+
+		// 세션에 인증번호 저장
+		session.setAttribute("storedCode", verificationCode);
+
+		SendEmail.idMail(userVO.getId(), newEmail, verificationCode);
+
+		return ResponseEntity.ok("이메일 전송 성공");
+	}
+
+	@PostMapping("loginuser/emailVerify")
+	@ResponseBody
+	public ResponseEntity<String> emailVerify(@RequestParam String newEmail, @RequestParam String code,
+			HttpServletRequest request) {
+		HttpSession session = request.getSession();
+
+		UserVO userVO = (UserVO) session.getAttribute("user");
+
+		String storedCode = (String) session.getAttribute("storedCode");
+		System.out.println("storedCode : " + storedCode);
+		try {
+			newEmail = URLDecoder.decode(newEmail, StandardCharsets.UTF_8.name());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+		if (storedCode != null && storedCode.equals(code)) {
+			System.out.println("새로운 이메일 : " + newEmail);
+
+			Map<String, String> params = new HashMap<>();
+			params.put("id", userVO.getId());
+			params.put("newEmail", newEmail); //
+			userService.updateId(params);
+
+			session.removeAttribute("storedCode");
+			return ResponseEntity.ok("아이디 변경 성공");
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("아이디 변경 실패");
+		}
+	}
 
 	// 회원 탈퇴
 	@PostMapping("loginuser/quitUser")
@@ -394,18 +451,50 @@ public class UserController {
 			return ResponseEntity.badRequest().body("사용자가 아님");
 		}
 	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// 관리자 대시보드
-	@GetMapping("admin/dashboard")
-	public String dashboard() {
-		return "admin/dashboard";
+	@GetMapping("admin/dashBoard")
+	public String dashboard(Model model) {
+		int userCount = userService.userCount();
+		int newUsersCount = userService.newUsersCount();
+		List<Map<String, Object>> monthlyNewUsersCount = userService.monthlyNewUsersCount();
+		int totalPay = userService.totalPay();
+
+		System.out.println(monthlyNewUsersCount);
+
+		model.addAttribute("userCount", userCount);
+		model.addAttribute("newUsersCount", newUsersCount);
+		model.addAttribute("monthlyNewUsersCount", monthlyNewUsersCount);
+		model.addAttribute("totalPay", totalPay);
+
+		return "admin/dashBoard";
+	}
+
+	// 관리자 대시보드 그래프
+	@GetMapping("admin/dashBoard/monthlyNewUsersCount")
+	@ResponseBody
+	public List<Map<String, Object>> getMonthlyNewUsersCount() {
+		return userService.monthlyNewUsersCount();
 	}
 
 	// 관리자 유저목록
 	@GetMapping("admin/userList")
-	public String userList() {
+	public String userList(Model model) {
+		List<UserVO> userList = userService.userList();
+		model.addAttribute("userList", userList);
+		System.out.println("유저리스트 : " + userList);
 		return "admin/userList";
+	}
+
+	// 유저 정보 조회(마이페이지)
+	@PostMapping("admin/userList/{id}")
+	@ResponseBody
+	public UserVO myInfo(@PathVariable String id) {
+		UserVO user = userService.myInfo(id);
+		System.out.println(id);
+		return user;
 	}
 
 }

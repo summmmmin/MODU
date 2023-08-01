@@ -40,6 +40,12 @@ public class BmController {
 	@PostMapping("BmInsert")
 	@ResponseBody
 	public int BmInsert(@RequestBody BmVO vo) {
+		if(vo.getBrdUniNo() != null) {
+			vo.setDivision("A");
+		}else {
+			vo.setDivision("B");
+		}
+		
 		int result = bmService.BmInsert(vo);
 		if(result == 1) {
 			return 1;

@@ -19,10 +19,11 @@ public class ChatVO {
 	private String particiMembUniNo; //프로젝트참여번호
 	private String nnm; //닉네임
 	
+	private int readCount; //읽은 사람 수
 	
-	public ChatVO() {}
+	public ChatVO() {} //웹소켓용
 	
-	//롬복있으니까 이거 필요없는 거 아님?
+	//웹소켓용
 	public ChatVO(String cntn) {
 		this.cntn = cntn;
 	}

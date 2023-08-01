@@ -142,6 +142,15 @@ margin-left:5px;}
 	               .then(data => {
 	            	   console.log(data);
 	            	   todoList();
+	            	   
+			//할 일 생성 알람 (성현)
+ 			armClient.publish({
+				destination: "/pubArm/todo/"+particiMembUniNo,
+				body: JSON.stringify({
+					'particiMembUniNo' : particiMembUniNo
+				})
+		});
+	            	   
 	               })
 		}
 			 /* $.ajax({
@@ -170,6 +179,8 @@ margin-left:5px;}
 			function dateChange(){
 				document.getElementById("lastDate").setAttribute("min", date.value); 
 			}
+		
+		
 		
 		
 		</script>

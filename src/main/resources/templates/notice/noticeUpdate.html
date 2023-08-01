@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>noticeUpdate</title>
+</head>
+<body>
+
+	
+		<h2>공지사항 수정</h2> 
+		<div class="row">
+			<div class="col">
+				<div class="card">
+					<div class="card-body">
+						<form th:action="@{/noticeUpdate}" method="POST" th:object="${notice}" enctype ="multipart/form-data">
+							
+							<div class="form-group mb-3">
+								<!--제목부-->
+								<input type="text" class="form-control" id="basicInput" th:value="${noticeUniNo}"th:field="*{noticeUniNo}" required >
+								<div class="form-group">
+									<label for="basicInput">제목*</label>
+									<input type="text" class="form-control" id="basicInput" placeholder="tilte" th:field="*{ttl}" required >
+								</div>
+								<hr>
+								<!--본문부-->
+								<div class="form-group">
+									<label for="basicInput">공지사항 본문*</label>
+									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" th:field="*{cntn}" required></textarea>
+								</div>
+								<hr>
+								
+								<!--버튼부-->
+								<hr>
+								<div class="buttons">
+									<button type="submit" id="noticeInsertBtn" class="btn btn-primary">등록</button>
+									<button type="button"  class="btn btn-light"><a th:href="@{noticeList}">취소</a></button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+			
+		<script>
+			
+			//제목, 본문 미작성시 등록 안 됨
+			let postBtn = document.querySelector('#postInsertBtn');
+			let ttl = document.querySelectorAll('INPUT')[2];
+			let cm = document.querySelectorAll('TEXTAREA')[0];
+			postBtn.addEventListener('load', function(){
+				if(ttl.value == '' || cm.value ==''){
+					postBtn.setAttribute('disabled', 'true')
+				}else{
+					postBtn.setAttribute('disabled', 'false')
+				}
+			})
+		</script>
+	</div>
+</body>
+
+</html>

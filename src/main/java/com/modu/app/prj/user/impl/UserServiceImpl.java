@@ -1,24 +1,41 @@
 package com.modu.app.prj.user.impl;
 
 import java.io.UnsupportedEncodingException;
+
+
 import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.modu.app.prj.user.mapper.UserMapper;
+import com.modu.app.prj.user.service.PrincipalDetails;
 import com.modu.app.prj.user.service.UserService;
 import com.modu.app.prj.user.service.UserVO;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
+
+	SqlSession sqlsession;
+
 	@Autowired
 	UserMapper userMapper;
+
+	@Autowired
+	public UserServiceImpl(SqlSession sqlsession) {
+		super();
+		this.sqlsession = sqlsession;
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -28,7 +45,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			System.out.println("유저정보 없음");
 			throw new UsernameNotFoundException("no user");
 		}
-		return userVO;
+		return new PrincipalDetails(userVO);
 	}
 
 	@Override
@@ -115,23 +132,69 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public int quitUser(String id) {
-	    int result = userMapper.quitUser(id);
-	    if (result == 1) {
-	        return result;
-	    } else {
-	        throw new RuntimeException("유저탈퇴실패");
-	    }
+		int result = userMapper.quitUser(id);
+		if (result == 1) {
+			return result;
+		} else {
+			throw new RuntimeException("유저탈퇴실패");
+		}
 	}
-	
+
 	@Override
 	public String updatePhone(Map<String, String> params) {
 		int result = userMapper.updatePhone(params);
 		if (result > 0) {
-			return "휴대폰 번호 변경 성공";	// 이거랑 컨트롤러에서 전달하는 바디값이 오타났다고 다르게 전달하는 바람에 서버에서는 변경처리가 됐는데 클라이언트에선 실패로 뜸 ...... 진짜 이상한 문제
+			return "휴대폰 번호 변경 성공"; // 오타나면 받는값이 달라서 서버에선 변경되더라도 클라이언트에선 오류 남
+									// return ResponseEntity.ok("휴대폰 번호 변경 성공"); 이대로 받아오기
 		} else {
 			return "휴대폰 번호 변경 실패";
 		}
 	}
 
+	@Override
+	public String emailCode() {
+		int codeLength = 6;
+		String validChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		Random random = new Random();
+
+		StringBuilder code = new StringBuilder();
+		for (int i = 0; i < codeLength; i++) {
+			int index = random.nextInt(validChars.length());
+			String randomChar = validChars.substring(index, index + 1);
+			code.append(randomChar);
+		}
+
+		return code.toString();
+	}
+
+	@Override
+	public List<UserVO> userList() {
+		return userMapper.userList();
+	}
+
+	@Override
+	public int userCount() {
+		return userMapper.userCount();
+	}
+
+	@Override
+	public int newUsersCount() {
+		return userMapper.newUsersCount();
+	}
+
+	@Override
+	public UserVO myInfo(String id) {
+		return userMapper.myInfo(id);
+	}
+
+	@Override
+	public List<Map<String, Object>> monthlyNewUsersCount() {
+		return userMapper.monthlyNewUsersCount();
+	}
+
+	@Override
+	public int totalPay() {
+		return userMapper.totalPay();
+	}
 
 }

@@ -57,4 +57,13 @@ public class SearchVO {
 	//채팅방 참여자
 	private String chatrPartici;
 	
+	//파일 버노
+	private String attNo;
+	
+	//파일 이름
+	private String attNm;
+	
+	//할 일 번호
+	private String todoUniNo;
+	
 }

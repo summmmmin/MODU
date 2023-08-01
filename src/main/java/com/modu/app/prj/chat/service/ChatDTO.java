@@ -19,4 +19,6 @@ public class ChatDTO {
 	private String particiMembUniNo; // 프로젝트참여자고유번호
 	private String nnm; // 프로젝트내 닉네임
 	
+	private int readCount; //읽은 사람 수
+	
 }
