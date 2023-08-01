@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>noticePage</title>
+</head>
+
+<body>
+
+
+	<h2>공지사항 단건조회</h2>
+	<div class="row">
+		<div class="col">
+			<div class="card">
+				<div class="card-body">
+
+					<div class="form-group mb-3">
+
+						<div class="form-group">
+						
+							<table>
+								<tr>
+									<th>제목</th>
+									<td>[[${notice.ttl}]]</td>
+								</tr>
+								<tr>
+									<th>본문</th>
+									<td>[[${notice.cntn}]]</td>
+								</tr>
+							</table>
+
+							<!--버튼부-->
+							<hr>
+							<div class="buttons">
+								<button type="button" class="btn btn-primary"  th:if="${#httpServletRequest.userPrincipal != null} and ${session.user.grd} == 'A'"><a th:href="@{/noticeUpdate(noticeUniNo=${notice.noticeUniNo})}">수정</a></button>
+								<button type="button" class="btn btn-primary" th:data-noticeUniNo="${notice.noticeUniNo}" id="delNoticeBtn" th:onclick="deleteNotice(event)"  th:if="${#httpServletRequest.userPrincipal != null} and ${session.user.grd} == 'A'">삭제</button>
+								<button type="button" class="btn btn-light"><a th:href="@{/noticeList}">돌아가기</a></button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			function deleteNotice(e){
+				console.log(e.target);
+				let notiNum = e.target.dataset.noticeunino;
+				console.log(notiNum);
+
+				let delNo = notiNum;
+
+				fetch('/modu/noticeDelete',{
+					method : 'post',
+					headers : {
+						'Content-Type': 'text/plain' 
+					},
+					body : delNo
+				})
+				.then(result => result.text())
+				.then(data => {
+					console.log(data);
+					window.location.href = "/modu/noticeList";
+					
+				})
+				.catch(err => console.log(err))
+			}
+		</script>
+	</div>
+</body>
+
+</html>

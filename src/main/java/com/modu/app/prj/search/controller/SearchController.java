@@ -27,7 +27,7 @@ public class SearchController {
 		return "search/search";
 	}
 
-	// 게시글 즐겨찾기 리스트
+	// 게시글 리스트
 	@ResponseBody
 	@GetMapping("BpList")
 	public List<SearchVO> BpList(Model model, SearchVO vo, HttpSession session) {
@@ -37,7 +37,7 @@ public class SearchController {
 		return list;
 	}
 
-	// 게시글 즐겨찾기 리스트
+	// 게시글 검색
 	@ResponseBody
 	@GetMapping("BpListSearch")
 	public List<SearchVO> BpList(@RequestParam String ttl, SearchVO vo, HttpSession session) {
@@ -47,7 +47,7 @@ public class SearchController {
 		return list;
 	}
 
-	// 채팅 즐겨찾기 리스트
+	// 채팅 리스트
 	@ResponseBody
 	@GetMapping("ChatList")
 	public List<SearchVO> chatList(Model model, SearchVO vo, HttpSession session) {
@@ -58,7 +58,7 @@ public class SearchController {
 		return list;
 	}
 
-	// 채팅 즐겨찾기 리스트
+	// 채팅 검색
 	@ResponseBody
 	@GetMapping("ChatListSearch")
 	public List<SearchVO> ChatList(@RequestParam String cntn, SearchVO vo, HttpSession session) {
@@ -66,6 +66,27 @@ public class SearchController {
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vo.setCntn(cntn);
 		List<SearchVO> list = searchService.chatList(vo);
+		return list;
+	}
+	
+	// 파일 리스트
+	@ResponseBody
+	@GetMapping("FileList")
+	public List<SearchVO> FileList(Model model, SearchVO vo, HttpSession session) {
+		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		List<SearchVO> list = searchService.fileList(vo);
+		model.addAttribute("fileList", list);
+		return list;
+	}
+
+	// 파일 검색
+	@ResponseBody
+	@GetMapping("FileListSearch")
+	public List<SearchVO> FileList(@RequestParam String attNm, SearchVO vo, HttpSession session) {
+		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		vo.setCntn(attNm);
+		List<SearchVO> list = searchService.fileList(vo);
 		return list;
 	}
 }

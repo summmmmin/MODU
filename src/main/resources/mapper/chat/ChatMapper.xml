@@ -72,15 +72,49 @@
 		       c.chat_partici_memb_uni_no, 
 		       c.write_dt, 
 		       cm.chatr_no,
-               p.partici_memb_uni_no, 
-               p.nnm
-          FROM chat c 
-          JOIN chatr_partici cm 
-            ON c.chat_partici_memb_uni_no = cm.chat_partici_memb_uni_no
-          JOIN prj_partici_memb p 
-            ON p.partici_memb_uni_no = cm.partici_memb_uni_no
-         WHERE c.chatr_no = #{chatrNo}
-      ORDER BY c.write_dt
+		       p.partici_memb_uni_no, 
+		       p.nnm,
+		       COALESCE(chm.readCount, 0) AS readCount
+		  FROM chat c 
+		  JOIN chatr_partici cm 
+		    ON c.chat_partici_memb_uni_no = cm.chat_partici_memb_uni_no
+		  JOIN prj_partici_memb p 
+		    ON p.partici_memb_uni_no = cm.partici_memb_uni_no
+	 LEFT JOIN (
+		  		SELECT chat_no, COUNT(chat_no) AS readCount
+			      FROM chat_chm
+			     WHERE cfm_yn = 'N'
+			  GROUP BY chat_no
+		      ) chm 
+		   ON c.chat_no = chm.chat_no
+		WHERE c.chatr_no = #{chatrNo}
+		ORDER BY c.write_dt
+			
+      
+	     <!--  SELECT c.chat_no, 
+		         c.cntn, 
+		         c.chat_partici_memb_uni_no, 
+		         c.write_dt, 
+		         cm.chatr_no,
+		         p.partici_memb_uni_no, 
+		         p.nnm,
+		         COUNT(chm.chat_no) AS readCount
+		    FROM chat c 
+		    JOIN chatr_partici cm 
+		      ON c.chat_partici_memb_uni_no = cm.chat_partici_memb_uni_no
+		    JOIN prj_partici_memb p 
+		      ON p.partici_memb_uni_no = cm.partici_memb_uni_no
+	   LEFT JOIN chat_chm chm 
+		      ON c.chat_no = chm.chat_no
+		   WHERE c.chatr_no = #{chatrNo}
+		GROUP BY c.chat_no, 
+		         c.cntn, 
+		         c.chat_partici_memb_uni_no, 
+		         c.write_dt, 
+		         cm.chatr_no,
+		         p.partici_memb_uni_no, 
+		         p.nnm
+		ORDER BY c.write_dt -->
 	</select>
 	
 	<!-- 채팅방나가기 -->
@@ -135,5 +169,15 @@
              ON pp.partici_memb_uni_no = cc.partici_memb_uni_no AND cc.chatr_no = #{chatrNo}
           WHERE pp.prj_uni_no = #{prjUniNo} AND pp.partici_yn = 'Y' AND cc.partici_memb_uni_no IS NULL
 	</select>
- 
+	
+	<!-- 채팅읽음업데이트 -->
+	<update id="updateReadChat" parameterType="ChatChmVO">
+		<![CDATA[
+			UPDATE chat_chm
+			   SET cfm_yn = 'Y'
+			 WHERE chat_partici_memb_uni_no = #{chatParticiMembUniNo} 
+			   AND cfm_yn != 'Y'
+			   AND chat_no <= (SELECT MAX(chat_no) FROM chat_chm WHERE chatr_no = #{chatrNo})
+		 ]]>
+	</update>
 </mapper>

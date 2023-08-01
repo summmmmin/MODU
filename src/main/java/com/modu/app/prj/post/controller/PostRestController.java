@@ -35,7 +35,7 @@ public class PostRestController {
 		return postService.getOnePost(postUniNo);
 	}
 	
-	// 첨부파일조회?
+	// 첨부파일조회
 	@GetMapping("attPost/{pNum}")
 	public List<FileVO> fileListWithPost(@PathVariable("pNum") String postUniNo){
 		FileVO fileVO = new FileVO();
