@@ -19,7 +19,7 @@ import com.modu.app.prj.prj.mapper.PrjMapper;
 
 @Service
 public class PayServiceImpl implements PayService {
-	static final String cid = ""; // 정기결제 가맹점 테스트 코드
+	static final String cid = "TCSUBSCRIP"; // 정기결제 가맹점 테스트 코드
 	
 	 @Value("${kakao-admin-key}")
     private String admin_Key; // 애플리케이션 어드민 키
