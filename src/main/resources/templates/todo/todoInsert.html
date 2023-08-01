@@ -18,7 +18,7 @@ margin-left:5px;}
 		<div class="row">
 			<div class="card">
 				<div class="card-header">
-					<h4 class="card-title">할일생성</h4>
+					<h3><i class="bi bi-arrow-left backVote" onclick="todoList()"></i></h3><h4 class="card-title">할일생성</h4>
 					<hr>
 				</div>
 				<div class="card-content">
@@ -117,7 +117,7 @@ margin-left:5px;}
 				
 				console.log(Date);
 				
-				 let formD = new FormData(); // 첨부파일 + 채팅메세지
+				 let formD = new FormData();
 	             formD.append("mgr", mgr);
 				 formD.append("cm", cm);
 				 for(let i=0; i<file.length; i++){
@@ -177,10 +177,10 @@ margin-left:5px;}
 		//input타입 date를 클릭했을때 나온는 달력에서 선택한 날짜 이전을 막는 구절
 		var date = document.getElementById("Date")
 			function dateChange(){
-				document.getElementById("lastDate").setAttribute("min", date.value); 
+			document.getElementById("lastDate").setAttribute("min", date.value); 
 			}
-		
-		
+		new Choices(document.querySelector('#mgr'));
+		new Choices(document.querySelector('#cm'));
 		
 		
 		</script>
