@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - Mazer Admin Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <style>
+        /* a 태그에 스타일을 추가하여 버튼으로 변환합니다. */
+        #selectButton {
+        display: inline-block; /* 인라인 블록 요소로 설정하여 이미지 크기만큼 버튼 크기가 조절되도록 합니다. */
+        cursor: pointer; /* 커서를 손가락 형태로 변경하여 버튼임을 나타냅니다. */
+        border: none; /* 경계선을 없애서 버튼처럼 보이도록 합니다. */
+        background-color: transparent; /* 배경색을 투명하게 설정합니다. */
+        }
+
+        /* 버튼에 마우스를 올렸을 때의 스타일을 지정합니다. */
+        #selectButton:hover {
+        opacity: 0.8; /* 마우스를 올렸을 때 투명도를 조금 줄여서 반응성을 표시합니다. */
+        /* 기타 다른 스타일을 추가로 지정할 수 있습니다. */
+        }
+        #selectButton.selected {
+        /* 선택된 버튼의 스타일을 정의합니다. */
+        border: 2px solid green; /* 선택되었을 때 녹색 경계선을 추가합니다. */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-light">
+        <div class="container d-block">
+            <a href="javascript:window.history.back();"><i class="bi bi-chevron-left"></i></a>
+            <a class="navbar-brand ms-4" th:href="@{/}">
+                <img src="assets/images/logo/logo.png">
+            </a>
+        </div>
+    </nav>
+    <div id="container">
+        <div class="row">
+            <div class="col-12 col-md-4 order-md-1 order-last offset-md-2">
+                <h3>[[${prj.prjNm}]]</h3>
+                <p class="text-subtitle text-muted">유료플랜</p>
+            </div>
+            <div class="col-12 col-md-4 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Pricing</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-8 offset-md-2">
+                <!-- // Basic multiple Column Form section start -->
+                <section id="multiple-column-form">
+                    <div class="row match-height">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">결제 정보 입력</h4>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <form class="form">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="col-md-12 col-12 mb-3">
+                                                        <div class="form-group">
+                                                            <label for="name-column">이름</label>
+                                                            <input type="text" id="name-column" class="form-control"
+                                                                placeholder="이름" name="name-column" th:value="${session.user.nm}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-12 mb-3">
+                                                        <div class="form-group">
+                                                            <label for="phone-column">연락처</label>
+                                                            <input type="text" id="phone-column" class="form-control"
+                                                                placeholder="연락처" name="phone-column" th:value="${session.user.phNo}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-12 mb-3">
+                                                        <div class="form-group">
+                                                            <label for="email-id-column">이메일</label>
+                                                            <input type="email" id="email-id-column" class="form-control"
+                                                                name="email-id-column" placeholder="Email" th:value="${session.user.id}">
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                </div>
+                                                <div class="col-6">
+
+                                                </div>
+                                                <div class="col-6">
+                                                    <h4 class="card-title mb-3">결제 수단 선택</h4>
+                                                    
+                                                    <a id="selectButton">
+                                                        <img src="assets/images/logo/payment_icon_yellow_small.png" alt="선택 버튼">
+                                                    </a>
+                                                    <script>
+                                                        // JavaScript로 버튼의 선택 상태를 관리합니다.
+                                                        const selectButton = document.getElementById('selectButton');
+                                                        let isSelected = false; // 초기 상태는 선택되지 않은(false) 상태로 설정합니다.
+
+                                                        selectButton.addEventListener('click', () => {
+                                                        isSelected = !isSelected; // 클릭할 때마다 상태를 반전시킵니다.
+
+                                                        // 선택 상태에 따라 버튼에 클래스를 추가 또는 제거합니다.
+                                                        if (isSelected) {
+                                                            selectButton.classList.add('selected');
+                                                        } else {
+                                                            selectButton.classList.remove('selected');
+                                                        }
+                                                        });
+                                                    </script>
+                                                    <div class="col-md-12 col-12 mb-3">
+                                                        <div class="accordion">
+                                                            <input type="checkbox" id="checkbox1" class="form-check-input" checked="">
+                                                            <label for="checkbox1">
+                                                                <div id="headingTwo" data-bs-toggle="collapse"
+                                                                    data-bs-target="#collapseTwo" aria-expanded="false"
+                                                                    aria-controls="collapseTwo" role="button">
+                                                                        <span class="collapsed collapse-title">(필수) 정기과금 이용약관 내용에 동의합니다.</span>
+                                                                </div>
+                                                            </label>
+                                                            <div id="collapseTwo" class="collapse pt-1" aria-labelledby="headingTwo"
+                                                                data-parent="#cardAccordion">
+                                                                <div class="row">
+                                                                    <p>이용약관 내용</p>
+                                                                    <p>결제 시 바로 이용이 시작되며 이용 시작 시 환불은 불가합니다.</p>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="col-md-8 offset-md-4">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="card border">
+                                                                    <div class="card-body px-3 py-4-5">
+                                                                        <h5>월간 정기 결제</h5>
+                                                                        <hr>
+                                                                        <h6 class="text-muted font-semibold">월 결제 금액</h6>
+                                                                        <h6 class="font-extrabold mb-0">500원</h6>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 d-flex justify-content-end">
+                                                        <button type="button"
+                                                            class="btn btn-primary btn-lg" onclick="payBtn()">결제하기</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- // Basic multiple Column Form section end -->
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+    	function payBtn(){
+    		let name = document.querySelector('#name-column').value;
+    		let phone = document.querySelector('#phone-column').value;
+    		let email = document.querySelector('#email-id-column').value;
+    		let data = {'prjUniNo':'[[${prj.prjUniNo}]]','name': name, 'phone': phone, 'email': email}
+    		fetch("payment/ready",{
+				method : "post",
+				headers:{
+					'Content-Type' : 'application/json',
+				},
+				body : JSON.stringify(data),
+			}) 
+			.then((response) => response.json())
+			.then((data) => {
+					console.log(data)   
+					location.href = data.next_redirect_pc_url;
+				})
+    	}
+    </script>
+</body>
+
+</html>

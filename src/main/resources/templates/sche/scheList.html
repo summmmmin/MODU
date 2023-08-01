@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{index}">
+  <div layout:fragment="content">
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+	let schAllDatas = /*[[${scheList}]]*/
+	 /*]]>*/
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    let allEvents = schAllDatas;
+    console.log('데이터', allEvents);
+    
+    let formattedEvents = allEvents.map(eventData => ({
+      title: eventData.title,
+      start: eventData.start,
+      end: eventData.end,
+      //color: eventData.postType == '1' ? 'indianred' : '#35A880',
+      classNames: 'sideWork',
+      extendedProps: {
+    	  sche_uni_no: eventData.scheUniNo
+      }
+    }));
+    
+    
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,listMonth'
+      },
+      eventClick: function(info) {
+          console.log('이벤트: ' + info.event.title);
+          let scheNo = info.event.extendedProps.scheUniNo;
+          console.log(info.event.extendedProps);
+          console.log(info.event.url);
+          info.jsEvent.preventDefault();
+          if (info.event.url) {
+              window.open(info.event.url);
+            }
+          var $buttons = $('.sideWork');
+          var $modals = $('.custom-modal');
+          $modals.not('#modal' + scheNo).removeClass('show-modal');
+
+          $('#modal' + scheNo).toggleClass('show-modal');
+
+
+          // X버튼으로 닫기
+          $('.closeModalButton').click(function () {
+                $(this).closest('.custom-modal').removeClass('show-modal');
+          });
+      },
+      dayMaxEventRows: true, // for all non-TimeGrid views
+      views: {
+        timeGrid: {
+          dayMaxEventRows: 6 // adjust to 6 only for timeGridWeek/timeGridDay
+        }
+      },
+      initialDate: new Date(),
+      navLinks: true, // can click day/week names to navigate views
+      businessHours: false, // display business hours
+      editable: true,
+      selectable: false,
+      allDaySlot:false,
+      displayEventTime:true,
+      locale:'ko',
+      dayMaxEvents:true,
+      events: formattedEvents
+    });
+    calendar.render();
+  });
+</script>
+
+
+  <div id='calendar'></div>
+
+</div>
+</html>
+
+	
+	
+	
+	
+	
+	
+	
+	
+<!-- <head>
+	<meta charset="UTF-8">
+	<title>scheList</title>
+</head>
+<body>
+	
+	<div id='calendar'></div>
+
+<script src="../../static/fullcalendar-6.1.8/dist/index.global.js"></script> 
+  <script src="/fullcalendar-6.1.8/dist/index.global.js"></script> 
+ <script src="/static/fullcalendar-6.1.8/dist/index.global.js"></script> 
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+	let schAllDatas = /*[[${scheList}]]*/
+	 /*]]>*/
+	</script>
+
+
+<script>
+// document.addEventListener('DOMContentLoaded', async function() {
+  // await fetch('/readWorkSchView')
+  
+  var calendarEl = document.getElementById('calendar');
+  let allEvents = schAllDatas;
+  console.log('데이터', allEvents);
+  
+  let formattedEvents = allEvents.map(eventData => ({
+    title: eventData.title,
+    start: eventData.start,
+    end: eventData.end,
+    //color: eventData. == '1' ? 'indianred' : '#35A880',
+    classNames: 'sideWork',
+    extendedProps: { //저 위에 안들어가는것들은 여기안에 넣기
+    		//타입맞춰서 넣기
+        sche_uni_no: eventData.scheUniNo
+    }
+  }));
+
+
+
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+    },
+    eventClick: function(info) {
+      console.log('이벤트: ' + info.event.title);
+      //console.log('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+      //console.log('View: ' + info.view.type);
+         let postNo = info.event.extendedProps.proPostNo;
+      //console.log(postNo);
+      // change the border color just for fun
+      //info.el.style.borderColor = 'red';
+      info.jsEvent.preventDefault();
+      if (info.event.url) {
+        window.open(info.event.url);
+      }
+     // console.log('event.target',event.target);
+      //console.log('event.target',event.target.closest('.sideWork'));
+
+
+
+    },
+    dayMaxEventRows: true, // for all non-TimeGrid views
+    views: {
+      timeGrid: {
+        dayMaxEventRows: 3 // adjust to 6 only for timeGridWeek/timeGridDay
+      }
+    },
+    initialDate: new Date(), // 오늘날짜 넣기
+    navLinks: true, // can click day/week names to navigate views.날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+    businessHours: false, // display business hours
+    editable: false,//수정 가능?
+    selectable: false,// 달력 일자 드래그 설정가능
+    //dayMaxEvents: false, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+    //locale: 'ko',
+    events: formattedEvents
+    
+    
+    
+  });
+  
+  calendar.render();
+  // });
+
+  /* 데이터 양식 
+  {
+  groupId: 'availableForMeeting',
+    title: 'Meeting',
+    start: '2023-01-13T11:00:00',
+    constraint: 'availableForMeeting', // defined below
+    color: '#257e4a',
+     end: '2023-01-20',
+   display: 'background',
+   overlap: false,
+  } */
+</script>
+	</div>
+</body>
+</html> -->

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.todo:hover {
+	opacity: 0.5;
+	cursor: pointer;
+}
+
+body {
+	-ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+</style>
+</head>
+
+<body>
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">할일</h4>
+				<hr>
+			</div>
+			<div class="card-content">
+				<div class="card-body" id="todo">
+					<p class="card-text">
+						<div th:if="${mgrCheck.mgr == session.particiMembUniNo}">
+						<button  class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											...
+					</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+ 							<a class="dropdown-item" onclick="updateTodo()">수정</a> 
+							<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteTodo">삭제</a> 
+						</div>						
+						</div>
+					<div class="card-content pb-4">
+						<div class="recent-message d-flex px-4 py-3">
+							<div class="avatar avatar-lg">
+								<h5 class="mb-1">[[${todoInfo.ttl}]]</h5>
+								<div class="name ms-4">
+								<select class="form-select" id="pct" onclick="pctChange()">
+								<option th:each="i : ${pctList}" th:value="${i.cdNo}" th:text="${i.cd}" ></option>
+								</select>
+								</div>
+							</div>
+						</div>
+						<div class="recent-message d-flex px-4 py-3">
+							<div class="avatar avatar-lg">
+								<div class="attFilePlace" th:data-todoUniNo="${todoInfo.todoUniNo}">
+									<div>
+									</div>
+								</div>
+							</div>
+							<div class="name ms-4">
+								<h6 class="text-muted mb-0"></h6>
+							</div>
+						</div>
+						<div class="recent-message d-flex px-4 py-3">
+							<div class="avatar avatar-lg">
+								<h5 class="mb-1">담당자</h5>
+							</div>
+							<div class="name ms-4">
+								<h6 class="text-muted mb-0">[[${todoInfo.mgr}]]</h6>
+							</div>
+						</div>
+						<div class="recent-message d-flex px-4 py-3">
+							<div class="avatar avatar-lg">
+								<h5 class="mb-1">참가자</h5>
+							</div>
+							<div class="name ms-4">
+								<h6 class="text-muted mb-0">[[${todoInfo.cm}]]</h6>
+							</div>
+						</div>
+						<div class="px-4">
+						<p>[[${todoInfo.cntn}]]</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 아래 부터 모달 위는 페이지 진입시 나오는 화면단 -->
+		
+		
+		
+		<!-- start of 할일 삭제 모달 -->
+					<div class="modal fade text-left" id="deleteTodo" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160"	aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h5 class="modal-title white" id="myModalLabel160">할일 삭제</h5>
+								<button type="button" class="close" data-bs-dismiss="modal"	aria-label="Close">
+									<i data-feather="x"></i>
+								</button>
+							</div>
+							<div class="modal-body">
+								이 투표를 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다. 
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-secondary"	data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> 
+									<span	class="d-none d-sm-block">취소</span>
+								</button>
+								<button onclick="delTodo()" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+									<i class="bx bx-check d-block d-sm-none"></i> 
+									<span class="d-none d-sm-block">확인</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end of 할일 삭제 모달 --> 
+		
+		
+		
+		
+		<script>
+		//퍼센트 실렉트박스 선택할때마다 업데이트 하기
+		function pctChange(){
+			
+		let pct =$("#pct option:selected").val(); //퍼센트 실렉트 값 받아오기
+		console.log(pct)
+		let data = {
+				"pct":pct,
+				"todoUniNo":'[[${todoInfo.todoUniNo}]]'
+		};
+		fetch("udpatePct", {
+			method : "POST",
+			headers:{
+				'Content-Type' : 'application/json',
+			}, 
+			body : JSON.stringify(data)
+		})
+		.then((response) => response.json())
+		.then((result) => {
+		console.log("change");
+		 })
+		}
+		
+		let tno = "[[${todoInfo.todoUniNo}]]";
+		
+		
+		//파일 다운로드
+		function attWithTodo(){
+			fetch('/modu/attTodo/' + tno )
+			.then(resolve => resolve.json())
+			.then(data => {
+				for(let i=0; i<data.length;i++){
+					console.log(data)
+					let div=`
+					<div>
+						<a href="/modu/files/${data[i].attNo}/download" onclick="downloadYN(e)" data-attno=${data[i].attNo}>
+							${data[i].attNm}<i class="bi bi-file-earmark"></i></a></div>`
+							
+					$('.attFilePlace').append(div)
+				}
+					
+
+				/* let aPlace = document.querySelector('.attFilePlace');
+					if(aPlace.dataset.todoUniNo == tno){
+						data.forEach(atts => {
+					let divTag = document.createElement('div');
+					let aTag = document.createElement('a');
+					aTag.setAttribute('href', "/modu/files/" + atts.attNo + "/download");
+					let icon = `<i class="bi bi-file-earmark"></i>`;
+					aTag.innerHTML += icon;
+					let spanTag = document.createElement('span'); 
+					spanTag.textContent = atts.attNm;
+					aTag.append(spanTag);
+					aTag.addEventListener('click', downloadYN);
+					aTag.setAttribute("data-attno", atts.attNo);
+					divTag.append(aTag); */
+							/* 
+						aPlace.append(divTag); */
+							
+							
+						//이미지파일일때? 미리보기제공?
+					/* 	if(atts.ext == 'jpg' || atts.ext == 'jpeg' || atts.ext == 'png' || atts.ext == 'gif'){
+							divTag = document.createElement('div');
+							let imgTag = document.createElement('img');
+							imgTag.setAttribute('src','/modu/images/'+atts.attNo)
+							imgTag.setAttribute('height', '80px');
+							divTag.append(imgTag);
+						aPlace.append(divTag);
+						} */
+					})
+				.catch(err => console.log(err))
+			}
+		attWithTodo();
+		function downloadYN(e){
+			let attNo = e.target.parentElement.dataset.attno;
+			let dwYn = {};
+			console.log(attNo);
+			dwYn['attNo'] = attNo;
+			dwYn['dwYn'] = 'Y';
+
+			fetch("/modu/file/" + attNo, {
+				method : 'post',
+				headers : {
+					'content-type' : 'application/json'
+				},
+				body : JSON.stringify(dwYn)
+			})
+			.then(resolve => resolve.json())
+			.then(data => {
+				console.log("다운로드완료")
+			})
+			.catch(err => console.log(err))
+		}
+		
+		
+		//todo 삭제
+		
+        function delTodo(){
+        	
+        	let data = {"todoUniNo":'[[${todoInfo.todoUniNo}]]'}
+        	
+        	fetch("todoDelte",{
+        		method : "post",
+				headers:{
+					'Content-Type' : 'application/json',
+				}, 
+				body : JSON.stringify(data)
+        	})
+        	.then((response) => response.json())
+			.then((result) => {
+			console.log(result);
+			todoList();
+			 })
+        }
+        
+        // todo 업데이트 페이지로
+       function updateTodo(){
+    	   $.ajax("todoUpdate/"+'[[${todoInfo.todoUniNo}]]')
+    		.done(result=>$("#rsidebarContent").html(result))
+        }
+        
+        $('#deleteTodo').appendTo("body")
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.modu.app.prj.bm.mapper.BmMapper">
+ 	
+	<!-- 게시판 즐겨찾기 등록 -->
+	<insert id="BrdBmInsert" parameterType="BmVO">
+		INSERT INTO brd_bm (
+				brd_uni_no,
+		        partici_memb_uni_no
+		        )
+		VALUES (#{brdUniNo},
+				#{particiMembUniNo}
+				)
+	</insert>
+
+	<!-- 즐겨찾기 Count해서 별 색 유지,중복 방지 -->
+ 	<select id="BrdBmCount" resultType="int" parameterType="BmVO">
+		SELECT count(*)
+		FROM brd_bm
+		WHERE brd_uni_no = #{brdUniNo} and partici_memb_uni_no=#{particiMembUniNo}
+	</select>
+	
+	<!-- 즐겨찾기 삭제 -->
+	<delete id="BrdBmDelete" parameterType="BmVO">
+		DELETE brd_bm
+		WHERE brd_uni_no = #{brdUniNo} AND partici_memb_uni_no=#{particiMembUniNo}
+	</delete>
+	
+	<!-- 채팅,댓글,파일 즐겨찾기 등록 -->
+	<insert id="BmInsert" parameterType="BmVO">
+		INSERT INTO bm VALUES ('bm'||bm_seq.nextval,sysdate,#{particiMembUniNo},#{postUniNo},#{attNo},#{chatNo},#{division},#{brdUniNo},#{chatrNo})	
+	</insert>
+	
+	<!-- 채팅,댓글,파일 즐겨찾기 리스트 -->
+	<select id="BmList" resultType="BmVO" parameterType="BmVO">
+	SELECT * from bm
+	WHERE partici_memb_uni_no = #{particiMembUniNo}
+	</select>
+	
+	<select id="BmCount" resultType="int" parameterType="BmVO">
+		SELECT COUNT(*) 
+		FROM bm
+		WHERE post_uni_no = #{postUniNo} and partici_memb_uni_no = #{particiMembUniNo}
+	</select>
+	
+	<!-- 즐겨찾기 삭제 -->
+	<delete id="BmDelete" parameterType="BmVO">
+		DELETE bm 
+		WHERE
+		<if test="bmUniNo != null and !bmUniNo.equals('')">
+		bm_uni_no = #{bmUniNo}
+		</if>
+		<if test="attNo != null and !attNo.equals('')">
+		partici_memb_uni_no = #{particiMembUniNo} AND att_no = #{attNo}
+		</if>
+		
+		<if test="postUniNo != null and !postUniNo.equals('')">
+		partici_memb_uni_no = #{particiMembUniNo} AND post_uni_no = #{postUniNo}
+		</if>
+		
+		<if test="chatNo != null and !chatNo.equals('')">
+		partici_memb_uni_no = #{particiMembUniNo} AND chat_no = #{chatNo}
+		</if>
+	</delete>
+	
+		<select id="PostBmList" resultType="String" parameterType="BmVO">
+	      SELECT post_uni_no from bm
+	      WHERE partici_memb_uni_no = #{particiMembUniNo} and post_uni_no is not null
+	   </select>
+ </mapper>

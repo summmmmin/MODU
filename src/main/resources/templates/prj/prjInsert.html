@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>프로젝트 등록</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/bootstrap.css" />
+    <link
+      rel="stylesheet"
+      href="assets/vendors/bootstrap-icons/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="assets/css/app.css" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-light">
+      <div class="container d-block">
+        <!-- 뒤로가기버튼 -->
+        <a href="prjList"><i class="bi bi-chevron-left"></i></a>
+        <a class="navbar-brand ms-4" th:href="@{/}">
+          <img src="assets/images/logo/logo.png" />
+        </a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="card mt-5">
+        <div class="card-header">
+          <h4 class="card-title">프로젝트 생성하기</h4>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <form th:action="@{/prjInsert}" method="POST" th:object="${prjVO}" id="prjsubmit" class="needs-validation">
+                <div class="col-sm-4">
+                    <h6>프로젝트명</h6>
+                    <input class="form-control form-control-lg is-invalid" type="text" id="prjNm"
+                        placeholder="6글자 이하" required oninput="check()" th:field="*{prjNm}">
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                    <button type="submit"
+                        class="btn btn-primary me-1 mb-1">생성하기</button>
+                    <button type="reset"
+                        class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  
+  <script>
+    // 입력값 크기 확인(6자 이하)
+    let valid = false;
+    function check(){
+        let name = document.getElementById('prjNm');
+        //console.log(name)
+        valid = name.value.length > 0 && name.value.length<7
+        if(valid){
+            name.classList.replace('is-invalid', 'is-valid');
+        }else{
+            name.classList.replace('is-valid', 'is-invalid')
+        }
+    }
+
+    document.querySelector("#prjsubmit").addEventListener("submit", function(e){
+      // 조건 충족 하지 않을때 submit 막기
+      if(!valid){
+         e.preventDefault();
+      }
+   });
+  </script>
+</html>

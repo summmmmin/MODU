@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.modu.app.prj.sche.mapper.ScheMapper">
+ 
+ <!-- 프로젝트 리스트 -->
+ <select id="scheList" resultType="scheVO" parameterType="String">
+ select sche_uni_no,prj_uni_no,ttl title,partici_memb_uni_no,cntn,fg,fr_dt "start",to_dt "end"
+ from sche
+ where prj_uni_no=#{prjUniNo}
+ </select>
+ </mapper>

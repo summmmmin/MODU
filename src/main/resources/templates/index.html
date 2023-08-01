@@ -1,343 +1,748 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - Mazer Admin Dashboard</title>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard - Mazer Admin Dashboard</title>
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="assets/css/bootstrap.css" />
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/bootstrap.css" />
+<link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
+<link rel="stylesheet"
+	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+<link rel="stylesheet" href="assets/css/test.css" />
+<link rel="shortcut icon" href="assets/images/favicon.svg"
+	type="image/x-icon" />
+<link rel="stylesheet" href="assets/css/modal.css">
+<link rel="stylesheet" href="assets/css/widgets/chat.css">
+<!-- Include Choices CSS -->
+<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
+<link rel="stylesheet"
+	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+</head>
 
-    <link
-      rel="stylesheet"
-      href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css"
-    />
-    <link
-      rel="stylesheet"
-      href="assets/vendors/bootstrap-icons/bootstrap-icons.css"
-    />
-    <link rel="stylesheet" href="assets/css/test.css" />
-    <link
-      rel="shortcut icon"
-      href="assets/images/favicon.svg"
-      type="image/x-icon"
-    />
-  </head>
+<body>
 
-  <body>
-    <div id="app">
-      <div id="sidebar" class="active">
-        <div class="sidebar-wrapper active">
-          <div class="sidebar-header">
-            <div class="d-flex justify-content-between">
-              <div class="logo">
-                <a href="index.html"
-                  ><img src="assets/images/logo/logo.png" alt="Logo" srcset=""
-                /></a>
-              </div>
-              <div class="toggler">
-                <a href="#" class="sidebar-hide d-xl-none d-block"
-                  ><i class="bi bi-x bi-middle"></i
-                ></a>
-              </div>
-            </div>
-          </div>
-          <div class="sidebar-menu">
-            <ul class="menu">
-              <li class="sidebar-title">Menu</li>
+	<!-- ==============댓글 알림 Toast ============== -->
+	<div class="toast-container position-fixed bottom-0 end-0 p-3"
+		style="z-index: 1050;">
+		<div id="replyArm" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				 <!-- <img src=".." class="rounded me-2" alt="..."> -->
+				<strong class="me-auto">댓글 알림</strong> <small>방금 전</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">새로운 댓글이 생성 됐습니다.</div>
+		</div>
+	</div>
 
-              <li class="sidebar-item active">
-                <a href="index.html" class="sidebar-link">
-                  <i class="bi bi-grid-fill"></i>
-                  <span>Dashboard</span>
-                </a>
-              </li>
+	<!-- ==============채팅 알림 Toast ============== -->
+	<div class="toast-container position-fixed bottom-0 end-0 p-3"
+		style="z-index: 1050;">
+		<div id="chatArm" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				<!--  <img src="..." class="rounded me-2" alt="...">-->
+				<strong class="me-auto">채팅 알림</strong> <small>방금 전</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">새로운 채팅이 도착했습니다.</div>
+		</div>
+	</div>
 
-              <li class="sidebar-item has-sub">
-                <a href="#" class="sidebar-link">
-                  <i class="bi bi-stack"></i>
-                  <span>Components</span>
-                </a>
-                <ul class="submenu">
-                  <li class="submenu-item">
-                    <a href="component-alert.html">Alert</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-badge.html">Badge</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-breadcrumb.html">Breadcrumb</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-button.html">Button</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-card.html">Card</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-carousel.html">Carousel</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-dropdown.html">Dropdown</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-list-group.html">List Group</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-modal.html">Modal</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-navs.html">Navs</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-pagination.html">Pagination</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-progress.html">Progress</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-spinner.html">Spinner</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-tooltip.html">Tooltip</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-          <button class="sidebar-toggler btn x">
-            <i data-feather="x"></i>
-          </button>
-        </div>
-      </div>
-      <div id="rsidebar" class="active">
-        <div class="rsidebar-wrapper active">
-          <div class="rsidebar-header">
-            <div class="d-flex justify-content-between">
-              <div class="logo">
-                <a href="index.html"
-                  ><img src="assets/images/logo/logo.png" alt="Logo" srcset=""
-                /></a>
-              </div>
-              <div class="toggler">
-                <a href="#" class="rsidebar-hide d-xl-none d-block"
-                  ><i class="bi bi-x bi-middle"></i
-                ></a>
-              </div>
-            </div>
-          </div>
-          <div class="rsidebar-menu">
-            <ul class="menu">
-              <li class="rsidebar-title">Menu</li>
+	<!-- ============== 할 일 알림 Toast ============== -->
+	<div class="toast-container position-fixed bottom-0 end-0 p-3"
+		style="z-index: 1050;">
+		<div id="todoArm" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				<!--  <img src="..." class="rounded me-2" alt="...">-->
+				<strong class="me-auto">할 일 알림</strong> <small>방금 전</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">새로운 할 일이 등록 됐습니다.</div>
+		</div>
+	</div>
 
-              <li class="rsidebar-item">
-                <a href="index.html" class="rsidebar-link">
-                  <i class="bi bi-grid-fill"></i>
-                  <span>Dashboard</span>
-                </a>
-              </li>
+	<!-- ==============게시판 생성 알림 Toast ============== -->
+	<div class="toast-container position-fixed bottom-0 end-0 p-3"
+		style="z-index: 1050;">
+		<div id="brdArm" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				<!--  <img src="..." class="rounded me-2" alt="...">-->
+				<strong class="me-auto">게시판 생성 알림</strong> <small>방금 전</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">새로운 게시판이 생성 됐습니다.</div>
+		</div>
+	</div>
 
-              <li class="rsidebar-item has-sub">
-                <a href="#" class="rsidebar-link">
-                  <i class="bi bi-stack"></i>
-                  <span>Components</span>
-                </a>
-                <ul class="submenu">
-                  <li class="submenu-item">
-                    <a href="component-alert.html">Alert</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-badge.html">Badge</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-breadcrumb.html">Breadcrumb</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-button.html">Button</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-card.html">Card</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-carousel.html">Carousel</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-dropdown.html">Dropdown</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-list-group.html">List Group</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-modal.html">Modal</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-navs.html">Navs</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-pagination.html">Pagination</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-progress.html">Progress</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-spinner.html">Spinner</a>
-                  </li>
-                  <li class="submenu-item">
-                    <a href="component-tooltip.html">Tooltip</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-          <button class="rsidebar-toggler btn x">
-            <i data-feather="x"></i>
-          </button>
-        </div>
-      </div>
-      <div id="main" class="layout-navbar">
-        <header class="mb-3">
-          <nav class="navbar navbar-expand navbar-light">
-            <div class="container-fluid">
-              <!-- <a href="#" class="burger-btn d-block">
-                        <i class="bi bi-justify fs-3"></i>
-                    </a> -->
 
-              <a href="#" class="rburger-btn d-block">
-                <i class="bi bi-justify fs-3"></i>
-              </a>
+	<div id="app">
+		<div id="sidebar" class="active">
+			<div class="sidebar-wrapper active">
+				<div class="sidebar-header">
+					<div class="d-flex justify-content-between">
+						<div class="logo">
+							<a th:href="@{/}"><img src="assets/images/logo/logo.png"
+								alt="Logo" srcset="" /></a>
+						</div>
+						<div class="toggler">
+							<a href="#" class="sidebar-hide d-xl-none d-block"><i
+								class="bi bi-x bi-middle"></i></a>
+						</div>
+					</div>
+				</div>
 
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                  <li class="nav-item dropdown me-1">
-                    <a
-                      class="nav-link active dropdown-toggle"
-                      href="#"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <i class="bi bi-envelope bi-sub fs-4 text-gray-600"></i>
-                    </a>
-                    <ul
-                      class="dropdown-menu dropdown-menu-end"
-                      aria-labelledby="dropdownMenuButton"
-                    >
-                      <li>
-                        <h6 class="dropdown-header">Mail</h6>
-                      </li>
-                      <li><a class="dropdown-item" href="#">No new mail</a></li>
-                    </ul>
-                  </li>
-                  <li class="nav-item dropdown me-3">
-                    <a
-                      class="nav-link active dropdown-toggle"
-                      href="#"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <i class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
-                    </a>
-                    <ul
-                      class="dropdown-menu dropdown-menu-end"
-                      aria-labelledby="dropdownMenuButton"
-                    >
-                      <li>
-                        <h6 class="dropdown-header">Notifications</h6>
-                      </li>
-                      <li>
-                        <a class="dropdown-item">No notification available</a>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-                <div class="dropdown">
-                  <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="user-menu d-flex">
-                      <div class="user-name text-end me-3">
-                        <h6 class="mb-0 text-gray-600">John Ducky</h6>
-                        <p class="mb-0 text-sm text-gray-600">Administrator</p>
-                      </div>
-                      <div class="user-img d-flex align-items-center">
-                        <div class="avatar avatar-md">
-                          <img src="assets/images/faces/1.jpg" />
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                  <ul
-                    class="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="dropdownMenuButton"
-                  >
-                    <li>
-                      <h6 class="dropdown-header">Hello, John!</h6>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#"
-                        ><i class="icon-mid bi bi-person me-2"></i> My
-                        Profile</a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#"
-                        ><i class="icon-mid bi bi-gear me-2"></i> Settings</a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#"
-                        ><i class="icon-mid bi bi-wallet me-2"></i> Wallet</a
-                      >
-                    </li>
-                    <li>
-                      <hr class="dropdown-divider" />
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#"
-                        ><i class="icon-mid bi bi-box-arrow-left me-2"></i>
-                        Logout</a
-                      >
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </nav>
-        </header>
+				<div class="sidebar-menu">
+					<ul class="menu">
+						<li class="sidebar-title">Menu</li>
+						<li class="sidebar-item active"></li>
+						<!--/* ************************ ChatRoom List Start *************************** */-->
+						<li class="sidebar-item has-sub"><a href="#"
+							class="sidebar-link"> <i class="bi bi-stack"></i> <span>채팅방</span>
+								<button type="button" id="openMakeChatrModal"
+									class="btn btn-outline-success" data-bs-toggle="modal"
+									data-bs-target="#makeChatrForm" style="margin-left: 87px">+</button>
+						</a>
+							<ul class="submenu" id="chatrList">
+							</ul></li>
+						<!--/* ************************ End *************************** */-->
 
-        <div class="page-heading">
-          <h3>Profile Statistics</h3>
-        </div>
-        <div class="page-content">
-          <section class="row">
-          	  <article layout:fragment="content"></article>
-          </section>
-        </div>
 
-        <footer>
-          <div class="footer clearfix mb-0 text-muted">
-            <div class="float-start">
-              <p>2021 &copy; Mazer</p>
-            </div>
-            <div class="float-end">
-              <p>
-                Crafted with
-                <span class="text-danger"><i class="bi bi-heart"></i></span> by
-                <a href="http://ahmadsaugi.com">A. Saugi</a>
-              </p>
-            </div>
-          </div>
-        </footer>
-      </div>
-    </div>
-    <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
+						<!--/* ************************ Board List Start *************************** */-->
+						<li class="sidebar-item has-sub"><a href="#"
+							class="sidebar-link"> <i class="bi bi-stack"></i> <span>게시판</span>
+								<button type="button" class="btn btn-outline-success"
+									data-bs-toggle="modal" data-bs-target="#inlineForm"
+									style="margin-left: 87px">+</button>
+						</a>
+							<div id="boardList"></div></li>
+					</ul>
+					<!--/* ************************ End *************************** */-->
+					<p id="prjNo" style="display: none;">[[${session.prjUniNo}]]</p>
+					
+					<!-- 즐겨찾기 등록 -->
+					<script> 
+    function clickInsert(){
+        console.log(event.target.id);
+        let star = event.target;
+        let brdUniNo = event.target.id;
+        let particiMembUniNo = '[[${session.particiMembUniNo}]]';
+        let data = {
+            'brdUniNo' : brdUniNo,
+            'particiMembUniNo' : particiMembUniNo
+        }
+        fetch('/modu/BrdBmInsert', {
+            method : 'POST',
+            headers : {
+                'content-type' : 'application/json'
+            },
+            body : JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            
+            if(data === 1){
+            star.classList.toggle('clicked');
+            }else{
+                star.classList.toggle('cls-1');
+                star.classList.toggle('clicked');
+            }
+        })
+        .catch(err => console.log(err));
+        
+    }
+	/* 색 변환 JS */ 
+   $('#ultag').on('click', function(event) {
+    let target = event.target;
+    if ($(target).hasClass('cls-1')) {
+        let brdUniNo = $(target).attr('text-brdUniNo');
+    }
+});
+</script>
+					<!--/* ************************ End *************************** */-->
+				</div>
 
-    <script src="assets/vendors/apexcharts/apexcharts.js"></script>
-    <script src="assets/js/pages/dashboard.js"></script>
-    <script src="assets/js/test.js"></script>
-  </body>
+				<button class="sidebar-toggler btn x">
+					<i data-feather="x"></i>
+				</button>
+			</div>
+		</div>
+		<div id="rsidebar" class="active">
+			<div class="rsidebar-wrapper active">
+				<div class="rsidebar-header">
+					<div class="d-flex justify-content-between">
+						<div class="logo">
+							<a href="#"><img src="assets/images/logo/logo.png" alt="Logo"
+								srcset="" /></a>
+						</div>
+						<div class="toggler">
+							<a href="#" class="rsidebar-hide d-block"><i
+								class="bi bi-x bi-middle"></i></a>
+						</div>
+					</div>
+				</div>
+
+				<div class="rsidebar-menu">
+					<div id="rsidebarContent"></div>
+				</div>
+				<button class="rsidebar-toggler btn x">
+					<i data-feather="x"></i>
+				</button>
+				<button class="buger-btn" style="display: none">
+					<i data-feather="x"></i>
+				</button>
+			</div>
+		</div>
+		<div id="main" class="layout-navbar">
+			<header class="mb-3">
+				<nav class="navbar navbar-expand navbar-light">
+
+					<div class="container-fluid">
+					
+					
+					<ul th:each="plist, stat: ${prjList}">
+    					<li th:text="${plist.particiMembUniNo}"></li>
+					</ul>
+								
+								
+						<a href="#" class="burger-btn d-block"> <i
+							class="bi bi-justify fs-3"></i>
+						</a> <a href="#" class="rburger-btn d-block"> <i
+							class="bi bi-justify fs-3" style="display: none"></i>
+						</a>
+
+						<div class="collapse navbar-collapse" id="navbarSupportedContent">
+							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+								<li class="nav-item me-1"><a
+									class="nav-link active rburger" onclick="searchList()"
+									aria-expanded="false"><i
+										class="bi bi-search bi-sub fs-4 text-gray-600"></i> </a></li>
+								<li class="nav-item me-1"><a class="nav-link active"
+									href="#" aria-expanded="false"> <i
+										class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
+								</a></li>
+								<li class="nav-item dropdown me-3"><a
+									class="nav-link active dropdown-toggle" href="#"
+									data-bs-toggle="dropdown" aria-expanded="false"> <i
+										class="bi bi-justify bi-sub fs-4 text-gray-600"></i>
+								</a>
+									<ul class="dropdown-menu dropdown-menu-end"
+										aria-labelledby="dropdownMenuButton">
+										<li><a class="dropdown-item rburger"
+											th:href="@{/scheList}">일정</a></li>
+										<li><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
+										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
+										<li><a class="dropdown-item rburger" onclick="bmList()">즐겨찾기</a></li>
+									</ul></li>
+							</ul>
+							<div class="dropdown">
+								<a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+									<div class="user-menu d-flex">
+										<div class="user-name text-end me-3">
+											<h6 class="mb-0 text-gray-600">[[${session.user.nm}]]</h6>
+											<p class="mb-0 text-sm text-gray-600">Administrator</p>
+										</div>
+										<div class="user-img d-flex align-items-center">
+											<div class="avatar avatar-md">
+												<img src="assets/images/faces/1.jpg" />
+											</div>
+										</div>
+									</div>
+									<div id="asdasdasd"></div>
+								</a>
+								<ul class="dropdown-menu dropdown-menu-end"
+									aria-labelledby="dropdownMenuButton">
+									<li>
+										<h6 class="dropdown-header">[[${session.user.nm}]]</h6>
+									</li>
+									<li><a class="dropdown-item" th:href="@{loginuser/mypage}"><i
+											class="icon-mid bi bi-person me-2"></i> 마이페이지</a></li>
+									<li><a class="dropdown-item" href="#"
+										data-bs-toggle="modal" data-bs-target="#inviteModal"><i
+											class="icon-mid bi bi-gear me-2"></i> 초대하기</a></li>
+									<li>
+										<hr class="dropdown-divider" />
+									</li>
+									<li><a class="dropdown-item" href="logout"><i
+											class="icon-mid bi bi-box-arrow-left me-2"></i>로그아웃</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</header>
+
+			<div class="page-heading">
+				<h3>Profile Statistics</h3>
+			</div>
+			<div class="page-content">
+				<section class="row">
+					<article layout:fragment="content"></article>
+				</section>
+
+
+				<!--Modal -->
+				<div class="modal fade text-left" id="inlineForm" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+						role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title" id="myModalLabel33">게시판 생성</h4>
+								<button type="button" class="close" data-bs-dismiss="modal"
+									aria-label="Close">
+									<i data-feather="x"></i>
+								</button>
+							</div>
+							<form action="InsertBoard" method="POST" id="FormEvent">
+								<div class="modal-body">
+									<h5>게시판 이름</h5>
+									<div class="form-group">
+										<input id="boardNm" name="boardNm" type="text"
+											placeholder="40자까지 입력 가능합니다." class="form-control">
+									</div>
+									<div class="form-group">
+										<input id="particiMembUniNo" name="particiMembUniNo"
+											th:value="${session.particiMembUniNo}" type="text"
+											class="form-control" style="display: none"> <input
+											id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
+											type="text" class="form-control" style="display: none">
+										<div class="form-group">
+											<h6>공개여부</h6>
+											<input type="checkbox" id="checkbox" name="pubcYn" checked>
+
+											<label for="checkbox"><span></span></label>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-light-secondary"
+											data-bs-dismiss="modal">
+											<i class="bx bx-x d-block d-sm-none"></i> <span
+												class="d-none d-sm-block">닫기</span>
+										</button>
+										<button id="formbtn" type="button"
+											class="btn btn-primary ml-1" data-bs-dismiss="modal"
+											onclick="addBoard()">
+											<i class="bx bx-check d-block d-sm-none"></i> <span
+												class="d-none d-sm-block">생성</span>
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- start of 채팅방생성모달 -->
+			<div class="modal fade text-left" id="makeChatrForm" tabindex="-1"
+				role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+					role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel33">채팅방 생성</h4>
+							<button type="button" class="close" data-bs-dismiss="modal"
+								aria-label="Close">
+								<i data-feather="x"></i>
+							</button>
+						</div>
+						<form action="makeChatr" method="POST" id="FormEvent">
+							<div class="modal-body">
+								<h5>채팅방 이름</h5>
+								<div class="form-group">
+									<input id="chartNm" name="chartNm" type="text"
+										placeholder="40자까지 입력 가능합니다." class="form-control"> <input
+										id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
+										type="text" class="form-control" style="display: none">
+									<input id="particiMembUniNo" name="particiMembUniNo"
+										th:value="${session.particiMembUniNo}" type="text"
+										class="form-control" style="display: none"> <label
+										for="basicInput" class="form-label">참여멤버선택</label> <select
+										id="memberSelect" class="form-select multiple-remove"
+										multiple="multiple"></select>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-secondary"
+									data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> <span
+										class="d-none d-sm-block">닫기</span>
+								</button>
+								<button onclick="makeChatrPlz()" type="button"
+									class="btn btn-primary ml-1" data-bs-dismiss="modal">
+									<i class="bx bx-check d-block d-sm-none"></i> <span
+										class="d-none d-sm-block">채팅시작</span>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- end of 채팅방생성모달 -->
+
+			<!--초대하기 Modal -->
+			<div class="modal fade text-left" id="inviteModal" tabindex="-1"
+				role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+					role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="inviteModalLabel">초대하기</h4>
+							<button type="button" class="close" data-bs-dismiss="modal"
+								aria-label="Close">
+								<i data-feather="x"></i>
+							</button>
+						</div>
+						<div class="modal-body">
+							<label>권한: </label>
+							<div class="form-group">
+								<select class="form-select" id="grdSelect">
+									<option value="G01">씨앗</option>
+									<option value="G02">새싹</option>
+								</select>
+							</div>
+							<label>Email: </label>
+							<div class="form-group">
+								<input type="email" placeholder="Email Address"
+									class="form-control" id="inviteEmail">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-light-secondary"
+								data-bs-dismiss="modal">
+								<i class="bx bx-x d-block d-sm-none"></i> <span
+									class="d-none d-sm-block">Close</span>
+							</button>
+							<button type="button" class="btn btn-primary ml-1"
+								onclick="inviteSubmit()">
+								<i class="bx bx-check d-block d-sm-none"></i> <span
+									class="d-none d-sm-block">초대하기</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<footer>
+				<div class="footer clearfix mb-0 text-muted">
+					<div class="float-start">
+						<p>2021 &copy; Mazer</p>
+					</div>
+					<div class="float-end">
+						<p>
+							Crafted with <span class="text-danger"><i
+								class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A.
+								Saugi</a>
+						</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<!-- Include Choices JavaScript -->
+	<script src="assets/vendors/choices.js/choices.min.js"></script>
+	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script src="assets/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/js/test.js"></script>
+
+	<script>
+	
+    // 게시판 목록 출력
+	$.ajax("boardList")
+	.done(result=>$("#boardList").html(result));
+    
+    // 게시판 생성
+	function addBoard(){
+		let check = document.querySelector('#checkbox');
+		let checkOk = '';
+		if(check.checked){
+			checkOk = 'on';
+		}else{
+			checkOk = '';
+		}
+		checkbox.value
+		fetch("/modu/InsertBoardBm",{
+			method : 'POST',
+			headers:{
+				"Content-Type":"application/x-www-form-urlencoded"
+			},
+			body: 
+			"particiMembUniNo="+particiMembUniNo.value
+			+"&prjUniNo="+prjUniNo.value
+			+"&boardNm="+boardNm.value
+			+"&pubcYn="+checkOk
+		})
+		.then(result=>result.json())
+		.then(data => {
+			let liTag=`
+				<li class="submenu-item">
+				<div class="row">
+					<div class="col-2">
+						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 108.9 103.6">
+							<g id="Layer_2" data-name="Layer 2">
+								<g id="Layer_1-2" data-name="Layer 1">
+									<polygon th:onclick="clickInsert()" class="cls-1" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" id=`+data.brdUniNo+`>
+								</g>
+							</g>
+						</svg>
+					</div>
+					<div class="col-10">
+						<a href="/postList?brdUniNo="`+data.brdUniNo+`>`+data.boardNm+`</a>
+					</div>
+				</div>
+				</li>
+				`;
+				//location.reload();
+			let submenu=document.querySelector('.brdinsert');
+			submenu.innerHTML += liTag;
+			
+			//알람 조건 : 현재 프로젝트에 참가하고 있는 사람에게 전송
+ 			 $.ajax("prjParticiMembList")
+ 		    .done(result => {
+ 		    		console.log(result)
+ 		    		for(let i = 0 ; i < result.length ; i++){
+ 		    			//본인 외 참여자한테 알람이 감 
+ 		    			if(result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]'){
+ 		    				// 현재 프로젝트 참여자들에게 알람 전송
+ 		    				armClient.publish({
+		 		   				destination: "/pubArm/brd/"+result[i].particiMembUniNo,
+		 		   				body: JSON.stringify({
+	 		   					'particiMembUniNo' : result[i].particiMembUniNo
+	 		   					})
+	 		   				});
+ 		    			}
+ 		    		}
+ 		    })
+		})
+		.catch(err => console.log(err))
+	}
+	</script>
+
+	<script>
+        //채팅방리스트
+		function showChatList(){
+			fetch("/modu/chatrList")
+			.then(resolve => resolve.json())
+			.then(data => {
+				document.getElementById('chatrList').innerHTML = '';
+				data.forEach(chatr => {
+					let liTag = document.createElement('li');
+					liTag.setAttribute("class", "submenu-item")
+					document.getElementById('chatrList').append(liTag);
+
+					let tagA = document.createElement('a');
+					tagA.setAttribute("href", "chat?chatrNo=" + chatr.chatrNo);
+					tagA.textContent = chatr.chatrNm;
+					liTag.append(tagA);
+					document.getElementById('chatrList').append(liTag);
+				});
+			})
+		}
+		showChatList();
+
+		//채팅초대리스트
+		function callChatMemb(){
+			let pNum = '[[${session.prjUniNo}]]';
+			let user = '[[${session.particiMembUniNo}]]';
+			let select = document.getElementById('memberSelect');
+
+			fetch("/modu/chatMembs/" + pNum)
+			.then(resolve => resolve.json())
+			.then(data => {
+				data.forEach(memb => {
+					if(user != memb.particiMembUniNo){
+						let optionTag = document.createElement('option');
+						optionTag.setAttribute('value', memb.particiMembUniNo);
+						optionTag.textContent = memb.nnm;
+						document.getElementById('memberSelect').append(optionTag);
+					}
+				})
+			})
+		}
+		callChatMemb();
+
+		//채팅방생성
+		function makeChatrPlz(e) {
+			let chatNm = document.getElementById('chartNm').value;
+			let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
+			let chatMembs = selcetParticis.split(',');
+
+			let makeChatInfo = {};
+			makeChatInfo['chartNm'] = chatNm;
+			makeChatInfo['particiMembUniNos'] = chatMembs;
+
+			fetch("/modu/makeChatr", {
+					method: 'post',
+					headers: {
+						'content-type': 'application/json'
+					},
+					body: JSON.stringify(makeChatInfo)
+				})
+				.then(result => result.json())
+				.then(data => {
+					showChatList()
+					if (data.chartNo) {
+                   		window.location.href = "/modu/chat?chatrNo=" + data.chartNo;
+                	}
+				})
+				.catch(err => console.log(err)) 
+		}
+    </script>
+
+	<script>
+	//할 일 리스트로 이동
+ 	function todoList(){
+ 	 $.ajax("todo")
+		.done(result=>$("#rsidebarContent").html(result));
+ 	}
+	
+ 	//투표 리스트로 이동
+ 	function voteList(){
+ 	  $.ajax("vote")
+ 		.done(result=>$("#rsidebarContent").html(result))
+ 	}
+ 	
+ 	//즐겨찾기 리스트로 이동
+ 	function bmList(){
+ 		$.ajax("bm")
+ 		.done(result => $("#rsidebarContent").html(result))
+ 	}
+ 	
+ 	//검색 페이지로 이동
+ 	 function searchList(){
+     	$.ajax("search")
+     	.done(result => $("#rsidebarContent").html(result))
+     }
+ 	</script>
+
+	<!-- 소켓 알람 -->
+	<script>
+ let particiMembUniNo = '[[${session.particiMembUniNo}]]';
+ 
+// WebSocket 연결 설정
+	const armClient = new StompJs.Client({
+		brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
+	});
+
+	// 페이지 로드시 웹소켓 연결
+	window.addEventListener("load", function(event) {
+		armClient.activate();
+	});
+
+	  // 연결 성공시
+	  armClient.onConnect = (frame) => {
+	    console.log('Connected: ' + frame);
+	    // 구독(댓글등록)		
+	    armClient.subscribe('/subArm/reply/' + particiMembUniNo, (armMsg) => {
+	      replyArm(JSON.parse(armMsg.body));
+	    });
+	 // 구독(게시판 등록)
+	    armClient.subscribe('/subArm/brd/' + particiMembUniNo, (armMsg) => {
+	      brdArm(JSON.parse(armMsg.body));
+	    });
+	 // 구독(채팅 등록)
+	    armClient.subscribe('/subArm/chat/' + particiMembUniNo, (armMsg) => {
+		      chatArm(JSON.parse(armMsg.body));
+		    });
+	 // 구독(할 일 등록)
+	    armClient.subscribe('/subArm/todo/' + particiMembUniNo, (armMsg) => {
+		      todoArm(JSON.parse(armMsg.body));
+		    });
+	  };
+
+	//에러
+	armClient.onWebSocketError = (error) => {
+			console.error('Error with websocket', error);
+	};
+
+	armClient.onStompError = (frame) => {
+			console.error('Broker reported error: ' + frame.headers['message']);
+			console.error('Additional details: ' + frame.body);
+	};
+	
+	//댓글 작성 시 보내 줄 Toast알람 
+	function replyArm(arm) {
+		const replyArm = document.getElementById('replyArm');
+		 const toast = new bootstrap.Toast(replyArm)
+		    toast.show()
+	  }
+	
+	//게시판 작성 시 보내 줄 Toast알람 
+	function brdArm(arm) {
+		const brdToast = document.getElementById('brdArm');
+		 const toast = new bootstrap.Toast(brdToast)
+		    toast.show()
+	  }
+	
+	//채팅 작성 시 보내 줄 Toast알람 
+	function chatArm(arm) {
+		const chatToast = document.getElementById('chatArm');
+		 const toast = new bootstrap.Toast(chatToast)
+		    toast.show()
+	  }
+	
+	//할 일 작성 시 보내 줄 Toast알람 
+	function todoArm(arm) {
+		const todoToast = document.getElementById('todoArm');
+		 const toast = new bootstrap.Toast(todoToast)
+		    toast.show()
+	  }
+ </script>
+
+
+	<script>
+ 		//초대하기 버튼 클릭
+ 		function inviteSubmit(){
+ 			let grd = document.getElementById("grdSelect").value;
+ 			let email = document.getElementById("inviteEmail").value;
+ 			let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ 			if(!emailPattern.test(email)){
+ 				console.log('email패턴안맞음')
+ 				return;
+ 			}else{
+		       // fetch를 사용하여 비동기적으로 서버로 데이터 전송
+		       fetch("invitePrj", {
+		           method: "POST",
+		           headers: {
+		               "Content-Type": "application/json"
+		           },
+		           body: JSON.stringify({'grd': grd, 'email':email})
+		       })
+		       .then(response => response.json())
+		       .then(data => {
+		           // 성공 시 alert 초대성공
+		           console.log(data);
+		           alert('초대 성공')
+		       })
+		       .catch(error => console.error("Error:", error));
+ 			}
+ 		}
+ 	</script>
+</body>
 </html>

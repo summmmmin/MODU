@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Mazer Admin Dashboard</title>
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/css/bootstrap.css">
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="stylesheet" href="assets/css/pages/auth.css">
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+<style>
+</style>
+</head>
+
+<body>
+	<div id="auth">
+		<div class="row h-100">
+			<div class="col-lg-5 col-12">
+				<div id="auth-left">
+					<div class="auth-logo">
+						<a th:href="@{/}"><img src="assets/images/logo/logo.png"
+							alt="Logo"></a>
+					</div>
+					<h1 class="auth-title">로그인</h1>
+
+					<form th:action="@{/login}" method="post" id="loginForm">
+						<div class="form-group position-relative has-icon-left mb-4">
+							<input type="text" name="username"
+								class="form-control form-control-xl" placeholder="이메일">
+							<div class="form-control-icon">
+								<i class="bi bi-person"></i>
+							</div>
+						</div>
+						<div class="form-group position-relative has-icon-left mb-4">
+							<input type="password" name="pwd"
+								class="form-control form-control-xl" placeholder="비밀번호">
+							<div class="form-control-icon">
+								<i class="bi bi-shield-lock"></i>
+							</div>
+						</div>
+						<div class="text mt-2" th:if="${param.error}">
+							<p class="text-gray-600">
+								<span th:if="${param.active} == 'false'" style="color: red;">이메일
+									인증이 필요합니다.</span> <span th:if="${param.active} != 'false'"
+									style="color: red;">비밀번호가 틀렸거나, 이메일 인증이 필요합니다. 또는 탈퇴한
+									유저입니다(분리필요함)</span>
+							</p>
+						</div>
+						<div
+							class="form-check for m-check-lg d-inline-flex align-items-end">
+							<input class="form-check-input me-2" type="checkbox"
+								name="rememberId" id="flexCheckDefault1"> <label
+								class="form-check-label text-gray-600" for="flexCheckDefault1">아이디
+								저장 </label>
+						</div>
+						<div class="text mt-2">
+							<p class="text-gray-600">
+								M_OD_U가 처음이신가요? <a th:href="@{/signup}" class="font-bold"
+									style="text-decoration: underline;">회원가입</a>
+							</p>
+
+						</div>
+						<button type="submit" id="loginButton"
+							class="btn btn-primary btn-block btn-lg shadow-lg mt-2">로그인</button>
+						<!-- 카카오로그인 버튼 -->
+						<div class="text-center mt-2">
+							<p class="text-gray-600">
+								<a href="#" class="font-bold" id="forgotIdLink"
+									onclick="openPopup1()">아이디 찾기</a> | <a href="#"
+									class="font-bold" id="forgotPasswordLink" onclick="openPopup()">비밀번호
+									찾기</a>
+							</p>
+						</div>
+					</form>
+						<button class="social_login" id="kakao">카카오로그인</button>
+						<button class="social_login" id="naver">네이버로그인</button>
+				</div>
+			</div>
+			<div class="col-lg-7 d-none d-lg-block"> 
+				<div id="auth-right"></div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$('.social_login').on('click', function() {
+			let path = $(this).attr('id');
+			let url = `oauth2/authorization/${path}`;
+			window.location.href = url;
+		});
+
+		// 페이지 로드 시 쿠키 값 가져오기 및 로그인 실패 여부 체크
+		window.onload = function() {
+			var savedUsername = getCookie("savedUsername");
+			if (savedUsername) {
+				document.getElementsByName("username")[0].value = savedUsername;
+				document.getElementById("flexCheckDefault1").checked = true;
+			}
+
+			//로그인 실패 여부 체크
+			var failedLogin = new URLSearchParams(window.location.search)
+					.has("error");
+			if (failedLogin) {
+			}
+		};
+
+		// 쿠키 가져오기 함수
+		function getCookie(name) {
+			var value = "; " + document.cookie;
+			var parts = value.split("; " + name + "=");
+			if (parts.length === 2) {
+				return parts.pop().split(";").shift();
+			}
+		}
+
+		//비밀번호 찾기 팝업창
+		function openPopup() {
+
+			// 팝업 창을 열 때 사용할 URL
+			var popupURL = "/modu/pwdSearch";
+			// 팝업 창 옵션 설정 (크기, 위치, 스크롤 등)
+			var popupOptions = "width=500,height=300,top=100,left=100,scrollbars=1";
+			window.open(popupURL, "PasswordResetPopup", popupOptions);
+		}
+
+		//아이디 찾기 팝업창
+		function openPopup1() {
+
+			// 팝업 창을 열 때 사용할 URL
+			var popupURL = "/modu/idSearch";
+			// 팝업 창 옵션 설정 (크기, 위치, 스크롤 등)
+			var popupOptions = "width=500,height=300,top=100,left=100,scrollbars=1";
+			window.open(popupURL, "idSearch", popupOptions);
+		}
+
+		// 이메일 인증 요구
+		/* 		var id = $("input[name='username']").val();
+
+		 $.ajax({
+		 url : 'emailAuth',
+		 type : 'POST',
+		 data : JSON.stringify(id),
+		 contentType : 'application/json',
+		 success : function(response) {
+		 if (response) {
+		 $("#emailAuthMessage").html(response);
+		 alert("메일함을 확인하여 계정을 활성화 해주세요.")
+		 } else {
+		 $("#loginForm")[0].submit();
+		 }
+		 },
+		 error : function(xhr, status, error) {
+		 console.error("AJAX 요청 에러:", error);
+		 }
+		 }); */
+	</script>
+</body>
+</html>

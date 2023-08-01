@@ -96,13 +96,20 @@ window.addEventListener("resize", (event) => {
   }
 });
 
-// document.querySelector(".burger-btn").addEventListener("click", () => {
-//   document.getElementById("sidebar").classList.toggle("active");
-// });
-document.querySelector(".rburger-btn").addEventListener("click", () => {
-  console.log('1')
+document.querySelector(".burger-btn").addEventListener("click", () => {
+  document.getElementById("sidebar").classList.toggle("active");
+ });
+ document.querySelector(".rburger-btn").addEventListener("click", () => {
   document.getElementById("rsidebar").classList.toggle("active");
+ });
+
+document.querySelectorAll(".rburger").forEach(function(e){
+let rsidebar = document.getElementById("rsidebar")
+e.addEventListener("click", () => {
+  document.getElementById("rsidebar").classList.add("active");
+})
 });
+
 
 document.querySelector(".rsidebar-hide").addEventListener("click", () => {
   document.getElementById("rsidebar").classList.toggle("active");

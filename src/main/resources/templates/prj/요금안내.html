@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - Mazer Admin Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-light">
+        <div class="container d-block">
+            <a href="javascript:window.history.back();"><i class="bi bi-chevron-left"></i></a>
+            <a class="navbar-brand ms-4" th:href="@{/}">
+                <img src="assets/images/logo/logo.png">
+            </a>
+        </div>
+    </nav>
+    <div id="container">
+        <div class="row">
+            <div class="col-12 col-md-4 order-md-1 order-last offset-md-2">
+                <h3>Pricing</h3>
+                <p class="text-subtitle text-muted">For user to check they list</p>
+            </div>
+            <div class="col-12 col-md-4 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Pricing</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-8 offset-md-2">
+                <div class="pricing">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 pe-3">
+                            <div class="card">
+                                <div class="card-header text-center">
+                                    <h4 class="card-title">무료 플랜</h4>
+                                    <hr>
+                                </div>
+                                <h1 class="price">0 <span class="h2">원</span></h1>
+                                <ul>
+                                    <li><i class="bi bi-check-circle"></i>최대 10명</li>
+                                    <li><i class="bi bi-check-circle"></i>게시판 수 = 인원 수 </li>
+                                    
+                                </ul>
+                                <div class="card-footer">
+                                    <button class="btn btn-primary btn-block">시작하기</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 ps-3">
+                            <div class="card card-highlighted">
+                                <div class="card-header text-center">
+                                    <h4 class="card-title">유료 플랜</h4>
+                                    <hr>
+                                </div>
+                                <h1 class="price"><span class="h2">월</span> 500 <span class="h2">원</span></h1>
+                                <ul>
+                                    <li><i class="bi bi-check-circle"></i>팀원 초대 무제한</li>
+                                    <li><i class="bi bi-check-circle"></i>게시판 생성 무제한 </li>
+                                </ul>
+                                <div class="card-footer">
+                                    <button class="btn btn-primary btn-block">시작하기</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

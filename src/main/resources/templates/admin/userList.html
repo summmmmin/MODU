@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<link rel="stylesheet"
+	href="../assets/vendors/simple-datatables/style.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/bootstrap.css" />
+<link rel="stylesheet" href="../assets/vendors/iconly/bold.css" />
+<link rel="stylesheet"
+	href="../assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet"
+	href="../assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+<link rel="stylesheet" href="../assets/css/test.css" />
+<link rel="shortcut icon" href="..assets/images/favicon.svg"
+	type="image/x-icon" />
+<link rel="stylesheet" href="../assets/css/modal.css">
+<link rel="stylesheet"
+	href="../assets/vendors/choices.js/choices.min.css" />
+<link rel="stylesheet"
+	href="../assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="../stylesheet"
+	href="../assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="../assets/vendors/simple-datatables/simple-datatables.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+	console.log($.fn.modal ? '부트스트랩 로드O' : '부트스트랩 로드X');
+</script>
+
+<style>
+.sidebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 200px;
+	background-color: #f8f9fa;
+	padding: 20px;
+	box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h5 {
+	margin-bottom: 20px;
+	color: #333;
+}
+
+.sidebar ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.sidebar li {
+	margin-bottom: 10px;
+}
+
+.sidebar a {
+	color: #333;
+	text-decoration: none;
+}
+
+.sidebar a:hover {
+	color: #007bff;
+}
+
+.container {
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.page-heading {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+</style>
+</head>
+<body>
+	<div class="sidebar">
+		<h5>Admin Menu</h5>
+		<ul>
+			<li><a th:href="@{/admin/dashBoard}">대시보드</a></li>
+			<li><a th:href="@{/admin/userList}">유저목록</a></li>
+			<li><a href="#">Settings</a></li>
+		</ul>
+	</div>
+	<div class="container">
+		<div class="page-heading">
+			<div class="page-title">
+				<div class="row">
+					<div class="col-12 col-md-6 order-md-1 order-last">
+						<h3>유저 목록</h3>
+
+					</div>
+					<div class="col-12 col-md-6 order-md-2 order-first">
+						<nav aria-label="breadcrumb"
+							class="breadcrumb-header float-start float-lg-end"></nav>
+					</div>
+				</div>
+			</div>
+			<section class="section">
+				<div class="card">
+					<div class="card-header">Simple Datatable</div>
+					<div class="card-body">
+						<table class="table table-striped" id="table1">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Phone</th>
+									<th>RegDT</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="user : ${userList}" th:data-user-id="${user.id}"
+									class="user-row">
+
+									<td th:text="${user.nm}"></td>
+									<td th:text="${user.id}"></td>
+									<td th:text="${user.phNo}"></td>
+									<td th:text="${user.regDt}"></td>
+									<td><span
+										th:class="${user.quit == 'N'} ? 'badge bg-success' : 'badge bg-danger'"
+										th:text="${user.quit == 'N'} ? 'Active' : 'Inactive'"></span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+			<!-- 모달 -->
+			<div class="modal fade" id="userInfoModal" tabindex="-1"
+				aria-labelledby="userInfoModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="userInfoModalLabel">유저 정보</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<p>
+								이름: <span id="userName"></span>
+							</p>
+							<p>
+								이메일: <span id="userEmail"></span>
+							</p>
+							<p>
+								전화번호: <span id="userPhone"></span>
+							</p>
+							<p>
+								가입일자: <span id="userRegDt"></span>
+							</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">닫기</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			let table1 = document.querySelector('#table1');
+			let dataTable = new simpleDatatables.DataTable(table1);
+
+			$(document).on('click', '.user-row', function() {
+				var userId = $(this).data('userId');
+				console.log(userId);
+
+				// 서버에 유저 정보 요청
+				$.ajax({
+					url : '/modu/admin/userList/' + userId,
+					method : 'POST',
+					dataType : 'json',
+					success : function(data) {
+						$('#userName').text(data.nm);
+						$('#userEmail').text(data.id);
+						$('#userPhone').text(data.phNo);
+						$('#userRegDt').text(data.regDt);
+						$('#userInfoModal').modal('show');
+					},
+					error : function(error) {
+						console.error('에러 : ', error);
+					}
+				});
+			});
+		});
+	</script>
+
+</body>
+</html>

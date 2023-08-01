@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로젝트 결제 관리</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+
+    <link rel="stylesheet" href="assets/vendors/iconly/bold.css">
+
+    <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
+</head>
+
+<body>
+
+            <div class="page-content">
+                <section class="row">
+                    <div class="row">
+                        <div class="card mt-5">
+                            <div class="card-header">
+                              <h4 class="card-title">플랜 정보</h4>
+                              <hr>
+                            </div>
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-sm-6">
+                                    <h6 th:text="${prj.exdt}? '유료플랜' : '무료플랜'">유료플랜</h6>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#selcFee">플랜 선택하기</a>
+                                </div>
+                                <div class="col-sm-6" th:if="${prj.exdt != null}">
+                                    <h6 >기간</h6>
+                                    <p th:text="${#dates.format(prj.payDt, 'yyyy-MM-dd')}+' ~ '+${#dates.format(prj.exdt, 'yyyy-MM-dd')}">2023-07-07~2023-07-07</p>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 pe-2">
+                            <div class="card mt-5">
+                                <div class="card-header">
+                                  <h4 class="card-title">결제 수단</h4>
+                                  <hr>
+                                </div>
+                                <div class="card-body">
+                                  <div class="row">
+                                    <h6>[[${prj.payWay}]]  [[${prj.cardName}]]</h6>
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button type="button" class="btn btn-primary me-1 mb-1" id="caOrRest1" data-bs-toggle="modal" data-bs-target="#cancelModal"
+                                        th:if="${prj.subspYn} == 'Y'">유료 플랜 해지</button>
+                                        <button type="button" class="btn btn-primary me-1 mb-1" id="caOrRest1" data-bs-toggle="modal" data-bs-target="#cancelModal"
+                                        th:if="${prj.subspYn} == 'C'">유료 플랜 재시작</button>
+                                        <button type="button" class="btn btn-primary me-1 mb-1" onclick="goBill()"
+                                        th:if="${prj.subspYn} == 'N'">유료 플랜 시작</button>
+                                        <button type="button" class="btn btn-primary me-1 mb-1" onclick="goBill()"
+                                        th:if="${prj.subspYn} == 'E'">유료 플랜 시작</button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 ps-2">
+                            <div class="card mt-5 ">
+                                <div class="card-header">
+                                  <h4 class="card-title">결제이력</h4>
+                                  <hr>
+                                </div>
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-sm-8" th:if="${prj.payUniNo != null}">
+                                        <h6>[[${#dates.format(prj.payDt, 'yyyy-MM-dd')}]]  [[${prj.payAmt}]]원</h6>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button type="button"
+                                            class="btn btn-light-secondary me-1 mb-1" data-bs-toggle="modal" data-bs-target="#moreModal"
+                                            th:if="${#lists.size(payList) > 0}">더보기</button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+		
+		<!-- 요금 선택 Modal -->
+        <div class="modal fade text-left" id="selcFee" tabindex="-1" role="dialog"
+            aria-labelledby="selcFeeLabel17" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
+                role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="selcFeeLabel17">플랜 선택하기</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    	<div class="row">
+				            <div class="col-12">
+				                <div class="pricing">
+				                    <div class="row align-items-center">
+				                        <div class="col-md-6 pe-2">
+				                            <div th:attr="class=${prj.exdt==null ? 'card card-highlighted' : 'card'}">
+				                                <div class="card-header text-center">
+				                                    <h4 class="card-title">무료 플랜</h4>
+				                                    <hr>
+				                                </div>
+				                                <h1 class="price">0 <span class="h2">원</span></h1>
+				                                <ul>
+				                                    <li><i class="bi bi-check-circle"></i>최대 10명</li>
+				                                    <li><i class="bi bi-check-circle"></i>게시판 수 = 인원 수 </li>
+				                                    
+				                                </ul>
+				                                <div class="card-footer">
+				                                    <button class="btn btn-primary btn-block" th:if="${prj.exdt != null}" data-bs-toggle="modal" data-bs-target="#cancelModal">시작하기</button>
+				                                </div>
+				                            </div>
+				                        </div>
+				                        <div class="col-md-6 ps-2">
+				                            <div class="card border" th:attr="class=${prj.exdt != null ? 'card card-highlighted' : 'card'}">
+				                                <div class="card-header text-center">
+				                                    <h4 class="card-title">유료 플랜</h4>
+				                                    <hr>
+				                                </div>
+				                                <h1 class="price"><span class="h2">월</span> 12100 <span class="h2">원</span></h1>
+				                                <ul>
+				                                    <li><i class="bi bi-check-circle"></i>팀원 초대 무제한</li>
+				                                    <li><i class="bi bi-check-circle"></i>게시판 생성 무제한 </li>
+				                                </ul>
+				                                <div class="card-footer">
+				                                    <button class="btn btn-primary btn-block" th:if="${prj.exdt == null}" onclick="goBill()">시작하기</button>
+				                                </div>
+				                            </div>
+				                        </div>
+				                        
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--더보기 Modal -->
+        <div class="modal fade" id="moreModal" tabindex="-1" role="dialog"
+        aria-labelledby="moreModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="moreModalTitle">
+                            결제 이력</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped table-hover" id="payListTbl">
+	                        <thead>
+	                          <tr>
+	                            <th>결제일</th>
+	                            <th>결제 금액</th>
+	                            <th>결제자</th>
+	                            <th>결제수단</th>
+	                          </tr>
+	                        </thead>
+	                        <tbody>
+	                          <tr th:each="pay : ${payList}">
+	                            <td th:text="${#dates.format(pay.payDt, 'yyyy-MM-dd HH:mm:ss')}">2023-06-30</td>
+	                            <td th:text="${pay.payAmt}">500원</td>
+	                            <td th:text="${pay.name}">이름</td>
+	                            <td th:text="${pay.payWay}">카드</td>
+	                          </tr>
+	                        </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary"
+                            data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--해지 Modal -->
+        <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog"
+        aria-labelledby="cancelModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-body">
+                        <p>현재 이용중인 유료플랜의 기간은 </p>
+                        <p>
+                            [[${#dates.format(prj.payDt, 'yyyy-MM-dd')}+' ~ '+${#dates.format(prj.exdt, 'yyyy-MM-dd')}]]
+                            입니다.
+                        </p>
+                        <p>이용중인 유료플랜이 모두 끝난 후 적용됩니다.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary"
+                            data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                        <button type="button" class="btn btn-primary ml-1"
+                            data-bs-dismiss="modal" onclick="cancelClick()">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block" id="caOrRest2" th:text="${prj.subspYn} == 'Y' ? '해지' : '재시작'">해지 / 재시작</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script>
+
+      function cancelClick(){
+    	  // 해지 또는 재시작 버튼 눌렀을때
+    	  fetch('manage/payCancel?prjNo='+'[[${prjVO.prjUniNo}]]')		//프로젝트번호 수정하기
+			.then(data => data.json())
+			.then(result => {
+				if(result == 1){
+					// 해지신청완료 => 재시작버튼으로 바꾸기
+					document.querySelector('#caOrRest2').textContent = '재시작';
+					document.querySelector('#caOrRest1').textContent = '유료 플랜 재시작';
+				}else if(result == 2){
+					// 재시작신청완료 => 해지버튼으로 바꾸기
+					document.querySelector('#caOrRest2').textContent = '해지';
+					document.querySelector('#caOrRest1').textContent = '유료 플랜 해지';
+				}else{
+					// 오류
+					alert('업데이트 실패')
+				}
+			})
+    	  
+      }
+      
+      function goBill(){
+    	  window.location = 'billing?prjNo='+'[[${prjVO.prjUniNo}]]';
+      }
+    </script>
+
+</body>
+
+</html>

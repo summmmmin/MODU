@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.modu.app.prj.chat.mapper.ChatMapper">
+
+	<!-- 세션용 -->
+	<select id="chatSession" resultType="ChatrParticiVO">
+		SELECT chat_partici_memb_uni_no, 
+			   chatr_no, 
+			   partici_memb_uni_no, 
+			   chatr_nm 
+		  FROM chatr_partici 
+		 WHERE chatr_no = #{chatrNo} 
+		   AND partici_memb_uni_no = #{particiMembUniNo}
+	</select>
+	
+	<!-- 채팅방만들기 -->
+	<insert id="makeChatr" parameterType="ChatrVO">
+		<selectKey keyProperty="chatrNo" resultType="String" order="BEFORE">
+			SELECT 'cr' || (MAX(TO_NUMBER(NVL(SUBSTR(chatr_no, 3),'0')))+1) FROM chatr
+		</selectKey>
+		INSERT INTO chatr VALUES (
+								#{chatrNo}, 
+								#{prjUniNo},
+								sysdate 
+								)
+	</insert>
+	
+	<!-- 채팅참여자추가 -->
+	<insert id="insertChatMemb" parameterType="ChatrParticiVO">
+		<selectKey keyProperty="chatParticiMembUniNo" resultType="String" order="BEFORE">
+			SELECT 'cpm' || (MAX(TO_NUMBER(NVL(SUBSTR(chat_partici_memb_uni_no, 4),'0')))+1) FROM chatr_partici
+		</selectKey>
+		INSERT INTO chatr_partici VALUES (
+										#{chatParticiMembUniNo},
+										#{chatrNo},
+										#{particiMembUniNo},
+										'Y',
+										#{chatrNm}
+										) 
+	</insert>
+	
+	<!-- 참여중인채팅방리스트 -->
+	<select id="chatRoomList" resultType="ChatrParticiVO">
+		SELECT chatr_nm, 
+			   chatr_no,
+			   chat_partici_memb_uni_no, 
+			   arm_yn 
+		  FROM chatr_partici 
+		 WHERE partici_memb_uni_no = #{particiMembUniNo}
+	</select>
+	
+	<!-- 채팅메세지insert -->
+	<insert id="insertChat" parameterType="ChatVO">
+		<selectKey keyProperty="chatNo" order="BEFORE" resultType="int">
+			SELECT chat_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO chat VALUES (
+								#{chatNo},
+								#{chatrNo},
+								#{chatParticiMembUniNo},
+								#{cntn},
+								SYSDATE
+								)
+	</insert>
+	
+	<!-- 채팅메세지리스트 -->
+	<select id="chatMessageList" resultType="ChatDTO">
+		SELECT c.chat_no, 
+		       c.cntn, 
+		       c.chat_partici_memb_uni_no, 
+		       c.write_dt, 
+		       cm.chatr_no,
+		       p.partici_memb_uni_no, 
+		       p.nnm,
+		       COALESCE(chm.readCount, 0) AS readCount
+		  FROM chat c 
+		  JOIN chatr_partici cm 
+		    ON c.chat_partici_memb_uni_no = cm.chat_partici_memb_uni_no
+		  JOIN prj_partici_memb p 
+		    ON p.partici_memb_uni_no = cm.partici_memb_uni_no
+	 LEFT JOIN (
+		  		SELECT chat_no, COUNT(chat_no) AS readCount
+			      FROM chat_chm
+			     WHERE cfm_yn = 'N'
+			  GROUP BY chat_no
+		      ) chm 
+		   ON c.chat_no = chm.chat_no
+		WHERE c.chatr_no = #{chatrNo}
+		ORDER BY c.write_dt
+			
+      
+	     <!--  SELECT c.chat_no, 
+		         c.cntn, 
+		         c.chat_partici_memb_uni_no, 
+		         c.write_dt, 
+		         cm.chatr_no,
+		         p.partici_memb_uni_no, 
+		         p.nnm,
+		         COUNT(chm.chat_no) AS readCount
+		    FROM chat c 
+		    JOIN chatr_partici cm 
+		      ON c.chat_partici_memb_uni_no = cm.chat_partici_memb_uni_no
+		    JOIN prj_partici_memb p 
+		      ON p.partici_memb_uni_no = cm.partici_memb_uni_no
+	   LEFT JOIN chat_chm chm 
+		      ON c.chat_no = chm.chat_no
+		   WHERE c.chatr_no = #{chatrNo}
+		GROUP BY c.chat_no, 
+		         c.cntn, 
+		         c.chat_partici_memb_uni_no, 
+		         c.write_dt, 
+		         cm.chatr_no,
+		         p.partici_memb_uni_no, 
+		         p.nnm
+		ORDER BY c.write_dt -->
+	</select>
+	
+	<!-- 채팅방나가기 -->
+	<delete id="leaveChatr" parameterType="String">
+		DELETE FROM chatr_partici where chat_partici_memb_uni_no = #{chatParticiMembUniNo}
+	</delete>
+	
+	<!-- 채팅방조회(채팅방명변경용) -->
+	<select id="selectOneChatr" resultType="ChatrParticiVO">
+		SELECT chat_partici_memb_uni_no, 
+			   chatr_no, 
+			   partici_memb_uni_no, 
+			   chatr_nm 
+		  FROM chatr_partici 
+		 WHERE chat_partici_memb_uni_no = #{chatParticiMembUniNo} 
+	</select>
+	
+	<!-- 채팅방명변경 -->
+	<update id="changeChatrNm" parameterType="ChatrParticiVO">
+		UPDATE chatr_partici SET chatr_nm = #{chatrNm} WHERE chat_partici_memb_uni_no = #{chatParticiMembUniNo}
+	</update>
+	
+	<!-- 채팅방참여자들리스트 -->
+	<select id="chatrParticiList" resultType="ChatrParticiVO">        
+        SELECT c.chat_partici_memb_uni_no, 
+        	   c.chatr_no, 
+        	   c.chatr_nm, 
+        	   p.partici_memb_uni_no, 
+        	   p.nnm
+          FROM chatr_partici c 
+          JOIN prj_partici_memb p 
+            ON c.partici_memb_uni_no = p.partici_memb_uni_no
+         WHERE chatr_no = #{chatrNo}
+	</select>
+	
+	<!-- 채팅읽음확인용 -->
+	<insert id="insertChatChm" parameterType="ChatChmVO">
+		INSERT INTO chat_chm VALUES (
+									#{particiMembUniNo},
+									#{chatrNo},
+									#{chatNo},
+									#{cfmYn},
+									#{chatParticiMembUniNo}
+									)
+	</insert>
+	
+	<!-- 채팅참여자추가용리스트 -->
+	<select id="addChatrParticiList" resultType="ChatrParticiVO">
+		 SELECT pp.partici_memb_uni_no, pp.nnm
+           FROM prj_partici_memb pp
+      LEFT JOIN chatr_partici cc 
+             ON pp.partici_memb_uni_no = cc.partici_memb_uni_no AND cc.chatr_no = #{chatrNo}
+          WHERE pp.prj_uni_no = #{prjUniNo} AND pp.partici_yn = 'Y' AND cc.partici_memb_uni_no IS NULL
+	</select>
+	
+	<!-- 채팅읽음업데이트 -->
+	<update id="updateReadChat" parameterType="ChatChmVO">
+		<![CDATA[
+			UPDATE chat_chm
+			   SET cfm_yn = 'Y'
+			 WHERE chat_partici_memb_uni_no = #{chatParticiMembUniNo} 
+			   AND cfm_yn != 'Y'
+			   AND chat_no <= (SELECT MAX(chat_no) FROM chat_chm WHERE chatr_no = #{chatrNo})
+		 ]]>
+	</update>
+</mapper>

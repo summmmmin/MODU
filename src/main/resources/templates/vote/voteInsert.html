@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+
+
+</head>
+
+<body>
+	<div class="row">
+	  <form th:object="${vote.voteVO}" id="createVote">
+		<div class="card">
+			<div class="card-header">
+				<h3><i class="bi bi-arrow-left backVote" onclick="voteList()"></i><h4 class="card-title">투표생성</h4>
+				<hr>
+			</div>
+			<div class="card-content">
+				<div class="row">
+					<div class="col-md-6 mb-4">
+						<h6>장소</h6>
+						<div class="form-group">
+							<select class="choices form-select" id="brdSel">
+								<optgroup label="=====게시판=====">
+									<option th:value="${board.brdUniNo}+',brd'" th:each="board:${vote.boardList}">[[${board.boardNm}]]</option>
+								</optgroup>
+								<optgroup label="=====채팅방=====">
+									<option th:value="${chat.chatrNo}+',cht'" th:each="chat:${vote.chatrList}">[[${chat.chatrNm}]]</option>
+								</optgroup>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group has-icon-left">
+						<div class="position-relative">
+							<input type="text" class="form-control"
+								placeholder="투표 제목을 입력해주세요" id="ttl">
+							<div class="form-control-icon">
+								<i class="bi bi-pen" data-bs-toggle="tooltip"></i>
+							</div>
+						</div>
+					</div>
+					<p></p>
+					<div id="voteItemList">
+						<div class="form-group has-icon-right">
+							<div class="position-relative">
+								<input type="text" class="form-control voteItem"
+									placeholder="투표항목을 입력해주세요">
+								<div class="form-control-icon">
+									<i class=""></i>
+								</div>
+							</div>
+						</div>
+						<div class="form-group has-icon-right" id="item">
+							<div class="position-relative">
+								<input type="text" class="form-control voteItem"  
+									placeholder="투표항목을 입력해주세요">
+								<div class="form-control-icon"></div>
+							</div>
+						</div>
+					</div>
+					<button type="button"
+						class="btn btn-block btn-light-primary font-bold mt-3"
+						id="voteBtn" onclick="insertItem()">+ 항목추가</button>
+				</div>
+				<p></p>
+				<div class="form-group has-icon-left mx-auto p-4">
+					<div class="position-relative">
+						<input type="date" class="form-control" id="voteDate" th:field="*{toDt}">
+						<div class="form-control-icon">
+							<i class="bi-calendar"></i>
+						</div>
+					</div>
+				</div>
+				<p></p>
+				<div class="col-12 d-flex justify-content-end">
+					<button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
+					<button type="button" class="btn btn-primary me-1 mb-1" onclick="VoteInsert()" >저장하기</button>
+				</div>
+			</div>
+		</div>
+		</form>
+	</div>
+	<!--  <script type="text/javascript">
+              fetch('/modu/voteInsertForm')
+  			.then(res => res.json())
+  			.then(data => {
+  				console.log(data.boardNm);
+  				let option = document.createElement('option')
+  				let brdNm = document.querySelector('#brdNm')
+  				let brdSel = document.querySelector('#brdSel')
+  				console.log(brdNm);
+  				console.log($('.choices__list'));
+  				console.log(data.boardNm[0].boardNm);
+  				for(let i = 0 ; i <data.boardNm.length ; i++ ){
+  					option = document.createElement('option')
+  					option.text = data.boardNm[i].boardNm;
+  					//brdNm.append(option);
+  					console.log(option)
+  					brdSel.append(option);
+  				}
+  			})
+  			.catch(err => console.log(err)); 
+              </script> -->
+	<script>
+			let count = 2;
+
+			// 저장하기 버튼
+			let select =$("#brdSel option:selected").val();
+			
+			console.log('111111111111')
+			
+			
+			
+			
+			
+			function VoteInsert() {
+				let bno=null;
+				let cno=null;
+				
+				let ttl = $("#ttl").val();		
+				let date = $('#voteDate').val();
+			    let formData = $('#createVote').serialize();
+				console.log(formData);
+				let select = document.getElementById('brdSel').value;
+				console.log(select);
+				let selectAry = select.split(',');
+				console.log(selectAry[1]);
+				if(selectAry[1] == 'brd'){
+					bno = selectAry[0]
+				}else{
+					cno = selectAry[0]
+				}
+				console.log(bno)
+				
+				let itemArr =  new Array(); 
+				document.querySelectorAll('.voteItem').forEach(function(item){
+					console.log(item)
+					
+					itemArr.push(item.value)
+				})
+
+				let additionalData = {
+					ttl:ttl,
+					toDt:date,
+					brdUniNo:bno,
+					chatrNo:cno,
+					voteItem:itemArr
+				}
+				console.log(additionalData)
+				 let postData = Object.assign({}, formData, additionalData);	
+			     $.ajax({
+			        type: 'POST',
+			        url: 'voteInsert', // 실제 서버의 URL로 변경해야 합니다.
+			        data: JSON.stringify(additionalData),
+			        contentType: 'application/json',
+			        success: function(response) {
+			        	 voteList();
+			      	},
+			        error: function(error) {
+			            console.log(error)
+			        }
+			    }); 
+		   } 
+			
+		
+/*  			function VoteInsert (){
+				fetch("/modu/voteInsert",{
+					method:"POST",
+					headers: {
+					    'Content-Type': 'application/json',
+					  },
+					body: JSON.stringify({
+							chatrNo:select,
+							ttl:ttl,
+							voteItem:item,
+							toDt:date
+							})
+					})
+					.then(response => response.json())
+  					.then(result => {
+  						console.log(select);
+  						console.log(item);
+  						console.log(date);
+					    console.log('서버 응답:', result);
+					  })
+					.catch(error => {
+					    console.error('오류 발생:', error);
+					  });
+				
+			} */
+				
+			// 항목 삭제하기 버튼
+				function delIcon(){
+					if(event.isTrusted == true){
+						$('#count'+count).remove();
+						count--;
+						console.log(count)
+						if (count == 3){
+							document.getElementById('voteBtn').disabled=false;
+							document.getElementById('voteBtn').innerText = '항목 추가'
+						}			
+					}
+				}
+				
+				
+				
+			//항목 추가하기 버튼
+			function insertItem() {
+				count ++;
+
+				console.log(count);
+				let input = `
+				<p></p>
+					<div class="form-group has-icon-right" id="count${count}"> 
+						<div class="position-relative">
+							<input type="text" class="form-control voteItem"placeholder="투표항목을 입력해주세요" th:field="*{voteItem}">
+						<div class="form-control-icon">
+							<i class="bi bi-trash-fill" id="delete${count}" onclick="delIcon()"></i>
+						</div>
+					</div>
+				`;	
+					if (count<=4){	
+				
+					$('#voteItemList').append(input);
+				
+						if(count == 4) {
+							event.target.innerText ="더이상 항목을 늘릴 수 없습니다.";
+							event.target.disabled=true;
+							
+						}
+							
+						
+					}
+			
+			}
+/* 			// JavaScript
+			fetch('/modu/voteInsertForm')
+			    .then(res => res.json())
+			    .then(data => {
+			        let brdNm = document.querySelector('#brdNm');
+			        for (let i = 0; i < data.boardNm.length; i++) {
+			            let option = document.createElement('option');
+			            option.text = data.boardNm[i].boardNm;
+			            brdNm.appendChild(option);
+			        }
+			    })
+			    .catch(error => {
+			        console.error('Error fetching data:', error);
+			    }); */
+
+			
+ 			
+			/* $.ajax({
+				url: "/modu/voteInsertForm",
+				method:"GET",
+				success: function(data){
+					console.log(data);
+					for(let i = 0 ; i <data.boardNm.length ; i++ ){
+						$('#brdSel').append($('#brdNm').add($('<option/>').text(data.boardNm[i].boardNm)));
+						
+					}
+				},
+				error: function(err){
+					console.log(err);
+				}
+			}) */
+			/* $.ajax("voteInsertForm")
+			.done(result=>{
+				for(let i = 0 ; i <result.boardNm.length ; i++ ){
+					console.log(result.boardNm[i].boardNm);
+				 let option = `<option>${result.boardNm[i].boardNm}</option>`;
+				 $('#brdNm').append(option);
+				
+				}
+				})
+				
+				 // optgroup.add($("<option></option>")
+				
+				/* $('#brdNm').add($('<option/>').text(result.boardNm[i].boardNm)); 
+				} */
+
+		</script>
+
+</body>
+
+</html>

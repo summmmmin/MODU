@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{index}">
+
+<head>
+	<meta charset="UTF-8">
+	<title>postUpdate</title>
+	<style>
+		ul{
+  			 list-style:none;
+  		 }
+	</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h2>게시글 수정</h2> <h5>[[${post.boardNm}]]</h5>
+		<div class="row">
+			<div class="col">
+				<div class="card">
+					<div class="card-body">
+						<form th:action="@{/postUpdate}" method="POST" th:object="${post}" enctype ="multipart/form-data">
+							<input type="hidden" th:value="${post.postUniNo}" th:field="*{postUniNo}"> 
+							<input type="hidden" th:value="${post.brdUniNo}" th:field="*{brdUniNo}"> 
+							<input type="hidden" th:value="${post.prjUniNo}" th:field="*{prjUniNo}">
+							<div class="form-group mb-3">
+								<!--제목부-->
+								<div class="form-group">
+									<label for="basicInput">제목*</label>
+									<input type="text" class="form-control" id="basicInput"  th:value='${post.ttl}' th:field="*{ttl}">
+								</div>
+								<hr>
+								<!--본문부-->
+								<div class="form-group">
+									<label for="basicInput">게시글 본문*</label>
+									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" th:field="*{cm}">[[${post.cm}]]</textarea>
+								</div>
+								<hr>
+								<!--첨부파일부-->
+								<label for="basicInput">첨부파일</label>
+								<div class="form-group">
+									<!-- File uploader with multiple files upload -->
+									<div>
+										<ul>
+											<li th:each="att : ${attList}" id="attPlace">
+												<svg class="bi" width="1em" height="1em" fill="currentColor">
+													<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark" />
+												</svg>
+												<span>[[${att.attNm}]]</span>
+												<svg class="bi" width="1em" height="1em" fill="currentColor">
+													<use th:data-attNo="${att.attNo}" onclick="deleteAtt(event)" xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#trash" />
+												</svg>
+											</li>
+										</ul>
+									</div>
+									<input type="file" name="file" class="multiple-files-filepond" multiple>
+								</div>
+								<!--멤버호출부-->
+							
+								<!--버튼부-->
+								<hr>
+								<div class="buttons">
+									<button type="submit" class="btn btn-primary">등록</button>
+									<button type="button"  class="btn btn-light"><a th:href="@{postList(brdUniNo=${post.brdUniNo})}">취소</a></button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+		
+			//첨부파일 단건 삭제
+			//(만약에 첨부파일을 변경하고 싶다면 삭제 후 다시 새롭게 INSERT)
+			function deleteAtt(e){
+				let attLi = e.target.closest('LI');
+				let attNo = e.target.dataset.attno;
+				let delAtt = {};
+				delAtt['attNo'] = attNo;
+
+				//업로드된파일삭제
+				fetch("/modu/removeFile", {
+				method: 'post',
+				headers: {
+						'content-type': 'text/plain' 
+				},
+				body: attNo
+				})
+				.then(result => result.json())
+				.then(data => {
+						//console.log(data); true
+						attLi.remove();
+				})
+				.catch(err => console.log(err));S
+					}
+					
+			// Filepond: Multiple Files
+	/* 		FilePond.create(document.querySelector('.multiple-files-filepond'), {
+				allowImagePreview: false,
+				allowMultiple: true,
+				allowFileEncode: false,
+				required: false
+			}); */
+		</script>
+	</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
+
+<div id="forgotPasswordModal" class="modal">
+	<div class="modal-content">
+		<h2>비밀번호 찾기</h2>
+		<form>
+			<div id="emailInputContainer">
+				<input type="email" id="emailInput" placeholder="이메일 입력">
+				<button type="button" onclick="sendEmail()">확인</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	function sendEmail() {
+		var emailInput = document.getElementById("emailInput").value;
+
+		// AJAX 요청을 보내고 서버에서 이메일 발송 처리
+		$.ajax({
+			type : "POST",
+			url : "/modu/pwdSearch",
+			data : {
+				id : emailInput
+			},
+			success : function(response) {
+				alert("비밀번호가 재설정 되었습니다. 메일을 확인해주세요.");
+			},
+			error : function(xhr, status, error) {
+				alert("오류가 발생했습니다. 다시 시도해주세요.");
+				console.log(xhr.responseText); // 에러 내용 출력 (개발 중 디버깅용)
+			}
+		});
+		console.log(emailInput);
+	}
+</script>

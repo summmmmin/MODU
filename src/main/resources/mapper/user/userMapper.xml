@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.modu.app.prj.user.mapper.UserMapper">
+
+	<!-- 로그인 체크, 비밀번호는 시큐리티에서 체크 -->
+	<select id="loginCheck" resultType="UserVO"
+		parameterType="String">
+		select *
+		from memb
+		where id= #{id}
+		AND QUIT = 'N'
+		AND
+		email_auth = 'Y'
+	</select>
+
+	<!-- 아이디 중복체크 -->
+	<select id="idVaild" resultType="int">
+		SELECT COUNT(*) FROM memb WHERE
+		id = #{id}
+	</select>
+
+	<!-- 소셜로그인 아이디 체크 -->
+	<select id="idCheck" resultType="userVO">
+		SELECT
+		MEMB_UNI_NO
+		, ID
+		, PWD
+		, NM
+		,
+		PH_NO
+		, SNS
+		, QUIT
+		, GRD
+		, REG_DT
+		, EMAIL_AUTH
+		, TOKEN
+		, PROVIDER_ID
+		FROM memb
+		WHERE id=#{id}
+	</select>
+	<!-- 휴대폰번호 중복체크 -->
+	<select id="phNoVaild" resultType="int">
+		SELECT COUNT(*) FROM memb
+		WHERE ph_no = #{phNo}
+	</select>
+
+
+	<!-- 회원가입 -->
+	<insert id="signup" parameterType="UserVO">
+		INSERT INTO memb (
+		MEMB_UNI_NO
+		, ID
+		, PWD
+		, NM
+		, PH_NO
+		, SNS
+		, QUIT
+		, GRD
+		, REG_DT
+		, EMAIL_AUTH
+		, TOKEN
+		,
+		PROVIDER_ID
+		)
+		VALUES (
+		'mt' ||
+		memb_seq.nextval
+		,#{id}
+		,#{pwd}
+		,#{nm}
+		,#{phNo}
+		,'N'
+		,'N'
+		,'N'
+		,sysdate
+		,'N'
+		,#{Token}
+		,#{providerID}
+		)
+	</insert>
+
+
+	<!-- 아이디 활성화 -->
+	<update id="updateEmailAuthStatus">
+		UPDATE memb
+		SET email_auth = 'Y'
+		WHERE token=#{token}
+	</update>
+
+	<!-- 회원정보 수정 -->
+	<update id="updateBoard" parameterType="userVO">
+		UPDATE memb
+		<set>
+			<if test="id != null and !id.equals('')">
+				id = #{id},
+			</if>
+			<if test="PWD != null and !writer.equals('')">
+				PWD = #{pwd},
+			</if>
+			<if test="nm != null and !contents.equals('')">
+				nm = #{nm},
+			</if>
+			<if test="ph_no != null and !image.equals('')">
+				ph_no = #{phNo},
+			</if>
+		</set>
+		WHERE memb_uni_no = #{membUniNo}
+	</update>
+
+
+	<!-- 회원탈퇴 (update)로 -->
+	<update id="userQuit" parameterType="UserVO">
+		UPDATE memb
+		SET QUIT='Y'
+		WHERE memb_uni_no = #{membUniNo}
+	</update>
+
+	<!-- 아이디 찾기 -->
+	<select id="idSearch" parameterType="UserVO" resultType="UserVO">
+		SELECT
+		id
+		FROM memb
+		WHERE PH_NO = #{phNo}
+		AND nm = #{nm}
+	</select>
+
+	<!-- 비밀번호 찾기 -->
+	<update id="pwdSearch" parameterType="String">
+		UPDATE memb
+		SET pwd=#{pwd}
+		WHERE id=#{id}
+	</update>
+
+	<!-- 회원 리스트 -->
+	<select id="userList" resultType="UserVO">
+		SELECT *
+		FROM memb
+	</select>
+
+	<!-- 회원 수 -->
+	<select id="userCount" resultType="int">
+		SELECT COUNT(*)
+		FROM memb
+	</select>
+
+	<!-- 당일 가입한 회원 수 -->
+	<select id="newUsersCount" resultType="int">
+		SELECT COUNT(*)
+		FROM memb
+		WHERE TRUNC(reg_dt) = TRUNC(SYSDATE)
+	</select>
+
+	<!-- 월별 회원 가입 수 -->
+	<select id="monthlyNewUsersCount" resultType="map">
+		SELECT
+		TO_CHAR(reg_dt, 'YYYY-MM') AS month,
+		COUNT(*) AS count
+		FROM memb
+		GROUP BY TO_CHAR(reg_dt, 'YYYY-MM')
+		ORDER BY month
+	</select>
+	
+<!-- 	SELECT
+  all_months.month,
+  COUNT(memb.reg_dt) count
+FROM
+  all_months
+LEFT JOIN
+  memb ON TO_CHAR(memb.reg_dt, 'YYYY-MM') = all_months.month
+GROUP BY
+  all_months.month
+ORDER BY
+  all_months.month; -->
+
+
+	<!-- 결제 누적금액 -->
+	<select id="totalPay" resultType="int">
+		SELECT SUM(pay_amt)
+		FROM pay
+	</select>
+
+	<!-- 단건 유저 정보 조회(마이페이지) -->
+	<select id="myInfo" resultType="UserVO">
+		SELECT MEMB_UNI_NO
+		, ID
+		, PWD
+		, NM
+		,
+		PH_NO
+		, SNS
+		, QUIT
+		, GRD
+		, REG_DT
+		, EMAIL_AUTH
+		, TOKEN
+		, PROVIDER_ID
+		FROM memb
+		WHERE id=#{id}
+	</select>
+
+	<!-- 회원 이름 변경 -->
+	<update id="updateNm" parameterType="map">
+		UPDATE memb
+		SET nm =
+		#{newName}
+		WHERE id = #{id}
+	</update>
+
+
+	<!-- 회원 비밀번호 변경 -->
+	<update id="updatePwd" parameterType="map">
+		UPDATE memb
+		SET PWD =
+		#{newPassword}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 회원 아이디 변경 -->
+	<update id="updateId" parameterType="map">
+		UPDATE memb
+		SET id =
+		#{newEmail}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 회원 휴대폰번호 변경 -->
+	<update id="updatePhone" parameterType="map">
+		UPDATE memb
+		SET ph_no =
+		#{phNo}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 회원 탈퇴(로그인 막기) -->
+	<update id="quitUser" parameterType="String">
+		UPDATE memb
+		SET quit = 'Y',
+		PH_NO = '-'
+		WHERE id = #{id}
+	</update>
+
+
+</mapper>
+  
+  
