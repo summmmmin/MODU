@@ -41,7 +41,7 @@
 		<div id="replyArm" class="toast" role="alert" aria-live="assertive"
 			aria-atomic="true">
 			<div class="toast-header">
-				<!--  <img src="..." class="rounded me-2" alt="...">-->
+				 <!-- <img src=".." class="rounded me-2" alt="..."> -->
 				<strong class="me-auto">댓글 알림</strong> <small>방금 전</small>
 				<button type="button" class="btn-close" data-bs-dismiss="toast"
 					aria-label="Close"></button>
@@ -139,6 +139,7 @@
 					</ul>
 					<!--/* ************************ End *************************** */-->
 					<p id="prjNo" style="display: none;">[[${session.prjUniNo}]]</p>
+					
 					<!-- 즐겨찾기 등록 -->
 					<script> 
     function clickInsert(){
@@ -218,6 +219,13 @@
 				<nav class="navbar navbar-expand navbar-light">
 
 					<div class="container-fluid">
+					
+					
+					<ul th:each="plist, stat: ${prjList}">
+    					<li th:text="${plist.particiMembUniNo}"></li>
+					</ul>
+								
+								
 						<a href="#" class="burger-btn d-block"> <i
 							class="bi bi-justify fs-3"></i>
 						</a> <a href="#" class="rburger-btn d-block"> <i
@@ -464,6 +472,7 @@
 	<script src="assets/js/test.js"></script>
 
 	<script>
+	
     // 게시판 목록 출력
 	$.ajax("boardList")
 	.done(result=>$("#boardList").html(result));
@@ -491,7 +500,6 @@
 		})
 		.then(result=>result.json())
 		.then(data => {
-			console.log(data);
 			let liTag=`
 				<li class="submenu-item">
 				<div class="row">
@@ -510,19 +518,27 @@
 				</div>
 				</li>
 				`;
-				location.reload();			
+				//location.reload();
 			let submenu=document.querySelector('.brdinsert');
-
 			submenu.innerHTML += liTag;
-
-			let particiMembUniNo = data.particiMembUniNo;
 			
- 			armClient.publish({
-				destination: "/pubArm/brd/"+particiMembUniNo,
-				body: JSON.stringify({
-					'particiMembUniNo' : particiMembUniNo
-				})
-		});
+			//알람 조건
+ 			 $.ajax("prjParticiMembList")
+ 		    .done(result => {
+ 		    		console.log(result)
+ 		    		for(let i = 0 ; i < result.length ; i++){
+ 		    			//본인 외 참여자한테 알람이 감 
+ 		    			if(result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]'){
+ 		    				//알람 전송
+ 		    				armClient.publish({
+		 		   				destination: "/pubArm/brd/"+result[i].particiMembUniNo,
+		 		   				body: JSON.stringify({
+	 		   					'particiMembUniNo' : result[i].particiMembUniNo
+	 		   					})
+	 		   				});
+ 		    			}
+ 		    		}
+ 		    })
 		})
 		.catch(err => console.log(err))
 	}

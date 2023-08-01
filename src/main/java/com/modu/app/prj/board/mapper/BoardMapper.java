@@ -24,5 +24,8 @@ public interface BoardMapper {
 	//무료 게시판이면 Count 해서 게시판 4개까지 생성 가능
 	public int BrdCount(String prjNo);
 	
+	// 현재 참여한 프로젝트 내에 회원에게 알람 발송
+	public List<BoardVO> prjList(BoardVO vo);
+	
 
 }

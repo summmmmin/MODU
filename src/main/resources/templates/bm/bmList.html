@@ -31,10 +31,13 @@
 
             div += `
                 <div class="card-content">
-                    <div class="card-body">
-                        <th>등록일자</th><br>
-                        <td>${formattedDate}</td>
-                        <td>${i.postUniNo}</td>
+                    <div class="card-body" style="padding:15px;">
+                    	<tr onclick="">
+                        	<td>등록일자</td><br>
+                        	<td>${formattedDate}</td>
+                        	<td>${i.brdUniNo}</td>
+                        	<td>${i.postUniNo}</td>
+                        </tr>
                     </div>
                 </div>
                 <hr>
@@ -43,6 +46,9 @@
         $('#bmList').append(div);
     });
 /*]]>*/
+function trHref(){
+	location.href = '';
+}
 </script>
 <script>
     function click() {

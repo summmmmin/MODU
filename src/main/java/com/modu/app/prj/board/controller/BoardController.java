@@ -1,5 +1,7 @@
 package com.modu.app.prj.board.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -94,5 +96,15 @@ public class BoardController {
 		}
 		boardService.BrdUpdate(vo);
 		return vo;
+	}
+	
+	@GetMapping("prjParticiMembList")
+	@ResponseBody
+	public List<BoardVO> prjList(BoardVO vo, HttpSession session) {
+	    String prjUniNo = (String) session.getAttribute("prjUniNo");
+	    vo.setPrjUniNo(prjUniNo);
+	    boardService.prjList(vo);
+	    System.out.println(boardService.prjList(vo));
+	    return boardService.prjList(vo);
 	}
 }

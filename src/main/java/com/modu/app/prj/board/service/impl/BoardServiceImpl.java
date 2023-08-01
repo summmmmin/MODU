@@ -50,4 +50,11 @@ public class BoardServiceImpl implements BoardService {
 	public int BrdCount(String prjNo) {
 		return boardMapper.BrdCount(prjNo);
 	}
+	
+	
+	// 현재 참여한 프로젝트 내에 회원에게 알람 발송
+	@Override
+	public List<BoardVO> prjList(BoardVO vo) {
+		return boardMapper.prjList(vo);
+	}
 }
