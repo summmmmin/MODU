@@ -113,7 +113,7 @@
 				PRJ_PUBC_ID , 
 				DEPT  , 
 				POS  
-		from prj_partici_memb pm left join cmmn c on c.cd_no=pm.grd
+		from prj_partici_memb pm
 		WHERE pm.partici_yn = 'Y'
 		<if test="membUniNo != null and !membUniNo.equals('')">
 			AND pm.memb_uni_no = #{membUniNo}		
@@ -202,5 +202,15 @@
 		UPDATE invite
 		SET    ck = 'Y'
 		WHERE  id = #{id}
+	</update>
+	
+	<!-- 프로젝트 참여 회원 정보 수정 -->
+	<update id="updateParticiInfo" parameterType="PrjVO">
+		UPDATE prj_partici_memb
+		SET nnm = #{nnm},
+		    prj_pubc_id = #{prjPubcId},
+		    dept = #{dept},
+		    pos = #{pos}
+		WHERE partici_memb_uni_no = #{particiMembUniNo}
 	</update>
  </mapper>

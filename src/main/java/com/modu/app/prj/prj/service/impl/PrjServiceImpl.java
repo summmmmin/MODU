@@ -156,4 +156,9 @@ public class PrjServiceImpl implements PrjService {
 			}			
 		}
 	}
+
+	@Override
+	public int updateParticiInfo(PrjVO vo) {
+		return prjMapper.updateParticiInfo(vo);
+	}
 }
