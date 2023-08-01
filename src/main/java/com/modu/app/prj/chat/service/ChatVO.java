@@ -21,8 +21,9 @@ public class ChatVO {
 	
 	private int readCount; //읽은 사람 수
 	
-	public ChatVO() {}
+	public ChatVO() {} //웹소켓용
 	
+	//웹소켓용
 	public ChatVO(String cntn) {
 		this.cntn = cntn;
 	}

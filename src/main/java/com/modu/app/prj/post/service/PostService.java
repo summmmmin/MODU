@@ -2,8 +2,6 @@ package com.modu.app.prj.post.service;
 
 import java.util.List;
 
-import com.modu.app.prj.board.service.BoardVO;
-
 
 public interface PostService {
 	

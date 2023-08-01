@@ -34,6 +34,68 @@
 </head>
 
 <body>
+
+	<!-- ==============댓글 알림 Toast ============== -->
+	<div class="toast-container position-fixed bottom-0 end-0 p-3"
+		style="z-index: 1050;">
+		<div id="replyArm" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				 <!-- <img src=".." class="rounded me-2" alt="..."> -->
+				<strong class="me-auto">댓글 알림</strong> <small>방금 전</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">새로운 댓글이 생성 됐습니다.</div>
+		</div>
+	</div>
+
+	<!-- ==============채팅 알림 Toast ============== -->
+	<div class="toast-container position-fixed bottom-0 end-0 p-3"
+		style="z-index: 1050;">
+		<div id="chatArm" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				<!--  <img src="..." class="rounded me-2" alt="...">-->
+				<strong class="me-auto">채팅 알림</strong> <small>방금 전</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">새로운 채팅이 도착했습니다.</div>
+		</div>
+	</div>
+
+	<!-- ============== 할 일 알림 Toast ============== -->
+	<div class="toast-container position-fixed bottom-0 end-0 p-3"
+		style="z-index: 1050;">
+		<div id="todoArm" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				<!--  <img src="..." class="rounded me-2" alt="...">-->
+				<strong class="me-auto">할 일 알림</strong> <small>방금 전</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">새로운 할 일이 등록 됐습니다.</div>
+		</div>
+	</div>
+
+	<!-- ==============게시판 생성 알림 Toast ============== -->
+	<div class="toast-container position-fixed bottom-0 end-0 p-3"
+		style="z-index: 1050;">
+		<div id="brdArm" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				<!--  <img src="..." class="rounded me-2" alt="...">-->
+				<strong class="me-auto">게시판 생성 알림</strong> <small>방금 전</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">새로운 게시판이 생성 됐습니다.</div>
+		</div>
+	</div>
+
+
 	<div id="app">
 		<div id="sidebar" class="active">
 			<div class="sidebar-wrapper active">
@@ -77,6 +139,7 @@
 					</ul>
 					<!--/* ************************ End *************************** */-->
 					<p id="prjNo" style="display: none;">[[${session.prjUniNo}]]</p>
+					
 					<!-- 즐겨찾기 등록 -->
 					<script> 
     function clickInsert(){
@@ -156,6 +219,13 @@
 				<nav class="navbar navbar-expand navbar-light">
 
 					<div class="container-fluid">
+					
+					
+					<ul th:each="plist, stat: ${prjList}">
+    					<li th:text="${plist.particiMembUniNo}"></li>
+					</ul>
+								
+								
 						<a href="#" class="burger-btn d-block"> <i
 							class="bi bi-justify fs-3"></i>
 						</a> <a href="#" class="rburger-btn d-block"> <i
@@ -208,7 +278,9 @@
 									</li>
 									<li><a class="dropdown-item" th:href="@{loginuser/mypage}"><i
 											class="icon-mid bi bi-person me-2"></i> 마이페이지</a></li>
-									<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#inviteModal"><i class="icon-mid bi bi-gear me-2"></i> 초대하기</a></li>
+									<li><a class="dropdown-item" href="#"
+										data-bs-toggle="modal" data-bs-target="#inviteModal"><i
+											class="icon-mid bi bi-gear me-2"></i> 초대하기</a></li>
 									<li>
 										<hr class="dropdown-divider" />
 									</li>
@@ -331,47 +403,51 @@
 				</div>
 			</div>
 			<!-- end of 채팅방생성모달 -->
-			
-		    <!--초대하기 Modal -->
-		    <div class="modal fade text-left" id="inviteModal" tabindex="-1"
-		        role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true">
-		        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-		            role="document">
-		            <div class="modal-content">
-		                <div class="modal-header">
-		                    <h4 class="modal-title" id="inviteModalLabel">초대하기 </h4>
-		                    <button type="button" class="close" data-bs-dismiss="modal"
-		                        aria-label="Close">
-		                        <i data-feather="x"></i>
-		                    </button>
-		                </div>
-	                    <div class="modal-body">
-	                        <label>권한: </label>
-	                        <div class="form-group">
-	                            <select class="form-select" id="grdSelect">
-	                                <option value="G01">씨앗</option>
-	                                <option value="G02">새싹</option>
-	                            </select>
-	                        </div>
-	                        <label>Email: </label>
-	                        <div class="form-group">
-	                            <input type="email" placeholder="Email Address" class="form-control" id="inviteEmail">
-	                        </div>
-	                    </div>
-	                    <div class="modal-footer">
-	                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-	                            <i class="bx bx-x d-block d-sm-none"></i>
-	                            <span class="d-none d-sm-block">Close</span>
-	                        </button>
-	                        <button type="button" class="btn btn-primary ml-1" onclick="inviteSubmit()">
-	                            <i class="bx bx-check d-block d-sm-none"></i>
-	                            <span class="d-none d-sm-block">초대하기</span>
-	                        </button>
-	                    </div> 
-		            </div>
-		        </div>
-		    </div>
-		    
+
+			<!--초대하기 Modal -->
+			<div class="modal fade text-left" id="inviteModal" tabindex="-1"
+				role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+					role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="inviteModalLabel">초대하기</h4>
+							<button type="button" class="close" data-bs-dismiss="modal"
+								aria-label="Close">
+								<i data-feather="x"></i>
+							</button>
+						</div>
+						<div class="modal-body">
+							<label>권한: </label>
+							<div class="form-group">
+								<select class="form-select" id="grdSelect">
+									<option value="G01">씨앗</option>
+									<option value="G02">새싹</option>
+								</select>
+							</div>
+							<label>Email: </label>
+							<div class="form-group">
+								<input type="email" placeholder="Email Address"
+									class="form-control" id="inviteEmail">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-light-secondary"
+								data-bs-dismiss="modal">
+								<i class="bx bx-x d-block d-sm-none"></i> <span
+									class="d-none d-sm-block">Close</span>
+							</button>
+							<button type="button" class="btn btn-primary ml-1"
+								onclick="inviteSubmit()">
+								<i class="bx bx-check d-block d-sm-none"></i> <span
+									class="d-none d-sm-block">초대하기</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
 					<div class="float-start">
@@ -396,6 +472,7 @@
 	<script src="assets/js/test.js"></script>
 
 	<script>
+	
     // 게시판 목록 출력
 	$.ajax("boardList")
 	.done(result=>$("#boardList").html(result));
@@ -423,7 +500,6 @@
 		})
 		.then(result=>result.json())
 		.then(data => {
-			console.log(data);
 			let liTag=`
 				<li class="submenu-item">
 				<div class="row">
@@ -442,19 +518,27 @@
 				</div>
 				</li>
 				`;
-			
+				//location.reload();
 			let submenu=document.querySelector('.brdinsert');
-
 			submenu.innerHTML += liTag;
-
-			let particiMembUniNo = data.particiMembUniNo;
 			
- 			armClient.publish({
-				destination: "/pubArm/brd/"+particiMembUniNo,
-				body: JSON.stringify({
-					'particiMembUniNo' : particiMembUniNo
-				})
-		});
+			//알람 조건 : 현재 프로젝트에 참가하고 있는 사람에게 전송
+ 			 $.ajax("prjParticiMembList")
+ 		    .done(result => {
+ 		    		console.log(result)
+ 		    		for(let i = 0 ; i < result.length ; i++){
+ 		    			//본인 외 참여자한테 알람이 감 
+ 		    			if(result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]'){
+ 		    				// 현재 프로젝트 참여자들에게 알람 전송
+ 		    				armClient.publish({
+		 		   				destination: "/pubArm/brd/"+result[i].particiMembUniNo,
+		 		   				body: JSON.stringify({
+	 		   					'particiMembUniNo' : result[i].particiMembUniNo
+	 		   					})
+	 		   				});
+ 		    			}
+ 		    		}
+ 		    })
 		})
 		.catch(err => console.log(err))
 	}
@@ -556,16 +640,15 @@
      	.done(result => $("#rsidebarContent").html(result))
      }
  	</script>
- 	
+
 	<!-- 소켓 알람 -->
 	<script>
  let particiMembUniNo = '[[${session.particiMembUniNo}]]';
  
 // WebSocket 연결 설정
 	const armClient = new StompJs.Client({
-	brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
+		brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
 	});
-
 	// 페이지 로드시 웹소켓 연결
 	window.addEventListener("load", function(event) {
 		armClient.activate();
@@ -602,32 +685,37 @@
 			console.error('Additional details: ' + frame.body);
 	};
 	
-	//댓글 작성 시 보내 줄 알람
+	//댓글 작성 시 보내 줄 Toast알람 
 	function replyArm(arm) {
-		alert('새로운 댓글 알림이 있습니다'+arm.cntn);
+		const replyArm = document.getElementById('replyArm');
+		 const toast = new bootstrap.Toast(replyArm)
+		    toast.show()
 	  }
 	
-	//게시판 작성 시 보내 줄 알람
+	//게시판 작성 시 보내 줄 Toast알람 
 	function brdArm(arm) {
-		alert('새로운 게시글 알림');
-		console.log(arm);
+		const brdToast = document.getElementById('brdArm');
+		 const toast = new bootstrap.Toast(brdToast)
+		    toast.show()
 	  }
 	
-	//채팅 작성 시 보내 줄 알람
+	//채팅 작성 시 보내 줄 Toast알람 
 	function chatArm(arm) {
-		alert('새로운 채팅 알림'+arm.cntn);
-		console.log(arm);
+		const chatToast = document.getElementById('chatArm');
+		 const toast = new bootstrap.Toast(chatToast)
+		    toast.show()
 	  }
 	
-	//할 일 작성 시 보내 줄 알람
+	//할 일 작성 시 보내 줄 Toast알람 
 	function todoArm(arm) {
-		alert('새로운 할 일 알림');
+		const todoToast = document.getElementById('todoArm');
+		 const toast = new bootstrap.Toast(todoToast)
+		    toast.show()
 	  }
-	
  </script>
 
 
- 	<script>
+	<script>
  		//초대하기 버튼 클릭
  		function inviteSubmit(){
  			let grd = document.getElementById("grdSelect").value;
