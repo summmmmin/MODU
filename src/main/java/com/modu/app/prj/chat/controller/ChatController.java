@@ -1,14 +1,10 @@
 package com.modu.app.prj.chat.controller;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.lang.Nullable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -22,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.socket.messaging.SessionConnectedEvent;
-import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import com.modu.app.prj.chat.service.ChatChmVO;
 import com.modu.app.prj.chat.service.ChatDTO;
@@ -73,31 +66,9 @@ public class ChatController {
 	@MessageMapping("/chat/typing") 
 	//@SendTo("/chat/msg/{chatrNo}")
 	public void chatTypingArm(ChatVO chatVO) throws Exception {
-	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행
-		// String typingArm = chatVO.getNnm() + "is typing"; //"'닉네임' is typing"
 		messagingTemplate.convertAndSend("/sub/chat/"+chatVO.getChatrNo()+"/typing", chatVO);
 	}
 	
-//	 // 접속시 세션추가?
-//    @EventListener
-//    public void handleWebSocketConnectListener(SessionConnectedEvent event) {
-//        sessions.add((WebSocketSession) event.getSource());
-//    }
-//
-//    // 접속해제시 세션제거?
-//    @EventListener
-//    public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
-//        WebSocketSession session = (WebSocketSession) event.getSource();
-//        sessions.remove(session);
-//    }
-//
-//    // 채팅방의 접속자 수
-//    private int updateReadCount(String chatrNo) {
-//        int readCount = sessions.size(); // 채팅접속자수
-//        
-//        return readCount;
-//    }
-    
 	//채팅방으로이동
 	@GetMapping("/chat") 
 	public String goChatPage(String chatrNo, Model model, ChatrParticiVO cptvo, HttpSession session) {
@@ -173,8 +144,7 @@ public class ChatController {
 				             @RequestParam("cntn") String cntn,
 				             @Nullable @RequestParam("file") MultipartFile[] file,
 							 HttpSession session){
-		//String chatrNo = (String) session.getAttribute("chatrNo");
-		//String chatParticiMembUniNo = (String) session.getAttribute("chatParticiMembUniNo");
+
 		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 		
 		ChatVO chatVO = new ChatVO();
@@ -281,10 +251,7 @@ public class ChatController {
 	@GetMapping("addChatMembList/{chatrNo}/{prjUniNo}")
 	@ResponseBody
 	public List<ChatrParticiVO> addChatrParticiList(@PathVariable String chatrNo, @PathVariable String prjUniNo, HttpSession session){
-		//chatrNo = (String) session.getAttribute("chatrNo");
-		//prjUniNo = (String) session.getAttribute("prjUniNo");
-		//System.out.println(chatrNo);
-		//System.out.println(prjUniNo);
+
 		ChatrParticiVO chatParticiVO = new ChatrParticiVO();
 		chatParticiVO.setChatrNo(chatrNo);
 		chatParticiVO.setPrjUniNo(prjUniNo);
