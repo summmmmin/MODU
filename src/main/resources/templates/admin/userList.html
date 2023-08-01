@@ -183,7 +183,7 @@
 				$.ajax({
 					url : '/modu/admin/userList/' + userId,
 					method : 'POST',
-					dataType : 'json', 
+					dataType : 'json',
 					success : function(data) {
 						$('#userName').text(data.nm);
 						$('#userEmail').text(data.id);

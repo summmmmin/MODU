@@ -61,7 +61,8 @@
 		, REG_DT
 		, EMAIL_AUTH
 		, TOKEN
-		, PROVIDER_ID
+		,
+		PROVIDER_ID
 		)
 		VALUES (
 		'mt' ||
@@ -152,25 +153,30 @@
 	</select>
 
 	<!-- 월별 회원 가입 수 -->
-	<select id="monthlyNewUsersCount" resultType="String">
-		SELECT TO_CHAR(reg_dt, 'YYYY-MM') AS month
+	<select id="monthlyNewUsersCount" resultType="map">
+		SELECT
+		TO_CHAR(reg_dt, 'YYYY-MM') AS month,
+		COUNT(*) AS count
 		FROM memb
 		GROUP BY TO_CHAR(reg_dt, 'YYYY-MM')
 		ORDER BY month
 	</select>
 
 
-
-
-
+	<!-- 결제 누적금액 -->
+	<select id="totalPay" resultType="int">
+		SELECT SUM(pay_amt)
+		FROM pay
+	</select>
 
 	<!-- 단건 유저 정보 조회(마이페이지) -->
 	<select id="myInfo" resultType="UserVO">
-		SELECT 		MEMB_UNI_NO
+		SELECT MEMB_UNI_NO
 		, ID
 		, PWD
 		, NM
-		, PH_NO
+		,
+		PH_NO
 		, SNS
 		, QUIT
 		, GRD
