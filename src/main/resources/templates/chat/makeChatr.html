@@ -70,6 +70,16 @@
 	<!-- end of 채팅방생성모달 -->
 	<!-- Include Choices JavaScript -->
 	<script src="assets/vendors/choices.js/choices.min.js"></script>
+	<script>
+	new Choices(document.querySelector('#memberSelect'),
+		      {
+		        delimiter: ',',
+		        editItems: true,
+		        maxItemCount: 5,
+		        removeItemButton: true,
+		      });
+	
+	</script>
 	<script src="assets/js/main.js"></script>
 
 </body>

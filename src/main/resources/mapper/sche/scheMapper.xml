@@ -70,9 +70,15 @@
 																)
 	</select>
 	
+	<!-- 참여테이블 비우기 -->
+	<delete id="scheParticiDelete" parameterType="String">
+	delete from SCHE_PARTICI
+	where SCHE_UNI_NO=#{scheUniNo}
+	</delete>
+	
 	<!-- 참여자들 -->
 	<select id="schePartici" resultType="scheVO">
-	SELECT SCHE_UNI_NO,FIND_NICKNAME(partici_memb_uni_no) particiMembUniNo
+	SELECT SCHE_UNI_NO,FIND_NICKNAME(partici_memb_uni_no) title, PARTICI_MEMB_UNI_NO
 	FROM SCHE_PARTICI
 	 where sche_uni_no=#{scheUniNo}
 	</select>
@@ -85,19 +91,20 @@
 	
 	<!-- 일정 업데이트 -->
 	<update id = "scheUpdate" parameterType="scheVO">
-	update sche set
+	update sche <set>
 				<if test="title != null and !title.equals('')">
-							title=#{title}
+							title=#{title},
 				</if>
 				<if test="cntn != null and !cntn.equals('')">
-							cntn=#{cntn}
+							cntn=#{cntn},
 				</if>
 				<if test="start != null and !start.equals('')">
-							fr_dt=#{start}
+							fr_dt=#{start},
 				</if>
 				<if test="end != null and !end.equals('')">
-							to_dt=#{end}
+							to_dt=#{end},
 				</if>
+				</set>
 	WHERE sche_uni_no=#{scheUniNo}
 	</update>
 	

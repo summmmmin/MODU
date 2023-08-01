@@ -23,7 +23,7 @@
 					<div class="col-md-6 mb-4">
 						<h6>장소</h6>
 						<div class="form-group">
-							<select class="choices form-select" id="brdSel">
+							<select class="choices form-select brdchatrselect" id="brdSel">
 								<optgroup label="=====게시판=====">
 									<option th:value="${board.brdUniNo}+',brd'" th:each="board:${vote.boardList}">[[${board.boardNm}]]</option>
 								</optgroup>
@@ -238,7 +238,7 @@
 					}
 			
 			}
-
+			new Choices(document.querySelector('.brdchatrselect'));
 		</script>
 
 </body>

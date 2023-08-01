@@ -1,5 +1,6 @@
 package com.modu.app.prj.sche.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,13 +60,34 @@ public class ScheController {
 		return map;
 	}
 	
-	@GetMapping("yetPartici/{scheUniNo}")
-	@ResponseBody
-	public List<ScheVO> schePartici(HttpSession session,@PathVariable String scheUniNo) {
+
+	//수정 모달
+	@GetMapping("yetPartici")
+	public String schePartici(Model model,HttpSession session,String scheUniNo) {
+		PrjVO pvo = new PrjVO();
+		pvo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		
 		ScheVO vo = new ScheVO();
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		vo.setScheUniNo(scheUniNo);
-		return scheService.yetPartici(vo);
+		
+		List<String> list3 = new ArrayList<>();
+		
+		List<PrjVO> pList = prjService.getPrjPartiList(pvo);
+		List<ScheVO> sList =  scheService.schePartici(scheUniNo);
+        for (PrjVO element1 : pList) {
+            for (ScheVO element2 : sList) {
+                if (element1.getParticiMembUniNo().equals(element2.getParticiMembUniNo())) {                
+                	list3.add(element1.getParticiMembUniNo());
+                }
+            }
+        }
+		model.addAttribute("partici",list3);	//현재참여하고있는 사람들 되어야할 아이들
+		model.addAttribute("membList", prjService.getPrjPartiList(pvo));// 프로젝트내에 모든 사람들
+		//model.addAttribute("partici", scheService.schePartici(scheUniNo)); //일정 참여자 번호/닉네임
+		System.out.println(model.getAttribute("membList"));
+		System.out.println(model.getAttribute("partici"));
+		return "sche/test";
 	}
 	
 	   //일정 등록
@@ -99,7 +121,20 @@ public class ScheController {
 	   @PostMapping("scheUpdate")
 	   @ResponseBody
 	   public String scheUpdate(HttpSession session, @RequestBody ScheVO vo) {
-	   scheService.scheUpdate(vo);
+		   int result = scheService.scheParticiDelete(vo.getScheUniNo());
+		   ScheVO scheVO = new ScheVO();
+		      scheVO.setScheUniNo(vo.getScheUniNo());
+		      
+		      if(vo.getParticiMembUniNos() != null) {
+		      List<String> membList = vo.getParticiMembUniNos();
+		      for(String memb : membList) {
+		    	  scheVO.setParticiMembUniNo(memb);
+		    	  scheService.scheInsertPartici(scheVO);
+		      }
+		     
+		      }
+		   scheService.scheUpdate(vo);
+		   
 		   return "111";
 	   }
 	   

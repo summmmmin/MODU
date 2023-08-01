@@ -45,15 +45,19 @@
           fetch("scheInfo/" + scheData.sche_uni_no) //단건조회 fetch
             .then((response) => response.json())
             .then((result) => {
+            	document.getElementById('partici').innerText = '';
               let scheInfo = result.scheInfo; //단건조회 일정정보
               
               $('#ttl').text(scheInfo.title);
               $('#cntn').text(scheInfo.cntn);
               
               if (result.partici.length > 0) {
-            	  
+            	  console.log(result.partici)
             	  for(let i=0; i<result.partici.length; i++){
-            		  document.getElementById('partici').innerText += result.partici[i].particiMembUniNo ;
+            		  document.getElementById('partici').innerText += result.partici[i].title
+            		  if(i != result.partici.length -1){
+            			  document.getElementById('partici').innerText += ', '
+            		  }
                 }
             	  
               } else {
@@ -80,6 +84,7 @@
               changeTimes(scheInfo.end); 
               document.getElementById('startDate').value = scheInfo.start;
               document.getElementById('finishDate').value = scheInfo.end;
+              
               
               /* let newDate = scheInfo.start.slice(0, 16);
               let newDate2 = scheInfo.end.slice(0, 16);
@@ -184,7 +189,7 @@
 						<div class="form-group">
 							<div class="col-sm-10">
 								<label class="input-group-text">초대멤버</label> <select
-									name="scheParticiUniNo[]" class="choices form-select"
+									name="scheParticiUniNo[]" class="choices form-select asdfas"
 									multiple="multiple" id="cm">
 									<option th:value="${i.particiMembUniNo}"
 										th:each="i:${membList}">[[${i.nnm}]]</option>
@@ -195,14 +200,15 @@
 						<div class="row">
 							<div class="col-sm-5">
 								<div class="form-group">
-									<input type="datetime-local" class="form-control" name="start"
+									<input type="datetime-local" onchange="dateChange1()" class="form-control" name="start"
 										id="3">
 								</div>
 							</div>
 							&nbsp~&nbsp
 							<div class="col-sm-5">
 								<div class="form-group">
-									<input type="datetime-local" class="form-control" name="end"
+								<!-- oninput="dateChange1()" -->
+									<input type="datetime-local"  class="form-control" name="end"
 										id="4">
 								</div>
 							</div>
@@ -345,69 +351,25 @@
 						<i data-feather="x"></i>
 					</button>
 				</div>
-				<form name="scheInsert2222">
-					<div class="modal-body">
-						<label>제목: </label>
-						<div class="form-group">
-							<input type="text" placeholder="제목을 입력해주세요" id="11"
-								class="form-control" name="title1">
-						</div>
-						<label>내용: </label>
-						<div class="form-group">
-							<input type="text" placeholder="내용을 입력해주세요" id="22"
-								class="form-control" name="cntn1">
-						</div>
-						 <div class="form-group">
-							<div class="col-sm-10">
-								<label class="input-group-text">초대멤버</label> 
-								<select
-									name="scheParticiUniNo[]" class="choices form-select multiple-remove choices__input"
-									multiple="multiple" id="cm1">
-									<option></option>
-								</select>
-							</div>
-						</div> 
-						<label> </label>
-						<div class="row">
-							<div class="col-sm-5">
-								<div class="form-group">
-									<input type="datetime-local" class="form-control" name="start1"
-										id="33">
-								</div>
-							</div>
-							&nbsp~&nbsp
-							<div class="col-sm-5">
-								<div class="form-group">
-									<input type="datetime-local" class="form-control" name="end1"
-										id="44">
-								</div>
-							</div>
-						</div>
-
-						<div class="modal-footer">
-							<button type="button" class="btn btn-light-secondary"
-								data-bs-dismiss="modal">
-								<i class="bx bx-x d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">취소</span>
-							</button>
-							<button type="button" onclick="updateSche()"
-								class="btn btn-primary ml-1" data-bs-dismiss="modal">
-								<i class="bx bx-check d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">수정하기</span>
-							</button>
-						</div>
-					</div>
-
-				</form>
+				<div id="testtttttttedsds"> </div>
 			</div>
 		</div>
 	</div>
 	<!-- 일정 수정 모달 끝 -->
 
 	<script>
+	console.log(document.querySelector('.anddsrawewr'))
+	
+	//일정 만들때 시작날짜선택시 달력막기용
+    var chdate = document.getElementById("3")
+	function dateChange1(){
+    	document.getElementById("4").setAttribute("min", chdate.value); 
+    	//$('#4').attr('min', $('#3').val());
+    }
     
     
-    //일정 추가
+	
+	//일정 추가
   function insertSche() {
    let scheInsertData = {
           "title": $('#1').val(),
@@ -450,166 +412,39 @@
           .then((response) => response.json())
           .then((result) => {
             console.log(result);
-            location.reload();
+            location.reload(); //추후 수정
 
           })
       }
     
+
+    
+    
     //참가자 불러오기
     function yetPartici(){
     	 let scheUniNo = $('#noInfo').val();
-    	 fetch("yetPartici/"+scheUniNo)
+    	 $.ajax("yetPartici?scheUniNo="+scheUniNo)
+    		.done(result=>$("#testtttttttedsds").html(result));
+    	/*  fetch("yetPartici/"+scheUniNo)
     	.then((response) => response.json())
         .then((result) => {
         	console.log(result)
         	populateSelectOptions(result);
-    	 })
+    	 }) */
     	 
     }
     
     
-    //일정 업데이트
     
-    function updateSche(){
-    	let scheUniNo = $('#noInfo').val();
-    	let scheUpdateData = {
-    	"title": $('#11').val(),
-        "cntn": $('#22').val(),
-        "start": $('#33').val(),
-        "end": $('#44').val(),
-    	"scheUniNo":scheUniNo
-    	}
-    	
-        fetch("scheUpdate", {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(scheUpdateData)
-        })
-        .then(result => result.json())
-        .then(data => {
-            console.log(data);
-            location.reload();
-        })
-    	
-    	
-    	
-    }
-    </script>
+    
 
+    </script>
+	
+	<script>
+		var initChoice1 = new Choices(document.querySelector('.asdfas'));
+	
+	</script>
 	<!-- 레이아웃 끝 -->
 </div>
 
 </html>
-
-
-
-
-
-
-
-
-
-<!-- <head>
-	<meta charset="UTF-8">
-	<title>scheList</title>
-</head>
-<body>
-	
-	<div id='calendar'></div>
-
-<script src="../../static/fullcalendar-6.1.8/dist/index.global.js"></script> 
-  <script src="/fullcalendar-6.1.8/dist/index.global.js"></script> 
- <script src="/static/fullcalendar-6.1.8/dist/index.global.js"></script> 
-
-<script th:inline="javascript">
-    /*<![CDATA[*/
-	let schAllDatas = /*[[${scheList}]]*/
-	 /*]]>*/
-	</script>
-
-
-<script>
-// document.addEventListener('DOMContentLoaded', async function() {
-  // await fetch('/readWorkSchView')
-  
-  var calendarEl = document.getElementById('calendar');
-  let allEvents = schAllDatas;
-  console.log('데이터', allEvents);
-  
-  let formattedEvents = allEvents.map(eventData => ({
-    title: eventData.title,
-    start: eventData.start,
-    end: eventData.end,
-    //color: eventData. == '1' ? 'indianred' : '#35A880',
-    classNames: 'sideWork',
-    extendedProps: { //저 위에 안들어가는것들은 여기안에 넣기
-    		//타입맞춰서 넣기
-        sche_uni_no: eventData.scheUniNo
-    }
-  }));
-
-
-
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-    },
-    eventClick: function(info) {
-      console.log('이벤트: ' + info.event.title);
-      //console.log('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-      //console.log('View: ' + info.view.type);
-         let postNo = info.event.extendedProps.proPostNo;
-      //console.log(postNo);
-      // change the border color just for fun
-      //info.el.style.borderColor = 'red';
-      info.jsEvent.preventDefault();
-      if (info.event.url) {
-        window.open(info.event.url);
-      }
-     // console.log('event.target',event.target);
-      //console.log('event.target',event.target.closest('.sideWork'));
-
-
-
-    },
-    dayMaxEventRows: true, // for all non-TimeGrid views
-    views: {
-      timeGrid: {
-        dayMaxEventRows: 3 // adjust to 6 only for timeGridWeek/timeGridDay
-      }
-    },
-    initialDate: new Date(), // 오늘날짜 넣기
-    navLinks: true, // can click day/week names to navigate views.날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
-    businessHours: false, // display business hours
-    editable: false,//수정 가능?
-    selectable: false,// 달력 일자 드래그 설정가능
-    //dayMaxEvents: false, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
-    //locale: 'ko',
-    events: formattedEvents
-    
-    
-    
-  });
-  
-  calendar.render();
-  // });
-
-  /* 데이터 양식 
-  {
-  groupId: 'availableForMeeting',
-    title: 'Meeting',
-    start: '2023-01-13T11:00:00',
-    constraint: 'availableForMeeting', // defined below
-    color: '#257e4a',
-     end: '2023-01-20',
-   display: 'background',
-   overlap: false,
-  } */
-</script>
-	</div>
-</body>
-</html> -->

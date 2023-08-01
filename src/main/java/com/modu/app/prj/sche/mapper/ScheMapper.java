@@ -28,4 +28,7 @@ public interface ScheMapper {
 	
 	//일정 업데이트
 	public int scheUpdate(ScheVO vo);
+
+	//참가자 테이블 비우기
+	public int scheParticiDelete(String sno);
 }

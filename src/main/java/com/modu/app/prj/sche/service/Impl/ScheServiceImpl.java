@@ -56,5 +56,11 @@ public class ScheServiceImpl implements ScheService{
 	public int scheUpdate(ScheVO vo) {
 		return scheMapper.scheUpdate(vo);
 	}
+
+	@Override
+	public int scheParticiDelete(String sno) {
+		// TODO Auto-generated method stub
+		return  scheMapper.scheParticiDelete(sno);
+	}
 	
 }
