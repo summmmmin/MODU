@@ -26,8 +26,7 @@
 								</div>
 								<div class="name flex-grow-1">
 									<h6 class="mb-0" id="chatNmPlace"></h6>
-									<span class="text-xs" id="chatMembPlace"></span>
-
+									<span class="text-xs chatMemb" id="chatMembPlace"></span>
 								</div>
 								<div class="dropdown">
 									<button class="btn btn-primary dropdown-toggle me-1"
@@ -254,7 +253,11 @@
 
 							let cmdiv = document.createElement('div');
 							cmdiv.setAttribute('class', 'chat-message');
-							cmdiv.innerHTML = `<small>${msg.nnm} : </small><br>${msg.cntn}<br><small>`+formattedDate+`</small>`;
+							if(msg.readCount > 0){
+								cmdiv.innerHTML = `<small>${msg.nnm} : </small><br>${msg.cntn}<br><small>`+formattedDate+` || ${msg.readCount}</small>`;
+							}else{
+								cmdiv.innerHTML = `<small>${msg.nnm} : </small><br>${msg.cntn}<br><small>`+formattedDate+`</small>`;
+							}
 							cbdiv.append(cmdiv);
 							cdiv.append(cbdiv);
 							msgPlace.append(cdiv);
@@ -400,6 +403,31 @@
 				.catch(err => console.log(err))
 
 			}
+			
+			//이전 채팅메세지 전부 읽음 처리
+			function readChatMsg(){
+				
+				let chatrNo = '[[${session.chatrNo}]]';
+				let chatParticiMembUniNo = '[[${session.chatParticiMembUniNo}]]';
+				let readChat = {};
+				readChat['chatrNo'] = chatrNo;
+				readChat['chatParticiMembUniNo'] = chatParticiMembUniNo;
+				
+				fetch("/modu/updateReadChat" ,{
+					method : 'post',
+					headers : {
+						'content-type' : 'application/json'
+					},
+					body : JSON.stringify(readChat)
+				})
+				.then(result => result.json())
+				.then(data => {
+					console.log(data);
+					showChatMsgList(); //채팅 메세지 리스트 다시 띄우기
+				})
+				.catch(err => console.log(err))
+
+			}
 
 			//보내기버튼누르면 sendMessage호출
 			document.getElementById('sendMsgBtn').addEventListener('click', sendMessage);
@@ -412,20 +440,29 @@
 			let chatrNo = '[[${session.chatrNo}]]'
 			let chatWriter = '[[${session.chatParticiMembUniNo}]]';
 			let cntn = document.getElementById('sendMsg').value;
+
+			let userCount = 0;
+
 			
 			// WebSocket 연결 설정
 			const stompClient = new StompJs.Client({
-    		brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
+    			brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
+				//brokerURL: 'ws://localhost/modu/socketserver'
 			});
 
-			// 페이지 로드시 웹소켓 연결
+			// 페이지 로드시 
 			window.addEventListener("load", function(event) {
+				//웹소켓 연결
 				stompClient.activate();
+				
+				//이전 채팅메세지 전부 읽음 처리
+				readChatMsg();
 			});
 
 			// 연결 성공시
 			stompClient.onConnect = (frame) => {
 					console.log('Connected: ' + frame);
+
 					//구독(채팅메세지)
 					stompClient.subscribe('/sub/chat/msg/'+chatrNo, 
 						(chatMsg) => {
@@ -473,6 +510,10 @@
 					}
 				})
 				
+				//현재 참여중인 채팅멤버 수
+				let chatMembCount = document.getElementById('chatMembPlace').children.length;
+				let readCount = chatMembCount - 1; //작성자제외 
+				
 					// 보낸 메세지 발행
 					stompClient.publish({
 							destination: "/pub/chat/msg",
@@ -480,7 +521,8 @@
 												            'chatParticiMembUniNo' : chatWriter,
 												            'cntn': cntn,
 																		'nnm' : nnm,
-																		'writeDt' : writeDt})
+																		'writeDt' : writeDt,
+																		'readCount' : readCount})
 					});
 	
 					let formData = new FormData(); // 첨부파일 + 채팅메세지
@@ -506,7 +548,8 @@
 	 											 'chatParticiMembUniNo': chatWriter,
 	 											 'cntn': '<a href="/modu/files/' + data.attNo + '/download">' + data.attNm +'</a>',
 												 'nnm' : nnm,
-												 'writeDt' : writeDt})
+												 'writeDt' : writeDt,
+												 'readCount' : readCount})
 	 											})		
 							}
 						
@@ -526,8 +569,7 @@
 						})						
 					.catch(err => console.log(err))
 			}
-		
-
+			
 			//채팅메세지추가
 			function showChatMsg(chatMsg) {
 				let msgPlace = document.getElementsByClassName('chat-content')[0];
@@ -570,12 +612,44 @@
 
 					let cmdiv = document.createElement('div');
 					cmdiv.setAttribute('class', 'chat-message');
-					cmdiv.innerHTML = `<small>${chatMsg.nnm} : </small><br>${chatMsg.cntn}<br><small>` + formattedDate + `</small>`;
+					cmdiv.innerHTML = `<small>${chatMsg.nnm} : </small><br>${chatMsg.cntn}<br><small>` + formattedDate + ` || ${chatMsg.readCount}</small>`;
 					cbdiv.append(cmdiv);
 					cdiv.append(cbdiv);
 					msgPlace.append(cdiv);
 				}
 			}
+
+
+			// 웹소켓으로 접속자 수를 구독
+			// function subscribeReadCountAndUpdateUI(chatrNo) {
+			// 		let chatrNo = '[[${session.chatrNo}]]';
+			// 		const destination = "/sub/chat/" + chatrNo + "/readCount"; 
+
+			// 		// 웹소켓으로 접속자 수를 구독
+			// 		stompClient.subscribe(destination, (message) => {
+			// 				const body = JSON.parse(message.body);
+			// 				const readCount = body.readCount;
+
+			// 				// 접속자 수를 사용하여 UI를 업데이트하거나 필요한 동작을 수행
+			// 				// 예: document.getElementById('readCountElement').innerText = readCount;
+			// 		});
+
+			// 		// 서버로부터 접속자 수를 가져와서 클라이언트가 구독하는 주제로 메시지를 발행
+			// 		const readCount = getReadCountFromServer(chatrNo);
+			// 		stompClient.publish({
+			// 				destination: destination,
+			// 				body: JSON.stringify({ 'readCount': readCount })
+			// 		});
+			// }
+
+			// // 서버에서 접속자 수를 가져오는 메서드 (AJAX 등을 사용하여 구현)
+			 function getReadCountFromServer(chatrNo) {
+			 		// 서버에 요청하여 접속자 수를 가져오는 로직 (AJAX 등)
+					// 이 부분은 구체적인 서버 요청 방식에 따라 다를 수 있습니다.
+					// 예를 들면, fetch를 사용하여 AJAX 요청을 보내고, 서버로부터 접속자 수를 받아올 수 있습니다.
+					// 이 예제에서는 임시로 0을 반환하도록 설정합니다.
+			 		return 0;
+			 }
 
 			// 타이핑 중일 때 발생하는 이벤트
 			function sendTypingArm(){

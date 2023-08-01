@@ -1,10 +1,14 @@
 package com.modu.app.prj.chat.controller;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.lang.Nullable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -18,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.messaging.SessionConnectedEvent;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import com.modu.app.prj.chat.service.ChatChmVO;
 import com.modu.app.prj.chat.service.ChatDTO;
@@ -36,6 +43,9 @@ import com.modu.app.prj.prj.service.PrjService;
 @Controller
 public class ChatController {
 	
+	// 현재 접속 중인 세션을 저장하는 Set?
+    //private static final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
+
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
 	
@@ -51,7 +61,7 @@ public class ChatController {
 	@Autowired
 	PrjService prjService;
 	
-	//이거웹소켓?
+	//채팅메세지
 	@MessageMapping("/chat/msg") 
 	//@SendTo("/chat/msg/{chatrNo}")
 	public void chatMessage(ChatVO chatVO, FileVO fileVO) throws Exception {
@@ -59,14 +69,35 @@ public class ChatController {
 		messagingTemplate.convertAndSend("/sub/chat/msg/"+chatVO.getChatrNo(), chatVO);
 	}
 	
+	//타이핑중메세지
 	@MessageMapping("/chat/typing") 
 	//@SendTo("/chat/msg/{chatrNo}")
 	public void chatTypingArm(ChatVO chatVO) throws Exception {
 	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행
-		//String typingArm = chatVO.getNnm() + "is typing"; //"'닉네임' is typing"
+		// String typingArm = chatVO.getNnm() + "is typing"; //"'닉네임' is typing"
 		messagingTemplate.convertAndSend("/sub/chat/"+chatVO.getChatrNo()+"/typing", chatVO);
 	}
-
+	
+//	 // 접속시 세션추가?
+//    @EventListener
+//    public void handleWebSocketConnectListener(SessionConnectedEvent event) {
+//        sessions.add((WebSocketSession) event.getSource());
+//    }
+//
+//    // 접속해제시 세션제거?
+//    @EventListener
+//    public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+//        WebSocketSession session = (WebSocketSession) event.getSource();
+//        sessions.remove(session);
+//    }
+//
+//    // 채팅방의 접속자 수
+//    private int updateReadCount(String chatrNo) {
+//        int readCount = sessions.size(); // 채팅접속자수
+//        
+//        return readCount;
+//    }
+    
 	//채팅방으로이동
 	@GetMapping("/chat") 
 	public String goChatPage(String chatrNo, Model model, ChatrParticiVO cptvo, HttpSession session) {
@@ -97,7 +128,7 @@ public class ChatController {
 	@ResponseBody
 	public ChatrDTO makeChatr(@RequestBody ChatrDTO chatrDTO, HttpSession session) {
 		
-		//채팅만드는사람
+		//채팅방만드는사람
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
 		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 		
@@ -163,7 +194,7 @@ public class ChatController {
 			fileVO.setParticiMembUniNo(particiMembUniNo);
 			fileVO = fileService.insertFile(file, fileVO);
 			
-			//첨부파일 있을 때 첨부파일 다운로드 링크 자체를 채팅 메세지로 등록
+			//첨부파일 있을 때 첨부파일 다운로드 링크 자체를 다음 채팅 메세지로 등록
 			ChatVO chatFile = new ChatVO();
 			chatFile.setChatrNo(chatrNo);
 			chatFile.setChatParticiMembUniNo(chatParticiMembUniNo);
@@ -280,5 +311,17 @@ public class ChatController {
 			membCount++;
 		}
 		return membCount;
+	}
+	
+	//채팅읽음업데이트
+	@PostMapping("updateReadChat")
+	@ResponseBody
+	public int updateReadChat(@RequestBody ChatChmVO chatChmVO, HttpSession session) {
+		String chatrNo = (String) session.getAttribute("chatrNo");
+		String chatParticiMembUniNo = (String) session.getAttribute("chatParticiMembUniNo");
+		
+		chatChmVO.setChatParticiMembUniNo(chatParticiMembUniNo);
+		chatChmVO.setChatrNo(chatrNo);
+		return chatService.updateReadChat(chatChmVO);
 	}
 }
