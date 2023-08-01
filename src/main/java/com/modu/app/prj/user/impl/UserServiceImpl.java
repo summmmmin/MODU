@@ -2,6 +2,7 @@ package com.modu.app.prj.user.impl;
 
 import java.io.UnsupportedEncodingException;
 
+
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
@@ -38,15 +39,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-	    UserVO userVO = userMapper.loginCheck(username);
+		UserVO userVO = userMapper.loginCheck(username);
 
-	    if (userVO == null) {
-	        System.out.println("유저정보 없음");
-	        throw new UsernameNotFoundException("no user");
-	    }
-	    return new PrincipalDetails(userVO);
+		if (userVO == null) {
+			System.out.println("유저정보 없음");
+			throw new UsernameNotFoundException("no user");
+		}
+		return new PrincipalDetails(userVO);
 	}
-
 
 	@Override
 	public String generateRandomToken() {
@@ -145,7 +145,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		int result = userMapper.updatePhone(params);
 		if (result > 0) {
 			return "휴대폰 번호 변경 성공"; // 오타나면 받는값이 달라서 서버에선 변경되더라도 클라이언트에선 오류 남
-										// return ResponseEntity.ok("휴대폰 번호 변경 성공"); 이대로 받아오기
+									// return ResponseEntity.ok("휴대폰 번호 변경 성공"); 이대로 받아오기
 		} else {
 			return "휴대폰 번호 변경 실패";
 		}
@@ -166,28 +166,35 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 		return code.toString();
 	}
-	
+
 	@Override
 	public List<UserVO> userList() {
 		return userMapper.userList();
 	}
-	
+
 	@Override
 	public int userCount() {
 		return userMapper.userCount();
 	}
-	
+
 	@Override
 	public int newUsersCount() {
 		return userMapper.newUsersCount();
 	}
+
 	@Override
 	public UserVO myInfo(String id) {
 		return userMapper.myInfo(id);
 	}
-    @Override
-    public List<String> monthlyNewUsersCount() {
-        return userMapper.monthlyNewUsersCount();
-    }
+
+	@Override
+	public List<Map<String, Object>> monthlyNewUsersCount() {
+		return userMapper.monthlyNewUsersCount();
+	}
+
+	@Override
+	public int totalPay() {
+		return userMapper.totalPay();
+	}
 
 }
