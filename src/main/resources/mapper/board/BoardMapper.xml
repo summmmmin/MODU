@@ -64,4 +64,10 @@
 	WHERE prj_uni_no = #{prjUniNo}
 	</select>
 	
+	<select id="chatParticiMemb" resultType="BoardVO" parameterType="BoardVO">
+	SELECT * 
+	FROM chatr_partici
+	WHERE chatr_no = #{chatrNo}
+	</select>
+	
 </mapper>

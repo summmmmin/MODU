@@ -88,7 +88,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 					// session token 삭제
 					session.removeAttribute("inviteTk");
 				} else {
-
 				}
 			}
 		}

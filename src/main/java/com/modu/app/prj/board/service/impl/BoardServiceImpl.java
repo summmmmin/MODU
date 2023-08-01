@@ -57,4 +57,8 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> prjList(BoardVO vo) {
 		return boardMapper.prjList(vo);
 	}
+	@Override
+	public List<BoardVO> chatParticiMemb(BoardVO vo) {
+		return boardMapper.chatParticiMemb(vo);
+	}
 }

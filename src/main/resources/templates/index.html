@@ -522,14 +522,14 @@
 			let submenu=document.querySelector('.brdinsert');
 			submenu.innerHTML += liTag;
 			
-			//알람 조건
+			//알람 조건 : 현재 프로젝트에 참가하고 있는 사람에게 전송
  			 $.ajax("prjParticiMembList")
  		    .done(result => {
  		    		console.log(result)
  		    		for(let i = 0 ; i < result.length ; i++){
  		    			//본인 외 참여자한테 알람이 감 
  		    			if(result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]'){
- 		    				//알람 전송
+ 		    				// 현재 프로젝트 참여자들에게 알람 전송
  		    				armClient.publish({
 		 		   				destination: "/pubArm/brd/"+result[i].particiMembUniNo,
 		 		   				body: JSON.stringify({
