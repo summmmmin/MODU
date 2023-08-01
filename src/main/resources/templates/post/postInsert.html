@@ -40,7 +40,7 @@
 								<div class="form-group">
 									<label for="basicInput">멤버호출</label>
 									<select class="choices form-select multiple-remove" maxlength="5" multiple="multiple" th:field="*{postTagArm}">
-										<option th:each="memb : ${membList}" th:if="${memb.particiMembUniNo != session.particiMembUniNo}" th:value="${memb.particiMembUniNo}">[[${memb.nnm}]]</option>
+										<option th:each="memb : ${membList}" th:if="${memb.particiMembUniNo != session.particiMembUniNo}" th:value="${memb.particiMembUniNo}+' - '+${memb.nnm}">[[${memb.particiMembUniNo}]] - [[${memb.nnm}]]</option>
 									</select>
 								</div>
 								<!--버튼부-->

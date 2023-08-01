@@ -10,7 +10,7 @@
 <body>
 	<div layout:fragment="content">
 		<div class="buttons">
-			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" >글작성</a>
+			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" th:if="${session.grd} != 'G01'">글작성</a>
 		</div>
 		
 		
@@ -171,7 +171,7 @@
 									<i class="bx bx-x d-block d-sm-none"></i> 
 									<span	class="d-none d-sm-block">취소</span>
 								</button>
-								<button id="deleteBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+								<button id="deletePostBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
 									<i class="bx bx-check d-block d-sm-none"></i> 
 									<span class="d-none d-sm-block">확인</span>
 								</button>
@@ -182,7 +182,7 @@
 				<!-- end of 게시글 삭제 모달 -->
 
 				<!-- start of 댓글 삭제 모달 -->
-				<div class="modal fade text-left" id="deleteReply" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+				<div class="modal fade text-left" id="deleteReply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 						<div class="modal-content">
 							<div class="modal-header bg-primary">
@@ -374,6 +374,7 @@
 									'cntn' : cntn
 								})
 						});
+
 						})
 						.catch(err => console.log(err))
 					}else{
@@ -449,9 +450,9 @@
 				let postInfo = {};
 				postInfo['postUniNo'] = pNum;
 				let bNum = '[[${brdUniNo}]]'
-				document.getElementById('deleteBtn').addEventListener('click', function(e){
-
-					fetch('/modu/removeFilesWith/',{
+				
+				document.getElementById('deletePostBtn').addEventListener('click', function(e){		
+					fetch('/modu/removeFilesWith',{
 						method :'post',
 						headers : {
 							'content-type' : 'application/json'
@@ -534,6 +535,29 @@
 				})
 				.catch(err => console.log(err))
 			}
+
+			//호출멤버를 닉네임으로 바꾸기
+			/* function callMembsNnm(){
+				let pNum = '[[${session.prjUniNo}]]';
+				let tagArms = document.getElementsByClassName('postTagArm');
+				for(let arms of tagArms){
+					console.log(arms.textContent);
+				}
+				//console.log(tagArms);
+				
+				let membs = [];
+
+				fetch("/modu/chatMembs/" + pNum)
+				.then(resolve => resolve.json())
+				.then(data => {
+					//console.log(data);
+					data.forEach(memb => {
+						membs.push({'particiMembUniNo' : memb.particiMembUniNo, 'nnm' : memb.nnm});
+					})
+					console.log(membs);
+				})
+			}
+			callMembsNnm(); */
 
 			//공지리스트
 			function notiPostList(){

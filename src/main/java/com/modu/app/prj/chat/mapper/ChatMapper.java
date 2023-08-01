@@ -45,5 +45,8 @@ public interface ChatMapper {
 	
 	//채팅참여자추가용리스트
 	public List<ChatrParticiVO> addChatrParticiList(ChatrParticiVO chatParticiVO);
+	
+	//채팅읽음업데이트
+	public int updateReadChat(ChatChmVO chatChmVO);
 
 }
