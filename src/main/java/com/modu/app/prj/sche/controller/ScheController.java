@@ -59,6 +59,15 @@ public class ScheController {
 		return map;
 	}
 	
+	@GetMapping("yetPartici/{scheUniNo}")
+	@ResponseBody
+	public List<ScheVO> schePartici(HttpSession session,@PathVariable String scheUniNo) {
+		ScheVO vo = new ScheVO();
+		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		vo.setScheUniNo(scheUniNo);
+		return scheService.yetPartici(vo);
+	}
+	
 	   //일정 등록
 	   @PostMapping("scheInsert")
 	   @ResponseBody
