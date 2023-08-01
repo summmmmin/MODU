@@ -70,7 +70,7 @@
 
 <body>
 <div class="buttons">
-<a class="btn btn-primary" th:href="@{noticeInsert}">공지사항 작성</a>
+<a class="btn btn-primary" th:if="${#httpServletRequest.userPrincipal != null} and ${session.user.grd} == 'A'" th:href="@{noticeInsert}">공지사항 작성</a>
 </div>
 <hr>
 
