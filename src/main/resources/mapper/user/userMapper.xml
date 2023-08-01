@@ -126,12 +126,20 @@
 		AND nm = #{nm}
 	</select>
 
-	<!-- 비밀번호 찾기 -->
-	<update id="pwdSearch" parameterType="String">
-		UPDATE memb
+	<!-- 비밀번호 업데이트 -->
+	<update id="pwdUpdate" parameterType="UserVO">
+		UPDATE memb 
 		SET pwd=#{pwd}
-		WHERE id=#{id}
+		WHERE memb_uni_no=#{membUniNo}
 	</update>
+	
+	<!-- 비밀번호 찾기 회원조회 -->
+	<select id="membSearch" parameterType="UserVO" resultType="String">
+		SELECT memb_uni_no
+		FROM memb
+		WHERE id=#{id}
+		AND nm=#{nm}
+	</select>
 
 	<!-- 회원 리스트 -->
 	<select id="userList" resultType="UserVO">

@@ -1,6 +1,4 @@
-
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-
 
 <div id="forgotPasswordModal" class="modal">
 	<div class="modal-content">
@@ -8,8 +6,11 @@
 		<form>
 			<div id="emailInputContainer">
 				<input type="email" id="emailInput" placeholder="이메일 입력">
-				<button type="button" onclick="sendEmail()">확인</button>
 			</div>
+			<div id="nameInputContainer">
+				<input type="text" id="nameInput" placeholder="이름 입력">
+			</div>
+			<button type="button" onclick="sendEmail()">확인</button>
 		</form>
 	</div>
 </div>
@@ -17,22 +18,25 @@
 <script>
 	function sendEmail() {
 		var emailInput = document.getElementById("emailInput").value;
+		var nameInput = document.getElementById("nameInput").value;
 
 		// AJAX 요청을 보내고 서버에서 이메일 발송 처리
 		$.ajax({
 			type : "POST",
-			url : "/modu/pwdSearch",
+			url : "pwdSearch",
 			data : {
-				id : emailInput
+				id : emailInput,
+				nm : nameInput
 			},
 			success : function(response) {
 				alert("비밀번호가 재설정 되었습니다. 메일을 확인해주세요.");
 			},
 			error : function(xhr, status, error) {
-				alert("오류가 발생했습니다. 다시 시도해주세요.");
+				alert("존재하지 않는 회원입니다.");
 				console.log(xhr.responseText); // 에러 내용 출력 (개발 중 디버깅용)
 			}
 		});
 		console.log(emailInput);
+		console.log(nameInput);
 	}
 </script>
