@@ -136,7 +136,7 @@
                                     <div class="row">
                                       <label>프사: </label>
                                       <div class="form-group">
-                                      	<input type="file" id="userImage" onchange="fileChange()">
+                                      	<input type="file" id="userImage" onchange="fileChange()" multiple>
                                       </div>
 
                                       <label>이메일: </label>
@@ -299,7 +299,28 @@
       function fileChange(){
     	  let fileInput = document.getElementById('userImage');
     	  // 파일 정보 가져오기
-    	  const file = fileInput.files[0];
+    	  let file = fileInput.files[0];
+
+    	  if (file) {
+	        // FormData 객체 생성
+	        let formData = new FormData();
+	        formData.append('file', file);
+	        formData.append('prjNo', document.querySelector('.prjName').getAttribute("data-prjNo"));
+
+	        // POST 요청 파일테이블에 insert/참여테이블 update
+	        fetch(url, {
+	            method: 'POST',
+	            body: formData
+	        })
+	        .then(response => response.json())
+	        .then(data => {
+	            console.log(data);
+	        })
+	        .catch(error => {
+	            console.error('에러:', error);
+	        });
+	    }
+    	  
       }
     </script>
     <script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>

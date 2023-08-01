@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.modu.app.prj.file.service.FileService;
+import com.modu.app.prj.file.service.FileVO;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
@@ -28,6 +29,9 @@ public class PrjRestController {
 	
 	@Autowired
 	PrjService prjService;
+	
+	@Autowired
+	FileService fileService;
 	
 	// 프로젝트 참여 회원 리스트
 	@GetMapping("prjParList")
@@ -218,9 +222,27 @@ public class PrjRestController {
 		return vo;
 	}
 	
+	//프로젝트탈퇴(개인)
 	@GetMapping("quitMemb")
 	public int quirtPrjParti(String prjNo, HttpSession session) {
 		PrjVO vo = getParticiInfo(((UserVO) session.getAttribute("user")).getMembUniNo(), prjNo);
 		return prjService.kickPrjParti(vo);
+	}
+	
+	// 프사등록 
+	@PostMapping("userImage")
+	public String postInsert(@RequestParam("prjNo") String prjNo, HttpSession session, @RequestParam("file") MultipartFile file) {
+		//로그인한사람 프로젝트 내 정보
+		PrjVO vo = getParticiInfo(((UserVO) session.getAttribute("user")).getMembUniNo(), prjNo);
+		String particiMembUniNo = vo.getParticiMembUniNo();
+		
+		// 프로젝트참여멤버테이블 업데이트
+		//prjService.updateImage();
+		//첨부파일등록
+		FileVO fileVO = new FileVO();
+		fileVO.setParticiMembUniNo(particiMembUniNo);
+		//fileService.insertFile(file, fileVO);
+			
+		return "true";
 	}
 }
