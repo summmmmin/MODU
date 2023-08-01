@@ -15,7 +15,11 @@
 					<h4 class="card-title">즐겨찾기</h4>
 					<hr>
 				</div>
-				<div class="card-content" id="bmList">
+				<div class="card-content" >
+					<table>
+						<tbody id="bmList">
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -31,12 +35,16 @@
                     .append($('<td/>').text('게시글 번호 : ' + result[i].bmUniNo))
                     .append($('<td/>').text(result[i].brdUniNo)).append($('<hr>'))
             );
+        }
+        
+    });
 /*]]>*/
-function trHref(){
-	location.href = '';
-}
 </script>
 <script>
+	function trHref(){
+		let brdUniNo = $(event.target).closest('tr').children().eq(2).text();
+		location.href='/modu/postList?brdUniNo='+ brdUniNo;
+	}
     function click() {
         console.log(event.target.className.animVal);
         event.target.classList.toggle('clicked');
