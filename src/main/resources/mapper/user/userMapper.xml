@@ -161,6 +161,18 @@
 		GROUP BY TO_CHAR(reg_dt, 'YYYY-MM')
 		ORDER BY month
 	</select>
+	
+<!-- 	SELECT
+  all_months.month,
+  COUNT(memb.reg_dt) count
+FROM
+  all_months
+LEFT JOIN
+  memb ON TO_CHAR(memb.reg_dt, 'YYYY-MM') = all_months.month
+GROUP BY
+  all_months.month
+ORDER BY
+  all_months.month; -->
 
 
 	<!-- 결제 누적금액 -->
