@@ -463,7 +463,7 @@
 			//입력 후 엔터키 막기
 			document.getElementById("sendMsg").addEventListener("keypress", function(event) {
 		       if (event.keyCode === 13) { 
-		           event.preventDefault(); 
+		    	   event.preventDefault(); 
 		       }
 		    });
 			
@@ -477,8 +477,8 @@
 			
 			// WebSocket 연결 설정
 			const stompClient = new StompJs.Client({
-    			brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
-				//brokerURL: 'ws://localhost/modu/socketserver'
+    			//brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
+				brokerURL: 'ws://localhost/modu/socketserver'
 			});
 
 			// 페이지 로드시 
@@ -576,7 +576,7 @@
 					.then(result => result.json())
 					.then(data => {
 						
-						cntn = '';
+						document.getElementById('sendMsg').value = '';
 						
 						//첨부파일이 있을 때 첨부파일 다운로드 링크를 발행
 						if(data.attNo != null){

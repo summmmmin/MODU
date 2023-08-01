@@ -36,9 +36,6 @@ import com.modu.app.prj.prj.service.PrjService;
 @Controller
 public class ChatController {
 	
-	// 현재 접속 중인 세션을 저장하는 Set?
-    //private static final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
-
 	@Autowired
 	SimpMessagingTemplate messagingTemplate;
 	

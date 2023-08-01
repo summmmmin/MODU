@@ -1,8 +1,6 @@
 package com.modu.app.prj.post.service;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class MembDTO {
