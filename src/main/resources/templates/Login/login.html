@@ -15,6 +15,8 @@
 <link rel="stylesheet" href="assets/css/pages/auth.css">
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
 <style>
 </style>
 </head>
@@ -49,7 +51,8 @@
 							<p class="text-gray-600">
 								<span th:if="${param.active} == 'false'" style="color: red;">이메일
 									인증이 필요합니다.</span> <span th:if="${param.active} != 'false'"
-									style="color: red;">비밀번호가 틀렸거나, 이메일 인증이 필요합니다. 또는 탈퇴한 유저입니다(분리필요함)</span>
+									style="color: red;">비밀번호가 틀렸거나, 이메일 인증이 필요합니다. 또는 탈퇴한
+									유저입니다(분리필요함)</span>
 							</p>
 						</div>
 						<div
@@ -66,25 +69,34 @@
 							</p>
 
 						</div>
-						<button type="submit" id="loginButton" class="btn btn-primary btn-block btn-lg shadow-lg mt-2">로그인</button>
-						<a
-							href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=68caebee74c619b1dd3dfb0dab9d7a4c&redirect_uri=http%3A%2F%2Flocalhost%2Fmodu%2Foauth%2Fkakao">카카오</a>
+						<button type="submit" id="loginButton"
+							class="btn btn-primary btn-block btn-lg shadow-lg mt-2">로그인</button>
+						<!-- 카카오로그인 버튼 -->
 						<div class="text-center mt-2">
 							<p class="text-gray-600">
-								<a href="#" class="font-bold" id="forgotIdLink" onclick="openPopup1()">아이디 찾기</a> | <a
-									href="#" class="font-bold" id="forgotPasswordLink"
-									onclick="openPopup()">비밀번호 찾기</a>
+								<a href="#" class="font-bold" id="forgotIdLink"
+									onclick="openPopup1()">아이디 찾기</a> | <a href="#"
+									class="font-bold" id="forgotPasswordLink" onclick="openPopup()">비밀번호
+									찾기</a>
 							</p>
 						</div>
 					</form>
+						<button class="social_login" id="kakao">카카오로그인</button>
+						<button class="social_login" id="naver">네이버로그인</button>
 				</div>
 			</div>
-			<div class="col-lg-7 d-none d-lg-block">
+			<div class="col-lg-7 d-none d-lg-block"> 
 				<div id="auth-right"></div>
 			</div>
 		</div>
 	</div>
 	<script>
+		$('.social_login').on('click', function() {
+			let path = $(this).attr('id');
+			let url = `oauth2/authorization/${path}`;
+			window.location.href = url;
+		});
+
 		// 페이지 로드 시 쿠키 값 가져오기 및 로그인 실패 여부 체크
 		window.onload = function() {
 			var savedUsername = getCookie("savedUsername");
@@ -118,7 +130,7 @@
 			var popupOptions = "width=500,height=300,top=100,left=100,scrollbars=1";
 			window.open(popupURL, "PasswordResetPopup", popupOptions);
 		}
-		
+
 		//아이디 찾기 팝업창
 		function openPopup1() {
 
@@ -129,26 +141,26 @@
 			window.open(popupURL, "idSearch", popupOptions);
 		}
 
-// 이메일 인증 요구
-/* 		var id = $("input[name='username']").val();
+		// 이메일 인증 요구
+		/* 		var id = $("input[name='username']").val();
 
-		$.ajax({
-			url : 'emailAuth',
-			type : 'POST',
-			data : JSON.stringify(id),
-			contentType : 'application/json',
-			success : function(response) {
-				if (response) {
-					$("#emailAuthMessage").html(response);
-					alert("메일함을 확인하여 계정을 활성화 해주세요.")
-				} else {
-					$("#loginForm")[0].submit();
-				}
-			},
-			error : function(xhr, status, error) {
-				console.error("AJAX 요청 에러:", error);
-			}
-		}); */
+		 $.ajax({
+		 url : 'emailAuth',
+		 type : 'POST',
+		 data : JSON.stringify(id),
+		 contentType : 'application/json',
+		 success : function(response) {
+		 if (response) {
+		 $("#emailAuthMessage").html(response);
+		 alert("메일함을 확인하여 계정을 활성화 해주세요.")
+		 } else {
+		 $("#loginForm")[0].submit();
+		 }
+		 },
+		 error : function(xhr, status, error) {
+		 console.error("AJAX 요청 에러:", error);
+		 }
+		 }); */
 	</script>
 </body>
 </html>
