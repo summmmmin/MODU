@@ -29,5 +29,8 @@ public interface BoardService {
 	
 	//채팅 알림 : 현재 참여한 프로젝트 내 채팅방 참여 회원에게 알림 발송
 	public List<BoardVO> chatParticiMemb(BoardVO vo);
+	
+	//비공개 게시판에 참여 돼 있는 회원 제외 결과
+	public List<BoardVO> particiBrd(BoardVO vo);
 
 }
