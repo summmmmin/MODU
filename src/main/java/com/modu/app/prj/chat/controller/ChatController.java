@@ -51,7 +51,7 @@ public class ChatController {
 	@Autowired
 	PrjService prjService;
 	
-	//이거웹소켓?
+	//채팅메세지
 	@MessageMapping("/chat/msg") 
 	//@SendTo("/chat/msg/{chatrNo}")
 	public void chatMessage(ChatVO chatVO, FileVO fileVO) throws Exception {
@@ -59,14 +59,13 @@ public class ChatController {
 		messagingTemplate.convertAndSend("/sub/chat/msg/"+chatVO.getChatrNo(), chatVO);
 	}
 	
+	//타이핑중메세지
 	@MessageMapping("/chat/typing") 
 	//@SendTo("/chat/msg/{chatrNo}")
 	public void chatTypingArm(ChatVO chatVO) throws Exception {
-	    // 클라이언트로부터 받은 메시지를 다시 /sub/chat 주제로 발행
-		//String typingArm = chatVO.getNnm() + "is typing"; //"'닉네임' is typing"
 		messagingTemplate.convertAndSend("/sub/chat/"+chatVO.getChatrNo()+"/typing", chatVO);
 	}
-
+	
 	//채팅방으로이동
 	@GetMapping("/chat") 
 	public String goChatPage(String chatrNo, Model model, ChatrParticiVO cptvo, HttpSession session) {
@@ -97,7 +96,7 @@ public class ChatController {
 	@ResponseBody
 	public ChatrDTO makeChatr(@RequestBody ChatrDTO chatrDTO, HttpSession session) {
 		
-		//채팅만드는사람
+		//채팅방만드는사람
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
 		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 		
@@ -142,8 +141,7 @@ public class ChatController {
 				             @RequestParam("cntn") String cntn,
 				             @Nullable @RequestParam("file") MultipartFile[] file,
 							 HttpSession session){
-		//String chatrNo = (String) session.getAttribute("chatrNo");
-		//String chatParticiMembUniNo = (String) session.getAttribute("chatParticiMembUniNo");
+
 		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 		
 		ChatVO chatVO = new ChatVO();
@@ -163,7 +161,7 @@ public class ChatController {
 			fileVO.setParticiMembUniNo(particiMembUniNo);
 			fileVO = fileService.insertFile(file, fileVO);
 			
-			//첨부파일 있을 때 첨부파일 다운로드 링크 자체를 채팅 메세지로 등록
+			//첨부파일 있을 때 첨부파일 다운로드 링크 자체를 다음 채팅 메세지로 등록
 			ChatVO chatFile = new ChatVO();
 			chatFile.setChatrNo(chatrNo);
 			chatFile.setChatParticiMembUniNo(chatParticiMembUniNo);
@@ -250,10 +248,7 @@ public class ChatController {
 	@GetMapping("addChatMembList/{chatrNo}/{prjUniNo}")
 	@ResponseBody
 	public List<ChatrParticiVO> addChatrParticiList(@PathVariable String chatrNo, @PathVariable String prjUniNo, HttpSession session){
-		//chatrNo = (String) session.getAttribute("chatrNo");
-		//prjUniNo = (String) session.getAttribute("prjUniNo");
-		//System.out.println(chatrNo);
-		//System.out.println(prjUniNo);
+
 		ChatrParticiVO chatParticiVO = new ChatrParticiVO();
 		chatParticiVO.setChatrNo(chatrNo);
 		chatParticiVO.setPrjUniNo(prjUniNo);
@@ -280,5 +275,17 @@ public class ChatController {
 			membCount++;
 		}
 		return membCount;
+	}
+	
+	//채팅읽음업데이트
+	@PostMapping("updateReadChat")
+	@ResponseBody
+	public int updateReadChat(@RequestBody ChatChmVO chatChmVO, HttpSession session) {
+		String chatrNo = (String) session.getAttribute("chatrNo");
+		String chatParticiMembUniNo = (String) session.getAttribute("chatParticiMembUniNo");
+		
+		chatChmVO.setChatParticiMembUniNo(chatParticiMembUniNo);
+		chatChmVO.setChatrNo(chatrNo);
+		return chatService.updateReadChat(chatChmVO);
 	}
 }

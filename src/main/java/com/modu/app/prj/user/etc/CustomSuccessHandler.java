@@ -20,6 +20,7 @@ import com.modu.app.prj.user.service.UserVO;
 
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
+	@Autowired
 	PrjService prjService;
 
 	@Override
@@ -87,7 +88,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 					// session token 삭제
 					session.removeAttribute("inviteTk");
 				} else {
-
 				}
 			}
 		}

@@ -457,28 +457,36 @@ public class UserController {
 	// 관리자 대시보드
 	@GetMapping("admin/dashBoard")
 	public String dashboard(Model model) {
-	    int userCount = userService.userCount();
-	    int newUsersCount = userService.newUsersCount();
-	    List<String> monthlyNewUsersCount = userService.monthlyNewUsersCount();
+		int userCount = userService.userCount();
+		int newUsersCount = userService.newUsersCount();
+		List<Map<String, Object>> monthlyNewUsersCount = userService.monthlyNewUsersCount();
+		int totalPay = userService.totalPay();
 
-	    model.addAttribute("userCount", userCount);
-	    model.addAttribute("newUsersCount", newUsersCount);
-	    model.addAttribute("monthlyNewUsersCount", monthlyNewUsersCount);
+		System.out.println(monthlyNewUsersCount);
 
-	    return "admin/dashBoard";
+		model.addAttribute("userCount", userCount);
+		model.addAttribute("newUsersCount", newUsersCount);
+		model.addAttribute("monthlyNewUsersCount", monthlyNewUsersCount);
+		model.addAttribute("totalPay", totalPay);
+
+		return "admin/dashBoard";
 	}
 
-
+	// 관리자 대시보드 그래프
+	@GetMapping("admin/dashBoard/monthlyNewUsersCount")
+	@ResponseBody
+	public List<Map<String, Object>> getMonthlyNewUsersCount() {
+		return userService.monthlyNewUsersCount();
+	}
 
 	// 관리자 유저목록
 	@GetMapping("admin/userList")
 	public String userList(Model model) {
 		List<UserVO> userList = userService.userList();
 		model.addAttribute("userList", userList);
-		System.out.println("유저리스트 : " + userList);
 		return "admin/userList";
 	}
-		
+
 	// 유저 정보 조회(마이페이지)
 	@PostMapping("admin/userList/{id}")
 	@ResponseBody

@@ -67,4 +67,7 @@ public interface PrjMapper {
 	
 	// 초대테이블 확인 여부 업뎃
 	public int updateInvite(String id);
+	
+	// 프로젝트 참여 회원 정보 수정
+	public int updateParticiInfo(PrjVO vo);
 }

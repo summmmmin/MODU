@@ -90,5 +90,11 @@ public class ChatServiceImpl implements ChatService{
 	public List<ChatrParticiVO> addChatrParticiList(ChatrParticiVO chatParticiVO) {
 		return chatMapper.addChatrParticiList(chatParticiVO);
 	}
+	
+	//채팅읽음업데이트
+	@Override
+	public int updateReadChat(ChatChmVO chatChmVO) {
+		return chatMapper.updateReadChat(chatChmVO);
+	}
 
 }
