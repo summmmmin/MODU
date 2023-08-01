@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.modu.app.prj.file.service.FileService;
+import com.modu.app.prj.file.service.FileVO;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
@@ -27,6 +29,9 @@ public class PrjRestController {
 	
 	@Autowired
 	PrjService prjService;
+	
+	@Autowired
+	FileService fileService;
 	
 	// 프로젝트 참여 회원 리스트
 	@GetMapping("prjParList")
@@ -112,13 +117,12 @@ public class PrjRestController {
 	
 	// 프로젝트 회원 탈퇴
 	@PostMapping("kickMemb")
-	public String kickPrjParti(@RequestBody PrjVO vo, HttpServletRequest request) {
+	public String kickPrjParti(@RequestBody PrjVO vo, HttpSession session) {
 		
 		// 탈퇴 시 프로젝트 참여 멤버 테이블 참여여부 'N'으로 바꾸기
 		prjService.kickPrjParti(vo);
 		
 		// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
-		HttpSession session = request.getSession();
 		UserVO user = (UserVO) session.getAttribute("user");
 		PrjVO info = new PrjVO();
 		info.setMembUniNo(user.getMembUniNo());
@@ -182,5 +186,63 @@ public class PrjRestController {
 	@GetMapping("getGrdCnt")
 	public Map<String, Object> getGrdCnt(String prjNo){
 		return prjService.getGrdCnt(prjNo);
+	}
+	
+	// 프로젝트 참여자 정보
+	@GetMapping("getParticiMembInfo")
+	public PrjVO meminfo(String prjNo, HttpSession session) {
+		PrjVO vo = new PrjVO();
+		vo.setPrjUniNo(prjNo);
+		vo.setMembUniNo(((UserVO) session.getAttribute("user")).getMembUniNo());
+		// vo에 조회한 회원 정보 담기
+		vo = prjService.getMemInfo(vo);
+		return vo;
+	}
+	
+	// 프로젝트 참여자 정보 수정
+	@PostMapping("updateParticiMembInfo")
+	public String updateMemInfo(String prjNo, @RequestBody PrjVO vo, HttpSession session) {
+		System.out.println(vo);
+		PrjVO prj = new PrjVO();
+		prj.setPrjUniNo(prjNo);
+		prj.setMembUniNo(((UserVO) session.getAttribute("user")).getMembUniNo());
+		// vo에 조회한 회원 정보 담기
+		prj = prjService.getMemInfo(prj);
+		vo.setParticiMembUniNo(prj.getParticiMembUniNo()); 
+		prjService.updateParticiInfo(vo);
+		return "1";
+	}
+	
+	private PrjVO getParticiInfo(String user, String prj) {
+		PrjVO vo = new PrjVO();
+		vo.setPrjUniNo(prj);
+		vo.setMembUniNo(user);
+		// vo에 조회한 회원 정보 담기
+		vo = prjService.getMemInfo(vo);
+		return vo;
+	}
+	
+	//프로젝트탈퇴(개인)
+	@GetMapping("quitMemb")
+	public int quirtPrjParti(String prjNo, HttpSession session) {
+		PrjVO vo = getParticiInfo(((UserVO) session.getAttribute("user")).getMembUniNo(), prjNo);
+		return prjService.kickPrjParti(vo);
+	}
+	
+	// 프사등록 
+	@PostMapping("userImage")
+	public String postInsert(@RequestParam("prjNo") String prjNo, HttpSession session, @RequestParam("file") MultipartFile file) {
+		//로그인한사람 프로젝트 내 정보
+		PrjVO vo = getParticiInfo(((UserVO) session.getAttribute("user")).getMembUniNo(), prjNo);
+		String particiMembUniNo = vo.getParticiMembUniNo();
+		
+		// 프로젝트참여멤버테이블 업데이트
+		//prjService.updateImage();
+		//첨부파일등록
+		FileVO fileVO = new FileVO();
+		fileVO.setParticiMembUniNo(particiMembUniNo);
+		//fileService.insertFile(file, fileVO);
+			
+		return "true";
 	}
 }

@@ -1,15 +1,15 @@
 package com.modu.app.prj.user.etc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 
 import com.modu.app.prj.user.service.PrincipalOauth2UserService;
@@ -45,21 +45,27 @@ public class WebSecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeHttpRequests()
-				.antMatchers("/", "/static/**", "/signup/**", "/sms/**", "/modu/**", "/**").permitAll().anyRequest()
-				.authenticated().and().formLogin().passwordParameter("pwd")
-				.successHandler(authenticationSuccessHandler()).failureHandler(authenticationFailureHandler())
-				.loginPage("/login").permitAll().and() 
-				.logout((logout) -> logout.logoutSuccessUrl("/login").invalidateHttpSession(true).permitAll())
-				.oauth2Login() // OAuth2기반의 로그인인 경우
-				.loginPage("/login") // 인증이 필요한 URL에 접근하면 /loginForm으로 이동
-				.successHandler(authenticationSuccessHandler()) // 로그인 성공하면 "/" 으로 이동
-				.failureHandler(authenticationFailureHandler()) // 로그인 실패 시 /loginForm으로 이동
-				.userInfoEndpoint() // 로그인 성공 후 사용자정보를 가져온다
-				.userService(principalOauth2UserService) // 사용자정보를 처리할 때 사용한다
-
+        http.csrf().disable()
+        .authorizeRequests()
+//        	.antMatchers("/admin/**").hasRole("ADMIN")
+	        .antMatchers("/", "/signup/**", "/sms/**", "/modu/**", "/**").permitAll()
+	        .anyRequest().authenticated()
+        .and()
+        .formLogin()
+            .passwordParameter("pwd")
+            .loginPage("/login").permitAll()
+            .successHandler(authenticationSuccessHandler())
+            .failureHandler(authenticationFailureHandler())
+        .and()
+        .logout((logout) -> logout.logoutSuccessUrl("/login").invalidateHttpSession(true).permitAll())
+        .oauth2Login()
+            .loginPage("/login")
+            .successHandler(authenticationSuccessHandler())
+            .failureHandler(authenticationFailureHandler())
+            .userInfoEndpoint()
+            .userService(principalOauth2UserService) // 사용자정보를 처리할 때 사용한다
+            
 		;
-
 		return http.build();
 	}
 }

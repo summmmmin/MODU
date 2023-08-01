@@ -20,5 +20,47 @@ public class ScheServiceImpl implements ScheService{
 	public List<ScheVO> scheList(String prj) {
 		return scheMapper.scheList(prj);
 	}
+
+	@Override
+	public void scheInsert(ScheVO vo) {
+		scheMapper.scheInsert(vo);
+		
+	}
+
+	@Override
+	public ScheVO scheInfo(String sno) {
+		return scheMapper.scheInfo(sno);
+	}
+
+	@Override
+	public List<ScheVO> schePartici(String sno) {
+		return scheMapper.schePartici(sno);
+	}
+
+	@Override
+	public int scheDelete(String sno) {
+		return scheMapper.scheDelete(sno);
+	}
+
+	@Override
+	public int scheInsertPartici(ScheVO vo) {
+		return scheMapper.scheInsertPartici(vo);
+	}
+
+	@Override
+	public List<ScheVO> yetPartici(ScheVO vo) {
+		return scheMapper.yetPartici(vo);
+	}
+
+	@Override
+	public int scheUpdate(ScheVO vo) {
+		return scheMapper.scheUpdate(vo);
+	}
+
+	@Override
+	public int scheParticiDelete(String sno) {
+		// TODO Auto-generated method stub
+		return  scheMapper.scheParticiDelete(sno);
+	}
 	
 }
