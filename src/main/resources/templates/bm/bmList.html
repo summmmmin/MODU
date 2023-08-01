@@ -15,7 +15,11 @@
 					<h4 class="card-title">즐겨찾기</h4>
 					<hr>
 				</div>
-				<div class="card-content" id="bmList">
+				<div class="card-content" >
+					<table>
+						<tbody id="bmList">
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -23,34 +27,24 @@
 /*<![CDATA[*/
     $.ajax("bmList")
     .done(result => {
-        let div = '';
-        for (let i of result) { 
-        	console.log(i);
-            const regDate = new Date(i.regDt);
-            const formattedDate = `${regDate.getFullYear()}-${String(regDate.getMonth() + 1).padStart(2, '0')}-${String(regDate.getDate()).padStart(2, '0')}`;
-
-            div += `
-                <div class="card-content">
-                    <div class="card-body" style="padding:15px;">
-                    	<tr onclick="">
-                        	<td>등록일자</td><br>
-                        	<td>${formattedDate}</td>
-                        	<td>${i.brdUniNo}</td>
-                        	<td>${i.postUniNo}</td>
-                        </tr>
-                    </div>
-                </div>
-                <hr>
-            `;
+        console.log(result);
+        for (let i = 0; i < result.length; i++) {
+            $('#bmList').append(
+                $('<tr/>').attr('onclick', 'trHref()')
+                    .append($('<td/>').text('등록일자 : ' + result[i].regDt))
+                    .append($('<td/>').text('등록일자 : ' + result[i].bmUniNo))
+                    .append($('<td/>').text(result[i].brdUniNo))
+            );
         }
-        $('#bmList').append(div);
+        
     });
 /*]]>*/
-function trHref(){
-	location.href = '';
-}
 </script>
 <script>
+	function trHref(){
+		let brdUniNo = $(event.target).closest('tr').children().eq(2).text();
+		location.href='/modu/postList?brdUniNo='+ brdUniNo;
+	}
     function click() {
         console.log(event.target.className.animVal);
         event.target.classList.toggle('clicked');
