@@ -108,7 +108,7 @@
 <div class="col-sm-10">
 <label class="input-group-text">초대멤버</label> 
 <select name="scheParticiUniNo[]" class="choices form-select asdfas" multiple="multiple" id="cm">
-<option th:value="${i.particiMembUniNo}" th:each="i:${brdParticiMemb}">[[${i.particiMembUniNo}]]</option>
+<option th:value="${i.particiMembUniNo}" th:each="i:${particiBrd}">[[${i.nnm}]]</option>
 </select>
 </div>
 </div>
@@ -753,7 +753,6 @@ $(document).ready(function() {
   });
 });
 </script>
-
 <script>
 $(document).ready(function() {
   // "회원 초대" 링크를 클릭했을 때 
