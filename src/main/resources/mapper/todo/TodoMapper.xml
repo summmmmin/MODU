@@ -41,6 +41,13 @@
 	from todo
 	where todo_uni_no=#{todoUniNo}
 	</select>
+	
+	<!-- 담당자 참가자 확인 -->
+	<select id="mgrCmCheck" parameterType="String">
+	select mgr,cm
+	from todo
+	where todo_uni_no=#{todoUniNo}
+	</select>
 
 	<!-- 할일 생성-->
 	<insert id="insertTodo" parameterType="TodoVO">
