@@ -15,7 +15,6 @@
 		
 		
 		<!-- ============= 게시판 수정, 삭제 (성현) =============-->
-		
 <!-- 값 찾아오기 귀찮아서 이렇게 만들었어요 죄송 ! (성현) -->
 <p id="brdNo" style="display:none">[[${brdUniNo}]]</p>
 <p id="prjNo" style="display:none">[[${session.prjUniNo}]]</p>
@@ -25,11 +24,12 @@
 <div class="postDDM dropdown-menu" aria-labelledby="dropdownMenuButton">
 <a id="editBoardLink" class="dropdown-item">게시판 수정</a>
 <a id="deletBrdModal" class="dropdown-item">게시판 삭제</a>
+<a id="particiBrd" class="dropdown-item">회원 초대</a>
 </div>
 </div>
 <hr>
 <!-- ========================게시판 수정 Modal 시작 (성현) ======================== -->
-<div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+<div class="modal fade text-left" id="modify" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 <div class="modal-content">
 <div class="modal-header">
@@ -44,7 +44,7 @@
 <div class="form-group">
 <input id="boardNm" name="boardNm" type="text" placeholder="변경 하실 이름을 입력해주세요." class="form-control">
 </div>
-<div class="form-group">
+<div class="form-group checkboxx">
 <h6>공개여부</h6>
 <input type="checkbox" id="checkbox" name="pubcYn" checked>
 <label for="checkbox"><span></span></label>
@@ -371,7 +371,6 @@
 								body: JSON.stringify({
 									'postUniNo': data.postUniNo,
 									'particiMembUniNo' : particiMembUniNo,
-									'cntn' : cntn
 								})
 						});
 
@@ -674,7 +673,9 @@ function PostBm(){
 	let particiMembUniNo = '[[${session.particiMembUniNo}]]';
 	let data = {
 			'particiMembUniNo' : particiMembUniNo,
-			'postUniNo' : postNo
+			'postUniNo' : postNo,
+			'brdUniNo' : '[[${brdUniNo}]]'
+			
 	}
 	fetch('/modu/BmInsert',{
 		method:'POST',
@@ -712,7 +713,7 @@ $(document).ready(function() {
   // "게시판 수정" 링크를 클릭했을 때 
   $("#editBoardLink").on("click", function() {
     // 모달창 띄우기
-    $("#inlineForm").modal("show");
+    $("#modify").modal("show");
   });
 });
 </script>

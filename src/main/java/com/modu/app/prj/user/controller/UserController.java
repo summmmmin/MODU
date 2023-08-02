@@ -484,7 +484,6 @@ public class UserController {
 	public String userList(Model model) {
 		List<UserVO> userList = userService.userList();
 		model.addAttribute("userList", userList);
-		System.out.println("유저리스트 : " + userList);
 		return "admin/userList";
 	}
 

@@ -34,4 +34,10 @@ public class BmVO {
 	
 	//게시판 버노
 	private String brdUniNo;
+	
+	//즐겨찾기 구분 값
+	private String division;
+	
+	//채팅 방 번호
+	private String chatrNo;
 }

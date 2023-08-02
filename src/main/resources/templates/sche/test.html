@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard - Mazer Admin Dashboard</title>
+<link rel="stylesheet" href="assets/vendors/choices.js/choices.min.css" />
+</head>
+<body>
+
+				<form name="scheInsert2222">
+					<div class="modal-body">
+						<label>제목: </label>
+						<div class="form-group">
+							<input type="text" placeholder="제목을 입력해주세요" id="11"
+								class="form-control" name="title1">
+						</div>
+						<label>내용: </label>
+						<div class="form-group">
+							<input type="text" placeholder="내용을 입력해주세요" id="22"
+								class="form-control" name="cntn1">
+						</div>
+						 <div class="form-group">
+							<div class="col-sm-10">
+								<label class="input-group-text">초대멤버</label> 
+								<select
+									name="scheParticiUniNo[]" class="choices form-select multiple-remove asdfdsfasdf"
+									multiple="multiple" id="cm1">
+									<option th:value="${i.particiMembUniNo}"
+										th:each="i:${membList}" th:selected="${#lists.contains(partici,i.particiMembUniNo)}">[[${i.nnm}]]</option>
+								</select>
+							</div>
+						</div> 
+						<label> </label>
+						<div class="row">
+							<div class="col-sm-5">
+								<div class="form-group">
+									<input type="datetime-local" class="form-control" name="start1"
+										id="33">
+								</div>
+							</div>
+							&nbsp~&nbsp
+							<div class="col-sm-5">
+								<div class="form-group">
+									<input type="datetime-local" class="form-control" name="end1"
+										id="44">
+								</div>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-light-secondary"
+								data-bs-dismiss="modal">
+								<i class="bx bx-x d-block d-sm-none"></i> <span
+									class="d-none d-sm-block">취소</span>
+							</button>
+							<button type="button" onclick="updateSche()"
+								class="btn btn-primary ml-1" data-bs-dismiss="modal">
+								<i class="bx bx-check d-block d-sm-none"></i> <span
+									class="d-none d-sm-block">수정하기</span>
+							</button>
+						</div>
+					</div>
+
+				</form>
+				<script>
+			    //일정 업데이트
+			    
+			       function updateSche(){
+			   	let scheUniNo = $('#noInfo').val();
+			   	let scheUpdateData = {
+			   	"title": $('#11').val(),
+			       "cntn": $('#22').val(),
+			       "start": $('#33').val(),
+			       "end": $('#44').val(),
+			   	"scheUniNo":scheUniNo,
+			   	"particiMembUniNos": $("#cm1 option:selected").map(function(){ return $(this).val(); }).get()
+			   	}
+			   	
+			       fetch("scheUpdate", {
+			           method: 'post',
+			           headers: {
+			               'Content-Type': 'application/json',
+			           },
+			           body: JSON.stringify(scheUpdateData)
+			       })
+			       .then(result => result.json())
+			       .then(data => {
+			           console.log(data);
+			       })
+			   	
+			   	
+			   	
+			   }  
+				
+				
+				
+				
+				
+				
+				
+				let initChoice = new Choices(document.querySelector('.asdfdsfasdf'),
+					      {
+					        delimiter: ',',
+					        editItems: true,
+					        maxItemCount: 5,
+					        removeItemButton: true,
+					      });
+
+				
+				
+	
+				</script>
+				
+</body>
+</html>
