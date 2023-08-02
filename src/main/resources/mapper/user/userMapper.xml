@@ -185,13 +185,7 @@ ORDER BY
   all_months.month
   ]]>
 	</select>
-
-	<!-- WITH all_months AS ( SELECT TO_CHAR(TRUNC(SYSDATE, 'MONTH') - INTERVAL 
-		'1' YEAR + INTERVAL '1' MONTH * (LEVEL - 1), 'YYYY-MM') AS month FROM DUAL 
-		CONNECT BY LEVEL <= 12 ) SELECT all_months.month, COUNT(memb.reg_dt) AS count 
-		FROM all_months LEFT JOIN memb ON TO_CHAR(memb.reg_dt, 'YYYY-MM') = all_months.month 
-		GROUP BY all_months.month ORDER BY all_months.month -->
-
+	
 	<!-- 결제 누적금액 -->
 	<select id="totalPay" resultType="int">
 		SELECT SUM(pay_amt)
