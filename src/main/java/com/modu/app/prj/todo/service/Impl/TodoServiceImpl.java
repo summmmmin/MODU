@@ -58,4 +58,11 @@ public class TodoServiceImpl implements TodoService{
 		return todoMapper.deleteTodo(tno);
 	}
 
+	
+	//담당자,참가자 확인
+	@Override
+	public TodoVO mgrCmCheck(String tno) {
+		return todoMapper.mgrCmCheck(tno);
+	}
+
 }

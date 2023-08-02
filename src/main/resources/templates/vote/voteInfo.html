@@ -255,8 +255,6 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     	
-  
-        // 항목 선택 시 이벤트 처리
              function toggleSelection(item) {
             const selectedItems = document.querySelectorAll('.voteItem.selected');
 
@@ -271,18 +269,51 @@
             submitBtn.disabled = (document.querySelector('.voteItem.selected') === null);
 
         }
+    
+    
+     		//---------------투표 수정하기
+             function updateVote(){
+             let a =[[${voteInfo.voteNo}]];
+             
+             let data={'voteNo': a};
+    
+             	let data2 = {
+             		"toDt":document.getElementById("secondTodt").value,
+             		"voteNo":a
+             	}; 
+             	console.log(data2);
+             		
+     			fetch("voteUpdate/"+a, {
+     				method : "post",
+     				headers:{
+     					'Content-Type' : 'application/json',
+     				}, 
+     				body : JSON.stringify(data2)
+     			})
+     			.then((response) => response.json())
+     			.then((result) => {
+     			console.log(result);
+     			voteList();
+     			 })
+             }
+    
+    
+  $(function(){
+	  
+
+        // 항목 선택 시 이벤트 처리
 
         // ---------------------투표 하기 버튼 클릭시 
         const voteForm = document.getElementById('voteForm');
         voteForm.addEventListener('submit', function (event) {
             event.preventDefault();
+            
             const selectedVoteItem = document.querySelector('.voteItem.selected').id;
-            console.log(selectedVoteItem);
             const data1 = {
             		'voteDetaNo':selectedVoteItem
             } 
             
-            const options = {
+            var options = {
             	    method: 'POST',         // HTTP 메서드 (POST 방식)
             	    headers: {
             	        'Content-Type': 'application/json' // 요청의 본문 데이터 타입 (JSON)
@@ -300,16 +331,6 @@
 			    	 $.ajax("voteInfo/"+vno)
 			 		.done(result =>{
 			 			$("#rsidebarContent").html(result);
-			    	/* fetch("voteInfo/"+vno)
-			    	  .then(response =>response.html())
-			    	  .then(data2 => {
-			    	    console.log(data2); 
-			    	    $("#rsidebarContent").html(data2);
-			    	  });
-			    	  .catch(error => {
-			    	    // 오류 처리 로직을 작성합니다.
-			    	    console.log(errpr);
-			    	  });*/	
 			    	})
 			    })
 			    .catch(error => {
@@ -322,15 +343,17 @@
         // ----------------------투표 하기 버튼 끝
         
         
-        let a =[[${voteInfo.voteNo}]];
-        console.log(a);
-        
-        let data={'voteNo': a};
+
         
         //-----------------------vote삭제하기 
         
         
         function delVote(){
+        	
+            let a =[[${voteInfo.voteNo}]];
+            
+            let data={'voteNo': a};
+            
 			fetch("voteDelte", {
 				method : "delete",
 				headers:{
@@ -362,31 +385,13 @@
 		 secondDate.setAttribute("min", today33); 
         
 		
-		//---------------투표 수정하기
-        function updateVote(){
-        	let data2 = {
-        		"toDt":secondDate.value,
-        		"voteNo":a
-        	}; 
-        	console.log(data2);
-        		
-			fetch("voteUpdate/"+a, {
-				method : "post",
-				headers:{
-					'Content-Type' : 'application/json',
-				}, 
-				body : JSON.stringify(data2)
-			})
-			.then((response) => response.json())
-			.then((result) => {
-			console.log(result);
-			voteList();
-			 })
-        }
+
         
         $('#deleteVote').appendTo("body")
         $('#updateVote').appendTo("body")
         
+        
+  })
         /*]]>*/
         </script>
 </body>

@@ -61,7 +61,7 @@ margin-left:5px;}
 							<p>시작일</p>
 							<div class="position-relative">
 								<input type="date" class="form-control" id="Date"
-									th:onchange="dateChange()" th:field="*{frDt}">
+									th:onchange="dateChange2()" th:field="*{frDt}">
 								<div class="form-control-icon">
 									<i class="bi-calendar"></i>
 								</div>
@@ -93,13 +93,17 @@ margin-left:5px;}
 		</div>
 		<script>
 		
-		let mgr =$("#mgr option:selected").val();
-		let cm =$("#cm option:selected").val();
-		let file = document.getElementById('todoFile').files[0];
 		
-		console.log(file)
+		//input타입 date를 클릭했을때 나온는 달력에서 선택한 날짜 이전을 막는 구절
+
+		var date = document.getElementById("Date")
+		function dateChange2(){
+		document.getElementById("lastDate").setAttribute("min", date.value); 
+		}
+		
 		
 		function todoInsert(){
+			console.log("111111111111111");
 				 var formData = $("#todoForm").serialize();	
 				 
 				 var otherdata = {
@@ -115,7 +119,6 @@ margin-left:5px;}
 				let Date = document.querySelector('#Date').value;
 				let lastDate = $("#lastDate").val();
 				
-				console.log(Date);
 				
 				 let formD = new FormData();
 	             formD.append("mgr", mgr);
@@ -129,10 +132,6 @@ margin-left:5px;}
 				 formD.append("frDt",Date);
 				 formD.append("toDt",lastDate);
 		
-				 console.log(formData)
-				 console.log(formD)
-				 console.log(cntn)
-				 console.log(Date)
 				 
 				   fetch("todoInsert",{
 	                  method : 'post',
@@ -153,38 +152,22 @@ margin-left:5px;}
 	            	   
 	               })
 		}
-			 /* $.ajax({
-			        type: "POST",
-			        url: "todoInsert",
-			        data: formData + "&" + $.param(otherdata) + "&" + formD, // 폼 데이터와 추가 데이터를 합쳐서 전송
-			        success: function (data) {
-			            console.log(data)
-			            todoList();
-			        },
-			        error: function (xhr, status, error) {
-			            console.log(error)
-			        }
-			    });
-			} */
 		
 		
-		//input타입 date를 클릭했을때 나오는 달력에서 현재날짜 이전애들을 클릭 못하게 막는방법
-/* 		var now_utc = Date.now()
-		var timeOff = new Date().getTimezoneOffset()*60000;
-		var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
-		document.getElementById("Date").setAttribute("min", today);  */
+		$(function(){
 		
-		//input타입 date를 클릭했을때 나온는 달력에서 선택한 날짜 이전을 막는 구절
-		var date = document.getElementById("Date")
-			function dateChange(){
-			document.getElementById("lastDate").setAttribute("min", date.value); 
-			}
+		let mgr =$("#mgr option:selected").val();
+		let cm =$("#cm option:selected").val();
+		let file = document.getElementById('todoFile').files[0];
+		
+		
+	
 		new Choices(document.querySelector('#mgr'));
 		new Choices(document.querySelector('#cm'));
 		
+		})
 		
 		</script>
-	</div>
 
 
 </body>

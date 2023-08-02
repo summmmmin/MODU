@@ -25,4 +25,8 @@ public interface TodoMapper {
 	
 	//할일 삭제
 	public int deleteTodo(String tno);
+	
+	//담당자 참가자 확인
+	public TodoVO mgrCmCheck(String tno);
+	
 }

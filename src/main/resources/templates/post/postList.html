@@ -163,7 +163,7 @@
 								</div>
 								<hr>
 								<div class="row">
-										<p class="card-text">[[${post.cm}]]</p>
+										<p class="card-text" th:utext="${post.cm}"></p>
 										<p class="card-text postTagArm">[[${post.postTagArm}]]</p>
 										<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}"></div>	
 										<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
@@ -852,6 +852,17 @@ function particiInsert(){
 		console.log(data);
 	})
 }
+
+//투표 상세로 가기
+	function voteInfo(vid){
+		console.log("11111111111111")
+		 $.ajax("voteInfo/"+vid)
+		.done(result =>{
+			$("#rsidebarContent").empty();
+			$("#rsidebarContent").html(result);
+		}) 
+	
+	}
 </script>
 	</div>
 </div>

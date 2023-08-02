@@ -37,22 +37,4 @@ public class VoteRestController {
 			}
 	}
 	
-	//투표 삭제
-//	@GetMapping("voteDelte/{voteNo}")
-//	public String delVote(@PathVariable("voteNo") String voteNo){
-//		 System.out.println(voteNo);
-//		 voteService.voteDelete(voteNo);
-//			return voteNo;
-//		}
-	
-//	//투표 리스트 페이지
-//	@GetMapping("voteList")
-//	public List<VoteVO> voteList(VoteVO vo,Model model,HttpServletRequest request) {
-//		HttpSession session = request.getSession();
-//		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-//		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-//		model.addAttribute("voteList",voteService.voteList(vo));
-//		return voteService.voteList(vo);
-//	}
-	
 }

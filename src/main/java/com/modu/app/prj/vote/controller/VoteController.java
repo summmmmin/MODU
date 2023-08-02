@@ -41,17 +41,6 @@ public class VoteController {
 	//투표 페이지 이동
 	@GetMapping("vote")
 	public String vote(){
-		/*
-		 * vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		 * vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		 * List<VoteVO> list = voteService.voteList(vo); List<VoteDetaVO> count =
-		 * voteService.allCount();
-		 * 
-		 * ListModel listModel = new ListModel(); listModel.setChatrList(list);
-		 * listModel.setVoteDataList(count); System.out.println(list);
-		 * model.addAttribute("voteList",listModel);
-		 * System.out.println(model.getAttribute("voteList"));
-		 */
 		return "vote/voteList";
 	}
 	
@@ -187,45 +176,4 @@ public class VoteController {
 			//변경 성공 여부
 			return vo;
 		}
-	
-	
-// map 여러가지 넘기기 map 공부
-//	Map<String, Object> map = new HashMap<>();
-//	if(result > 0) {
-//		map.put("retCode", "Success");
-//		map.put("data", vo);
-//	}else {
-//		map.put("retCode", "Fail");
-//	}
-//	return map;	
-
-	
-	// 투표 단건
-//		@GetMapping("voteResult/{voteNo}")
-//		public String voteInfo2(HttpSession session,Model model,VoteVO vo, @PathVariable String voteNo){
-//			vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-//			vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-//			if(voteNo != null) {
-//				vo.setVoteNo(voteNo);
-//			}
-//			model.addAttribute("voteInfo",voteService.voteOne(vo));
-//			model.addAttribute("item",voteService.voteItem(voteNo));
-//			System.out.println(model.getAttribute("item"));;
-//			return "vote/voteResult";
-//		}
-		
-	//
-	
-	// 투표 등록	
-//	@ResponseBody
-//	@PostMapping("voteInsert")
-//	public String voteInsert(VoteVO vo,HttpServletRequest request) {
-//		model.addAttribute("VoteVO",vo);
-//		HttpSession session = request.getSession();
-//		BoardVO brd = new BoardVO();
-//		brd.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-//		brd.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-//		boardService.BoardList(brd));
-//		return "vote/voteInsert";
-//	}
 }

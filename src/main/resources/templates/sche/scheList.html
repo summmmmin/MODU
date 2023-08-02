@@ -64,33 +64,12 @@
                 $('#partici').text('참여멤버가 없습니다')
               }
               
-              
-              //참가하지 않은 목록리스트
-              /* console.log(result.yetPartici); // 단건조회 일정 참가자 정보
-              populateSelectOptions(result.yetPartici); */
-              
-              /*  $('#cm1').empty();
-              for (let i = 0; i < result.yetPartici.length; i++) {
-			    $('#cm1').val(result.yetPartici[i].particiMembUniNo);
-			
-			    let option1 = `<option value='result.yetPartici[i].particiMembUniNo'>
-			                  result.yetPartici[i].title</option>`;
-			    $('#cm1').append(option1);
-				} */
-					
-              
-              
+     
               changeTimes(scheInfo.start);
               changeTimes(scheInfo.end); 
               document.getElementById('startDate').value = scheInfo.start;
               document.getElementById('finishDate').value = scheInfo.end;
               
-              
-              /* let newDate = scheInfo.start.slice(0, 16);
-              let newDate2 = scheInfo.end.slice(0, 16);
-              console.log(newDate);
-              $('#startDate').val(newDate);
-              $('#finishDate').val(newDate2); */
               $('#noInfo').val(scheInfo.scheUniNo);
             
             
@@ -425,12 +404,8 @@
     	 let scheUniNo = $('#noInfo').val();
     	 $.ajax("yetPartici?scheUniNo="+scheUniNo)
     		.done(result=>$("#testtttttttedsds").html(result));
-    	/*  fetch("yetPartici/"+scheUniNo)
-    	.then((response) => response.json())
-        .then((result) => {
-        	console.log(result)
-        	populateSelectOptions(result);
-    	 }) */
+			
+
     	 
     }
     
