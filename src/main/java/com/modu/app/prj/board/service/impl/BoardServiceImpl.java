@@ -62,8 +62,14 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.chatParticiMemb(vo);
 	}
 	
+	//비공개 게시판에 참여 돼 있는 회원 제외 결과
 	@Override
 	public List<BoardVO> particiBrd(BoardVO vo) {
 		return boardMapper.particiBrd(vo);
+	}
+	
+	@Override
+	public int newJeans(BoardVO vo) {
+		return boardMapper.newJeans(vo);
 	}
 }

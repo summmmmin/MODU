@@ -65,9 +65,9 @@ public class PayServiceImpl implements PayService {
         parameters.add("quantity", "1");					// 상품 수량
         parameters.add("total_amount", "12100");				// 상품 총액
         parameters.add("tax_free_amount", "0");				// 상품 비과세 금액
-        parameters.add("approval_url", "http://localhost/modu/payment/success"); // 성공 시 redirect url
-        parameters.add("cancel_url", "http://localhost/modu/payment/cancel"); // 취소 시 redirect url
-        parameters.add("fail_url", "http://localhost/modu/payment/fail"); // 실패 시 redirect url		
+        parameters.add("approval_url", "http://43.201.17.213:85//modu/payment/success"); // 성공 시 redirect url
+        parameters.add("cancel_url", "http://43.201.17.213:85//modu/payment/cancel"); // 취소 시 redirect url
+        parameters.add("fail_url", "http://43.201.17.213:85//modu/payment/fail"); // 실패 시 redirect url		
         
 		// 파라미터, 헤더
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());

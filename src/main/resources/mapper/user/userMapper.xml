@@ -128,13 +128,14 @@
 
 	<!-- 비밀번호 업데이트 -->
 	<update id="pwdUpdate" parameterType="UserVO">
-		UPDATE memb 
+		UPDATE memb
 		SET pwd=#{pwd}
 		WHERE memb_uni_no=#{membUniNo}
 	</update>
-	
+
 	<!-- 비밀번호 찾기 회원조회 -->
-	<select id="membSearch" parameterType="UserVO" resultType="String">
+	<select id="membSearch" parameterType="UserVO"
+		resultType="String">
 		SELECT memb_uni_no
 		FROM memb
 		WHERE id=#{id}
@@ -185,28 +186,6 @@ ORDER BY
   ]]>
 	</select>
 	
-<!-- 	
-WITH all_months AS (
-  SELECT
-    TO_CHAR(TRUNC(SYSDATE, 'MONTH') - INTERVAL '1' YEAR + INTERVAL '1' MONTH * (LEVEL - 1), 'YYYY-MM') AS month
-  FROM
-    DUAL
-  CONNECT BY
-    LEVEL <= 12
-)
-SELECT
-  all_months.month,
-  COUNT(memb.reg_dt) AS count
-FROM
-  all_months
-LEFT JOIN
-  memb ON TO_CHAR(memb.reg_dt, 'YYYY-MM') = all_months.month
-GROUP BY
-  all_months.month
-ORDER BY
-  all_months.month
-  -->
-
 	<!-- 결제 누적금액 -->
 	<select id="totalPay" resultType="int">
 		SELECT SUM(pay_amt)
@@ -272,6 +251,21 @@ ORDER BY
 		PH_NO = '-'
 		WHERE id = #{id}
 	</update>
+
+	<!-- 관리자메뉴 결제내역 조회 -->
+	<select id="payTable" resultType="PayVO">
+		SELECT
+		p.prj_nm,
+		py.pay_dt,
+		p.exdt,
+		py.pay_way,
+		py.pay_amt,
+		py.name
+		FROM
+		prj p
+		JOIN
+		pay py ON p.prj_uni_no = py.prj_uni_no
+	</select>
 
 
 </mapper>

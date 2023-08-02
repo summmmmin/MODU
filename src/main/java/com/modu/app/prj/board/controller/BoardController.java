@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.board.service.BoardService;
@@ -28,7 +29,7 @@ public class BoardController {
 
 	@Autowired
 	PrjService prjService;
-	
+
 	// 프로젝트 메인페이지
 	@GetMapping("/main")
 	public String BoardList(Model model, PrjVO prjVO, HttpServletRequest request) {
@@ -52,16 +53,16 @@ public class BoardController {
 		} else {
 			vo.setPubcYn("N");
 		}
-		String prjNo = (String)session.getAttribute("prjUniNo");
-		String particiMembUniNo = (String)session.getAttribute("particiMembUniNo");
-		
-		 if((boardService.BrdCount(prjNo) < 4 && prjService.getPrjInfo(prjNo).getExdt() == null) ||
-				 prjService.getPrjInfo(prjNo).getExdt() != null) { 
-			 
-			 vo.setParticiMembUniNo(particiMembUniNo);
-			 vo.setPrjUniNo(prjNo);
-			 boardService.InsertBoard(vo);
-		 }
+		String prjNo = (String) session.getAttribute("prjUniNo");
+		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
+
+		if ((boardService.BrdCount(prjNo) < 4 && prjService.getPrjInfo(prjNo).getExdt() == null)
+				|| prjService.getPrjInfo(prjNo).getExdt() != null) {
+
+			vo.setParticiMembUniNo(particiMembUniNo);
+			vo.setPrjUniNo(prjNo);
+			boardService.InsertBoard(vo);
+		}
 		return vo;
 	}
 
@@ -97,26 +98,31 @@ public class BoardController {
 		boardService.BrdUpdate(vo);
 		return vo;
 	}
-	
+
 	// 해당 프로젝트 참여자 리스트 조회 후 참여된 회원에게 알람 발송을 위한 컨트롤
 	@GetMapping("prjParticiMembList")
 	@ResponseBody
 	public List<BoardVO> prjList(BoardVO vo, HttpSession session) {
-	    String prjUniNo = (String) session.getAttribute("prjUniNo");
-	    vo.setPrjUniNo(prjUniNo);
-	    boardService.prjList(vo);
-	    System.out.println(boardService.prjList(vo));
-	    return boardService.prjList(vo);
-	}
-	
-	// 비공개 게시판 초대 시 이미 초대 된 회원을 제외 한 회원 리스트
-	@GetMapping("particiBrd")
-	@ResponseBody
-	public List<BoardVO> particiBrdList(BoardVO vo, HttpSession session){
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
 		vo.setPrjUniNo(prjUniNo);
-		boardService.particiBrd(vo);
-		System.out.println(vo);
-		return boardService.particiBrd(vo);
+		boardService.prjList(vo);
+		System.out.println(boardService.prjList(vo));
+		return boardService.prjList(vo);
 	}
+
+	@PostMapping("newJeans")
+	@ResponseBody
+	public int newJeans(@RequestBody BoardVO vo, HttpSession session) {
+
+		if (vo.getParticiMembUniNos() != null) {
+			List<String> membList = vo.getParticiMembUniNos();
+			for (String memb : membList) {
+				vo.setParticiMembUniNo(memb);;
+				boardService.newJeans(vo);
+			}
+		}
+
+		return boardService.newJeans(vo);
+	}
+
 }
