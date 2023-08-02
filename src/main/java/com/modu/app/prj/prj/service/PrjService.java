@@ -62,4 +62,7 @@ public interface PrjService {
 	
 	// 프로젝트 참여 테이블 insert
 	public int insertPartiMemb(PrjVO vo);
+	
+	// 프로젝트 참여 회원 정보 수정
+	public int updateParticiInfo(PrjVO vo);
 }

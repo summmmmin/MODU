@@ -65,6 +65,9 @@ public class BoardVO {
 	//채팅방 이름
 	private String chatrNm;
 	
+	//비공개 게시판 참여자 번호
+	private String boardUniNo;
+	
 	
 	
 	
