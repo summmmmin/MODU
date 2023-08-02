@@ -3,6 +3,8 @@ package com.modu.app.prj.user.service;
 import java.util.List;
 import java.util.Map;
 
+import com.modu.app.prj.pay.service.PayVO;
+
 public interface UserService {
 	public int signup(UserVO userVO);
 	public String idSearch(UserVO userVO);
@@ -25,5 +27,5 @@ public interface UserService {
 	public List<Map<String, Object>> monthlyNewUsersCount();
 	public UserVO myInfo(String id);
 	public int totalPay();
-
+	public List<PayVO> payTable();
 }

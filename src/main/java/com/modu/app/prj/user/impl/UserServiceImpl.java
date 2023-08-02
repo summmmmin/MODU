@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.modu.app.prj.pay.service.PayVO;
 import com.modu.app.prj.user.mapper.UserMapper;
 import com.modu.app.prj.user.service.PrincipalDetails;
 import com.modu.app.prj.user.service.UserService;
@@ -155,7 +156,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		int result = userMapper.updatePhone(params);
 		if (result > 0) {
 			return "휴대폰 번호 변경 성공"; // 오타나면 받는값이 달라서 서버에선 변경되더라도 클라이언트에선 오류 남
-									// return ResponseEntity.ok("휴대폰 번호 변경 성공"); 이대로 받아오기
+															// return ResponseEntity.ok("휴대폰 번호 변경 성공"); 이대로 받아오기
 		} else {
 			return "휴대폰 번호 변경 실패";
 		}
@@ -206,5 +207,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public int totalPay() {
 		return userMapper.totalPay();
 	}
+	
+    @Override
+    public List<PayVO> payTable() {
+        return userMapper.payTable();
+    }
 
 }

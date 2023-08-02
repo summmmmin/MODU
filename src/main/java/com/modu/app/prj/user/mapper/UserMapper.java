@@ -3,6 +3,7 @@ package com.modu.app.prj.user.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.modu.app.prj.pay.service.PayVO;
 import com.modu.app.prj.user.service.UserVO;
 
 public interface UserMapper {
@@ -27,5 +28,5 @@ public interface UserMapper {
 	public List<Map<String, Object>> monthlyNewUsersCount();
 	public UserVO myInfo(String id);
 	public int totalPay();
-	
+	public List<PayVO> payTable();
 }
