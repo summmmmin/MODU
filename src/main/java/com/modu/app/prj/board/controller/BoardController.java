@@ -121,7 +121,6 @@ public class BoardController {
 				boardService.newJeans(vo);
 			}
 		}
-
 		return boardService.newJeans(vo);
 	}
 

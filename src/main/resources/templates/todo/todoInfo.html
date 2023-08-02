@@ -44,11 +44,13 @@ body {
 					<div class="recent-message d-flex px-4 py-3">
 						<div class="avatar avatar-lg">
 							<h5 class="mb-1">[[${todoInfo.ttl}]]</h5>
+							<div th:if="${mgrCheck.mgr == session.particiMembUniNo}">
 							<div class="name ms-4">
 								<select class="form-select" id="pct" onclick="pctChange()">
 									<option th:each="i : ${pctList}" th:value="${i.cdNo}"
 										th:text="${i.cd}" th:selected="${todoInfo.pct == i.cd}"></option>
 								</select>
+							</div>
 							</div>
 						</div>
 					</div>
@@ -128,9 +130,15 @@ body {
 
 
 	<script>
-		//퍼센트 실렉트박스 선택할때마다 업데이트 하기
-		function pctChange(){
-			
+    // todo 업데이트 페이지로
+    function updateTodo(){
+ 	   $.ajax("todoUpdate/"+'[[${todoInfo.todoUniNo}]]')
+ 		.done(result=>$("#rsidebarContent").html(result))
+     }
+    
+    //퍼센트 실렉트박스 선택할때마다 업데이트 하기
+	function pctChange(){
+		
 		let pct =$("#pct option:selected").val(); //퍼센트 실렉트 값 받아오기
 		console.log(pct)
 		let data = {
@@ -149,6 +157,12 @@ body {
 		console.log("change");
 		 })
 		}
+     
+	
+	 $(function(){
+		 
+		
+
 		
 		let tno = "[[${todoInfo.todoUniNo}]]";
 		
@@ -214,13 +228,10 @@ body {
 			 })
         }
         
-        // todo 업데이트 페이지로
-       function updateTodo(){
-    	   $.ajax("todoUpdate/"+'[[${todoInfo.todoUniNo}]]')
-    		.done(result=>$("#rsidebarContent").html(result))
-        }
-        
+
         $('#deleteTodo').appendTo("body")
+        
+        })
     </script>
 </body>
 

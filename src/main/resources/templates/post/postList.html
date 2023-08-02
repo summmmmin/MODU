@@ -38,15 +38,15 @@
 </button>
 </div>
 <form action="BrdUpdate" method="POST">
-<div class="modal-body">
+<div class="modal-body checkboxmodal">
 <h5>게시판 이름</h5>
 <div class="form-group">
 <input id="boardNm" name="boardNm" type="text" placeholder="변경 하실 이름을 입력해주세요." class="form-control">
 </div>
-<div class="form-group checkboxx">
+<div class="form-group">
 <h6>공개여부</h6>
-<input type="checkbox" id="checkbox" name="pubcYn" checked>
-<label for="checkbox"><span></span></label>
+<input type="checkbox" id="checkbox1" name="pubcYn" checked>
+<label for="checkbox1"><span></span></label>
 </div>
 <div class="modal-footer">
 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
@@ -163,7 +163,7 @@
 								</div>
 								<hr>
 								<div class="row">
-										<p class="card-text">[[${post.cm}]]</p>
+										<p class="card-text" th:utext="${post.cm}"></p>
 										<p class="card-text postTagArm">[[${post.postTagArm}]]</p>
 										<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}"></div>	
 										<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
@@ -805,7 +805,7 @@ function BrdUpdate() {
 	console.log('1234444'+brdNm);
 	
   // CheckBox 값 여부(공개 비공개 여부)
-  let check1 = document.querySelector('#checkbox');
+  let check1 = document.querySelector('#checkbox1');
   let checkOk1 = '';
   if (check1.checked) {
     checkOk1 = 'on';
@@ -849,9 +849,21 @@ function particiInsert(){
 	})
 	.then(result => result.json())
 	.then(data => {
-		console.log(data);
+		//여기 초대 된 사람들 Arm 띄우기
+		//비공개 게시판 별 멤버 리스트 띄우기
 	})
 }
+
+//투표 상세로 가기
+	function voteInfo(vid){
+		console.log("11111111111111")
+		 $.ajax("voteInfo/"+vid)
+		.done(result =>{
+			$("#rsidebarContent").empty();
+			$("#rsidebarContent").html(result);
+		}) 
+	
+	}
 </script>
 	</div>
 </div>
