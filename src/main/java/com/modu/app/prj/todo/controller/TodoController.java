@@ -92,10 +92,12 @@ public class TodoController {
 		
 		System.out.println(vo);
 		
+		if (file != null) {
 		FileVO fileVO = new FileVO();
 		fileVO.setTodoUniNo(vo.getTodoUniNo()); 
 		fileVO.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		fileService.insertFile(file, fileVO);
+		}
 		return vo;
 	}
 	

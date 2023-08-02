@@ -35,14 +35,14 @@
 						<div class="row">
 							<div class="col-sm-5">
 								<div class="form-group">
-									<input type="datetime-local" th:value="${scheInfo.start}"  class="form-control" name="start1"
+									<input type="datetime-local" class="form-control" name="start1"
 										id="33">
 								</div>
 							</div>
 							&nbsp~&nbsp
 							<div class="col-sm-5">
 								<div class="form-group">
-									<input type="datetime-local" th:value="${scheInfo.end}"  class="form-control" name="end1"
+									<input type="datetime-local" class="form-control" name="end1"
 										id="44">
 								</div>
 							</div>
@@ -63,10 +63,22 @@
 					</div>
 
 				</form>
-				<script>
-			    //일정 업데이트
+				<script th:inline="javascript">
+   				 /*<![CDATA[*/
+	     	 	let schUpdateStart = /*[[${scheInfo.start}]]*/
+				let schUpdateEnd = /*[[${scheInfo.end}]]*/ 	
+				console.log(schUpdateStart)
+				console.log( schUpdateStart.slice(0, 16));
+				document.getElementById('33').value = schUpdateStart.slice(0, 16);
+   				document.getElementById('44').value = schUpdateEnd.slice(0,16); 
+
+				
+				
+				
+				
+				//일정 업데이트
 			    
-			       function updateSche(){
+			    function updateSche(){
 			   	let scheUniNo = $('#noInfo').val();
 			   	let scheUpdateData = {
 			   	"title": $('#11').val(),
@@ -109,8 +121,8 @@
 
 				
 				
-	
-				</script>
+				 /*]]>*/
+			  	</script>
 				
 </body>
 </html>

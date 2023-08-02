@@ -61,7 +61,7 @@ margin-left:5px;}
 							<p>시작일</p>
 							<div class="position-relative">
 								<input type="date" class="form-control" id="Date1"
-									th:onchange="dateChange1()" th:field="*{frDt}">
+									th:onchange="dateChange3()" th:field="*{frDt}">
 								<div class="form-control-icon">
 									<i class="bi-calendar"></i>
 								</div>
@@ -172,7 +172,7 @@ margin-left:5px;}
 		
 		//input타입 date를 클릭했을때 나온는 달력에서 선택한 날짜 이전을 막는 구절
 		var date = document.getElementById("Date1")
-			function dateChange1(){
+			function dateChange3(){
 				document.getElementById("lastDate1").setAttribute("min", date.value); 
 			}
 		
@@ -200,7 +200,6 @@ margin-left:5px;}
 		
 		
 		</script>
-	</div>
 
 
 </body>

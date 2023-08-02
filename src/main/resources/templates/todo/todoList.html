@@ -18,7 +18,7 @@
 				<div class="card-header">
 					<h4 class="card-title">할일</h4>
 					<hr>
-					<button type="button" onclick="todoInsert()"
+					<button type="button" onclick="todoInsert1()"
 						class="btn btn-block btn-light-primary font-bold mt-3">+
 						할일 추가</button>
 				</div>
@@ -49,7 +49,7 @@
  		
  		
  		//할일 생성 페이지 가기
- 		function todoInsert(){
+ 		function todoInsert1(){
  			$.ajax("todoInsert")
  			.done(result=>{
  				$("#rsidebarContent").html(result);
