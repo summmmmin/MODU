@@ -11,7 +11,14 @@
 
 <body>
 	<div layout:fragment="content">
-
+		<div style="position: fixed; bottom: 150px; right: 310px;">
+			<div class="buttons" onclick="pageUp()">
+				<a class="btn btn-outline-primary">△</a>
+			</div>
+			<div class="buttons" onclick="pageDown()">
+				<a class="btn btn-outline-primary">▽</a>
+			</div>
+		</div>
 
 		<!-- start of 웹소켓용 -->
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -19,7 +26,7 @@
 		<!-- end of 웹소켓용 -->
 		<section class="section">
 			<div class="row">
-				<div class="col-md-10 col-sm-12 mx-auto">
+				<div class="col-md-9 col-sm-12 mx-auto">
 					<div class="card">
 						<div class="card-header">
 							<div class="media d-flex align-items-center">
@@ -32,7 +39,7 @@
 								</div>
 								<div class="dropdown">
 									<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton"
-										data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">...</button>
+										data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 										<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addChatPartici">채팅방초대</a>
 										<a class="dropdown-item" id="calloneChatr" data-bs-toggle="modal"
@@ -63,6 +70,17 @@
 						</div>
 					</div>
 				</div>
+				<div class="col-md-1 col-sm-12 mx-auto">
+					<div style="position: fixed; bottom: 150px; right: 310px;">
+						<div class="buttons" onclick="pageUp()">
+							<a class="btn btn-outline-primary">△</a>
+						</div>
+						<div class="buttons" onclick="pageDown()">
+							<a class="btn btn-outline-primary">▽</a>
+						</div>
+					</div>
+				</div>
+			</div>
 		</section>
 
 		<!-- start of MODALS -->
@@ -244,6 +262,24 @@
 			}
 			showChatMsgList();
 
+			//페이지 가장 위로
+			function pageUp(){
+				window.scrollTo({
+								top : 0, 
+								left : 0,
+								behavior : 'smooth'
+								 });
+			}
+
+			//페이지 가장 아래로
+			function pageDown(){
+				window.scrollTo({
+								top : document.body.scrollHeight, 
+								left : 0,
+								behavior : 'smooth'
+								 });
+			}
+
 			//채팅참여자닉네임LIST
 			function chatrParticiList() {
 				let chatrNo = '[[${session.chatrNo}]]';
@@ -419,8 +455,6 @@
 			let chatWriter = '[[${session.chatParticiMembUniNo}]]';
 			let cntn = document.getElementById('sendMsg').value;
 
-			let userCount = 0;
-
 
 			// WebSocket 연결 설정
 			const stompClient = new StompJs.Client({
@@ -507,13 +541,13 @@
 				stompClient.publish({
 					destination: "/pub/chat/msg",
 					body: JSON.stringify({
-						'chatrNo': chatrNo,
-						'chatParticiMembUniNo': chatWriter,
-						'cntn': cntn,
-						'nnm': nnm,
-						'writeDt': writeDt,
-						'readCount': readCount
-					})
+										'chatrNo': chatrNo,
+										'chatParticiMembUniNo': chatWriter,
+										'cntn': cntn,
+										'nnm': nnm,
+										'writeDt': writeDt,
+										'readCount': readCount
+										})
 				});
 
 				let formData = new FormData(); // 첨부파일 + 채팅메세지
