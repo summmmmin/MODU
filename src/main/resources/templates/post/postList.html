@@ -11,7 +11,9 @@
 
 <body>
 	<div layout:fragment="content">
-		<div class="buttons">
+
+		
+		<div class="buttons" style="position: fixed; bottom: 120px; right: 350px;">
 			<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" th:if="${session.grd} != 'G01'">글작성</a>
 		</div>
 		
@@ -29,7 +31,7 @@
 <a id="particiBrd" class="dropdown-item">회원 초대</a>
 </div>
 </div>
-<hr>
+
 <!-- ========================게시판 수정 Modal 시작 (성현) ======================== -->
 <div class="modal fade text-left" id="modify" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -107,40 +109,39 @@
 							<input class="getPostUniNo" type="hidden"	th:value="${post.postUniNo}">
 							<input class="aaa" th:value="${post.particiMembUniNo}" style="display:none">
 							<div class="row">
-								<h4 class="card-title col" th:id="${post.postUniNo}">[[${post.ttl}]]</h4>
-			
-								<small class="text-muted">[[${post.nnm}]]</small>
-							</div>
-							<div class="row">
-								<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-									<div class="postDDM dropdown-menu" th:data-postUniNo="${post.postUniNo}" aria-labelledby="dropdownMenuButton">
-									<th:block th:each="bm : ${bmList}">
-										<a th:if="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}" class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기 해제</a>
-										<a th:unless="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}" class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
-									</th:block>
-										<a class="dropdown-item" th:if="${post.notiYn} == 'X'" th:onclick="setPostNoti(event)">공지등록</a>
-										<a class="dropdown-item" th:if="${post.notiYn} == 'O'" th:onclick="setPostNoti(event)">공지등록해제</a>
-										<a class="dropdown-item bm" th:text="${#lists.contains(postbm, post.postUniNo)} ? '즐겨찾기 해제' : '즐겨찾기'" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
-										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" th:onclick="setPostReply(event)" class="dropdown-item">댓글알림ON</a>
-										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'Y'" th:onclick="setPostReply(event)" class="dropdown-item">댓글알림OFF</a>
-										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a> 
-										<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deletePost" onclick="callDeletePostModal(event)">삭제</a>
+								<div class="col">
+									<h4 class="card-title col" th:id="${post.postUniNo}">[[${post.ttl}]]</h4>
+									<small class="text-muted">[[${post.nnm}]]</small>
+								</div>
+								<div class="col-auto">
+									<div class="dropdown">
+										<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+										<div class="postDDM dropdown-menu" th:data-postUniNo="${post.postUniNo}" aria-labelledby="dropdownMenuButton">
+											<th:block th:each="bm : ${bmList}">
+												<a th:if="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}" class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기 해제</a>
+												<a th:unless="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}" class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
+											</th:block>
+												<a class="dropdown-item" th:if="${post.notiYn} == 'X'" th:onclick="setPostNoti(event)">공지등록</a>
+												<a class="dropdown-item" th:if="${post.notiYn} == 'O'" th:onclick="setPostNoti(event)">공지등록해제</a>
+												<a class="dropdown-item bm" th:text="${#lists.contains(postbm, post.postUniNo)} ? '즐겨찾기 해제' : '즐겨찾기'" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
+												<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" th:onclick="setPostReply(event)" class="dropdown-item">댓글알림ON</a>
+												<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'Y'" th:onclick="setPostReply(event)" class="dropdown-item">댓글알림OFF</a>
+												<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a> 
+												<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deletePost" onclick="callDeletePostModal(event)">삭제</a>
+										</div>
 									</div>
-									<hr>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
 									<p class="card-text">[[${post.cm}]]</p>
 									<p class="card-text postTagArm">[[${post.postTagArm}]]</p>
-
-								</div>
-								<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}">
-									<div>
-									</div>
-								</div>
-							</div>
+									<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}"></div>	
 									<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
-							<hr>
+							</div>
+								<hr>
 							<div class="replyPlace card-body" th:data-postUniNo="${post.postUniNo}"></div>
-							<hr>
+								<hr>
 							<div class="form-group position-relative has-icon-right">
 								<input name="replyUniNo" type="hidden" class="replyInput form-control" id="replyId"> 
 								<input name="postUniNo" type="hidden" th:value="${post.postUniNo}" class="replyInput form-control"> 
@@ -249,6 +250,7 @@
 				
 			<!--end of MODALS -->
 		<script>
+				//댓글리스트
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
 					let user = '[[${session.particiMembUniNo}]]';
@@ -266,7 +268,13 @@
 									
 									rPlace.innerHTML = '';
 
+									
 									data.forEach(reply => {
+										const originalDateStr = reply.writeDt;
+										const date = new Date(originalDateStr);
+										const formattedDate =
+											`${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, "0")}. ${String(date.getDate()).padStart(2, "0")}. ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
+
 										if (reply.postUniNo == pNum) {
 											let h5Tag = document.createElement('h5');
 											h5Tag.setAttribute('class', 'card-title col');
@@ -283,7 +291,7 @@
 												btnTag.setAttribute('data-bs-toggle', 'dropdown');
 												btnTag.setAttribute('aria-haspopup', 'true');
 												btnTag.setAttribute('aria-expanded', 'false');
-												btnTag.textContent = '...'
+												
 												divTag.append(btnTag);
 											
 												let divTagDM = document.createElement('div');
@@ -315,12 +323,12 @@
 
 											let pTag = document.createElement('p');
 											pTag.setAttribute('class', 'card-text');
-											pTag.textContent = '댓글내용 : ' + reply.cntn;
+											pTag.textContent = reply.cntn;
 											rPlace.append(pTag);
 
 											let smallTag = document.createElement('small');
 											smallTag.setAttribute('class', 'text-muted');
-											smallTag.textContent = reply.writeDt;
+											smallTag.textContent = formattedDate;
 											rPlace.append(smallTag);
 										}
 									});
