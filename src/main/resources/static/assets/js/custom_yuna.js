@@ -21,6 +21,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function (response) {
                 alert("인증번호가 발송되었습니다.");
+                $('input[name="phNo"]').prop('disabled', true);
             },
             error: function (xhr, status, error) {
                 alert("하이픈('-')없이 숫자만 입력해주세요.");

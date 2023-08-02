@@ -32,5 +32,8 @@ public interface BoardService {
 	
 	//비공개 게시판에 참여 돼 있는 회원 제외 결과
 	public List<BoardVO> particiBrd(BoardVO vo);
+	
+	//비공개 게시판 초대
+	public int newJeans(BoardVO vo);
 
 }

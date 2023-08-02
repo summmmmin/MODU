@@ -13,8 +13,6 @@
 <link rel="stylesheet" href="assets/css/bootstrap.css" />
 <link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
 <link rel="stylesheet"
-	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
-<link rel="stylesheet"
 	href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
 <link rel="stylesheet" href="assets/css/test.css" />
 <link rel="shortcut icon" href="assets/images/favicon.svg"
@@ -191,7 +189,7 @@
 				</button>
 			</div>
 		</div>
-		<div id="rsidebar" class="active">
+		<div id="rsidebar">
 			<div class="rsidebar-wrapper active">
 				<div class="rsidebar-header">
 					<div class="d-flex justify-content-between">
@@ -320,7 +318,7 @@
 								</button>
 							</div>
 							<form action="InsertBoard" method="POST" id="FormEvent">
-								<div class="modal-body">
+								<div class="modal-body checkboxmodal">
 									<h5>게시판 이름</h5>
 									<div class="form-group">
 										<input id="boardNm" name="boardNm" type="text"
@@ -454,13 +452,13 @@
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
 					<div class="float-start">
-						<p>2021 &copy; Mazer</p>
+						<p>2023 &copy; Modu</p>
 					</div>
 					<div class="float-end">
 						<p>
 							Crafted with <span class="text-danger"><i
-								class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A.
-								Saugi</a>
+								class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">H.
+								Sumin</a>
 						</p>
 					</div>
 				</div>
@@ -519,7 +517,6 @@
 				</div>
 				</li>
 				`;
-				//location.reload();
 			let submenu=document.querySelector('.brdinsert');
 			submenu.innerHTML += liTag;
 			

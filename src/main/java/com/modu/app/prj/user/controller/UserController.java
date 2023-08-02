@@ -35,6 +35,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.modu.app.prj.pay.service.PayVO;
 import com.modu.app.prj.user.mapper.UserMapper;
 import com.modu.app.prj.user.service.PrincipalDetails;
 import com.modu.app.prj.user.service.UserService;
@@ -500,5 +501,12 @@ public class UserController {
 		System.out.println(id);
 		return user;
 	}
-
+	
+    // 전체 결제 내역 조회
+    @GetMapping("admin/payTable")
+    public String payTable(Model model) {
+        List<PayVO> payTable = userService.payTable();
+        model.addAttribute("payTable", payTable);
+        return "admin/payTable";
+    }
 }
