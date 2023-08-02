@@ -41,15 +41,12 @@
                       div += `
                           <div class="card-content">
                               <div class="card-body">
-                                  <td>등록 날짜 : ${i.writeDt}</td><br>
-                                  <td>게시글 제목 <br> ${i.ttl}</td><br>
                               </div>
                           </div>
-                          <hr>
                       `;
                   }
                   $('#bpList').append(div);
-                  $('#searchDiv').append($('<input/>').attr('id','ttl').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+                  $('#searchDiv').append($('<input/>').attr('id','ttl').attr('type','text').attr('placeholder','게시글 검색어를 입력해주세요.').attr('class','form-control'));
                   $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(BpSearch));
               });
       }
@@ -101,16 +98,12 @@
             	 div += `
                      <div class="card-content">
                          <div class="card-body">
-                             <td>${i.nnm}</td>
-                             <td>`+formattedDate+`</td>
-                             <td>${i.cntn}</td>
                          </div>
                      </div>
-                     <hr>
                  `;
              }
              $('#bpList').append(div);
-             $('#searchDiv').append($('<input/>').attr('id','cntn').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+             $('#searchDiv').append($('<input/>').attr('id','cntn').attr('type','text').attr('placeholder','채팅 검색어를 입력해주세요.').attr('class','form-control'));
              $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(ChatSearch));
          });
  }
@@ -164,14 +157,12 @@
             	 div += `
                      <div class="card-content">
                          <div class="card-body">
-                             <td>${i.attNm}</td>
                          </div>
                      </div>
-                     <hr>
                  `;
              }
              $('#bpList').append(div);
-             $('#searchDiv').append($('<input/>').attr('id','attNm').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+             $('#searchDiv').append($('<input/>').attr('id','attNm').attr('type','text').attr('placeholder','파일 검색어를 입력해주세요.').attr('class','form-control'));
              $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(FileSearch));
          });
  }

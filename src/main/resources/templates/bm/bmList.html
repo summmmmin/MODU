@@ -4,6 +4,18 @@
 >
 
 <head>
+<style>
+        table {
+            border-collapse: collapse;
+        }
+        td, th {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+        tr:hover {
+            background-color: lightgray;
+        }
+    </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -23,43 +35,31 @@
 				</div>
 			</div>
 		</div>
-	<script th:inline="javascript">
-/*<![CDATA[*/
-    $.ajax("bmList")
-    .done(result => {
-        console.log(result);
-        for (let i = 0; i < result.length; i++) {
-            $('#bmList').append(
-                $('<tr/>').attr('onclick', 'trHref()')
-                    .append($('<td/>').text('등록일자 : ' + result[i].regDt))
-                    .append($('<td/>').text('게시글 번호 : ' + result[i].bmUniNo))
-                    .append($('<td/>').text(result[i].brdUniNo)).append($('<hr>'))
-            );
-        }
-        
-    });
-/*]]>*/
-</script>
+	<script>
+        $.ajax("bmList")
+        .done(result => {
+            console.log(result);
+            for (let i = 0; i < result.length; i++) {
+                const $tr = $('<tr/>').attr('onclick', 'trHref()');
+
+                $tr.append($('<td/>').text('등록일자 : ' + result[i].regDt))
+                   .append($('<td/>').html('<button class="deleteBtn">X</button>')) 
+                   .append($('<td/>').text('게시글 번호 : ' + result[i].bmUniNo))
+                   .append($('<td/>').text(result[i].brdUniNo))
+
+                const $hr = $('<hr>');
+                $('#bmList').append($tr);
+            }
+        });
+    </script>
 <script>
 	function trHref(){
 		let brdUniNo = $(event.target).closest('tr').children().eq(2).text();
 		location.href='/modu/postList?brdUniNo='+ brdUniNo;
 	}
-    function click() {
-        console.log(event.target.className.animVal);
-        event.target.classList.toggle('clicked');
-        event.target.classList.toggle('cls-1');
-
-    }S
-    document.getElementById('ultag').addEventListener('click', function (event) {
-        let target = event.target;
-        if (target.classList.contains('cls-1')) {
-            let brdUniNo = target.getAttribute('text-brdUniNo');
-            console.log(target);
-        }
-    });
+	function deleteBtd(){
+		//삭제 fetch 만들기
+	}
 </script>
-
-
 </body>
 </html>
