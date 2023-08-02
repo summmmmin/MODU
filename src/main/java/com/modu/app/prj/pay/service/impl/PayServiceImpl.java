@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -186,7 +187,7 @@ public class PayServiceImpl implements PayService {
 		return payMapper.insertPay(pay);
 	}
 	
-	//@Scheduled(cron = "0 0 10 * * *") 
+	@Scheduled(cron = "0 0 10 * * *") 
 	//@Scheduled(fixedDelay = 10000)
 	public void run() {
 		LocalDate date = LocalDate.now().minusDays(1);	// 어제날짜
@@ -206,7 +207,7 @@ public class PayServiceImpl implements PayService {
 				// 구독 여부 'C'이고 만료일자 +1 = 현재날짜 -> 정기결제 비활성화
 				kakaoPayInactive(vo.getPayToken());
 				
-				// 구독 여부 'N' 만료일자 결제토큰 결제번호 삭제
+				// 구독 여부 'N' 바꾸기 만료일자 결제토큰 결제번호 삭제
 				vo.setSubspYn("N");
 				payMapper.updateStat(vo);
 			}
