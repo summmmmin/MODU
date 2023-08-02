@@ -99,14 +99,25 @@ public class BoardController {
 	}
 	
 	// 해당 프로젝트 참여자 리스트 조회 후 참여된 회원에게 알람 발송을 위한 컨트롤
-//	@GetMapping("prjParticiMembList")
-//	public List<BoardVO> prjList(BoardVO vo, HttpSession session) {
-//	    String prjUniNo = (String) session.getAttribute("prjUniNo");
-//	    vo.setPrjUniNo(prjUniNo);
-//	    boardService.prjList(vo);
-//	    System.out.println(boardService.prjList(vo));
-//	    return boardService.prjList(vo);
-//	}
+	@GetMapping("prjParticiMembList")
+	@ResponseBody
+	public List<BoardVO> prjList(BoardVO vo, HttpSession session) {
+	    String prjUniNo = (String) session.getAttribute("prjUniNo");
+	    vo.setPrjUniNo(prjUniNo);
+	    boardService.prjList(vo);
+	    System.out.println(boardService.prjList(vo));
+	    return boardService.prjList(vo);
+	}
+	
+	// 비공개 게시판 초대 시 이미 초대 된 회원을 제외 한 회원 리스트
+	@GetMapping("particiBrd")
+	public List<BoardVO> particiBrdList(Model model, HttpSession session){
+		BoardVO vo = new BoardVO();
+		vo.setBrdUniNo((String) session.getAttribute("brdUniNo"));
+		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		model.addAttribute("brdParticiMemb",boardService.particiBrd(vo));
+		return boardService.particiBrd(vo);
+	}
 	
 
 }

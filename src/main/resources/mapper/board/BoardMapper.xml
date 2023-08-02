@@ -75,7 +75,7 @@
    SELECT *
    FROM prj_partici_memb
    WHERE prj_uni_no = #{prjUniNo} AND partici_memb_uni_no 
-   NOT IN 
+   NOT IN
    (SELECT partici_memb_uni_no
    FROM brd_cm
    WHERE board_uni_no = #{boardUniNo})

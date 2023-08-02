@@ -44,8 +44,10 @@ public class PostController {
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		model.addAttribute("postbm", bmService.PostBmList(vo));
 		BoardVO vo1 = new BoardVO();
+		vo1.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		vo1.setBrdUniNo(brdUniNo);
 		model.addAttribute("checkNM", boardService.brdNm(vo1));
+		model.addAttribute("particiBrd",boardService.particiBrd(vo1));
 	
 		return "post/postList";
 	}
@@ -125,15 +127,4 @@ public class PostController {
 		
 		return "redirect:/postList?brdUniNo=" + postVO.getBrdUniNo();
 	}
-	
-	// 비공개 게시판 초대 시 이미 초대 된 회원을 제외 한 회원 리스트
-	@GetMapping("particiBrd")
-	public String particiBrdList(Model model, HttpSession session){
-		BoardVO vo = new BoardVO();
-		vo.setBrdUniNo((String) session.getAttribute("brdUniNo"));
-		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		model.addAttribute("brdParticiMemb",boardService.particiBrd(vo));
-		return "post/postList";
-	}
-
 }
