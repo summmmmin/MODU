@@ -197,27 +197,32 @@ public class UserController {
 
 	// 사이트 회원 비밀번호 찾기
 	@PostMapping("pwdSearch")
-	public @ResponseBody String pwdSearch(@RequestParam("id") String id) {
-		String newPassword = generateRandomPassword();
+	public ResponseEntity<String> pwdSearch(@RequestParam("id") String id, @RequestParam("nm") String nm) {
+	    UserVO userVO = new UserVO();
+	    userVO.setId(id);
+	    userVO.setNm(nm);
 
-		// 이메일 발송
-		SendEmail.gmailSend(id, newPassword);
+	    String membUniNo = userService.membSearch(userVO);
+	    System.out.println("비밀번호 찾기 회원 : " + membUniNo);
+	    if (membUniNo != null && !membUniNo.isEmpty()) {
+	        String newPassword = generateRandomPassword();
+	        System.out.println("비밀번호 재발급 : " + newPassword);
 
-		System.out.println("비밀번호 재설정 완료 " + newPassword);
+	        userVO.setPwd(newPassword);
+	        userVO.setMembUniNo(membUniNo);
 
-		// 비밀번호 재설정
-		UserVO userVO = new UserVO();
-		userVO.setId(id);
-		userVO.setPwd(newPassword);
+	        userService.pwdUpdate(userVO);
+	        System.out.println("업데이트 유저 : " + userVO);
 
-		// 암호화
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String encryptedPassword = passwordEncoder.encode(newPassword);
-		userVO.setPwd(encryptedPassword);
+	        // 이메일 전송
+	        SendEmail.gmailSend(id, newPassword);
 
-		userMapper.pwdSearch(userVO);
+	        System.out.println("비밀번호 재설정 완료 " + newPassword);
 
-		return newPassword;
+	        return ResponseEntity.ok("비밀번호가 재설정 되었습니다. 메일을 확인해주세요.");
+	    } else {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 회원입니다.");
+	    }
 	}
 
 	// 비밀번호 재설정 때 사용할 랜덤 비밀번호
