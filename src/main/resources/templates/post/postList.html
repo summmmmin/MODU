@@ -5,6 +5,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>postList</title>
+		<!--alert-->
+	<script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
 </head>
 
 <body>
@@ -377,7 +379,11 @@
 						})
 						.catch(err => console.log(err))
 					}else{
-						alert('댓글작성해주세요')
+						Swal.fire({
+							icon: "error",
+							title: "댓글 작성해 주세요"
+						})
+						//alert('댓글작성해주세요')
 					}
 				})
 			})

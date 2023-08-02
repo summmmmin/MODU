@@ -8,14 +8,14 @@
 	<!--alert-->
 	<script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
 
-	
+
 
 </head>
 
 <body>
 	<div layout:fragment="content">
 
-		
+
 		<!-- start of 웹소켓용 -->
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
@@ -37,32 +37,32 @@
 									<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton"
 										data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">...</button>
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addChatPartici">채팅방초대</a> <a
-											class="dropdown-item" id="calloneChatr" data-bs-toggle="modal"
+										<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addChatPartici">채팅방초대</a>
+										<a class="dropdown-item" id="calloneChatr" data-bs-toggle="modal"
 											data-bs-target="#changeChatrNm">채팅방명변경</a>
 										<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leaveChatr">채팅방나가기</a>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="card-body pt-4 bg-grey">
+						<div class="card-body pt-4 bg-grey" id="chatContentContainer">
 							<div class="chat-content"></div>
-							<div class="card-footer">
-								<form action="chatMsg" method="POST" enctype="multipart/form-data">
-									<div class="message-form d-flex flex-direction-column align-items-center">
-										<a href="http://" class="black"><i data-feather="smile"></i></a>
-										<div class="d-flex flex-grow-1 ml-4">
-											<div id="typingArmPlace"></div>
-											<input type="text" id="sendMsg" name="cntn" class="form-control" autocomplete="off"
-												placeholder="Type your message.." required>
-											<input type="file" id="sendFile" name="file">
-											<div class="buttons">
-												<button type="button" id="sendMsgBtn" class="btn btn-primary rounded-pill">send</button>
-											</div>
+						</div>
+						<div class="card-footer">
+							<form action="chatMsg" method="POST" enctype="multipart/form-data">
+								<div class="message-form d-flex flex-direction-column align-items-center">
+									<a href="http://" class="black"><i data-feather="smile"></i></a>
+									<div class="d-flex flex-grow-1 ml-4">
+										<div id="typingArmPlace"></div>
+										<input type="text" id="sendMsg" name="cntn" class="form-control" autocomplete="off"
+											placeholder="Type your message.." required>
+										<input type="file" id="sendFile" name="file">
+										<div class="buttons">
+											<button type="button" id="sendMsgBtn" class="btn btn-primary rounded-pill">send</button>
 										</div>
 									</div>
-								</form>
-							</div>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -401,7 +401,7 @@
 			document.getElementById('sendMsgBtn').addEventListener('click', sendMessage);
 
 			//타이핑 중일 때 sendTypingArm호출
-			document.getElementById('sendMsg').addEventListener('keydown', sendTypingArm)
+			document.getElementById('sendMsg').addEventListener('keydown', sendTypingArm);
 
 			//입력 후 엔터키 막기
 			document.getElementById("sendMsg").addEventListener("keypress", function (event) {
@@ -409,6 +409,16 @@
 					event.preventDefault();
 				}
 			});
+
+			//스크롤가장아래로?
+			function scrollToBottom() {
+				const chatContentContainer = document.getElementById('chatContentContainer');
+				console.log(chatContentContainer);
+				if (chatContentContainer) {
+					chatContentContainer.scrollTop = chatContentContainer.scrollHeight;
+				}
+				//chatContentContainer.scrollTop = chatContentContainer.scrollHeight;
+			}
 
 			//start of 웹소켓
 			let chatrNo = '[[${session.chatrNo}]]'
@@ -428,6 +438,8 @@
 				//웹소켓 연결
 				stompClient.activate();
 
+				//스크롤가장아래로?
+				scrollToBottom();
 				//이전 채팅메세지 전부 읽음 처리
 				readChatMsg();
 			});
