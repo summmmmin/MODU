@@ -53,17 +53,18 @@
 			<li class="nav-item active"><a class="nav-link"
 				th:href="@{/admin/userList}"> <i
 					class="fas fa-fw fa-tachometer-alt"></i> <span>회원목록</span></a></li>
+			<hr class="sidebar-divider my-0">
+			<li class="nav-item active"><a class="nav-link"
+				th:href="@{/admin/userList}"> <i
+					class="fas fa-fw fa-tachometer-alt"></i> <span>결제조회</span></a></li>
 
 			<hr class="sidebar-divider">
 		</ul>
 
 		</ul>
-		<!-- End of Sidebar -->
 
-		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 
-			<!-- Main Content -->
 			<div id="content">
 
 				<!-- 위쪽 사이드바 -->
@@ -102,7 +103,6 @@
 											<th>휴대폰</th>
 											<th>등록날짜</th>
 											<th>상태</th>
-											<th>Salary</th>
 										</tr>
 									</thead>
 
@@ -125,10 +125,7 @@
 					</div>
 
 				</div>
-				<!-- /.container-fluid -->
-
 			</div>
-			<!-- End of Main Content -->
 			<!-- 모달 -->
 			<div class="modal fade" id="userInfoModal" tabindex="-1"
 				aria-labelledby="userInfoModalLabel" aria-hidden="true">
@@ -156,8 +153,8 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">닫기</button>
-
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -171,67 +168,31 @@
 			</div>
 		</div>
 	</footer>
-	<!-- End of Footer -->
 
-	</div>
-	<!-- End of Content Wrapper -->
-
-	</div>
-	<!-- End of Page Wrapper -->
-
-	<!-- Scroll to Top Button-->
 	<a class="scroll-to-top rounded" href="#page-top"> <i
 		class="fas fa-angle-up"></i>
 	</a>
 
-	<!-- Logout Modal-->
-	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-					<button class="close" type="button" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="modal-body">Select "Logout" below if you are ready
-					to end your current session.</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary" type="button"
-						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="login.html">Logout</a>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<script>
-		$(document).ready(function() {
-			let table1 = document.querySelector('#table1');
-			let dataTable = new simpleDatatables.DataTable(table1);
+		$(document).on('click', '.user-row', function() {
+			var userId = $(this).data('userId');
+			console.log(userId);
 
-			$(document).on('click', '.user-row', function() {
-				var userId = $(this).data('userId');
-				console.log(userId);
-
-				// 서버에 유저 정보 요청
-				$.ajax({
-					url : '/modu/admin/userList/' + userId,
-					method : 'POST',
-					dataType : 'json',
-					success : function(data) {
-						$('#userName').text(data.nm);
-						$('#userEmail').text(data.id);
-						$('#userPhone').text(data.phNo);
-						$('#userRegDt').text(data.regDt);
-						$('#userInfoModal').modal('show');
-					},
-					error : function(error) {
-						console.error('에러 : ', error);
-					}
-				});
+			// 서버에 유저 정보 요청
+			$.ajax({
+				url : '/modu/admin/userList/' + userId,
+				method : 'POST',
+				dataType : 'json',
+				success : function(data) {
+					$('#userName').text(data.nm);
+					$('#userEmail').text(data.id);
+					$('#userPhone').text(data.phNo);
+					$('#userRegDt').text(data.regDt);
+					$('#userInfoModal').modal('show');
+				},
+				error : function(error) {
+					console.error('에러 : ', error);
+				}
 			});
 		});
 	</script>

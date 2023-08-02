@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>Payment Table</title>
+</head>
+<body>
+	<h1>Payment Table</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>프로젝트 이름</th>
+				<th>결제 시작 날짜</th>
+				<th>결제 종료 날짜</th>
+				<th>결제 방식</th>
+				<th>결제 금액</th>
+				<th>이름</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="pay : ${payTable}">
+				<td th:text="${pay.prjNm}"></td>
+				<td th:text="${pay.payDt}"></td>
+				<td th:text="${pay.exdt}"></td>
+				<td th:text="${pay.payWay}"></td>
+				<td th:text="${pay.payAmt}"></td>
+				<td th:text="${pay.name}"></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
