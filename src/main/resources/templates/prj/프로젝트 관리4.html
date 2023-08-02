@@ -243,7 +243,11 @@
 					document.querySelector('#caOrRest1').textContent = '유료 플랜 해지';
 				}else{
 					// 오류
-					alert('업데이트 실패')
+					Swal.fire({
+				        icon: "warning",
+				        title: "업데이트 실패"
+				    })
+					
 				}
 			})
     	  
