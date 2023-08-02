@@ -98,15 +98,7 @@ public class BoardController {
 		return vo;
 	}
 	
-	// 해당 프로젝트 참여자 리스트 조회 후 참여된 회원에게 알람 발송을 위한 컨트롤
-//	@GetMapping("prjParticiMembList")
-//	public List<BoardVO> prjList(BoardVO vo, HttpSession session) {
-//	    String prjUniNo = (String) session.getAttribute("prjUniNo");
-//	    vo.setPrjUniNo(prjUniNo);
-//	    boardService.prjList(vo);
-//	    System.out.println(boardService.prjList(vo));
-//	    return boardService.prjList(vo);
-//	}
+
 	
 
 }
