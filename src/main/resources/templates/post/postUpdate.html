@@ -26,13 +26,13 @@
 								<!--제목부-->
 								<div class="form-group">
 									<label for="basicInput">제목*</label>
-									<input type="text" class="form-control" id="basicInput"  th:value='${post.ttl}' th:field="*{ttl}">
+								 	<input type="text" class="form-control" id="basicInput"  th:value='${post.ttl}' th:field="*{ttl}" required>
 								</div>
 								<hr>
 								<!--본문부-->
 								<div class="form-group">
 									<label for="basicInput">게시글 본문*</label>
-									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" th:field="*{cm}">[[${post.cm}]]</textarea>
+									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" th:field="*{cm}" required>[[${post.cm}]]</textarea>
 								</div>
 								<hr>
 								<!--첨부파일부-->
@@ -59,7 +59,7 @@
 								<!--버튼부-->
 								<hr>
 								<div class="buttons">
-									<button type="submit" class="btn btn-primary">등록</button>
+									<button type="submit" class="btn btn-primary" id="postUpdateBtn">등록</button>
 									<button type="button"  class="btn btn-light"><a th:href="@{postList(brdUniNo=${post.brdUniNo})}">취소</a></button>
 								</div>
 							</div>
@@ -91,16 +91,20 @@
 						//console.log(data); true
 						attLi.remove();
 				})
-				.catch(err => console.log(err));S
+				.catch(err => console.log(err));
 					}
 					
-			// Filepond: Multiple Files
-	/* 		FilePond.create(document.querySelector('.multiple-files-filepond'), {
-				allowImagePreview: false,
-				allowMultiple: true,
-				allowFileEncode: false,
-				required: false
-			}); */
+			//제목, 본문 미작성시 등록 안 됨
+			let postBtn = document.querySelector('#postUpdateBtn');
+			let ttl = document.querySelectorAll('INPUT')[2];
+			let cm = document.querySelectorAll('TEXTAREA')[0];
+			postBtn.addEventListener('load', function(){
+				if(ttl.value == '' || cm.value ==''){
+					postBtn.setAttribute('disabled', 'true')
+				}else{
+					postBtn.setAttribute('disabled', 'false')
+				}
+			})
 		</script>
 	</div>
 </body>

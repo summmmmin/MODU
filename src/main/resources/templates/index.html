@@ -301,7 +301,7 @@
 			</div>
 			<div class="page-content">
 				<section class="row">
-					<article layout:fragment="content"></article>
+					<article layout:fragment="content" id="layoutcontent"><div id='calendar'></div></article>
 				</section>
 
 
@@ -373,7 +373,7 @@
 								<i data-feather="x"></i>
 							</button>
 						</div>
-						<form action="makeChatr" method="POST" id="FormEvent">
+						<form action="makeChatr" method="POST">
 							<div class="modal-body">
 								<h5>채팅방 이름</h5>
 								<div class="form-group">
@@ -589,9 +589,14 @@
 
 		//채팅방생성
 		function makeChatrPlz(e) {
+			//let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
 			let chatNm = document.getElementById('chartNm').value;
-			let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
-			let chatMembs = selcetParticis.split(',');
+			let selectedOptions = document.getElementById('memberSelect').selectedOptions;
+			let chatMembs = [];
+			// 선택된 모든 참여자의 값을 배열에 추가
+			for (let i = 0; i < selectedOptions.length; i++) {
+				chatMembs.push(selectedOptions[i].value);
+			}
 
 			let makeChatInfo = {};
 			makeChatInfo['chartNm'] = chatNm;
@@ -742,6 +747,9 @@
 		       .catch(error => console.error("Error:", error));
  			}
  		}
+ 	</script>
+ 	<script> 
+ 	
  	</script>
 </body>
 </html>

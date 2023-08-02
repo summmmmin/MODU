@@ -19,58 +19,11 @@
 	<script src="../assets/vendors/simple-datatables/simple-datatables.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-	<style>
-		.sidebar {
-			position: fixed;
-			top: 0;
-			left: 0;
-			height: 100%;
-			width: 200px;
-			background-color: #f8f9fa;
-			padding: 20px;
-			box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
-		}
-
-		.sidebar h5 {
-			margin-bottom: 20px;
-			color: #333;
-		}
-
-		.sidebar ul {
-			list-style: none;
-			padding: 0;
-			margin: 0;
-		}
-
-		.sidebar li {
-			margin-bottom: 10px;
-		}
-
-		.sidebar a {
-			color: #333;
-			text-decoration: none;
-		}
-
-		.sidebar a:hover {
-			color: #007bff;
-		}
-
-		.container {
-			justify-content: center;
-			align-items: center;
-			height: 100vh;
-		}
-
-		.page-heading {
-			max-width: 1200px;
-			margin: 0 auto;
-		}
-	</style>
 </head>
 
 <body>
-<div class="buttons">
-<a class="btn btn-primary" th:if="${#httpServletRequest.userPrincipal != null} and ${session.user.grd} == 'A'" th:href="@{noticeInsert}">공지사항 작성</a>
+	<div class="buttons">
+		<a class="btn btn-primary" th:if="${#httpServletRequest.userPrincipal != null} and ${session.user.grd} == 'A'" th:href="@{noticeInsert}">공지사항 작성</a>
 </div>
 <hr>
 
@@ -91,28 +44,30 @@
 			</div>
 			<section class="section">
 					<div class="card">
-						<div class="card-header">Simple Datatable</div>
+
 						<div class="card-body">
-							<table class="table table-striped" id="table1">
-								<thead>
-									<tr>
-										<th>공지번호</th>
-										<th>제목</th>
-										<th>작성자</th>
-										<th>작성일</th>
-										<th>수정일</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="notice : ${noticeList}" class="user-row">
-										<td th:text="${notice.noticeUniNo}"></td>
-										<td th:text="${notice.ttl}"></td>
-										<td th:text="${notice.nm}"></td>
-										<td th:text="${notice.ergDt}"></td>
-										<td th:text="${notice.modDt}"></td>
-									</tr>
-								</tbody>
-							</table>
+							<div class="table-responsive">
+								<table class="table table-light mb-0">
+										<thead>
+												<tr>
+														<th>공지번호</th>
+														<th>제목</th>
+														<th>작성자</th>
+														<th>작성일</th>
+														<th>수정일</th>
+												</tr>
+										</thead>
+										<tbody>
+											<tr th:each="notice : ${noticeList}" class="user-row">
+												<td th:text="${notice.noticeUniNo}"></td>
+												<td th:text="${notice.ttl}"></td>
+												<td th:text="${notice.nm}"></td>
+												<td th:text="${#dates.format(notice.ergDt,'yyyy-MM-dd')}"></td>
+												<td th:text="${#dates.format(notice.modDt,'yyyy-MM-dd')}"></td>
+											</tr>
+										</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 			</section>

@@ -33,12 +33,10 @@ public class ScheController {
 	@GetMapping("scheList")
 	public String ScheList(Model model,HttpSession session) {
 		// 리스트 뽑기 , 리스트에 필요한 세션 값가져와서 바로 집어넣음.
-		System.out.println("111111111111");
 		PrjVO vo = new PrjVO();
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		model.addAttribute("scheList",scheService.scheList((String) session.getAttribute("prjUniNo")));
 		model.addAttribute("membList", prjService.getPrjPartiList(vo));
-		System.out.println("2222222222222222");
 		return "sche/scheList";
 	}
 	
@@ -56,7 +54,6 @@ public class ScheController {
 		map.put("partici", scheService.schePartici(scheUniNo)); //일정 참여자 번호/닉네임
 		map.put("yetPartici", scheService.yetPartici(vo));
 		
-		System.out.println(map);
 		return map;
 	}
 	
@@ -82,11 +79,11 @@ public class ScheController {
                 }
             }
         }
+        
+        model.addAttribute("scheInfo",scheService.scheInfo(scheUniNo));//
 		model.addAttribute("partici",list3);	//현재참여하고있는 사람들 되어야할 아이들
 		model.addAttribute("membList", prjService.getPrjPartiList(pvo));// 프로젝트내에 모든 사람들
 		//model.addAttribute("partici", scheService.schePartici(scheUniNo)); //일정 참여자 번호/닉네임
-		System.out.println(model.getAttribute("membList"));
-		System.out.println(model.getAttribute("partici"));
 		return "sche/test";
 	}
 	

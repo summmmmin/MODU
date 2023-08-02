@@ -47,7 +47,30 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 			// 세션에 사용자 정보 저장
 			HttpSession session = request.getSession();
 			session.setAttribute("user", vo);
+			
+			// 초대토큰 있는지 확인
+			String inviteTk = (String) session.getAttribute("inviteTk");
+			if (inviteTk != null) {
+				// 초대토큰 있을때
+				PrjVO invite = prjService.selectInvite(inviteTk);
+				invite.setMembUniNo(vo.getMembUniNo());
+				invite.setNnm(vo.getNm());
+				invite.setPrjPubcId(vo.getId());
+				int result = prjService.insertPartiMemb(invite);
+				if (result == 1) {
+					System.out.println("초대 성공");
+				} else if (result == 2) {
+					System.out.println("초대 insert 오류");
+				} else if (result == 3) {
+					System.out.println("무료 플랜 초대 10명 초과");
+				} else if (result == 4) {
+					System.out.println("초대 오류");
+				}
 
+				// session token 삭제
+				session.removeAttribute("inviteTk");
+			}
+			
 			// 아이디 저장 체크 여부 확인
 			boolean rememberId = request.getParameter("rememberId") != null;
 			System.out.println(rememberId);
@@ -65,30 +88,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 				cookie.setMaxAge(0); // 쿠키 수명 삭제
 				cookie.setPath("/");
 				response.addCookie(cookie);
-			}
-			if (vo != null) {
-				session.setAttribute("user", vo);
-				String inviteTk = (String) session.getAttribute("inviteTk");
-				if (inviteTk != null) {
-					PrjVO invite = prjService.selectInvite(inviteTk);
-					invite.setMembUniNo(vo.getMembUniNo());
-					invite.setNnm(vo.getNm());
-					invite.setPrjPubcId(vo.getId());
-					int result = prjService.insertPartiMemb(invite);
-					if (result == 1) {
-						System.out.println("초대 성공");
-					} else if (result == 2) {
-						System.out.println("초대 insert 오류");
-					} else if (result == 3) {
-						System.out.println("무료 플랜 초대 10명 초과");
-					} else if (result == 4) {
-						System.out.println("초대 오류");
-					}
-
-					// session token 삭제
-					session.removeAttribute("inviteTk");
-				} else {
-				}
 			}
 		}
 
