@@ -66,29 +66,27 @@
 
 <!-- ========================게시판 삭제 Modal 시작 (성현)======================== -->
 <div class="modal fade text-left" id="deleteBrd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-primary">
-        <h5 class="modal-title white" id="myModalLabel160">게시판 삭제</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <i data-feather="x"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        이 게시판을 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-          <i class="bx bx-x d-block d-sm-none"></i>
-          <span class="d-none d-sm-block">취소</span>
-        </button>
-        <button id="deleteBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="BrdDelete()">
-          <i class="bx bx-check d-block d-sm-none"></i>
-          <span class="d-none d-sm-block">확인</span>
-        </button>
-      </div>
-    </div>
-  </div>
+ <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+<div class="modal-content">
+<div class="modal-header bg-primary">
+<h5 class="modal-title white" id="myModalLabel160">게시판 삭제</h5>
+<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+<i data-feather="x"></i>
+</button>
+</div>
+<div class="modal-body">이 게시판을 삭제하시겠습니까?<br>삭제하시면 복구 할 수 없습니다.</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+<i class="bx bx-x d-block d-sm-none"></i>
+<span class="d-none d-sm-block">취소</span>
+</button>
+<button id="deleteBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="BrdDelete()">
+<i class="bx bx-check d-block d-sm-none"></i>
+<span class="d-none d-sm-block">확인</span>
+</button>
+</div>
+</div>
+</div>
 </div>
 <!-- ========================게시판 삭제Modal 끗 ======================== -->
 
@@ -107,18 +105,18 @@
 <div class="form-group">
 <div class="col-sm-10">
 <label class="input-group-text">초대멤버</label> 
-<select name="scheParticiUniNo[]" class="choices form-select asdfas" multiple="multiple" id="cm">
+<select name="scheParticiUniNo[]" class="choices form-select particiList" multiple="multiple" id="brdksh">
 <option th:value="${i.particiMembUniNo}" th:each="i:${particiBrd}">[[${i.nnm}]]</option>
 </select>
 </div>
 </div>
 <label> </label>
 <div class="modal-footer">
-<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+<button type="button" class="btn btn-light-secondnary" data-bs-dismiss="modal">
 <i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">취소</span>
 </button>
-<button type="button" onclick="insertBrd()" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">저장하기</span>
+<button type="button" onclick="particiInsert()" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">초대</span>
 </button>
 </div>
 </div>
@@ -702,7 +700,9 @@
 		
 		
 		
-<script> <!-- 게시글 즐겨찾기 등록 (성현) -->
+<!--/* 성현 Script */-->
+<script>
+//========================== 게시글 즐겨찾기  ========================== //
 function PostBm(){
 	console.log(event.target.id);
    	let postNo = event.target.id;
@@ -726,10 +726,24 @@ function PostBm(){
 		location.href='postList?brdUniNo='+'[[${brdUniNo}]]';
 	})
 }
-</script>
 
-<!-- 즐겨찾기 리스트  (성현)-->
-<script>
+// 게시글 즐겨찾기
+function insertBrd(){
+	fetch('/modu/BmInsert',{
+		method:'POST',
+		headers : {
+			'content-type' : 'application/json'
+		},
+		body : JSON.stringify(data)
+	})
+	.then(response => response.json())
+	.then(data => {
+		console.log(data);
+		location.href='postList?brdUniNo='+'[[${brdUniNo}]]';
+	})
+}
+
+//========================== 게시판 즐겨찾기 끝  ========================== //
 fetch('/modu/bmList')
 .then(response => response.json()) 
 .then(data => {
@@ -741,42 +755,41 @@ fetch('/modu/bmList')
 .catch(err => { 
   console.error(err); 
 });
-</script>
 
-<!-- 게시글 수정 모달 띄우는 함수 (성현)  -->
-<script>
+// 게시판 수정 Modal
 $(document).ready(function() {
-  // "게시판 수정" 링크를 클릭했을 때 
-  $("#editBoardLink").on("click", function() {
-    // 모달창 띄우기
-    $("#modify").modal("show");
-  });
-});
-</script>
-<script>
-$(document).ready(function() {
-  // "회원 초대" 링크를 클릭했을 때 
-  $("#particiBrd").on("click", function() {
-    // 모달창 띄우기
-    $("#partici").modal("show");
-  });
-});
-</script>
+	  // "게시판 수정" 링크를 클릭했을 때 
+	  $("#editBoardLink").on("click", function() {
+	    // 모달창 띄우기
+	    $("#modify").modal("show");
+	  });
+	});
 
-<!-- 게시글 삭제 모달 띄우는 함수 (성현)  -->
-<script>
-  $(document).ready(function() {
+// 회원 초대 Modal
+$(document).ready(function() {
+	  // "회원 초대" 링크를 클릭했을 때 
+	  $("#particiBrd").on("click", function() {
+	    // 모달창 띄우기
+	    $("#partici").modal("show");
+	  });
+	});
+
+// ========================== 게시판 삭제 ========================== // 
+// 게시판 삭제 Modal 띄우기
+$(document).ready(function() {
     $("#deletBrdModal").on("click", function() {
       $("#deleteBrd").modal("show");
     });
   });
-//게시판 번호 찾아오기
+  
+// 게시판 번호 찾아오기
 let brdNo = document.getElementById('brdNo').textContent;
 	console.log(brdNo);
 
 //프로젝트 번호 찾아오기
 let prjNo = document.getElementById('prjNo').textContent;
 	console.log(prjNo);
+	
 //게시판 삭제
 function BrdDelete(){
 	fetch("BoardDelete",{
@@ -794,10 +807,9 @@ function BrdDelete(){
 	})
 	.catch(err => console.log(err))
 }
-</script>
+//========================== 게시판 삭제 끝  ========================== // 
 
-
-<script>
+//========================== 게시판 업데이트  ========================== //
 function BrdUpdate() {
 	//게시판 번호 찾아오기
 	let brdNo = document.getElementById('brdNo').textContent;
@@ -832,12 +844,37 @@ function BrdUpdate() {
   })
   .catch(err => console.log(err));
 }
+//========================== 게시판 업데이트 끗  ========================== //
 
-
+//========================== 회원 초대 뭐시기  ========================== //
 new Choices(document.querySelector('.particiList'));
+
+
+
+
+
+function particiInsert(){
+	let particidata ={
+		"particiMembUniNos"	: $("#brdksh option:selected").map(function(){ return $(this).val(); }).get()
+		,"boardUniNo":'[[${brdUniNo}]]'
+	}
+	console.log(particidata);
+	fetch('newJeans',{
+		method: 'POST',
+		headers: {
+			'Content-Type' : 'application/json',
+		},
+		body : JSON.stringify(particidata)
+	})
+	.then(result => result.json())
+	.then(data => {
+		console.log(data);
+	})
+}
+
+
 </script>
 	</div>
 </div>
-
 </body>
 </html>

@@ -67,4 +67,9 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> particiBrd(BoardVO vo) {
 		return boardMapper.particiBrd(vo);
 	}
+	
+	@Override
+	public int newJeans(BoardVO vo) {
+		return boardMapper.newJeans(vo);
+	}
 }

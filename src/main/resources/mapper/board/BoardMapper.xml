@@ -6,17 +6,13 @@
 
 	<!-- 게시판 전체조회 -->
 	<select id="BoardList" resultType="BoardVO" parameterType="BoardVO">
-        SELECT q.partici_memb_uni_no, q.brd_uni_no ,q.board_nm, q.pubc_yn, q.reg_dt,q.prj_uni_no, p.brd_yn
-		FROM brd_bm p
-		right JOIN (SELECT a.partici_memb_uni_no, a.brd_uni_no, a.board_nm, a.pubc_yn, a.reg_dt, a.prj_uni_no
-		FROM brd a left outer join brd_cm b
-		ON
-		a.brd_uni_no=b.board_uni_no
-		WHERE (a.pubc_yn = 'Y'
-		OR (a.pubc_yn = 'N'
-		and b.partici_memb_uni_no = #{particiMembUniNo}))
-		AND a.prj_uni_no = #{prjUniNo}) q
-		ON p.brd_uni_no = q.brd_uni_no
+       select brd.partici_memb_uni_no, brd.brd_uni_no, brd.board_nm, 
+        brd.pubc_yn, brd.reg_dt, brd.prj_uni_no, brd_bm.brd_yn
+from brd
+    left outer join brd_bm on brd.brd_uni_no = brd_bm.brd_uni_no
+    left outer join brd_cm on brd.brd_uni_no = brd_cm.board_uni_no
+where brd.prj_uni_no=#{prjUniNo}
+    and (brd.pubc_yn = 'Y' or (brd.pubc_yn='N' and brd_cm.partici_memb_uni_no=#{particiMembUniNo}))
 	</select>
 
 	<!-- 게시판 생성 -->
@@ -70,14 +66,24 @@
 	WHERE chatr_no = #{chatrNo}
 	</select>
 	
-	
-	<select id="particiBrd" resultType="BoardVO" parameterType="BoardVO">
+<select id="particiBrd" resultType="BoardVO" parameterType="BoardVO">
    SELECT *
    FROM prj_partici_memb
    WHERE prj_uni_no = #{prjUniNo} AND partici_memb_uni_no 
    NOT IN
    (SELECT partici_memb_uni_no
    FROM brd_cm
-   WHERE board_uni_no = #{boardUniNo})
+   WHERE board_uni_no = #{brdUniNo})
 	</select>
+	
+	<insert id="newJeans" parameterType="BoardVO">
+	INSERT INTO brd_cm 
+	VALUES(
+	brd_cm_seq.nextval,
+	#{particiMembUniNo},
+	#{boardUniNo}
+	)
+	</insert>
+	
+	
 </mapper>

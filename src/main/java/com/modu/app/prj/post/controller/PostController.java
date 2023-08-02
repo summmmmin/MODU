@@ -48,6 +48,8 @@ public class PostController {
 		vo1.setBrdUniNo(brdUniNo);
 		model.addAttribute("checkNM", boardService.brdNm(vo1));
 		model.addAttribute("particiBrd",boardService.particiBrd(vo1));
+		System.out.println(vo1);
+		System.out.println(boardService.particiBrd(vo1));
 	
 		return "post/postList";
 	}
