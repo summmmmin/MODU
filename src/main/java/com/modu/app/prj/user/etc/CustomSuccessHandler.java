@@ -73,7 +73,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 			
 			// 아이디 저장 체크 여부 확인
 			boolean rememberId = request.getParameter("rememberId") != null;
-			System.out.println(rememberId);
+			System.out.println("아이디 저장 체크 : " + rememberId);
 
 			if (rememberId) {
 				// 아이디 저장을 위한 쿠키 생성
