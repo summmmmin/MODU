@@ -12,10 +12,10 @@ import java.util.UUID;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.modu.app.prj.user.mapper.UserMapper;
@@ -69,10 +69,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 	}
 
-	@Override
-	public int pwdSearch(UserVO userVO) {
-		return userMapper.pwdSearch(userVO);
-	}
+    @Override
+    public int pwdUpdate(UserVO userVO) {
+        // 비밀번호 암호화 후 업데이트
+		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+        String encryptedPassword = scpwd.encode(userVO.getPwd());
+        userVO.setPwd(encryptedPassword);
+        
+        return userMapper.pwdUpdate(userVO);
+    }
+
+    @Override
+    public String membSearch(UserVO userVO) {
+        return userMapper.membSearch(userVO);
+    }
 
 	@Override
 	public int idVaild(String id) {
