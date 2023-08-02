@@ -269,6 +269,35 @@
             submitBtn.disabled = (document.querySelector('.voteItem.selected') === null);
 
         }
+    
+    
+     		//---------------투표 수정하기
+             function updateVote(){
+             let a =[[${voteInfo.voteNo}]];
+             
+             let data={'voteNo': a};
+    
+             	let data2 = {
+             		"toDt":document.getElementById("secondTodt").value,
+             		"voteNo":a
+             	}; 
+             	console.log(data2);
+             		
+     			fetch("voteUpdate/"+a, {
+     				method : "post",
+     				headers:{
+     					'Content-Type' : 'application/json',
+     				}, 
+     				body : JSON.stringify(data2)
+     			})
+     			.then((response) => response.json())
+     			.then((result) => {
+     			console.log(result);
+     			voteList();
+     			 })
+             }
+    
+    
   $(function(){
 	  
 
@@ -314,15 +343,17 @@
         // ----------------------투표 하기 버튼 끝
         
         
-        let a =[[${voteInfo.voteNo}]];
-        console.log(a);
-        
-        let data={'voteNo': a};
+
         
         //-----------------------vote삭제하기 
         
         
         function delVote(){
+        	
+            let a =[[${voteInfo.voteNo}]];
+            
+            let data={'voteNo': a};
+            
 			fetch("voteDelte", {
 				method : "delete",
 				headers:{
@@ -354,27 +385,7 @@
 		 secondDate.setAttribute("min", today33); 
         
 		
-		//---------------투표 수정하기
-        function updateVote(){
-        	let data2 = {
-        		"toDt":secondDate.value,
-        		"voteNo":a
-        	}; 
-        	console.log(data2);
-        		
-			fetch("voteUpdate/"+a, {
-				method : "post",
-				headers:{
-					'Content-Type' : 'application/json',
-				}, 
-				body : JSON.stringify(data2)
-			})
-			.then((response) => response.json())
-			.then((result) => {
-			console.log(result);
-			voteList();
-			 })
-        }
+
         
         $('#deleteVote').appendTo("body")
         $('#updateVote').appendTo("body")

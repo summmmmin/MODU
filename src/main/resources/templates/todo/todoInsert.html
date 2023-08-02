@@ -93,6 +93,9 @@ margin-left:5px;}
 		</div>
 		<script>
 		
+		
+		//input타입 date를 클릭했을때 나온는 달력에서 선택한 날짜 이전을 막는 구절
+
 		var date = document.getElementById("Date")
 		function dateChange2(){
 		document.getElementById("lastDate").setAttribute("min", date.value); 
@@ -158,16 +161,7 @@ margin-left:5px;}
 		let file = document.getElementById('todoFile').files[0];
 		
 		
-		
-		
-		//input타입 date를 클릭했을때 나오는 달력에서 현재날짜 이전애들을 클릭 못하게 막는방법
-/* 		var now_utc = Date.now()
-		var timeOff = new Date().getTimezoneOffset()*60000;
-		var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
-		document.getElementById("Date").setAttribute("min", today);  */
-		
-		//input타입 date를 클릭했을때 나온는 달력에서 선택한 날짜 이전을 막는 구절
-
+	
 		new Choices(document.querySelector('#mgr'));
 		new Choices(document.querySelector('#cm'));
 		

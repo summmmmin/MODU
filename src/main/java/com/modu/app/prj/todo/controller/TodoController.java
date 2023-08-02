@@ -87,7 +87,7 @@ public class TodoController {
 		vo.setCm(cm);
 		vo.setMgr(mgr);
 		vo.setToDt(lastDate);
-		
+
 		todoService.insertTodo(vo);// 할일 만들면서 시퀀스로 생긴 고유번호를
 		
 		System.out.println(vo);
@@ -134,12 +134,15 @@ public class TodoController {
 		fileVO.setTodoUniNo(todoUniNo);
 		
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		
+		todoVo.setTodoUniNo(todoUniNo);
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		model.addAttribute("membList", prjService.getPrjPartiList(vo));
+		model.addAttribute("todoInfo",todoService.oneTodo(todoVo));
 		model.addAttribute("attList", fileService.fileList(fileVO)); 
 		model.addAttribute("todoUniNo",todoUniNo);	
 		model.addAttribute("todo",new TodoVO());
+		model.addAttribute("mgrcm",todoService.mgrCmCheck(todoUniNo));
+		System.out.println(model.getAttribute("mgrcm"));
 		return "todo/todoUpdate";
 	}
 	
