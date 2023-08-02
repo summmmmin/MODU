@@ -47,7 +47,7 @@ public class WebSecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
         .authorizeRequests()
-//        	.antMatchers("/admin/**").hasRole("ADMIN")
+        	.antMatchers("/admin/**").hasRole("ADMIN")
 	        .antMatchers("/", "/signup/**", "/sms/**", "/modu/**", "/**").permitAll()
 	        .anyRequest().authenticated()
         .and()
