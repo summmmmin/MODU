@@ -1,8 +1,10 @@
 package com.modu.app.prj.user.service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -13,7 +15,6 @@ import lombok.Data;
 
 @Data
 public class UserVO implements UserDetails {
-	
 
 	// 회원 고유번호
 	private String membUniNo;
@@ -68,6 +69,10 @@ public class UserVO implements UserDetails {
 		return id;
 	}
 
+	public String getRole() {
+		return grd;
+	}
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -88,14 +93,18 @@ public class UserVO implements UserDetails {
 		return true;
 	}
 
-	@Override
+
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Set<GrantedAuthority> authorities = new HashSet<>();
-		if ("A".equals(grd)) {
-			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		String grd = getRole(); // Role이 ADMIN일 경우 ROLE_ADMIN 권한 부여
+		if (grd != "" && grd != null) {
+			if (grd.equals("A")) {
+				authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+			}
 		} else {
-			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+			authorities.add(new SimpleGrantedAuthority("ROLE_USER")); // 아닐경우 일반유저 권한 부여
 		}
+		System.out.println("권한 부여 : " + authorities);
 		return authorities;
 	}
 }
