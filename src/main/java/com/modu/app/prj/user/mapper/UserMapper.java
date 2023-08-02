@@ -9,7 +9,8 @@ public interface UserMapper {
 	public UserVO loginCheck(String id);
 	public int signup(UserVO userVO);
 	public UserVO idSearch(UserVO userVO);
-	public int pwdSearch(UserVO userVO);
+	public int pwdUpdate(UserVO userVO);
+	public String membSearch(UserVO userVO);
 	public int idVaild(String id);
 	public UserVO idCheck(String id);
 	public UserVO emailAuth(String id);
