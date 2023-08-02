@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
+
 <head>
-<meta charset="UTF-8">
-<title>chat</title>
+	<meta charset="UTF-8">
+	<title>chat</title>
+	<!--alert-->
+	<script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
+
+	
 
 </head>
+
 <body>
 	<div layout:fragment="content">
+
+		
 		<!-- start of 웹소켓용 -->
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-		<script
-			src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 		<!-- end of 웹소켓용 -->
 		<section class="section">
 			<div class="row">
@@ -21,25 +27,20 @@
 						<div class="card-header">
 							<div class="media d-flex align-items-center">
 								<div class="avatar me-3">
-									<img src="assets/images/faces/1.jpg" alt="" srcset=""> <span
-										class="avatar-status bg-success"></span>
+									<img src="assets/images/faces/1.jpg" alt="" srcset=""> <span class="avatar-status bg-success"></span>
 								</div>
 								<div class="name flex-grow-1">
 									<h6 class="mb-0" id="chatNmPlace"></h6>
 									<span class="text-xs chatMemb" id="chatMembPlace"></span>
 								</div>
 								<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle me-1"
-										type="button" id="dropdownMenuButton"
-										data-bs-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false">...</button>
+									<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton"
+										data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">...</button>
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item" data-bs-toggle="modal"
-											data-bs-target="#addChatPartici">채팅방초대</a> <a
-											class="dropdown-item" id="calloneChatr"
-											data-bs-toggle="modal" data-bs-target="#changeChatrNm">채팅방명변경</a>
-										<a class="dropdown-item" data-bs-toggle="modal"
-											data-bs-target="#leaveChatr">채팅방나가기</a>
+										<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addChatPartici">채팅방초대</a> <a
+											class="dropdown-item" id="calloneChatr" data-bs-toggle="modal"
+											data-bs-target="#changeChatrNm">채팅방명변경</a>
+										<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leaveChatr">채팅방나가기</a>
 									</div>
 								</div>
 							</div>
@@ -47,20 +48,16 @@
 						<div class="card-body pt-4 bg-grey">
 							<div class="chat-content"></div>
 							<div class="card-footer">
-								<form action="chatMsg" method="POST"
-									enctype="multipart/form-data">
-									<div
-										class="message-form d-flex flex-direction-column align-items-center">
+								<form action="chatMsg" method="POST" enctype="multipart/form-data">
+									<div class="message-form d-flex flex-direction-column align-items-center">
 										<a href="http://" class="black"><i data-feather="smile"></i></a>
 										<div class="d-flex flex-grow-1 ml-4">
 											<div id="typingArmPlace"></div>
-											<input type="text" id="sendMsg" name="cntn"
-												class="form-control" autocomplete="off"
-												placeholder="Type your message.." required> <input
-												type="file" id="sendFile" name="file" multiple>
+											<input type="text" id="sendMsg" name="cntn" class="form-control" autocomplete="off"
+												placeholder="Type your message.." required>
+											<input type="file" id="sendFile" name="file">
 											<div class="buttons">
-												<button type="button" id="sendMsgBtn"
-													class="btn btn-primary rounded-pill">send</button>
+												<button type="button" id="sendMsgBtn" class="btn btn-primary rounded-pill">send</button>
 											</div>
 										</div>
 									</div>
@@ -73,33 +70,26 @@
 
 		<!-- start of MODALS -->
 		<!-- start of 채팅방 나가기 모달 -->
-		<div class="modal fade text-left" id="leaveChatr" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-				role="document">
+		<div class="modal fade text-left" id="leaveChatr" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 				<div class="modal-content">
 					<div class="modal-header bg-primary">
 						<h5 class="modal-title white" id="myModalLabel160">채팅방 나가기</h5>
-						<button type="button" class="close" data-bs-dismiss="modal"
-							aria-label="Close">
+						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 							<i data-feather="x"></i>
 						</button>
 					</div>
 					<div class="modal-body">
-						채팅방을 나가시면 다시 초대 받지 않는 한<br> 동일한 채팅방에 참여하실 수 없습니다. <br>이
-						채팅방에서 나가시겠습니까?
+						채팅방을 나가시면 다시 초대 받지 않는 한<br> 동일한 채팅방에 참여하실 수 없습니다.
+						<br>이 채팅방에서 나가시겠습니까?
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-light-secondary"
-							data-bs-dismiss="modal">
-							<i class="bx bx-x d-block d-sm-none"></i> <span
-								class="d-none d-sm-block">취소</span>
+						<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+							<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">취소</span>
 						</button>
-						<button id="leaveChatrBtn" type="button"
-							class="btn btn-primary ml-1" data-bs-dismiss="modal">
-							<i class="bx bx-check d-block d-sm-none"></i> <span
-								class="d-none d-sm-block">확인</span>
+						<button id="leaveChatrBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+							<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">확인</span>
 						</button>
 					</div>
 				</div>
@@ -108,40 +98,32 @@
 		<!-- end of 채팅방 나가기 모달 -->
 
 		<!-- start of 채팅방명변경 모달 -->
-		<div class="modal fade text-left" id="changeChatrNm" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-				role="document">
+		<div class="modal fade text-left" id="changeChatrNm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title" id="myModalLabel33">채팅방명변경</h4>
-						<button type="button" class="close" data-bs-dismiss="modal"
-							aria-label="Close">
+						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 							<i data-feather="x"></i>
 						</button>
 					</div>
 					<form action="updateChatrNm" method="POST" id="FormEvent">
 						<div class="modal-body">
 							<div id="chatrNamePlace" class="form-group">
-								<input id="chatrNm" name="chatrNm" type="text"
-									class="form-control">
+								<input id="chatrNm" name="chatrNm" type="text" class="form-control">
 							</div>
 							<div class="form-group">
-								<input id="chatParticiMembUniNo" name="chatParticiMembUniNo"
-									th:value="${session.chatParticiMembUniNo}" type="text"
-									class="form-control">
+								<input id="chatParticiMembUniNo" name="chatParticiMembUniNo" th:value="${session.chatParticiMembUniNo}"
+									type="text" class="form-control">
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-light-secondary"
-									data-bs-dismiss="modal">
-									<i class="bx bx-x d-block d-sm-none"></i> <span
-										class="d-none d-sm-block">닫기</span>
+								<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
 								</button>
-								<button id="formbtn" type="button" class="btn btn-primary ml-1"
-									data-bs-dismiss="modal" onclick="updateChatr()">
-									<i class="bx bx-check d-block d-sm-none"></i> <span
-										class="d-none d-sm-block">변경</span>
+								<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal"
+									onclick="updateChatr()">
+									<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">변경</span>
 								</button>
 							</div>
 						</div>
@@ -152,16 +134,13 @@
 		<!-- end of 채팅방명변경 모달 -->
 
 		<!-- start of 채팅참여자추가 모달 -->
-		<div class="modal fade text-left" id="addChatPartici" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-				role="document">
+		<div class="modal fade text-left" id="addChatPartici" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title" id="myModalLabel33">채팅방 생성</h4>
-						<button type="button" class="close" data-bs-dismiss="modal"
-							aria-label="Close">
+						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 							<i data-feather="x"></i>
 						</button>
 					</div>
@@ -169,28 +148,20 @@
 						<div class="modal-body">
 							<h5>채팅 초대</h5>
 							<div class="form-group">
-								<input id="addChartNm" name="chartNm" type="text"
-									class="form-control" style="display: none"> <input
-									id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
-									type="text" class="form-control" style="display: none">
-								<input id="particiMembUniNo" name="particiMembUniNo"
-									th:value="${session.particiMembUniNo}" type="text"
-									class="form-control" style="display: none"> <label
-									for="basicInput" class="form-label">참여멤버선택</label> <select
-									id="addMembSelect" class="form-select multiple-remove"
-									multiple="multiple"></select>
+								<input id="addChartNm" name="chartNm" type="text" class="form-control" style="display: none"> <input
+									id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control"
+									style="display: none">
+								<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text"
+									class="form-control" style="display: none"> <label for="basicInput" class="form-label">참여멤버선택</label>
+								<select id="addMembSelect" class="form-select multiple-remove" multiple="multiple"></select>
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-light-secondary"
-								data-bs-dismiss="modal">
-								<i class="bx bx-x d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">닫기</span>
+							<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+								<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
 							</button>
-							<button onclick="addMembPlz()" type="button"
-								class="btn btn-primary ml-1" data-bs-dismiss="modal">
-								<i class="bx bx-check d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">초대</span>
+							<button onclick="addMembPlz()" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+								<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">초대</span>
 							</button>
 						</div>
 					</form>
@@ -201,246 +172,244 @@
 		<!-- end of MODALS -->
 
 		<script>
-			
 			//채팅메세지리스트
-			function showChatMsgList(){
+			function showChatMsgList() {
 				let msgPlace = document.getElementsByClassName('chat-content')[0];
 				let chatrNo = '[[${session.chatrNo}]]'
 				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
 
 				fetch("/modu/msgList/" + chatrNo)
-				.then(resolve => resolve.json())
-				.then(data => {
-					//console.log(data.writeDt)
-					msgPlace.innerHTML = ''; // 지우고다시리스트
-					data.forEach(msg => {
+					.then(resolve => resolve.json())
+					.then(data => {
+						//console.log(data.writeDt)
+						msgPlace.innerHTML = ''; // 지우고다시리스트
+						data.forEach(msg => {
 
-						const originalDateStr = msg.writeDt;
-						const date = new Date(originalDateStr);
-						const formattedDate = `${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, "0")}. ${String(date.getDate()).padStart(2, "0")}. ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
+							const originalDateStr = msg.writeDt;
+							const date = new Date(originalDateStr);
+							const formattedDate =
+								`${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, "0")}. ${String(date.getDate()).padStart(2, "0")}. ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
 
-						if(msg.chatParticiMembUniNo == chatWriter){	
+							if (msg.chatParticiMembUniNo == chatWriter) {
 
-							//내가 쓴 채팅
-							let cdiv = document.createElement('div');
-							cdiv.setAttribute('class', 'chat');
-							msgPlace.append(cdiv);
+								//내가 쓴 채팅
+								let cdiv = document.createElement('div');
+								cdiv.setAttribute('class', 'chat');
+								msgPlace.append(cdiv);
 
-							let cbdiv = document.createElement('div');
-							cbdiv.setAttribute('class', 'chat-body');
-							cdiv.append(cbdiv);
-							msgPlace.append(cdiv);
+								let cbdiv = document.createElement('div');
+								cbdiv.setAttribute('class', 'chat-body');
+								cdiv.append(cbdiv);
+								msgPlace.append(cdiv);
 
-							let cmdiv = document.createElement('div');
-							cmdiv.setAttribute('class', 'chat-message');
-							cmdiv.innerHTML = msg.cntn;
-							cbdiv.append(cmdiv);
-							cdiv.append(cbdiv);
-							msgPlace.append(cdiv);
+								let cmdiv = document.createElement('div');
+								cmdiv.setAttribute('class', 'chat-message');
+								cmdiv.innerHTML = msg.cntn;
+								cbdiv.append(cmdiv);
+								cdiv.append(cbdiv);
+								msgPlace.append(cdiv);
 
-						}else{
+							} else {
 
-							//상대가 쓴 채팅
-							let cdiv = document.createElement('div');
-							cdiv.setAttribute('class', 'chat chat-left');
-							msgPlace.append(cdiv);
+								//상대가 쓴 채팅
+								let cdiv = document.createElement('div');
+								cdiv.setAttribute('class', 'chat chat-left');
+								msgPlace.append(cdiv);
 
-							let cbdiv = document.createElement('div');
-							cbdiv.setAttribute('class', 'chat-body');
-							cdiv.append(cbdiv);
-							msgPlace.append(cdiv);
+								let cbdiv = document.createElement('div');
+								cbdiv.setAttribute('class', 'chat-body');
+								cdiv.append(cbdiv);
+								msgPlace.append(cdiv);
 
-							let cmdiv = document.createElement('div');
-							cmdiv.setAttribute('class', 'chat-message');
-							if(msg.readCount > 0){
-								cmdiv.innerHTML = `<small>${msg.nnm} : </small><br>${msg.cntn}<br><small>`+formattedDate+` || ${msg.readCount}</small>`;
-							}else{
-								cmdiv.innerHTML = `<small>${msg.nnm} : </small><br>${msg.cntn}<br><small>`+formattedDate+`</small>`;
+								let cmdiv = document.createElement('div');
+								cmdiv.setAttribute('class', 'chat-message');
+								if (msg.readCount > 0) {
+									cmdiv.innerHTML = `<small>${msg.nnm} : </small><br>${msg.cntn}<br><small>` + formattedDate +
+										` || ${msg.readCount}</small>`;
+								} else {
+									cmdiv.innerHTML = `<small>${msg.nnm} : </small><br>${msg.cntn}<br><small>` + formattedDate +
+										`</small>`;
+								}
+								cbdiv.append(cmdiv);
+								cdiv.append(cbdiv);
+								msgPlace.append(cdiv);
+
 							}
-							cbdiv.append(cmdiv);
-							cdiv.append(cbdiv);
-							msgPlace.append(cdiv);
-							
-						}
-					});
-				})
+						});
+					})
 			}
 			showChatMsgList();
 
 			//채팅참여자닉네임LIST
-			function chatrParticiList(){
+			function chatrParticiList() {
 				let chatrNo = '[[${session.chatrNo}]]';
 				let cpmun = '[[${session.chatParticiMembUniNo}]]';
 				let chatNmplace = document.getElementById('chatNmPlace');
 				let chatMembPlace = document.getElementById('chatMembPlace');
 				fetch("/modu/chatMembList/" + chatrNo)
-				.then(resolve => resolve.json())
-				.then(data => {
-					chatNmplace.innerHTML = ''; 
-					chatMembPlace.innerHTML = ''; 
-					//console.log(data);
-					 data.forEach(memb => {
-						if(memb.chatParticiMembUniNo == cpmun){
-							chatNmplace.textContent = memb.chatrNm; //개인이 설정한 채팅방 이름
-						}
-						let span = document.createElement('span');
-						span.textContent = memb.nnm;
-						span.setAttribute('data-chatparticimembunino', memb.chatParticiMembUniNo);
-						chatMembPlace.append(span);
+					.then(resolve => resolve.json())
+					.then(data => {
+						chatNmplace.innerHTML = '';
+						chatMembPlace.innerHTML = '';
+						//console.log(data);
+						data.forEach(memb => {
+							if (memb.chatParticiMembUniNo == cpmun) {
+								chatNmplace.textContent = memb.chatrNm; //개인이 설정한 채팅방 이름
+							}
+							let span = document.createElement('span');
+							span.textContent = memb.nnm;
+							span.setAttribute('data-chatparticimembunino', memb.chatParticiMembUniNo);
+							chatMembPlace.append(span);
+						})
 					})
-				})
-				.catch(err => console.log(err))
+					.catch(err => console.log(err))
 			}
 			chatrParticiList();
-			
+
 			//채팅방 나가기
-			document.getElementById('leaveChatrBtn').addEventListener('click', function(){
+			document.getElementById('leaveChatrBtn').addEventListener('click', function () {
 				let chatMemb = '[[${session.chatParticiMembUniNo}]]';
 				let prjUniNo = '[[${session.prjUniNo}]]';
 
-				fetch("/modu/leaveChatr/"+chatMemb)
-				.then(resolve => resolve.json())
-				.then(data => {
-					//console.log(data);
-					window.location.href = '/modu/main?prjUniNo='+prjUniNo;
-				})
-				.catch(err => console.log(err))
+				fetch("/modu/leaveChatr/" + chatMemb)
+					.then(resolve => resolve.json())
+					.then(data => {
+						//console.log(data);
+						window.location.href = '/modu/main?prjUniNo=' + prjUniNo;
+					})
+					.catch(err => console.log(err))
 			})
 
 			//채팅방명변경폼
-			document.getElementById('calloneChatr').addEventListener('click', function(){
+			document.getElementById('calloneChatr').addEventListener('click', function () {
 				let chatMemb = '[[${session.chatParticiMembUniNo}]]';
 				fetch("/modu/updateChatr/" + chatMemb)
-				.then(resolve => resolve.json())
-				.then(data => {
-					//console.log(data);
-					document.getElementById('chatrNm').value = data.chatrNm;
-				})
+					.then(resolve => resolve.json())
+					.then(data => {
+						//console.log(data);
+						document.getElementById('chatrNm').value = data.chatrNm;
+					})
 			})
 
 			//채팅방명변경
-			function updateChatr(){
+			function updateChatr() {
 				let newChatrNm = document.getElementById('chatrNm').value;
 				let changeNm = {};
 				changeNm['chatrNm'] = newChatrNm;
 
-				fetch("/modu/updateChatrNm",{
-					method:'post',
-					headers : {
-						'content-type' : 'application/json'
-					},
-					body : JSON.stringify(changeNm)
-				})
-				.then(result => result.json())
-				.then(data => {
+				fetch("/modu/updateChatrNm", {
+						method: 'post',
+						headers: {
+							'content-type': 'application/json'
+						},
+						body: JSON.stringify(changeNm)
+					})
+					.then(result => result.json())
+					.then(data => {
 
-					//console.log(data);
-					chatrParticiList();
-				})
+						//console.log(data);
+						chatrParticiList();
+					})
 			}
 
 			//채팅방가능멤버리스트(프로젝트 참여자이며 해당 채팅에 참여하지 않는 사람)
-			function addChatrParticiList(){
+			function addChatrParticiList() {
 				let prjUniNo = '[[${session.prjUniNo}]]';
 				let chatrNo = '[[${session.chatrNo}]]'
-				fetch('/modu/addChatMembList/'+ chatrNo + '/' + prjUniNo)
-				.then(resolve => resolve.json())
-				.then(data => {
-					//console.log(data);
-					data.forEach(memb => {
-						let optionTag = document.createElement('option');
-						optionTag.setAttribute('value', memb.particiMembUniNo);
-						optionTag.textContent = memb.nnm;
-						document.getElementById('addMembSelect').append(optionTag);  
-          })
-				})
-				.catch(err => console.log(err))
+				fetch('/modu/addChatMembList/' + chatrNo + '/' + prjUniNo)
+					.then(resolve => resolve.json())
+					.then(data => {
+						//console.log(data);
+						data.forEach(memb => {
+							let optionTag = document.createElement('option');
+							optionTag.setAttribute('value', memb.particiMembUniNo);
+							optionTag.textContent = memb.nnm;
+							document.getElementById('addMembSelect').append(optionTag);
+						})
+					})
+					.catch(err => console.log(err))
 			}
 			addChatrParticiList();
 
 			//채팅방참여자추가
-			function addMembPlz(){
-			 //let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
+			function addMembPlz() {
+				//let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
 				let chatNm = document.getElementById('chatNmPlace').textContent;
 				let chartNo = '[[${session.chatrNo}]]'
 				let selectedOptions = document.getElementById('addMembSelect').selectedOptions;
 				let chatMembs = [];
-					
+
 				for (let i = 0; i < selectedOptions.length; i++) {
 					chatMembs.push(selectedOptions[i].value);
 				}
 
-		        let addMemb = {};
-						addMemb['chartNo'] = chartNo;
-		        addMemb['chartNm'] = chatNm;
-		        addMemb['particiMembUniNos'] = chatMembs;
-		        //console.log(addMemb);
+				let addMemb = {};
+				addMemb['chartNo'] = chartNo;
+				addMemb['chartNm'] = chatNm;
+				addMemb['particiMembUniNos'] = chatMembs;
+				//console.log(addMemb);
 
-				fetch("/modu/addChatMemb",{
-					method : 'post',
-					headers : {
-						'content-type' : 'application/json'
-					},
-					body : JSON.stringify(addMemb)
-				})
-				.then(result => result.json())
-				.then(data => {
-					//console.log(data);
-					chatrParticiList();
-					
-		 	armClient.publish({
-				destination: "/pubArm/chat/"+particiMembUniNo,
-				body: JSON.stringify({
-					'particiMembUniNo' : particiMembUniNo
-				})
-			});
-					
-					
-					
-					
-				})
-				.catch(err => console.log(err))
+				fetch("/modu/addChatMemb", {
+						method: 'post',
+						headers: {
+							'content-type': 'application/json'
+						},
+						body: JSON.stringify(addMemb)
+					})
+					.then(result => result.json())
+					.then(data => {
+						//console.log(data);
+						chatrParticiList();
+
+						armClient.publish({
+							destination: "/pubArm/chat/" + particiMembUniNo,
+							body: JSON.stringify({
+								'particiMembUniNo': particiMembUniNo
+							})
+						});
+					})
+					.catch(err => console.log(err))
 
 			}
-			
+
 			//이전 채팅메세지 전부 읽음 처리
-			function readChatMsg(){
-				
+			function readChatMsg() {
+
 				let chatrNo = '[[${session.chatrNo}]]';
 				let chatParticiMembUniNo = '[[${session.chatParticiMembUniNo}]]';
 				let readChat = {};
 				readChat['chatrNo'] = chatrNo;
 				readChat['chatParticiMembUniNo'] = chatParticiMembUniNo;
-				
-				fetch("/modu/updateReadChat" ,{
-					method : 'post',
-					headers : {
-						'content-type' : 'application/json'
-					},
-					body : JSON.stringify(readChat)
-				})
-				.then(result => result.json())
-				.then(data => {
-					//console.log(data);
-					showChatMsgList(); //채팅 메세지 리스트 다시 띄우기
-				})
-				.catch(err => console.log(err))
+
+				fetch("/modu/updateReadChat", {
+						method: 'post',
+						headers: {
+							'content-type': 'application/json'
+						},
+						body: JSON.stringify(readChat)
+					})
+					.then(result => result.json())
+					.then(data => {
+						//console.log(data);
+						showChatMsgList(); //채팅 메세지 리스트 다시 띄우기
+					})
+					.catch(err => console.log(err))
 
 			}
 
 			//보내기버튼누르면 sendMessage호출
 			document.getElementById('sendMsgBtn').addEventListener('click', sendMessage);
-			
+
 			//타이핑 중일 때 sendTypingArm호출
 			document.getElementById('sendMsg').addEventListener('keydown', sendTypingArm)
-			
+
 			//입력 후 엔터키 막기
-			document.getElementById("sendMsg").addEventListener("keypress", function(event) {
-		       if (event.keyCode === 13) { 
-		    	   event.preventDefault(); 
-		       }
-		    });
-			
+			document.getElementById("sendMsg").addEventListener("keypress", function (event) {
+				if (event.keyCode === 13) {
+					event.preventDefault();
+				}
+			});
+
 			//start of 웹소켓
 			let chatrNo = '[[${session.chatrNo}]]'
 			let chatWriter = '[[${session.chatParticiMembUniNo}]]';
@@ -448,148 +417,155 @@
 
 			let userCount = 0;
 
-			
+
 			// WebSocket 연결 설정
 			const stompClient = new StompJs.Client({
-				brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
-
+				brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
 			});
 
 			// 페이지 로드시 
-			window.addEventListener("load", function(event) {
+			window.addEventListener("load", function (event) {
 				//웹소켓 연결
 				stompClient.activate();
-				
+
 				//이전 채팅메세지 전부 읽음 처리
 				readChatMsg();
 			});
 
 			// 연결 성공시
 			stompClient.onConnect = (frame) => {
-					console.log('Connected: ' + frame);
+				console.log('Connected: ' + frame);
 
-					//구독(채팅메세지)
-					stompClient.subscribe('/sub/chat/msg/'+chatrNo, 
-						(chatMsg) => {
-											//console.log(chatMsg.body)
-											showChatMsg(JSON.parse(chatMsg.body));
+				//구독(채팅메세지)
+				stompClient.subscribe('/sub/chat/msg/' + chatrNo,
+					(chatMsg) => {
+						//console.log(chatMsg.body)
+						showChatMsg(JSON.parse(chatMsg.body));
 					});
 
-					//구독(타이핑알림)
-					stompClient.subscribe('/sub/chat/' + chatrNo + '/typing', 
-						(typingArm) => {
-											//console.log(typingArm.body)
-											showTypingMsg(JSON.parse(typingArm.body));
-					}); 
+				//구독(타이핑알림)
+				stompClient.subscribe('/sub/chat/' + chatrNo + '/typing',
+					(typingArm) => {
+						//console.log(typingArm.body)
+						showTypingMsg(JSON.parse(typingArm.body));
+					});
 			};
 
 			//에러
 			stompClient.onWebSocketError = (error) => {
-					console.error('Error with websocket', error);
+				console.error('Error with websocket', error);
 			};
 
 			stompClient.onStompError = (frame) => {
-					console.error('Broker reported error: ' + frame.headers['message']);
-					console.error('Additional details: ' + frame.body);
+				console.error('Broker reported error: ' + frame.headers['message']);
+				console.error('Additional details: ' + frame.body);
 			};
-	
+
 			// 보내기버튼 누르면 발생하는 이벤트
 			function sendMessage() {
-		
+
 				let chatrNo = '[[${session.chatrNo}]]'
 				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
 				let cntn = document.getElementById('sendMsg').value;
 				let file = document.getElementById('sendFile').files[0];
 				let nnm; // 닉네임
-				
+
 				var message = cntn.trim();
 
-		        if (message === "") {
-		            alert("메세지를작성해주세요");
-				return;
-		        }
-				
+				if (message === "") {
+					Swal.fire({
+						icon: "error",
+						title: "메세지를 작성해 주세요"
+					})
+					//alert("메세지를작성해주세요");
+					return;
+				}
+
 				// 날짜포맷
 				const currentDate = new Date();
-				const writeDt = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}-${String(currentDate.getDate()).padStart(2, "0")}T${String(currentDate.getHours()).padStart(2, "0")}:${String(currentDate.getMinutes()).padStart(2, "0")}:${String(currentDate.getSeconds()).padStart(2, "0")}.${String(currentDate.getMilliseconds()).padStart(3, "0")}`;
+				const writeDt =
+					`${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}-${String(currentDate.getDate()).padStart(2, "0")}T${String(currentDate.getHours()).padStart(2, "0")}:${String(currentDate.getMinutes()).padStart(2, "0")}:${String(currentDate.getSeconds()).padStart(2, "0")}.${String(currentDate.getMilliseconds()).padStart(3, "0")}`;
 				//let wirteDt = new Date();
 
 				// 닉네임찾기
 				let getNnm = document.getElementById('chatMembPlace').childNodes;
 				getNnm.forEach(getNmm => {
-					if(getNmm.dataset.chatparticimembunino == chatWriter){
+					if (getNmm.dataset.chatparticimembunino == chatWriter) {
 						nnm = getNmm.textContent;
 					}
 				})
-				
+
 				//현재 참여중인 채팅멤버 수
 				let chatMembCount = document.getElementById('chatMembPlace').children.length;
 				let readCount = chatMembCount - 1; //작성자제외 
-				
-					// 보낸 메세지 발행
-					stompClient.publish({
-							destination: "/pub/chat/msg",
-							body: JSON.stringify({'chatrNo': chatrNo,
-												            'chatParticiMembUniNo' : chatWriter,
-												            'cntn': cntn,
-																		'nnm' : nnm,
-																		'writeDt' : writeDt,
-																		'readCount' : readCount})
-					});
-	
-					let formData = new FormData(); // 첨부파일 + 채팅메세지
-					formData.append('chatrNo', chatrNo);
-					formData.append('chatParticiMembUniNo', chatWriter);
-					formData.append('cntn', cntn);
-					formData.append('file', file); 
-					
-					//채팅메세지 + 첨부파일 DB에 저장
-					fetch("/modu/chatMsg",{
-						method : 'post',
-						body : formData
+
+				// 보낸 메세지 발행
+				stompClient.publish({
+					destination: "/pub/chat/msg",
+					body: JSON.stringify({
+						'chatrNo': chatrNo,
+						'chatParticiMembUniNo': chatWriter,
+						'cntn': cntn,
+						'nnm': nnm,
+						'writeDt': writeDt,
+						'readCount': readCount
+					})
+				});
+
+				let formData = new FormData(); // 첨부파일 + 채팅메세지
+				formData.append('chatrNo', chatrNo);
+				formData.append('chatParticiMembUniNo', chatWriter);
+				formData.append('cntn', cntn);
+				formData.append('file', file);
+
+				//채팅메세지 + 첨부파일 DB에 저장
+				fetch("/modu/chatMsg", {
+						method: 'post',
+						body: formData
 					})
 					.then(result => result.json())
 					.then(data => {
-						
+
 						document.getElementById('sendMsg').value = '';
-						
+
 						//첨부파일이 있을 때 첨부파일 다운로드 링크를 발행
-						if(data.attNo != null){
+						if (data.attNo != null) {
 							stompClient.publish({
-							destination: "/pub/chat/msg",
-							body: JSON.stringify({
-										    'chatrNo': chatrNo,
-	 											 'chatParticiMembUniNo': chatWriter,
-	 											 'cntn': '<a href="/modu/files/' + data.attNo + '/download">' + data.attNm +'</a>',
-												 'nnm' : nnm,
-												 'writeDt' : writeDt,
-												 'readCount' : readCount})
-	 											})		
-							}
-						
-						//성현 채팅 알림 조건
-					$.ajax('ChatParticiMemb')
-					.done(result => {
-						console.log(result);
-						for(let i=0; i<result.length; i++){
-							console.log(result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]');
-							console.log(result[i].particiMembUniNo)
-							if(result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]'){
-			 			armClient.publish({
-							destination: "/pubArm/chat/"+result[i].particiMembUniNo,
-							body: JSON.stringify({
-								'particiMembUniNo' : result[i].particiMembUniNo
+								destination: "/pub/chat/msg",
+								body: JSON.stringify({
+									'chatrNo': chatrNo,
+									'chatParticiMembUniNo': chatWriter,
+									'cntn': '<a href="/modu/files/' + data.attNo + '/download">' + data.attNm + '</a>',
+									'nnm': nnm,
+									'writeDt': writeDt,
+									'readCount': readCount
+								})
 							})
-						});
-					}
-				}
-			})
-		})
-						
-						// 성현
+						}
+
+						//성현 채팅 알림 조건
+						$.ajax('ChatParticiMemb')
+							.done(result => {
+								console.log(result);
+								for (let i = 0; i < result.length; i++) {
+									console.log(result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]');
+									console.log(result[i].particiMembUniNo)
+									if (result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]') {
+										armClient.publish({
+											destination: "/pubArm/chat/" + result[i].particiMembUniNo,
+											body: JSON.stringify({
+												'particiMembUniNo': result[i].particiMembUniNo
+											})
+										});
+									}
+								}
+							})
+					})
+
+					// 성현
 					.catch(err => console.log(err))
 			}
-			
+
 			//채팅메세지추가
 			function showChatMsg(chatMsg) {
 				let msgPlace = document.getElementsByClassName('chat-content')[0];
@@ -598,9 +574,10 @@
 				// 날짜포맷
 				const originalDateStr = chatMsg.writeDt;
 				const date = new Date(originalDateStr);
-				const formattedDate = `${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, "0")}. ${String(date.getDate()).padStart(2, "0")}. ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
+				const formattedDate =
+					`${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, "0")}. ${String(date.getDate()).padStart(2, "0")}. ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
 
-				if(chatMsg.chatParticiMembUniNo == chatWriter){
+				if (chatMsg.chatParticiMembUniNo == chatWriter) {
 
 					//내가 쓴 채팅
 					let cdiv = document.createElement('div');
@@ -618,7 +595,7 @@
 					cbdiv.append(cmdiv);
 					cdiv.append(cbdiv);
 					msgPlace.append(cdiv);
-				}else{
+				} else {
 
 					//상대가 쓴 채팅
 					let cdiv = document.createElement('div');
@@ -632,7 +609,8 @@
 
 					let cmdiv = document.createElement('div');
 					cmdiv.setAttribute('class', 'chat-message');
-					cmdiv.innerHTML = `<small>${chatMsg.nnm} : </small><br>${chatMsg.cntn}<br><small>` + formattedDate + ` || ${chatMsg.readCount}</small>`;
+					cmdiv.innerHTML = `<small>${chatMsg.nnm} : </small><br>${chatMsg.cntn}<br><small>` + formattedDate +
+						` || ${chatMsg.readCount}</small>`;
 					cbdiv.append(cmdiv);
 					cdiv.append(cbdiv);
 					msgPlace.append(cdiv);
@@ -640,7 +618,7 @@
 			}
 
 			// 타이핑 중일 때 발생하는 이벤트
-			function sendTypingArm(){
+			function sendTypingArm() {
 				let chatrNo = '[[${session.chatrNo}]]'; // 채팅방번호
 				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
 				let nnm; // 닉네임
@@ -648,7 +626,7 @@
 				// 닉네임찾기
 				let getNnm = document.getElementById('chatMembPlace').childNodes;
 				getNnm.forEach(getNmm => {
-					if(getNmm.dataset.chatparticimembunino == chatWriter){
+					if (getNmm.dataset.chatparticimembunino == chatWriter) {
 						nnm = getNmm.textContent;
 					}
 				})
@@ -656,10 +634,12 @@
 				//타이핑 알림 발행
 				stompClient.publish({
 					destination: "/pub/chat/typing",
-					body: JSON.stringify({'chatrNo': chatrNo,
-																'chatParticiMembUniNo': chatWriter,
-																'nnm' : nnm})
-					});
+					body: JSON.stringify({
+						'chatrNo': chatrNo,
+						'chatParticiMembUniNo': chatWriter,
+						'nnm': nnm
+					})
+				});
 			}
 
 			//알림 숨김 
@@ -671,7 +651,7 @@
 			const typingInterval = 1000; // 1초 (타이머의 시간 간격)
 
 			//알림 표시
-			function showTypingMsg(typingArm){
+			function showTypingMsg(typingArm) {
 
 				// 타이머가 있으면 이전 타이머를 취소
 				if (typingTimer) {
@@ -686,19 +666,19 @@
 
 				//console.log(document.getElementById('typingArmPlace'));
 				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
-				if(typingArm.chatParticiMembUniNo != chatWriter){
+				if (typingArm.chatParticiMembUniNo != chatWriter) {
 					document.getElementById('typingArmPlace').textContent = typingArm.nnm + ' is typing';
 				}
 			}
 
 			//채팅방 떠나면 웹소켓 연결 끊음 //이거 필요한거?
 			function disconnectWebSocket() {
-					stompClient.deactivate();
+				stompClient.deactivate();
 			}
 			window.addEventListener("beforeunload", disconnectWebSocket);
 			//end of 웹소켓
-			
 		</script>
 	</div>
 </body>
+
 </html>

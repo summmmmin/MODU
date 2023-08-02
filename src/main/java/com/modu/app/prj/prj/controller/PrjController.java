@@ -180,4 +180,8 @@ public class PrjController {
 		}
 	}
 	
+	@GetMapping("subscribe")
+	public String subscribe() {
+		return "prj/요금안내";
+	}
 }

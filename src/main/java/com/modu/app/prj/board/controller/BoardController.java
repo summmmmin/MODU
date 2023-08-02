@@ -39,7 +39,7 @@ public class BoardController {
 		session.setAttribute("prjUniNo", vo.getPrjUniNo());
 		session.setAttribute("particiMembUniNo", vo.getParticiMembUniNo());
 		session.setAttribute("grd", vo.getGrd());
-		return "index";
+		return "redirect:scheList";
 	}
 
 	// 게시판 등록

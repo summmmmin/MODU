@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pricing - Mazer Admin Dashboard</title>
+    <title>요금안내</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -51,10 +51,9 @@
                                 <ul>
                                     <li><i class="bi bi-check-circle"></i>최대 10명</li>
                                     <li><i class="bi bi-check-circle"></i>게시판 수 = 인원 수 </li>
-                                    
                                 </ul>
                                 <div class="card-footer">
-                                    <button class="btn btn-primary btn-block">시작하기</button>
+                                    <button class="btn btn-primary btn-block" onclick="goPrjMake()">시작하기</button>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +69,7 @@
                                     <li><i class="bi bi-check-circle"></i>게시판 생성 무제한 </li>
                                 </ul>
                                 <div class="card-footer">
-                                    <button class="btn btn-primary btn-block">시작하기</button>
+                                    <button class="btn btn-primary btn-block" onclick="goPrjMake()">시작하기</button>
                                 </div>
                             </div>
                         </div>
@@ -84,6 +83,19 @@
     <script src="assets/js/bootstrap.bundle.min.js"></script>
 
     <script src="assets/js/main.js"></script>
+    <script>
+      function goPrjMake(){
+    	  let logincheck = '[[${session.user}]]';
+    	  console.log(logincheck == '');
+    	  //location.href='prjInsert'
+    	  if(logincheck == ''){
+    		  // 로그인 안되어있을때
+    		  location.href='login'
+    	  }else{
+    		  location.href='prjInsert'
+    	  }
+      }
+    </script>
 </body>
 
 </html>
