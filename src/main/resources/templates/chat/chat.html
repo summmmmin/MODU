@@ -180,7 +180,7 @@
 		<!-- end of MODALS -->
 
 		<script>
-			//채팅메세지리스트
+			//채팅메세지리스트 전체리스트
 			function showChatMsgList() {
 				let msgPlace = document.getElementsByClassName('chat-content')[0];
 				let chatrNo = '[[${session.chatrNo}]]'
@@ -202,6 +202,21 @@
 
 								//내가 쓴 채팅
 								let cdiv = document.createElement('div');
+								
+								// 별 모양 아이콘 생성 (성현)
+								let svgNamespace = 'http://www.w3.org/2000/svg';
+								let stars = document.createElementNS(svgNamespace, 'svg');
+								stars.setAttribute('width', '15');
+								stars.setAttribute('height', '15');
+								stars.setAttribute('viewBox', '0 0 108.9 103.6');
+								
+								// 별 Class
+								let starPolygon = document.createElementNS(svgNamespace, 'polygon');
+								starPolygon.setAttribute('points', '54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0');
+								starPolygon.setAttribute('class', 'cls-1');
+
+								stars.appendChild(starPolygon);
+								
 								cdiv.setAttribute('class', 'chat');
 								msgPlace.append(cdiv);
 
@@ -213,14 +228,30 @@
 								let cmdiv = document.createElement('div');
 								cmdiv.setAttribute('class', 'chat-message');
 								cmdiv.innerHTML = msg.cntn;
+								
+								
+								
+								stars.setAttribute('class', EXO.chatNo === null ? 'cls-1 clicked' : 'cls-1');
+								cmdiv.append(stars); // 별 모양 아이콘을 붙인다
 								cbdiv.append(cmdiv);
 								cdiv.append(cbdiv);
 								msgPlace.append(cdiv);
-
 							} else {
 
-								//상대가 쓴 채팅
 								let cdiv = document.createElement('div');
+								
+								// 별 모양 아이콘 생성 (성현)
+								let svgNamespace = 'http://www.w3.org/2000/svg';
+								let stars = document.createElementNS(svgNamespace, 'svg');
+								stars.setAttribute('width', '15');
+								stars.setAttribute('height', '15');
+								stars.setAttribute('viewBox', '0 0 108.9 103.6');
+
+								let starPolygon = document.createElementNS(svgNamespace, 'polygon');
+								starPolygon.setAttribute('points', '54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0');
+
+								stars.appendChild(starPolygon);
+
 								cdiv.setAttribute('class', 'chat chat-left');
 								msgPlace.append(cdiv);
 
@@ -232,14 +263,15 @@
 								let cmdiv = document.createElement('div');
 								cmdiv.setAttribute('class', 'chat-message');
 								if (msg.readCount > 0) {
-									cmdiv.innerHTML = `<small>${msg.nnm} : </small><br>${msg.cntn}<br><small>` + formattedDate +
-										` || ${msg.readCount}</small>`;
+								    cmdiv.innerHTML = `<small>${msg.nnm} : </small><br>${msg.cntn}<br><small>` + formattedDate +
+								        ` || ${msg.readCount}</small>`;
 								} else {
-									cmdiv.innerHTML = `<small>${msg.nnm} : </small><br>${msg.cntn}<br><small>` + formattedDate +
-										`</small>`;
+								    cmdiv.innerHTML = `<small>${msg.nnm} : </small><br>${msg.cntn}<br><small>` + formattedDate +
+								        `</small>`;
 								}
 								cbdiv.append(cmdiv);
 								cdiv.append(cbdiv);
+								cmdiv.append(stars); // 별 모양 아이콘을 붙인다
 								msgPlace.append(cdiv);
 
 							}
@@ -591,8 +623,6 @@
 								}
 							})
 					})
-
-					// 성현
 					.catch(err => console.log(err))
 			}
 
@@ -609,8 +639,22 @@
 
 				if (chatMsg.chatParticiMembUniNo == chatWriter) {
 
-					//내가 쓴 채팅
+					//내가 쓴 채팅 
 					let cdiv = document.createElement('div');
+					
+					//별 모양 아이콘 생성
+					let svgNamespace = 'http://www.w3.org/2000/svg';
+					let stars = document.createElementNS(svgNamespace, 'svg');
+					stars.setAttribute('width', '15');
+					stars.setAttribute('height', '15');
+					stars.setAttribute('viewBox', '0 0 108.9 103.6');
+
+					let starPolygon = document.createElementNS(svgNamespace, 'polygon');
+					starPolygon.setAttribute('points', '54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0');
+
+					stars.appendChild(starPolygon);
+					
+					
 					cdiv.setAttribute('class', 'chat');
 					msgPlace.append(cdiv);
 
@@ -623,12 +667,16 @@
 					cmdiv.setAttribute('class', 'chat-message');
 					cmdiv.innerHTML = chatMsg.cntn;
 					cbdiv.append(cmdiv);
+					cmdiv.append(stars); // 별 모양 아이콘을 붙인다
 					cdiv.append(cbdiv);
 					msgPlace.append(cdiv);
 				} else {
 
 					//상대가 쓴 채팅
 					let cdiv = document.createElement('div');
+					let button = document.createElement('button');
+					button.innerHTML = '즐겨찾기';
+					
 					cdiv.setAttribute('class', 'chat chat-left');
 					msgPlace.append(cdiv);
 
@@ -642,6 +690,7 @@
 					cmdiv.innerHTML = `<small>${chatMsg.nnm} : </small><br>${chatMsg.cntn}<br><small>` + formattedDate +
 						` || ${chatMsg.readCount}</small>`;
 					cbdiv.append(cmdiv);
+					cmdiv.append(button);
 					cdiv.append(cbdiv);
 					msgPlace.append(cdiv);
 				}

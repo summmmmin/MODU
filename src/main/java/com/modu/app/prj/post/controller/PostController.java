@@ -40,17 +40,17 @@ public class PostController {
 	public String postList(Model model, String brdUniNo, HttpSession session) {
 		model.addAttribute("brdUniNo", brdUniNo);
 		model.addAttribute("postList", postService.getAllPostList(brdUniNo));
+		
 		BmVO vo = new BmVO();
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		model.addAttribute("postbm", bmService.PostBmList(vo));
+		
 		BoardVO vo1 = new BoardVO();
 		vo1.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		vo1.setBrdUniNo(brdUniNo);
+		
 		model.addAttribute("checkNM", boardService.brdNm(vo1));
 		model.addAttribute("particiBrd",boardService.particiBrd(vo1));
-		System.out.println(vo1);
-		System.out.println(boardService.particiBrd(vo1));
-	
 		return "post/postList";
 	}
 

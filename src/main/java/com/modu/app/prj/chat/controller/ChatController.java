@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.modu.app.prj.bm.service.BmService;
+import com.modu.app.prj.bm.service.BmVO;
 import com.modu.app.prj.chat.service.ChatChmVO;
 import com.modu.app.prj.chat.service.ChatDTO;
 import com.modu.app.prj.chat.service.ChatService;
@@ -50,6 +52,9 @@ public class ChatController {
 	
 	@Autowired
 	PrjService prjService;
+	
+	@Autowired
+	BmService bmService;
 	
 	//채팅메세지
 	@MessageMapping("/chat/msg") 
@@ -287,5 +292,14 @@ public class ChatController {
 		chatChmVO.setChatParticiMembUniNo(chatParticiMembUniNo);
 		chatChmVO.setChatrNo(chatrNo);
 		return chatService.updateReadChat(chatChmVO);
+	}
+	
+	@GetMapping("EXO")
+	public String EXO(BmVO vo,Model model, HttpSession session) {
+		BmVO bmvo = new BmVO();
+		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		model.addAttribute("EXO",bmService.BmList(bmvo));
+		System.out.println(vo);
+		return "chat/chat";
 	}
 }
