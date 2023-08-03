@@ -2,7 +2,6 @@ package com.modu.app.prj.user.impl;
 
 import java.io.UnsupportedEncodingException;
 
-
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
@@ -70,20 +69,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 	}
 
-    @Override
-    public int pwdUpdate(UserVO userVO) {
-        // 비밀번호 암호화 후 업데이트
+	@Override
+	public int pwdUpdate(UserVO userVO) {
+		// 비밀번호 암호화 후 업데이트
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
-        String encryptedPassword = scpwd.encode(userVO.getPwd());
-        userVO.setPwd(encryptedPassword);
-        
-        return userMapper.pwdUpdate(userVO);
-    }
+		String encryptedPassword = scpwd.encode(userVO.getPwd());
+		userVO.setPwd(encryptedPassword);
 
-    @Override
-    public String membSearch(UserVO userVO) {
-        return userMapper.membSearch(userVO);
-    }
+		return userMapper.pwdUpdate(userVO);
+	}
+
+	@Override
+	public String membSearch(UserVO userVO) {
+		return userMapper.membSearch(userVO);
+	}
 
 	@Override
 	public int idVaild(String id) {
@@ -156,7 +155,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		int result = userMapper.updatePhone(params);
 		if (result > 0) {
 			return "휴대폰 번호 변경 성공"; // 오타나면 받는값이 달라서 서버에선 변경되더라도 클라이언트에선 오류 남
-															// return ResponseEntity.ok("휴대폰 번호 변경 성공"); 이대로 받아오기
+									// return ResponseEntity.ok("휴대폰 번호 변경 성공"); 이대로 받아오기
 		} else {
 			return "휴대폰 번호 변경 실패";
 		}
@@ -207,10 +206,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public int totalPay() {
 		return userMapper.totalPay();
 	}
-	
-    @Override
-    public List<PayVO> payTable() {
-        return userMapper.payTable();
-    }
+
+	@Override
+	public List<PayVO> payTable() {
+		return userMapper.payTable();
+	}
+
+	@Override
+	public int banUser(String id) {
+		int result = userMapper.banUser(id);
+		if (result == 1) {
+			return result;
+		} else {
+			throw new RuntimeException("유저 추방 실패");
+		}
+
+	}
 
 }
