@@ -49,6 +49,10 @@
 						<li class="nav-item"
 							th:if="${#httpServletRequest.userPrincipal != null}"><a
 							class="nav-link" href="logout">로그아웃</a></li>
+						<li class="nav-item"
+							th:if="${#httpServletRequest.userPrincipal != null and #httpServletRequest.isUserInRole('ROLE_ADMIN')}">
+							<a class="nav-link" th:href="@{admin/dashBoard}">관리자 메뉴</a>
+						</li>
 					</ul>
 				</div>
 			</div>
