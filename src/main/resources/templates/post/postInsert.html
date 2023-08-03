@@ -7,8 +7,10 @@
 </head>
 <body>
 	<div layout:fragment="content">
-	
-		<h2>신규 게시글 작성</h2> <h5>[[${post.boardNm}]]</h5>
+		<div class="row">
+			<h2 class="col-sm-3">신규 게시글 작성</h2> 
+			<h5 class="col-sm-9">[[${post.boardNm}]]</h5>
+		</div>
 		<div class="row">
 			<div class="col">
 				<div class="card">
@@ -34,6 +36,8 @@
 									<label for="basicInput">첨부파일</label>
 									<!-- File uploader with multiple files upload -->
 									<input type="file" name="file" maxlength="4"  max-size="4" class="multiple-files-filepond" multiple>
+									<button onclick="checkFile()">확인용</button>
+									<div id="attFilePlace"></div>
 								</div>
 								<hr>
 								<!--멤버호출부-->
@@ -57,6 +61,23 @@
 		</div>
 			
 		<script>
+			function checkFile(){
+				let fileInput = document.getElementsByName('file');
+				console.log(fileInput.files);
+				//console.log(files.value)
+				let attFilePlace = document.getElementById('attFilePlace');
+				for(let input of fileInput){
+					let list = input.files;
+
+					let spanTag = document.createElement('span');
+					spanTag.textContent = input.files;
+					attFilePlace.appen(spanTag);
+					console.log(input.files);
+					console.log(list.name);
+					
+				}
+
+			}
 			
 			//제목, 본문 미작성시 등록 안 됨
 			let postBtn = document.querySelector('#postInsertBtn');
