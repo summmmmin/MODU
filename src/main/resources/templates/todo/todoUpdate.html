@@ -61,7 +61,7 @@ margin-left:5px;}
 							<p>시작일</p>
 							<div class="position-relative">
 								<input type="date" class="form-control" id="Date1"
-									th:onchange="dateChange3()" th:field="*{frDt}">
+									th:onchange="dateChange3()" th:value=${todoInfo.frDt}>
 								<div class="form-control-icon">
 									<i class="bi-calendar"></i>
 								</div>
@@ -71,7 +71,7 @@ margin-left:5px;}
 							<p>마감일</p>
 							<div class="position-relative">
 								<input type="date" class="form-control" id="lastDate1"
-									 th:field="*{toDt}">
+									 th:value=${todoInfo.toDt}>
 								<div class="form-control-icon">
 									<i class="bi-calendar"></i>
 								</div>
@@ -102,16 +102,18 @@ margin-left:5px;}
 			</div>
 		</div>
 		<input id="tno" th:value="${todoUniNo}" type="hidden">
-		<script>
-		let mgr =$("#mgr option:selected").val();
-		let cm =$("#cm option:selected").val();
-		// let file = document.getElementById('todoFile').files[0];
 		
-		//console.log(file) 
-		let toNo = $('#tno').val()
-		console.log(toNo)
+		<script th:inline="javascript">
+    	/*<![CDATA[*/
+		
+		
 		
 		function todoUpdate(){
+		let file = document.getElementById('todoFile').files[0];
+		console.log(file);
+		let toNo = $('#tno').val()
+		let mgr =$("#mgr option:selected").val();
+		let cm =$("#cm option:selected").val();
 				 var formData = $("#todoForm").serialize();	
 				 
 				 var otherdata = {
@@ -131,9 +133,9 @@ margin-left:5px;}
 				 let formD = new FormData(); 
 	             formD.append("mgr", mgr);
 				 formD.append("cm", cm);
-				/*  for(let i=0; i<file.length; i++){
+				  for(let i=0; i<file.length; i++){
 					 formD.append("file", file[i]);
-				 } */
+				 } 
 				  
 				 formD.append("ttl",ttl);
 				 formD.append("cntn",cntn);
@@ -153,27 +155,14 @@ margin-left:5px;}
 	            	   todoList();
 	               })
 		}
-			 /* $.ajax({
-			        type: "POST",
-			        url: "todoInsert",
-			        data: formData + "&" + $.param(otherdata) + "&" + formD, // 폼 데이터와 추가 데이터를 합쳐서 전송
-			        success: function (data) {
-			            console.log(data)
-			            todoList();
-			        },
-			        error: function (xhr, status, error) {
-			            console.log(error)
-			        }
-			    });
-			} */
-		
-		
-		//input타입 date를 클릭했을때 나오는 달력에서 현재날짜 이전애들을 클릭 못하게 막는방법
+			
+			
 		
 		//input타입 date를 클릭했을때 나온는 달력에서 선택한 날짜 이전을 막는 구절
-		var date = document.getElementById("Date1")
+		var date34 = document.getElementById("Date1")
 			function dateChange3(){
-				document.getElementById("lastDate1").setAttribute("min", date.value); 
+				console.log(document.getElementById("Date1").value)
+				document.getElementById("lastDate1").setAttribute("min", date34.value); 
 			}
 		
 		function deleteAtt(e){
@@ -196,10 +185,9 @@ margin-left:5px;}
 			
 			.catch(err => console.log(err));
 				}
-		
-		
-		
-		</script>
+
+		/*]]>*/
+  		</script>
 
 
 </body>

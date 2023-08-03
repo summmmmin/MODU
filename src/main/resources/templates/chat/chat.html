@@ -712,7 +712,7 @@
 		 	function voteInfo(vid){
 				 $.ajax("voteInfo/"+vid)
 				.done(result =>{
-					$("#rsidebarContent").html
+					document.getElementById("rsidebar").classList.toggle("active");
 					$("#rsidebarContent").html(result);
 				}) 
 			}

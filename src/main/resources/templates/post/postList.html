@@ -858,7 +858,7 @@ function particiInsert(){
 		console.log("11111111111111")
 		 $.ajax("voteInfo/"+vid)
 		.done(result =>{
-			$("#rsidebarContent").empty();
+			document.getElementById("rsidebar").classList.toggle("active");
 			$("#rsidebarContent").html(result);
 		}) 
 	

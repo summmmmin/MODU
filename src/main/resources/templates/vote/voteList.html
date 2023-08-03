@@ -18,9 +18,17 @@
 			<div class="card-header">
 				<h4 class="card-title">투표</h4>
 				<hr>
+				<div th:if="${session.grd != 'G01'}"> <!-- 씨앗 회원이 아니면 -->
 				<button type="button" onclick="voteInsert()"
 					class="btn btn-block btn-light-primary font-bold mt-3">+
 					투표 만들기</button>
+				</div>
+				<div th:if="${session.grd == 'G01'}">
+				<button type="button" 
+					class="btn btn-block btn-light-primary font-bold mt-3" data-bs-toggle="tooltip"
+                     data-bs-placement="left" title="씨앗 회원은 투표를 만들 수 없습니다.">+
+					투표 만들기</button>
+				</div>
 			</div>
 			<div class="card-content">
 				<div class="card-body" id="vote" >
@@ -29,9 +37,17 @@
 		</div>
 	</div>
 
+
+	<script th:inline="javascript">
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  	</script>
 	
 	<script>
-	console.log("!11111111")
+	
 	//마감날짜로만 투표가 마감됨 -> 현재날짜와 마감날짜를 비교하기 위해 현재날짜를 불러옴.
 	var today = new Date();
 	
@@ -56,53 +72,25 @@
 		let div;
 		
 		
-		//새싹이 아닌사람들인 경우
-		if(result.grd != 'G01'){
 		//  게시판 제목이 있으면
 		 if (result.list[i].boardNm != null){
 		div=`<div class="vote" onclick="voteInfo()" id=${result.list[i].voteNo}>
-			<h4 class="card-title">장소:${result.list[i].boardNm}</h4>
-			<h2>제목:${result.list[i].ttl}</h2>
+			<h4 class="card-title">게시판:${result.list[i].boardNm}</h4>
+			<h2>투표제목:${result.list[i].ttl}</h2>
 			<small class="text-muted">${result.count[i].cnt}명 참여</small>
 			<p class="card-text">~${result.list[i].toDt}까지 마감</p>
 			</div><p></p>
 		`; //채팅방 제목이 있으면
 		}else if(result.list[i].chatrNm != null){
 			div=`<div class="vote" onclick="voteInfo()" id=${result.list[i].voteNo}>
-				<h4 class="card-title">장소:${result.list[i].chatrNm}</h4>
+				<h4 class="card-title">채팅방:${result.list[i].chatrNm}</h4>
 				<h2>제목:${result.list[i].ttl}</h2>
 				<small class="text-muted">${result.count[i].cnt}명 참여</small>
 				<p class="card-text">~${result.list[i].toDt}까지 마감</p>
 				</div><p></p>
 			`; 
 		}
-		$('#vote').append(div);
-		
-		}
-		
-		 else{ // 새싹인 경우는 투표의 결과를 보이기만 해야한다.
-			if(result.list.toDt < today){
-				 if (result.list[i].boardNm != null){
-						div=`<div class="vote" onclick="voteInfo()" id=${result.list[i].voteNo}>
-							<h4 class="card-title">장소:${result.list[i].boardNm}</h4>
-							<h2>제목:${result.list[i].ttl}</h2>
-							<small class="text-muted">${result.count[i].cnt}명 참여</small>
-							<p class="card-text">~${result.list[i].toDt}까지 마감</p>
-							</div><p></p>
-						`;
-						}else if(result.list[i].chatrNm != null){
-							div=`<div class="vote" onclick="voteInfo()" id=${result.list[i].voteNo}>
-								<h4 class="card-title">장소:${result.list[i].chatrNm}</h4>
-								<h2>제목:${result.list[i].ttl}</h2>
-								<small class="text-muted">${result.count[i].cnt}명 참여</small>
-								<p class="card-text">~${result.list[i].toDt}까지 마감</p>
-								</div><p></p>
-							`; 
-						}
-						$('#vote').append(div);			
-			}	
-		} 
-		
+		$('#vote').append(div);	
 		
 		}
 		  //for문 종료

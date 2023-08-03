@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -102,9 +101,21 @@
             <div class="voteDate">시작날짜:[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
             <div class="voteTitle">제목:[[${voteInfo.ttl}]]</div>
         </div>
+        
+        <!-- 작성자이거나 프로젝트 관리자는 수정과 삭제로 이동할수 있는 공간이 나타난다. -->
+	        	<div th:if="${maker.particiMembUniNo == session.particiMembUniNo} or ${session.grd == 'G03'} or ${session.grd == 'G04'}">
+	        		<button  class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<div th:if="${#dates.format(voteInfo.toDt, 'yyyy MM dd') < #dates.format(#dates.createNow(), 'yyyy MM dd')}">
+ 							<a class="dropdown-item" data-bs-target="#updateVote1" data-bs-toggle="modal">수정</a> 
+						</div>
+							<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteVote1">삭제</a> 
+						</div>
+				</div>
 
         <!-- 투표 항목을 선택하는 폼 -->
-        <form action id="voteForm1">
+        <form id="voteForm1">
             <!-- 내부 박스 -->
             <div class="voteInnerBox" > <!-- 내부 박스로 항목들을 감싸기 -->
                 <div class="d-flex voteItem" th:each="i:${item}" th:field="*{i.voteDetaNo}">
@@ -115,9 +126,89 @@
             </div>
 
             <!-- 투표 제출 버튼 -->
+            <div th:if="${session.grd != 'G01'}">
             <button type="submit" id="submitBtn" disabled>더 이상 투표하실 수 없습니다.</button>
+       		</div>
+       		<div th:if="${session.grd == 'G01'}">
+       		<button type="submit" id="submitBtn" disabled>씨앗회원은 투표할수없습니다.</button>
+       		</div>
         </form>
     </div>
+    
+    <!---------------------------- 외부라인 끝 ----------------------------------->
+    
+    <!------------ start of 투표 삭제 모달 ---------------->
+   <div class="modal fade text-left" id="deleteVote1" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160"	aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h5 class="modal-title white" id="myModalLabel160">투표 삭제</h5>
+								<button type="button" class="close" data-bs-dismiss="modal"	aria-label="Close">
+									<i data-feather="x"></i>
+								</button>
+							</div>
+							<div class="modal-body">
+								이 투표를 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다. 
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-secondary"	data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> 
+									<span	class="d-none d-sm-block">취소</span>
+								</button>
+								<button onclick="delVote()" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+									<i class="bx bx-check d-block d-sm-none"></i> 
+									<span class="d-none d-sm-block">확인</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end of 투표 삭제 모달 --> 
+				<!-- 투표 수정 모달 -->
+				<div class="modal fade text-left" id="updateVote1" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+						role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title" id="myModalLabel33">마감기한 수정</h4>
+								<button type="button" class="close" data-bs-dismiss="modal"
+									aria-label="Close">
+									<i data-feather="x"></i>
+								</button>
+							</div>
+							<form action="InsertBoard" method="POST" id="FormEvent">
+								<div class="modal-body">
+									<h5>마감 날짜</h5>
+									<div class="form-group has-icon-left mx-auto p-4">
+										<div id="firstTodt" th:text="'현재 마감 날짜:' +${#dates.format(voteInfo.toDt,'yyyy-MM-dd')}"></div>
+										<div class="position-relative">
+										<input type="date" class="form-control" id="secondTodt">
+										<div class="form-control-icon">
+										<i class="bi-calendar"></i>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-light-secondary"
+											data-bs-dismiss="modal">
+											<i class="bx bx-x d-block d-sm-none"></i> <span
+												class="d-none d-sm-block">닫기</span>
+										</button>
+										<button id="formbtn" type="button"
+											class="btn btn-primary ml-1" data-bs-dismiss="modal"
+											onclick="updateVote()">
+											<i class="bx bx-check d-block d-sm-none"></i> <span
+												class="d-none d-sm-block">수정</span>
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
 
     <script>
     console.log('aaa');

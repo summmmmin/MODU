@@ -130,7 +130,6 @@ public class VoteController {
 		vdvo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vdvo.setVoteNo(voteNo);
 		System.out.println(model.getAttribute("voteInfo"));
-		System.out.println(vdvo);
 		System.out.println("1111111111111111111");
 		System.out.println(model.getAttribute("maker"));
 		
@@ -138,16 +137,19 @@ public class VoteController {
 		Date today = new Date(); // 현재날짜 가져오기
 		Date toDt = voteService.toDtCheck(voteNo); // 투표 마감날짜
 		
-		
+		//씨앗 회원은 결과창으로만 가게 할려고함
+		// 세션에서 회원의 해당 프로젝트 내의 등급을 가져옴.
+		String grd = (String) session.getAttribute("grd");
 		
 		//1.로그인한 사람이 이미 해당 투표를 진행했거나 이미 마감날짜가 지나면 투표 결과 장소 
 		//2.투표를 하지 않았다면 투표하는 장소로 이동
 		//로그인 한사람이 get방식으로 1.투표하는 장소로 이동후 
 		//post방식으로 투표를 등록한후
 		//get방식으로 if문으로 2.투표를 행한 결과 장소로 이동 
-		if(voteService.whoVote(vdvo) != null || toDt.before(today)) {
+		if(voteService.whoVote(vdvo) != null || toDt.before(today) || grd == "G01") {
 			return "vote/voteResult";
 		}else {
+			System.out.println("동장건");
 			return "vote/voteInfo";
 		}
 		
@@ -163,6 +165,7 @@ public class VoteController {
 		vo.setVoteNo(voteNo);
 		System.out.println(vo);
 		voteService.voteDo(vo);
+		System.out.println("장동건");
 		//변경 성공 여부
 		return vo;
 	}
@@ -173,6 +176,7 @@ public class VoteController {
 	public VoteVO voteDO(HttpSession session,@RequestBody VoteVO vo,@PathVariable String voteNo){
 			
 			voteService.voteDate(vo);
+			System.out.println("동건장");
 			//변경 성공 여부
 			return vo;
 		}
