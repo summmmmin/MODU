@@ -1,11 +1,9 @@
 package com.modu.app.prj.user.etc;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,7 +46,7 @@ public class WebSecurityConfig {
         http.csrf().disable()
         .authorizeRequests()
         	.antMatchers("/admin/**").hasRole("ADMIN")
-	        .antMatchers("/", "/signup/**", "/sms/**", "/modu/**", "/**").permitAll()
+	        .antMatchers("/", "/signup/**", "/sms/**", "/modu/**", "/**", "/assets/**").permitAll()
 	        .anyRequest().authenticated()
         .and()
         .formLogin()
@@ -56,6 +54,7 @@ public class WebSecurityConfig {
             .loginPage("/login").permitAll()
             .successHandler(authenticationSuccessHandler())
             .failureHandler(authenticationFailureHandler())
+            .failureUrl("/login?error=true") // 로그인 실패(비밀번호 틀림)
         .and()
         .logout((logout) -> logout.logoutSuccessUrl("/login").invalidateHttpSession(true).permitAll())
         .oauth2Login()
