@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.modu.app.prj.bm.service.BmService;
+import com.modu.app.prj.bm.service.BmVO;
 import com.modu.app.prj.chat.service.ChatChmVO;
 import com.modu.app.prj.chat.service.ChatDTO;
 import com.modu.app.prj.chat.service.ChatService;
@@ -50,6 +52,9 @@ public class ChatController {
 	
 	@Autowired
 	PrjService prjService;
+	
+	@Autowired
+	BmService bmService;
 	
 	//채팅메세지
 	@MessageMapping("/chat/msg") 
@@ -150,11 +155,13 @@ public class ChatController {
 		chatVO.setCntn(cntn);
 		
 		//채팅(메세지)등록
-		chatService.insertChat(chatVO);
+		int chatno = chatService.insertChat(chatVO);
 		
 		//첨부파일DB등록
 		FileVO fileVO = new FileVO();
-		
+		// insert 한 후 chatno 가져오기? return할때 필요
+		fileVO.setChatNo((long) chatno);
+
 		if(file != null) {
 
 			fileVO.setChatNo((long) chatVO.getChatNo());
@@ -166,7 +173,7 @@ public class ChatController {
 			chatFile.setChatrNo(chatrNo);
 			chatFile.setChatParticiMembUniNo(chatParticiMembUniNo);
 			chatFile.setCntn("<a href='/modu/files/" + fileVO.getAttNo() + "/download'>" + fileVO.getAttNm() +"</a>");
-			chatService.insertChat(chatFile);
+			chatno = chatService.insertChat(chatFile);
 			
 			//채팅알림테이블에 insert
 			List<ChatrParticiVO> membList = chatService.chatrParticiList(chatrNo);
@@ -200,7 +207,6 @@ public class ChatController {
 			chatChmVO.setChatParticiMembUniNo(memb.getChatParticiMembUniNo());
 			chatService.insertChatChm(chatChmVO);
 		}
-		
 		return fileVO;
 	}
 	
@@ -287,5 +293,12 @@ public class ChatController {
 		chatChmVO.setChatParticiMembUniNo(chatParticiMembUniNo);
 		chatChmVO.setChatrNo(chatrNo);
 		return chatService.updateReadChat(chatChmVO);
+	}
+	
+	@GetMapping("EXO")
+	@ResponseBody
+	public List<BmVO> EXO(BmVO vo,Model model, HttpSession session) {
+		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		return bmService.BmList(vo);
 	}
 }

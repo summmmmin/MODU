@@ -7,6 +7,12 @@
 	<title>postList</title>
 	<!--alert-->
 	<script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
+
+	<style>
+		ul{
+			list-style: none;
+		}
+	</style>
 </head>
 
 <body>
@@ -21,7 +27,7 @@
 <div class="dropdown" th:each="check : ${checkNM}" th:if="${check.particiMembUniNo == session.particiMembUniNo}"> <!--/* 게시판 생성자만 이 Div가 나오게 수정  */-->
 <button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 <div class="postDDM dropdown-menu" aria-labelledby="dropdownMenuButton">
-<a id="editBoardLink" class="dropdown-item">게시판 수정</a>
+<a id="editBoardLink" class="dropdown-item">게시판 수정</a>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 <a id="deletBrdModal" class="dropdown-item">게시판 삭제</a>
 <a id="particiBrd" class="dropdown-item">회원 초대</a>
 </div>
@@ -125,10 +131,17 @@
 </div>
 <!-- ========================회원 초대 Modal 끗 (성현) ======================== -->
 
-		<div th:if="${#lists.isEmpty(postList)}">게시글이없습니다</div> <!--게시글없을때-->
+		<div th:if="${#lists.isEmpty(postList)}">
+			게시글이없습니다
+			<div class="col-md-1 col-sm-12 mx-auto">
+					<div class="buttons" style="position: fixed; bottom: 120px; right: 350px;">
+						<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" th:if="${session.grd} != 'G01'">글작성</a>
+					</div>
+				</div>
+		</div> <!--게시글없을때-->
 		<div th:unless="${#lists.isEmpty(postList)}"> <!--게시글있을때-->
 			<!--공지등록된게시글이있을때-->
-			<div class="notiPosts"><ul></ul></div>
+			<div style="position: fixed;"><ul class="notiPosts" style="list-style: none;"></ul></div>
 			<div class="row">
 				<!--start of 게시글List-->
 				<div class="col-md-8 col-sm-12 mx-auto">
@@ -264,8 +277,7 @@
 											<div id="updateReplyForm"></div>
 											<div>
 									</div>
-									<div class="moda
-									l-footer">
+									<div class="modal-footer">
 										<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
 											<i class="bx bx-x d-block d-sm-none"></i>
 											<span class="d-none d-sm-block">취소</span>
@@ -457,6 +469,7 @@
 
 						let replyCntn = document.createElement('textarea');
 						replyCntn.setAttribute('class', 'form-control');
+						replyCntn.setAttribute('required', 'true')
 						replyCntn.setAttribute('id', 'exampleFormControlTextarea1');
 						replyCntn.setAttribute('name', 'cntn')
 						replyCntn.setAttribute('rows', 4);
@@ -475,6 +488,15 @@
 				})
 				let cntn = document.getElementById('updateReplyForm').children[1];
 				replyInfo['cntn'] = cntn.value;
+
+				if(cntn.value == ''){
+					Swal.fire({
+							icon: "error",
+							title: "댓글 작성해 주세요"
+						})
+					return;
+				}
+
 				//console.log(replyInfo);
 				fetch('/modu/replyUpdate',{
 					method : 'post',
@@ -849,7 +871,8 @@ function particiInsert(){
 	})
 	.then(result => result.json())
 	.then(data => {
-		console.log(data);
+		//여기 초대 된 사람들 Arm 띄우기
+		//비공개 게시판 별 멤버 리스트 띄우기
 	})
 }
 

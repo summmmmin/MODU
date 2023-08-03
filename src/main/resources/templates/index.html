@@ -29,9 +29,9 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
-	<script src="fullcalendar-6.1.8/dist/index.global.js"></script>
-	<!-- Include Choices JavaScript -->
-	<script src="assets/vendors/choices.js/choices.min.js"></script>
+<script src="fullcalendar-6.1.8/dist/index.global.js"></script>
+<!-- Include Choices JavaScript -->
+<script src="assets/vendors/choices.js/choices.min.js"></script>
 </head>
 
 <body>
@@ -42,7 +42,7 @@
 		<div id="replyArm" class="toast" role="alert" aria-live="assertive"
 			aria-atomic="true">
 			<div class="toast-header">
-				 <!-- <img src=".." class="rounded me-2" alt="..."> -->
+				<!-- <img src=".." class="rounded me-2" alt="..."> -->
 				<strong class="me-auto">댓글 알림</strong> <small>방금 전</small>
 				<button type="button" class="btn-close" data-bs-dismiss="toast"
 					aria-label="Close"></button>
@@ -103,8 +103,8 @@
 				<div class="sidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a th:href="@{/}"><img src="assets/images/logo/logo.png"
-								alt="Logo" srcset="" /></a>
+							<a class="navbar-brand" th:href="@{/}"><span
+								class="fw-bolder text-primary">MODU</span></a>
 						</div>
 						<div class="toggler">
 							<a href="#" class="sidebar-hide d-xl-none d-block"><i
@@ -140,7 +140,7 @@
 					</ul>
 					<!--/* ************************ End *************************** */-->
 					<p id="prjNo" style="display: none;">[[${session.prjUniNo}]]</p>
-					
+
 					<!-- 즐겨찾기 등록 -->
 					<script> 
     function clickInsert(){
@@ -152,7 +152,7 @@
             'brdUniNo' : brdUniNo,
             'particiMembUniNo' : particiMembUniNo
         }
-        fetch('/modu/BrdBmInsert', {
+        fetch('/modu/BmInsert', {
             method : 'POST',
             headers : {
                 'content-type' : 'application/json'
@@ -173,13 +173,7 @@
         .catch(err => console.log(err));
         
     }
-	/* 색 변환 JS */ 
-   $('#ultag').on('click', function(event) {
-    let target = event.target;
-    if ($(target).hasClass('cls-1')) {
-        let brdUniNo = $(target).attr('text-brdUniNo');
-    }
-});
+
 </script>
 					<!--/* ************************ End *************************** */-->
 				</div>
@@ -194,8 +188,8 @@
 				<div class="rsidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a href="#"><img src="assets/images/logo/logo.png" alt="Logo"
-								srcset="" /></a>
+							<a class="navbar-brand" href="#"><span
+								class="fw-bolder text-primary">MODU</span></a>
 						</div>
 						<div class="toggler">
 							<a href="#" class="rsidebar-hide d-block"><i
@@ -220,13 +214,13 @@
 				<nav class="navbar navbar-expand navbar-light">
 
 					<div class="container-fluid">
-					
-					
-					<ul th:each="plist, stat: ${prjList}">
-    					<li th:text="${plist.particiMembUniNo}"></li>
-					</ul>
-								
-								
+
+
+						<ul th:each="plist, stat: ${prjList}">
+							<li th:text="${plist.particiMembUniNo}"></li>
+						</ul>
+
+
 						<a href="#" class="burger-btn d-block"> <i
 							class="bi bi-justify fs-3"></i>
 						</a> <a href="#" class="rburger-btn d-block"> <i
@@ -277,8 +271,8 @@
 									<li>
 										<h6 class="dropdown-header">[[${session.user.nm}]]</h6>
 									</li>
-									<li><a class="dropdown-item" th:href="@{loginuser/mypage}"><i
-											class="icon-mid bi bi-person me-2"></i> 마이페이지</a></li>
+									<li><a class="dropdown-item" th:href="@{prjList}"><i
+											class="icon-mid bi bi-person me-2"></i> 프로젝트 리스트</a></li>
 									<li><a class="dropdown-item" href="#"
 										data-bs-toggle="modal" data-bs-target="#inviteModal"><i
 											class="icon-mid bi bi-gear me-2"></i> 초대하기</a></li>
@@ -299,7 +293,9 @@
 			</div>
 			<div class="page-content">
 				<section class="row">
-					<article layout:fragment="content" id="layoutcontent"><div id='calendar'></div></article>
+					<article layout:fragment="content" id="layoutcontent">
+						<div id='calendar'></div>
+					</article>
 				</section>
 
 
@@ -383,7 +379,7 @@
 										th:value="${session.particiMembUniNo}" type="text"
 										class="form-control" style="display: none"> <label
 										for="basicInput" class="form-label">참여멤버선택</label> <select
-										id="memberSelect" class="form-select multiple-remove"
+										id="memberSelect" class="choices form-select multiple-remove"
 										multiple="multiple"></select>
 								</div>
 							</div>
@@ -581,6 +577,14 @@
 						document.getElementById('memberSelect').append(optionTag);
 					}
 				})
+				// 채팅방 생성 모달 안 choices 추가
+				new Choices(document.querySelector('#memberSelect'),
+			      {
+			        delimiter: ',',
+			        editItems: true,
+			        maxItemCount: 10,
+			        removeItemButton: true,
+			      });
 			})
 		}
 		callChatMemb();
@@ -746,8 +750,8 @@
  			}
  		}
  	</script>
- 	<script> 
- 	
- 	</script>
+	<script> 
+
+	</script>
 </body>
 </html>
