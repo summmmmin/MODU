@@ -1,267 +1,196 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
-	
 
 <head>
-<meta charset="UTF-8">
-<title>postList</title>
-<!--alert-->
-<script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
+	<meta charset="UTF-8">
+	<title>postList</title>
+	<!--alert-->
+	<script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
 
-
+	<style>
+		ul{
+			list-style: none;
+		}
+	</style>
 </head>
 
 <body>
 	<div layout:fragment="content">
 
+
 		<!-- ============= 게시판 수정, 삭제 (성현) =============-->
-		<!-- 값 찾아오기 귀찮아서 이렇게 만들었어요 죄송 ! (성현) -->
-		<p id="brdNo" style="display: none">[[${brdUniNo}]]</p>
-		<p id="prjNo" style="display: none">[[${session.prjUniNo}]]</p>
-		<!-- 게시판 작성자만 수정,삭제 버튼이 나옴 (성현) -->
-		<div class="dropdown" th:each="check : ${checkNM}"
-			th:if="${check.particiMembUniNo == session.particiMembUniNo}">
-			<!--/* 게시판 생성자만 이 Div가 나오게 수정  */-->
-			<button class="btn btn-primary dropdown-toggle me-1" type="button"
-				id="dropdownMenuButton" data-bs-toggle="dropdown"
-				aria-haspopup="true" aria-expanded="false"></button>
-			<div class="postDDM dropdown-menu"
-				aria-labelledby="dropdownMenuButton">
-				<a id="editBoardLink" class="dropdown-item">게시판 수정</a> <a
-					id="deletBrdModal" class="dropdown-item">게시판 삭제</a> <a
-					id="particiBrd" class="dropdown-item">회원 초대</a>
-			</div>
-		</div>
-		<hr>
-		<!-- ========================게시판 수정 Modal 시작 (성현) ======================== -->
-		<div class="modal fade text-left" id="modify" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-				role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="myModalLabel33">게시판 수정</h4>
-						<button type="button" class="close" data-bs-dismiss="modal"
-							aria-label="Close">
-							<i data-feather="x"></i>
-						</button>
-					</div>
-					<form action="BrdUpdate" method="POST">
-						<div class="modal-body checkboxmodal">
-							<h5>게시판 이름</h5>
-							<div class="form-group">
-								<input id="boardNm" name="boardNm" type="text"
-									placeholder="변경 하실 이름을 입력해주세요." class="form-control">
-							</div>
-							<div class="form-group">
-								<h6>공개여부</h6>
-								<input type="checkbox" id="checkbox1" name="pubcYn" checked>
-								<label for="checkbox1"><span></span></label>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-light-secondary"
-									data-bs-dismiss="modal">
-									<i class="bx bx-x d-block d-sm-none"></i> <span
-										class="d-none d-sm-block">닫기</span>
-								</button>
-								<button id="formbtn" type="button" class="btn btn-primary ml-1"
-									data-bs-dismiss="modal" onclick="BrdUpdate()">
-									<i class="bx bx-check d-block d-sm-none"></i> <span
-										class="d-none d-sm-block">수정</span>
-								</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		<!-- ========================게시판 수정 Modal 끗 ======================== -->
+<!-- 값 찾아오기 귀찮아서 이렇게 만들었어요 죄송 ! (성현) -->
+<p id="brdNo" style="display:none">[[${brdUniNo}]]</p>
+<p id="prjNo" style="display:none">[[${session.prjUniNo}]]</p>
+<!-- 게시판 작성자만 수정,삭제 버튼이 나옴 (성현) -->
+<div class="dropdown" th:each="check : ${checkNM}" th:if="${check.particiMembUniNo == session.particiMembUniNo}"> <!--/* 게시판 생성자만 이 Div가 나오게 수정  */-->
+<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+<div class="postDDM dropdown-menu" aria-labelledby="dropdownMenuButton">
+<a id="editBoardLink" class="dropdown-item">게시판 수정</a>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+<a id="deletBrdModal" class="dropdown-item">게시판 삭제</a>
+<a id="particiBrd" class="dropdown-item">회원 초대</a>
+</div>
+</div>
+<hr>
+<!-- ========================게시판 수정 Modal 시작 (성현) ======================== -->
+<div class="modal fade text-left" id="modify" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="myModalLabel33">게시판 수정</h4>
+<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+<i data-feather="x"></i>
+</button>
+</div>
+<form action="BrdUpdate" method="POST">
+<div class="modal-body checkboxmodal">
+<h5>게시판 이름</h5>
+<div class="form-group">
+<input id="boardNm" name="boardNm" type="text" placeholder="변경 하실 이름을 입력해주세요." class="form-control">
+</div>
+<div class="form-group">
+<h6>공개여부</h6>
+<input type="checkbox" id="checkbox1" name="pubcYn" checked>
+<label for="checkbox1"><span></span></label>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">닫기</span>
+</button>
+<button id="formbtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="BrdUpdate()">
+<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">수정</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- ========================게시판 수정 Modal 끗 ======================== -->
 
-		<!-- ========================게시판 삭제 Modal 시작 (성현)======================== -->
-		<div class="modal fade text-left" id="deleteBrd" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-				role="document">
-				<div class="modal-content">
-					<div class="modal-header bg-primary">
-						<h5 class="modal-title white" id="myModalLabel160">게시판 삭제</h5>
-						<button type="button" class="close" data-bs-dismiss="modal"
-							aria-label="Close">
-							<i data-feather="x"></i>
-						</button>
-					</div>
-					<div class="modal-body">
-						이 게시판을 삭제하시겠습니까?<br>삭제하시면 복구 할 수 없습니다.
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-light-secondary"
-							data-bs-dismiss="modal">
-							<i class="bx bx-x d-block d-sm-none"></i> <span
-								class="d-none d-sm-block">취소</span>
-						</button>
-						<button id="deleteBtn" type="button" class="btn btn-primary ml-1"
-							data-bs-dismiss="modal" onclick="BrdDelete()">
-							<i class="bx bx-check d-block d-sm-none"></i> <span
-								class="d-none d-sm-block">확인</span>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- ========================게시판 삭제Modal 끗 ======================== -->
+<!-- ========================게시판 삭제 Modal 시작 (성현)======================== -->
+<div class="modal fade text-left" id="deleteBrd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+ <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+<div class="modal-content">
+<div class="modal-header bg-primary">
+<h5 class="modal-title white" id="myModalLabel160">게시판 삭제</h5>
+<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+<i data-feather="x"></i>
+</button>
+</div>
+<div class="modal-body">이 게시판을 삭제하시겠습니까?<br>삭제하시면 복구 할 수 없습니다.</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+<i class="bx bx-x d-block d-sm-none"></i>
+<span class="d-none d-sm-block">취소</span>
+</button>
+<button id="deleteBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="BrdDelete()">
+<i class="bx bx-check d-block d-sm-none"></i>
+<span class="d-none d-sm-block">확인</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- ========================게시판 삭제Modal 끗 ======================== -->
 
-		<!-- ========================회원 초대 Modal 시작 ======================== -->
-		<div class="modal fade text-left" id="partici" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel3752" aria-hidden="true">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-				role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="myModalLabel3752">일정 추가</h4>
-						<button type="button" class="close" data-bs-dismiss="modal"
-							aria-label="Close">
-							<i data-feather="x"></i>
-						</button>
-					</div>
-					<form name="scheInsert1">
-						<div class="modal-body">
-							<div class="form-group">
-								<div class="col-sm-10">
-									<label class="input-group-text">초대멤버</label> <select
-										name="scheParticiUniNo[]"
-										class="choices form-select particiList" multiple="multiple"
-										id="brdksh">
-										<option th:value="${i.particiMembUniNo}"
-											th:each="i:${particiBrd}">[[${i.nnm}]]</option>
-									</select>
-								</div>
-							</div>
-							<label> </label>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-light-secondnary"
-									data-bs-dismiss="modal">
-									<i class="bx bx-x d-block d-sm-none"></i> <span
-										class="d-none d-sm-block">취소</span>
-								</button>
-								<button type="button" onclick="particiInsert()"
-									class="btn btn-primary ml-1" data-bs-dismiss="modal">
-									<i class="bx bx-check d-block d-sm-none"></i> <span
-										class="d-none d-sm-block">초대</span>
-								</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		<!-- ========================회원 초대 Modal 끗 (성현) ======================== -->
+<!-- ========================회원 초대 Modal 시작 ======================== -->
+<div class="modal fade text-left" id="partici" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3752" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="myModalLabel3752">일정 추가</h4>
+<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+<i data-feather="x"></i>
+</button>
+</div>
+<form name="scheInsert1">
+<div class="modal-body">
+<div class="form-group">
+<div class="col-sm-10">
+<label class="input-group-text">초대멤버</label> 
+<select name="scheParticiUniNo[]" class="choices form-select particiList" multiple="multiple" id="brdksh">
+<option th:value="${i.particiMembUniNo}" th:each="i:${particiBrd}">[[${i.nnm}]]</option>
+</select>
+</div>
+</div>
+<label> </label>
+<div class="modal-footer">
+<button type="button" class="btn btn-light-secondnary" data-bs-dismiss="modal">
+<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">취소</span>
+</button>
+<button type="button" onclick="particiInsert()" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">초대</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- ========================회원 초대 Modal 끗 (성현) ======================== -->
 
 		<div th:if="${#lists.isEmpty(postList)}">
 			게시글이없습니다
 			<div class="col-md-1 col-sm-12 mx-auto">
-				<div class="buttons"
-					style="position: fixed; bottom: 120px; right: 330px;">
-					<a class="btn btn-primary"
-						th:href="@{postInsert(brdUniNo=${brdUniNo})}"
-						th:if="${session.grd} != 'G01'">글작성</a>
+					<div class="buttons" style="position: fixed; bottom: 120px; right: 350px;">
+						<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" th:if="${session.grd} != 'G01'">글작성</a>
+					</div>
 				</div>
-			</div>
-		</div>
-		<!--게시글없을때-->
-		<div th:unless="${#lists.isEmpty(postList)}">
-			<!--게시글있을때-->
+		</div> <!--게시글없을때-->
+		<div th:unless="${#lists.isEmpty(postList)}"> <!--게시글있을때-->
 			<!--공지등록된게시글이있을때-->
-			<div class="notiPosts">
-				<ul></ul>
-			</div>
+			<div style="position: fixed;"><ul class="notiPosts" style="list-style: none;"></ul></div>
 			<div class="row">
 				<!--start of 게시글List-->
 				<div class="col-md-8 col-sm-12 mx-auto">
 					<div th:each="post : ${postList}" class="card postPlace">
 						<div class="card-content">
 							<div class="card-body">
-								<input class="getPostUniNo" type="hidden"
-									th:value="${post.postUniNo}"> <input class="aaa"
-									th:value="${post.particiMembUniNo}" style="display: none">
+								<input class="getPostUniNo" type="hidden"	th:value="${post.postUniNo}">
+								<input class="aaa" th:value="${post.particiMembUniNo}" style="display:none">
 								<div class="row">
 									<div class="col">
 										<h4 class="card-title col" th:id="${post.postUniNo}">[[${post.ttl}]]</h4>
-										<small class="text-muted col-auto">[[${post.nnm}]]</small>
+										<small class="text-muted">[[${post.nnm}]]</small>
 									</div>
 									<div class="col-auto">
 										<div class="dropdown">
-											<button class="btn btn-primary dropdown-toggle me-1"
-												type="button" id="dropdownMenuButton"
-												data-bs-toggle="dropdown" aria-haspopup="true"
-												aria-expanded="false"></button>
-											<div class="postDDM dropdown-menu"
-												th:data-postUniNo="${post.postUniNo}"
-												aria-labelledby="dropdownMenuButton">
+											<button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+											<div class="postDDM dropdown-menu" th:data-postUniNo="${post.postUniNo}" aria-labelledby="dropdownMenuButton">
 												<th:block th:each="bm : ${bmList}">
-													<a
-														th:if="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}"
-														class="dropdown-item bm" th:onclick="PostBm()"
-														th:id="${post.postUniNo}">즐겨찾기 해제</a>
-													<a
-														th:unless="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}"
-														class="dropdown-item bm" th:onclick="PostBm()"
-														th:id="${post.postUniNo}">즐겨찾기</a>
+													<a th:if="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}" class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기 해제</a>
+													<a th:unless="${post.postUniNo == bm.postUniNo && bm.postUniNo != null && bm.postUniNo != ''}" class="dropdown-item bm" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
 												</th:block>
-												<a class="dropdown-item" th:if="${post.notiYn} == 'X'"
-													th:onclick="setPostNoti(event)">공지등록</a> <a
-													class="dropdown-item" th:if="${post.notiYn} == 'O'"
-													th:onclick="setPostNoti(event)">공지등록해제</a> <a
-													class="dropdown-item bm"
-													th:text="${#lists.contains(postbm, post.postUniNo)} ? '즐겨찾기 해제' : '즐겨찾기'"
-													th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a> <a
-													th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'"
-													th:onclick="setPostReply(event)" class="dropdown-item">댓글알림ON</a>
-												<a
-													th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'Y'"
-													th:onclick="setPostReply(event)" class="dropdown-item">댓글알림OFF</a>
-												<a
-													th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}"
-													class="dropdown-item"
-													th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a>
-												<a
-													th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}"
-													class="dropdown-item" data-bs-toggle="modal"
-													data-bs-target="#deletePost"
-													onclick="callDeletePostModal(event)">삭제</a>
+													<a class="dropdown-item" th:if="${post.notiYn} == 'X'" th:onclick="setPostNoti(event)">공지등록</a>
+													<a class="dropdown-item" th:if="${post.notiYn} == 'O'" th:onclick="setPostNoti(event)">공지등록해제</a>
+													<a class="dropdown-item bm" th:text="${#lists.contains(postbm, post.postUniNo)} ? '즐겨찾기 해제' : '즐겨찾기'" th:onclick="PostBm()" th:id="${post.postUniNo}">즐겨찾기</a>
+													<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'N'" th:onclick="setPostReply(event)" class="dropdown-item">댓글알림ON</a>
+													<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo} and ${post.replyArmYn} == 'Y'" th:onclick="setPostReply(event)" class="dropdown-item">댓글알림OFF</a>
+													<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" th:href="@{postUpdate(postUniNo=${post.postUniNo})}">수정</a> 
+													<a th:if="${post.particiMembUniNo} == ${session.particiMembUniNo}" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deletePost" onclick="callDeletePostModal(event)">삭제</a>
 											</div>
 										</div>
 									</div>
 								</div>
 								<hr>
 								<div class="row">
-									<p class="card-text" th:utext="${post.cm}"></p>
-									<p class="card-text postTagArm">[[${post.postTagArm}]]</p>
-									<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}"></div>
-									<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
+										<p class="card-text" th:utext="${post.cm}"></p>
+										<p class="card-text postTagArm">[[${post.postTagArm}]]</p>
+										<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}"></div>	
+										<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 								</div>
-								<hr>
-								<div class="card-body">
-									<div class="replyPlace row"
-										th:data-postUniNo="${post.postUniNo}"></div>
-								</div>
-								<hr>
+									<hr>
+								<div class="replyPlace card-body" th:data-postUniNo="${post.postUniNo}"></div>
+									<hr>
 								<div class="form-group position-relative has-icon-right">
-									<input name="replyUniNo" type="hidden"
-										class="replyInput form-control" id="replyId"> <input
-										name="postUniNo" type="hidden" th:value="${post.postUniNo}"
-										class="replyInput form-control"> <input name="cntn"
-										type="text" class="replyInput form-control"
-										placeholder="reply" required>
+									<input name="replyUniNo" type="hidden" class="replyInput form-control" id="replyId"> 
+									<input name="postUniNo" type="hidden" th:value="${post.postUniNo}" class="replyInput form-control"> 
+									<input name="cntn" type="text" class="replyInput form-control" placeholder="reply" required>
 									<div class="form-control-icon">
-										<svg class="replyBtn bi" width="1em" height="1em"
-											fill="currentColor" th:data-membno="${post.particiMembUniNo}">
-											<use id="particivalue"
-												xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply" />
+										<svg class="replyBtn bi" width="1em" height="1em" fill="currentColor" th:data-membno="${post.particiMembUniNo}">
+											<use id="particivalue" xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply"  />
 										</svg>
 									</div>
 								</div>
@@ -270,124 +199,104 @@
 					</div>
 				</div>
 				<div class="col-md-1 col-sm-12 mx-auto">
-					<div class="buttons"
-						style="position: fixed; bottom: 120px; right: 300px;">
-						<a class="btn btn-primary"
-							th:href="@{postInsert(brdUniNo=${brdUniNo})}"
-							th:if="${session.grd} != 'G01'">글작성</a>
+					<div class="buttons" style="position: fixed; bottom: 120px; right: 350px;">
+						<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" th:if="${session.grd} != 'G01'">글작성</a>
 					</div>
 				</div>
 			</div>
-			<!-- start of 게시글 삭제 모달 -->
-			<div class="modal fade text-left" id="deletePost" tabindex="-1"
-				role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
-				<div
-					class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-					role="document">
-					<div class="modal-content">
-						<div class="modal-header bg-primary">
-							<h5 class="modal-title white" id="myModalLabel160">게시글 삭제</h5>
-							<button type="button" class="close" data-bs-dismiss="modal"
-								aria-label="Close">
-								<i data-feather="x"></i>
-							</button>
-						</div>
-						<div class="modal-body">
-							이 페이지를 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다.
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-light-secondary"
-								data-bs-dismiss="modal">
-								<i class="bx bx-x d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">취소</span>
-							</button>
-							<button id="deletePostBtn" type="button"
-								class="btn btn-primary ml-1" data-bs-dismiss="modal">
-								<i class="bx bx-check d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">확인</span>
-							</button>
+				<!-- start of 게시글 삭제 모달 -->
+				<div class="modal fade text-left" id="deletePost" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160"	aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h5 class="modal-title white" id="myModalLabel160">게시글	삭제</h5>
+								<button type="button" class="close" data-bs-dismiss="modal"	aria-label="Close">
+									<i data-feather="x"></i>
+								</button>
+							</div>
+							<div class="modal-body">
+								이 페이지를 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다. 
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-secondary"	data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> 
+									<span	class="d-none d-sm-block">취소</span>
+								</button>
+								<button id="deletePostBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+									<i class="bx bx-check d-block d-sm-none"></i> 
+									<span class="d-none d-sm-block">확인</span>
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!-- end of 게시글 삭제 모달 -->
+				<!-- end of 게시글 삭제 모달 -->
 
-			<!-- start of 댓글 삭제 모달 -->
-			<div class="modal fade text-left" id="deleteReply" tabindex="-1"
-				role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
-				<div
-					class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-					role="document">
-					<div class="modal-content">
-						<div class="modal-header bg-primary">
-							<h5 class="modal-title white" id="myModalLabel160">댓글 삭제</h5>
-							<button type="button" class="close" data-bs-dismiss="modal"
-								aria-label="Close">
-								<i data-feather="x"></i>
-							</button>
-						</div>
-						<div class="modal-body">
-							이 댓글을 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다.
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-light-secondary"
-								data-bs-dismiss="modal">
-								<i class="bx bx-x d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">취소</span>
-							</button>
-							<button id="deleteReplyBtn" type="button"
-								class="btn btn-primary ml-1" data-bs-dismiss="modal">
-								<i class="bx bx-check d-block d-sm-none"></i> <span
-									class="d-none d-sm-block">확인</span>
-							</button>
+				<!-- start of 댓글 삭제 모달 -->
+				<div class="modal fade text-left" id="deleteReply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h5 class="modal-title white" id="myModalLabel160">댓글	삭제</h5>
+								<button type="button" class="close" data-bs-dismiss="modal"	aria-label="Close">
+									<i data-feather="x"></i>
+								</button>
+							</div>
+							<div class="modal-body">
+								이 댓글을 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다. 
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light-secondary"	data-bs-dismiss="modal">
+									<i class="bx bx-x d-block d-sm-none"></i> 
+									<span	class="d-none d-sm-block">취소</span>
+								</button>
+								<button id="deleteReplyBtn" type="button"	class="btn btn-primary ml-1" data-bs-dismiss="modal">
+									<i class="bx bx-check d-block d-sm-none"></i> 
+									<span class="d-none d-sm-block">확인</span>
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!--end of 댓글 삭제 모달 -->
+				<!--end of 댓글 삭제 모달 -->
 
-			<!--start of 댓글수정모달 -->
-			<div class="modal fade text-left" id="updateReply" tabindex="-1"
-				role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
-				<div
-					class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-					role="document">
-					<div class="modal-content">
-						<div class="modal-header bg-primary">
-							<h5 class="modal-title white" id="myModalLabel160">댓글 수정</h5>
-							<button type="button" class="close" data-bs-dismiss="modal"
-								aria-label="Close">
-								<i data-feather="x"></i>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form action="replyUpdate" method="POST">
-								<div class="modal-body">
-									댓글:
-									<div id="updateReplyForm"></div>
-
-								</div>
-								<div class="moda
-									l-footer">
-									<button type="button" class="btn btn-light-secondary"
-										data-bs-dismiss="modal">
-										<i class="bx bx-x d-block d-sm-none"></i> <span
-											class="d-none d-sm-block">취소</span>
-									</button>
-									<button type="button" id="updateReplyBtn"
-										class="btn btn-primary ml-1" data-bs-dismiss="modal">
-										<i class="bx bx-check d-block d-sm-none"></i> <span
-											class="d-none d-sm-block">수정</span>
-									</button>
-								</div>
-							</form>
+				<!--start of 댓글수정모달 -->
+				<div class="modal fade text-left" id="updateReply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"	role="document">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h5 class="modal-title white" id="myModalLabel160">댓글 수정</h5>
+								<button type="button" class="close" data-bs-dismiss="modal"	aria-label="Close">
+									<i data-feather="x"></i>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form action="replyUpdate" method="POST">
+									<div class="modal-body">
+											댓글:
+											<div id="updateReplyForm"></div>
+											<div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+											<i class="bx bx-x d-block d-sm-none"></i>
+											<span class="d-none d-sm-block">취소</span>
+										</button>
+										<button type="button" id="updateReplyBtn" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+											<i class="bx bx-check d-block d-sm-none"></i>
+											<span class="d-none d-sm-block">수정</span>
+										</button>
+									</div>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!--end of 댓글수정모달 -->
+				<!--end of 댓글수정모달 -->
+				
+				
 			<!--end of MODALS -->
-			<script>
+		<script>
 				//댓글리스트
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
@@ -399,7 +308,6 @@
 					fetch('/modu/replys/' + pNum)
 						.then(resolve => resolve.json())
 						.then(data => {
-							console.log(data);
 							let rPlaceList = document.querySelectorAll('.replyPlace');
 
 							rPlaceList.forEach(rPlace => {
@@ -415,7 +323,6 @@
 											`${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, "0")}. ${String(date.getDate()).padStart(2, "0")}. ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
 
 										if (reply.postUniNo == pNum) {
-											
 											let h5Tag = document.createElement('h5');
 											h5Tag.setAttribute('class', 'card-title col');
 											h5Tag.textContent = reply.nnm;
@@ -424,8 +331,7 @@
 											//start of reply-dropdown
 											if(user == reply.particiMembUniNo){
 												let divTag = document.createElement('div');
-												divTag.setAttribute('class', 'dropdown col-auto');
-												divTag.setAttribute('style', 'right: 0;')
+												divTag.setAttribute('class', 'dropdown');
 
 												let btnTag = document.createElement('button');
 												btnTag.setAttribute('class', 'btn btn-primary btn-sm dropdown-toggle');
@@ -459,6 +365,7 @@
 												divTagDM.append(aTag);
 												divTag.append(divTagDM);
 												rPlace.append(divTag);
+
 											}
 
 											let pTag = document.createElement('p');
@@ -508,7 +415,7 @@
 						.then(result => result.json())
 						.then(data => {
 							let cntn = data.cntn
-							//console.log(cntn);
+							console.log(cntn);
 							//rInput.value = '';
 							showReplyList()
 							rInput[2].value = '';
@@ -562,6 +469,7 @@
 
 						let replyCntn = document.createElement('textarea');
 						replyCntn.setAttribute('class', 'form-control');
+						replyCntn.setAttribute('required', 'true')
 						replyCntn.setAttribute('id', 'exampleFormControlTextarea1');
 						replyCntn.setAttribute('name', 'cntn')
 						replyCntn.setAttribute('rows', 4);
@@ -580,6 +488,15 @@
 				})
 				let cntn = document.getElementById('updateReplyForm').children[1];
 				replyInfo['cntn'] = cntn.value;
+
+				if(cntn.value == ''){
+					Swal.fire({
+							icon: "error",
+							title: "댓글 작성해 주세요"
+						})
+					return;
+				}
+
 				//console.log(replyInfo);
 				fetch('/modu/replyUpdate',{
 					method : 'post',
@@ -788,11 +705,11 @@
 				}
 			}
 		</script>
-
-
-
-			<!--/* =========================== 성현 Script =========================== */-->
-			<script>
+		
+		
+		
+<!--/* =========================== 성현 Script =========================== */-->
+<script>
 //========================== 게시글 즐겨찾기  ========================== //
 function PostBm(){
 	console.log(event.target.id);
@@ -970,7 +887,7 @@ function particiInsert(){
 	
 	}
 </script>
-		</div>
 	</div>
+</div>
 </body>
 </html>
