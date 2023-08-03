@@ -77,6 +77,7 @@ margin-left:5px;}
 								</div>
 							</div>
 						</div>
+						<p style="color:red; display:none;" id="red2">시작날짜와 마감날짜를 모두 입력해주세요.</p>
 						<div>
 										<ul>
 											<li th:each="att : ${attList}" id="attPlace">
@@ -128,6 +129,15 @@ margin-left:5px;}
 				let cntn = $("#cntn").val();
 				let Date = document.querySelector('#Date1').value;
 				let lastDate = $("#lastDate1").val();
+				
+				//방지용 문구
+				if(ttl == ''){
+					document.getElementById('ttl').placeholder="제목을 입력하시지 않으셨습니다."
+					return;
+				}else if(Date == '' || lastDate == ''){
+					$('#red2').show();
+					 return;
+				}
 				
 				
 				 let formD = new FormData(); 

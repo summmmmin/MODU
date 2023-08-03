@@ -138,11 +138,11 @@
     <!---------------------------- 외부라인 끝 ----------------------------------->
     
     <!------------ start of 투표 삭제 모달 ---------------->
-   <div class="modal fade text-left" id="deleteVote1" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160"	aria-hidden="true">
+   <div class="modal fade text-left" id="deleteVote1" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel163"	aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 						<div class="modal-content">
 							<div class="modal-header bg-primary">
-								<h5 class="modal-title white" id="myModalLabel160">투표 삭제</h5>
+								<h5 class="modal-title white" id="myModalLabel163">투표 삭제</h5>
 								<button type="button" class="close" data-bs-dismiss="modal"	aria-label="Close">
 									<i data-feather="x"></i>
 								</button>
@@ -211,6 +211,60 @@
 
 
     <script>
+    
+  //---------------투표 수정하기
+    function updateVote(){
+    let a =[[${voteInfo.voteNo}]];
+    
+    let data={'voteNo': a};
+
+    	let data2 = {
+    		"toDt":document.getElementById("secondTodt").value,
+    		"voteNo":a
+    	}; 
+    	console.log(data2);
+    		
+		fetch("voteUpdate/"+a, {
+			method : "post",
+			headers:{
+				'Content-Type' : 'application/json',
+			}, 
+			body : JSON.stringify(data2)
+		})
+		.then((response) => response.json())
+		.then((result) => {
+		console.log(result);
+		voteList();
+		 })
+    }
+	
+    //-----------------------vote삭제하기 
+    
+    
+    function delVote(){
+    	
+        let a =[[${voteInfo.voteNo}]];
+        
+        let data={'voteNo': a};
+        
+		fetch("voteDelte", {
+			method : "delete",
+			headers:{
+				'Content-Type' : 'application/json',
+			}, 
+			body : JSON.stringify(data)
+		})
+		.then((response) => response.json())
+		.then((result) => {
+		console.log(result);
+		voteList();
+		 })
+        }
+    
+    $('#deleteVote1').appendTo("body")
+    $('#updateVote1').appendTo("body")
+    
+    
     console.log('aaa');
     </script>
 </body>

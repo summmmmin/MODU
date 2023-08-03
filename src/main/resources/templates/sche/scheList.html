@@ -224,7 +224,7 @@
 									class="d-none d-sm-block">취소</span>
 							</button>
 							<button type="button" id="insertScheId" onclick="insertSche()"
-								class="btn btn-primary ml-1" data-bs-dismiss="modal">
+								class="btn btn-primary ml-1">
 								<i class="bx bx-check d-block d-sm-none"></i> <span
 									class="d-none d-sm-block">저장하기</span>
 							</button>
@@ -366,13 +366,9 @@
 
 			if(Schettl.value == ''){
 				Schettl.placeholder = "제목을 입력하시지 않으셨습니다."
-				 event.preventDefault();
-				 event.stopPropagation();
 				return;
 			}else if(ScheStart.value == '' || ScheEnd .value == ''){
 				$('#red').show();
-				 event.preventDefault();
-				 event.stopPropagation();
 				 return;
 			}
 		
@@ -393,8 +389,8 @@
       })
       .then(result => result.json())
       .then(data => {
+    	  $("#scheInsert").modal("hide");
           console.log(data);
-          location.reload();
       })
 }
     

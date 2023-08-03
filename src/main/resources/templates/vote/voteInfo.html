@@ -175,11 +175,11 @@
     </div> <!-- 외부라인 끝 -->
     
 		<!-- start of 투표 삭제 모달 -->
-					<div class="modal fade text-left" id="deleteVote" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160"	aria-hidden="true">
+					<div class="modal fade text-left" id="deleteVote" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel162"	aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 						<div class="modal-content">
 							<div class="modal-header bg-primary">
-								<h5 class="modal-title white" id="myModalLabel160">투표 삭제</h5>
+								<h5 class="modal-title white" id="myModalLabel162">투표 삭제</h5>
 								<button type="button" class="close" data-bs-dismiss="modal"	aria-label="Close">
 									<i data-feather="x"></i>
 								</button>
@@ -293,6 +293,29 @@
      			voteList();
      			 })
              }
+     		
+             //-----------------------vote삭제하기 
+             
+             
+             function delVote(){
+             	
+                 let a =[[${voteInfo.voteNo}]];
+                 
+                 let data={'voteNo': a};
+                 
+     			fetch("voteDelte", {
+     				method : "delete",
+     				headers:{
+     					'Content-Type' : 'application/json',
+     				}, 
+     				body : JSON.stringify(data)
+     			})
+     			.then((response) => response.json())
+     			.then((result) => {
+     			console.log(result);
+     			voteList();
+     			 })
+                 }
     
     
   $(function(){
@@ -342,33 +365,7 @@
         
 
         
-        //-----------------------vote삭제하기 
-        
-        
-        function delVote(){
-        	
-            let a =[[${voteInfo.voteNo}]];
-            
-            let data={'voteNo': a};
-            
-			fetch("voteDelte", {
-				method : "delete",
-				headers:{
-					'Content-Type' : 'application/json',
-				}, 
-				body : JSON.stringify(data)
-			})
-			.then((response) => response.json())
-			.then((result) => {
-			console.log(result);
-			voteList();
-			 })
-        	/* fetch("voteDelete/"+a)
-           	.then(data => {
-				console.log(data);
-                })
-                .catch(err => console.log(err));  */
-            }
+
         //--------------------------------------------투표 수정하기
         
         let now_utc = Date.now()
@@ -381,12 +378,9 @@
 
 		 secondDate.setAttribute("min", today33); 
         
-		
-
-        
+ 
         $('#deleteVote').appendTo("body")
         $('#updateVote').appendTo("body")
-        
         
   })
         /*]]>*/
