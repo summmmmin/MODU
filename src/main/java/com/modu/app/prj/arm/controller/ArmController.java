@@ -61,5 +61,11 @@ public class ArmController {
 	public void todoarm(ArmVO vo, @DestinationVariable String memno) throws Exception {
 		messagingTemplate.convertAndSend("/subArm/todo/" + memno, vo);
 	}
+	
+	// 비공개 게시판 초대  알림
+	@MessageMapping("/partici/{memno}")
+	public void particiarm(ArmVO vo, @DestinationVariable String memno) throws Exception {
+		messagingTemplate.convertAndSend("/subArm/partici/" + memno, vo);
+	}
 
 }

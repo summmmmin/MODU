@@ -2,12 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 >
-
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-
 <body>
 		<div class="row">
 			<div class="card">
@@ -20,6 +18,7 @@
 						<tbody id="bmList">
 						</tbody>
 					</table>
+				<div class="card-content" id="bmList">
 				</div>
 			</div>
 		</div>
@@ -33,10 +32,10 @@
                 $('<tr/>').attr('onclick', 'trHref()')
                     .append($('<td/>').text('등록일자 : ' + result[i].regDt))
                     .append($('<td/>').text('게시글 번호 : ' + result[i].bmUniNo))
-                    .append($('<td/>').text(result[i].brdUniNo)).append($('<hr>'))
+                    .append($('<td/>').text(result[i].brdUniNo)).append($('<hr>'x))
             );
         }
-        
+
     });
 /*]]>*/
 </script>
@@ -45,21 +44,6 @@
 		let brdUniNo = $(event.target).closest('tr').children().eq(2).text();
 		location.href='/modu/postList?brdUniNo='+ brdUniNo;
 	}
-    function click() {
-        console.log(event.target.className.animVal);
-        event.target.classList.toggle('clicked');
-        event.target.classList.toggle('cls-1');
-
-    }S
-    document.getElementById('ultag').addEventListener('click', function (event) {
-        let target = event.target;
-        if (target.classList.contains('cls-1')) {
-            let brdUniNo = target.getAttribute('text-brdUniNo');
-            console.log(target);
-        }
-    });
 </script>
-
-
 </body>
 </html>

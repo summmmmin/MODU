@@ -116,6 +116,7 @@
 		console.log(vid)
 		 $.ajax("voteInfo/"+vid)
 		.done(result =>{
+			$("#rsidebarContent").html
 			$("#rsidebarContent").html(result);
 		}) 
 	}	

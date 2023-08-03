@@ -2,6 +2,7 @@ package com.modu.app.prj.board.service;
 
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -68,8 +69,10 @@ public class BoardVO {
 	//비공개 게시판 참여자 번호
 	private String boardUniNo;
 	
+	//참여자들 Insert 할 때 씀 아무튼 씀 !
+	private List<String> particiMembUniNos;
 	
-	
-	
+	//비공개 게시판 참여자 고유번호
+	private String boardParticiMembUniNo;
 	
 }

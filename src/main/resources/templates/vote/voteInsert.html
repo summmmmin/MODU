@@ -106,6 +106,58 @@
   			.catch(err => console.log(err)); 
               </script> -->
 	<script>
+	
+	function VoteInsert() {
+		let bno=null;
+		let cno=null;
+		
+		let ttl = $("#ttl").val();		
+		let date = $('#voteDate').val();
+	    let formData = $('#createVote').serialize();
+		console.log(formData);
+		let select = document.getElementById('brdSel').value;
+		console.log(select);
+		let selectAry = select.split(',');
+		console.log(selectAry[1]);
+		if(selectAry[1] == 'brd'){
+			bno = selectAry[0]
+		}else{
+			cno = selectAry[0]
+		}
+		console.log(bno)
+		
+		let itemArr =  new Array(); 
+		document.querySelectorAll('.voteItem').forEach(function(item){
+			console.log(item)
+			
+			itemArr.push(item.value)
+		})
+
+		let additionalData = {
+			ttl:ttl,
+			toDt:date,
+			brdUniNo:bno,
+			chatrNo:cno,
+			voteItem:itemArr
+		}
+		console.log(additionalData)
+		 let postData = Object.assign({}, formData, additionalData);	
+	     $.ajax({
+	        type: 'POST',
+	        url: 'voteInsert', // 실제 서버의 URL로 변경해야 합니다.
+	        data: JSON.stringify(additionalData),
+	        contentType: 'application/json',
+	        success: function(response) {
+	        	
+	        	 voteList();
+	      	},
+	        error: function(error) {
+	            console.log(error)
+	        }
+	    }); 
+   } 
+	
+	 $(function(){
 			let count = 2;
 
 			// 저장하기 버튼
@@ -117,55 +169,7 @@
 			
 			
 			
-			function VoteInsert() {
-				let bno=null;
-				let cno=null;
-				
-				let ttl = $("#ttl").val();		
-				let date = $('#voteDate').val();
-			    let formData = $('#createVote').serialize();
-				console.log(formData);
-				let select = document.getElementById('brdSel').value;
-				console.log(select);
-				let selectAry = select.split(',');
-				console.log(selectAry[1]);
-				if(selectAry[1] == 'brd'){
-					bno = selectAry[0]
-				}else{
-					cno = selectAry[0]
-				}
-				console.log(bno)
-				
-				let itemArr =  new Array(); 
-				document.querySelectorAll('.voteItem').forEach(function(item){
-					console.log(item)
-					
-					itemArr.push(item.value)
-				})
-
-				let additionalData = {
-					ttl:ttl,
-					toDt:date,
-					brdUniNo:bno,
-					chatrNo:cno,
-					voteItem:itemArr
-				}
-				console.log(additionalData)
-				 let postData = Object.assign({}, formData, additionalData);	
-			     $.ajax({
-			        type: 'POST',
-			        url: 'voteInsert', // 실제 서버의 URL로 변경해야 합니다.
-			        data: JSON.stringify(additionalData),
-			        contentType: 'application/json',
-			        success: function(response) {
-			        	
-			        	 voteList();
-			      	},
-			        error: function(error) {
-			            console.log(error)
-			        }
-			    }); 
-		   } 
+			
 			
 		
 /*  			function VoteInsert (){
@@ -239,6 +243,8 @@
 			
 			}
 			new Choices(document.querySelector('.brdchatrselect'));
+			
+	 })
 		</script>
 
 </body>
