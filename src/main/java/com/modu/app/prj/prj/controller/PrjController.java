@@ -99,7 +99,7 @@ public class PrjController {
 		prjVO = prjService.getPrjInfo(prjVO.getPrjUniNo());
 		model.addAttribute("prj", prjVO);
 		
-		// 프로젝트 결제내역
+		// 프로젝트 결제 내역
 		model.addAttribute("payList", payService.prjPayList(prjVO.getPrjUniNo()));
 		System.out.println(payService.prjPayList(prjVO.getPrjUniNo()));
 		return "prj/prjPay";
