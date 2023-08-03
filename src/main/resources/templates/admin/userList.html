@@ -160,6 +160,27 @@
 	</a>
 
 	<script>
+		$(document).on('click', '.user-row', function() {
+			var userId = $(this).data('userId');
+			console.log(userId);
+
+			// 서버에 유저 정보 요청
+			$.ajax({
+				url : '/modu/admin/userList/' + userId,
+				method : 'POST',
+				dataType : 'json',
+				success : function(data) {
+					$('#userName').text(data.nm);
+					$('#userEmail').text(data.id);
+					$('#userPhone').text(data.phNo);
+					$('#userRegDt').text(data.regDt);
+					$('#userInfoModal').modal('show');
+				},
+				error : function(error) {
+					console.error('에러 : ', error);
+				}
+			});
+		});
 	</script>
 </body>
 
