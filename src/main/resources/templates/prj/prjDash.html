@@ -86,7 +86,7 @@
               <div class="card-body px-3 py-4-5">
                 <div class="row">
                     <!-- 프로젝트 내 회원 등급 비율 -->
-        			<div id="chart-grd"></div>
+        			      <div id="chart-grd"></div>
                   
                 </div>
               </div>
@@ -94,24 +94,31 @@
           </div>
         </div>
 
-        <div class="row" id="table-hover-row">
+        <div class="row prjdashtbl">
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">table</h4>
+                <h4 class="card-title">팀원의 활동량</h4>
               </div>
               <div class="card-content">
                 <div class="card-body">
-                  <p>
-                    Add <code class="highlighter-rouge">&lt;기간설정&gt;</code>.
-                  </p>
-                  <input type="date" id="fromDt" />
-                  <input type="date" id="toDt" />
-                  <button type="button" onclick="findBtn()">검색</button>
-                </div>
+<!--                   <p>
+                    <code class="highlighter-rouge">&lt;기간설정&gt;</code>.
+                  </p> -->
 
-                <div class="table-responsive">
-                  <table class="table table-hover mb-0">
+                  <div class="row d-flex justify-content-end">
+                    <div class="col-md-2 mx-1">
+                      <input type="date" id="fromDt" class="form-control" />
+                    </div>
+                    <div class="col-md-2 mx-1">
+                      <input type="date" id="toDt" class="form-control" />
+                    </div>
+                    <div class="col-md-1 mx-2">
+                      <button type="button" class="btn btn-primary" onclick="findBtn()">검색</button>
+                    </div>
+                  </div>
+
+                  <table class="table table-hover mb-0" id="dashtable">
                     <thead>
                       <tr>
                         <th>닉네임</th>
@@ -126,7 +133,9 @@
                         <!-- 기간 설정 시 테이블에 tr 생성 -->
                     </tbody>
                   </table>
+	               
                 </div>
+
               </div>
             </div>
           </div>
@@ -136,8 +145,21 @@
       </section>
     </div>
     <script>
+      $(function(){
+	      // 처음 들어왔을때 현재날짜로 선택해서 테이블 보여주기
+	      let currentDate = new Date().toISOString().split("T")[0];
+	    
+	      document.getElementById("fromDt").value = currentDate;
+	      document.getElementById("toDt").value = currentDate;
+	      findBtn();
+      })
+      
       // 테이블 기간설정 검색
       function findBtn() {
+    	// 이전에 생성된 데이터테이블 인스턴스가 있으면 제거
+   	    if (dataTableInstance) {
+   	      dataTableInstance.destroy();
+   	    }
         let fromDt = document.querySelector("#fromDt").value;
         let toDt = document.querySelector("#toDt").value;
         let data = { prjUniNo: '[[${prjNo}]]', fromDt: fromDt, toDt: toDt };
@@ -151,7 +173,7 @@
         })
           .then((response) => response.json())
           .then((result) => {
-            console.log(result);
+           
             document.querySelector("#tbltbd").innerText = "";
             let field = [
               "nnm",
@@ -172,15 +194,18 @@
               }
               document.querySelector("#tbltbd").append(tr);
             });
+            dataTableInstance = new simpleDatatables.DataTable(document.querySelector("#dashtable"));
+            
           });
       }
+      
     </script>
 	<script src="assets/vendors/apexcharts/apexcharts.js"></script>
     <script>
 		fetch("manage/getGrdCnt?prjNo="+'[[${prjNo}]]')
 		.then(response => response.json())
 		.then(result => {
-			console.log(result)
+			
 			// 대시보드의 등급별회원수 차트
 		    let optionsGrd  = {
 		   		series: result.cnt,
