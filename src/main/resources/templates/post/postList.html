@@ -7,6 +7,12 @@
 	<title>postList</title>
 	<!--alert-->
 	<script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
+
+	<style>
+		ul{
+			list-style: none;
+		}
+	</style>
 </head>
 
 <body>
@@ -135,7 +141,7 @@
 		</div> <!--게시글없을때-->
 		<div th:unless="${#lists.isEmpty(postList)}"> <!--게시글있을때-->
 			<!--공지등록된게시글이있을때-->
-			<div class="notiPosts"><ul></ul></div>
+			<div style="position: fixed;"><ul class="notiPosts" style="list-style: none;"></ul></div>
 			<div class="row">
 				<!--start of 게시글List-->
 				<div class="col-md-8 col-sm-12 mx-auto">
@@ -271,8 +277,7 @@
 											<div id="updateReplyForm"></div>
 											<div>
 									</div>
-									<div class="moda
-									l-footer">
+									<div class="modal-footer">
 										<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
 											<i class="bx bx-x d-block d-sm-none"></i>
 											<span class="d-none d-sm-block">취소</span>
@@ -464,6 +469,7 @@
 
 						let replyCntn = document.createElement('textarea');
 						replyCntn.setAttribute('class', 'form-control');
+						replyCntn.setAttribute('required', 'true')
 						replyCntn.setAttribute('id', 'exampleFormControlTextarea1');
 						replyCntn.setAttribute('name', 'cntn')
 						replyCntn.setAttribute('rows', 4);
@@ -482,6 +488,15 @@
 				})
 				let cntn = document.getElementById('updateReplyForm').children[1];
 				replyInfo['cntn'] = cntn.value;
+
+				if(cntn.value == ''){
+					Swal.fire({
+							icon: "error",
+							title: "댓글 작성해 주세요"
+						})
+					return;
+				}
+
 				//console.log(replyInfo);
 				fetch('/modu/replyUpdate',{
 					method : 'post',

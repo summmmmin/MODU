@@ -152,7 +152,7 @@
             'brdUniNo' : brdUniNo,
             'particiMembUniNo' : particiMembUniNo
         }
-        fetch('/modu/BrdBmInsert', {
+        fetch('/modu/BmInsert', {
             method : 'POST',
             headers : {
                 'content-type' : 'application/json'
@@ -173,13 +173,7 @@
         .catch(err => console.log(err));
         
     }
-	/* 색 변환 JS */ 
-   $('#ultag').on('click', function(event) {
-    let target = event.target;
-    if ($(target).hasClass('cls-1')) {
-        let brdUniNo = $(target).attr('text-brdUniNo');
-    }
-});
+
 </script>
 					<!--/* ************************ End *************************** */-->
 				</div>
@@ -385,7 +379,7 @@
 										th:value="${session.particiMembUniNo}" type="text"
 										class="form-control" style="display: none"> <label
 										for="basicInput" class="form-label">참여멤버선택</label> <select
-										id="memberSelect" class="form-select multiple-remove"
+										id="memberSelect" class="choices form-select multiple-remove"
 										multiple="multiple"></select>
 								</div>
 							</div>
@@ -583,6 +577,14 @@
 						document.getElementById('memberSelect').append(optionTag);
 					}
 				})
+				// 채팅방 생성 모달 안 choices 추가
+				new Choices(document.querySelector('#memberSelect'),
+			      {
+			        delimiter: ',',
+			        editItems: true,
+			        maxItemCount: 10,
+			        removeItemButton: true,
+			      });
 			})
 		}
 		callChatMemb();
@@ -749,7 +751,7 @@
  		}
  	</script>
 	<script> 
- 	
- 	</script>
+
+	</script>
 </body>
 </html>
