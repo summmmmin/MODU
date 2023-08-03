@@ -152,7 +152,7 @@
             'brdUniNo' : brdUniNo,
             'particiMembUniNo' : particiMembUniNo
         }
-        fetch('/modu/BrdBmInsert', {
+        fetch('/modu/BmInsert', {
             method : 'POST',
             headers : {
                 'content-type' : 'application/json'
@@ -173,13 +173,7 @@
         .catch(err => console.log(err));
         
     }
-	/* 색 변환 JS */ 
-   $('#ultag').on('click', function(event) {
-    let target = event.target;
-    if ($(target).hasClass('cls-1')) {
-        let brdUniNo = $(target).attr('text-brdUniNo');
-    }
-});
+
 </script>
 					<!--/* ************************ End *************************** */-->
 				</div>

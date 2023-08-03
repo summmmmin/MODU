@@ -67,7 +67,7 @@ public class BmController {
 		HttpSession session = request.getSession();
 		UserVO userVo = (UserVO) session.getAttribute("user");
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		model.addAttribute("postbm", bmService.PostBmList(vo));
+		//model.addAttribute("postbm", bmService.PostBmList(vo));
 		return bmService.BmList(vo);
 	}
 	
