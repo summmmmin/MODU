@@ -125,7 +125,14 @@
 </div>
 <!-- ========================회원 초대 Modal 끗 (성현) ======================== -->
 
-		<div th:if="${#lists.isEmpty(postList)}">게시글이없습니다</div> <!--게시글없을때-->
+		<div th:if="${#lists.isEmpty(postList)}">
+			게시글이없습니다
+			<div class="col-md-1 col-sm-12 mx-auto">
+					<div class="buttons" style="position: fixed; bottom: 120px; right: 350px;">
+						<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" th:if="${session.grd} != 'G01'">글작성</a>
+					</div>
+				</div>
+		</div> <!--게시글없을때-->
 		<div th:unless="${#lists.isEmpty(postList)}"> <!--게시글있을때-->
 			<!--공지등록된게시글이있을때-->
 			<div class="notiPosts"><ul></ul></div>
