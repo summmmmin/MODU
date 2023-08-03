@@ -137,8 +137,9 @@ public class UserController {
 
 	// 회원가입 폼에서 휴대폰번호 중복체크
 	@PostMapping("phNoVaild")
-	public ResponseEntity<String> checkIdDuplicate1(@RequestBody String phNo) {
+	public ResponseEntity<String> checkphNoDuplicate(@RequestBody String phNo) {
 		int duplicateCount = userService.phNoVaild(phNo);
+		System.out.println("중복 번호 갯수 : " + duplicateCount);
 		System.out.println("회원가입 휴대폰 번호 : " + phNo);
 		if (duplicateCount > 0) {
 			System.out.println("휴대폰 중복체크 : " + duplicateCount);
