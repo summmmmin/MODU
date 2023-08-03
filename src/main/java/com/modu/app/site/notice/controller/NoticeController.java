@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.file.service.FileVO;
+import com.modu.app.prj.user.service.UserVO;
 import com.modu.app.site.notice.service.NoticeService;
 import com.modu.app.site.notice.service.NoticeVO;
 
@@ -48,7 +49,9 @@ public class NoticeController {
 	
 	// 사이트 공지사항 등록처리
 	@PostMapping("noticeInsert")
-	public String noticeInsert(NoticeVO noticeVO) {
+	public String noticeInsert(NoticeVO noticeVO, HttpSession session) {
+		UserVO vo = (UserVO) session.getAttribute("user");
+		noticeVO.setMembUniNo(vo.getMembUniNo());
 		
 		//공지사항등록
 		noticeService.insertNotice(noticeVO);
