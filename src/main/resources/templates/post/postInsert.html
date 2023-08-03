@@ -43,7 +43,7 @@
 								<!--멤버호출부-->
 								<div class="form-group">
 									<label for="basicInput">멤버호출</label>
-									<select class="choices form-select multiple-remove" maxlength="5" multiple="multiple" th:field="*{postTagArm}">
+									<select class="choices form-select multiple-remove postInsertMembChoice" maxlength="10" multiple="multiple" th:field="*{postTagArm}">
 										<option th:each="memb : ${membList}" th:if="${memb.particiMembUniNo != session.particiMembUniNo}" th:value="${memb.particiMembUniNo}+' - '+${memb.nnm}">[[${memb.particiMembUniNo}]] - [[${memb.nnm}]]</option>
 									</select>
 								</div>
@@ -90,6 +90,15 @@
 					postBtn.setAttribute('disabled', 'false')
 				}
 			})
+			
+			// choices 추가
+			new Choices(document.querySelector('.postInsertMembChoice'),
+		      {
+		        delimiter: ',',
+		        editItems: true,
+		        maxItemCount: 10,
+		        removeItemButton: true,
+		      });
 		</script>
 	</div>
 </body>
