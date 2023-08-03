@@ -200,62 +200,96 @@
 	</div>
 
 	<script>
-		$(document).ready(function() {
-			$(".ban-button").on("click", function(event) {
-				event.stopPropagation();
+		$(document)
+				.ready(
+						function() {
+							$(".ban-button").on("click", function(event) {
+								event.stopPropagation();
 
-				var userId = $(this).data('user-id');
-				console.log("추방대상 : " + userId);
+								var userId = $(this).data('user-id');
+								console.log("추방대상 : " + userId);
 
-				$('#confirmQuit').data('user-id', userId);
-				$('#danger').modal('show');
-			});
-			$("#confirmQuit").on("click", function(event) {
-				var userId = $(this).data('user-id');
+								$('#confirmQuit').data('user-id', userId);
+								$('#danger').modal('show');
+							});
+							$("#confirmQuit")
+									.on(
+											"click",
+											function(event) {
+												var userId = $(this).data(
+														'user-id');
 
-				$.ajax({
-					url : 'banUser',
-					type : 'POST',
-					data : JSON.stringify({
-						id : userId
-					}),
-					contentType : 'application/json; charset=utf-8',
-					success : function(response) {
-						alert(userId + ' 님이 정상적으로 추방이 되었습니다.');
-						$('#danger').modal('hide');  // 모달 창 닫기
+												$
+														.ajax({
+															url : 'banUser',
+															type : 'POST',
+															data : JSON
+																	.stringify({
+																		id : userId
+																	}),
+															contentType : 'application/json; charset=utf-8',
+															success : function(
+																	response) {
+																alert(userId
+																		+ ' 님이 정상적으로 추방이 되었습니다.');
+																$('#danger')
+																		.modal(
+																				'hide');
 
-						// 해당 사용자 행 찾아서 상태 변경
-						$('tr[data-user-id="' + userId + '"]').find('.badge').removeClass('bg-success').addClass('bg-danger').text('탈퇴');
-						$('tr[data-user-id="' + userId + '"]').find('.ban-button').attr('disabled', true);
-					},
-					error : function(request, message, error) {
-						alert('오류로 인해 추방할 수 없습니다. 자세한건 로그를 확인하세요.')
-					}
-				});
-			});
+																// 해당 사용자 행 찾아서 상태 변경
+																$(
+																		'tr[data-user-id="'
+																				+ userId
+																				+ '"]')
+																		.find(
+																				'.badge')
+																		.removeClass(
+																				'bg-success')
+																		.addClass(
+																				'bg-danger')
+																		.text(
+																				'탈퇴');
+																$(
+																		'tr[data-user-id="'
+																				+ userId
+																				+ '"]')
+																		.find(
+																				'.ban-button')
+																		.attr(
+																				'disabled',
+																				true);
+															},
+															error : function(
+																	request,
+																	message,
+																	error) {
+																alert('오류로 인해 추방할 수 없습니다. 자세한건 로그를 확인하세요.')
+															}
+														});
+											});
 
-			$(document).on('click', '.user-row', function() {
-				var userId = $(this).data('userId');
-				console.log(userId);
+							$(document).on('click', '.user-row', function() {
+								var userId = $(this).data('userId');
+								console.log(userId);
 
-				// 서버에 유저 정보 요청
-				$.ajax({
-					url : '/modu/admin/userList/' + userId,
-					method : 'POST',
-					dataType : 'json',
-					success : function(data) {
-						$('#userName').text(data.nm);
-						$('#userEmail').text(data.id);
-						$('#userPhone').text(data.phNo);
-						$('#userRegDt').text(data.regDt);
-						$('#userInfoModal').modal('show');
-					},
-					error : function(error) {
-						console.error('에러 : ', error);
-					}
-				});
-			});
-		});
+								// 서버에 유저 정보 요청
+								$.ajax({
+									url : '/modu/admin/userList/' + userId,
+									method : 'POST',
+									dataType : 'json',
+									success : function(data) {
+										$('#userName').text(data.nm);
+										$('#userEmail').text(data.id);
+										$('#userPhone').text(data.phNo);
+										$('#userRegDt').text(data.regDt);
+										$('#userInfoModal').modal('show');
+									},
+									error : function(error) {
+										console.error('에러 : ', error);
+									}
+								});
+							});
+						});
 	</script>
 
 </body>
