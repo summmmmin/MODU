@@ -41,7 +41,7 @@ public class BmController {
 	public int BmInsert(@RequestBody BmVO vo) {
 		if(vo.getBrdUniNo() != null) {
 			vo.setDivision("A");
-		}else {
+		}else if (vo.getChatNo() != null){
 			vo.setDivision("B");
 		}
 		
