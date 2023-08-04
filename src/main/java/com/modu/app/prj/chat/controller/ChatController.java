@@ -267,8 +267,8 @@ public class ChatController {
 	public int addChatMemb(@RequestBody ChatrDTO chatrDTO) {
 		String chatrNm = chatrDTO.getChartNm();
 		String chatrNo = chatrDTO.getChartNo();
-		System.out.println(chatrNo);
-		System.out.println(chatrDTO);
+		//System.out.println(chatrNo);
+		//System.out.println(chatrDTO);
 		int membCount = 0;
 		List<String> membList = chatrDTO.getParticiMembUniNos();
 		for(String memb : membList) {
