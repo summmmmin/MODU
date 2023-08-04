@@ -178,10 +178,11 @@
              data: { attNm },
              method: "GET",
              success: function(data) {
-            	 console.log(data)
+            	 console.log(data);
                  $('#bpList').empty();
                  let div = '';
                  for (let i of data) {
+                	 console.log(i);
                      div += `
                          <div onclick="javascript:window.location.href='/modu/chat?chatrNo=${i.chatrNo}'" class="card-content">
                              <div class="card-body">
@@ -191,6 +192,21 @@
                          <hr>
                      `;
                  }
+                 /* for (let i of data) {
+                     div += `<div onclick=`;
+                     if(i.division == 'C'){    
+                     	div += `"javascript:window.location.href='/modu/chat?chatrNo=${i.chatrNo}'"`; 
+                     }else if(i.division == 'P'){
+                    	 div += `"javascript:window.location.href='/modu/postList?brdUniNo=${i.brdUniNo}'"`;
+                     }
+                     div += ` class="card-content">
+                             <div class="card-body">
+                                 <td>${i.attNm}</td>
+                             </div>
+                         </div>
+                         <hr>
+                     `;
+                 } */
                  $('#bpList').append(div);
              },
              error: function(err) {
