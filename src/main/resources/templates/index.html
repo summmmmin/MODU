@@ -26,7 +26,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 <script src="fullcalendar-6.1.8/dist/index.global.js"></script>
@@ -378,14 +378,14 @@
 								<h5>채팅방 이름</h5>
 								<div class="form-group">
 									<input id="chartNm" name="chartNm" type="text"
-										placeholder="40자까지 입력 가능합니다." class="form-control"> <input
+										placeholder="40자까지 입력 가능합니다." class="form-control" required> <input
 										id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
 										type="text" class="form-control" style="display: none">
 									<input id="particiMembUniNo" name="particiMembUniNo"
 										th:value="${session.particiMembUniNo}" type="text"
 										class="form-control" style="display: none"> <label
-										for="basicInput" class="form-label">참여멤버선택</label> <select
-										id="memberSelect" class="choices form-select multiple-remove"
+										for="basicInput" class="form-label">참여멤버선택</label> 
+										<select id="memberSelect" class="choices form-select multiple-remove"
 										multiple="multiple"></select>
 								</div>
 							</div>
@@ -470,7 +470,7 @@
 
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
-	<script src="assets/js/test.js"></script>
+	
 
 	<script>
 	
@@ -545,7 +545,7 @@
 	</script>
 
 	<script>
-        //채팅방리스트
+    //채팅방리스트
 		function showChatList(){
 			fetch("/modu/chatrList")
 			.then(resolve => resolve.json())
@@ -598,6 +598,7 @@
 		//채팅방생성
 		function makeChatrPlz(e) {
 			//let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
+			
 			let chatNm = document.getElementById('chartNm').value;
 			let selectedOptions = document.getElementById('memberSelect').selectedOptions;
 			let chatMembs = [];
@@ -605,7 +606,17 @@
 			for (let i = 0; i < selectedOptions.length; i++) {
 				chatMembs.push(selectedOptions[i].value);
 			}
+			if(document.getElementById('chartNm').value == ''){
+				Swal.fire({
+					icon: "error",
+					title: "채팅방 이름을 입력해 주세요"
+				})
+				//document.getElementById('memberSelect').value('');
+				document.getElementById('.choices__list').options.length = null;
 
+				return;
+			}
+		
 			let makeChatInfo = {};
 			makeChatInfo['chartNm'] = chatNm;
 			makeChatInfo['particiMembUniNos'] = chatMembs;
@@ -660,7 +671,7 @@
  
 // WebSocket 연결 설정
 	const armClient = new StompJs.Client({
-		brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
+		brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
 	});
 	// 페이지 로드시 웹소켓 연결
 	window.addEventListener("load", function(event) {
@@ -756,8 +767,6 @@
  			}
  		}
  	</script>
-	<script> 
-
-	</script>
+<script src="assets/js/test.js"></script>
 </body>
 </html>

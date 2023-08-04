@@ -55,7 +55,6 @@
 	let valid = false;
 	function check() {
 		let name = document.getElementById('prjNm');
-		//console.log(name)
 		valid = name.value.length > 0 && name.value.length < 7
 		if (valid) {
 			name.classList.replace('is-invalid', 'is-valid');

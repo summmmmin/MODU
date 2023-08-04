@@ -9,37 +9,49 @@ $(document).ready(function () {
         $(selector).hide().prev().removeClass('error-border');
     }
 
-    function checkPhoneNumberDuplicate(phoneNumber) {
-        return $.ajax({
-            url: 'phNoVaild',
+function checkPhoneNumberDuplicate(phoneNumber) {
+    return $.ajax({
+        url: 'phNoVaild',
+        type: 'POST',
+        data: phoneNumber,
+        contentType: "text/plain"
+    });
+}
+
+$('#sendVerificationCode').on('click', function () {
+    var phoneNumber = $('input[name="phNo"]').val();
+    console.log(phoneNumber);
+
+    checkPhoneNumberDuplicate(phoneNumber).done(function (response) {
+        if (response === "이미 존재하는 번호입니다.") {
+            showError('#phoneError', response);
+            return;
+        }
+
+        hideError('#phoneError');
+        var dataToSend = {
+            to: phoneNumber
+        };
+
+        $.ajax({
+            url: 'send',
             type: 'POST',
-            data: phoneNumber,
-            contentType: "text/plain"
-        });
-    }
-
-    $('#sendVerificationCode').on('click', function () {
-        var phoneNumber = $('input[name="phNo"]').val();
-        console.log(phoneNumber);
-
-        checkPhoneNumberDuplicate(phoneNumber).done(function (response) {
-            if (response === "이미 존재하는 번호입니다.") {
-                showError('#phoneError', response);
-                return;
-            }
-            hideError('#phoneError');
-
-            sendVerificationCode(phoneNumber).done(function () {
+            data: JSON.stringify(dataToSend),
+            contentType: 'application/json',
+            success: function (response) {
                 alert("인증번호가 발송되었습니다.");
                 $('input[name="phNo"]').prop('readonly', true);
-            }).fail(function (xhr, status, error) {
+            },
+            error: function (xhr, status, error) {
                 alert("하이픈('-')없이 숫자만 입력해주세요.");
                 console.error('에러 : ', error);
-            });
-        }).fail(function (xhr, status, error) {
-            console.error('에러 : ', error);
+            }
         });
+
+    }).fail(function (xhr, status, error) {
+        console.error('에러 : ', error);
     });
+});
 
     function verifySmsCode(showAlert = false) {
         return new Promise((resolve, reject) => {
@@ -137,15 +149,15 @@ $(document).ready(function () {
             data: email,
             contentType: "text/plain"
         });
-
-        // 휴대폰 번호 중복 체크
+        
+                // 휴대폰 번호 중복 체크
         var phoneNumberCheck = $.ajax({
             url: 'phNoVaild',
             type: 'POST',
             data: phoneNumber,
             contentType: "text/plain"
         });
-
+        
         $.when(idCheck, phoneNumberCheck).done(function (idResponse, phoneResponse) {
             // idCheck와 phoneNumberCheck 모두 성공
             var idData = idResponse[0]; // idCheck 응답 데이터

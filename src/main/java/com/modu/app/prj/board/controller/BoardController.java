@@ -80,7 +80,7 @@ public class BoardController {
 		brd.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		brd.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		model.addAttribute("Brd", boardService.BoardList(brd));
-		return "/boardLIst/boardList";
+		return "boardLIst/boardList";
 	}
 
 	// 게시판 삭제
