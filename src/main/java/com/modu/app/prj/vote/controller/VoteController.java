@@ -56,12 +56,10 @@ public class VoteController {
 	vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 	
 	
-	Map<String, Object> map = new HashMap<>();
-	System.out.println(voteService.allCount((String) session.getAttribute("prjUniNo")));	  
+	Map<String, Object> map = new HashMap<>();	  
 	map.put("list",voteService.voteList(vo)); //투표 리스트
 	map.put("count",voteService.allCount((String) session.getAttribute("prjUniNo")));	//투표 참여인원수
 	map.put("grd", voteService.grdCheck((String) session.getAttribute("particiMembUniNo")));//회원 등급 처리
-	System.out.println(map);
 		return map; 
 	 }
 	 
@@ -115,7 +113,6 @@ public class VoteController {
 		if(voteNo != null) {
 			vo.setVoteNo(voteNo);
 		}
-		System.out.println(vo);
 		// 모델에 투표 단건조회와 투표항목들 조회하기
 		model.addAttribute("voteInfo",voteService.voteOne(vo));
 		model.addAttribute("item",voteService.voteItem(voteNo));
@@ -129,9 +126,6 @@ public class VoteController {
 		//이미 투표한 장소인지 확인하기 위해 필요한 데이터 넣기
 		vdvo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vdvo.setVoteNo(voteNo);
-		System.out.println(model.getAttribute("voteInfo"));
-		System.out.println("1111111111111111111");
-		System.out.println(model.getAttribute("maker"));
 		
 		//투표가 마감날짜와 현재날짜를 비교하기 위해 날짜 가져오기
 		Date today = new Date(); // 현재날짜 가져오기
@@ -149,7 +143,6 @@ public class VoteController {
 		if(voteService.whoVote(vdvo) != null || toDt.before(today) || grd == "G01") {
 			return "vote/voteResult";
 		}else {
-			System.out.println("동장건");
 			return "vote/voteInfo";
 		}
 		
@@ -163,9 +156,7 @@ public class VoteController {
 		
 		//투표 행위가 이루어짐.
 		vo.setVoteNo(voteNo);
-		System.out.println(vo);
 		voteService.voteDo(vo);
-		System.out.println("장동건");
 		//변경 성공 여부
 		return vo;
 	}
@@ -176,7 +167,6 @@ public class VoteController {
 	public VoteVO voteDO(HttpSession session,@RequestBody VoteVO vo,@PathVariable String voteNo){
 			
 			voteService.voteDate(vo);
-			System.out.println("동건장");
 			//변경 성공 여부
 			return vo;
 		}
