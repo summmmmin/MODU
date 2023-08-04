@@ -60,8 +60,8 @@
 		, REG_DT
 		, EMAIL_AUTH
 		, TOKEN
-		,
-		PROVIDER_ID
+		,PROVIDER_ID
+		,LOGIN_PATH
 		)
 		VALUES (
 		'mt' ||
@@ -70,13 +70,14 @@
 		,#{pwd}
 		,#{nm}
 		,#{phNo}
-		,'N'
-		,'N'
-		,'N'
+		,#{sns}
+		,#{quit}
+		,#{grd}
 		,sysdate
-		,'N'
+		,#{emailAuth}
 		,#{Token}
 		,#{providerID}
+		,#{loginPath}
 		)
 	</insert>
 
