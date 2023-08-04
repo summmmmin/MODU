@@ -558,12 +558,13 @@
 																	+ code,
 															success : function(
 																	response) {
-																alert("인증 성공! 이메일이 변경되었습니다.");
+																alert("인증 성공! 이메일이 변경되었습니다. \n 적용을 위해 새로운 아이디로 로그인을 해주세요.");
 																var elementSelectors = "#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group";
 																$(elementSelectors).slideUp();
 																$('#user-id-horizontal')
 																.text(
 																		newEmail);
+																window.location.href = "/modu/logout"
 															},
 															error : function(
 																	error) {
@@ -573,7 +574,8 @@
 														});
 											});
 
-						}); //document.ready종료
+						}); 
+		//document.ready종료
 	</script>
 
 </body>
