@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -17,6 +18,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.modu.app.prj.user.service.UserVO;
 import com.modu.app.site.notice.service.FAQService;
 import com.modu.app.site.notice.service.FAQVO;
+
 
 @Controller
 public class FAQController {
@@ -77,7 +80,8 @@ public class FAQController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    
+    // faq 작성
     @PostMapping("save-content")
     @ResponseBody
     public ResponseEntity<String> saveContent(@RequestBody FAQVO faq, HttpSession session) {
@@ -93,5 +97,23 @@ public class FAQController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+    
+    //FAQ 전체리스트
+    @GetMapping("FAQList")
+    public String faqList(Model model) {
+    	List<FAQVO> list = faqService.faqList();
+    	model.addAttribute("faqList", list);
+    	
+    	return "faq/FAQList";
+    }
+    
+    //FAQ 단건
+    @GetMapping("FAQInfo")
+    public String faqInfo(Model model, String no) {
+    	
+    	model.addAttribute("faq", faqService.selectFAQ(no));
+    	
+    	return "faq/FAQInfo";
     }
 }
