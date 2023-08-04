@@ -513,4 +513,16 @@ public class UserController {
         model.addAttribute("payTable", payTable);
         return "admin/payTable";
     }
+    
+    //유저추방
+    @PostMapping("admin/banUser")
+    public ResponseEntity<String> banUser(@RequestBody UserVO userVO) {
+        try {
+            userService.banUser(userVO.getId());
+            return ResponseEntity.ok("회원이 추방되었습니다.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 }

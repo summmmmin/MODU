@@ -1,5 +1,6 @@
 package com.modu.app.prj.board.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.board.service.BoardService;
 import com.modu.app.prj.board.service.BoardVO;
+import com.modu.app.prj.post.service.PostService;
+import com.modu.app.prj.post.service.PostVO;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
@@ -29,6 +32,9 @@ public class BoardController {
 
 	@Autowired
 	PrjService prjService;
+	
+	@Autowired
+	PostService postService;
 
 	// 프로젝트 메인페이지
 	@GetMapping("/main")
@@ -74,7 +80,7 @@ public class BoardController {
 		brd.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		brd.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		model.addAttribute("Brd", boardService.BoardList(brd));
-		return "/boardLIst/boardList";
+		return "boardLIst/boardList";
 	}
 
 	// 게시판 삭제
@@ -106,7 +112,6 @@ public class BoardController {
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
 		vo.setPrjUniNo(prjUniNo);
 		boardService.prjList(vo);
-		System.out.println(boardService.prjList(vo));
 		return boardService.prjList(vo);
 	}
 
@@ -123,5 +128,14 @@ public class BoardController {
 		}
 		return boardService.newJeans(vo);
 	}
-
+	
+	@PostMapping("POSTLIST")
+	@ResponseBody
+	public List<BoardVO> POSTLIST(@RequestBody BoardVO vo, HttpSession session){
+		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		return boardService.POSTLIST(vo);
+	}
+	
+	
+	
 }

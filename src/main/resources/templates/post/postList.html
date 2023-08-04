@@ -148,7 +148,7 @@
 					<div th:each="post : ${postList}" class="card postPlace">
 						<div class="card-content">
 							<div class="card-body">
-								<input class="getPostUniNo" type="hidden"	th:value="${post.postUniNo}">
+								<input class="getPostUniNo" type="hidden" th:value="${post.postUniNo}">
 								<input class="aaa" th:value="${post.particiMembUniNo}" style="display:none">
 								<div class="row">
 									<div class="col">
@@ -182,7 +182,9 @@
 										<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 								</div>
 									<hr>
-								<div class="replyPlace card-body" th:data-postUniNo="${post.postUniNo}"></div>
+								<div class="card-body" >
+									<div th:data-postUniNo="${post.postUniNo}" class="row replyPlace"></div>
+								</div>
 									<hr>
 								<div class="form-group position-relative has-icon-right">
 									<input name="replyUniNo" type="hidden" class="replyInput form-control" id="replyId"> 
@@ -331,7 +333,7 @@
 											//start of reply-dropdown
 											if(user == reply.particiMembUniNo){
 												let divTag = document.createElement('div');
-												divTag.setAttribute('class', 'dropdown');
+												divTag.setAttribute('class', 'dropdown col-auto');
 
 												let btnTag = document.createElement('button');
 												btnTag.setAttribute('class', 'btn btn-primary btn-sm dropdown-toggle');
@@ -396,41 +398,55 @@
 					let replyInfo = {};
 					let btnParent = btn.parentElement.parentElement;
 					let rInput = btnParent.querySelectorAll('.replyInput');
-					console.log("!!!!"+event.target.dataset.membno);
 					let particiMembUniNo = event.target.dataset.membno;
-					//console.log(rInput[2]);
 					if(rInput[2].value != ""){
 						rInput.forEach(reply =>{
 							replyInfo[reply.name] = reply.value;
 						})
 						replyInfo["postUniNo"] = pNum;
 
-						fetch('/modu/replyInsert',{
-							method : 'post',
-							headers : {
-								'content-type' : 'application/json'
-							},
-							body : JSON.stringify(replyInfo)
-						})
-						.then(result => result.json())
-						.then(data => {
-							let cntn = data.cntn
-							console.log(cntn);
-							//rInput.value = '';
-							showReplyList()
-							rInput[2].value = '';
-							
-							//댓글 작성 알림
-							armClient.publish({
-								destination: "/pubArm/reply/"+particiMembUniNo,
-								body: JSON.stringify({
-									'postUniNo': data.postUniNo,
-									'particiMembUniNo' : particiMembUniNo,
-								})
-						});
+						fetch('/modu/replyInsert', {
+							  method: 'post',
+							  headers: {
+							    'content-type': 'application/json'
+							  },
+							  body: JSON.stringify(replyInfo)
+							})
+							.then(result => result.json())
+							.then(data => {
+							  let cntn = data.cntn;
+							  // rInput.value = '';
+							  showReplyList();
+							  rInput[2].value = '';
 
-						})
-						.catch(err => console.log(err))
+							  // POST에서 댓글 알림 여부를 가져 오기 위해 LIST를 뽑아옴
+							  let bun = '[[${brdUniNo}]]';
+							  fetch('/modu/POSTLIST', {
+							    method: 'POST',
+							    headers: {
+							      'content-type': 'application/json'
+							    },
+							    body: JSON.stringify({ brdUniNo: bun })
+							  })
+							  .then(result => result.json())
+							  .then(data => {
+
+							    let ArmYn = data[0].replyArmYn;
+
+							    if (ArmYn == 'Y') {
+							      // 댓글 작성 알림(성현)
+							      armClient.publish({
+							        destination: "/pubArm/reply/" + particiMembUniNo,
+							        body: JSON.stringify({
+							          'postUniNo': data.postUniNo,
+							          'particiMembUniNo': particiMembUniNo,
+							        })
+							      });
+							    }
+							  })
+							  .catch(err => console.log(err));
+							})
+							.catch(err => console.log(err));
 					}else{
 						Swal.fire({
 							icon: "error",
@@ -497,7 +513,6 @@
 					return;
 				}
 
-				//console.log(replyInfo);
 				fetch('/modu/replyUpdate',{
 					method : 'post',
 					headers : {
@@ -529,7 +544,6 @@
 					})
 					.then(result => result.json())
 					.then(data => {
-						console.log(data);
 						window.location.href = '/modu/postList?brdUniNo=' + bNum;
 					})
 					.catch(err => console.log(err)); 
@@ -599,7 +613,6 @@
 				})
 				.then(resolve => resolve.json())
 				.then(data => {
-					console.log("다운로드완료")
 				})
 				.catch(err => console.log(err))
 			}
@@ -670,8 +683,6 @@
 				let pNum = e.target.parentElement.dataset.postunino;
 				let reOnOffBTN = e.target;
 				let postInfo = {};
-				console.log(e.target);
-				console.log(pNum);
 				if(reOnOffBTN.textContent == '댓글알림ON'){
 					postInfo['postUniNo'] = pNum;
 					postInfo['replyArmYn'] = 'Y';
@@ -712,7 +723,6 @@
 <script>
 //========================== 게시글 즐겨찾기  ========================== //
 function PostBm(){
-	console.log(event.target.id);
    	let postNo = event.target.id;
 	let particiMembUniNo = '[[${session.particiMembUniNo}]]';
 	let data = {
@@ -730,7 +740,6 @@ function PostBm(){
 	})
 	.then(response => response.json())
 	.then(data => {
-		console.log(data);
 		location.href='postList?brdUniNo='+'[[${brdUniNo}]]';
 	})
 }
@@ -746,7 +755,6 @@ function insertBrd(){
 	})
 	.then(response => response.json())
 	.then(data => {
-		console.log(data);
 		location.href='postList?brdUniNo='+'[[${brdUniNo}]]';
 	})
 }
@@ -792,11 +800,9 @@ $(document).ready(function() {
   
 // 게시판 번호 찾아오기
 let brdNo = document.getElementById('brdNo').textContent;
-	console.log(brdNo);
 
 //프로젝트 번호 찾아오기
 let prjNo = document.getElementById('prjNo').textContent;
-	console.log(prjNo);
 	
 //게시판 삭제
 function BrdDelete(){
@@ -809,7 +815,6 @@ function BrdDelete(){
 	})
 	.then(result=>result.text())
 	.then(data => {
-		console.log(data);
 		//삭제 후 Main페이지로 리턴
 		window.location.href = "/modu/main?prjUniNo="+prjNo; 
 	})
@@ -821,10 +826,8 @@ function BrdDelete(){
 function BrdUpdate() {
 	//게시판 번호 찾아오기
 	let brdNo = document.getElementById('brdNo').textContent;
-		console.log(brdNo);
 		
 	let brdNm = document.getElementById('boardNm').value;
-	console.log('1234444'+brdNm);
 	
   // CheckBox 값 여부(공개 비공개 여부)
   let check1 = document.querySelector('#checkbox1');
@@ -847,7 +850,6 @@ function BrdUpdate() {
   })
   .then(result => result.text())
   .then(data => {
-	  console.log(data);
 	  alert('수정이 완료 되었습니다 !');
   })
   .catch(err => console.log(err));
@@ -861,7 +863,6 @@ function particiInsert(){
 		"particiMembUniNos"	: $("#brdksh option:selected").map(function(){ return $(this).val(); }).get()
 		,"boardUniNo":'[[${brdUniNo}]]'
 	}
-	console.log(particidata);
 	fetch('newJeans',{
 		method: 'POST',
 		headers: {
@@ -878,7 +879,6 @@ function particiInsert(){
 
 //투표 상세로 가기
 	function voteInfo(vid){
-		console.log("11111111111111")
 		 $.ajax("voteInfo/"+vid)
 		.done(result =>{
 			document.getElementById("rsidebar").classList.toggle("active");

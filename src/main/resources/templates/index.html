@@ -26,7 +26,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 <script src="fullcalendar-6.1.8/dist/index.global.js"></script>
@@ -378,14 +378,14 @@
 								<h5>채팅방 이름</h5>
 								<div class="form-group">
 									<input id="chartNm" name="chartNm" type="text"
-										placeholder="40자까지 입력 가능합니다." class="form-control"> <input
+										placeholder="40자까지 입력 가능합니다." class="form-control" required> <input
 										id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
 										type="text" class="form-control" style="display: none">
 									<input id="particiMembUniNo" name="particiMembUniNo"
 										th:value="${session.particiMembUniNo}" type="text"
 										class="form-control" style="display: none"> <label
-										for="basicInput" class="form-label">참여멤버선택</label> <select
-										id="memberSelect" class="choices form-select multiple-remove"
+										for="basicInput" class="form-label">참여멤버선택</label> 
+										<select id="memberSelect" class="choices form-select multiple-remove"
 										multiple="multiple"></select>
 								</div>
 							</div>
@@ -470,7 +470,7 @@
 
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
-	<script src="assets/js/test.js"></script>
+	
 
 	<script>
 	
@@ -505,7 +505,7 @@
 				<li class="submenu-item">
 				<div class="row">
 					<div class="col-2">
-						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 108.9 103.6">
+						<svg xmlns="http://www.w3.org/2000/svg " width="15" height="15" viewBox="0 0 108.9 103.6">
 							<g id="Layer_2" data-name="Layer 2">
 								<g id="Layer_1-2" data-name="Layer 1">
 									<polygon th:onclick="clickInsert()" class="cls-1" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" id=`+data.brdUniNo+`>
@@ -545,7 +545,7 @@
 	</script>
 
 	<script>
-        //채팅방리스트
+    //채팅방리스트
 		function showChatList(){
 			fetch("/modu/chatrList")
 			.then(resolve => resolve.json())
@@ -598,6 +598,7 @@
 		//채팅방생성
 		function makeChatrPlz(e) {
 			//let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
+			
 			let chatNm = document.getElementById('chartNm').value;
 			let selectedOptions = document.getElementById('memberSelect').selectedOptions;
 			let chatMembs = [];
@@ -605,7 +606,17 @@
 			for (let i = 0; i < selectedOptions.length; i++) {
 				chatMembs.push(selectedOptions[i].value);
 			}
+			if(document.getElementById('chartNm').value == ''){
+				Swal.fire({
+					icon: "error",
+					title: "채팅방 이름을 입력해 주세요"
+				})
+				//document.getElementById('memberSelect').value('');
+				document.getElementById('.choices__list').options.length = null;
 
+				return;
+			}
+		
 			let makeChatInfo = {};
 			makeChatInfo['chartNm'] = chatNm;
 			makeChatInfo['particiMembUniNos'] = chatMembs;
@@ -756,8 +767,6 @@
  			}
  		}
  	</script>
-	<script> 
-
-	</script>
+<script src="assets/js/test.js"></script>
 </body>
 </html>

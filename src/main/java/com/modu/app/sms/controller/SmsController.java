@@ -27,10 +27,11 @@ public class SmsController {
 
 	private final SmsService smsService;
 
-	@PostMapping("/send")
+	@PostMapping("send")
 	public SmsResponseDTO sendSms(@RequestBody MessageDTO messageDTO) throws UnsupportedEncodingException,
 			URISyntaxException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
 		SmsResponseDTO responseDTO = smsService.sendSms(messageDTO);
+		System.out.println(messageDTO);
 		return responseDTO;
 	}
 

@@ -3,17 +3,18 @@ package com.modu.app.prj.user.service;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class UserVO implements UserDetails {
 
 	// 회원 고유번호
@@ -54,6 +55,19 @@ public class UserVO implements UserDetails {
 
 	// 소셜로그인 로그인경로
 	private String loginPath;
+	
+	   @Builder
+	   public UserVO(String id, String nm, String pwd, String providerID) {
+		  this.membUniNo = membUniNo;
+	      this.id = id;
+	      this.nm = nm;
+	      this.pwd = pwd;
+	      this.phNo = "정보없음";
+	      this.emailAuth = "Y";
+	      this.sns = "Y";
+	      this.providerID = providerID;
+	      this.grd = "N";
+	   }
 
 	@Override
 	public String getPassword() {
