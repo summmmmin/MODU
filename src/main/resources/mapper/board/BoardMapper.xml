@@ -85,5 +85,23 @@ where brd.prj_uni_no=#{prjUniNo}
 	)
 	</insert>
 	
+	<select id="POSTLIST" resultType="BoardVO" parameterType="BoardVO">
+			SELECT p.post_uni_no,
+			   p.brd_uni_no,
+			   p.ttl,
+			   p.cm,
+			   p.partici_memb_uni_no,
+			   p.post_tag_arm,
+			   p.reply_arm_yn,
+			   p.noti_yn,
+			   p.noti_reg_dt,
+			   p.write_dt,
+			   m.nnm
+		  FROM post p 
+		  JOIN prj_partici_memb m
+		    ON p.partici_memb_uni_no = m.partici_memb_uni_no
+	     WHERE p.brd_uni_no=#{brdUniNo}
+	  ORDER BY write_dt desc
+	</select>
 	
 </mapper>

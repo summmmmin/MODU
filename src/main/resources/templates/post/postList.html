@@ -148,7 +148,7 @@
 					<div th:each="post : ${postList}" class="card postPlace">
 						<div class="card-content">
 							<div class="card-body">
-								<input class="getPostUniNo" type="hidden"	th:value="${post.postUniNo}">
+								<input class="getPostUniNo" type="hidden" th:value="${post.postUniNo}">
 								<input class="aaa" th:value="${post.particiMembUniNo}" style="display:none">
 								<div class="row">
 									<div class="col">
@@ -182,7 +182,9 @@
 										<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 								</div>
 									<hr>
-								<div class="replyPlace card-body" th:data-postUniNo="${post.postUniNo}"></div>
+								<div class="card-body" >
+									<div th:data-postUniNo="${post.postUniNo}" class="row replyPlace"></div>
+								</div>
 									<hr>
 								<div class="form-group position-relative has-icon-right">
 									<input name="replyUniNo" type="hidden" class="replyInput form-control" id="replyId"> 
@@ -331,7 +333,7 @@
 											//start of reply-dropdown
 											if(user == reply.particiMembUniNo){
 												let divTag = document.createElement('div');
-												divTag.setAttribute('class', 'dropdown');
+												divTag.setAttribute('class', 'dropdown col-auto');
 
 												let btnTag = document.createElement('button');
 												btnTag.setAttribute('class', 'btn btn-primary btn-sm dropdown-toggle');
@@ -396,7 +398,6 @@
 					let replyInfo = {};
 					let btnParent = btn.parentElement.parentElement;
 					let rInput = btnParent.querySelectorAll('.replyInput');
-					console.log("!!!!"+event.target.dataset.membno);
 					let particiMembUniNo = event.target.dataset.membno;
 					//console.log(rInput[2]);
 					if(rInput[2].value != ""){
@@ -405,32 +406,50 @@
 						})
 						replyInfo["postUniNo"] = pNum;
 
-						fetch('/modu/replyInsert',{
-							method : 'post',
-							headers : {
-								'content-type' : 'application/json'
-							},
-							body : JSON.stringify(replyInfo)
-						})
-						.then(result => result.json())
-						.then(data => {
-							let cntn = data.cntn
-							console.log(cntn);
-							//rInput.value = '';
-							showReplyList()
-							rInput[2].value = '';
-							
-							//댓글 작성 알림
-							armClient.publish({
-								destination: "/pubArm/reply/"+particiMembUniNo,
-								body: JSON.stringify({
-									'postUniNo': data.postUniNo,
-									'particiMembUniNo' : particiMembUniNo,
-								})
-						});
+						fetch('/modu/replyInsert', {
+							  method: 'post',
+							  headers: {
+							    'content-type': 'application/json'
+							  },
+							  body: JSON.stringify(replyInfo)
+							})
+							.then(result => result.json())
+							.then(data => {
+							  let cntn = data.cntn;
+							  // rInput.value = '';
+							  showReplyList();
+							  rInput[2].value = '';
 
-						})
-						.catch(err => console.log(err))
+							  // POST에서 댓글 알림 여부를 가져 오기 위해 LIST를 뽑아옴
+							  let bun = '[[${brdUniNo}]]';
+							  fetch('/modu/POSTLIST', {
+							    method: 'POST',
+							    headers: {
+							      'content-type': 'application/json'
+							    },
+							    body: JSON.stringify({ brdUniNo: bun })
+							  })
+							  .then(result => result.json())
+							  .then(data => {
+							    console.log(data);
+							    console.log(data[0].replyArmYn);
+
+							    let ArmYn = data[0].replyArmYn;
+
+							    if (ArmYn == 'Y') {
+							      // 댓글 작성 알림(성현)
+							      armClient.publish({
+							        destination: "/pubArm/reply/" + particiMembUniNo,
+							        body: JSON.stringify({
+							          'postUniNo': data.postUniNo,
+							          'particiMembUniNo': particiMembUniNo,
+							        })
+							      });
+							    }
+							  })
+							  .catch(err => console.log(err));
+							})
+							.catch(err => console.log(err));
 					}else{
 						Swal.fire({
 							icon: "error",

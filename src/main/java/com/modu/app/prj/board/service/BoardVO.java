@@ -4,6 +4,8 @@ package com.modu.app.prj.board.service;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -74,5 +76,17 @@ public class BoardVO {
 	
 	//비공개 게시판 참여자 고유번호
 	private String boardParticiMembUniNo;
+	
+	private String postUniNo; // 게시글고유번호
+	private String ttl; // 제목
+	private String cm; // 내용
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date writeDt; // 작성일자
+	private String postTagArm; // 게시글태그알림
+	private char replyArmYn; // 댓글알림여부
+	private char notiYn; // 공지여부
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date notiRegDt; //공지등록일자
+	
 	
 }

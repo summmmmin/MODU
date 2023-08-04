@@ -36,6 +36,10 @@ public interface BoardMapper {
 	//비공개 게시판 초대
 	public int newJeans(BoardVO vo);
 	
+	//게시글 리스트
+	public List<BoardVO> POSTLIST(BoardVO vo);
+	
+	
 	
 
 }
