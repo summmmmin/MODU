@@ -50,14 +50,12 @@ public class FAQController {
     @PostMapping("upload-image")
     @ResponseBody
     public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile image) {
-    	System.out.println(image);
         try {
             String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
             Path filePath = Paths.get(uploadPath, fileName);
             Files.write(filePath, image.getBytes());
 
             String imageUrl = "uploaded-images/" + fileName; // 이미지 URL
-            System.out.println(imageUrl);
             return ResponseEntity.ok().body(imageUrl);
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,12 +69,9 @@ public class FAQController {
     public ResponseEntity<Resource> showImage(@PathVariable String attNm) throws MalformedURLException {
         Path imagePath = Paths.get(uploadPath).resolve(attNm);
         Resource imageResource = new UrlResource(imagePath.toUri());
-        System.out.println(imagePath);
         if (imageResource.exists() && imageResource.isReadable()) {
-            System.out.println("readable");
         	return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageResource);
         } else {
-        	System.out.println("else");
             return ResponseEntity.notFound().build();
         }
     }
