@@ -60,8 +60,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		    byEmail.setSns("Y");
 		    byEmail.setProviderID(providerId);
 		    byEmail.setGrd("N");
+		    byEmail.setQuit("N");
+		    byEmail.setLoginPath(loginPath);
+		    System.out.println("sns정보 : " + byEmail);
 		    userMapper.signup(byEmail);
-		    System.out.println("---업데이트---");
 		}
 
 		System.out.println("가입정보 : " + byEmail);
