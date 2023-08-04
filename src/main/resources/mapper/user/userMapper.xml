@@ -28,8 +28,7 @@
 		, ID
 		, PWD
 		, NM
-		,
-		PH_NO
+		, PH_NO
 		, SNS
 		, QUIT
 		, GRD
