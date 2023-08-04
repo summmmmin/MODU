@@ -95,6 +95,7 @@
 </div>
 <!-- ========================게시판 삭제Modal 끗 ======================== -->
 
+
 <!-- ========================회원 초대 Modal 시작 ======================== -->
 <div class="modal fade text-left" id="partici" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3752" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -130,11 +131,11 @@
 </div>
 </div>
 <!-- ========================회원 초대 Modal 끗 (성현) ======================== -->
-
 		<div th:if="${#lists.isEmpty(postList)}">
 			게시글이없습니다
 			<div class="col-md-1 col-sm-12 mx-auto">
-					<div class="buttons" style="position: fixed; bottom: 120px; right: 350px;">
+					<div class="buttons" style="position: fixed; bottom: 120px; right: 330px;">
+
 						<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" th:if="${session.grd} != 'G01'">글작성</a>
 					</div>
 				</div>
