@@ -31,8 +31,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		if (provider.equals("naver")) {
 			oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
 			loginPath = "네이버";
+			System.out.println("네이버 info : " + oAuth2UserInfo);
 		} else if (provider.equals("kakao")) {
 			oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
+			System.out.println("카카오 info : " + oAuth2UserInfo);
 			loginPath = "카카오";
 		}
     
@@ -58,10 +60,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		    byEmail.setSns("Y");
 		    byEmail.setProviderID(providerId);
 		    byEmail.setGrd("N");
+		    byEmail.setQuit("N");
+		    byEmail.setLoginPath(loginPath);
+		    System.out.println("sns정보 : " + byEmail);
 		    userMapper.signup(byEmail);
 		}
 
-		System.out.println("if > byEmail : " + byEmail);
+		System.out.println("가입정보 : " + byEmail);
 
 		return new PrincipalDetails(byEmail, oAuth2User.getAttributes());
 	}

@@ -28,8 +28,7 @@
 		, ID
 		, PWD
 		, NM
-		,
-		PH_NO
+		, PH_NO
 		, SNS
 		, QUIT
 		, GRD
@@ -61,8 +60,8 @@
 		, REG_DT
 		, EMAIL_AUTH
 		, TOKEN
-		,
-		PROVIDER_ID
+		,PROVIDER_ID
+		,LOGIN_PATH
 		)
 		VALUES (
 		'mt' ||
@@ -71,13 +70,14 @@
 		,#{pwd}
 		,#{nm}
 		,#{phNo}
-		,'N'
-		,'N'
-		,'N'
+		,#{sns}
+		,#{quit}
+		,#{grd}
 		,sysdate
-		,'N'
+		,#{emailAuth}
 		,#{Token}
 		,#{providerID}
+		,#{loginPath}
 		)
 	</insert>
 
@@ -266,6 +266,13 @@ ORDER BY
 		JOIN
 		pay py ON p.prj_uni_no = py.prj_uni_no
 	</select>
+	
+	<!-- 관리자 메뉴 추방 -->
+    <update id="banUser" parameterType="String">
+        UPDATE memb 
+        SET quit = 'Y' 
+        WHERE id = #{id}
+    </update>
 
 
 </mapper>
