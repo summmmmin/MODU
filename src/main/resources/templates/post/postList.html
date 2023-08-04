@@ -182,7 +182,9 @@
 										<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 								</div>
 									<hr>
-								<div class="replyPlace card-body" th:data-postUniNo="${post.postUniNo}"></div>
+								<div class="card-body" >
+									<div th:data-postUniNo="${post.postUniNo}" class="row replyPlace"></div>
+								</div>
 									<hr>
 								<div class="form-group position-relative has-icon-right">
 									<input name="replyUniNo" type="hidden" class="replyInput form-control" id="replyId"> 
@@ -331,7 +333,7 @@
 											//start of reply-dropdown
 											if(user == reply.particiMembUniNo){
 												let divTag = document.createElement('div');
-												divTag.setAttribute('class', 'dropdown');
+												divTag.setAttribute('class', 'dropdown col-auto');
 
 												let btnTag = document.createElement('button');
 												btnTag.setAttribute('class', 'btn btn-primary btn-sm dropdown-toggle');
