@@ -507,7 +507,7 @@
 
 			// WebSocket 연결 설정
 			const stompClient = new StompJs.Client({
-				brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
+				brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
 			});
 
 			// 페이지 로드시 
@@ -635,7 +635,7 @@
 						//성현 채팅 알림 조건
 						$.ajax('ChatParticiMemb')
 							.done(result => {
-								console.log(result);
+								console.log('123123123' + result);
 								for (let i = 0; i < result.length; i++) {
 									console.log(result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]');
 									console.log(result[i].particiMembUniNo)
