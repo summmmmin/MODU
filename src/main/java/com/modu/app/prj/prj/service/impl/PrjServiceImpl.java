@@ -121,7 +121,7 @@ public class PrjServiceImpl implements PrjService {
 
 	@Override
 	public PrjVO selectInvite(String tk) {
-		System.out.println("서비스 토큰"+tk);
+		//System.out.println("서비스 토큰"+tk);
 		return prjMapper.selectInvite(tk);
 	}
 
