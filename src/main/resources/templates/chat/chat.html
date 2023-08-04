@@ -63,7 +63,7 @@
 					</div>
 				</div>
 				<div class="col-md-1 col-sm-12 mx-auto">
-					<div style="position: fixed; bottom: 150px; right: 310px;">
+					<div style="position: fixed; bottom: 150px; right: 300px;">
 						<div class="buttons" onclick="pageUp()">
 							<a class="btn btn-outline-primary">△</a>
 						</div>
@@ -161,7 +161,7 @@
 										style="display: none">
 									<input id="particiMembUniNo" name="particiMembUniNo" th:value="${session.particiMembUniNo}" type="text"
 										class="form-control" style="display: none"> <label for="basicInput" class="form-label">참여멤버선택</label>
-									<select id="addMembSelect" class="form-select multiple-remove" multiple="multiple"></select>
+									<select id="addMembSelect" class="form-select multiple-remove addChatMembs" multiple="multiple"></select>
 								</div>
 							</div>
 							<div class="modal-footer">
@@ -350,10 +350,15 @@
 							
 							chatMembPlace.append(span);
 						})
+
+					
+
 					})
 					.catch(err => console.log(err))
 			}
 			chatrParticiList();
+
+			
 
 			//채팅방 나가기
 			document.getElementById('leaveChatrBtn').addEventListener('click', function () {
@@ -415,6 +420,15 @@
 							optionTag.textContent = memb.nnm;
 							document.getElementById('addMembSelect').append(optionTag);
 						})
+
+							// choices 추가
+						new Choices(document.querySelector('.addChatMembs'),
+					      {
+					        delimiter: ',',
+					        editItems: true,
+					        maxItemCount: 10,
+					        removeItemButton: true,
+					      });
 					})
 					.catch(err => console.log(err))
 			}
