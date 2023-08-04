@@ -35,6 +35,7 @@ public class ScheController {
 		// 리스트 뽑기 , 리스트에 필요한 세션 값가져와서 바로 집어넣음.
 		PrjVO vo = new PrjVO();
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
+		model.addAttribute("scheList",scheService.scheList((String) session.getAttribute("prjUniNo")));
 		model.addAttribute("membList", prjService.getPrjPartiList(vo));
 		return "sche/scheList";
 	}
@@ -97,7 +98,7 @@ public class ScheController {
 	   //일정 등록
 	   @PostMapping("scheInsert")
 	   @ResponseBody
-	   public String scheInsert(HttpSession session, @RequestBody ScheVO vo) {
+	   public ScheVO scheInsert(HttpSession session, @RequestBody ScheVO vo) {
 	      
 		  //일정 등록 사람
 		  vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
@@ -117,7 +118,7 @@ public class ScheController {
 	    	  scheService.scheInsertPartici(scheVO);
 	      }
 	      }
-	      return "111"; 
+	      return  vo;
 	      
 	   }
 	   

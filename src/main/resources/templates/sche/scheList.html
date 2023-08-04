@@ -6,24 +6,27 @@
 
 	<script th:inline="javascript">
     /*<![CDATA[*/
-     $.ajax("scheListFetch")
+    let schAllDatas =/*[[${scheList}]]*/
+    	/*  $.ajax("scheListFetch")
   	.done(result=>{
     var schAllDatas = result;
     initializeCalendar(schAllDatas);
-  	})
+  	}) */
     let membList =/*[[${membList}]]*/
     /*]]>*/
   	</script>
   
 	<script>
-	 function initializeCalendar(schAllDatas) {
+	 /* function initializeCalendar(schAllDatas) { */
 	let navTop;
+	let formattedEvents = []
     document.addEventListener('DOMContentLoaded', function () {
       var calendarEl = document.getElementById('calendar');
-      allEvents = schAllDatas.scheList;  		
+      allEvents = schAllDatas;  
+      
       console.log('데이터', allEvents);
 
-      let formattedEvents = allEvents.map(eventData => ({
+      formattedEvents = allEvents.map(eventData => ({
         title: eventData.title,
         start: eventData.start,
         end: eventData.end,
@@ -34,7 +37,7 @@
         }
       }));
 
-
+		console.log(formattedEvents)
       var calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
           left: 'prev,next today',
@@ -87,16 +90,13 @@
               
               
             document.getElementById('startDate').innerText = scheDateInfoStart.toLocaleString('ko-KR', options);;
-            document.getElementById('finishDate').innerText =scheDateInfoEnd.toLocaleString('ko-KR', options);
+            document.getElementById('finishDate').innerText = scheDateInfoEnd.toLocaleString('ko-KR', options);
               
             $('#noInfo').val(scheInfo.scheUniNo);
             
             
             //일정 삭제
-            
-
-            
-            
+                       
             })
           $("#scheInfo").modal("show");
             
@@ -116,7 +116,18 @@
         	document.getElementById("4").setAttribute("min",formattedDate);
         	
           $("#scheInsert").modal("show");
-         
+			
+          var ScheInsertTitleInput = document.getElementById('1').value
+          var ScheInsertStartInput = document.getElementById('3').value
+          var ScheInsertEndInput = document.getElementById('4').value
+          
+          if (!isNaN(date.valueOf())) { // valid?
+              calendar.addEvent({
+                title: ScheInsertTitleInput,
+                start: ScheInsertStartInput,
+                end: ScheInsertEndInput
+              });
+            }
         },
         dayMaxEventRows: true, // for all non-TimeGrid views
         views: {
@@ -133,11 +144,11 @@
         displayEventTime: true,
         locale: 'ko',
         dayMaxEvents: true,
-        events: formattedEvents
+        
       });
+      calendar.addEventSource(formattedEvents);
       calendar.render();
     });
-	}
 
     
     //날짜 타입을 풀캘린더에 맞춰서 변환해주기위한 함수
@@ -401,8 +412,12 @@
       .then(result => result.json())
       .then(data => {
     	  $("#scheInsert").modal("hide");
-    	  initializeCalendar(data);
-      })
+    	  // fullcalendar에 event 추가
+             calendar.addEvent(scheInsertData);
+    	  console.log(scheInsertData)
+    	  console.log(calendar)
+    	  calendar.render();
+    	});
 }   
    
   function delSche() {
