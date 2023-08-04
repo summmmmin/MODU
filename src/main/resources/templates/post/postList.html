@@ -548,7 +548,7 @@
 					})
 					.then(result => result.json())
 					.then(data => {
-						console.log(data);
+						//console.log(data);
 						window.location.href = '/modu/postList?brdUniNo=' + bNum;
 					})
 					.catch(err => console.log(err)); 
@@ -618,7 +618,7 @@
 				})
 				.then(resolve => resolve.json())
 				.then(data => {
-					console.log("다운로드완료")
+					//console.log("다운로드완료")
 				})
 				.catch(err => console.log(err))
 			}
@@ -689,8 +689,8 @@
 				let pNum = e.target.parentElement.dataset.postunino;
 				let reOnOffBTN = e.target;
 				let postInfo = {};
-				console.log(e.target);
-				console.log(pNum);
+				//console.log(e.target);
+				//console.log(pNum);
 				if(reOnOffBTN.textContent == '댓글알림ON'){
 					postInfo['postUniNo'] = pNum;
 					postInfo['replyArmYn'] = 'Y';
