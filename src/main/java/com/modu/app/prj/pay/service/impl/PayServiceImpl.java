@@ -195,7 +195,6 @@ public class PayServiceImpl implements PayService {
     	// 정기결제 중인 프로젝트 목록 조회
 		List<PayVO> subList = payMapper.subscriPrj();
 		for(PayVO vo : subList) {
-			//System.out.println(vo);
 			if(vo.getSubspYn().equals("Y") && vo.getExdt().equals(date)) {
 				// 구독 여부 'Y'이고 만료일자 +1 = 현재날짜 -> 정기결제 요청
 				PayVO result = kakaoPaySubscrip(vo);

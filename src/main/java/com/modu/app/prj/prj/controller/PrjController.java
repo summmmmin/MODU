@@ -66,7 +66,6 @@ public class PrjController {
 		info.setMembUniNo(user.getMembUniNo());
 		info.setPrjUniNo(prjVO.getPrjUniNo());
 		info = prjService.getMemInfo(info);
-		//System.out.println(info);
 		if(info == null) {
 			return "redirect:prjList";
 		}else {
@@ -101,7 +100,6 @@ public class PrjController {
 		
 		// 프로젝트 결제 내역
 		model.addAttribute("payList", payService.prjPayList(prjVO.getPrjUniNo()));
-		System.out.println(payService.prjPayList(prjVO.getPrjUniNo()));
 		return "prj/prjPay";
 	}
 	
