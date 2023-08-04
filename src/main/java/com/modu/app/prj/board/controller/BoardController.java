@@ -112,7 +112,6 @@ public class BoardController {
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
 		vo.setPrjUniNo(prjUniNo);
 		boardService.prjList(vo);
-		System.out.println(boardService.prjList(vo));
 		return boardService.prjList(vo);
 	}
 
@@ -134,7 +133,6 @@ public class BoardController {
 	@ResponseBody
 	public List<BoardVO> POSTLIST(@RequestBody BoardVO vo, HttpSession session){
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		System.out.println("1111"+vo);
 		return boardService.POSTLIST(vo);
 	}
 	

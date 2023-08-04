@@ -399,7 +399,6 @@
 					let btnParent = btn.parentElement.parentElement;
 					let rInput = btnParent.querySelectorAll('.replyInput');
 					let particiMembUniNo = event.target.dataset.membno;
-					//console.log(rInput[2]);
 					if(rInput[2].value != ""){
 						rInput.forEach(reply =>{
 							replyInfo[reply.name] = reply.value;
@@ -431,8 +430,6 @@
 							  })
 							  .then(result => result.json())
 							  .then(data => {
-							    console.log(data);
-							    console.log(data[0].replyArmYn);
 
 							    let ArmYn = data[0].replyArmYn;
 
@@ -516,7 +513,6 @@
 					return;
 				}
 
-				//console.log(replyInfo);
 				fetch('/modu/replyUpdate',{
 					method : 'post',
 					headers : {
@@ -548,7 +544,6 @@
 					})
 					.then(result => result.json())
 					.then(data => {
-						console.log(data);
 						window.location.href = '/modu/postList?brdUniNo=' + bNum;
 					})
 					.catch(err => console.log(err)); 
@@ -618,7 +613,6 @@
 				})
 				.then(resolve => resolve.json())
 				.then(data => {
-					console.log("다운로드완료")
 				})
 				.catch(err => console.log(err))
 			}
@@ -689,8 +683,6 @@
 				let pNum = e.target.parentElement.dataset.postunino;
 				let reOnOffBTN = e.target;
 				let postInfo = {};
-				console.log(e.target);
-				console.log(pNum);
 				if(reOnOffBTN.textContent == '댓글알림ON'){
 					postInfo['postUniNo'] = pNum;
 					postInfo['replyArmYn'] = 'Y';
@@ -731,7 +723,6 @@
 <script>
 //========================== 게시글 즐겨찾기  ========================== //
 function PostBm(){
-	console.log(event.target.id);
    	let postNo = event.target.id;
 	let particiMembUniNo = '[[${session.particiMembUniNo}]]';
 	let data = {
@@ -749,7 +740,6 @@ function PostBm(){
 	})
 	.then(response => response.json())
 	.then(data => {
-		console.log(data);
 		location.href='postList?brdUniNo='+'[[${brdUniNo}]]';
 	})
 }
@@ -765,7 +755,6 @@ function insertBrd(){
 	})
 	.then(response => response.json())
 	.then(data => {
-		console.log(data);
 		location.href='postList?brdUniNo='+'[[${brdUniNo}]]';
 	})
 }
@@ -811,11 +800,9 @@ $(document).ready(function() {
   
 // 게시판 번호 찾아오기
 let brdNo = document.getElementById('brdNo').textContent;
-	console.log(brdNo);
 
 //프로젝트 번호 찾아오기
 let prjNo = document.getElementById('prjNo').textContent;
-	console.log(prjNo);
 	
 //게시판 삭제
 function BrdDelete(){
@@ -828,7 +815,6 @@ function BrdDelete(){
 	})
 	.then(result=>result.text())
 	.then(data => {
-		console.log(data);
 		//삭제 후 Main페이지로 리턴
 		window.location.href = "/modu/main?prjUniNo="+prjNo; 
 	})
@@ -840,10 +826,8 @@ function BrdDelete(){
 function BrdUpdate() {
 	//게시판 번호 찾아오기
 	let brdNo = document.getElementById('brdNo').textContent;
-		console.log(brdNo);
 		
 	let brdNm = document.getElementById('boardNm').value;
-	console.log('1234444'+brdNm);
 	
   // CheckBox 값 여부(공개 비공개 여부)
   let check1 = document.querySelector('#checkbox1');
@@ -866,7 +850,6 @@ function BrdUpdate() {
   })
   .then(result => result.text())
   .then(data => {
-	  console.log(data);
 	  alert('수정이 완료 되었습니다 !');
   })
   .catch(err => console.log(err));
@@ -880,7 +863,6 @@ function particiInsert(){
 		"particiMembUniNos"	: $("#brdksh option:selected").map(function(){ return $(this).val(); }).get()
 		,"boardUniNo":'[[${brdUniNo}]]'
 	}
-	console.log(particidata);
 	fetch('newJeans',{
 		method: 'POST',
 		headers: {
@@ -897,7 +879,6 @@ function particiInsert(){
 
 //투표 상세로 가기
 	function voteInfo(vid){
-		console.log("11111111111111")
 		 $.ajax("voteInfo/"+vid)
 		.done(result =>{
 			document.getElementById("rsidebar").classList.toggle("active");

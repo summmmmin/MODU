@@ -66,4 +66,7 @@ public class SearchVO {
 	//할 일 번호
 	private String todoUniNo;
 	
+	//링크 구분 값
+	private String division;
+	
 }
