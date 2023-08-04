@@ -33,13 +33,14 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<SimpleGrantedAuthority> list = new ArrayList<SimpleGrantedAuthority>();
-        if (userVO.getGrd().equals("Y")) {
+        if (userVO.getGrd().equals("A")) {
             list.add(new SimpleGrantedAuthority("ROLE_REGULAR"));
             list.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
             list.add(new SimpleGrantedAuthority("ROLE_USER"));
         } else if (userVO.getGrd().equals("N")) {
             list.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
+        System.out.println("권한부여 : " + list);
         return list;
     }
 

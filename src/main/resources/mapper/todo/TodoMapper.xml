@@ -18,6 +18,7 @@
 			TTL
 	  from todo 
 	  where MGR=#{particiMembUniNo} or cm=#{particiMembUniNo}
+	  order by todo_uni_No desc
 	</select>
 
 	<!-- 단건 조회 -->
@@ -38,6 +39,13 @@
 	<!-- 담당자 확인 -->
 	<select id="mgrCheck" parameterType="String">
 	select mgr
+	from todo
+	where todo_uni_no=#{todoUniNo}
+	</select>
+	
+	<!-- 담당자 참가자 확인 -->
+	<select id="mgrCmCheck" parameterType="String">
+	select mgr,cm
 	from todo
 	where todo_uni_no=#{todoUniNo}
 	</select>

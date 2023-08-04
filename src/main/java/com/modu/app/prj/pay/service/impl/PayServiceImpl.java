@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -19,7 +20,7 @@ import com.modu.app.prj.prj.mapper.PrjMapper;
 
 @Service
 public class PayServiceImpl implements PayService {
-	static final String cid = ""; // 정기결제 가맹점 테스트 코드
+	static final String cid = "TCSUBSCRIP"; // 정기결제 가맹점 테스트 코드
 	
 	 @Value("${kakao-admin-key}")
     private String admin_Key; // 애플리케이션 어드민 키
@@ -64,9 +65,9 @@ public class PayServiceImpl implements PayService {
         parameters.add("quantity", "1");					// 상품 수량
         parameters.add("total_amount", "12100");				// 상품 총액
         parameters.add("tax_free_amount", "0");				// 상품 비과세 금액
-        parameters.add("approval_url", "http://localhost/modu/payment/success"); // 성공 시 redirect url
-        parameters.add("cancel_url", "http://localhost/modu/payment/cancel"); // 취소 시 redirect url
-        parameters.add("fail_url", "http://localhost/modu/payment/fail"); // 실패 시 redirect url		
+        parameters.add("approval_url", "http://43.201.17.213:85/modu/payment/success"); // 성공 시 redirect url
+        parameters.add("cancel_url", "http://43.201.17.213:85/modu/payment/cancel"); // 취소 시 redirect url
+        parameters.add("fail_url", "http://43.201.17.213:85/modu/payment/fail"); // 실패 시 redirect url		
         
 		// 파라미터, 헤더
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
@@ -186,7 +187,7 @@ public class PayServiceImpl implements PayService {
 		return payMapper.insertPay(pay);
 	}
 	
-	//@Scheduled(cron = "0 0 10 * * *") 
+	@Scheduled(cron = "0 0 10 * * *") 
 	//@Scheduled(fixedDelay = 10000)
 	public void run() {
 		LocalDate date = LocalDate.now().minusDays(1);	// 어제날짜
@@ -194,7 +195,6 @@ public class PayServiceImpl implements PayService {
     	// 정기결제 중인 프로젝트 목록 조회
 		List<PayVO> subList = payMapper.subscriPrj();
 		for(PayVO vo : subList) {
-			//System.out.println(vo);
 			if(vo.getSubspYn().equals("Y") && vo.getExdt().equals(date)) {
 				// 구독 여부 'Y'이고 만료일자 +1 = 현재날짜 -> 정기결제 요청
 				PayVO result = kakaoPaySubscrip(vo);
@@ -206,7 +206,7 @@ public class PayServiceImpl implements PayService {
 				// 구독 여부 'C'이고 만료일자 +1 = 현재날짜 -> 정기결제 비활성화
 				kakaoPayInactive(vo.getPayToken());
 				
-				// 구독 여부 'N' 만료일자 결제토큰 결제번호 삭제
+				// 구독 여부 'N' 바꾸기 만료일자 결제토큰 결제번호 삭제
 				vo.setSubspYn("N");
 				payMapper.updateStat(vo);
 			}

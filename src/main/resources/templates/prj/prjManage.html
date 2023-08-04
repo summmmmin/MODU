@@ -11,9 +11,10 @@
     <link rel="stylesheet" href="assets/css/bootstrap.css">
 
     <link rel="stylesheet" href="assets/vendors/iconly/bold.css">
-
+	<link rel="stylesheet" href="assets/vendors/simple-datatables/style.css">
     <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/vendors/sweetalert2/sweetalert2.min.css">
     <link rel="stylesheet" href="assets/css/app.css">
     <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
 </head>
@@ -25,7 +26,8 @@
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-between">
                         <div class="logo">
-                            <a th:href="@{/}"><img src="assets/images/logo/logo.png" alt="Logo" srcset=""></a>
+                            <a class="navbar-brand" th:href="@{/}"><span
+					class="fw-bolder text-primary">MODU</span></a>
                         </div>
                         <div class="toggler">
                             <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -81,11 +83,11 @@
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
                     <div class="float-start">
-                        <p>2021 &copy; Mazer</p>
+                        <p>2023 &copy; MODU</p>
                     </div>
                     <div class="float-end">
                         <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                                href="http://ahmadsaugi.com">A. Saugi</a></p>
+                                href="http://ahmadsaugi.com">H. Sumin</a></p>
                     </div>
                 </div>
             </footer>
@@ -169,7 +171,7 @@
 		
 		// 모달 안 등록 버튼 클릭 시 선택에 따라 실행 다름
 		function modalclick(){
-			console.log(particiId);
+			//console.log(particiId);
 			let select = document.getElementById('action');
 			let option = select.options[select.selectedIndex];
 			let grd = selectGain.options[selectGain.selectedIndex].value;	//등급코드
@@ -184,7 +186,12 @@
 					body : JSON.stringify(data),
 				}) .then((response) => response.json())
 					.then((data) => {
-						alert('수정완료')
+						//수정 완료
+					    Swal.fire({
+					        icon: "success",
+					        title: "성공",
+					        text: "수정완료"
+					    })
 					// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
 						if(data == false){
 							location.href = "prjList";
@@ -203,7 +210,12 @@
 					body : JSON.stringify(data),
 				}).then((response) => response.json())
 					.then((data) => {
-						alert('탈퇴완료')
+						// 탈퇴완료
+					    Swal.fire({
+					        icon: "success",
+					        title: "성공",
+					        text: "탈퇴완료"
+					    })
 						// 변경 후 사용자의 등급이 관리자가 아니면 프로젝트 리스트로
 							if(data == false){
 								location.href = "prjList";
@@ -350,13 +362,26 @@
 					//console.log(result);
 					if(result.retCode == "Success"){
 						// 변경성공
+						Swal.fire({
+					        icon: "success",
+					        title: "성공",
+					        text: "변경 완료"
+					    })
 						// 변경한 값으로 바꾸기
 						document.querySelector('#prjNm').value = result.data.prjNm;
 					}else if(result.retCode == "Fail"){
 						// 변경실패
-						alert('변경 실패')
+						Swal.fire({
+						  title: "실패",
+						  text: "변경에 실패하였습니다.",
+						  icon: "warning",
+						  confirmButtonText: "확인",
+						});
 					}else{
-						alert('오류')
+					    Swal.fire({
+					        icon: "error",
+					        title: "Error"
+					    })
 					}
 				 })
 			}
@@ -367,7 +392,12 @@
 			let inputNm = document.querySelector('#delPrjNm').value;  //프로젝트 삭제 확인 문구(프로젝트명)
 			let data = {'prjUniNo':'[[${prjNo}]]','prjNm': inputNm};
 			if(inputNm == '' || inputNm == null){
-				alert('입력하세요')	
+				//입력안했을때
+				Swal.fire({
+				  title: "입력해주세요",
+				  icon: "warning",
+				  confirmButtonText: "확인",
+				});
 			}else{
 				fetch("manage/delPrj", {
 					method : "delete",
@@ -381,20 +411,34 @@
 
 					if(result == 1){
 						//삭제 성공
+						Swal.fire({
+					      icon: "success",
+					      title: "삭제 완료"
+					    })
 						// 프로젝트리스트페이지로
 						location.href = "prjList";
 					}else if(result == 2){
-						alert('삭제 실패')
+					    Swal.fire({
+					        icon: "error",
+					        title: "Error",
+					        text: "삭제 실패"
+					    })
 						document.querySelector('#delPrjNm').value = '';
 					}else if(result == 0){
-						alert('잘못입력하였습니다.')
+						Swal.fire({
+						  title: "다시 입력해주세요",
+						  text: "확인 문구가 일치하지 않습니다.",
+						  icon: "warning",
+						  confirmButtonText: "확인",
+						});
 						document.querySelector('#delPrjNm').value = '';
 					}
 				 })
 			}
 		}
 		
-		
+		let dataTableInstance = null;
 	</script>
+	<script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
 </body>
 </html>

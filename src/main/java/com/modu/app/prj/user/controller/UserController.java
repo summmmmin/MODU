@@ -35,6 +35,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.modu.app.prj.pay.service.PayVO;
 import com.modu.app.prj.user.mapper.UserMapper;
 import com.modu.app.prj.user.service.PrincipalDetails;
 import com.modu.app.prj.user.service.UserService;
@@ -49,6 +50,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 
+	@Autowired
+    SendEmail sendEmail;
+	
 	@Autowired
 	UserService userService;
 
@@ -124,7 +128,7 @@ public class UserController {
 		// 회원가입 후 이메일 발송
 		String siteURL = getSiteURL(request);
 		System.out.println("유저 : " + userVO + "주소 : " + siteURL);
-		SendEmail.authSend(userVO, siteURL);
+		sendEmail.authSend(userVO, siteURL);
 
 		return "redirect:login";
 	}
@@ -136,8 +140,9 @@ public class UserController {
 
 	// 회원가입 폼에서 휴대폰번호 중복체크
 	@PostMapping("phNoVaild")
-	public ResponseEntity<String> checkIdDuplicate1(@RequestBody String phNo) {
+	public ResponseEntity<String> checkphNoDuplicate(@RequestBody String phNo) {
 		int duplicateCount = userService.phNoVaild(phNo);
+		System.out.println("중복 번호 갯수 : " + duplicateCount);
 		System.out.println("회원가입 휴대폰 번호 : " + phNo);
 		if (duplicateCount > 0) {
 			System.out.println("휴대폰 중복체크 : " + duplicateCount);
@@ -197,27 +202,32 @@ public class UserController {
 
 	// 사이트 회원 비밀번호 찾기
 	@PostMapping("pwdSearch")
-	public @ResponseBody String pwdSearch(@RequestParam("id") String id) {
-		String newPassword = generateRandomPassword();
+	public ResponseEntity<String> pwdSearch(@RequestParam("id") String id, @RequestParam("nm") String nm) {
+	    UserVO userVO = new UserVO();
+	    userVO.setId(id);
+	    userVO.setNm(nm);
 
-		// 이메일 발송
-		SendEmail.gmailSend(id, newPassword);
+	    String membUniNo = userService.membSearch(userVO);
+	    System.out.println("비밀번호 찾기 회원 : " + membUniNo);
+	    if (membUniNo != null && !membUniNo.isEmpty()) {
+	        String newPassword = generateRandomPassword();
+	        System.out.println("비밀번호 재발급 : " + newPassword);
 
-		System.out.println("비밀번호 재설정 완료 " + newPassword);
+	        userVO.setPwd(newPassword);
+	        userVO.setMembUniNo(membUniNo);
 
-		// 비밀번호 재설정
-		UserVO userVO = new UserVO();
-		userVO.setId(id);
-		userVO.setPwd(newPassword);
+	        userService.pwdUpdate(userVO);
+	        System.out.println("업데이트 유저 : " + userVO);
 
-		// 암호화
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String encryptedPassword = passwordEncoder.encode(newPassword);
-		userVO.setPwd(encryptedPassword);
+	        // 이메일 전송
+			sendEmail.gmailSend(id, newPassword);
 
-		userMapper.pwdSearch(userVO);
+	        System.out.println("비밀번호 재설정 완료 " + newPassword);
 
-		return newPassword;
+	        return ResponseEntity.ok("비밀번호가 재설정 되었습니다. 메일을 확인해주세요.");
+	    } else {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 회원입니다.");
+	    }
 	}
 
 	// 비밀번호 재설정 때 사용할 랜덤 비밀번호
@@ -398,7 +408,7 @@ public class UserController {
 		// 세션에 인증번호 저장
 		session.setAttribute("storedCode", verificationCode);
 
-		SendEmail.idMail(userVO.getId(), newEmail, verificationCode);
+		sendEmail.idMail(userVO.getId(), newEmail, verificationCode);
 
 		return ResponseEntity.ok("이메일 전송 성공");
 	}
@@ -495,5 +505,24 @@ public class UserController {
 		System.out.println(id);
 		return user;
 	}
+	
+    // 전체 결제 내역 조회
+    @GetMapping("admin/payTable")
+    public String payTable(Model model) {
+        List<PayVO> payTable = userService.payTable();
+        model.addAttribute("payTable", payTable);
+        return "admin/payTable";
+    }
+    
+    //유저추방
+    @PostMapping("admin/banUser")
+    public ResponseEntity<String> banUser(@RequestBody UserVO userVO) {
+        try {
+            userService.banUser(userVO.getId());
+            return ResponseEntity.ok("회원이 추방되었습니다.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 
 }

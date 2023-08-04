@@ -2,7 +2,6 @@ package com.modu.app.prj.user.impl;
 
 import java.io.UnsupportedEncodingException;
 
-
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
@@ -12,12 +11,13 @@ import java.util.UUID;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.modu.app.prj.pay.service.PayVO;
 import com.modu.app.prj.user.mapper.UserMapper;
 import com.modu.app.prj.user.service.PrincipalDetails;
 import com.modu.app.prj.user.service.UserService;
@@ -70,8 +70,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public int pwdSearch(UserVO userVO) {
-		return userMapper.pwdSearch(userVO);
+	public int pwdUpdate(UserVO userVO) {
+		// 비밀번호 암호화 후 업데이트
+		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
+		String encryptedPassword = scpwd.encode(userVO.getPwd());
+		userVO.setPwd(encryptedPassword);
+
+		return userMapper.pwdUpdate(userVO);
+	}
+
+	@Override
+	public String membSearch(UserVO userVO) {
+		return userMapper.membSearch(userVO);
 	}
 
 	@Override
@@ -195,6 +205,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public int totalPay() {
 		return userMapper.totalPay();
+	}
+
+	@Override
+	public List<PayVO> payTable() {
+		return userMapper.payTable();
+	}
+
+	@Override
+	public int banUser(String id) {
+		int result = userMapper.banUser(id);
+		if (result == 1) {
+			return result;
+		} else {
+			throw new RuntimeException("유저 추방 실패");
+		}
+
 	}
 
 }

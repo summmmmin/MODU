@@ -41,17 +41,6 @@ public class VoteController {
 	//투표 페이지 이동
 	@GetMapping("vote")
 	public String vote(){
-		/*
-		 * vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		 * vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		 * List<VoteVO> list = voteService.voteList(vo); List<VoteDetaVO> count =
-		 * voteService.allCount();
-		 * 
-		 * ListModel listModel = new ListModel(); listModel.setChatrList(list);
-		 * listModel.setVoteDataList(count); System.out.println(list);
-		 * model.addAttribute("voteList",listModel);
-		 * System.out.println(model.getAttribute("voteList"));
-		 */
 		return "vote/voteList";
 	}
 	
@@ -67,12 +56,10 @@ public class VoteController {
 	vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 	
 	
-	Map<String, Object> map = new HashMap<>();
-	System.out.println(voteService.allCount((String) session.getAttribute("prjUniNo")));	  
+	Map<String, Object> map = new HashMap<>();	  
 	map.put("list",voteService.voteList(vo)); //투표 리스트
 	map.put("count",voteService.allCount((String) session.getAttribute("prjUniNo")));	//투표 참여인원수
 	map.put("grd", voteService.grdCheck((String) session.getAttribute("particiMembUniNo")));//회원 등급 처리
-	System.out.println(map);
 		return map; 
 	 }
 	 
@@ -126,7 +113,6 @@ public class VoteController {
 		if(voteNo != null) {
 			vo.setVoteNo(voteNo);
 		}
-		System.out.println(vo);
 		// 모델에 투표 단건조회와 투표항목들 조회하기
 		model.addAttribute("voteInfo",voteService.voteOne(vo));
 		model.addAttribute("item",voteService.voteItem(voteNo));
@@ -140,23 +126,21 @@ public class VoteController {
 		//이미 투표한 장소인지 확인하기 위해 필요한 데이터 넣기
 		vdvo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vdvo.setVoteNo(voteNo);
-		System.out.println(model.getAttribute("voteInfo"));
-		System.out.println(vdvo);
-		System.out.println("1111111111111111111");
-		System.out.println(model.getAttribute("maker"));
 		
 		//투표가 마감날짜와 현재날짜를 비교하기 위해 날짜 가져오기
 		Date today = new Date(); // 현재날짜 가져오기
 		Date toDt = voteService.toDtCheck(voteNo); // 투표 마감날짜
 		
-		
+		//씨앗 회원은 결과창으로만 가게 할려고함
+		// 세션에서 회원의 해당 프로젝트 내의 등급을 가져옴.
+		String grd = (String) session.getAttribute("grd");
 		
 		//1.로그인한 사람이 이미 해당 투표를 진행했거나 이미 마감날짜가 지나면 투표 결과 장소 
 		//2.투표를 하지 않았다면 투표하는 장소로 이동
 		//로그인 한사람이 get방식으로 1.투표하는 장소로 이동후 
 		//post방식으로 투표를 등록한후
 		//get방식으로 if문으로 2.투표를 행한 결과 장소로 이동 
-		if(voteService.whoVote(vdvo) != null || toDt.before(today)) {
+		if(voteService.whoVote(vdvo) != null || toDt.before(today) || grd == "G01") {
 			return "vote/voteResult";
 		}else {
 			return "vote/voteInfo";
@@ -172,7 +156,6 @@ public class VoteController {
 		
 		//투표 행위가 이루어짐.
 		vo.setVoteNo(voteNo);
-		System.out.println(vo);
 		voteService.voteDo(vo);
 		//변경 성공 여부
 		return vo;
@@ -187,45 +170,4 @@ public class VoteController {
 			//변경 성공 여부
 			return vo;
 		}
-	
-	
-// map 여러가지 넘기기 map 공부
-//	Map<String, Object> map = new HashMap<>();
-//	if(result > 0) {
-//		map.put("retCode", "Success");
-//		map.put("data", vo);
-//	}else {
-//		map.put("retCode", "Fail");
-//	}
-//	return map;	
-
-	
-	// 투표 단건
-//		@GetMapping("voteResult/{voteNo}")
-//		public String voteInfo2(HttpSession session,Model model,VoteVO vo, @PathVariable String voteNo){
-//			vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-//			vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-//			if(voteNo != null) {
-//				vo.setVoteNo(voteNo);
-//			}
-//			model.addAttribute("voteInfo",voteService.voteOne(vo));
-//			model.addAttribute("item",voteService.voteItem(voteNo));
-//			System.out.println(model.getAttribute("item"));;
-//			return "vote/voteResult";
-//		}
-		
-	//
-	
-	// 투표 등록	
-//	@ResponseBody
-//	@PostMapping("voteInsert")
-//	public String voteInsert(VoteVO vo,HttpServletRequest request) {
-//		model.addAttribute("VoteVO",vo);
-//		HttpSession session = request.getSession();
-//		BoardVO brd = new BoardVO();
-//		brd.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-//		brd.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-//		boardService.BoardList(brd));
-//		return "vote/voteInsert";
-//	}
 }

@@ -1,9 +1,9 @@
- #inlineForm input[type="checkbox"] {
+ .checkboxmodal input[type="checkbox"] {
         position: absolute;
         visibility: hidden;
     }
 
-   #inlineForm label {
+   .checkboxmodal label {
         display: block;
         position: absolute;
         width: 60px;
@@ -13,7 +13,7 @@
         transition-duration: 0.2s;
     }
 
-   #inlineForm label span {
+   .checkboxmodal label span {
         position: absolute;
         left: 3px;
         top: 3px;
@@ -25,7 +25,7 @@
         transition-duration: 0.2s;
     }
 
-   #inlineForm label:before,
+   .checkboxmodal label:before,
     label:after{
         position: absolute;
         top: 0;
@@ -36,21 +36,21 @@
         text-align: center;
     }
 
-   #inlineForm label:before {
+   .checkboxmodal label:before {
         left: 0;
         content: '공개'
         ;
     }
 
-   #inlineForm label:after {
+   .checkboxmodal label:after {
         right: 0;
         content: '비공개';
     }
 
-   #inlineForm input:checked + label {
+   .checkboxmodal input:checked + label {
         background-color: #00c73c;
     }
 
-    #inlineForm input:checked + label span {
+    .checkboxmodal input:checked + label span {
         transform: translateX(26px);
     }

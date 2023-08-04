@@ -13,9 +13,11 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<h2>게시글 수정</h2> <h5>[[${post.boardNm}]]</h5>
+	<div class="row">
+		<h2 class="col-sm-3">게시글 수정</h2> <h5 class="col-sm-9">[[${post.boardNm}]]</h5>
+		</div>
 		<div class="row">
-			<div class="col">
+			<div class="col-md-10 col-sm-12">
 				<div class="card">
 					<div class="card-body">
 						<form th:action="@{/postUpdate}" method="POST" th:object="${post}" enctype ="multipart/form-data">
@@ -26,13 +28,13 @@
 								<!--제목부-->
 								<div class="form-group">
 									<label for="basicInput">제목*</label>
-									<input type="text" class="form-control" id="basicInput"  th:value='${post.ttl}' th:field="*{ttl}">
+								 	<input type="text" class="form-control" id="basicInput"  th:value='${post.ttl}' th:field="*{ttl}" required>
 								</div>
 								<hr>
 								<!--본문부-->
 								<div class="form-group">
 									<label for="basicInput">게시글 본문*</label>
-									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" th:field="*{cm}">[[${post.cm}]]</textarea>
+									<textarea class="form-control" id="exampleFormControlTextarea1" rows="5" th:field="*{cm}" required>[[${post.cm}]]</textarea>
 								</div>
 								<hr>
 								<!--첨부파일부-->
@@ -46,20 +48,21 @@
 													<use xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark" />
 												</svg>
 												<span>[[${att.attNm}]]</span>
-												<svg class="bi" width="1em" height="1em" fill="currentColor">
-													<use th:data-attNo="${att.attNo}" onclick="deleteAtt(event)" xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#trash" />
+												<svg class="bi" width="1em" height="1em" fill="currentColor" onclick="deleteAtt(event)">
+													<use th:data-attNo="${att.attNo}" xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#trash" />
 												</svg>
 											</li>
 										</ul>
 									</div>
-									<input type="file" name="file" class="multiple-files-filepond" multiple>
-								</div>
+									<input type="file" name="file" class="multiple-files-filepond" onchange="checkFile()" multiple>
+									<div id="attFilePlace"></div>
+								</div>	
 								<!--멤버호출부-->
 							
 								<!--버튼부-->
 								<hr>
-								<div class="buttons">
-									<button type="submit" class="btn btn-primary">등록</button>
+								<div class="buttons d-flex justify-content-end">
+									<button type="submit" class="btn btn-primary" id="postUpdateBtn">등록</button>
 									<button type="button"  class="btn btn-light"><a th:href="@{postList(brdUniNo=${post.brdUniNo})}">취소</a></button>
 								</div>
 							</div>
@@ -91,16 +94,46 @@
 						//console.log(data); true
 						attLi.remove();
 				})
-				.catch(err => console.log(err));S
+				.catch(err => console.log(err));
 					}
+			
+			//첨부파일명 미리보기
+			function checkFile(){
+				let fileInput = document.getElementsByName('file')[0].files;
+				let attFilePlace = document.getElementById('attFilePlace');
+
+				attFilePlace.innerHTML='';
+				
+				
+				for(let input of fileInput){
+					let fileName = input.name;
 					
-			// Filepond: Multiple Files
-	/* 		FilePond.create(document.querySelector('.multiple-files-filepond'), {
-				allowImagePreview: false,
-				allowMultiple: true,
-				allowFileEncode: false,
-				required: false
-			}); */
+					let divTag = document.createElement('div');
+					let icon = `<i class="bi bi-file-earmark"></i>`;
+					divTag.innerHTML += icon;
+					let spanTag = document.createElement('span');
+					spanTag.textContent = fileName;
+					divTag.append(spanTag);
+					attFilePlace.append(divTag);
+					//console.log(input.name);
+				}
+
+			}
+			
+					
+			//제목, 본문 미작성시 등록 안 됨
+			let postBtn = document.querySelector('#postUpdateBtn');
+			let ttl = document.querySelectorAll('INPUT')[2];
+			let cm = document.querySelectorAll('TEXTAREA')[0];
+			postBtn.addEventListener('load', function(){
+				if(ttl.value == '' || cm.value ==''){
+					postBtn.setAttribute('disabled', 'true')
+				}else{
+					postBtn.setAttribute('disabled', 'false')
+				}
+			})
+			
+			
 		</script>
 	</div>
 </body>

@@ -16,6 +16,8 @@ public class ChatVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
 	private Date writeDt; //작성일자
 	
+	private String division;
+	
 	private String particiMembUniNo; //프로젝트참여번호
 	private String nnm; //닉네임
 	

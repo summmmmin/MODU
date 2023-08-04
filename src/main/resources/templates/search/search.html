@@ -41,15 +41,12 @@
                       div += `
                           <div class="card-content">
                               <div class="card-body">
-                                  <td>등록 날짜 : ${i.writeDt}</td><br>
-                                  <td>게시글 제목 <br> ${i.ttl}</td><br>
                               </div>
                           </div>
-                          <hr>
                       `;
                   }
                   $('#bpList').append(div);
-                  $('#searchDiv').append($('<input/>').attr('id','ttl').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+                  $('#searchDiv').append($('<input/>').attr('id','ttl').attr('type','text').attr('placeholder','게시글 검색어를 입력해주세요.').attr('class','form-control'));
                   $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(BpSearch));
               });
       }
@@ -61,11 +58,12 @@
                 data: { ttl },
                 method: "GET",
                 success: function(data) {
+                	console.log(data);
                     $('#bpList').empty();
                     let div = '';
                     for (let i of data) {
                         div += `
-                            <div class="card-content">
+                            <div onclick="javascript:window.location.href='/modu/postList?brdUniNo=${i.brdUniNo}'" class="card-content">
                                 <div class="card-body">
                                     <td>${i.ttl}</td>
                                 </div>
@@ -101,16 +99,12 @@
             	 div += `
                      <div class="card-content">
                          <div class="card-body">
-                             <td>${i.nnm}</td>
-                             <td>`+formattedDate+`</td>
-                             <td>${i.cntn}</td>
                          </div>
                      </div>
-                     <hr>
                  `;
              }
              $('#bpList').append(div);
-             $('#searchDiv').append($('<input/>').attr('id','cntn').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+             $('#searchDiv').append($('<input/>').attr('id','cntn').attr('type','text').attr('placeholder','채팅 검색어를 입력해주세요.').attr('class','form-control'));
              $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(ChatSearch));
          });
  }
@@ -136,7 +130,7 @@
                 	 
                 	 let formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
                      div += `
-                         <div class="card-content">
+                         <div onclick="javascript:window.location.href='/modu/chat?chatrNo=${i.chatrNo}'" class="card-content">
                              <div class="card-body">
                                  <td>${i.nnm}</td>
                                  <td>`+formattedDate+`</td>
@@ -154,6 +148,8 @@
          })
      }
     
+    
+    //파일 리스트 함수
      function FileList() {
     	 $.ajax("FileList")
          .done(result => {
@@ -164,19 +160,17 @@
             	 div += `
                      <div class="card-content">
                          <div class="card-body">
-                             <td>${i.attNm}</td>
                          </div>
                      </div>
-                     <hr>
                  `;
              }
              $('#bpList').append(div);
-             $('#searchDiv').append($('<input/>').attr('id','attNm').attr('type','text').attr('placeholder','검색어를 입력해주세요.').attr('class','form-control'));
+             $('#searchDiv').append($('<input/>').attr('id','attNm').attr('type','text').attr('placeholder','파일 검색어를 입력해주세요.').attr('class','form-control'));
              $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(FileSearch));
          });
  }
      
-     //채팅 검색 함수
+     //파일 검색 함수
      function FileSearch() {
          let attNm = $('#attNm').val();
          $.ajax({
@@ -184,11 +178,13 @@
              data: { attNm },
              method: "GET",
              success: function(data) {
+            	 console.log(data);
                  $('#bpList').empty();
                  let div = '';
                  for (let i of data) {
+                	 console.log(i);
                      div += `
-                         <div class="card-content">
+                         <div onclick="javascript:window.location.href='/modu/chat?chatrNo=${i.chatrNo}'" class="card-content">
                              <div class="card-body">
                                  <td>${i.attNm}</td>
                              </div>
@@ -196,6 +192,21 @@
                          <hr>
                      `;
                  }
+                 /* for (let i of data) {
+                     div += `<div onclick=`;
+                     if(i.division == 'C'){    
+                     	div += `"javascript:window.location.href='/modu/chat?chatrNo=${i.chatrNo}'"`; 
+                     }else if(i.division == 'P'){
+                    	 div += `"javascript:window.location.href='/modu/postList?brdUniNo=${i.brdUniNo}'"`;
+                     }
+                     div += ` class="card-content">
+                             <div class="card-body">
+                                 <td>${i.attNm}</td>
+                             </div>
+                         </div>
+                         <hr>
+                     `;
+                 } */
                  $('#bpList').append(div);
              },
              error: function(err) {

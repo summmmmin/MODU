@@ -107,7 +107,6 @@ public class PrjRestController {
 		info.setMembUniNo(user.getMembUniNo());
 		info.setPrjUniNo(vo.getPrjUniNo());
 		info = prjService.getMemInfo(info);
-		//System.out.println(info);
 		if(info.getCd().equals("나무") || info.getCd().equals("농부")) {
 			return "true";
 		}else {
@@ -141,7 +140,6 @@ public class PrjRestController {
 	
 	@GetMapping("prjInfo")
 	public PrjVO prjInfo(String prjNo) {
-		System.out.println(prjNo);
 		PrjVO vo = prjService.getPrjInfo(prjNo);
 		vo.setMemCnt(prjService.getPrjMemCnt(prjNo));
 		return vo;
@@ -178,7 +176,6 @@ public class PrjRestController {
 	
 	@PostMapping("getPrjCnt")
 	public List<PrjVO> prjcnt(@RequestBody PrjVO vo){
-		System.out.println(vo);
 		return prjService.getPrjCnt(vo);
 	}
 	
@@ -202,7 +199,6 @@ public class PrjRestController {
 	// 프로젝트 참여자 정보 수정
 	@PostMapping("updateParticiMembInfo")
 	public String updateMemInfo(String prjNo, @RequestBody PrjVO vo, HttpSession session) {
-		System.out.println(vo);
 		PrjVO prj = new PrjVO();
 		prj.setPrjUniNo(prjNo);
 		prj.setMembUniNo(((UserVO) session.getAttribute("user")).getMembUniNo());

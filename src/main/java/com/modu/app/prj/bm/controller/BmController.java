@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.bm.service.BmService;
 import com.modu.app.prj.bm.service.BmVO;
-import com.modu.app.prj.todo.service.TodoVO;
 import com.modu.app.prj.user.service.UserVO;
 
 
@@ -42,7 +41,7 @@ public class BmController {
 	public int BmInsert(@RequestBody BmVO vo) {
 		if(vo.getBrdUniNo() != null) {
 			vo.setDivision("A");
-		}else {
+		}else if (vo.getChatNo() != null){
 			vo.setDivision("B");
 		}
 		
@@ -68,7 +67,7 @@ public class BmController {
 		HttpSession session = request.getSession();
 		UserVO userVo = (UserVO) session.getAttribute("user");
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		model.addAttribute("postbm", bmService.PostBmList(vo));
+		//model.addAttribute("postbm", bmService.PostBmList(vo));
 		return bmService.BmList(vo);
 	}
 	

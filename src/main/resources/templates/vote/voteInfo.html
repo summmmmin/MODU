@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -96,7 +95,7 @@
 	        <div class="d-flex mb-3">
 	        <div class="me-auto p-2">
 	            <div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] 
-	            <h6 class="text-muted mb-0">장소:[[${voteInfo.boardNm}]]</h6>
+	            <h6 class="text-muted mb-0">게시판:[[${voteInfo.boardNm}]]</h6>
 	            </div>
 	        </div>
 	        
@@ -106,7 +105,6 @@
 	        	<!-- 작성자이거나 프로젝트 관리자는 수정과 삭제로 이동할수 있는 공간이 나타난다. -->
 	        	<div th:if="${maker.particiMembUniNo == session.particiMembUniNo}">
 	        		<button  class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											...
 					</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
  							<a class="dropdown-item" data-bs-target="#updateVote" data-bs-toggle="modal">수정</a> 
@@ -128,7 +126,7 @@
        	 <div class="d-flex mb-3">
 	    	<div class="me-auto p-2">
             	<div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] 
-            		<h6 class="text-muted mb-0">장소:[[${voteInfo.chatrNm}]]</h6>
+            		<h6 class="text-muted mb-0">채팅방:[[${voteInfo.chatrNm}]]</h6>
            			<div class="voteDate">시작날짜:[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
 	        		<div class="voteTitle">제목:[[${voteInfo.ttl}]]</div>        		
         		</div>
@@ -137,7 +135,6 @@
 	        	 <!-- 작성자이거나 프로젝트 관리자는 수정과 삭제로 이동할수 있는 공간이 나타난다. -->
 	        	<div th:if="${maker.particiMembUniNo == session.particiMembUniNo}">
 	        		<button  class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											...
 					</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
  							<a class="dropdown-item" data-bs-target="#updateVote" data-bs-toggle="modal">수정</a> 
@@ -178,11 +175,11 @@
     </div> <!-- 외부라인 끝 -->
     
 		<!-- start of 투표 삭제 모달 -->
-					<div class="modal fade text-left" id="deleteVote" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel160"	aria-hidden="true">
+					<div class="modal fade text-left" id="deleteVote" tabindex="-1"	role="dialog" aria-labelledby="myModalLabel162"	aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 						<div class="modal-content">
 							<div class="modal-header bg-primary">
-								<h5 class="modal-title white" id="myModalLabel160">투표 삭제</h5>
+								<h5 class="modal-title white" id="myModalLabel162">투표 삭제</h5>
 								<button type="button" class="close" data-bs-dismiss="modal"	aria-label="Close">
 									<i data-feather="x"></i>
 								</button>
@@ -255,8 +252,6 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     	
-  
-        // 항목 선택 시 이벤트 처리
              function toggleSelection(item) {
             const selectedItems = document.querySelectorAll('.voteItem.selected');
 
@@ -271,18 +266,73 @@
             submitBtn.disabled = (document.querySelector('.voteItem.selected') === null);
 
         }
+    
+    
+     		//---------------투표 수정하기
+             function updateVote(){
+             let a =[[${voteInfo.voteNo}]];
+             
+             let data={'voteNo': a};
+    
+             	let data2 = {
+             		"toDt":document.getElementById("secondTodt").value,
+             		"voteNo":a
+             	}; 
+             	
+             	if (document.getElementById("secondTodt").value == ''){
+             		return;
+             	}
+             		
+     			fetch("voteUpdate/"+a, {
+     				method : "post",
+     				headers:{
+     					'Content-Type' : 'application/json',
+     				}, 
+     				body : JSON.stringify(data2)
+     			})
+     			.then((response) => response.json())
+     			.then((result) => {
+     			voteList();
+     			 })
+             }
+     		
+             //-----------------------vote삭제하기 
+             
+             
+             function delVote(){
+             	      
+                let data={'voteNo': '[[${voteInfo.voteNo}]]'};
+                 
+     			fetch("voteDelte", {
+     				method : "delete",
+     				headers:{
+     					'Content-Type' : 'application/json',
+     				}, 
+     				body : JSON.stringify(data)
+     			})
+     			.then((response) => response.json())
+     			.then((result) => {
+     			voteList();
+     			 })
+                 }
+    
+    
+  $(function(){
+	  
+
+        // 항목 선택 시 이벤트 처리
 
         // ---------------------투표 하기 버튼 클릭시 
         const voteForm = document.getElementById('voteForm');
         voteForm.addEventListener('submit', function (event) {
             event.preventDefault();
+            
             const selectedVoteItem = document.querySelector('.voteItem.selected').id;
-            console.log(selectedVoteItem);
             const data1 = {
             		'voteDetaNo':selectedVoteItem
             } 
             
-            const options = {
+            var options = {
             	    method: 'POST',         // HTTP 메서드 (POST 방식)
             	    headers: {
             	        'Content-Type': 'application/json' // 요청의 본문 데이터 타입 (JSON)
@@ -293,23 +343,13 @@
 			fetch("voteInfo/"+[[${voteInfo.voteNo}]],options)
 				.then(response => response.json())
 			    .then(data => {
-			    	console.log(data);
+
 			    	let vno = data.voteNo
-			    	console.log(vno);
+
 			    	
 			    	 $.ajax("voteInfo/"+vno)
 			 		.done(result =>{
 			 			$("#rsidebarContent").html(result);
-			    	/* fetch("voteInfo/"+vno)
-			    	  .then(response =>response.html())
-			    	  .then(data2 => {
-			    	    console.log(data2); 
-			    	    $("#rsidebarContent").html(data2);
-			    	  });
-			    	  .catch(error => {
-			    	    // 오류 처리 로직을 작성합니다.
-			    	    console.log(errpr);
-			    	  });*/	
 			    	})
 			    })
 			    .catch(error => {
@@ -322,71 +362,33 @@
         // ----------------------투표 하기 버튼 끝
         
         
-        let a =[[${voteInfo.voteNo}]];
-        console.log(a);
+
         
-        let data={'voteNo': a};
-        
-        //-----------------------vote삭제하기 
-        
-        
-        function delVote(){
-			fetch("voteDelte", {
-				method : "delete",
-				headers:{
-					'Content-Type' : 'application/json',
-				}, 
-				body : JSON.stringify(data)
-			})
-			.then((response) => response.json())
-			.then((result) => {
-			console.log(result);
-			voteList();
-			 })
-        	/* fetch("voteDelete/"+a)
-           	.then(data => {
-				console.log(data);
-                })
-                .catch(err => console.log(err));  */
-            }
+
         //--------------------------------------------투표 수정하기
         
-        let now_utc = Date.now()
-		let timeOff = new Date().getTimezoneOffset()*60000;
-		let today33 = new Date(now_utc-timeOff).toISOString().split("T")[0]
-        
-        let firstDate = document.getElementById("firstTodt")
-        let secondDate = document.getElementById("secondTodt")
-      
+      	//오늘날짜 구하기
+    	var now_utc = Date.now();
 
-		 secondDate.setAttribute("min", today33); 
+    	// getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환
+    	var timeOff = new Date().getTimezoneOffset() * 60000; // 분 단위를 밀리초로 변환
+    	
+    	// 현재 시간에서 타임오프를 빼서 현재 지역의 날짜를 구하기
+    	var localDate = new Date(now_utc - timeOff);
+    	
+    	// 내일 날짜 구하기
+    	var tomorrow = new Date(localDate);
+    	tomorrow.setDate(localDate.getDate() + 1);
+    	
+    	// 내일의 날짜를 YYYY-MM-DD 형식으로 가져오기
+    	var tomorrowISOString = tomorrow.toISOString().split("T")[0];
+    		document.getElementById('secondTodt').setAttribute("min", tomorrowISOString); 
         
-		
-		//---------------투표 수정하기
-        function updateVote(){
-        	let data2 = {
-        		"toDt":secondDate.value,
-        		"voteNo":a
-        	}; 
-        	console.log(data2);
-        		
-			fetch("voteUpdate/"+a, {
-				method : "post",
-				headers:{
-					'Content-Type' : 'application/json',
-				}, 
-				body : JSON.stringify(data2)
-			})
-			.then((response) => response.json())
-			.then((result) => {
-			console.log(result);
-			voteList();
-			 })
-        }
-        
+ 
         $('#deleteVote').appendTo("body")
         $('#updateVote').appendTo("body")
         
+  })
         /*]]>*/
         </script>
 </body>

@@ -24,7 +24,7 @@ public class VoteVO {
 	private String membUniNo;				//회원번호
 	private String postUniNo;				//게시글번호
 	private String chatNo;					//채팅번호
-	@DateTimeFormat(pattern="yyyy-MM-dd")	
+	@DateTimeFormat(pattern="yyyy-MM-dd") 	
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date frDt;						//투표시작날짜
 	@DateTimeFormat(pattern="yyyy-MM-dd")

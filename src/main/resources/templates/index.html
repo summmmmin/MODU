@@ -13,8 +13,6 @@
 <link rel="stylesheet" href="assets/css/bootstrap.css" />
 <link rel="stylesheet" href="assets/vendors/iconly/bold.css" />
 <link rel="stylesheet"
-	href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
-<link rel="stylesheet"
 	href="assets/vendors/bootstrap-icons/bootstrap-icons.css" />
 <link rel="stylesheet" href="assets/css/test.css" />
 <link rel="shortcut icon" href="assets/images/favicon.svg"
@@ -28,12 +26,18 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
-	<script src="fullcalendar-6.1.8/dist/index.global.js"></script>
-	<!-- Include Choices JavaScript -->
-	<script src="assets/vendors/choices.js/choices.min.js"></script>
+<script src="fullcalendar-6.1.8/dist/index.global.js"></script>
+<!-- Include Choices JavaScript -->
+<script src="assets/vendors/choices.js/choices.min.js"></script>
+<style>
+#HypeBoy:hover{
+	cursor:pointer;
+}
+</style>
+
 </head>
 
 <body>
@@ -44,7 +48,7 @@
 		<div id="replyArm" class="toast" role="alert" aria-live="assertive"
 			aria-atomic="true">
 			<div class="toast-header">
-				 <!-- <img src=".." class="rounded me-2" alt="..."> -->
+				<!-- <img src=".." class="rounded me-2" alt="..."> -->
 				<strong class="me-auto">댓글 알림</strong> <small>방금 전</small>
 				<button type="button" class="btn-close" data-bs-dismiss="toast"
 					aria-label="Close"></button>
@@ -105,8 +109,8 @@
 				<div class="sidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a th:href="@{/}"><img src="assets/images/logo/logo.png"
-								alt="Logo" srcset="" /></a>
+							<a class="navbar-brand" th:href="@{/}"><span
+								class="fw-bolder text-primary">MODU</span></a>
 						</div>
 						<div class="toggler">
 							<a href="#" class="sidebar-hide d-xl-none d-block"><i
@@ -142,7 +146,7 @@
 					</ul>
 					<!--/* ************************ End *************************** */-->
 					<p id="prjNo" style="display: none;">[[${session.prjUniNo}]]</p>
-					
+
 					<!-- 즐겨찾기 등록 -->
 					<script> 
     function clickInsert(){
@@ -154,7 +158,7 @@
             'brdUniNo' : brdUniNo,
             'particiMembUniNo' : particiMembUniNo
         }
-        fetch('/modu/BrdBmInsert', {
+        fetch('/modu/BmInsert', {
             method : 'POST',
             headers : {
                 'content-type' : 'application/json'
@@ -175,13 +179,7 @@
         .catch(err => console.log(err));
         
     }
-	/* 색 변환 JS */ 
-   $('#ultag').on('click', function(event) {
-    let target = event.target;
-    if ($(target).hasClass('cls-1')) {
-        let brdUniNo = $(target).attr('text-brdUniNo');
-    }
-});
+
 </script>
 					<!--/* ************************ End *************************** */-->
 				</div>
@@ -191,13 +189,13 @@
 				</button>
 			</div>
 		</div>
-		<div id="rsidebar" class="active">
+		<div id="rsidebar">
 			<div class="rsidebar-wrapper active">
 				<div class="rsidebar-header">
 					<div class="d-flex justify-content-between">
 						<div class="logo">
-							<a href="#"><img src="assets/images/logo/logo.png" alt="Logo"
-								srcset="" /></a>
+							<a class="navbar-brand" href="#"><span
+								class="fw-bolder text-primary">MODU</span></a>
 						</div>
 						<div class="toggler">
 							<a href="#" class="rsidebar-hide d-block"><i
@@ -222,13 +220,13 @@
 				<nav class="navbar navbar-expand navbar-light">
 
 					<div class="container-fluid">
-					
-					
-					<ul th:each="plist, stat: ${prjList}">
-    					<li th:text="${plist.particiMembUniNo}"></li>
-					</ul>
-								
-								
+
+
+						<ul th:each="plist, stat: ${prjList}">
+							<li th:text="${plist.particiMembUniNo}"></li>
+						</ul>
+
+
 						<a href="#" class="burger-btn d-block"> <i
 							class="bi bi-justify fs-3"></i>
 						</a> <a href="#" class="rburger-btn d-block"> <i
@@ -237,7 +235,7 @@
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-								<li class="nav-item me-1"><a
+								<li class="nav-item me-1" id="HypeBoy"><a
 									class="nav-link active rburger" onclick="searchList()"
 									aria-expanded="false"><i
 										class="bi bi-search bi-sub fs-4 text-gray-600"></i> </a></li>
@@ -279,8 +277,8 @@
 									<li>
 										<h6 class="dropdown-header">[[${session.user.nm}]]</h6>
 									</li>
-									<li><a class="dropdown-item" th:href="@{loginuser/mypage}"><i
-											class="icon-mid bi bi-person me-2"></i> 마이페이지</a></li>
+									<li><a class="dropdown-item" th:href="@{prjList}"><i
+											class="icon-mid bi bi-person me-2"></i> 프로젝트 리스트</a></li>
 									<li><a class="dropdown-item" href="#"
 										data-bs-toggle="modal" data-bs-target="#inviteModal"><i
 											class="icon-mid bi bi-gear me-2"></i> 초대하기</a></li>
@@ -297,11 +295,13 @@
 			</header>
 
 			<div class="page-heading">
-				<h3>Profile Statistics</h3>
+				<h3></h3>
 			</div>
 			<div class="page-content">
 				<section class="row">
-					<article layout:fragment="content"></article>
+					<article layout:fragment="content" id="layoutcontent">
+						<div id='calendar'></div>
+					</article>
 				</section>
 
 
@@ -320,7 +320,7 @@
 								</button>
 							</div>
 							<form action="InsertBoard" method="POST" id="FormEvent">
-								<div class="modal-body">
+								<div class="modal-body checkboxmodal">
 									<h5>게시판 이름</h5>
 									<div class="form-group">
 										<input id="boardNm" name="boardNm" type="text"
@@ -373,19 +373,19 @@
 								<i data-feather="x"></i>
 							</button>
 						</div>
-						<form action="makeChatr" method="POST" id="FormEvent">
+						<form action="makeChatr" method="POST">
 							<div class="modal-body">
 								<h5>채팅방 이름</h5>
 								<div class="form-group">
 									<input id="chartNm" name="chartNm" type="text"
-										placeholder="40자까지 입력 가능합니다." class="form-control"> <input
+										placeholder="40자까지 입력 가능합니다." class="form-control" required> <input
 										id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
 										type="text" class="form-control" style="display: none">
 									<input id="particiMembUniNo" name="particiMembUniNo"
 										th:value="${session.particiMembUniNo}" type="text"
 										class="form-control" style="display: none"> <label
-										for="basicInput" class="form-label">참여멤버선택</label> <select
-										id="memberSelect" class="form-select multiple-remove"
+										for="basicInput" class="form-label">참여멤버선택</label> 
+										<select id="memberSelect" class="choices form-select multiple-remove"
 										multiple="multiple"></select>
 								</div>
 							</div>
@@ -454,13 +454,13 @@
 			<footer>
 				<div class="footer clearfix mb-0 text-muted">
 					<div class="float-start">
-						<p>2021 &copy; Mazer</p>
+						<p>2023 &copy; Modu</p>
 					</div>
 					<div class="float-end">
 						<p>
 							Crafted with <span class="text-danger"><i
-								class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A.
-								Saugi</a>
+								class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">H.
+								Sumin</a>
 						</p>
 					</div>
 				</div>
@@ -470,7 +470,7 @@
 
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
-	<script src="assets/js/test.js"></script>
+	
 
 	<script>
 	
@@ -505,7 +505,7 @@
 				<li class="submenu-item">
 				<div class="row">
 					<div class="col-2">
-						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 108.9 103.6">
+						<svg xmlns="http://www.w3.org/2000/svg " width="15" height="15" viewBox="0 0 108.9 103.6">
 							<g id="Layer_2" data-name="Layer 2">
 								<g id="Layer_1-2" data-name="Layer 1">
 									<polygon th:onclick="clickInsert()" class="cls-1" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" id=`+data.brdUniNo+`>
@@ -519,7 +519,6 @@
 				</div>
 				</li>
 				`;
-				//location.reload();
 			let submenu=document.querySelector('.brdinsert');
 			submenu.innerHTML += liTag;
 			
@@ -546,7 +545,7 @@
 	</script>
 
 	<script>
-        //채팅방리스트
+    //채팅방리스트
 		function showChatList(){
 			fetch("/modu/chatrList")
 			.then(resolve => resolve.json())
@@ -584,16 +583,40 @@
 						document.getElementById('memberSelect').append(optionTag);
 					}
 				})
+				// 채팅방 생성 모달 안 choices 추가
+				new Choices(document.querySelector('#memberSelect'),
+			      {
+			        delimiter: ',',
+			        editItems: true,
+			        maxItemCount: 10,
+			        removeItemButton: true,
+			      });
 			})
 		}
 		callChatMemb();
 
 		//채팅방생성
 		function makeChatrPlz(e) {
+			//let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
+			
 			let chatNm = document.getElementById('chartNm').value;
-			let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
-			let chatMembs = selcetParticis.split(',');
+			let selectedOptions = document.getElementById('memberSelect').selectedOptions;
+			let chatMembs = [];
+			// 선택된 모든 참여자의 값을 배열에 추가
+			for (let i = 0; i < selectedOptions.length; i++) {
+				chatMembs.push(selectedOptions[i].value);
+			}
+			if(document.getElementById('chartNm').value == ''){
+				Swal.fire({
+					icon: "error",
+					title: "채팅방 이름을 입력해 주세요"
+				})
+				//document.getElementById('memberSelect').value('');
+				document.getElementById('.choices__list').options.length = null;
 
+				return;
+			}
+		
 			let makeChatInfo = {};
 			makeChatInfo['chartNm'] = chatNm;
 			makeChatInfo['particiMembUniNos'] = chatMembs;
@@ -648,7 +671,7 @@
  
 // WebSocket 연결 설정
 	const armClient = new StompJs.Client({
-		brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
+		brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
 	});
 	// 페이지 로드시 웹소켓 연결
 	window.addEventListener("load", function(event) {
@@ -744,5 +767,6 @@
  			}
  		}
  	</script>
+<script src="assets/js/test.js"></script>
 </body>
 </html>

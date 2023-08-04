@@ -18,7 +18,7 @@
 				<div class="card-header">
 					<h4 class="card-title">할일</h4>
 					<hr>
-					<button type="button" onclick="todoInsert()"
+					<button type="button" onclick="todoInsert1()"
 						class="btn btn-block btn-light-primary font-bold mt-3">+
 						할일 추가</button>
 				</div>
@@ -34,13 +34,16 @@
  		$.ajax("todoList")
  		.done(result=>{
  		for(i of result){
+ 			const fromDate = i.frDt.split(' ')[0];
+            const toDate = i.toDt.split(' ')[0];
+
  			let div = `<p></p>
  					<div class="todo" id=${i.todoUniNo} onclick="todoInfo()">
  						<h4 class="card-title">진행률 :<span>${i.pct}</span> </h4>
  						<h2>${i.ttl}</h2>
  						<small class="text-muted">${i.cntn}</small>
  						<p class="card-text">담당자 : ${i.mgr}참가자: ${i.cm}</p>
- 						<small class="text-muted"><span>${i.frDt}></span>~<span>${i.toDt}></span></small>
+ 						<small class="text-muted"><span>${fromDate}</span>~<span>${toDate}</span></small>
  					</div>
  		`;
  		$('#todo').append(div);
@@ -49,7 +52,7 @@
  		
  		
  		//할일 생성 페이지 가기
- 		function todoInsert(){
+ 		function todoInsert1(){
  			$.ajax("todoInsert")
  			.done(result=>{
  				$("#rsidebarContent").html(result);
@@ -59,7 +62,6 @@
 		
  		function todoInfo(){
  			let tid = event.target.closest('div').id;
- 			console.log(tid)
  			 $.ajax("todoInfo/"+tid)
  			.done(result =>{
  				$("#rsidebarContent").html(result);

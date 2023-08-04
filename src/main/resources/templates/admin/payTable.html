@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>관리자 페이지</title>
+	<link href="../assets/vendors/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet">
+	<link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+<body id="page-top">
+	<div id="wrapper">
+		<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+			<a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/admin/dashBoard}">
+				<div class="sidebar-brand-icon rotate-n-15">
+					<i class="fas fa-laugh-wink"></i>
+				</div>
+				<div class="sidebar-brand-text mx-3">관리자 메뉴</div>
+			</a>
+			<hr class="sidebar-divider my-0">
+			<li class="nav-item active"><a class="nav-link" th:href="@{/admin/dashBoard}"> <i
+						class="fas fa-fw fa-tachometer-alt"></i> <span>대시보드</span></a></li>
+			<hr class="sidebar-divider my-0">
+			<li class="nav-item active"><a class="nav-link" th:href="@{/admin/userList}"> <i
+						class="fas fa-fw fa-tachometer-alt"></i> <span>회원목록</span></a></li>
+			<hr class="sidebar-divider my-0">
+			<li class="nav-item active"><a class="nav-link" th:href="@{/admin/payTable}"> <i
+						class="fas fa-fw fa-tachometer-alt"></i> <span>결제조회</span></a></li> \
+		</ul>
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+				<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+				</nav>
+				<div class="container-fluid">
+					<h1 class="h3 mb-2 text-gray-800">결제 내역</h1>
+					<p class="mb-4"></p>
+					<div class="card shadow mb-4">
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+									<thead>
+										<tr>
+											<th>프로젝트 이름</th>
+											<th>결제 시작 날짜</th>
+											<th>결제 종료 날짜</th>
+											<th>결제 방식</th>
+											<th>결제 금액</th>
+											<th>이름</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="pay : ${payTable}">
+											<td th:text="${pay.prjNm}"></td>
+											<td th:text="${#dates.format(pay.payDt, 'yyyy-MM-dd')}"></td>
+											<td th:text="${pay.exdt}"></td>
+											<td th:text="${pay.payWay}"></td>
+											<td th:text="${pay.payAmt}"></td>
+											<td th:text="${pay.name}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	    <script th:inline="javascript">
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            return date.toLocaleDateString(undefined, options);
+        }
+    </script>
+</body>
+
+</html>

@@ -27,7 +27,7 @@ margin-left:5px;}
 							<div class="form-group has-icon-left">
 								<div class="position-relative">
 									<input type="text" class="form-control" placeholder="제목을 입력해주세여"
-										th:field="*{ttl}" id="ttl">
+										th:value="${todoInfo.ttl}" id="ttl">
 									<div class="form-control-icon">
 										<i class="bi bi-pen"></i>
 									</div>
@@ -37,7 +37,7 @@ margin-left:5px;}
 							<div class="form-group has-icon-left">
 								<div class="position-relative">
 									<textarea class="form-control" placeholder="설명을 입력해주세요"
-										rows="2" th:field="*{cntn}" id="cntn"></textarea>
+										rows="2"  id="cntn">[[${todoInfo.cntn}]]</textarea>
 									<div class="form-control-icon">
 										<i class="bi bi-chat-left-text"></i>
 									</div>
@@ -48,20 +48,20 @@ margin-left:5px;}
 							<div class="input-group col-md-1 mb-6 person">
                        			<label class="input-group-text">담당자</label>
 								<select class="choices form-select" id="mgr">
-									<option th:value="${i.particiMembUniNo}" th:each="i:${membList}">[[${i.nnm}]]</option>
+									<option th:selected="${mgrcm.mgr}" th:value="${i.particiMembUniNo}" th:each="i:${membList}">[[${i.nnm}]]</option>
 								</select>
 							</div>
 				            <div class="input-group col-md-1 mb-6 person">
                        			<label class="input-group-text">참여자</label>
 								<select class="choices form-select" id="cm">
-									<option th:value="${i.particiMembUniNo}" th:each="i:${membList}">[[${i.nnm}]]</option>
+									<option th:selected="${mgrcm.cm}" th:value="${i.particiMembUniNo}" th:each="i:${membList}">[[${i.nnm}]]</option>
 								</select>
 							</div>
 						<div class="form-group has-icon-left mx-auto p-4">
 							<p>시작일</p>
 							<div class="position-relative">
 								<input type="date" class="form-control" id="Date1"
-									th:onchange="dateChange1()" th:field="*{frDt}">
+									th:onchange="dateChange3()" th:value=${todoInfo.frDt}>
 								<div class="form-control-icon">
 									<i class="bi-calendar"></i>
 								</div>
@@ -71,12 +71,13 @@ margin-left:5px;}
 							<p>마감일</p>
 							<div class="position-relative">
 								<input type="date" class="form-control" id="lastDate1"
-									 th:field="*{toDt}">
+									 th:value=${todoInfo.toDt}>
 								<div class="form-control-icon">
 									<i class="bi-calendar"></i>
 								</div>
 							</div>
 						</div>
+						<p style="color:red; display:none;" id="red2">시작날짜와 마감날짜를 모두 입력해주세요.</p>
 						<div>
 										<ul>
 											<li th:each="att : ${attList}" id="attPlace">
@@ -102,16 +103,17 @@ margin-left:5px;}
 			</div>
 		</div>
 		<input id="tno" th:value="${todoUniNo}" type="hidden">
-		<script>
-		let mgr =$("#mgr option:selected").val();
-		let cm =$("#cm option:selected").val();
-		// let file = document.getElementById('todoFile').files[0];
 		
-		//console.log(file) 
-		let toNo = $('#tno').val()
-		console.log(toNo)
+		<script th:inline="javascript">
+    	/*<![CDATA[*/
+		
+		
 		
 		function todoUpdate(){
+		let file = document.getElementById('todoFile').files[0];
+		let toNo = $('#tno').val()
+		let mgr =$("#mgr option:selected").val();
+		let cm =$("#cm option:selected").val();
 				 var formData = $("#todoForm").serialize();	
 				 
 				 var otherdata = {
@@ -127,13 +129,22 @@ margin-left:5px;}
 				let Date = document.querySelector('#Date1').value;
 				let lastDate = $("#lastDate1").val();
 				
+				//방지용 문구
+				if(ttl == ''){
+					document.getElementById('ttl').placeholder="제목을 입력하시지 않으셨습니다."
+					return;
+				}else if(Date == '' || lastDate == ''){
+					$('#red2').show();
+					 return;
+				}
+				
 				
 				 let formD = new FormData(); 
 	             formD.append("mgr", mgr);
 				 formD.append("cm", cm);
-				/*  for(let i=0; i<file.length; i++){
+				  for(let i=0; i<file.length; i++){
 					 formD.append("file", file[i]);
-				 } */
+				 } 
 				  
 				 formD.append("ttl",ttl);
 				 formD.append("cntn",cntn);
@@ -141,7 +152,7 @@ margin-left:5px;}
 				 formD.append("toDt",lastDate);
 				 formD.append("todoUniNo",toNo);
 		
-				 console.log(formD)
+
 				 
 				   fetch("updateTodo",{
 	                  method : 'POST',
@@ -149,37 +160,24 @@ margin-left:5px;}
 	               })
 	               .then(result => result.json())
 	               .then(data => {
-	            	   console.log(data);
 	            	   todoList();
 	               })
 		}
-			 /* $.ajax({
-			        type: "POST",
-			        url: "todoInsert",
-			        data: formData + "&" + $.param(otherdata) + "&" + formD, // 폼 데이터와 추가 데이터를 합쳐서 전송
-			        success: function (data) {
-			            console.log(data)
-			            todoList();
-			        },
-			        error: function (xhr, status, error) {
-			            console.log(error)
-			        }
-			    });
-			} */
-		
-		
-		//input타입 date를 클릭했을때 나오는 달력에서 현재날짜 이전애들을 클릭 못하게 막는방법
+			
+			
 		
 		//input타입 date를 클릭했을때 나온는 달력에서 선택한 날짜 이전을 막는 구절
-		var date = document.getElementById("Date1")
-			function dateChange1(){
-				document.getElementById("lastDate1").setAttribute("min", date.value); 
+		var date34 = document.getElementById("Date1")
+		
+
+		document.getElementById("lastDate1").setAttribute("min", [[${todoInfo.frDt}]].slice(0, 11).trim()); 
+		function dateChange3(){
+				document.getElementById("lastDate1").setAttribute("min", date34.value); 
 			}
 		
 		function deleteAtt(e){
 			let attLi = e.target.closest('LI');
 			let attNo = e.target.dataset.attno;
-			console.log(attNo);
 			//업로드된파일삭제
 			fetch("/modu/removeFile", {
 			method: 'post',
@@ -196,11 +194,9 @@ margin-left:5px;}
 			
 			.catch(err => console.log(err));
 				}
-		
-		
-		
-		</script>
-	</div>
+
+		/*]]>*/
+  		</script>
 
 
 </body>

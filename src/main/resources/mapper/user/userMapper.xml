@@ -28,8 +28,7 @@
 		, ID
 		, PWD
 		, NM
-		,
-		PH_NO
+		, PH_NO
 		, SNS
 		, QUIT
 		, GRD
@@ -55,14 +54,10 @@
 		, PWD
 		, NM
 		, PH_NO
-		, SNS
-		, QUIT
-		, GRD
 		, REG_DT
-		, EMAIL_AUTH
 		, TOKEN
-		,
-		PROVIDER_ID
+		,PROVIDER_ID
+		,LOGIN_PATH
 		)
 		VALUES (
 		'mt' ||
@@ -71,13 +66,10 @@
 		,#{pwd}
 		,#{nm}
 		,#{phNo}
-		,'N'
-		,'N'
-		,'N'
 		,sysdate
-		,'N'
 		,#{Token}
 		,#{providerID}
+		,#{loginPath}
 		)
 	</insert>
 
@@ -126,12 +118,21 @@
 		AND nm = #{nm}
 	</select>
 
-	<!-- 비밀번호 찾기 -->
-	<update id="pwdSearch" parameterType="String">
+	<!-- 비밀번호 업데이트 -->
+	<update id="pwdUpdate" parameterType="UserVO">
 		UPDATE memb
 		SET pwd=#{pwd}
-		WHERE id=#{id}
+		WHERE memb_uni_no=#{membUniNo}
 	</update>
+
+	<!-- 비밀번호 찾기 회원조회 -->
+	<select id="membSearch" parameterType="UserVO"
+		resultType="String">
+		SELECT memb_uni_no
+		FROM memb
+		WHERE id=#{id}
+		AND nm=#{nm}
+	</select>
 
 	<!-- 회원 리스트 -->
 	<select id="userList" resultType="UserVO">
@@ -154,17 +155,18 @@
 
 	<!-- 월별 회원 가입 수 -->
 	<select id="monthlyNewUsersCount" resultType="map">
-		SELECT
-		TO_CHAR(reg_dt, 'YYYY-MM') AS month,
-		COUNT(*) AS count
-		FROM memb
-		GROUP BY TO_CHAR(reg_dt, 'YYYY-MM')
-		ORDER BY month
-	</select>
-	
-<!-- 	SELECT
+	<![CDATA[
+WITH all_months AS (
+  SELECT
+    TO_CHAR(TRUNC(SYSDATE, 'MONTH') - INTERVAL '1' YEAR + INTERVAL '1' MONTH * (LEVEL - 1), 'YYYY-MM') AS month
+  FROM
+    DUAL
+  CONNECT BY
+    LEVEL <= 12
+)
+SELECT
   all_months.month,
-  COUNT(memb.reg_dt) count
+  COUNT(memb.reg_dt) AS count
 FROM
   all_months
 LEFT JOIN
@@ -172,9 +174,10 @@ LEFT JOIN
 GROUP BY
   all_months.month
 ORDER BY
-  all_months.month; -->
-
-
+  all_months.month
+  ]]>
+	</select>
+	
 	<!-- 결제 누적금액 -->
 	<select id="totalPay" resultType="int">
 		SELECT SUM(pay_amt)
@@ -240,6 +243,28 @@ ORDER BY
 		PH_NO = '-'
 		WHERE id = #{id}
 	</update>
+
+	<!-- 관리자메뉴 결제내역 조회 -->
+	<select id="payTable" resultType="PayVO">
+		SELECT
+		p.prj_nm,
+		py.pay_dt,
+		p.exdt,
+		py.pay_way,
+		py.pay_amt,
+		py.name
+		FROM
+		prj p
+		JOIN
+		pay py ON p.prj_uni_no = py.prj_uni_no
+	</select>
+	
+	<!-- 관리자 메뉴 추방 -->
+    <update id="banUser" parameterType="String">
+        UPDATE memb 
+        SET quit = 'Y' 
+        WHERE id = #{id}
+    </update>
 
 
 </mapper>

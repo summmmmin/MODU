@@ -44,11 +44,13 @@ body {
 					<div class="recent-message d-flex px-4 py-3">
 						<div class="avatar avatar-lg">
 							<h5 class="mb-1">[[${todoInfo.ttl}]]</h5>
+							<div th:if="${mgrCheck.mgr == session.particiMembUniNo}">
 							<div class="name ms-4">
 								<select class="form-select" id="pct" onclick="pctChange()">
 									<option th:each="i : ${pctList}" th:value="${i.cdNo}"
 										th:text="${i.cd}" th:selected="${todoInfo.pct == i.cd}"></option>
 								</select>
+							</div>
 							</div>
 						</div>
 					</div>
@@ -92,13 +94,13 @@ body {
 
 	<!-- start of 할일 삭제 모달 -->
 	<div class="modal fade text-left" id="deleteTodo" tabindex="-1"
-		role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+		role="dialog" aria-labelledby="myModalLabel161" aria-hidden="true">
 		<div
 			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
 			role="document">
 			<div class="modal-content">
 				<div class="modal-header bg-primary">
-					<h5 class="modal-title white" id="myModalLabel160">할일 삭제</h5>
+					<h5 class="modal-title white" id="myModalLabel161">할일 삭제</h5>
 					<button type="button" class="close" data-bs-dismiss="modal"
 						aria-label="Close">
 						<i data-feather="x"></i>
@@ -128,11 +130,17 @@ body {
 
 
 	<script>
-		//퍼센트 실렉트박스 선택할때마다 업데이트 하기
-		function pctChange(){
-			
+    // todo 업데이트 페이지로
+    function updateTodo(){
+ 	   $.ajax("todoUpdate/"+'[[${todoInfo.todoUniNo}]]')
+ 		.done(result=>$("#rsidebarContent").html(result))
+     }
+    
+    //퍼센트 실렉트박스 선택할때마다 업데이트 하기
+	function pctChange(){
+		
 		let pct =$("#pct option:selected").val(); //퍼센트 실렉트 값 받아오기
-		console.log(pct)
+
 		let data = {
 				"pct":pct,
 				"todoUniNo":'[[${todoInfo.todoUniNo}]]'
@@ -146,9 +154,15 @@ body {
 		})
 		.then((response) => response.json())
 		.then((result) => {
-		console.log("change");
+
 		 })
 		}
+     
+	
+	 $(function(){
+		 
+		
+
 		
 		let tno = "[[${todoInfo.todoUniNo}]]";
 		
@@ -159,7 +173,7 @@ body {
 			.then(resolve => resolve.json())
 			.then(data => {
 				for(let i=0; i<data.length;i++){
-					console.log(data)
+
 					let div=`
 					<div>
 						<a href="/modu/files/${data[i].attNo}/download" onclick="downloadYN(e)" data-attno=${data[i].attNo}>
@@ -175,7 +189,7 @@ body {
 		function downloadYN(e){
 			let attNo = e.target.parentElement.dataset.attno;
 			let dwYn = {};
-			console.log(attNo);
+
 			dwYn['attNo'] = attNo;
 			dwYn['dwYn'] = 'Y';
 
@@ -188,7 +202,7 @@ body {
 			})
 			.then(resolve => resolve.json())
 			.then(data => {
-				console.log("다운로드완료")
+
 			})
 			.catch(err => console.log(err))
 		}
@@ -209,18 +223,15 @@ body {
         	})
         	.then((response) => response.json())
 			.then((result) => {
-			console.log(result);
+
 			location.reload();
 			 })
         }
         
-        // todo 업데이트 페이지로
-       function updateTodo(){
-    	   $.ajax("todoUpdate/"+'[[${todoInfo.todoUniNo}]]')
-    		.done(result=>$("#rsidebarContent").html(result))
-        }
-        
+
         $('#deleteTodo').appendTo("body")
+        
+        })
     </script>
 </body>
 

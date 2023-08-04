@@ -87,15 +87,16 @@ public class TodoController {
 		vo.setCm(cm);
 		vo.setMgr(mgr);
 		vo.setToDt(lastDate);
-		
+
 		todoService.insertTodo(vo);// 할일 만들면서 시퀀스로 생긴 고유번호를
 		
-		System.out.println(vo);
 		
+		if (file != null) {
 		FileVO fileVO = new FileVO();
 		fileVO.setTodoUniNo(vo.getTodoUniNo()); 
 		fileVO.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		fileService.insertFile(file, fileVO);
+		}
 		return vo;
 	}
 	
@@ -132,12 +133,14 @@ public class TodoController {
 		fileVO.setTodoUniNo(todoUniNo);
 		
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
-		
+		todoVo.setTodoUniNo(todoUniNo);
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		model.addAttribute("membList", prjService.getPrjPartiList(vo));
+		model.addAttribute("todoInfo",todoService.oneTodo(todoVo));
 		model.addAttribute("attList", fileService.fileList(fileVO)); 
 		model.addAttribute("todoUniNo",todoUniNo);	
 		model.addAttribute("todo",new TodoVO());
+		model.addAttribute("mgrcm",todoService.mgrCmCheck(todoUniNo));
 		return "todo/todoUpdate";
 	}
 	
@@ -149,7 +152,8 @@ public class TodoController {
 			@RequestParam("cntn") String cntn,	@RequestParam("frDt") String Date, @RequestParam("toDt") String lastDate
 			,@RequestParam("cm") String cm, @RequestParam("mgr") String mgr,
 			@RequestParam("todoUniNo") String todoUniNo) throws ParseException {
-		System.out.println("111111111111111111111111111111111111111111111111");
+		
+		
 		TodoVO vo = new TodoVO();
 		UserVO userVo = (UserVO) session.getAttribute("user");
 		vo.setWriter((String) session.getAttribute("particiMembUniNo"));
@@ -162,8 +166,14 @@ public class TodoController {
 		vo.setCntn(cntn);
 		vo.setTodoUniNo(todoUniNo);
 		
-		System.out.println(vo);
 		todoService.updateTodo(vo);
+		
+		if (file != null) {
+			FileVO fileVO = new FileVO();
+			fileVO.setTodoUniNo(vo.getTodoUniNo()); 
+			fileVO.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+			fileService.insertFile(file, fileVO);
+			}
 		
 		return 1;
 	}

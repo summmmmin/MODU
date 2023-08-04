@@ -66,14 +66,12 @@ public class PrjController {
 		info.setMembUniNo(user.getMembUniNo());
 		info.setPrjUniNo(prjVO.getPrjUniNo());
 		info = prjService.getMemInfo(info);
-		System.out.println(info);
 		if(info == null) {
 			return "redirect:prjList";
 		}else {
 			if(info.getCd().equals("나무") || info.getCd().equals("농부")) {
-			//	model.addAttribute("memb", prjService.getPrjPartiList(prjVO));
 				model.addAttribute("prjNo", prjVO.getPrjUniNo());
-				return "prj/프로젝트 관리";			
+				return "prj/prjManage";			
 			}else {
 				return "redirect:prjList";
 			}			
@@ -84,13 +82,13 @@ public class PrjController {
 	@GetMapping("prjManage2")
 	public String prjList2(PrjVO prjVO, Model model) {
 		model.addAttribute("prjNo", prjVO.getPrjUniNo());
-		return "prj/프로젝트 관리22";			
+		return "prj/prjMembManage";			
 	}
 	
 	//프로젝트관리페이지-프로젝트 관리
 	@GetMapping("prjUpdate")
 	public String prjUpdate(Model model, PrjVO prjVO) {		
-		return "prj/프로젝트 관리33";
+		return "prj/prjUpdate";
 	}
 	
 	//프로젝트관리페이지-결제관리
@@ -102,8 +100,7 @@ public class PrjController {
 		
 		// 프로젝트 결제 내역
 		model.addAttribute("payList", payService.prjPayList(prjVO.getPrjUniNo()));
-		System.out.println(payService.prjPayList(prjVO.getPrjUniNo()));
-		return "prj/프로젝트 관리4";
+		return "prj/prjPay";
 	}
 	
 	// 프로젝트 관리 - 대시보드
@@ -113,7 +110,7 @@ public class PrjController {
 		model.addAttribute("brdCnt", prjService.getBrdCnt(prjUniNo));
 		model.addAttribute("chatrCnt", prjService.getChatrCnt(prjUniNo));
 		model.addAttribute("prjNo", prjUniNo);
-		return "prj/프로젝트 관리3";
+		return "prj/prjDash";
 	}
 	
 	// 프로젝트 초대
@@ -180,4 +177,8 @@ public class PrjController {
 		}
 	}
 	
+	@GetMapping("subscribe")
+	public String subscribe() {
+		return "prj/feeInfo";
+	}
 }

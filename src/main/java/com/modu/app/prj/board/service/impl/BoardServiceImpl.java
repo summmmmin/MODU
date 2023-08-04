@@ -8,13 +8,18 @@ import org.springframework.stereotype.Service;
 import com.modu.app.prj.board.mapper.BoardMapper;
 import com.modu.app.prj.board.service.BoardService;
 import com.modu.app.prj.board.service.BoardVO;
+import com.modu.app.prj.post.mapper.PostMapper;
+import com.modu.app.prj.post.service.PostVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 
 	@Autowired
 	BoardMapper boardMapper;
-
+	
+	@Autowired
+	PostMapper postMapper;
+	
 	// 게시판 리스트
 	@Override
 	public List<BoardVO> BoardList(BoardVO vo) {
@@ -62,8 +67,22 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.chatParticiMemb(vo);
 	}
 	
+	//비공개 게시판에 참여 돼 있는 회원 제외 결과
 	@Override
 	public List<BoardVO> particiBrd(BoardVO vo) {
 		return boardMapper.particiBrd(vo);
 	}
+	
+	//회원 초대 
+	@Override
+	public int newJeans(BoardVO vo) {
+		return boardMapper.newJeans(vo);
+	}
+	
+	//POST LIST
+	@Override
+	public List<BoardVO> POSTLIST(BoardVO vo) {
+		return boardMapper.POSTLIST(vo);
+	}
+	
 }
