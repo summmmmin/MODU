@@ -1,5 +1,6 @@
 package com.modu.app.prj.board.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modu.app.prj.board.service.BoardService;
 import com.modu.app.prj.board.service.BoardVO;
+import com.modu.app.prj.post.service.PostService;
+import com.modu.app.prj.post.service.PostVO;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
@@ -29,6 +32,9 @@ public class BoardController {
 
 	@Autowired
 	PrjService prjService;
+	
+	@Autowired
+	PostService postService;
 
 	// 프로젝트 메인페이지
 	@GetMapping("/main")
@@ -123,5 +129,15 @@ public class BoardController {
 		}
 		return boardService.newJeans(vo);
 	}
-
+	
+	@PostMapping("POSTLIST")
+	@ResponseBody
+	public List<BoardVO> POSTLIST(@RequestBody BoardVO vo, HttpSession session){
+		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		System.out.println("1111"+vo);
+		return boardService.POSTLIST(vo);
+	}
+	
+	
+	
 }
