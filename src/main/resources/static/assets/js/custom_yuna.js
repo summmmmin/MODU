@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     function showError(selector, message) {
         $(selector).text(message).show();
@@ -9,24 +9,35 @@ $(document).ready(function() {
         $(selector).hide().prev().removeClass('error-border');
     }
 
+    function checkPhoneNumberDuplicate(phoneNumber) {
+        return $.ajax({
+            url: 'phNoVaild',
+            type: 'POST',
+            data: phoneNumber,
+            contentType: "text/plain"
+        });
+    }
+
     $('#sendVerificationCode').on('click', function () {
         var phoneNumber = $('input[name="phNo"]').val();
-        var dataToSend = {
-            to: phoneNumber
-        };
-        $.ajax({
-            url: 'send',
-            type: 'POST',
-            data: JSON.stringify(dataToSend),
-            contentType: 'application/json',
-            success: function (response) {
+        console.log(phoneNumber);
+
+        checkPhoneNumberDuplicate(phoneNumber).done(function (response) {
+            if (response === "이미 존재하는 번호입니다.") {
+                showError('#phoneError', response);
+                return;
+            }
+            hideError('#phoneError');
+
+            sendVerificationCode(phoneNumber).done(function () {
                 alert("인증번호가 발송되었습니다.");
-                $('input[name="phNo"]').prop('disabled', true);
-            },
-            error: function (xhr, status, error) {
+                $('input[name="phNo"]').prop('readonly', true);
+            }).fail(function (xhr, status, error) {
                 alert("하이픈('-')없이 숫자만 입력해주세요.");
                 console.error('에러 : ', error);
-            }
+            });
+        }).fail(function (xhr, status, error) {
+            console.error('에러 : ', error);
         });
     });
 
@@ -34,7 +45,7 @@ $(document).ready(function() {
         return new Promise((resolve, reject) => {
             var code = $('input[name="verificationCode"]').val();
 
-            if(!code) {
+            if (!code) {
                 showError('#verifyError', "휴대폰 인증을 해주십시오.");
                 reject(false);
             } else {
@@ -107,12 +118,12 @@ $(document).ready(function() {
         if (!confirmPassword) {
             showError('#confirmPasswordError', "비밀번호를 다시 입력해주세요.");
             return;
-        } 
+        }
 
         if (!passwordRegex.test(password)) {
             showError('#passwordError', "비밀번호는 영문자, 숫자, 특수 문자를 모두 포함한 8~16자 사이여야 합니다.");
             return;
-        } 
+        }
 
         if (password !== confirmPassword) {
             showError('#confirmPasswordError', "비밀번호와 비밀번호 확인이 일치하지 않습니다.");
@@ -135,7 +146,7 @@ $(document).ready(function() {
             contentType: "text/plain"
         });
 
-        $.when(idCheck, phoneNumberCheck).done(function(idResponse, phoneResponse) {
+        $.when(idCheck, phoneNumberCheck).done(function (idResponse, phoneResponse) {
             // idCheck와 phoneNumberCheck 모두 성공
             var idData = idResponse[0]; // idCheck 응답 데이터
             var phoneData = phoneResponse[0]; // phoneNumberCheck 응답 데이터
@@ -151,41 +162,41 @@ $(document).ready(function() {
 
                 // 인증 코드 검사를 진행
                 verifySmsCode().then(isSmsVerified => {
-                    if(isSmsVerified) {
+                    if (isSmsVerified) {
                         $("form").submit();
-                        alert("회원가입이 완료되었습니다.\n" + `환영합니다 ${name}님! \n` + "이메일을 확인하시고, 계정을 활성화 해주세요." );
+                        alert("회원가입이 완료되었습니다.\n" + `환영합니다 ${name}님! \n` + "이메일을 확인하시고, 계정을 활성화 해주세요.");
                     }
                 }).catch(() => {
                     showError('#verifyError', "휴대폰 인증을 확인해주세요.");
                 });
             }
-        }).fail(function(idXhr, phoneXhr, idTextStatus, phoneTextStatus) {
+        }).fail(function (idXhr, phoneXhr, idTextStatus, phoneTextStatus) {
             // idCheck나 phoneNumberCheck 중 하나라도 실패
             console.error("AJAX 요청 에러:", idTextStatus, phoneTextStatus);
         });
-    }); // The extra parenthesis causing the error was removed from here
+    });
 
-    $('input[name="id"]').on('input', function() {
+    $('input[name="id"]').on('input', function () {
         hideError('#emailError');
     });
 
-    $('input[name="nm"]').on('input', function() {
+    $('input[name="nm"]').on('input', function () {
         hideError('#nameError');
     });
 
-    $('input[name="phNo"]').on('input', function() {
+    $('input[name="phNo"]').on('input', function () {
         hideError('#phoneError');
     });
 
-    $('input[name="pwd"]').on('input', function() {
+    $('input[name="pwd"]').on('input', function () {
         hideError('#passwordError');
     });
 
-    $('input[name="confirmPwd"]').on('input', function() {
+    $('input[name="confirmPwd"]').on('input', function () {
         hideError('#confirmPasswordError');
     });
 
-    $('input[name="verificationCode"]').on('input', function() {
+    $('input[name="verificationCode"]').on('input', function () {
         hideError('#verifyError');
     });
 });

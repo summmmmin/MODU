@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -84,28 +83,55 @@
 		</div>
 		</form>
 	</div>
-	<!--  <script type="text/javascript">
-              fetch('/modu/voteInsertForm')
-  			.then(res => res.json())
-  			.then(data => {
-  				console.log(data.boardNm);
-  				let option = document.createElement('option')
-  				let brdNm = document.querySelector('#brdNm')
-  				let brdSel = document.querySelector('#brdSel')
-  				console.log(brdNm);
-  				console.log($('.choices__list'));
-  				console.log(data.boardNm[0].boardNm);
-  				for(let i = 0 ; i <data.boardNm.length ; i++ ){
-  					option = document.createElement('option')
-  					option.text = data.boardNm[i].boardNm;
-  					//brdNm.append(option);
-  					console.log(option)
-  					brdSel.append(option);
-  				}
-  			})
-  			.catch(err => console.log(err)); 
-              </script> -->
 	<script>
+	
+	
+	
+	
+	
+	
+	
+	//항목 추가하기 버튼
+	var count = 2;
+	function insertItem() {
+		count ++;
+
+		let input = `
+		<p></p>
+			<div class="form-group has-icon-right" id="count${count}"> 
+				<div class="position-relative">
+					<input type="text" class="form-control voteItem"placeholder="투표항목을 입력해주세요" th:field="*{voteItem}">
+				<div class="form-control-icon">
+					<i class="bi bi-trash-fill" id="delete${count}" onclick="delIcon()"></i>
+				</div>
+			</div>
+		`;	
+			if (count<=4){	
+		
+			$('#voteItemList').append(input);
+		
+				if(count == 4) {
+					event.target.innerText ="더이상 항목을 늘릴 수 없습니다.";
+					event.target.disabled=true;
+					
+				}
+					
+				
+			}
+	
+	}
+	
+	// 항목 삭제하기 버튼
+	function delIcon(){
+		if(event.isTrusted == true){
+			$('#count'+count).remove();
+			count--;
+			if (count == 3){
+				document.getElementById('voteBtn').disabled=false;
+				document.getElementById('voteBtn').innerText = '항목 추가'
+			}			
+		}
+	}
 	
 	function VoteInsert() {
 		let bno=null;
@@ -158,93 +184,15 @@
    } 
 	
 	 $(function(){
-			let count = 2;
-
 			// 저장하기 버튼
 			let select =$("#brdSel option:selected").val();
-			
-			console.log('111111111111')
-			
-			
-			
-			
-			
-			
-			
-		
-/*  			function VoteInsert (){
-				fetch("/modu/voteInsert",{
-					method:"POST",
-					headers: {
-					    'Content-Type': 'application/json',
-					  },
-					body: JSON.stringify({
-							chatrNo:select,
-							ttl:ttl,
-							voteItem:item,
-							toDt:date
-							})
-					})
-					.then(response => response.json())
-  					.then(result => {
-  						console.log(select);
-  						console.log(item);
-  						console.log(date);
-					    console.log('서버 응답:', result);
-					  })
-					.catch(error => {
-					    console.error('오류 발생:', error);
-					  });
-				
-			} */
-				
-			// 항목 삭제하기 버튼
-				function delIcon(){
-					if(event.isTrusted == true){
-						$('#count'+count).remove();
-						count--;
-						console.log(count)
-						if (count == 3){
-							document.getElementById('voteBtn').disabled=false;
-							document.getElementById('voteBtn').innerText = '항목 추가'
-						}			
-					}
-				}
-				
-				
-				
-			//항목 추가하기 버튼
-			function insertItem() {
-				count ++;
-
-				console.log(count);
-				let input = `
-				<p></p>
-					<div class="form-group has-icon-right" id="count${count}"> 
-						<div class="position-relative">
-							<input type="text" class="form-control voteItem"placeholder="투표항목을 입력해주세요" th:field="*{voteItem}">
-						<div class="form-control-icon">
-							<i class="bi bi-trash-fill" id="delete${count}" onclick="delIcon()"></i>
-						</div>
-					</div>
-				`;	
-					if (count<=4){	
-				
-					$('#voteItemList').append(input);
-				
-						if(count == 4) {
-							event.target.innerText ="더이상 항목을 늘릴 수 없습니다.";
-							event.target.disabled=true;
-							
-						}
-							
-						
-					}
-			
-			}
+					
 			new Choices(document.querySelector('.brdchatrselect'));
 			
 	 })
+	 
+	 
+	 
 		</script>
 
 </body>

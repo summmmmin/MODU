@@ -1,49 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
->
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-		<div class="row">
-			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title">즐겨찾기</h4>
-					<hr>
-				</div>
-				<div class="card-content" >
-					<table>
-						<tbody id="bmList">
-						</tbody>
-					</table>
-				<div class="card-content" id="bmList">
-				</div>
+	<div class="row">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">즐겨찾기</h4>
+				<hr>
+			</div>
+			<div class="card-content">
+				<table>
+					<tbody id="bmList">
+					</tbody>
+				</table>
+				<div class="card-content" id="bmList"></div>
 			</div>
 		</div>
-	<script th:inline="javascript">
-/*<![CDATA[*/
+		<script th:inline="javascript">
     $.ajax("bmList")
     .done(result => {
         console.log(result);
         for (let i = 0; i < result.length; i++) {
-            $('#bmList').append(
-                $('<tr/>').attr('onclick', 'trHref()')
-                    .append($('<td/>').text('등록일자 : ' + result[i].regDt))
-                    .append($('<td/>').text('게시글 번호 : ' + result[i].bmUniNo))
-                    .append($('<td/>').text(result[i].brdUniNo)).append($('<hr>'))
-            );
+            let tr =  $('<tr/>').attr('onclick', 'trHref()');
+						tr.append($('<td/>').text('등록일자 : ' + result[i].regDt))
+                    .append($('<td/>').text('즐겨찾기 번호 : ' + result[i].bmUniNo))
+            
+            if (result[i].brdUniNo != null) {
+                // 게시글 즐겨찾기 일때
+                        tr.append($('<td/>').text(result[i].brdUniNo)).append($('<td/>').text(result[i].division))
+                        .append($('<hr>'))
+            } else if (result[i].chatrNo != null) {
+                // 채팅 즐겨찾기 일때
+						tr.append($('<td/>').text(result[i].chatrNo)).append($('<td/>').text(result[i].division))
+                        .append($('<hr>'))
+            } else if (result[i].attNo != null) {
+                // 첨부파일 즐겨찾기 일때
+                        tr.append($('<td/>').text(result[i].attNo)).append($('<td/>').text(result[i].division))
+                        .append($('<hr>'))
+            }
+             $('#bmList').append(tr)
         }
-
     });
-/*]]>*/
-</script>
-<script>
+    // append 안에 꾸며주는거 넣기
 	function trHref(){
-		let brdUniNo = $(event.target).closest('tr').children().eq(2).text();
-		location.href='/modu/postList?brdUniNo='+ brdUniNo;
-	}
-</script>
+		let division = $(event.target).closest('tr').children().eq(3).text();
+		let value = $(event.target).closest('tr').children().eq(2).text();
+
+		if(division == 'A'){
+			location.href='/modu/postList?brdUniNo='+ value;
+		}else if(division == 'B'){
+			location.href='/modu/chat?chatrNo='+ value;
+		}
+    }
+ </script>
 </body>
 </html>

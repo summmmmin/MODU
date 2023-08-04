@@ -51,6 +51,9 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	@Autowired
+    SendEmail sendEmail;
+	
+	@Autowired
 	UserService userService;
 
 	@Autowired
@@ -125,7 +128,7 @@ public class UserController {
 		// 회원가입 후 이메일 발송
 		String siteURL = getSiteURL(request);
 		System.out.println("유저 : " + userVO + "주소 : " + siteURL);
-		SendEmail.authSend(userVO, siteURL);
+		sendEmail.authSend(userVO, siteURL);
 
 		return "redirect:login";
 	}
@@ -137,8 +140,9 @@ public class UserController {
 
 	// 회원가입 폼에서 휴대폰번호 중복체크
 	@PostMapping("phNoVaild")
-	public ResponseEntity<String> checkIdDuplicate1(@RequestBody String phNo) {
+	public ResponseEntity<String> checkphNoDuplicate(@RequestBody String phNo) {
 		int duplicateCount = userService.phNoVaild(phNo);
+		System.out.println("중복 번호 갯수 : " + duplicateCount);
 		System.out.println("회원가입 휴대폰 번호 : " + phNo);
 		if (duplicateCount > 0) {
 			System.out.println("휴대폰 중복체크 : " + duplicateCount);
@@ -216,7 +220,7 @@ public class UserController {
 	        System.out.println("업데이트 유저 : " + userVO);
 
 	        // 이메일 전송
-	        SendEmail.gmailSend(id, newPassword);
+			sendEmail.gmailSend(id, newPassword);
 
 	        System.out.println("비밀번호 재설정 완료 " + newPassword);
 
@@ -404,7 +408,7 @@ public class UserController {
 		// 세션에 인증번호 저장
 		session.setAttribute("storedCode", verificationCode);
 
-		SendEmail.idMail(userVO.getId(), newEmail, verificationCode);
+		sendEmail.idMail(userVO.getId(), newEmail, verificationCode);
 
 		return ResponseEntity.ok("이메일 전송 성공");
 	}

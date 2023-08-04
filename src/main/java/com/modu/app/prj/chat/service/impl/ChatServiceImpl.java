@@ -46,7 +46,8 @@ public class ChatServiceImpl implements ChatService{
 	//채팅메세지insert
 	@Override
 	public int insertChat(ChatVO chatVO) {
-		return chatMapper.insertChat(chatVO);
+		chatMapper.insertChat(chatVO);
+		return chatVO.getChatNo();
 	}
 
 	//채팅메세지리스트

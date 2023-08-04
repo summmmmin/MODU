@@ -155,11 +155,13 @@ public class ChatController {
 		chatVO.setCntn(cntn);
 		
 		//채팅(메세지)등록
-		chatService.insertChat(chatVO);
+		int chatno = chatService.insertChat(chatVO);
 		
 		//첨부파일DB등록
 		FileVO fileVO = new FileVO();
-		
+		// insert 한 후 chatno 가져오기? return할때 필요
+		fileVO.setChatNo((long) chatno);
+
 		if(file != null) {
 
 			fileVO.setChatNo((long) chatVO.getChatNo());
@@ -171,7 +173,7 @@ public class ChatController {
 			chatFile.setChatrNo(chatrNo);
 			chatFile.setChatParticiMembUniNo(chatParticiMembUniNo);
 			chatFile.setCntn("<a href='/modu/files/" + fileVO.getAttNo() + "/download'>" + fileVO.getAttNm() +"</a>");
-			chatService.insertChat(chatFile);
+			chatno = chatService.insertChat(chatFile);
 			
 			//채팅알림테이블에 insert
 			List<ChatrParticiVO> membList = chatService.chatrParticiList(chatrNo);
@@ -205,7 +207,6 @@ public class ChatController {
 			chatChmVO.setChatParticiMembUniNo(memb.getChatParticiMembUniNo());
 			chatService.insertChatChm(chatChmVO);
 		}
-		
 		return fileVO;
 	}
 	
@@ -295,11 +296,9 @@ public class ChatController {
 	}
 	
 	@GetMapping("EXO")
-	public String EXO(BmVO vo,Model model, HttpSession session) {
-		BmVO bmvo = new BmVO();
+	@ResponseBody
+	public List<BmVO> EXO(BmVO vo,Model model, HttpSession session) {
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		model.addAttribute("EXO",bmService.BmList(bmvo));
-		System.out.println(vo);
-		return "chat/chat";
+		return bmService.BmList(vo);
 	}
 }

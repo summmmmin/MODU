@@ -154,6 +154,8 @@ public class TodoController {
 			@RequestParam("cntn") String cntn,	@RequestParam("frDt") String Date, @RequestParam("toDt") String lastDate
 			,@RequestParam("cm") String cm, @RequestParam("mgr") String mgr,
 			@RequestParam("todoUniNo") String todoUniNo) throws ParseException {
+		
+		
 		System.out.println("111111111111111111111111111111111111111111111111");
 		TodoVO vo = new TodoVO();
 		UserVO userVo = (UserVO) session.getAttribute("user");
@@ -169,6 +171,13 @@ public class TodoController {
 		
 		System.out.println(vo);
 		todoService.updateTodo(vo);
+		
+		if (file != null) {
+			FileVO fileVO = new FileVO();
+			fileVO.setTodoUniNo(vo.getTodoUniNo()); 
+			fileVO.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+			fileService.insertFile(file, fileVO);
+			}
 		
 		return 1;
 	}
