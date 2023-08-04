@@ -32,6 +32,12 @@
 <script src="fullcalendar-6.1.8/dist/index.global.js"></script>
 <!-- Include Choices JavaScript -->
 <script src="assets/vendors/choices.js/choices.min.js"></script>
+<style>
+#HypeBoy:hover{
+	cursor:pointer;
+}
+</style>
+
 </head>
 
 <body>
@@ -152,7 +158,7 @@
             'brdUniNo' : brdUniNo,
             'particiMembUniNo' : particiMembUniNo
         }
-        fetch('/modu/BrdBmInsert', {
+        fetch('/modu/BmInsert', {
             method : 'POST',
             headers : {
                 'content-type' : 'application/json'
@@ -173,13 +179,7 @@
         .catch(err => console.log(err));
         
     }
-	/* 색 변환 JS */ 
-   $('#ultag').on('click', function(event) {
-    let target = event.target;
-    if ($(target).hasClass('cls-1')) {
-        let brdUniNo = $(target).attr('text-brdUniNo');
-    }
-});
+
 </script>
 					<!--/* ************************ End *************************** */-->
 				</div>
@@ -235,7 +235,7 @@
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-								<li class="nav-item me-1"><a
+								<li class="nav-item me-1" id="HypeBoy"><a
 									class="nav-link active rburger" onclick="searchList()"
 									aria-expanded="false"><i
 										class="bi bi-search bi-sub fs-4 text-gray-600"></i> </a></li>
@@ -660,7 +660,7 @@
  
 // WebSocket 연결 설정
 	const armClient = new StompJs.Client({
-		brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
+		brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
 	});
 	// 페이지 로드시 웹소켓 연결
 	window.addEventListener("load", function(event) {

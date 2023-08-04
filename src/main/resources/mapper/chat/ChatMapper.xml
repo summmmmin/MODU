@@ -52,7 +52,7 @@
 	</select>
 	
 	<!-- 채팅메세지insert -->
-	<insert id="insertChat" parameterType="ChatVO">
+	<insert id="insertChat" parameterType="ChatVO" useGeneratedKeys="true" keyProperty="chatNo">
 		<selectKey keyProperty="chatNo" order="BEFORE" resultType="int">
 			SELECT chat_seq.nextval FROM dual
 		</selectKey>

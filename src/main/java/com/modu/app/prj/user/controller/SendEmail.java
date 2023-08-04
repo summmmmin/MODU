@@ -1,4 +1,5 @@
 package com.modu.app.prj.user.controller;
+//String password = "mehkjbnookiyggaa"; // gmail 패스워드(2단계 앱보안 비밀번호 테스트파일에 넣어둠)
 
 import java.util.Properties;
 
@@ -11,13 +12,22 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
 
+@Service
 public class SendEmail {
-	public static void gmailSend(String userId, String newPassword) {
-		String user = "qomo596@gmail.com"; // 발신 gmail 계정
-		String password = "mehkjbnookiyggaa"; // gmail 패스워드(2단계 앱보안 비밀번호 테스트파일에 넣어둠)
+	@Value("${spring.mail.username}")
+	private String user;
+
+	@Value("${spring.mail.password}")
+	private String password;
+
+	public void gmailSend(String userId, String newPassword) {
+//		String user = "qomo596@gmail.com"; // 발신 gmail 계정
 
 		// SMTP 서버 정보를 설정한다.
 		Properties prop = new Properties();
@@ -27,7 +37,7 @@ public class SendEmail {
 		prop.put("mail.smtp.ssl.enable", "true");
 		prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 
-		Session session = Session.getInstance (prop, new javax.mail.Authenticator() {
+		Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(user, password);
 			}
@@ -39,7 +49,6 @@ public class SendEmail {
 
 			// 수신자메일주소 (회원아이디)
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(userId));
-			
 
 			// 메일제목
 			message.setSubject("MODU 사이트의 비밀번호 찾기를 요청하셨습니다");
@@ -49,8 +58,7 @@ public class SendEmail {
 			message.setText(emailContent);
 
 			Transport.send(message); //// 전송
-			
-			
+
 			System.out.println("비밀번호 재설정 메일 발송완료");
 		} catch (AddressException e) {
 			e.printStackTrace();
@@ -58,139 +66,134 @@ public class SendEmail {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void authSend(UserVO userVO, String siteURL) {
-        String user = "qomo596@gmail.com"; // 발신 gmail 계정
-        String password = "mehkjbnookiyggaa"; // gmail 패스워드(2단계 앱보안 비밀번호 테스트파일에 넣어둠)
 
-        // SMTP 서버 정보를 설정한다.
-        Properties prop = new Properties();
-        prop.put("mail.smtp.host", "smtp.gmail.com");
-        prop.put("mail.smtp.port", 465);
-        prop.put("mail.smtp.auth", "true");
-        prop.put("mail.smtp.ssl.enable", "true");
-        prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+	public void authSend(UserVO userVO, String siteURL) {
+		String user = "qomo596@gmail.com"; // 발신 gmail 계정
+		String password = "mehkjbnookiyggaa"; // gmail 패스워드(2단계 앱보안 비밀번호 테스트파일에 넣어둠)
 
-        Session session = Session.getInstance (prop, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(user, password);
-            }
-        });
+		// SMTP 서버 정보를 설정한다.
+		Properties prop = new Properties();
+		prop.put("mail.smtp.host", "smtp.gmail.com");
+		prop.put("mail.smtp.port", 465);
+		prop.put("mail.smtp.auth", "true");
+		prop.put("mail.smtp.ssl.enable", "true");
+		prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 
-        try {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(user));
+		Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(user, password);
+			}
+		});
 
-            // 수신자메일주소 (회원아이디)
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(userVO.getId()));
+		try {
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(user));
 
-            // 메일제목
-            message.setSubject("MODU 사이트 회원가입 인증 메일");
+			// 수신자메일주소 (회원아이디)
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(userVO.getId()));
 
-            // 내용
-            String emailContent = "<h1>회원가입 인증 메일입니다.</h1>";
-            emailContent += "<p>아래 링크를 클릭하여 계정을 활성화하세요:</p>";
-            emailContent += "<a href=\"" + siteURL + "/activate?token=" + userVO.getToken() + "\">활성화 링크</a>";
+			// 메일제목
+			message.setSubject("MODU 사이트 회원가입 인증 메일");
 
-            message.setContent(emailContent, "text/html; charset=utf-8");
+			// 내용
+			String emailContent = "<h1>회원가입 인증 메일입니다.</h1>";
+			emailContent += "<p>아래 링크를 클릭하여 계정을 활성화하세요:</p>";
+			emailContent += "<a href=\"" + siteURL + "/activate?token=" + userVO.getToken() + "\">활성화 링크</a>";
 
-            Transport.send(message); //전송
-            
-            System.out.println("인증 메일 발송완료");
-        } catch (AddressException e) {
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
-	
-	public static void idMail(String userId, String newEmail, String authCode) {
-	    String user = "qomo596@gmail.com"; // 발신 gmail 계정
-	    String password = "mehkjbnookiyggaa"; // gmail 패스워드(2단계 앱보안 비밀번호 테스트파일에 넣어둠)
+			message.setContent(emailContent, "text/html; charset=utf-8");
 
-	    // SMTP 서버 정보를 설정한다.
-	    Properties prop = new Properties();
-	    prop.put("mail.smtp.host", "smtp.gmail.com");
-	    prop.put("mail.smtp.port", 465);
-	    prop.put("mail.smtp.auth", "true");
-	    prop.put("mail.smtp.ssl.enable", "true");
-	    prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+			Transport.send(message); // 전송
 
-	    Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
-	        protected PasswordAuthentication getPasswordAuthentication() {
-	            return new PasswordAuthentication(user, password);
-	        }
-	    });
+			System.out.println("인증 메일 발송완료");
+		} catch (AddressException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
 
-	    try {
-	        MimeMessage message = new MimeMessage(session);
-	        message.setFrom(new InternetAddress(user));
+	public void idMail(String userId, String newEmail, String authCode) {
 
-	        //수신자메일주소
-	        message.addRecipient(Message.RecipientType.TO, new InternetAddress(newEmail)); 
+		// SMTP 서버 정보를 설정한다.
+		Properties prop = new Properties();
+		prop.put("mail.smtp.host", "smtp.gmail.com");
+		prop.put("mail.smtp.port", 465);
+		prop.put("mail.smtp.auth", "true");
+		prop.put("mail.smtp.ssl.enable", "true");
+		prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 
-	        // Subject
-	        message.setSubject("MODU사이트에서 이메일 변경을 요청하셨습니다."); // 메일 제목을 입력
+		Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(user, password);
+			}
+		});
 
-	        // Text
-	        message.setText("인증 번호 : " + authCode + "를 입력하세요."); // 메일 내용을 입력
+		try {
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(user));
 
-	        // send the message
-	        Transport.send(message);
-	        System.out.println("아이디 변경 메일 발송 완료");
-	    } catch (MessagingException e) {
-	        e.printStackTrace();
-	    }
+			// 수신자메일주소
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(newEmail));
+
+			// Subject
+			message.setSubject("MODU사이트에서 이메일 변경을 요청하셨습니다."); // 메일 제목을 입력
+
+			// Text
+			message.setText("인증 번호 : " + authCode + "를 입력하세요."); // 메일 내용을 입력
+
+			// send the message
+			Transport.send(message);
+			System.out.println("아이디 변경 메일 발송 완료");
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void inviteSend(PrjVO prj, String siteURL) {
-        String user = "qomo596@gmail.com"; // 발신 gmail 계정
-        String password = "mehkjbnookiyggaa"; // gmail 패스워드(2단계 앱보안 비밀번호 테스트파일에 넣어둠)
+		String user = "qomo596@gmail.com"; // 발신 gmail 계정
+		String password = "mehkjbnookiyggaa"; // gmail 패스워드(2단계 앱보안 비밀번호 테스트파일에 넣어둠)
 
-        // SMTP 서버 정보를 설정한다.
-        Properties prop = new Properties();
-        prop.put("mail.smtp.host", "smtp.gmail.com");
-        prop.put("mail.smtp.port", 465);
-        prop.put("mail.smtp.auth", "true");
-        prop.put("mail.smtp.ssl.enable", "true");
-        prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		// SMTP 서버 정보를 설정한다.
+		Properties prop = new Properties();
+		prop.put("mail.smtp.host", "smtp.gmail.com");
+		prop.put("mail.smtp.port", 465);
+		prop.put("mail.smtp.auth", "true");
+		prop.put("mail.smtp.ssl.enable", "true");
+		prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 
-        Session session = Session.getInstance (prop, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(user, password);
-            }
-        });
+		Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(user, password);
+			}
+		});
 
-        try {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(user));
+		try {
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(user));
 
-            // 수신자메일주소 (회원아이디)
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(prj.getEmail()));
+			// 수신자메일주소 (회원아이디)
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(prj.getEmail()));
 
-            // 메일제목
-            message.setSubject("MODU 사이트 프로젝트 초대 메일");
+			// 메일제목
+			message.setSubject("MODU 사이트 프로젝트 초대 메일");
 
-            // 내용
-            String emailContent = "<h1>회원 초대 메일입니다.</h1>";
-            emailContent += "<p>아래 링크를 클릭하여 프로젝트에 가입하세요:</p>";
-            emailContent += "<a href=\"" + siteURL + "/invite?token=" + prj.getId() + prj.getTk() + "\">초대 링크</a>";
+			// 내용
+			String emailContent = "<h1>회원 초대 메일입니다.</h1>";
+			emailContent += "<p>아래 링크를 클릭하여 프로젝트에 가입하세요:</p>";
+			emailContent += "<a href=\"" + siteURL + "/invite?token=" + prj.getId() + prj.getTk() + "\">초대 링크</a>";
 
-            message.setContent(emailContent, "text/html; charset=utf-8");
+			message.setContent(emailContent, "text/html; charset=utf-8");
 
-            Transport.send(message); //전송
-            
-            System.out.println("초대 메일 발송완료");
-        } catch (AddressException e) {
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
-	
-	
-	
-	
+			Transport.send(message); // 전송
+
+			System.out.println("초대 메일 발송완료");
+		} catch (AddressException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
+
 //	테스트용 코드
 //	public static void main(String[] args) {
 //		String userId = "user@example.com"; // 수신자 이메일 주소

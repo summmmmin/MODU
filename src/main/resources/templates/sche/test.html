@@ -64,6 +64,8 @@
 
 				</form>
 				<script th:inline="javascript">
+				
+				 $(function(){
    				 /*<![CDATA[*/
 	     	 	let schUpdateStart = /*[[${scheInfo.start}]]*/
 				let schUpdateEnd = /*[[${scheInfo.end}]]*/ 	
@@ -71,8 +73,16 @@
 				console.log( schUpdateStart.slice(0, 16));
 				document.getElementById('33').value = schUpdateStart.slice(0, 16);
    				document.getElementById('44').value = schUpdateEnd.slice(0,16); 
+   				
+				let initChoice = new Choices(document.querySelector('.asdfdsfasdf'),
+					      {
+					        delimiter: ',',
+					        editItems: true,
+					        maxItemCount: 5,
+					        removeItemButton: true,
+					      });
 
-				
+				 })
 				
 				
 				
@@ -111,13 +121,7 @@
 				
 				
 				
-				let initChoice = new Choices(document.querySelector('.asdfdsfasdf'),
-					      {
-					        delimiter: ',',
-					        editItems: true,
-					        maxItemCount: 5,
-					        removeItemButton: true,
-					      });
+
 
 				
 				
