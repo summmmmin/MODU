@@ -20,6 +20,7 @@
 	 /* function initializeCalendar(schAllDatas) { */
 	let navTop;
 	var calendar;
+	var scheNo;
 	let formattedEvents = []
     document.addEventListener('DOMContentLoaded', function () {
       var calendarEl = document.getElementById('calendar1');
@@ -35,7 +36,8 @@
         classNames: 'sideWork',
         extendedProps: {
           sche_uni_no: eventData.scheUniNo
-        }
+        },
+        id : eventData.scheUniNo
       }));
 
 		console.log(formattedEvents)
@@ -48,11 +50,9 @@
         eventClick: function (info) {
           console.log('이벤트: ' + info.event);
           navTop = event.target.closest('.fc-event');//바 위치
-          var scheNo = info.event.extendedProps.scheUniNo;
-          console.log(info.event.extendedProps);
-          let scheData = info.event.extendedProps;
+          scheNo = info.event.id;
           
-          fetch("scheInfo/" + scheData.sche_uni_no) //단건조회 fetch
+          fetch("scheInfo/" + scheNo) //단건조회 fetch
             .then((response) => response.json())
             .then((result) => {
             	document.getElementById('partici').innerText = '';
@@ -118,17 +118,6 @@
         	
           $("#scheInsert").modal("show");
 			
-          var ScheInsertTitleInput = document.getElementById('1').value
-          var ScheInsertStartInput = document.getElementById('3').value
-          var ScheInsertEndInput = document.getElementById('4').value
-          
-          if (!isNaN(date.valueOf())) { // valid?
-              calendar.addEvent({
-                title: ScheInsertTitleInput,
-                start: ScheInsertStartInput,
-                end: ScheInsertEndInput
-              });
-            }
         },
         dayMaxEventRows: true, // for all non-TimeGrid views
         views: {
@@ -178,7 +167,10 @@
 		  });
 		} 
     
-   
+	  //모달  일정상세 숨기기
+	    function hideInfo(){
+	    	$("#scheInfo").modal("hide");
+	    }
 
   </script>
 
@@ -412,11 +404,9 @@
       .then(result => result.json())
       .then(data => {
     	  $("#scheInsert").modal("hide");
-    	  // fullcalendar에 event 추가
-    	  console.log(data)
+    	  scheInsertData.id = data.scheUniNo;
+    	  console.log(scheInsertData);
              calendar.addEvent(scheInsertData);
-    	  console.log(scheInsertData)
-    	  console.log(calendar)
     	  calendar.render();
     	});
 }   
@@ -437,10 +427,10 @@
         })
         .then((response) => response.json())
         .then((result) => {
-          console.log(result);
-          navTop.remove();
+        	console.log(scheNo)
+        	calendar.getEventById(scheUniNo).remove();
         })
-    }
+        }
 
     
     
@@ -450,17 +440,10 @@
     	 let scheUniNo = $('#noInfo').val();
     	 $.ajax("yetPartici?scheUniNo="+scheUniNo)
     		.done(result=>$("#testtttttttedsds").html(result));
-			
+			 
+    }
+    
 
-    	 
-    }
-    
-    
-    //모달  일정상세 숨기기
-    function hideInfo(){
-    	$("#scheInfo").modal("hide");
-    }
-    
     //모달 일정 삼세 나타내기
     function showInfo(){
     	$("#scheInfo").modal("show");
