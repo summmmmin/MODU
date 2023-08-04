@@ -21,7 +21,6 @@
 			</div>
 		</div>
 		<script th:inline="javascript">
-/*<![CDATA[*/
     $.ajax("bmList")
     .done(result => {
         console.log(result);
@@ -31,29 +30,32 @@
                     .append($('<td/>').text('즐겨찾기 번호 : ' + result[i].bmUniNo))
             
             if (result[i].brdUniNo != null) {
-            	  // 게시글 즐겨찾기 일때
-                tr.append($('<td/>').text('게시글 번호 : '))
-                    .append($('<span/>').text(result[i].brdUniNo))
-                    .append($('<hr>'));
+                // 게시글 즐겨찾기 일때
+                        tr.append($('<td/>').text(result[i].brdUniNo)).append($('<td/>').text(result[i].division))
+                        .append($('<hr>'))
             } else if (result[i].chatrNo != null) {
                 // 채팅 즐겨찾기 일때
-						tr.append($('<td/>').text('채팅방 번호 : ' +result[i].chatrNo))
+						tr.append($('<td/>').text(result[i].chatrNo)).append($('<td/>').text(result[i].division))
                         .append($('<hr>'))
             } else if (result[i].attNo != null) {
                 // 첨부파일 즐겨찾기 일때
-                        tr.append($('<td/>').text('파일 번호 : ' +result[i].attNo))
+                        tr.append($('<td/>').text(result[i].attNo)).append($('<td/>').text(result[i].division))
                         .append($('<hr>'))
             }
-                	$('#bmList').append(tr)
+             $('#bmList').append(tr)
         }
     });
-/*]]>*/
-</script>
-		<script>
+    // append 안에 꾸며주는거 넣기
 	function trHref(){
-		let brdUniNo = $(event.target).closest('tr').children().eq(2).text();
-		location.href='/modu/postList?brdUniNo='+ brdUniNo;
-	}
-</script>
+		let division = $(event.target).closest('tr').children().eq(3).text();
+		let value = $(event.target).closest('tr').children().eq(2).text();
+
+		if(division == 'A'){
+			location.href='/modu/postList?brdUniNo='+ value;
+		}else if(division == 'B'){
+			location.href='/modu/chat?chatrNo='+ value;
+		}
+    }
+ </script>
 </body>
 </html>
