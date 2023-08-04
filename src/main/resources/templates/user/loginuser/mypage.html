@@ -1,16 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>마이페이지</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/bootstrap.css">
-<link rel="stylesheet" href="../assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet"
+	href="../assets/vendors/bootstrap-icons/bootstrap-icons.css">
 <link rel="stylesheet" href="../assets/css/app.css">
 <link rel="stylesheet" href="../assets/css/pages/auth.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -30,43 +37,57 @@
 											<label for="user-id-horizontal">아이디</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<div id="user-id-horizontal" style="width: 300px;" th:text="${userVO.id}"></div>
+											<div id="user-id-horizontal" style="width: 300px;"
+												th:text="${userVO.id}"></div>
 										</div>
 										<div class="col-md-4" id="email-label" style="display: none;">
 											<label for="email-horizontal">새로운 이메일</label>
 										</div>
-										<div class="col-md-3 form-group" id="email-group" style="display: none;">
-											<input type="email" id="email-horizontal" class="form-control" name="email-id"
-												placeholder="새로운 이메일" style="width: 300px;">
+										<div class="col-md-3 form-group" id="email-group"
+											style="display: none;">
+											<input type="email" id="email-horizontal"
+												class="form-control" name="email-id" placeholder="새로운 이메일"
+												style="width: 300px;">
 										</div>
-										<div class="col-md-2 form-group" id="email-button-group" style="display: none;">
-											<button type="button" id="send-button" class="btn btn-primary">발송</button>
+										<div class="col-md-2 form-group" id="email-button-group"
+											style="display: none;">
+											<button type="button" id="send-button"
+												class="btn btn-primary">발송</button>
 										</div>
 										<div class="col-md-4" id="code-label" style="display: none;">
 											<label for="code-horizontal">인증번호</label>
 										</div>
-										<div class="col-md-3 form-group" id="code-group" style="display: none;">
-											<input type="text" id="code-horizontal" class="form-control" name="code" placeholder="인증번호"
-												style="width: 300px;">
+										<div class="col-md-3 form-group" id="code-group"
+											style="display: none;">
+											<input type="text" id="code-horizontal" class="form-control"
+												name="code" placeholder="인증번호" style="width: 300px;">
 										</div>
-										<div class="col-md-2 form-group" id="code-button-group" style="display: none;">
-											<button type="button" id="check-button" class="btn btn-primary">확인</button>
+										<div class="col-md-2 form-group" id="code-button-group"
+											style="display: none;">
+											<button type="button" id="check-button"
+												class="btn btn-primary">확인</button>
 										</div>
 										<div class="col-md-4">
 											<label for="name" id=name>이름</label>
 										</div>
 										<div class="col-md-8 form-group">
-											<div id="user-name" style="width: 300px;" th:text="${userVO.nm}"></div>
+											<div id="user-name" style="width: 300px;"
+												th:text="${userVO.nm}"></div>
 										</div>
-										<div class="col-md-4" id="new-name-label" style="display: none;">
+										<div class="col-md-4" id="new-name-label"
+											style="display: none;">
 											<label for="new-name-horizontal">새로운 이름</label>
 										</div>
-										<div class="col-md-3 form-group" id="new-name-group" style="display: none;">
-											<input type="text" id="new-name-horizontal" class="form-control" name="new-name"
-												placeholder="새로운 이름" style="width: 300px;">
+										<div class="col-md-3 form-group" id="new-name-group"
+											style="display: none;">
+											<input type="text" id="new-name-horizontal"
+												class="form-control" name="new-name" placeholder="새로운 이름"
+												style="width: 300px;">
 										</div>
-										<div class="col-md-5 form-group" id="new-name-button-group" style="display: none;">
-											<button type="button" id="new-name-check-button" class="btn btn-primary">확인</button>
+										<div class="col-md-5 form-group" id="new-name-button-group"
+											style="display: none;">
+											<button type="button" id="new-name-check-button"
+												class="btn btn-primary">확인</button>
 										</div>
 										<div class="col-md-4" id="password-label">
 											<label for="new-password">비밀번호</label>
@@ -74,29 +95,40 @@
 										<div class="col-md-8 form-group">
 											<div id="new-password" style="width: 300px;">******</div>
 										</div>
-										<div class="col-md-4" id="current-password-label" style="display: none;">
+										<div class="col-md-4" id="current-password-label"
+											style="display: none;">
 											<label for="current-password">현재 비밀번호</label>
 										</div>
-										<div class="col-md-8 form-group" id="current-password-group" style="display: none;">
-											<input type="password" id="current-password" class="form-control" name="current-password"
+										<div class="col-md-8 form-group" id="current-password-group"
+											style="display: none;">
+											<input type="password" id="current-password"
+												class="form-control" name="current-password"
 												placeholder="현재 비밀번호" style="width: 300px;">
 										</div>
-										<div class="col-md-4" id="new-password-label" style="display: none;">
+										<div class="col-md-4" id="new-password-label"
+											style="display: none;">
 											<label for="new-password-confirm">새로운 비밀번호</label>
 										</div>
-										<div class="col-md-8 form-group" id="new-password-group" style="display: none;">
-											<input type="password" id="new-password-confirm" class="form-control" name="new-password-confirm"
+										<div class="col-md-8 form-group" id="new-password-group"
+											style="display: none;">
+											<input type="password" id="new-password-confirm"
+												class="form-control" name="new-password-confirm"
 												placeholder="새로운 비밀번호" style="width: 300px;">
 										</div>
-										<div class="col-md-4" id="confirm-password-label" style="display: none;">
+										<div class="col-md-4" id="confirm-password-label"
+											style="display: none;">
 											<label for="confirm-password">비밀번호 확인</label>
 										</div>
-										<div class="col-md-3 form-group" id="confirm-password-group" style="display: none;">
-											<input type="password" id="confirm-password" class="form-control" name="confirm-password"
+										<div class="col-md-3 form-group" id="confirm-password-group"
+											style="display: none;">
+											<input type="password" id="confirm-password"
+												class="form-control" name="confirm-password"
 												placeholder="새로운 비밀번호 확인" style="width: 300px;">
 										</div>
-										<div class="col-md-5 form-group" id="new-password-button-group" style="display: none;">
-											<button type="button" id="new-password-check-button" class="btn btn-primary">확인</button>
+										<div class="col-md-5 form-group"
+											id="new-password-button-group" style="display: none;">
+											<button type="button" id="new-password-check-button"
+												class="btn btn-primary">확인</button>
 										</div>
 										<div class="col-md-4">
 											<label id="phone-number-label" for="phone-number">휴대폰
@@ -104,28 +136,41 @@
 										</div>
 
 										<div class="col-md-8 form-group">
-											<div id="phone-number" style="width: 300px;" th:text="${userVO.phNo}"></div>
+											<div id="phone-number" style="width: 300px;"
+												th:text="${userVO.phNo}"></div>
 										</div>
-										<div class="col-md-4" id="new-phone-label" style="display: none;">
+										<div class="col-md-4" id="new-phone-label"
+											style="display: none;">
 											<label for="new-phone-horizontal">새로운 번호</label>
 										</div>
-										<div class="col-md-3 form-group" id="new-phone-group" style="display: none;">
-											<input type="tel" id="new-phone-horizontal" class="form-control" name="new-phone"
-												placeholder="새로운 번호" style="width: 300px;">
+										<div class="col-md-3 form-group" id="new-phone-group"
+											style="display: none;">
+											<input type="tel" id="new-phone-horizontal"
+												class="form-control" name="new-phone" placeholder="새로운 번호"
+												style="width: 300px;">
 										</div>
-										<div class="col-md-2 form-group" id="phone-button-group" style="display: none;">
-											<button type="button" id="phone-send-button" class="btn btn-primary">발송</button>
+										<div class="col-md-2 form-group" id="phone-button-group"
+											style="display: none;">
+											<button type="button" id="phone-send-button"
+												class="btn btn-primary">발송</button>
 										</div>
-										<div class="col-md-4" id="phone-code-label" style="display: none;">
+										<div class="col-md-4" id="phone-code-label"
+											style="display: none;">
 											<label for="phone-code-horizontal">인증번호</label>
 										</div>
-										<div class="col-md-3 form-group" id="phone-code-group" style="display: none;">
-											<input type="text" id="phone-code-horizontal" class="form-control" name="phone-code"
-												placeholder="인증번호" style="width: 300px;">
+										<div class="col-md-3 form-group" id="phone-code-group"
+											style="display: none;">
+											<input type="text" id="phone-code-horizontal"
+												class="form-control" name="phone-code" placeholder="인증번호"
+												style="width: 300px;">
 										</div>
-										<div class="col-md-2 form-group" id="phone-code-button-group" style="display: none;">
-											<button type="button" id="phone-check-button" class="btn btn-primary">확인</button>
+										<div class="col-md-2 form-group" id="phone-code-button-group"
+											style="display: none;">
+											<button type="button" id="phone-check-button"
+												class="btn btn-primary">확인</button>
 										</div>
+											<div id="sns-message" th:if="${userVO.sns == 'Y'}">SNS간편가입
+												계정입니다</div>
 									</div>
 								</div>
 							</form>
@@ -137,23 +182,30 @@
 		</div>
 	</section>
 	<!--Danger theme Modal -->
-	<div class="modal fade text-left" id="danger" tabindex="-1" role="dialog" aria-labelledby="myModalLabel120"
-		aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+	<div class="modal fade text-left" id="danger" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+			role="document">
 			<div class="modal-content">
 				<div class="modal-header bg-danger">
 					<h5 class="modal-title white" id="myModalLabel120">탈퇴</h5>
-					<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-bs-dismiss="modal"
+						aria-label="Close">
 						<i data-feather="x"></i>
 					</button>
 				</div>
 				<div class="modal-body">정말로 탈퇴하시겠습니까?</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-						<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">취소</span>
+					<button type="button" class="btn btn-light-secondary"
+						data-bs-dismiss="modal">
+						<i class="bx bx-x d-block d-sm-none"></i> <span
+							class="d-none d-sm-block">취소</span>
 					</button>
-					<button type="button" class="btn btn-danger ml-1" id="confirmQuit" data-bs-dismiss="modal">
-						<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">탈퇴</span>
+					<button type="button" class="btn btn-danger ml-1" id="confirmQuit"
+						data-bs-dismiss="modal">
+						<i class="bx bx-check d-block d-sm-none"></i> <span
+							class="d-none d-sm-block">탈퇴</span>
 					</button>
 				</div>
 			</div>
@@ -161,367 +213,407 @@
 	</div>
 	<script>
 		$(document)
-			.ready(
-				function () {
-					let activeElement = "";
+				.ready(
+						function() {
+							let activeElement = "";
 
-					$(
-							"#user-id-horizontal, label[for='user-id-horizontal']")
-						.click(
-							function () {
-								toggleElement(
-									"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group",
-									"#user-id-horizontal");
-							});
-
-					$("#name, #user-name")
-						.click(
-							function () {
-								toggleElement(
-									"#new-name-label, #new-name-group, #new-name-button-group",
-									"#name", "#user-name");
-							});
-
-					$("#password-label, #new-password")
-						.click(
-							function () {
-								toggleElement(
-									"#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group",
-									"#new-password");
-							});
-					$("#phone-number-label, #phone-number")
-						.click(
-							function () {
-								toggleElement(
-									"#new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group"
-								);
-							});
-
-					function hideAllSlides() {
-						var elements =
-							"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group, #new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group";
-
-						$(elements).hide();
-						$(elements).find('input').val(''); //열고닫을때마다input값초기화
-					}
-
-					function toggleElement(elementSelectors,
-						clickedElement) {
-						if (activeElement !== clickedElement) {
-							hideAllSlides();
-							$(elementSelectors).slideDown();
-							activeElement = clickedElement;
-						} else {
-							$(elementSelectors).slideUp();
-							activeElement = "";
-						}
-					}
-
-					// 이름 변경
-					$("#new-name-check-button")
-						.click(
-							function () {
-								var newName = $(
-										"#new-name-horizontal")
-									.val();
-								$
-									.ajax({
-										type: "POST",
-										url: "modifyNm",
-										data: {
-											newName: newName
-										},
-										success: function (
-											response) {
-											console
-												.log(response);
-											$('#user-name').text(newName);
-											$('.card-title').text(newName + '님의 마이페이지');
-											toggleElement(
-												"#new-name-label, #new-name-group, #new-name-button-group",
-												"#name");
-										},
-										error: function (
-											jqXHR,
-											textStatus,
-											errorThrown) {
-											console
-												.log(
-													jqXHR,
-													textStatus,
-													errorThrown);
-										}
-									});
-							});
-
-					// 비밀번호 변경
-					$("#new-password-check-button")
-						.click(
-							function () {
-								var currentPassword = $(
-										"#current-password")
-									.val();
-								var newPassword = $(
-										"#new-password-confirm")
-									.val();
-								var confirmPassword = $(
-										"#confirm-password")
-									.val();
-
-								if (newPassword !== confirmPassword) {
-									alert("새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-									return;
-								}
-
-								$
-									.ajax({
-										type: "POST",
-										url: "modifyPwd",
-										data: {
-											currentPassword: currentPassword,
-											newPassword: newPassword
-										},
-										success: function (
-											response) {
-											console
-												.log(response);
-											if (response === "비밀번호 변경 성공") {
-												alert("비밀번호가 성공적으로 변경되었습니다.");
+							$(
+									"#user-id-horizontal, label[for='user-id-horizontal']")
+									.click(
+											function() {
 												toggleElement(
-													"#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group",
-													"#new-password");
-											} else {
-												alert(response);
-											}
-										},
-										error: function (
-											jqXHR,
-											textStatus,
-											errorThrown) {
-											console
-												.log(
-													jqXHR,
-													textStatus,
-													errorThrown);
-										}
-									});
-							});
+														"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group",
+														"#user-id-horizontal");
+											});
 
-					//탈퇴
-					$('#quitUserBtn').on('click', function () {
-						$('#danger').modal('show');
-					});
+							$("#name, #user-name")
+									.click(
+											function() {
+												toggleElement(
+														"#new-name-label, #new-name-group, #new-name-button-group",
+														"#name", "#user-name");
+											});
 
-					$('#confirmQuit').on('click', function () {
-						$.ajax({
-							type: 'POST',
-							url: 'quitUser',
-							success: function (response) {
+							$("#password-label, #new-password")
+									.click(
+											function() {
+												toggleElement(
+														"#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group",
+														"#new-password");
+											});
+							$("#phone-number-label, #phone-number")
+									.click(
+											function() {
+												toggleElement("#new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group");
+											});
 
-								window.location.href = '/modu/login';
-							},
-							error: function () {
-								alert("에러메세지");
+							function hideAllSlides() {
+								var elements = "#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group, #new-name-label, #new-name-group, #new-name-button-group, #current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group, #new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group";
+
+								$(elements).hide();
+								$(elements).find('input').val(''); //열고닫을때마다input값초기화
 							}
-						});
-					});
 
-					//휴대폰인증번호발송
-					$('#phone-send-button')
-						.on(
-							'click',
-							function () {
-								var phoneNumber = $(
-										'#new-phone-horizontal')
-									.val();
-								var dataToSend = {
-									to: phoneNumber
-								};
-								$
-									.ajax({
-										url: '/modu/send',
-										type: 'POST',
-										data: JSON
-											.stringify(dataToSend),
-										contentType: 'application/json',
-										success: function (
-											response) {
-											alert("인증번호가 발송되었습니다.");
-										},
-										error: function (
-											xhr,
-											status,
-											error) {
-											alert("하이픈('-')없이 숫자만 입력해주세요.");
-											console
-												.error(
-													'에러 : ',
-													error);
-										}
-									});
-							});
-
-					//인증번호 확인
-					$('#phone-check-button')
-						.on(
-							'click',
-							function () {
-								var code = $(
-										'#phone-code-horizontal')
-									.val();
-
-								if (!code) {
-									alert("휴대폰 인증을 해주십시오.");
-									return;
+							function toggleElement(elementSelectors,
+									clickedElement) {
+								if (activeElement !== clickedElement) {
+									hideAllSlides();
+									$(elementSelectors).slideDown();
+									activeElement = clickedElement;
+								} else {
+									$(elementSelectors).slideUp();
+									activeElement = "";
 								}
+							}
 
-								var phoneNumber = $(
-										'#new-phone-horizontal')
-									.val();
-								console.log(phoneNumber);
+							// 이름 변경
+							$("#new-name-check-button")
+									.click(
+											function() {
+												var newName = $(
+														"#new-name-horizontal")
+														.val();
+												$
+														.ajax({
+															type : "POST",
+															url : "modifyNm",
+															data : {
+																newName : newName
+															},
+															success : function(
+																	response) {
+																console
+																		.log(response);
+																$('#user-name')
+																		.text(
+																				newName);
+																$('.card-title')
+																		.text(
+																				newName
+																						+ '님의 마이페이지');
+																toggleElement(
+																		"#new-name-label, #new-name-group, #new-name-button-group",
+																		"#name");
+															},
+															error : function(
+																	jqXHR,
+																	textStatus,
+																	errorThrown) {
+																console
+																		.log(
+																				jqXHR,
+																				textStatus,
+																				errorThrown);
+															}
+														});
+											});
 
-								var requestData = {
-									'code': code
-								};
+							// 비밀번호 변경
+							$("#new-password-check-button")
+									.click(
+											function() {
+												var currentPassword = $(
+														"#current-password")
+														.val();
+												var newPassword = $(
+														"#new-password-confirm")
+														.val();
+												var confirmPassword = $(
+														"#confirm-password")
+														.val();
 
-								$
-									.ajax({
-										url: '/modu/verifyCode',
-										type: 'POST',
-										data: JSON
-											.stringify(requestData),
-										contentType: 'application/json',
-										success: function (
-											response) {
-											if (response.valid) {
-												alert("인증번호 확인에 성공했습니다!");
-
-												var modifyPhoneRequest = {
-													'newPhoneNumber': phoneNumber
-												};
-												console
-													.log(phoneNumber);
+												if (newPassword !== confirmPassword) {
+													alert("새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+													return;
+												}
 
 												$
-													.ajax({
-														url: 'modifyPhone',
-														type: 'POST',
-														data: JSON
-															.stringify(modifyPhoneRequest),
-														contentType: 'application/json',
-														success: function (
-															response) {
-															$(
-																	'#phone-number')
-																.text(
-																	phoneNumber);
-															$(
-																	'#phone-code-horizontal')
-																.val(
-																	'');
-															$(
-																	'#new-phone-number')
-																.val(
-																	'');
-															var elementSelectors =
-																"#new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group";
-															$(elementSelectors).slideUp();
-															$(elementSelectors).find('input').val('');
-															alert("휴대폰 번호 변경 성공");
-														},
-														error: function (
-															xhr,
-															textStatus,
-															errorThrown) {
-															console
-																.log(
-																	xhr,
+														.ajax({
+															type : "POST",
+															url : "modifyPwd",
+															data : {
+																currentPassword : currentPassword,
+																newPassword : newPassword
+															},
+															success : function(
+																	response) {
+																console
+																		.log(response);
+																if (response === "비밀번호 변경 성공") {
+																	alert("비밀번호가 성공적으로 변경되었습니다.");
+																	toggleElement(
+																			"#current-password-label, #current-password-group, #new-password-label, #new-password-group, #new-password-button-group, #confirm-password-label, #confirm-password-group",
+																			"#new-password");
+																} else {
+																	alert(response);
+																}
+															},
+															error : function(
+																	jqXHR,
 																	textStatus,
-																	errorThrown)
-															alert("휴대폰 번호 변경 실패");
-														}
-													});
-											} else {
-												alert("인증번호가 일치하지 않습니다.");
-											}
-										},
-										error: function (
-											xhr,
-											textStatus,
-											errorThrown) {
-											alert("인증 에러");
-										}
-									});
+																	errorThrown) {
+																console
+																		.log(
+																				jqXHR,
+																				textStatus,
+																				errorThrown);
+															}
+														});
+											});
+
+							//탈퇴
+							$('#quitUserBtn').on('click', function() {
+								$('#danger').modal('show');
 							});
 
-					// 이메일 변경
-					$("#send-button").click(function () {
-						var newEmail = $("#email-horizontal").val();
-						console.log(newEmail);
-						if (newEmail === "") {
-							alert("새로운 이메일 주소를 입력하세요.");
-							return;
-						}
+							$('#confirmQuit').on('click', function() {
+								$.ajax({
+									type : 'POST',
+									url : 'quitUser',
+									success : function(response) {
 
-						// 이메일 중복 체크
-						$.ajax({
-							type: "POST",
-							url: "/modu/idvaild",
-							data: newEmail,
-							contentType: "text/plain",
-							success: function (response) {
-								if (response === "SUCCESS") {
-									// 이메일 주소를 인코딩하여 전달(깨짐방지)
-									newEmail = encodeURIComponent(newEmail);
-									console.log("중복체크 " + response)
+										window.location.href = '/modu/login';
+									},
+									error : function() {
+										alert("에러메세지");
+									}
+								});
+							});
 
-									// 이메일 변경 요청
-									$.ajax({
-										type: "POST",
-										url: "modifyEmail",
-										data: "newEmail=" + newEmail, //쿼리스트링구조로발송
-										success: function (response) {
-											alert("이메일 전송 성공!");
-										},
-										error: function (error) {
-											alert("이메일 전송 실패: " + error.responseText);
-										}
-									});
-								} else {
-									alert("이미 사용 중인 이메일입니다.");
-								}
-							},
-							error: function (error) {
-								console.log("중복체크 : " + error)
-								alert("이메일 중복 체크에 실패했습니다. 다시 시도해주세요.");
-							}
+							//휴대폰인증번호발송
+							$('#phone-send-button')
+									.on(
+											'click',
+											function() {
+												var phoneNumber = $(
+														'#new-phone-horizontal')
+														.val();
+												var dataToSend = {
+													to : phoneNumber
+												};
+												$
+														.ajax({
+															url : '/modu/send',
+															type : 'POST',
+															data : JSON
+																	.stringify(dataToSend),
+															contentType : 'application/json',
+															success : function(
+																	response) {
+																alert("인증번호가 발송되었습니다.");
+															},
+															error : function(
+																	xhr,
+																	status,
+																	error) {
+																alert("하이픈('-')없이 숫자만 입력해주세요.");
+																console
+																		.error(
+																				'에러 : ',
+																				error);
+															}
+														});
+											});
+
+							//인증번호 확인
+							$('#phone-check-button')
+									.on(
+											'click',
+											function() {
+												var code = $(
+														'#phone-code-horizontal')
+														.val();
+
+												if (!code) {
+													alert("휴대폰 인증을 해주십시오.");
+													return;
+												}
+
+												var phoneNumber = $(
+														'#new-phone-horizontal')
+														.val();
+												console.log(phoneNumber);
+
+												var requestData = {
+													'code' : code
+												};
+
+												$
+														.ajax({
+															url : '/modu/verifyCode',
+															type : 'POST',
+															data : JSON
+																	.stringify(requestData),
+															contentType : 'application/json',
+															success : function(
+																	response) {
+																if (response.valid) {
+																	alert("인증번호 확인에 성공했습니다!");
+
+																	var modifyPhoneRequest = {
+																		'newPhoneNumber' : phoneNumber
+																	};
+																	console
+																			.log(phoneNumber);
+
+																	$
+																			.ajax({
+																				url : 'modifyPhone',
+																				type : 'POST',
+																				data : JSON
+																						.stringify(modifyPhoneRequest),
+																				contentType : 'application/json',
+																				success : function(
+																						response) {
+																					$(
+																							'#phone-number')
+																							.text(
+																									phoneNumber);
+																					$(
+																							'#phone-code-horizontal')
+																							.val(
+																									'');
+																					$(
+																							'#new-phone-number')
+																							.val(
+																									'');
+																					var elementSelectors = "#new-phone-label, #new-phone-group, #phone-button-group, #phone-code-label, #phone-code-group, #phone-code-button-group";
+																					$(
+																							elementSelectors)
+																							.slideUp();
+																					$(
+																							elementSelectors)
+																							.find(
+																									'input')
+																							.val(
+																									'');
+																					alert("휴대폰 번호 변경 성공");
+																				},
+																				error : function(
+																						xhr,
+																						textStatus,
+																						errorThrown) {
+																					console
+																							.log(
+																									xhr,
+																									textStatus,
+																									errorThrown)
+																					alert("휴대폰 번호 변경 실패");
+																				}
+																			});
+																} else {
+																	alert("인증번호가 일치하지 않습니다.");
+																}
+															},
+															error : function(
+																	xhr,
+																	textStatus,
+																	errorThrown) {
+																alert("인증 에러");
+															}
+														});
+											});
+
+							// 이메일 변경
+							$("#send-button")
+									.click(
+											function() {
+												var newEmail = $(
+														"#email-horizontal")
+														.val();
+												console.log(newEmail);
+												if (newEmail === "") {
+													alert("새로운 이메일 주소를 입력하세요.");
+													return;
+												}
+
+												// 이메일 중복 체크
+												$
+														.ajax({
+															type : "POST",
+															url : "/modu/idvaild",
+															data : newEmail,
+															contentType : "text/plain",
+															success : function(
+																	response) {
+																if (response === "SUCCESS") {
+																	// 이메일 주소를 인코딩하여 전달(깨짐방지)
+																	newEmail = encodeURIComponent(newEmail);
+																	console
+																			.log("중복체크 "
+																					+ response)
+
+																	// 이메일 변경 요청
+																	$
+																			.ajax({
+																				type : "POST",
+																				url : "modifyEmail",
+																				data : "newEmail="
+																						+ newEmail, //쿼리스트링구조로발송
+																				success : function(
+																						response) {
+																					alert("이메일 전송 성공!");
+																				},
+																				error : function(
+																						error) {
+																					alert("이메일 전송 실패: "
+																							+ error.responseText);
+																				}
+																			});
+																} else {
+																	alert("이미 사용 중인 이메일입니다.");
+																}
+															},
+															error : function(
+																	error) {
+																console
+																		.log("중복체크 : "
+																				+ error)
+																alert("이메일 중복 체크에 실패했습니다. 다시 시도해주세요.");
+															}
+														});
+											});
+
+							$("#check-button")
+									.click(
+											function() {
+												var code = $("#code-horizontal")
+														.val();
+												var newEmail = $(
+														"#email-horizontal")
+														.val();
+												console.log(newEmail);
+
+												$
+														.ajax({
+															type : "POST",
+															url : "emailVerify",
+															data : "newEmail="
+																	+ newEmail
+																	+ "&code="
+																	+ code,
+															success : function(
+																	response) {
+																alert("인증 성공! 이메일이 변경되었습니다.\n적용을 위해 새로운 아이디로 로그인을 해주세요.");
+																var elementSelectors = "#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group";
+																$(
+																		elementSelectors)
+																		.slideUp();
+																$(
+																		'#user-id-horizontal')
+																		.text(
+																				newEmail);
+																window.location.href = "/modu/logout";
+															},
+															error : function(
+																	error) {
+																alert("인증 실패: "
+																		+ error.responseText);
+															}
+														});
+											});
+
 						});
-					});
-
-					$("#check-button").click(function () {
-						var code = $("#code-horizontal").val();
-						var newEmail = $("#email-horizontal").val();
-						console.log(newEmail);
-
-						$.ajax({
-							type: "POST",
-							url: "emailVerify",
-							data: "newEmail=" + newEmail + "&code=" + code,
-							success: function (response) {
-								alert("인증 성공! 이메일이 변경되었습니다.\n적용을 위해 새로운 아이디로 로그인을 해주세요.");
-								var elementSelectors =
-									"#email-label, #email-group, #email-button-group, #code-label, #code-group, #code-button-group";
-								$(elementSelectors).slideUp();
-								$('#user-id-horizontal').text(newEmail);
-								window.location.href = "/modu/logout";
-							},
-							error: function (error) {
-								alert("인증 실패: " + error.responseText);
-							}
-						});
-					});
-
-				});
 		//document.ready종료
 	</script>
 
