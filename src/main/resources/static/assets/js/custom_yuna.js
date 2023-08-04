@@ -150,6 +150,14 @@ $('#sendVerificationCode').on('click', function () {
             contentType: "text/plain"
         });
         
+                // 휴대폰 번호 중복 체크
+        var phoneNumberCheck = $.ajax({
+            url: 'phNoVaild',
+            type: 'POST',
+            data: phoneNumber,
+            contentType: "text/plain"
+        });
+        
         $.when(idCheck, phoneNumberCheck).done(function (idResponse, phoneResponse) {
             // idCheck와 phoneNumberCheck 모두 성공
             var idData = idResponse[0]; // idCheck 응답 데이터

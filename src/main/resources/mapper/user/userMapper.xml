@@ -54,11 +54,7 @@
 		, PWD
 		, NM
 		, PH_NO
-		, SNS
-		, QUIT
-		, GRD
 		, REG_DT
-		, EMAIL_AUTH
 		, TOKEN
 		,PROVIDER_ID
 		,LOGIN_PATH
@@ -70,11 +66,7 @@
 		,#{pwd}
 		,#{nm}
 		,#{phNo}
-		,#{sns}
-		,#{quit}
-		,#{grd}
 		,sysdate
-		,#{emailAuth}
 		,#{Token}
 		,#{providerID}
 		,#{loginPath}
