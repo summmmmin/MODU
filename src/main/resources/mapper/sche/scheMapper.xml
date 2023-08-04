@@ -95,9 +95,7 @@
 				<if test="title != null and !title.equals('')">
 							title=#{title},
 				</if>
-				<if test="cntn != null and !cntn.equals('')">
 							cntn=#{cntn},
-				</if>
 				<if test="start != null and !start.equals('')">
 							fr_dt=#{start},
 				</if>
