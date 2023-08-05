@@ -8,8 +8,6 @@
 
 
 <style>
-.person{
-margin-left:5px;}
 </style>
 
 </head>
@@ -18,10 +16,14 @@ margin-left:5px;}
 		<div class="row">
 			<div class="card">
 				<div class="card-header">
-					<h3><i class="bi bi-arrow-left backVote" onclick="todoList()"></i></h3><h4 class="card-title">할일생성</h4>
-					<hr>
+				 <div class="d-flex">
+					<div class="me-auto"><h3><i class="bi bi-arrow-left backVote" onclick="todoList()"></i></h3></div>
+					<div><h4 class="card-title">할일생성</h4></div>
 				</div>
+			<hr>
+			</div>
 				<div class="card-content">
+				<div class="card-body">
 					<form th:object="${todo}" id="todoForm" >
 						<div class="row">
 							<div class="form-group has-icon-left">
@@ -43,9 +45,8 @@ margin-left:5px;}
 									</div>
 								</div>
 							</div>
-						</div>
-						<p></p>
-							<div class="input-group col-md-1 mb-6 person">
+						<div class="position-relative">
+							<div class="input-group col-md-12 person">
                        			<label class="input-group-text">담당자</label>
 								<select class="choices form-select" id="mgr">
 									<option th:value="${i.particiMembUniNo}" th:each="i:${membList}">[[${i.nnm}]]</option>
@@ -57,7 +58,8 @@ margin-left:5px;}
 									<option th:value="${i.particiMembUniNo}" th:each="i:${membList}">[[${i.nnm}]]</option>
 								</select>
 							</div>
-						<div class="form-group has-icon-left mx-auto p-4">
+						</div>
+						<div class="form-group has-icon-left mx-auto">
 							<p>시작일</p>
 							<div class="position-relative">
 								<input type="date" class="form-control" id="Date"
@@ -67,9 +69,9 @@ margin-left:5px;}
 								</div>
 							</div>
 						</div>
-						<div class="form-group has-icon-left mx-auto p-4">
-							<p>마감일</p>
+						<div class="form-group has-icon-left mx-auto">
 							<div class="position-relative">
+							<p>마감일</p>
 								<input type="date" class="form-control" id="lastDate"
 									 th:field="*{toDt}">
 								<div class="form-control-icon">
@@ -83,12 +85,14 @@ margin-left:5px;}
                                 	<!-- File uploader with multiple files upload -->
                                 	<input id="todoFile" type="file" name="file" class="multiple-files-filepond" multiple >
                         </div>
+                       </div>
 						<p></p>
 						<div class="col-12 d-flex justify-content-end">
 							<button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
 							<button type="button" onclick="todoInsert()" class="btn btn-primary me-1 mb-1">저장하기</button>
 						</div>
 					</form>
+					</div>
 				</div>
 			</div>
 		</div>

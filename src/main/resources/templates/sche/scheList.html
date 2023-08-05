@@ -7,11 +7,13 @@
 	<script th:inline="javascript">
     /*<![CDATA[*/
     let schAllDatas =/*[[${scheList}]]*/
+    let partici = /*[[${session.particiUniNo}]]*/
     	/*  $.ajax("scheListFetch")
   	.done(result=>{
     var schAllDatas = result;
     initializeCalendar(schAllDatas);
   	}) */
+  	let schegrd = /*[[${session.grd}]]*/
     let membList =/*[[${membList}]]*/
     /*]]>*/
   	</script>
@@ -57,10 +59,15 @@
             .then((result) => {
             	document.getElementById('partici').innerText = '';
               let scheInfo = result.scheInfo; //단건조회 일정정보
+              if(scheInfo.particiMembUniNo == partici){
+            	  
+            	  
+            	  
+              }
               
               $('#ttl').text(scheInfo.title);
               $('#cntn').text(scheInfo.cntn);
-              
+              일정 만든사람이랑 세션에 로그인한사람의 파티시를
               if (result.partici.length > 0) {
             	  console.log(result.partici)
             	  for(let i=0; i<result.partici.length; i++){
@@ -100,12 +107,14 @@
                        
             })
           $("#scheInfo").modal("show");
-            
         },
         
         //날짜 공간 클릭(일정 추가 공간)
         dateClick: function (info) {
-        	
+
+        	if(schegrd == 'G01'){
+        		console.log(schegrd == 'G01');
+        	}else{
         	//날짜가 미국식으로 돼서 9시간 전으로 표기되어 9시간을 더해줌.
         	 const offset = 1000 * 60 * 60 * 9;
         	 const date = new Date(info.date.getTime()+offset);
@@ -117,7 +126,7 @@
         	document.getElementById("4").setAttribute("min",formattedDate);
         	
           $("#scheInsert").modal("show");
-			
+        	}
         },
         dayMaxEventRows: true, // for all non-TimeGrid views
         views: {
@@ -193,18 +202,18 @@
 				</div>
 				<form name="scheInsert1">
 					<div class="modal-body">
-						<label>제목: </label>
+						<h6>제목 </h6>
 						<div class="form-group">
 							<input type="text" placeholder="제목을 입력해주세요" onchange="insertScheTtl()" id="1"
 								class="form-control" name="title">
 						</div>
-						<label>내용: </label>
+						<h6>내용 </h6>
 						<div class="form-group">
 							<input type="text" placeholder="내용을 입력해주세요" id="2"
 								class="form-control" name="cntn">
 						</div>
 						<div class="form-group">
-							<div class="col-sm-10">
+							<div class="col-sm-12">
 								<label class="input-group-text">초대멤버</label> <select
 									name="scheParticiUniNo[]" class="choices form-select asdfas"
 									multiple="multiple" id="cm">
@@ -213,7 +222,7 @@
 								</select>
 							</div>
 						</div>
-						<label> </label>
+						<h6>일정날짜 </h6>
 						<div class="row">
 							<div class="col-sm-5">
 								<div class="form-group">
@@ -231,7 +240,6 @@
 							</div>
 							<p style="color:red; display:none;" id="red">시작날짜와 마감날짜를 모두 입력해주세요.</p>
 						</div>
-
 						<div class="modal-footer">
 							<button type="button" class="btn btn-light-secondary"
 								data-bs-dismiss="modal">
@@ -264,36 +272,37 @@
 					<button class="btn btn-primary dropdown-toggle me-1" type="button"
 						id="dropdownMenuButton" data-bs-toggle="dropdown"
 						aria-haspopup="true" aria-expanded="false"></button>
+						<th:block th:if="${session.grd == 'G03' or }">
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 						<a class="dropdown-item" onclick="yetPartici()"  data-bs-target="#scheUpdate" data-bs-toggle="modal">수정</a> 
 						<a class="dropdown-item" data-bs-toggle="modal"
 							data-bs-target="#deleteSche" onclick="hideInfo()" >삭제</a>
 					</div>
+					</th:block>
  					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 				</div>
 				<div class="modal-body">
-					<label>제목: </label>
+					<h6>제목</h6>
 					<div class="form-group">
 						<p id="ttl"></p>
 					</div>
-					<label>참여멤버: </label>
+					<h6>참여멤버</h6>
 					<div class="form-group"id="partici">
 					</div>
-					<label>내용:</label>
+					<h6>내용 </h6>
 					<div class="form-group">
 						<p id="cntn"></p>
 					</div>
-					<label> </label>
 					<div class="row">
 						<div class="col-sm-5">
 							<div class="form-group">
-							<span>시작날짜 </span>	<p id="startDate"></p>
+							<h6>시작날짜</h6>	<p id="startDate"></p>
 							</div>
 						</div>
 						<div class="col-sm-5">
 							<div class="form-group">
-							<span>마감날짜 </span>	<p id="finishDate"></p>
+							<h6>마감날짜</h6>	<p id="finishDate"></p>
 							</div>
 						</div>
 					</div>
