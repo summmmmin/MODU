@@ -108,7 +108,7 @@ where brd.prj_uni_no=#{prjUniNo}
 	<select id="superShy" resultType="BoardVO" parameterType="BoardVO">
 		SELECT *
 		FROM brd_cm
-		WHERE board_uni_no = #{boardUniNo}
+		WHERE board_uni_no = #{brdUniNo}
 	</select>
 	
 </mapper>

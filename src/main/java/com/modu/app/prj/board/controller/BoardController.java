@@ -135,9 +135,12 @@ public class BoardController {
 	}
 	
 	@GetMapping("superShy")
-	@ResponseBody
-	public List<BoardVO> superShy(@RequestBody BoardVO vo){
-		return boardService.superShy(vo);
+	public String superShy(BoardVO vo, Model model){
+		List<BoardVO> list = boardService.superShy(vo);
+		model.addAttribute("superShy",list);
+		System.out.println(vo);
+		System.out.println(list);
+		return "/post/postList";
 	}
 	
 	
