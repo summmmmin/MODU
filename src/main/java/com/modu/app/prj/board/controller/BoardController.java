@@ -1,6 +1,5 @@
 package com.modu.app.prj.board.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.modu.app.prj.board.service.BoardService;
 import com.modu.app.prj.board.service.BoardVO;
 import com.modu.app.prj.post.service.PostService;
-import com.modu.app.prj.post.service.PostVO;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
@@ -134,6 +132,12 @@ public class BoardController {
 	public List<BoardVO> POSTLIST(@RequestBody BoardVO vo, HttpSession session){
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		return boardService.POSTLIST(vo);
+	}
+	
+	@GetMapping("superShy")
+	@ResponseBody
+	public List<BoardVO> superShy(@RequestBody BoardVO vo){
+		return boardService.superShy(vo);
 	}
 	
 	

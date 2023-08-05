@@ -85,4 +85,8 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.POSTLIST(vo);
 	}
 	
+@Override
+	public List<BoardVO> superShy(BoardVO vo) {
+		return boardMapper.superShy(vo);
+	}
 }

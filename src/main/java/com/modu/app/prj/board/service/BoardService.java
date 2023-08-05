@@ -39,5 +39,8 @@ public interface BoardService {
 	
 	//POSTLIST
 	public List<BoardVO> POSTLIST(BoardVO vo);
+	
+	//비공개 게시판 초대된 회원 리스트
+	public List<BoardVO> superShy(BoardVO vo);
 
 }

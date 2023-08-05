@@ -104,4 +104,11 @@ where brd.prj_uni_no=#{prjUniNo}
 	  ORDER BY write_dt desc
 	</select>
 	
+	<!-- 비공개 게시판 조회 멤버 -->
+	<select id="superShy" resultType="BoardVO" parameterType="BoardVO">
+		SELECT *
+		FROM brd_cm
+		WHERE board_uni_no = #{boardUniNo}
+	</select>
+	
 </mapper>
