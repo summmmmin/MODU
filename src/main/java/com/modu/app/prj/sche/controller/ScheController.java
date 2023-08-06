@@ -104,8 +104,7 @@ public class ScheController {
 		  vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 	      vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 	      
-	      
-	      scheService.scheInsert(vo);
+	      vo.setScheUniNo(scheService.scheInsert(vo));
 	      
 	      //참가자 등록을 위한 새로운 일정 VO 
 	      ScheVO scheVO = new ScheVO();
@@ -118,6 +117,8 @@ public class ScheController {
 	    	  scheService.scheInsertPartici(scheVO);
 	      }
 	      }
+	      
+	      System.out.println(vo);
 	      return  vo;
 	      
 	   }

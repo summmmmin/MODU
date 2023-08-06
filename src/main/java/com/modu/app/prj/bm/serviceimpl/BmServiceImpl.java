@@ -52,10 +52,10 @@ public class BmServiceImpl implements BmService {
 		return bmMapper.BrdBmCount(vo);
 	}
 
-	// 게시판 즐겨찾기 삭제
+	// 즐겨찾기 삭제
 	@Override
 	public int BmDelete(BmVO vo) {
-		return bmMapper.BrdBmDelete(vo);
+		return bmMapper.BmDelete(vo);
 	}
 
 	@Override

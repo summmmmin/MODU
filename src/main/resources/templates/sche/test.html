@@ -10,12 +10,12 @@
 
 				<form name="scheInsert2222">
 					<div class="modal-body">
-						<label>제목: </label>
+						<h6>제목</h6>
 						<div class="form-group">
 							<input type="text" th:value="${scheInfo.title}" id="11"
 								class="form-control" name="title1">
 						</div>
-						<label>내용: </label>
+						<h6>내용</h6>
 						<div class="form-group">
 							<input type="text" th:value="${scheInfo.cntn}"  placeholder="내용을 입력해주세요" id="22"
 								class="form-control" name="cntn1">
@@ -122,6 +122,25 @@
 			       .then(data => {
 			           console.log(data);
 			           $("#scheUpdate").modal("hide");
+			           
+			           
+			        	      var changedEvent = calendar.getEventById(scheUniNo); // 변경된 이벤트 객체
+			        
+			        	      // 새로운 이벤트 객체 생성
+			        	      var updatedEvent = calendar.getEventById(changedEvent.id);
+			        	      updatedEvent.setProp('title', ttl.value);
+			        	      updatedEvent.setStart(start.value);
+			        	      updatedEvent.setEnd(end.value);
+			        	      console.log(updatedEvent);
+			        	      // FullCalendar에서 이벤트 업데이트
+			        	      calendar.dispatch({
+			        	        type: 'CHANGE',
+			        	        oldEvent: changedEvent,
+			        	        event: updatedEvent
+			        	      });
+			        	     
+			        	      // 추가 작업 수행
+			           
 			       })
 			   	
 			   	

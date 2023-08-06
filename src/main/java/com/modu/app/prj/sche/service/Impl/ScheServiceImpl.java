@@ -22,9 +22,9 @@ public class ScheServiceImpl implements ScheService{
 	}
 
 	@Override
-	public void scheInsert(ScheVO vo) {
-		scheMapper.scheInsert(vo);
-		
+	public String scheInsert(ScheVO vo) {
+		int result = scheMapper.scheInsert(vo);
+		return vo.getScheUniNo();
 	}
 
 	@Override

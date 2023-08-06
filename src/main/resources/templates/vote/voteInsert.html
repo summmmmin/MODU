@@ -15,7 +15,7 @@
 		<div class="card">
 			<div class="card-header" >
 				<h5 style="display:inline;"><i class="bi bi-arrow-left backVote" onclick="voteList()"></i></h5>
-				<h3 class="card-title" style="display:inline;">투표생성</h3>
+				<h5 class="card-title" style="display:inline;">투표생성</h5>
 				<hr>
 			</div>
 			<div class="card-content">
@@ -64,9 +64,9 @@
 					<button type="button"
 						class="btn btn-block btn-light-primary font-bold mt-3"
 						id="voteBtn" onclick="insertItem()">+ 항목추가</button>
-				</div>
 				<p></p>
-				<div class="form-group has-icon-left mx-auto p-4">
+				<div class="form-group has-icon-left mx-auto">
+				<h6>마감날짜</h6>
 					<div class="position-relative">
 						<input type="date" class="form-control" id="voteDate" th:field="*{toDt}">
 						<div class="form-control-icon">
@@ -74,7 +74,8 @@
 						</div>
 					</div>
 				</div>
-					</div>
+			</div>
+			</div>
 				<p></p>
 				<div class="col-12 d-flex justify-content-end">
 					<button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>

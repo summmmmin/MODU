@@ -39,7 +39,7 @@
  	</select>
  	
  	<select id="fileList" resultType="SearchVO" parameterType="SearchVO">
- 	SELECT att.att_no, att.att_nm, att.chat_no,chat.chatr_no, chatr_partici.partici_memb_uni_no, att.post_uni_no,post.division, post.ttl,brd.brd_uni_no, brd.prj_uni_no, att.todo_uni_no, todo.ttl, todo.prj_uni_no
+ 	SELECT att.att_no, att.att_nm, att.chat_no,chat.chatr_no, chatr_partici.partici_memb_uni_no, att.post_uni_no,post.division, post.ttl,brd.brd_uni_no, brd.prj_uni_no, att.todo_uni_no, todo.ttl, todo.prj_uni_no,post.division
 	FROM att
 	LEFT OUTER JOIN post ON att.post_uni_no = post.post_uni_no
 	LEFT OUTER JOIN brd ON post.brd_uni_no = brd.brd_uni_no

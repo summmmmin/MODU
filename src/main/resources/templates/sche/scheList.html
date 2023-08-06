@@ -7,19 +7,22 @@
 	<script th:inline="javascript">
     /*<![CDATA[*/
     let schAllDatas =/*[[${scheList}]]*/
+    let partici = /*[[${session.particiMembUniNo}]]*/
     	/*  $.ajax("scheListFetch")
   	.done(result=>{
     var schAllDatas = result;
     initializeCalendar(schAllDatas);
   	}) */
+  	let schegrd = /*[[${session.grd}]]*/
     let membList =/*[[${membList}]]*/
     /*]]>*/
   	</script>
-  
+
 	<script>
 	 /* function initializeCalendar(schAllDatas) { */
 	let navTop;
 	var calendar;
+	var scheNo;
 	let formattedEvents = []
     document.addEventListener('DOMContentLoaded', function () {
       var calendarEl = document.getElementById('calendar1');
@@ -35,7 +38,8 @@
         classNames: 'sideWork',
         extendedProps: {
           sche_uni_no: eventData.scheUniNo
-        }
+        },
+        id : eventData.scheUniNo
       }));
 
 		console.log(formattedEvents)
@@ -48,19 +52,19 @@
         eventClick: function (info) {
           console.log('이벤트: ' + info.event);
           navTop = event.target.closest('.fc-event');//바 위치
-          var scheNo = info.event.extendedProps.scheUniNo;
-          console.log(info.event.extendedProps);
-          let scheData = info.event.extendedProps;
+          scheNo = info.event.id;
           
-          fetch("scheInfo/" + scheData.sche_uni_no) //단건조회 fetch
+          fetch("scheInfo/" + scheNo) //단건조회 fetch
             .then((response) => response.json())
             .then((result) => {
             	document.getElementById('partici').innerText = '';
               let scheInfo = result.scheInfo; //단건조회 일정정보
+              if(scheInfo.particiMembUniNo == partici || schegrd == 'G03' || schegrd == 'G04'){
+            	  $('#scheDropdown').css("display","block");
+              }
               
               $('#ttl').text(scheInfo.title);
               $('#cntn').text(scheInfo.cntn);
-              
               if (result.partici.length > 0) {
             	  console.log(result.partici)
             	  for(let i=0; i<result.partici.length; i++){
@@ -100,12 +104,14 @@
                        
             })
           $("#scheInfo").modal("show");
-            
         },
         
         //날짜 공간 클릭(일정 추가 공간)
         dateClick: function (info) {
-        	
+
+        	if(schegrd == 'G01'){
+        		console.log('11111');
+        	}else{
         	//날짜가 미국식으로 돼서 9시간 전으로 표기되어 9시간을 더해줌.
         	 const offset = 1000 * 60 * 60 * 9;
         	 const date = new Date(info.date.getTime()+offset);
@@ -117,18 +123,7 @@
         	document.getElementById("4").setAttribute("min",formattedDate);
         	
           $("#scheInsert").modal("show");
-			
-          var ScheInsertTitleInput = document.getElementById('1').value
-          var ScheInsertStartInput = document.getElementById('3').value
-          var ScheInsertEndInput = document.getElementById('4').value
-          
-          if (!isNaN(date.valueOf())) { // valid?
-              calendar.addEvent({
-                title: ScheInsertTitleInput,
-                start: ScheInsertStartInput,
-                end: ScheInsertEndInput
-              });
-            }
+        	}
         },
         dayMaxEventRows: true, // for all non-TimeGrid views
         views: {
@@ -178,7 +173,10 @@
 		  });
 		} 
     
-   
+	  //모달  일정상세 숨기기
+	    function hideInfo(){
+	    	$("#scheInfo").modal("hide");
+	    }
 
   </script>
 
@@ -201,18 +199,19 @@
 				</div>
 				<form name="scheInsert1">
 					<div class="modal-body">
-						<label>제목: </label>
+						<h6>제목</h6>
 						<div class="form-group">
-							<input type="text" placeholder="제목을 입력해주세요" onchange="insertScheTtl()" id="1"
-								class="form-control" name="title">
+							<input type="text" placeholder="제목을 입력해주세요"
+								onchange="insertScheTtl()" id="1" class="form-control"
+								name="title">
 						</div>
-						<label>내용: </label>
+						<h6>내용</h6>
 						<div class="form-group">
 							<input type="text" placeholder="내용을 입력해주세요" id="2"
 								class="form-control" name="cntn">
 						</div>
 						<div class="form-group">
-							<div class="col-sm-10">
+							<div class="col-sm-12">
 								<label class="input-group-text">초대멤버</label> <select
 									name="scheParticiUniNo[]" class="choices form-select asdfas"
 									multiple="multiple" id="cm">
@@ -221,25 +220,25 @@
 								</select>
 							</div>
 						</div>
-						<label> </label>
+						<h6>일정날짜</h6>
 						<div class="row">
 							<div class="col-sm-5">
 								<div class="form-group">
-									<input type="datetime-local" onchange="dateChange1()" class="form-control" name="start"
-										id="3">
+									<input type="datetime-local" onchange="dateChange1()"
+										class="form-control" name="start" id="3">
 								</div>
 							</div>
 							&nbsp~&nbsp
 							<div class="col-sm-5">
 								<div class="form-group">
-								<!-- oninput="dateChange1()" -->
-									<input type="datetime-local"  class="form-control" name="end"
+									<!-- oninput="dateChange1()" -->
+									<input type="datetime-local" class="form-control" name="end"
 										id="4">
 								</div>
 							</div>
-							<p style="color:red; display:none;" id="red">시작날짜와 마감날짜를 모두 입력해주세요.</p>
+							<p style="color: red; display: none;" id="red">시작날짜와 마감날짜를 모두
+								입력해주세요.</p>
 						</div>
-
 						<div class="modal-footer">
 							<button type="button" class="btn btn-light-secondary"
 								data-bs-dismiss="modal">
@@ -268,40 +267,42 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title" id="myModalLabel37521">일정 상세</h4>
-					<div>
-					<button class="btn btn-primary dropdown-toggle me-1" type="button"
-						id="dropdownMenuButton" data-bs-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false"></button>
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<a class="dropdown-item" onclick="yetPartici()"  data-bs-target="#scheUpdate" data-bs-toggle="modal">수정</a> 
-						<a class="dropdown-item" data-bs-toggle="modal"
-							data-bs-target="#deleteSche" onclick="hideInfo()" >삭제</a>
-					</div>
- 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<div id="scheDropdown" display="hidden">
+						<button class="btn btn-primary dropdown-toggle me-1" type="button"
+							id="dropdownMenuButton" data-bs-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false"></button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" onclick="yetPartici()"
+								data-bs-target="#scheUpdate" data-bs-toggle="modal">수정</a> <a
+								class="dropdown-item" data-bs-toggle="modal"
+								data-bs-target="#deleteSche" onclick="hideInfo()">삭제</a>
+						</div>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
 					</div>
 				</div>
 				<div class="modal-body">
-					<label>제목: </label>
+					<h6>제목</h6>
 					<div class="form-group">
 						<p id="ttl"></p>
 					</div>
-					<label>참여멤버: </label>
-					<div class="form-group"id="partici">
-					</div>
-					<label>내용:</label>
+					<h6>참여멤버</h6>
+					<div class="form-group" id="partici"></div>
+					<h6>내용</h6>
 					<div class="form-group">
 						<p id="cntn"></p>
 					</div>
-					<label> </label>
 					<div class="row">
 						<div class="col-sm-5">
 							<div class="form-group">
-							<span>시작날짜 </span>	<p id="startDate"></p>
+								<h6>시작날짜</h6>
+								<p id="startDate"></p>
 							</div>
 						</div>
 						<div class="col-sm-5">
 							<div class="form-group">
-							<span>마감날짜 </span>	<p id="finishDate"></p>
+								<h6>마감날짜</h6>
+								<p id="finishDate"></p>
 							</div>
 						</div>
 					</div>
@@ -346,8 +347,8 @@
 		</div>
 	</div>
 	<!-- 일정 삭제 모달 끝 -->
-	
-		<!-- 일정 수정 모달 -->
+
+	<!-- 일정 수정 모달 -->
 	<div class="modal fade text-left" id="scheUpdate" tabindex="-1"
 		role="dialog" aria-labelledby="myModalLabel37555" aria-hidden="true">
 		<div
@@ -361,7 +362,7 @@
 						<i data-feather="x"></i>
 					</button>
 				</div>
-				<div id="testtttttttedsds"> </div>
+				<div id="testtttttttedsds"></div>
 			</div>
 		</div>
 	</div>
@@ -412,11 +413,9 @@
       .then(result => result.json())
       .then(data => {
     	  $("#scheInsert").modal("hide");
-    	  // fullcalendar에 event 추가
-    	  console.log(data)
+    	  scheInsertData.id = data.scheUniNo;
+    	  console.log(scheInsertData);
              calendar.addEvent(scheInsertData);
-    	  console.log(scheInsertData)
-    	  console.log(calendar)
     	  calendar.render();
     	});
 }   
@@ -437,10 +436,10 @@
         })
         .then((response) => response.json())
         .then((result) => {
-          console.log(result);
-          navTop.remove();
+        	console.log(scheNo)
+        	calendar.getEventById(scheUniNo).remove();
         })
-    }
+        }
 
     
     
@@ -450,24 +449,17 @@
     	 let scheUniNo = $('#noInfo').val();
     	 $.ajax("yetPartici?scheUniNo="+scheUniNo)
     		.done(result=>$("#testtttttttedsds").html(result));
-			
+			 
+    }
+    
 
-    	 
-    }
-    
-    
-    //모달  일정상세 숨기기
-    function hideInfo(){
-    	$("#scheInfo").modal("hide");
-    }
-    
     //모달 일정 삼세 나타내기
     function showInfo(){
     	$("#scheInfo").modal("show");
     }
     
 
-    </script>	
+    </script>
 	<script>
 		var initChoice1 = new Choices(document.querySelector('.asdfas'));
 	
