@@ -1,5 +1,8 @@
 package com.modu.app.prj.pay.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +57,15 @@ public class PayController {
 		// 성공시 db에 insert
 		payService.insertPay(kakaoApprove);
 		model.addAttribute("info", kakaoApprove);
+		LocalDateTime payDateTime = kakaoApprove.getApproved_at();
+		String formattedDate = payDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		String stdt = payDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		model.addAttribute("paydt",formattedDate);
+		LocalDateTime exdtDateTime = payDateTime.plusDays(30);
+		String exdtDt = exdtDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		model.addAttribute("exdtdt",exdtDt);
+		model.addAttribute("stdt",stdt);
 		// 결제완료페이지로
 		return "prj/success";
 	}
