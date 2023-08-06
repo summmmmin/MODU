@@ -94,6 +94,21 @@ public class FAQController {
         }
     }
     
+    // faq 수정
+    @PostMapping("modify-content")
+    @ResponseBody
+    public ResponseEntity<String> saveModify(@RequestBody FAQVO faq, HttpSession session) {
+        try {
+            // 데이터베이스에 저장
+        	faqService.updateFAQ(faq);
+            
+            return ResponseEntity.ok().body("Success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    
     //FAQ 전체리스트
     @GetMapping("FAQList")
     public String faqList(Model model) {
@@ -106,9 +121,20 @@ public class FAQController {
     //FAQ 단건
     @GetMapping("FAQInfo")
     public String faqInfo(Model model, String no) {
-    	
     	model.addAttribute("faq", faqService.selectFAQ(no));
-    	
     	return "faq/FAQInfo";
+    }
+    // faq수정페이지
+	@GetMapping("FAQModify")
+	public String faqModify(Model model, String no) {
+		model.addAttribute("faq", faqService.selectFAQ(no));
+		return "faq/FAQModify";
+	}
+	
+    // faq 삭제
+    @GetMapping("FAQDelete")
+    @ResponseBody
+    public int faqDelete(String faqNo) {
+    	return faqService.deleteFAQ(faqNo);
     }
 }

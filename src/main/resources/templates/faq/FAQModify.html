@@ -33,14 +33,14 @@
                 <div class="row">
                     <div class="col-12 col-md-6 order-md-1 order-last">
                         <h3>FAQ </h3>
-                        <p class="text-subtitle text-muted">작성
+                        <p class="text-subtitle text-muted">수정
                         </p>
                     </div>
                     <div class="col-12 col-md-6 order-md-2 order-first">
                         <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">FAQInsert</li>
+                                <li class="breadcrumb-item active" aria-current="page">FAQModify</li>
                             </ol>
                         </nav>
                     </div>
@@ -55,15 +55,38 @@
                             </div>
                             <div class="card-body">
 								<form id="faqForm">
-								    <input type="text" id="title" placeholder="제목">
-									<select class="form-select" id="cate">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
+								    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row align-items-center">
+                                                <div class="col-lg-2 col-3">
+                                                    <label class="col-form-label">제목</label>
+                                                </div>
+                                                <div class="col-lg-8 col-9">
+                                                    <input type="text" id="title" class="form-control" placeholder="제목">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row align-items-center">
+                                                <div class="col-lg-2 col-3">
+                                                    <label class="col-form-label">카테고리</label>
+                                                </div>
+                                                <div class="col-lg-8 col-9">
+													<select class="form-select" id="cate">
+				                                        <option value="1">1</option>
+				                                        <option value="2">2</option>
+				                                        <option value="3">3</option>
+				                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 								    <div id="summernote"></div>
-								    <button type="button" id="saveFAQ">저장</button>
+								    
 								</form>
+                            </div>
+                            <div class="card-footer d-flex justify-content-end">
+                            	<button type="button" id="saveFAQ" class="btn btn-primary">저장</button>
                             </div>
                         </div>
                     </div>
@@ -86,6 +109,7 @@
 	            }
 	        }
 	    });
+	    
 		let test=0;
 	    function uploadImage(file) {
 	        let formData = new FormData();
@@ -109,15 +133,16 @@
 	        let title = $('#title').val();
 	        let cate = $('#cate').val();
 	        let content = $('#summernote').summernote('code');
-	        
+	        let faqNo = '[[${faq.faqNo}]]'
 	        console.log(content)
 	        $.ajax({
 	            type: 'POST',
-	            url: 'save-content',
+	            url: 'modify-content',
 	            contentType: 'application/json',
-	            data: JSON.stringify({ ttl: title, cate: cate, cntn: content }),
+	            data: JSON.stringify({ ttl: title, cate: cate, cntn: content, faqNo: faqNo }),
 	            success: function(response) {
 	                alert('저장되었습니다.');
+	                location.href = 'FAQList'
 	            }
 	        });
 	    });
