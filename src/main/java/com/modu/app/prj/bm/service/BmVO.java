@@ -59,4 +59,6 @@ public class BmVO {
 	
 	private String attNick;
 	
+	private String boardParticiMembUniNo;
+	
 }
