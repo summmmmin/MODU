@@ -100,6 +100,7 @@
 			   	}
 			   	
 			   	let ttl = document.getElementById('11');
+			   	let cntn =  document.getElementById('22');
 			   	let start =  document.getElementById('33');
 			   	let end =  document.getElementById('44');
 			   	
@@ -121,17 +122,45 @@
 			       .then(result => result.json())
 			       .then(data => {
 			           console.log(data);
+			           //수정이 완료되면 수정모달이 사라지고 단건 모달이 등장
 			           $("#scheUpdate").modal("hide");
+			           $("#scheInfo").modal("show");
 			           
-			           
-			        	      var changedEvent = calendar.getEventById(scheUniNo); // 변경된 이벤트 객체
+			           //수정된 내용을 단건 모달에 반영
+			            $('#ttl').text(ttl.value);
+			            $('#cntn').text(cntn.value);
+			            $('#partici').text($("#cm1 option:selected").map(function(){ return $(this).text(); }).get());
+			       		    
+			       
+			       		//날짜정보를 한국식으로변경하기위한것
+			           function formatDateToKorean(dateString) {
+						  var startDate = new Date(dateString);
+						  var year = startDate.getFullYear();
+						  var month = startDate.getMonth() + 1;
+						  var day = startDate.getDate();
+						
+						  // 월과 일이 한 자리 숫자인 경우 앞에 0을 붙여 두 자리로 만듭니다.
+						  month = month < 10 ? '0' + month : month;
+						  day = day < 10 ? '0' + day : day;
+						
+						  var formattedDate1 = year + '년 ' + month + '월 ' + day + '일';
+						  return formattedDate1;
+						}
+			            let a = formatDateToKorean(start.value);
+			            let b = formatDateToKorean(end.value);
+			            $('#startDate').text(a);
+			            $('#finishDate').text(b);
+			        
+			            
+			            
+			            // 실제 풀캘린더 내부의 데이터를 바꿔줌
+			            var changedEvent = calendar.getEventById(scheUniNo); // 변경된 이벤트 객체
 			        
 			        	      // 새로운 이벤트 객체 생성
 			        	      var updatedEvent = calendar.getEventById(changedEvent.id);
 			        	      updatedEvent.setProp('title', ttl.value);
 			        	      updatedEvent.setStart(start.value);
 			        	      updatedEvent.setEnd(end.value);
-			        	      console.log(updatedEvent);
 			        	      // FullCalendar에서 이벤트 업데이트
 			        	      calendar.dispatch({
 			        	        type: 'CHANGE',
