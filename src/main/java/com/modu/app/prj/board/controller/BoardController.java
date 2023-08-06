@@ -60,12 +60,12 @@ public class BoardController {
 		String prjNo = (String) session.getAttribute("prjUniNo");
 		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 
-		if ((boardService.BrdCount(prjNo) < 4 && prjService.getPrjInfo(prjNo).getExdt() == null)
-				|| prjService.getPrjInfo(prjNo).getExdt() != null) {
-
+		if ((boardService.BrdCount(prjNo) < 4 && prjService.getPrjInfo(prjNo).getExdt() == null) || prjService.getPrjInfo(prjNo).getExdt() != null) {
 			vo.setParticiMembUniNo(particiMembUniNo);
 			vo.setPrjUniNo(prjNo);
 			boardService.InsertBoard(vo);
+		}else {
+			vo.setPrjUniNo(null);
 		}
 		return vo;
 	}

@@ -1,26 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{index}">
-
 <head>
 	<meta charset="UTF-8">
 	<title>postList</title>
 	<!--alert-->
 	<script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
-
 	<style>
-		ul {
+		ul{
 			list-style: none;
 		}
 	</style>
 </head>
-
 <body>
 	<div layout:fragment="content">
-
-
 		<!-- ============= 게시판 수정, 삭제 (성현) =============-->
-<<<<<<< HEAD
 <!-- 값 찾아오기 귀찮아서 이렇게 만들었어요 죄송 ! (성현) -->
 <p id="brdNo" style="display:none">[[${brdUniNo}]]</p>
 <p id="prjNo" style="display:none">[[${session.prjUniNo}]]</p>
@@ -35,9 +29,9 @@
 </div>
 
 
-<div class="dropdown  d-flex">
+<div class="dropdown">
 <div class="me-auto"><h1>[[${checkNM[0].boardNm}]]</h1></div>
-<div th:if="${checkNM[0].pubcYn} == 'N'"><button class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">참여자 목록</button></div>
+<button th:if="${checkNM[0].pubcYn} == 'N'"class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">참여자 목록</button>
 <div class="postDDM dropdown-menu" aria-labelledby="dropdownMenuButton">
 <a th:each="shy : ${superShy}" th:text="${shy.particiMembUniNo}" id="editBoardLink" class="dropdown-item"></a>
 </div>
@@ -58,6 +52,7 @@
 <h5>게시판 이름</h5>
 <div class="form-group">
 <input id="boardNm" name="boardNm" type="text" placeholder="변경 하실 이름을 입력해주세요." class="form-control">
+<span id="charCount" style="color: red;"></span>
 </div>
 <div class="form-group">
 <h6>공개여부</h6>
@@ -78,78 +73,70 @@
 </div>
 </div>
 <!-- ========================게시판 수정 Modal 끗 ======================== -->
-
-		<!-- ========================게시판 삭제 Modal 시작 (성현)======================== -->
-		<div class="modal fade text-left" id="deleteBrd" tabindex="-1" role="dialog" aria-labelledby="deleteBrd"
-			aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-				<div class="modal-content">
-					<div class="modal-header bg-primary">
-						<h5 class="modal-title white" id="myModalLabel160">게시판 삭제</h5>
-						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-							<i data-feather="x"></i>
-						</button>
-					</div>
-					<div class="modal-body">이 게시판을 삭제하시겠습니까?<br>삭제하시면 복구 할 수 없습니다.</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-							<i class="bx bx-x d-block d-sm-none"></i>
-							<span class="d-none d-sm-block">취소</span>
-						</button>
-						<button id="deleteBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal"
-							onclick="BrdDelete()">
-							<i class="bx bx-check d-block d-sm-none"></i>
-							<span class="d-none d-sm-block">확인</span>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- ========================게시판 삭제Modal 끗 ======================== -->
-
-
-		<!-- ========================회원 초대 Modal 시작 ======================== -->
-		<div class="modal fade text-left" id="partici" tabindex="-1" role="dialog" aria-labelledby="partici"
-			aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="myModalLabel3752">일정 추가</h4>
-						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-							<i data-feather="x"></i>
-						</button>
-					</div>
-					<form name="scheInsert1">
-						<div class="modal-body">
-							<div class="form-group">
-								<div class="col-sm-10">
-									<label class="input-group-text">초대멤버</label>
-									<select name="scheParticiUniNo[]" class="choices form-select particiList" multiple="multiple"
-										id="brdksh">
-										<option th:value="${i.particiMembUniNo}" th:each="i:${particiBrd}">[[${i.nnm}]]</option>
-									</select>
-								</div>
-							</div>
-							<label> </label>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-light-secondnary" data-bs-dismiss="modal">
-									<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">취소</span>
-								</button>
-								<button type="button" onclick="particiInsert()" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-									<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">초대</span>
-								</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		<!-- ========================회원 초대 Modal 끗 (성현) ======================== -->
+<!-- ========================게시판 삭제 Modal 시작 (성현)======================== -->
+<div class="modal fade text-left" id="deleteBrd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+ <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+<div class="modal-content">
+<div class="modal-header bg-primary">
+<h5 class="modal-title white" id="myModalLabel160">게시판 삭제</h5>
+<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+<i data-feather="x"></i>
+</button>
+</div>
+<div class="modal-body">이 게시판을 삭제하시겠습니까?<br>삭제하시면 복구 할 수 없습니다.</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+<i class="bx bx-x d-block d-sm-none"></i>
+<span class="d-none d-sm-block">취소</span>
+</button>
+<button id="deleteBtn" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" onclick="BrdDelete()">
+<i class="bx bx-check d-block d-sm-none"></i>
+<span class="d-none d-sm-block">확인</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- ========================게시판 삭제Modal 끗 ======================== -->
+<!-- ========================회원 초대 Modal 시작 ======================== -->
+<div class="modal fade text-left" id="partici" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3752" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="myModalLabel3752">일정 추가</h4>
+<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+<i data-feather="x"></i>
+</button>
+</div>
+<form name="scheInsert1">
+<div class="modal-body">
+<div class="form-group">
+<div class="col-sm-10">
+<label class="input-group-text">초대멤버</label> 
+<select name="scheParticiUniNo[]" class="choices form-select particiList" multiple="multiple" id="brdksh">
+<option th:value="${i.particiMembUniNo}" th:each="i:${particiBrd}">[[${i.nnm}]]</option>
+</select>
+</div>
+</div>
+<label> </label>
+<div class="modal-footer">
+<button type="button" class="btn btn-light-secondnary" data-bs-dismiss="modal">
+<i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">취소</span>
+</button>
+<button type="button" onclick="particiInsert()" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+<i class="bx bx-check d-block d-sm-none"></i> <span class="d-none d-sm-block">초대</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- ========================회원 초대 Modal 끗 (성현) ======================== -->
 		<div th:if="${#lists.isEmpty(postList)}">
 			게시글이없습니다
 			<div class="col-md-1 col-sm-12 mx-auto">
-					<div class="buttons" style="position: fixed; bottom: 120px; right: 330px;">
-
+					<div class="buttons" style="position: fixed; bottom: 120px; right: 350px;">
 						<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" th:if="${session.grd} != 'G01'">글작성</a>
 					</div>
 				</div>
@@ -248,7 +235,6 @@
 					</div>
 				</div>
 				<!-- end of 게시글 삭제 모달 -->
-
 				<!-- start of 댓글 삭제 모달 -->
 				<div class="modal fade text-left" id="deleteReply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -276,7 +262,6 @@
 					</div>
 				</div>
 				<!--end of 댓글 삭제 모달 -->
-
 				<!--start of 댓글수정모달 -->
 				<div class="modal fade text-left" id="updateReply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"	role="document">
@@ -312,8 +297,8 @@
 				</div>
 				<!--end of 댓글수정모달 -->
 				
-				<!--end of MODALS -->
-			</div>	
+				
+			<!--end of MODALS -->
 		<script>
 				//댓글리스트
 				function showReplyList() {
@@ -322,35 +307,29 @@
 					
 					getPnum.forEach(gNum => {
 					let pNum = gNum.value;
-
 					fetch('/modu/replys/' + pNum)
 						.then(resolve => resolve.json())
 						.then(data => {
 							let rPlaceList = document.querySelectorAll('.replyPlace');
-
 							rPlaceList.forEach(rPlace => {
 								if (rPlace.dataset.postunino === pNum) {
 									
 									rPlace.innerHTML = '';
-
 									
 									data.forEach(reply => {
 										const originalDateStr = reply.writeDt;
 										const date = new Date(originalDateStr);
 										const formattedDate =
 											`${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, "0")}. ${String(date.getDate()).padStart(2, "0")}. ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
-
 										if (reply.postUniNo == pNum) {
 											let h5Tag = document.createElement('h5');
 											h5Tag.setAttribute('class', 'card-title col');
 											h5Tag.textContent = reply.nnm;
 											rPlace.append(h5Tag);
-
 											//start of reply-dropdown
 											if(user == reply.particiMembUniNo){
 												let divTag = document.createElement('div');
 												divTag.setAttribute('class', 'dropdown col-auto');
-
 												let btnTag = document.createElement('button');
 												btnTag.setAttribute('class', 'btn btn-primary btn-sm dropdown-toggle');
 												btnTag.setAttribute('data-bs-toggle', 'dropdown');
@@ -373,7 +352,6 @@
 												aTag.textContent='수정';
 												divTagDM.append(aTag);
 												divTag.append(divTagDM);
-
 												aTag = document.createElement('a');
 												aTag.setAttribute('class','dropdown-item');
 												aTag.setAttribute('data-bs-toggle','modal');
@@ -383,14 +361,11 @@
 												divTagDM.append(aTag);
 												divTag.append(divTagDM);
 												rPlace.append(divTag);
-
 											}
-
 											let pTag = document.createElement('p');
 											pTag.setAttribute('class', 'card-text');
 											pTag.textContent = reply.cntn;
 											rPlace.append(pTag);
-
 											let smallTag = document.createElement('small');
 											smallTag.setAttribute('class', 'text-muted');
 											smallTag.textContent = formattedDate;
@@ -420,7 +395,6 @@
 							replyInfo[reply.name] = reply.value;
 						})
 						replyInfo["postUniNo"] = pNum;
-
 						fetch('/modu/replyInsert', {
 							  method: 'post',
 							  headers: {
@@ -434,7 +408,6 @@
 							  // rInput.value = '';
 							  showReplyList();
 							  rInput[2].value = '';
-
 							  // POST에서 댓글 알림 여부를 가져 오기 위해 LIST를 뽑아옴
 							  let bun = '[[${brdUniNo}]]';
 							  fetch('/modu/POSTLIST', {
@@ -446,9 +419,7 @@
 							  })
 							  .then(result => result.json())
 							  .then(data => {
-
 							    let ArmYn = data[0].replyArmYn;
-
 							    if (ArmYn == 'Y') {
 							      // 댓글 작성 알림(성현)
 							      armClient.publish({
@@ -472,7 +443,6 @@
 					}
 				})
 			})
-
 			//댓글삭제
 			function callDeleteModal(e){
 				let rNum = e.target.parentElement.dataset.replyunino;
@@ -484,7 +454,6 @@
 					.catch(err => console.log(err))
 				})
 			}
-
 			//댓글수정폼
 			function callOneReply(e){
 				let rNum = e.target.parentElement.dataset.replyunino;
@@ -498,7 +467,6 @@
 						inputTag.value = data.replyUniNo;
 						inputTag.setAttribute('type', 'hidden');
 						document.getElementById('updateReplyForm').append(inputTag);
-
 						let replyCntn = document.createElement('textarea');
 						replyCntn.setAttribute('class', 'form-control');
 						replyCntn.setAttribute('required', 'true')
@@ -510,7 +478,6 @@
 				})
 				.catch(err => console.log(err))
 			}
-
 			//댓글수정
 			document.getElementById('updateReplyBtn').addEventListener('click', function(){
 				let inputList = document.getElementById('updateReplyForm').querySelectorAll('input');
@@ -520,7 +487,6 @@
 				})
 				let cntn = document.getElementById('updateReplyForm').children[1];
 				replyInfo['cntn'] = cntn.value;
-
 				if(cntn.value == ''){
 					Swal.fire({
 							icon: "error",
@@ -528,7 +494,6 @@
 						})
 					return;
 				}
-
 				fetch('/modu/replyUpdate',{
 					method : 'post',
 					headers : {
@@ -542,7 +507,6 @@
 				})
 				.catch(err => console.log(err))
 			})
-
 			//게시글삭제
 			function callDeletePostModal(e){
 				let pNum = e.target.parentElement.dataset.postunino;
@@ -565,7 +529,6 @@
 					.catch(err => console.log(err)); 
 				})
 			}
-
 			//첨부파일리스트
 			function attWithPost(){
 				let pNUMs = document.querySelectorAll('.getPostUniNo');
@@ -579,7 +542,6 @@
 							if(aPlace.dataset.postunino == apnum){
 								data.forEach(atts => {
 									let divTag = document.createElement('div');
-
 									let aTag = document.createElement('a');
 									aTag.setAttribute('href', "/modu/files/" + atts.attNo + "/download");
 									
@@ -591,9 +553,7 @@
 									aTag.addEventListener('click', downloadYN);
 									aTag.setAttribute("data-attno", atts.attNo);
 									divTag.append(aTag);
-
 									aPlace.append(divTag);
-
 									//이미지파일일때? 미리보기제공?
 									if(atts.ext == 'jpg' || atts.ext == 'jpeg' || atts.ext == 'png' || atts.ext == 'gif'){
 										divTag = document.createElement('div');
@@ -611,15 +571,12 @@
 				})
 			}
 			attWithPost();
-
 			//다운로드시 다운로드여부 업데이트
 			function downloadYN(e){
 				let attNo = e.target.parentElement.dataset.attno;
 				let dwYn = {};
-
 				dwYn['attNo'] = attNo;
 				dwYn['dwYn'] = 'Y';
-
 				fetch("/modu/file/" + attNo, {
 					method : 'post',
 					headers : {
@@ -632,7 +589,6 @@
 				})
 				.catch(err => console.log(err))
 			}
-
 			//공지리스트
 			function notiPostList(){
 				let bNum = '[[${brdUniNo}]]';
@@ -653,7 +609,6 @@
 			}
 			//공지리스트호출
 			notiPostList();
-
 			//공지등록on/off
 			function setPostNoti(e){
 					let pNum = e.target.parentElement.dataset.postunino;
@@ -693,7 +648,6 @@
 						.catch(err => console.log(err))
 					}
 				}
-
 			//댓글등록알림ON/OFF
 			function setPostReply(e){
 				let pNum = e.target.parentElement.dataset.postunino;
@@ -758,7 +712,6 @@ function PostBm(){
 		location.href='postList?brdUniNo='+'[[${brdUniNo}]]';
 	})
 }
-
 // 게시글 즐겨찾기
 function insertBrd(){
 	fetch('/modu/BmInsert',{
@@ -773,7 +726,6 @@ function insertBrd(){
 		location.href='postList?brdUniNo='+'[[${brdUniNo}]]';
 	})
 }
-
 //========================== 게시판 즐겨찾기 끝  ========================== //
 fetch('/modu/bmList')
 .then(response => response.json()) 
@@ -786,7 +738,6 @@ fetch('/modu/bmList')
 .catch(err => { 
   console.error(err); 
 });
-
 // 게시판 수정 Modal
 $(document).ready(function() {
 	  // "게시판 수정" 링크를 클릭했을 때 
@@ -795,7 +746,6 @@ $(document).ready(function() {
 	    $("#modify").modal("show");
 	  });
 	});
-
 // 회원 초대 Modal
 $(document).ready(function() {
 	  // "회원 초대" 링크를 클릭했을 때 
@@ -804,7 +754,6 @@ $(document).ready(function() {
 	    $("#partici").modal("show");
 	  });
 	});
-
 // ========================== 게시판 삭제 ========================== // 
 // 게시판 삭제 Modal 띄우기
 $(document).ready(function() {
@@ -815,7 +764,6 @@ $(document).ready(function() {
   
 // 게시판 번호 찾아오기
 let brdNo = document.getElementById('brdNo').textContent;
-
 //프로젝트 번호 찾아오기
 let prjNo = document.getElementById('prjNo').textContent;
 	
@@ -836,7 +784,6 @@ function BrdDelete(){
 	.catch(err => console.log(err))
 }
 //========================== 게시판 삭제 끝  ========================== // 
-
 //========================== 게시판 업데이트  ========================== //
 function BrdUpdate() {
 	//게시판 번호 찾아오기
@@ -852,7 +799,6 @@ function BrdUpdate() {
   } else {
     checkOk1 = '';
   }
-
   fetch("/modu/BrdUpdate", {
     method: 'POST',
     headers: {
@@ -870,7 +816,6 @@ function BrdUpdate() {
   .catch(err => console.log(err));
 }
 //========================== 게시판 업데이트 끗  ========================== //
-
 //========================== 회원 초대 뭐시기  ========================== //
 new Choices(document.querySelector('.particiList'));
 function particiInsert(){
@@ -891,7 +836,6 @@ function particiInsert(){
 		//비공개 게시판 별 멤버 리스트 띄우기
 	})
 }
-
 //투표 상세로 가기
 	function voteInfo(vid){
 		 $.ajax("voteInfo/"+vid)
@@ -899,15 +843,45 @@ function particiInsert(){
 			document.getElementById("rsidebar").classList.toggle("active");
 			$("#rsidebarContent").html(result);
 		}) 
-		
+	
 	}
 </script>
-<<<<<<< HEAD
+
+<script>
+    const boardNmInput = document.getElementById('boardNm');
+    const charCountSpan = document.getElementById('charCount');
+    const maxCharCount = 10; // 최대 글자 수 설정
+
+    function updateValidation() {
+        const currentCharCount = boardNmInput.value.length;
+        charCountSpan.textContent = `${currentCharCount}/${maxCharCount}`;
+
+        if (currentCharCount > maxCharCount) {
+            charCountSpan.style.color = 'red';
+            boardNmInput.setCustomValidity(`글자 수는 ${maxCharCount}자를 초과할 수 없습니다.`);
+            boardNmInput.classList.add('is-invalid');
+            document.getElementById('formbtn').disabled = true;
+        } else {
+            charCountSpan.style.color = '';
+            boardNmInput.setCustomValidity('');
+            boardNmInput.classList.remove('is-invalid');
+            document.getElementById('formbtn').disabled = false;
+        }
+    }
+
+    boardNmInput.addEventListener('input', function() {
+        updateValidation();
+    });
+
+    document.querySelector("#FormEvent").addEventListener("submit", function(e) {
+        // 조건 충족하지 않을 때 submit 막기
+        if (!boardNmInput.checkValidity()) {
+            e.preventDefault();
+        }
+    });
+</script>
+
+
 	</div>
-
-=======
-
-</div>
->>>>>>> branch 'main' of https://github.com/happypotatoC/MODU.git
 </body>
 </html>

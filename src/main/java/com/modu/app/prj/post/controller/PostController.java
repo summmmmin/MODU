@@ -53,7 +53,6 @@ public class PostController {
 		List<BoardVO> list = boardService.superShy(vo1);
 		List<BoardVO> list2 = boardService.BoardList(vo1);
 		model.addAttribute("superShy",list);
-		System.out.println(list);
 		model.addAttribute("aaa",list2);
 		model.addAttribute("checkNM", boardService.brdNm(vo1));
 		model.addAttribute("particiBrd",boardService.particiBrd(vo1));
