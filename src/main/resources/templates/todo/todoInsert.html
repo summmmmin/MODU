@@ -56,7 +56,7 @@
 						<div class="input-group col-md-1 mb-6">
 							<label class="input-group-text">담당자</label> <select
 								class="choices form-select" id="mgr">
-								<option th:selected="i[0]" th:value="${i.particiMembUniNo}"
+								<option th:value="${i.particiMembUniNo}"
 									th:each="i:${membList}">[[${i.nnm}]]</option>
 							</select>
 						</div>
