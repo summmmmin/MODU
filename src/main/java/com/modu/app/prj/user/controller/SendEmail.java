@@ -1,5 +1,4 @@
 package com.modu.app.prj.user.controller;
-//String password = "mehkjbnookiyggaa"; // gmail 패스워드(2단계 앱보안 비밀번호 테스트파일에 넣어둠)
 
 import java.util.Properties;
 
@@ -27,7 +26,6 @@ public class SendEmail {
 	private String password;
 
 	public void gmailSend(String userId, String newPassword) {
-//		String user = "qomo596@gmail.com"; // 발신 gmail 계정
 
 		// SMTP 서버 정보를 설정한다.
 		Properties prop = new Properties();

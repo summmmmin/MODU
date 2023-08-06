@@ -58,11 +58,12 @@
                 data: { ttl },
                 method: "GET",
                 success: function(data) {
+                	console.log(data);
                     $('#bpList').empty();
                     let div = '';
                     for (let i of data) {
                         div += `
-                            <div class="card-content">
+                            <div onclick="javascript:window.location.href='/modu/postList?brdUniNo=${i.brdUniNo}'" class="card-content">
                                 <div class="card-body">
                                     <td>${i.ttl}</td>
                                 </div>
@@ -129,7 +130,7 @@
                 	 
                 	 let formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
                      div += `
-                         <div class="card-content">
+                         <div onclick="javascript:window.location.href='/modu/chat?chatrNo=${i.chatrNo}'" class="card-content">
                              <div class="card-body">
                                  <td>${i.nnm}</td>
                                  <td>`+formattedDate+`</td>
@@ -147,6 +148,8 @@
          })
      }
     
+    
+    //파일 리스트 함수
      function FileList() {
     	 $.ajax("FileList")
          .done(result => {
@@ -167,7 +170,7 @@
          });
  }
      
-     //채팅 검색 함수
+     //파일 검색 함수
      function FileSearch() {
          let attNm = $('#attNm').val();
          $.ajax({
@@ -175,11 +178,17 @@
              data: { attNm },
              method: "GET",
              success: function(data) {
+            	 console.log(data);
                  $('#bpList').empty();
                  let div = '';
                  for (let i of data) {
-                     div += `
-                         <div class="card-content">
+                     div += `<div onclick=`;
+                     if(i.division == null){    
+                     	div += `"javascript:window.location.href='/modu/chat?chatrNo=${i.chatrNo}'"`; 
+                     }else if(i.division == 'P'){
+                    	 div += `"javascript:window.location.href='/modu/postList?brdUniNo=${i.brdUniNo}'"`;
+                     }
+                     div += ` class="card-content">
                              <div class="card-body">
                                  <td>${i.attNm}</td>
                              </div>

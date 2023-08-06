@@ -61,7 +61,8 @@
 								#{chatrNo},
 								#{chatParticiMembUniNo},
 								#{cntn},
-								SYSDATE
+								SYSDATE,
+								'C'
 								)
 	</insert>
 	

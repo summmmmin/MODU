@@ -1,6 +1,5 @@
 package com.modu.app.prj.board.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.modu.app.prj.board.service.BoardService;
 import com.modu.app.prj.board.service.BoardVO;
 import com.modu.app.prj.post.service.PostService;
-import com.modu.app.prj.post.service.PostVO;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
@@ -62,12 +60,12 @@ public class BoardController {
 		String prjNo = (String) session.getAttribute("prjUniNo");
 		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 
-		if ((boardService.BrdCount(prjNo) < 4 && prjService.getPrjInfo(prjNo).getExdt() == null)
-				|| prjService.getPrjInfo(prjNo).getExdt() != null) {
-
+		if ((boardService.BrdCount(prjNo) < 4 && prjService.getPrjInfo(prjNo).getExdt() == null) || prjService.getPrjInfo(prjNo).getExdt() != null) {
 			vo.setParticiMembUniNo(particiMembUniNo);
 			vo.setPrjUniNo(prjNo);
 			boardService.InsertBoard(vo);
+		}else {
+			vo.setPrjUniNo(null);
 		}
 		return vo;
 	}
@@ -80,7 +78,7 @@ public class BoardController {
 		brd.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		brd.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		model.addAttribute("Brd", boardService.BoardList(brd));
-		return "/boardLIst/boardList";
+		return "boardLIst/boardList";
 	}
 
 	// 게시판 삭제
@@ -112,7 +110,6 @@ public class BoardController {
 		String prjUniNo = (String) session.getAttribute("prjUniNo");
 		vo.setPrjUniNo(prjUniNo);
 		boardService.prjList(vo);
-		System.out.println(boardService.prjList(vo));
 		return boardService.prjList(vo);
 	}
 
@@ -134,8 +131,16 @@ public class BoardController {
 	@ResponseBody
 	public List<BoardVO> POSTLIST(@RequestBody BoardVO vo, HttpSession session){
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
-		System.out.println("1111"+vo);
 		return boardService.POSTLIST(vo);
+	}
+	
+	@GetMapping("superShy")
+	public String superShy(BoardVO vo, Model model){
+		List<BoardVO> list = boardService.superShy(vo);
+		model.addAttribute("superShy",list);
+		System.out.println(vo);
+		System.out.println(list);
+		return "/post/postList";
 	}
 	
 	

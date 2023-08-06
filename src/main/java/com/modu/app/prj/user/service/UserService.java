@@ -28,4 +28,5 @@ public interface UserService {
 	public UserVO myInfo(String id);
 	public int totalPay();
 	public List<PayVO> payTable();
+	public int banUser(String id);
 }

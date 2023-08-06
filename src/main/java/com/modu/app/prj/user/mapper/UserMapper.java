@@ -29,4 +29,5 @@ public interface UserMapper {
 	public UserVO myInfo(String id);
 	public int totalPay();
 	public List<PayVO> payTable();
+	public int banUser(String id);
 }

@@ -140,7 +140,7 @@ body {
 	function pctChange(){
 		
 		let pct =$("#pct option:selected").val(); //퍼센트 실렉트 값 받아오기
-		console.log(pct)
+
 		let data = {
 				"pct":pct,
 				"todoUniNo":'[[${todoInfo.todoUniNo}]]'
@@ -154,7 +154,7 @@ body {
 		})
 		.then((response) => response.json())
 		.then((result) => {
-		console.log("change");
+
 		 })
 		}
      
@@ -173,7 +173,7 @@ body {
 			.then(resolve => resolve.json())
 			.then(data => {
 				for(let i=0; i<data.length;i++){
-					console.log(data)
+
 					let div=`
 					<div>
 						<a href="/modu/files/${data[i].attNo}/download" onclick="downloadYN(e)" data-attno=${data[i].attNo}>
@@ -189,7 +189,7 @@ body {
 		function downloadYN(e){
 			let attNo = e.target.parentElement.dataset.attno;
 			let dwYn = {};
-			console.log(attNo);
+
 			dwYn['attNo'] = attNo;
 			dwYn['dwYn'] = 'Y';
 
@@ -202,7 +202,7 @@ body {
 			})
 			.then(resolve => resolve.json())
 			.then(data => {
-				console.log("다운로드완료")
+
 			})
 			.catch(err => console.log(err))
 		}
@@ -223,7 +223,7 @@ body {
         	})
         	.then((response) => response.json())
 			.then((result) => {
-			console.log(result);
+
 			location.reload();
 			 })
         }

@@ -26,12 +26,13 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
 <script src="fullcalendar-6.1.8/dist/index.global.js"></script>
 <!-- Include Choices JavaScript -->
 <script src="assets/vendors/choices.js/choices.min.js"></script>
+<script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
 <style>
 #HypeBoy:hover{
 	cursor:pointer;
@@ -158,7 +159,7 @@
             'brdUniNo' : brdUniNo,
             'particiMembUniNo' : particiMembUniNo
         }
-        fetch('/modu/BmInsert', {
+        fetch('BrdBmInsert', {
             method : 'POST',
             headers : {
                 'content-type' : 'application/json'
@@ -324,7 +325,8 @@
 									<h5>게시판 이름</h5>
 									<div class="form-group">
 										<input id="boardNm" name="boardNm" type="text"
-											placeholder="40자까지 입력 가능합니다." class="form-control">
+											placeholder="10자까지 입력 가능합니다." class="form-control">
+											 <span id="charCount" style="color: red;"></span>
 									</div>
 									<div class="form-group">
 										<input id="particiMembUniNo" name="particiMembUniNo"
@@ -378,14 +380,14 @@
 								<h5>채팅방 이름</h5>
 								<div class="form-group">
 									<input id="chartNm" name="chartNm" type="text"
-										placeholder="40자까지 입력 가능합니다." class="form-control"> <input
+										placeholder="40자까지 입력 가능합니다." class="form-control" required> <input
 										id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
 										type="text" class="form-control" style="display: none">
 									<input id="particiMembUniNo" name="particiMembUniNo"
 										th:value="${session.particiMembUniNo}" type="text"
 										class="form-control" style="display: none"> <label
-										for="basicInput" class="form-label">참여멤버선택</label> <select
-										id="memberSelect" class="choices form-select multiple-remove"
+										for="basicInput" class="form-label">참여멤버선택</label> 
+										<select id="memberSelect" class="choices form-select multiple-remove"
 										multiple="multiple"></select>
 								</div>
 							</div>
@@ -470,7 +472,7 @@
 
 	<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
-	<script src="assets/js/test.js"></script>
+	
 
 	<script>
 	
@@ -501,11 +503,12 @@
 		})
 		.then(result=>result.json())
 		.then(data => {
+			if(data.prjUniNo != null){
 			let liTag=`
 				<li class="submenu-item">
 				<div class="row">
 					<div class="col-2">
-						<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 108.9 103.6">
+						<svg xmlns="http://www.w3.org/2000/svg " width="15" height="15" viewBox="0 0 108.9 103.6">
 							<g id="Layer_2" data-name="Layer 2">
 								<g id="Layer_1-2" data-name="Layer 1">
 									<polygon th:onclick="clickInsert()" class="cls-1" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" id=`+data.brdUniNo+`>
@@ -521,7 +524,15 @@
 				`;
 			let submenu=document.querySelector('.brdinsert');
 			submenu.innerHTML += liTag;
-			
+			}else{
+				//다시 꾸미기
+				Swal.fire({
+					icon: "error",
+					title: "무료 플랜"
+				})
+
+				
+			}
 			//알람 조건 : 현재 프로젝트에 참가하고 있는 사람에게 전송
  			 $.ajax("prjParticiMembList")
  		    .done(result => {
@@ -545,7 +556,7 @@
 	</script>
 
 	<script>
-        //채팅방리스트
+    //채팅방리스트
 		function showChatList(){
 			fetch("/modu/chatrList")
 			.then(resolve => resolve.json())
@@ -598,6 +609,7 @@
 		//채팅방생성
 		function makeChatrPlz(e) {
 			//let selcetParticis = document.getElementById('memberSelect').selectedOptions[0].value;
+			
 			let chatNm = document.getElementById('chartNm').value;
 			let selectedOptions = document.getElementById('memberSelect').selectedOptions;
 			let chatMembs = [];
@@ -605,7 +617,17 @@
 			for (let i = 0; i < selectedOptions.length; i++) {
 				chatMembs.push(selectedOptions[i].value);
 			}
+			if(document.getElementById('chartNm').value == ''){
+				Swal.fire({
+					icon: "error",
+					title: "채팅방 이름을 입력해 주세요"
+				})
+				//document.getElementById('memberSelect').value('');
+				document.getElementById('.choices__list').options.length = null;
 
+				return;
+			}
+		
 			let makeChatInfo = {};
 			makeChatInfo['chartNm'] = chatNm;
 			makeChatInfo['particiMembUniNos'] = chatMembs;
@@ -756,8 +778,40 @@
  			}
  		}
  	</script>
-	<script> 
+ 	
+<script>
+    const boardNmInput = document.getElementById('boardNm');
+    const charCountSpan = document.getElementById('charCount');
+    const maxCharCount = 10;// 최대 글자 수 설정
 
-	</script>
+    function updateValidation() {
+        const currentCharCount = boardNmInput.value.length;
+        charCountSpan.textContent = `${currentCharCount}/${maxCharCount}`;
+
+        if (currentCharCount > maxCharCount) {
+            charCountSpan.style.color = 'red';
+            boardNmInput.setCustomValidity(`글자 수는 ${maxCharCount}자를 초과할 수 없습니다.`);
+            boardNmInput.classList.add('is-invalid');
+            document.getElementById('formbtn').disabled = true;
+        } else {
+            charCountSpan.style.color = '';
+            boardNmInput.setCustomValidity('');
+            boardNmInput.classList.remove('is-invalid');
+            document.getElementById('formbtn').disabled = false;
+        }
+    }
+
+    boardNmInput.addEventListener('input', function() {
+        updateValidation();
+    });
+
+    document.querySelector("#FormEvent").addEventListener("submit", function(e) {
+        // 조건 충족하지 않을 때 submit 막기
+        if (!boardNmInput.checkValidity()) {
+            e.preventDefault();
+        }
+    });
+</script>
+<script src="assets/js/test.js"></script>
 </body>
 </html>

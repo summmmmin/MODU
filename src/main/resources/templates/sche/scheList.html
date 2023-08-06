@@ -6,18 +6,28 @@
 
 	<script th:inline="javascript">
     /*<![CDATA[*/
-    let schAllDatas = /*[[${scheList}]]*/
+    let schAllDatas =/*[[${scheList}]]*/
+    	/*  $.ajax("scheListFetch")
+  	.done(result=>{
+    var schAllDatas = result;
+    initializeCalendar(schAllDatas);
+  	}) */
     let membList =/*[[${membList}]]*/
     /*]]>*/
   	</script>
   
 	<script>
+	 /* function initializeCalendar(schAllDatas) { */
+	let navTop;
+	var calendar;
+	let formattedEvents = []
     document.addEventListener('DOMContentLoaded', function () {
-      var calendarEl = document.getElementById('calendar');
-      let allEvents = schAllDatas;
+      var calendarEl = document.getElementById('calendar1');
+      allEvents = schAllDatas;  
+      
       console.log('데이터', allEvents);
 
-      let formattedEvents = allEvents.map(eventData => ({
+      formattedEvents = allEvents.map(eventData => ({
         title: eventData.title,
         start: eventData.start,
         end: eventData.end,
@@ -28,19 +38,19 @@
         }
       }));
 
-
-      var calendar = new FullCalendar.Calendar(calendarEl, {
+		console.log(formattedEvents)
+      calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
           right: 'dayGridMonth'
         },
         eventClick: function (info) {
-          console.log('이벤트: ' + info.event.title);
-          let scheNo = info.event.extendedProps.scheUniNo;
+          console.log('이벤트: ' + info.event);
+          navTop = event.target.closest('.fc-event');//바 위치
+          var scheNo = info.event.extendedProps.scheUniNo;
           console.log(info.event.extendedProps);
           let scheData = info.event.extendedProps;
-          
           
           fetch("scheInfo/" + scheData.sche_uni_no) //단건조회 fetch
             .then((response) => response.json())
@@ -80,20 +90,20 @@
             scheDateInfoEnd.toLocaleString('ko-KR', options);
               
               
-              document.getElementById('startDate').innerText = scheDateInfoStart.toLocaleString('ko-KR', options);;
-              document.getElementById('finishDate').innerText =scheDateInfoEnd.toLocaleString('ko-KR', options);
+            document.getElementById('startDate').innerText = scheDateInfoStart.toLocaleString('ko-KR', options);;
+            document.getElementById('finishDate').innerText = scheDateInfoEnd.toLocaleString('ko-KR', options);
               
-              $('#noInfo').val(scheInfo.scheUniNo);
+            $('#noInfo').val(scheInfo.scheUniNo);
             
             
+            //일정 삭제
+                       
             })
-            
-/*           if (info.event.url) {
-            window.open(info.event.url);
-          } */
           $("#scheInfo").modal("show");
+            
         },
         
+        //날짜 공간 클릭(일정 추가 공간)
         dateClick: function (info) {
         	
         	//날짜가 미국식으로 돼서 9시간 전으로 표기되어 9시간을 더해줌.
@@ -101,17 +111,29 @@
         	 const date = new Date(info.date.getTime()+offset);
         	 
 
-        	// 원하는 형식으로 날짜를 변환
+        	// 원하는 형식으로 날짜를 변환 입력 모달창에 기본 날짜값들 
         	const formattedDate = date.toISOString().slice(0, 16);
         	document.getElementById('3').value = formattedDate;
+        	document.getElementById("4").setAttribute("min",formattedDate);
         	
           $("#scheInsert").modal("show");
-         
+			
+          var ScheInsertTitleInput = document.getElementById('1').value
+          var ScheInsertStartInput = document.getElementById('3').value
+          var ScheInsertEndInput = document.getElementById('4').value
+          
+          if (!isNaN(date.valueOf())) { // valid?
+              calendar.addEvent({
+                title: ScheInsertTitleInput,
+                start: ScheInsertStartInput,
+                end: ScheInsertEndInput
+              });
+            }
         },
         dayMaxEventRows: true, // for all non-TimeGrid views
         views: {
           timeGrid: {
-            dayMaxEventRows: 6 // adjust to 6 only for timeGridWeek/timeGridDay
+            dayMaxEventRows: 3 // adjust to 6 only for timeGridWeek/timeGridDay
           }
         },
         initialDate: new Date(),
@@ -123,8 +145,9 @@
         displayEventTime: true,
         locale: 'ko',
         dayMaxEvents: true,
-        events: formattedEvents
+        
       });
+      calendar.addEventSource(formattedEvents);
       calendar.render();
     });
 
@@ -160,7 +183,7 @@
   </script>
 
 
-	<div id='calendar'></div>
+	<div id='calendar1'></div>
 
 	<!-- 일정 생성 모달 -->
 	<div class="modal fade text-left" id="scheInsert" tabindex="-1"
@@ -180,7 +203,7 @@
 					<div class="modal-body">
 						<label>제목: </label>
 						<div class="form-group">
-							<input type="text" placeholder="제목을 입력해주세요" id="1"
+							<input type="text" placeholder="제목을 입력해주세요" onchange="insertScheTtl()" id="1"
 								class="form-control" name="title">
 						</div>
 						<label>내용: </label>
@@ -356,8 +379,7 @@
     }
     
     
-	
-	//일정 추가
+  //일정 db에 추가 버튼 능력
   function insertSche() {
 		let ScheBtn  = document.getElementById('insertScheId');
 		let Schettl = document.getElementById('1');
@@ -390,33 +412,35 @@
       .then(result => result.json())
       .then(data => {
     	  $("#scheInsert").modal("hide");
-          console.log(data);
-      })
-}
-    
-    //일정 삭제
-    
-      function delSche() {
-        let scheUniNo = $('#noInfo').val();
-        let data = {
-          "scheUniNo": scheUniNo
-        }
-
-        console.log(data);
-        fetch("scheDelte", {
-            method: "post",
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-          })
-          .then((response) => response.json())
-          .then((result) => {
-            console.log(result);
-
-          })
+    	  // fullcalendar에 event 추가
+    	  console.log(data)
+             calendar.addEvent(scheInsertData);
+    	  console.log(scheInsertData)
+    	  console.log(calendar)
+    	  calendar.render();
+    	});
+}   
+   
+  function delSche() {
+      let scheUniNo = $('#noInfo').val();
+      let data = {
+        "scheUniNo": scheUniNo
       }
-    
+
+      console.log(data);
+      fetch("scheDelte", {
+          method: "post",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          navTop.remove();
+        })
+    }
 
     
     

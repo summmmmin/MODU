@@ -40,4 +40,6 @@ public class BmVO {
 	
 	//채팅 방 번호
 	private String chatrNo;
+	
+	//링크 구분 값
 }

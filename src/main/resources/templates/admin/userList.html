@@ -72,8 +72,7 @@
 
 					<!-- Page Heading -->
 					<h1 class="h3 mb-2 text-gray-800">회원 조회</h1>
-					<p class="mb-4">
-					</p>
+					<p class="mb-4"></p>
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
@@ -89,6 +88,7 @@
 											<th>휴대폰</th>
 											<th>등록날짜</th>
 											<th>상태</th>
+											<th>액션</th>
 										</tr>
 									</thead>
 
@@ -102,7 +102,14 @@
 											<td th:text="${user.regDt}"></td>
 											<td><span
 												th:class="${user.quit == 'N'} ? 'badge bg-success' : 'badge bg-danger'"
-												th:text="${user.quit == 'N'} ? 'Active' : 'Inactive'"></span></td>
+												th:text="${user.quit == 'N'} ? '유저' : '탈퇴'"></span></td>
+											<td>
+												<button type="button" class="btn btn-danger ban-button"
+													data-bs-toggle="modal" data-bs-target="#danger"
+													th:data-user-id="${user.id}"
+													th:disabled="${user.quit == 'Y'}">추방</button>
+											</td>
+
 										</tr>
 									</tbody>
 								</table>
@@ -159,29 +166,132 @@
 		class="fas fa-angle-up"></i>
 	</a>
 
-	<script>
-		$(document).on('click', '.user-row', function() {
-			var userId = $(this).data('userId');
-			console.log(userId);
+	<!--추방 theme Modal -->
+	<div class="modal fade text-left" id="danger" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+			role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-danger">
+					<h5 class="modal-title white" id="myModalLabel120">추방</h5>
+					<button type="button" class="close" data-bs-dismiss="modal"
+						aria-label="Close">
+						<i data-feather="x"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					해당 유저 <span id="ban-user-id"></span>를 추방하겠습니까?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-light-secondary"
+						data-bs-dismiss="modal">
+						<i class="bx bx-x d-block d-sm-none"></i> <span
+							class="d-none d-sm-block">취소</span>
+					</button>
+					<button type="button" class="btn btn-danger ml-1" id="confirmQuit"
+						data-bs-dismiss="modal">
+						<i class="bx bx-check d-block d-sm-none"></i> <span
+							class="d-none d-sm-block">추방</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-			// 서버에 유저 정보 요청
-			$.ajax({
-				url : '/modu/admin/userList/' + userId,
-				method : 'POST',
-				dataType : 'json',
-				success : function(data) {
-					$('#userName').text(data.nm);
-					$('#userEmail').text(data.id);
-					$('#userPhone').text(data.phNo);
-					$('#userRegDt').text(data.regDt);
-					$('#userInfoModal').modal('show');
-				},
-				error : function(error) {
-					console.error('에러 : ', error);
-				}
-			});
-		});
+	<script>
+		$(document)
+				.ready(
+						function() {
+							$(".ban-button").on("click", function(event) {
+								event.stopPropagation();
+
+								var userId = $(this).data('user-id');
+								console.log("추방대상 : " + userId);
+
+								$('#confirmQuit').data('user-id', userId);
+								$('#danger').modal('show');
+							});
+							$("#confirmQuit")
+									.on(
+											"click",
+											function(event) {
+												var userId = $(this).data(
+														'user-id');
+
+												$
+														.ajax({
+															url : 'banUser',
+															type : 'POST',
+															data : JSON
+																	.stringify({
+																		id : userId
+																	}),
+															contentType : 'application/json; charset=utf-8',
+															success : function(
+																	response) {
+																alert(userId
+																		+ ' 님이 정상적으로 추방이 되었습니다.');
+																$('#danger')
+																		.modal(
+																				'hide');
+
+																// 해당 사용자 행 찾아서 상태 변경
+																$(
+																		'tr[data-user-id="'
+																				+ userId
+																				+ '"]')
+																		.find(
+																				'.badge')
+																		.removeClass(
+																				'bg-success')
+																		.addClass(
+																				'bg-danger')
+																		.text(
+																				'탈퇴');
+																$(
+																		'tr[data-user-id="'
+																				+ userId
+																				+ '"]')
+																		.find(
+																				'.ban-button')
+																		.attr(
+																				'disabled',
+																				true);
+															},
+															error : function(
+																	request,
+																	message,
+																	error) {
+																alert('오류로 인해 추방할 수 없습니다. 자세한건 로그를 확인하세요.')
+															}
+														});
+											});
+
+							$(document).on('click', '.user-row', function() {
+								var userId = $(this).data('userId');
+								console.log(userId);
+
+								// 서버에 유저 정보 요청
+								$.ajax({
+									url : '/modu/admin/userList/' + userId,
+									method : 'POST',
+									dataType : 'json',
+									success : function(data) {
+										$('#userName').text(data.nm);
+										$('#userEmail').text(data.id);
+										$('#userPhone').text(data.phNo);
+										$('#userRegDt').text(data.regDt);
+										$('#userInfoModal').modal('show');
+									},
+									error : function(error) {
+										console.error('에러 : ', error);
+									}
+								});
+							});
+						});
 	</script>
+
 </body>
 
 </html>

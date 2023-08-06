@@ -12,49 +12,120 @@
 				<h4 class="card-title">즐겨찾기</h4>
 				<hr>
 			</div>
-			<div class="card-content">
-				<table>
-					<tbody id="bmList">
-					</tbody>
-				</table>
-				<div class="card-content" id="bmList"></div>
+			<div class="card-body" id="bmList">
+
 			</div>
+
 		</div>
-		<script th:inline="javascript">
-    $.ajax("bmList")
-    .done(result => {
+	</div>
+		<script>
+		 function formatDate(dateString) {
+		        const date = new Date(dateString);
+		        const year = date.getFullYear();
+		        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+		        const day = date.getDate().toString().padStart(2, '0');
+		        return year + '년 ' + month + '월 ' + day + '일';
+		    }
+		
+		
+    fetch("bmList")
+    .then(response => response.json())
+    .then(result => {
         console.log(result);
         for (let i = 0; i < result.length; i++) {
-            let tr =  $('<tr/>').attr('onclick', 'trHref()');
-						tr.append($('<td/>').text('등록일자 : ' + result[i].regDt))
-                    .append($('<td/>').text('즐겨찾기 번호 : ' + result[i].bmUniNo))
+        	//tr을 생성
+            let tr = document.createElement('div');
+        	tr.classList.add('row');
+        	tr.classList.add('event1');
+        	
+        	// x 버튼 생성
+        	let td = document.createElement('div');
+        	td.classList.add('col-md-2');
+        	let button = document.createElement('button');
+        	button.classList.add('deleteButton','btn');
+        	button.textContent = 'X';
+        	button.addEventListener('click', deleteItem);
+        	td.appendChild(button);
+        	let row = document.createElement('div');
+        	row.classList.add('row', 'd-flex', 'justify-content-end');
+        	row.appendChild(td);
+        	tr.appendChild(row);
+        	td.setAttribute('id','bmuni');
+        	
+        	//tr에 href 함수
+            tr.setAttribute('onclick', 'trHref(event)');
+
             
             if (result[i].brdUniNo != null) {
                 // 게시글 즐겨찾기 일때
-                        tr.append($('<td/>').text(result[i].brdUniNo)).append($('<td/>').text(result[i].division))
-                        .append($('<hr>'))
+                
+                tr.appendChild(createCell(formatDate(result[i].regDt))); //등록 날짜
+                tr.appendChild(createCell(result[i].bmUniNo)); //즐겨찾기 번호
+                tr.appendChild(createCell(result[i].brdUniNo)); //게시판 고유번호
+                tr.appendChild(createCell(result[i].division));
+                tr.appendChild(document.createElement('hr'));
             } else if (result[i].chatrNo != null) {
                 // 채팅 즐겨찾기 일때
-						tr.append($('<td/>').text(result[i].chatrNo)).append($('<td/>').text(result[i].division))
-                        .append($('<hr>'))
+                tr.appendChild(createCell(formatDate(result[i].regDt))); //등록 날짜
+                tr.appendChild(createCell(result[i].bmUniNo)); //즐겨찾기 번호
+                tr.appendChild(createCell(result[i].chatrNo)); //채팅 번호
+                tr.appendChild(createCell(result[i].division));
+                tr.appendChild(document.createElement('hr'));
             } else if (result[i].attNo != null) {
                 // 첨부파일 즐겨찾기 일때
-                        tr.append($('<td/>').text(result[i].attNo)).append($('<td/>').text(result[i].division))
-                        .append($('<hr>'))
+                tr.appendChild(createCell(formatDate(result[i].regDt))); //등록 날짜
+                tr.appendChild(createCell(result[i].bmUniNo)); //즐겨찾기 번호
+                tr.appendChild(createCell(result[i].attNo)); //파일 번호
+                tr.appendChild(createCell(result[i].division));
+                tr.appendChild(document.createElement('hr'));
             }
-             $('#bmList').append(tr)
+            document.getElementById('bmList').appendChild(tr);
+            document.create
         }
     });
-    // append 안에 꾸며주는거 넣기
-	function trHref(){
-		let division = $(event.target).closest('tr').children().eq(3).text();
-		let value = $(event.target).closest('tr').children().eq(2).text();
 
-		if(division == 'A'){
-			location.href='/modu/postList?brdUniNo='+ value;
-		}else if(division == 'B'){
-			location.href='/modu/chat?chatrNo='+ value;
-		}
+    //div 생성
+    function createCell(text) {
+        let td = document.createElement('div');
+        td.classList.add('row');
+        td.textContent = text;
+        return td;
+    }
+
+    // 클릭 이벤트
+    function trHref(event){
+        let division = event.target.closest('.event1').children[3].textContent;
+        let value = event.target.closest('.event1').children[2].textContent;
+        console.log(value);
+
+        if(division == 'A'){
+            window.location.href='/modu/postList?brdUniNo='+ value;
+        }else if(division == 'B'){
+            window.location.href='/modu/chat?chatrNo='+ value;
+        }
+    }
+    
+    
+    
+    // 즐겨찾기 삭제
+    function deleteItem(event) {
+        let bmUniNo = event.target.closest('.event1').children[2].textContent;
+		let del = event.target.closest('.event1');
+        fetch('bmDelete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ bmUniNo : bmUniNo }),
+        })
+            .then(response => response.json())
+            .then(data => {
+            	console.log(data);
+            	del.remove();
+            })
+            .catch(error => {
+                console.error('오류:', error);
+            });
     }
  </script>
 </body>
