@@ -1,6 +1,8 @@
 package com.modu.app.prj.post.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +50,10 @@ public class PostController {
 		BoardVO vo1 = new BoardVO();
 		vo1.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 		vo1.setBrdUniNo(brdUniNo);
-		
+		List<BoardVO> list = boardService.superShy(vo1);
+		List<BoardVO> list2 = boardService.BoardList(vo1);
+		model.addAttribute("superShy",list);
+		model.addAttribute("aaa",list2);
 		model.addAttribute("checkNM", boardService.brdNm(vo1));
 		model.addAttribute("particiBrd",boardService.particiBrd(vo1));
 		return "post/postList";
