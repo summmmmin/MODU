@@ -67,6 +67,11 @@ th {
 			<div id="content">
 				<nav
 					class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+					<div class="ml-auto">
+						<a class="navbar-brand" th:href="@{/}"> <span
+							class="fw-bolder text-primary">MODU</span>
+						</a>
+					</div>
 				</nav>
 				<div class="container-fluid">
 					<h1 class="h3 mb-2 text-gray-800">결제 내역</h1>
@@ -90,7 +95,8 @@ th {
 										<tr th:each="pay : ${payTable}">
 											<td class="left-aligned" th:text="${pay.prjNm}"></td>
 											<td class="left-aligned" th:text="${pay.name}"></td>
-											<td class="center-aligned" th:text="${#dates.format(pay.payDt, 'yyyy-MM-dd')}"></td>
+											<td class="center-aligned"
+												th:text="${#dates.format(pay.payDt, 'yyyy-MM-dd')}"></td>
 											<td class="center-aligned" th:text="${pay.exdt}"></td>
 											<td class="right-aligned" th:text="${pay.payWay}"></td>
 											<td class="right-aligned" th:text="${pay.payAmt}"></td>
