@@ -95,7 +95,7 @@
           	유료/무료
           </p>
           <p th:text="${prj.cd}">등급</p>
-          <p>프로젝트 이메일 : <span th:text="${prj.prjPubcId}? ${prj.prjPubcId} : ' '"></span></p>
+          <p>프로젝트 이메일 : <span th:text="${prj.prjPubcId}? ${prj.prjPubcId} : ' '" class="pubmail"></span></p>
         </div>
       </div>
 	  
@@ -276,6 +276,7 @@
  		  })
  		  .then((response) => response.json())
  		  .then((result) => {
+ 			 document.querySelector('#'+prjNo).parentElement.parentElement.parentElement.querySelector('.pubmail').textContent = email
  		  })
  		  .catch((error) => {
  		    console.error("Error:", error);
