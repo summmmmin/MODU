@@ -147,14 +147,14 @@
 				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h4 class="modal-title" id="myModalLabel33">채팅방 생성</h4>
+							<h4 class="modal-title" id="myModalLabel33">채팅 초대</h4>
 							<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 								<i data-feather="x"></i>
 							</button>
 						</div>
 						<form action="makeChatr" method="POST" id="FormEvent">
 							<div class="modal-body">
-								<h5>채팅 초대</h5>
+							
 								<div class="form-group">
 									<input id="addChartNm" name="chartNm" type="text" class="form-control" style="display: none"> <input
 										id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}" type="text" class="form-control"
@@ -366,10 +366,10 @@
 				let prjUniNo = '[[${session.prjUniNo}]]';
 
 				fetch("/modu/leaveChatr/" + chatMemb)
-					.then(resolve => resolve.json())
+					//.then(resolve => resolve.json())
 					.then(data => {
 						//console.log(data);
-						window.location.href = '/modu/main?prjUniNo=' + prjUniNo;
+						window.location.href = "/modu/main?prjUniNo="+prjUniNo;
 					})
 					.catch(err => console.log(err))
 			})
