@@ -40,10 +40,18 @@ public class ScheController {
 		return "sche/scheList";
 	}
 	
+	@GetMapping("scheListFetch")
+	@ResponseBody
+	public Map<String, Object> scheListFetch(HttpSession session) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("scheList",scheService.scheList((String) session.getAttribute("prjUniNo")));
+		return map;
+	}
+	
 	//단건조회
 	@GetMapping("scheInfo/{scheUniNo}")
 	@ResponseBody
-	public Map<String, Object> scheInfo(@PathVariable String scheUniNo,Model model,HttpSession session) {
+	public Map<String, Object> scheInfo(@PathVariable String scheUniNo,HttpSession session) {
 		Map<String, Object> map = new HashMap<>();
 		
 		ScheVO vo = new ScheVO();
@@ -90,7 +98,7 @@ public class ScheController {
 	   //일정 등록
 	   @PostMapping("scheInsert")
 	   @ResponseBody
-	   public String scheInsert(HttpSession session, @RequestBody ScheVO vo) {
+	   public ScheVO scheInsert(HttpSession session, @RequestBody ScheVO vo) {
 	      
 		  //일정 등록 사람
 		  vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
@@ -110,7 +118,7 @@ public class ScheController {
 	    	  scheService.scheInsertPartici(scheVO);
 	      }
 	      }
-	      return "111"; 
+	      return  vo;
 	      
 	   }
 	   

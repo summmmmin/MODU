@@ -104,7 +104,6 @@ margin-left:5px;}
 		
 		
 		function todoInsert(){
-			console.log("111111111111111");
 				 var formData = $("#todoForm").serialize();	
 				 
 				 var otherdata = {
@@ -149,18 +148,23 @@ margin-left:5px;}
 	               })
 	               .then(result => result.json())
 	               .then(data => {
-	            	   console.log(data);
 	            	   todoList();
 	            	   
 			//할 일 생성 알람 (성현)
  			armClient.publish({
-				destination: "/pubArm/todo/"+particiMembUniNo,
+				destination: "/pubArm/todo/"+mgr,
 				body: JSON.stringify({
-					'particiMembUniNo' : particiMembUniNo
+					'particiMembUniNo' : mgr
+				})
+		});
+ 			armClient.publish({
+				destination: "/pubArm/todo/"+cm,
+				body: JSON.stringify({
+					'particiMembUniNo' : cm
 				})
 		});
 	            	   
-	               })
+	      })
 		}
 		
 		

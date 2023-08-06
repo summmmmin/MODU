@@ -111,7 +111,6 @@ margin-left:5px;}
 		
 		function todoUpdate(){
 		let file = document.getElementById('todoFile').files[0];
-		console.log(file);
 		let toNo = $('#tno').val()
 		let mgr =$("#mgr option:selected").val();
 		let cm =$("#cm option:selected").val();
@@ -153,7 +152,7 @@ margin-left:5px;}
 				 formD.append("toDt",lastDate);
 				 formD.append("todoUniNo",toNo);
 		
-				 console.log(formD)
+
 				 
 				   fetch("updateTodo",{
 	                  method : 'POST',
@@ -161,7 +160,6 @@ margin-left:5px;}
 	               })
 	               .then(result => result.json())
 	               .then(data => {
-	            	   console.log(data);
 	            	   todoList();
 	               })
 		}
@@ -170,15 +168,16 @@ margin-left:5px;}
 		
 		//input타입 date를 클릭했을때 나온는 달력에서 선택한 날짜 이전을 막는 구절
 		var date34 = document.getElementById("Date1")
-			function dateChange3(){
-				console.log(document.getElementById("Date1").value)
+		
+
+		document.getElementById("lastDate1").setAttribute("min", [[${todoInfo.frDt}]].slice(0, 11).trim()); 
+		function dateChange3(){
 				document.getElementById("lastDate1").setAttribute("min", date34.value); 
 			}
 		
 		function deleteAtt(e){
 			let attLi = e.target.closest('LI');
 			let attNo = e.target.dataset.attno;
-			console.log(attNo);
 			//업로드된파일삭제
 			fetch("/modu/removeFile", {
 			method: 'post',

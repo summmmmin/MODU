@@ -47,15 +47,15 @@
 								</div>
 							</div>
 						</div>
-
+						<p style="color:red; display:none;" id="red5">시작날짜와 마감날짜를 모두 입력해주세요.</p>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-light-secondary"
 								data-bs-dismiss="modal">
 								<i class="bx bx-x d-block d-sm-none"></i> <span
 									class="d-none d-sm-block">취소</span>
 							</button>
-							<button type="button" onclick="updateSche()"
-								class="btn btn-primary ml-1" data-bs-dismiss="modal">
+							<button type="button" onclick="updateSche()" id="updateScheId"
+								class="btn btn-primary ml-1" >
 								<i class="bx bx-check d-block d-sm-none"></i> <span
 									class="d-none d-sm-block">수정하기</span>
 							</button>
@@ -73,7 +73,7 @@
 				console.log( schUpdateStart.slice(0, 16));
 				document.getElementById('33').value = schUpdateStart.slice(0, 16);
    				document.getElementById('44').value = schUpdateEnd.slice(0,16); 
-   				
+   				document.getElementById('44').setAttribute("min",document.getElementById('33').value);
 				let initChoice = new Choices(document.querySelector('.asdfdsfasdf'),
 					      {
 					        delimiter: ',',
@@ -99,6 +99,18 @@
 			   	"particiMembUniNos": $("#cm1 option:selected").map(function(){ return $(this).val(); }).get()
 			   	}
 			   	
+			   	let ttl = document.getElementById('11');
+			   	let start =  document.getElementById('33');
+			   	let end =  document.getElementById('44');
+			   	
+				if(ttl.value == ''){
+					ttl.placeholder = "제목을 입력하시지 않으셨습니다."
+					return;
+				}else if(start.value == '' || end .value == ''){
+					$('#red5').show();
+					 return;
+				}
+			   	
 			       fetch("scheUpdate", {
 			           method: 'post',
 			           headers: {
@@ -109,6 +121,7 @@
 			       .then(result => result.json())
 			       .then(data => {
 			           console.log(data);
+			           $("#scheUpdate").modal("hide");
 			       })
 			   	
 			   	

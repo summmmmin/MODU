@@ -278,7 +278,10 @@
              		"toDt":document.getElementById("secondTodt").value,
              		"voteNo":a
              	}; 
-             	console.log(data2);
+             	
+             	if (document.getElementById("secondTodt").value == ''){
+             		return;
+             	}
              		
      			fetch("voteUpdate/"+a, {
      				method : "post",
@@ -289,7 +292,6 @@
      			})
      			.then((response) => response.json())
      			.then((result) => {
-     			console.log(result);
      			voteList();
      			 })
              }
@@ -298,10 +300,8 @@
              
              
              function delVote(){
-             	
-                 let a =[[${voteInfo.voteNo}]];
-                 
-                 let data={'voteNo': a};
+             	      
+                let data={'voteNo': '[[${voteInfo.voteNo}]]'};
                  
      			fetch("voteDelte", {
      				method : "delete",
@@ -312,7 +312,6 @@
      			})
      			.then((response) => response.json())
      			.then((result) => {
-     			console.log(result);
      			voteList();
      			 })
                  }
@@ -344,9 +343,9 @@
 			fetch("voteInfo/"+[[${voteInfo.voteNo}]],options)
 				.then(response => response.json())
 			    .then(data => {
-			    	console.log(data);
+
 			    	let vno = data.voteNo
-			    	console.log(vno);
+
 			    	
 			    	 $.ajax("voteInfo/"+vno)
 			 		.done(result =>{
@@ -368,15 +367,22 @@
 
         //--------------------------------------------투표 수정하기
         
-        let now_utc = Date.now()
-		let timeOff = new Date().getTimezoneOffset()*60000;
-		let today33 = new Date(now_utc-timeOff).toISOString().split("T")[0]
-        
-        let firstDate = document.getElementById("firstTodt")
-        let secondDate = document.getElementById("secondTodt")
-      
+      	//오늘날짜 구하기
+    	var now_utc = Date.now();
 
-		 secondDate.setAttribute("min", today33); 
+    	// getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환
+    	var timeOff = new Date().getTimezoneOffset() * 60000; // 분 단위를 밀리초로 변환
+    	
+    	// 현재 시간에서 타임오프를 빼서 현재 지역의 날짜를 구하기
+    	var localDate = new Date(now_utc - timeOff);
+    	
+    	// 내일 날짜 구하기
+    	var tomorrow = new Date(localDate);
+    	tomorrow.setDate(localDate.getDate() + 1);
+    	
+    	// 내일의 날짜를 YYYY-MM-DD 형식으로 가져오기
+    	var tomorrowISOString = tomorrow.toISOString().split("T")[0];
+    		document.getElementById('secondTodt').setAttribute("min", tomorrowISOString); 
         
  
         $('#deleteVote').appendTo("body")

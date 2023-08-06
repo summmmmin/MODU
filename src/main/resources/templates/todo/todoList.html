@@ -62,7 +62,6 @@
 		
  		function todoInfo(){
  			let tid = event.target.closest('div').id;
- 			console.log(tid)
  			 $.ajax("todoInfo/"+tid)
  			.done(result =>{
  				$("#rsidebarContent").html(result);

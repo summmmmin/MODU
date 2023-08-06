@@ -39,7 +39,7 @@
 
 
 	<script th:inline="javascript">
-
+	//씨앗회원을 위한 툴팁 뽑아내기
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
@@ -64,8 +64,6 @@
 	//투표 리스트 뽑기
 	$.ajax("voteList")
 	.done(result=>{
-		console.log(result.count); //투표 참가자수
-		console.log(result.list); // 투표 리스트
 		
 		
 	for(let i=0; i<result.list.length; i++){
@@ -101,7 +99,6 @@
 	//투표 상세로 가기
  	function voteInfo(){
 		let vid = event.target.closest('div').id;
-		console.log(vid)
 		 $.ajax("voteInfo/"+vid)
 		.done(result =>{
 			$("#rsidebarContent").html
