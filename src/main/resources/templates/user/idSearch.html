@@ -76,25 +76,46 @@
             });
         }
 
-        $('#sendVerificationCode').on('click', function () {
-            var phoneNumber = $('input[name="phone"]').val();
-            var dataToSend = {
-                to: phoneNumber
-            };
+        $('#sendVerificationCode').on('click', function() {
+            var name = $('#name').val();
+            var phone = $('#phone').val();
+            console.log(name);
+            console.log(phone);
+
+            // 먼저 idSearch를 호출하여 아이디 존재 여부 확인
             $.ajax({
-                url: 'send',
+                url: 'idSearch',
                 type: 'POST',
-                data: JSON.stringify(dataToSend),
-                contentType: 'application/json',
-                success: function (response) {
-                    alert("인증번호가 발송되었습니다.");
+                data: { name: name, phone: phone },
+                success: function(response) {
+                    if (response.startsWith("회원님의 아이디는")) {
+                        $.ajax({
+                            url: 'send',
+                            type: 'POST',
+                            data: JSON.stringify({ to: phone }), 
+                            contentType: 'application/json',
+                            success: function (response) {
+                                alert("인증번호가 발송되었습니다.");
+                            },
+                            error: function (xhr, status, error) {
+                                alert("하이픈('-')없이 숫자만 입력해주세요.");
+                                console.error('에러 : ', error);
+                            }
+                        });
+                    } else {
+                        alert(response); 
+                    }
                 },
-                error: function (xhr, status, error) {
-                    alert("하이픈('-')없이 숫자만 입력해주세요.");
+                error: function(xhr, status, error) {
                     console.error('에러 : ', error);
+                    alert('서버 오류가 발생했습니다. 다시 시도해 주세요.');
                 }
             });
         });
+
+
+
+
 
         $('#verifyButton').on('click', function () {
             verifySmsCode(true).then(isSmsVerified => {
@@ -116,7 +137,7 @@
                     type: 'POST',
                     data: { name: name, phone: phone },
                     success: function (response) {
-                        alert("아이디를 찾았습니다! " + response);
+                        alert(response);
                     },
                     error: function (xhr, status, error) {
                         console.error('에러 : ', error);

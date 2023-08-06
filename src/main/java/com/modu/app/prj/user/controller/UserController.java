@@ -187,7 +187,7 @@ public class UserController {
 			if (id == null) {
 				return "아이디가 존재하지 않습니다.";
 			} else {
-				return "아이디: " + id; // 아이디 값을 반환하도록 수정
+				return "회원님의 아이디는 " + id + " 입니다."; // 아이디 값을 반환하도록 수정
 			}
 		} catch (Exception e) {
 			return "서버 오류가 발생했습니다." + e;
