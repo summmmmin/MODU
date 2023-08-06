@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modu.app.prj.pay.service.PayService;
+import com.modu.app.prj.pay.service.PayVO;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
@@ -43,4 +45,16 @@ public class PayController {
 		
 	}
 	
+	// 결제성공
+	@GetMapping("payment/success")
+	public String successPay(@RequestParam("pg_token") String pgToken, Model model){
+		System.out.println("ㅠㅠ");
+		PayVO kakaoApprove = payService.approveResponse(pgToken);
+		System.out.println(kakaoApprove);
+		// 성공시 db에 insert
+		payService.insertPay(kakaoApprove);
+		model.addAttribute("info", kakaoApprove);
+		// 결제완료페이지로
+		return "prj/success";
+	}
 }
