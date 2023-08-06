@@ -199,12 +199,15 @@ public class PrjRestController {
 	// 프로젝트 참여자 정보 수정
 	@PostMapping("updateParticiMembInfo")
 	public String updateMemInfo(String prjNo, @RequestBody PrjVO vo, HttpSession session) {
-		PrjVO prj = new PrjVO();
-		prj.setPrjUniNo(prjNo);
-		prj.setMembUniNo(((UserVO) session.getAttribute("user")).getMembUniNo());
-		// vo에 조회한 회원 정보 담기
-		prj = prjService.getMemInfo(prj);
-		vo.setParticiMembUniNo(prj.getParticiMembUniNo()); 
+		if(vo.getParticiMembUniNo() == null) {
+			PrjVO prj = new PrjVO();
+			prj.setPrjUniNo(prjNo);
+			prj.setMembUniNo(((UserVO) session.getAttribute("user")).getMembUniNo());
+			// vo에 조회한 회원 정보 담기
+			prj = prjService.getMemInfo(prj);
+			vo.setParticiMembUniNo(prj.getParticiMembUniNo()); 			
+		}
+		System.out.println(vo);
 		prjService.updateParticiInfo(vo);
 		return "1";
 	}
