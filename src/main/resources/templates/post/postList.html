@@ -182,9 +182,9 @@
 										<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 								</div>
 									<hr>
-								<div class="card-body" >
+								<!-- <div class="card-body" > -->
 									<div th:data-postUniNo="${post.postUniNo}" class="row replyPlace"></div>
-								</div>
+								<!-- </div> -->
 									<hr>
 								<div class="form-group position-relative has-icon-right">
 									<input name="replyUniNo" type="hidden" class="replyInput form-control" id="replyId"> 
@@ -299,6 +299,15 @@
 				
 			<!--end of MODALS -->
 		<script>
+		
+		// 개행처리?
+		 document.addEventListener('DOMContentLoaded', function() {
+		        let cmPlaceElement = document.querySelector('.cmPlace');
+		        let cmText = cmPlaceElement.textContent; 
+
+		        let replacedText = cmText.replace(/\n/g, '<br>');
+		        cmPlaceElement.innerHTML = replacedText;
+		    });
 				//댓글리스트
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
