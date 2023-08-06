@@ -24,16 +24,24 @@ body {
 <body>
 	<div class="card">
 		<div class="card-header">
-			<h4 class="card-title">할일</h4>
-			<hr>
+			<div class="d-flex mb-2">
+					<div class="me-auto">
+						<h3>
+							<i class="bi bi-arrow-left backVote" onclick="todoList()"></i>
+						</h3>
+					</div>
+					<div>
+						<h4 class="card-title">할일</h4>
+					</div>
+				</div>
+				<hr>
 		</div>
 		<div class="card-content">
 			<div class="card-body" id="todo">
-				<p class="card-text">
-				<div th:if="${mgrCheck.mgr == session.particiMembUniNo}">
+				<div class="d-flex justify-content-end" th:if="${mgrCheck.mgr == session.particiMembUniNo}">
 					<button class="btn btn-primary dropdown-toggle me-1" type="button"
 						id="dropdownMenuButton" data-bs-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false">...</button>
+						aria-haspopup="true" aria-expanded="false"></button>
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 						<a class="dropdown-item" onclick="updateTodo()">수정</a> <a
 							class="dropdown-item" data-bs-toggle="modal"
@@ -43,7 +51,7 @@ body {
 				<div class="card-content pb-4">
 					<div class="recent-message d-flex px-4 py-3">
 						<div class="avatar avatar-lg">
-							<h5 class="mb-1">[[${todoInfo.ttl}]]</h5>
+							<h3 class="mb-1">[[${todoInfo.ttl}]]</h3>
 							<div th:if="${mgrCheck.mgr == session.particiMembUniNo}">
 							<div class="name ms-4">
 								<select class="form-select" id="pct" onclick="pctChange()">
@@ -61,13 +69,10 @@ body {
 								<div></div>
 							</div>
 						</div>
-						<div class="name ms-4">
-							<h6 class="text-muted mb-0"></h6>
-						</div>
 					</div>
 					<div class="recent-message d-flex px-4 py-3">
 						<div class="avatar avatar-lg">
-							<h5 class="mb-1">담당자</h5>
+							<h6 class="mb-1">담당자</h6>
 						</div>
 						<div class="name ms-4">
 							<h6 class="text-muted mb-0">[[${todoInfo.mgr}]]</h6>
@@ -75,7 +80,7 @@ body {
 					</div>
 					<div class="recent-message d-flex px-4 py-3">
 						<div class="avatar avatar-lg">
-							<h5 class="mb-1">참가자</h5>
+							<h6 class="mb-1">참가자</h6>
 						</div>
 						<div class="name ms-4">
 							<h6 class="text-muted mb-0">[[${todoInfo.cm}]]</h6>
