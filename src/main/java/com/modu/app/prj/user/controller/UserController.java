@@ -163,7 +163,7 @@ public class UserController {
 			return "redirect:/login";
 		} else {
 			ra.addFlashAttribute("message", "계정 활성화에 실패했습니다. 잘못된 접근이거나 만료된 인증 링크입니다.");
-			return "redirect:/signup";
+			return "redirect:/login";
 		}
 	}
 

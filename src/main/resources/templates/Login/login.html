@@ -28,9 +28,12 @@
 				<div id="auth-left">
 					<div class="auth-logo">
 						<a class="navbar-brand" th:href="@{/}"><span
-					class="fw-bolder text-primary">MODU</span></a>
+							class="fw-bolder text-primary">MODU</span></a>
 					</div>
 					<h1 class="auth-title">로그인</h1>
+
+					<div th:if="${message}" th:text="${message}" th:remove="all"
+						id="serverMessage"></div>
 
 					<form th:action="@{/login}" method="post" id="loginForm">
 						<div class="form-group position-relative has-icon-left mb-4">
@@ -80,11 +83,11 @@
 							</p>
 						</div>
 					</form>
-						<button class="social_login" id="kakao">카카오로그인</button>
-						<button class="social_login" id="naver">네이버로그인</button>
+					<button class="social_login" id="kakao">카카오로그인</button>
+					<button class="social_login" id="naver">네이버로그인</button>
 				</div>
 			</div>
-			<div class="col-lg-7 d-none d-lg-block"> 
+			<div class="col-lg-7 d-none d-lg-block">
 				<div id="auth-right"></div>
 			</div>
 		</div>
@@ -139,27 +142,13 @@
 			var popupOptions = "width=500,height=300,top=100,left=100,scrollbars=1";
 			window.open(popupURL, "idSearch", popupOptions);
 		}
+		
+		// 이메일 활성화 alert
+		var message = /*[[${message}]]*/ "";
+        if (message !== "") {
+            alert(message);
+        }
 
-		// 이메일 인증 요구
-		/* 		var id = $("input[name='username']").val();
-
-		 $.ajax({
-		 url : 'emailAuth',
-		 type : 'POST',
-		 data : JSON.stringify(id),
-		 contentType : 'application/json',
-		 success : function(response) {
-		 if (response) {
-		 $("#emailAuthMessage").html(response);
-		 alert("메일함을 확인하여 계정을 활성화 해주세요.")
-		 } else {
-		 $("#loginForm")[0].submit();
-		 }
-		 },
-		 error : function(xhr, status, error) {
-		 console.error("AJAX 요청 에러:", error);
-		 }
-		 }); */
 	</script>
 </body>
 </html>
