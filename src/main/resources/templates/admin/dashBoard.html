@@ -103,7 +103,7 @@
 											<div
 												class="text-xs font-weight-bold text-warning text-uppercase mb-1">
 												총 결제 금액</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800"
+											<div class="h5 mb-0 font-weight-bold text-gray-800" id="totalPayValue"
 												th:inline="text">[[${totalPay}]]원</div>
 										</div>
 										<div class="col-auto">
@@ -169,6 +169,15 @@
 	<script src="../assets/js/demo/chart-pie-demo.js"></script>
 	<script>
 	
+	
+	// 총 결제금액 포맷ㄱ
+	function numberWithCommas(x) {
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	
+	 var totalPayValue = Number($("#totalPayValue").text().replace(/[^0-9]/g, '')); // 숫자만 추출하여 변환
+	    $("#totalPayValue").text(numberWithCommas(totalPayValue) + '원');
+	
 	function getMonthlyNewUsersData() {
 	    $.ajax({
 	        url: '/modu/admin/dashBoard/monthlyNewUsersCount', 
@@ -212,6 +221,7 @@
 	    });
 	}
 	getMonthlyNewUsersData();
+
 	</script>
 </body>
 
