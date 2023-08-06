@@ -3,15 +3,13 @@ package com.modu.app.prj.pay.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.modu.app.prj.pay.service.PayService;
 import com.modu.app.prj.pay.service.PayVO;
@@ -37,12 +35,13 @@ public class KakaoPayController {
 	
 	// 결제성공
 	@GetMapping("/success")
-	public RedirectView successPay(@RequestParam("pg_token") String pgToken){
+	public String successPay(@RequestParam("pg_token") String pgToken, Model model){
 		PayVO kakaoApprove = payService.approveResponse(pgToken);
-		ResponseEntity<PayVO> res = new ResponseEntity<>(kakaoApprove, HttpStatus.OK);
+		// 성공시 db에 insert
 		payService.insertPay(kakaoApprove);
-		
-		return new RedirectView("/modu/billing/Success");
+		model.addAttribute("info", kakaoApprove);
+		// 결제완료페이지로
+		return "prj/success";
 	}
 	
 	// 결제 진행 중 취소
