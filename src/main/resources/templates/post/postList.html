@@ -51,8 +51,8 @@
 <div class="modal-body checkboxmodal">
 <h5>게시판 이름</h5>
 <div class="form-group">
-<input id="boardNm" name="boardNm" type="text" placeholder="변경 하실 이름을 입력해주세요." class="form-control">
-<span id="charCount" style="color: red;"></span>
+<input id="modifyNm" name="boardNm" type="text" placeholder="변경 하실 이름을 입력해주세요." class="form-control">
+<span id="charCount1" style="color: red;"></span>
 </div>
 <div class="form-group">
 <h6>공개여부</h6>
@@ -700,7 +700,7 @@ function PostBm(){
 			'postUniNo' : postNo,
 			'brdUniNo' : '[[${brdUniNo}]]'};
 	
-	fetch('/modu/BmInsert',{
+	fetch('BmInsert',{
 		method:'POST',
 		headers : {
 			'content-type' : 'application/json'
@@ -714,7 +714,7 @@ function PostBm(){
 }
 // 게시글 즐겨찾기
 function insertBrd(){
-	fetch('/modu/BmInsert',{
+	fetch('BmInsert',{
 		method:'POST',
 		headers : {
 			'content-type' : 'application/json'
@@ -784,12 +784,13 @@ function BrdDelete(){
 	.catch(err => console.log(err))
 }
 //========================== 게시판 삭제 끝  ========================== // 
+
 //========================== 게시판 업데이트  ========================== //
 function BrdUpdate() {
 	//게시판 번호 찾아오기
 	let brdNo = document.getElementById('brdNo').textContent;
 		
-	let brdNm = document.getElementById('boardNm').value;
+	let brdNm = document.getElementById('modifyNm').value;
 	
   // CheckBox 값 여부(공개 비공개 여부)
   let check1 = document.querySelector('#checkbox1');
@@ -799,6 +800,9 @@ function BrdUpdate() {
   } else {
     checkOk1 = '';
   }
+  
+  console.log(brdNm);
+  
   fetch("/modu/BrdUpdate", {
     method: 'POST',
     headers: {
@@ -816,7 +820,8 @@ function BrdUpdate() {
   .catch(err => console.log(err));
 }
 //========================== 게시판 업데이트 끗  ========================== //
-//========================== 회원 초대 뭐시기  ========================== //
+
+//========================== 회원 초대 뭐시깽  ========================== //
 new Choices(document.querySelector('.particiList'));
 function particiInsert(){
 	let particidata ={
@@ -833,7 +838,12 @@ function particiInsert(){
 	.then(result => result.json())
 	.then(data => {
 		//여기 초대 된 사람들 Arm 띄우기
-		//비공개 게시판 별 멤버 리스트 띄우기
+		armClient.publish({
+	        destination: "/pubArm/tag/" + particiMembUniNo,
+	        body: JSON.stringify({
+	          'particiMembUniNo': particidata,
+	        })
+	      });
 	})
 }
 //투표 상세로 가기
@@ -848,34 +858,34 @@ function particiInsert(){
 </script>
 
 <script>
-    const boardNmInput = document.getElementById('boardNm');
-    const charCountSpan = document.getElementById('charCount');
-    const maxCharCount = 10; // 최대 글자 수 설정
+    const boardNmInput1 = document.getElementById('modifyNm');
+    const charCountSpan1 = document.getElementById('charCount1');
+    const maxCharCount1 = 10; // 최대 글자 수 설정
+	
+    function updateValidation1() {
+        const currentCharCount = boardNmInput1.value.length;
+        charCountSpan1.textContent = `${currentCharCount}/${maxCharCount1}`;
 
-    function updateValidation() {
-        const currentCharCount = boardNmInput.value.length;
-        charCountSpan.textContent = `${currentCharCount}/${maxCharCount}`;
-
-        if (currentCharCount > maxCharCount) {
-            charCountSpan.style.color = 'red';
-            boardNmInput.setCustomValidity(`글자 수는 ${maxCharCount}자를 초과할 수 없습니다.`);
-            boardNmInput.classList.add('is-invalid');
+        if (currentCharCount > maxCharCount1) {
+            charCountSpan1.style.color = 'red';
+            boardNmInput1.setCustomValidity(`글자 수는 ${maxCharCount1}자를 초과할 수 없습니다.`);
+            boardNmInput1.classList.add('is-invalid');
             document.getElementById('formbtn').disabled = true;
         } else {
-            charCountSpan.style.color = '';
-            boardNmInput.setCustomValidity('');
-            boardNmInput.classList.remove('is-invalid');
+            charCountSpan1.style.color = '';
+            boardNmInput1.setCustomValidity('');
+            boardNmInput1.classList.remove('is-invalid');
             document.getElementById('formbtn').disabled = false;
         }
     }
 
-    boardNmInput.addEventListener('input', function() {
-        updateValidation();
+    boardNmInput1.addEventListener('input', function() {
+        updateValidation1();
     });
 
-    document.querySelector("#FormEvent").addEventListener("submit", function(e) {
+    document.querySelector("#formbtn").addEventListener("submit", function(e) {
         // 조건 충족하지 않을 때 submit 막기
-        if (!boardNmInput.checkValidity()) {
+        if (!boardNmInput1.checkValidity()) {
             e.preventDefault();
         }
     });

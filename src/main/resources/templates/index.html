@@ -102,6 +102,21 @@
 			<div class="toast-body">새로운 게시판이 생성 됐습니다.</div>
 		</div>
 	</div>
+	
+	<!-- ==============비공개 게시판 초대 알림 Toast ============== -->
+		<div class="toast-container position-fixed bottom-0 end-0 p-3"
+		style="z-index: 1050;">
+		<div id="particiArm" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				<!--  <img src="..." class="rounded me-2" alt="...">-->
+				<strong class="me-auto">비공개 게시판 초대 알림</strong> <small>방금 전</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">게시판에 초대 돼셨습니다.</div>
+		</div>
+	</div>
 
 
 	<div id="app">
@@ -347,7 +362,7 @@
 											<i class="bx bx-x d-block d-sm-none"></i> <span
 												class="d-none d-sm-block">닫기</span>
 										</button>
-										<button id="formbtn" type="button"
+										<button id="formbtn1" type="button"
 											class="btn btn-primary ml-1" data-bs-dismiss="modal"
 											onclick="addBoard()">
 											<i class="bx bx-check d-block d-sm-none"></i> <span
@@ -490,6 +505,10 @@
 			checkOk = '';
 		}
 		checkbox.value
+		
+		console.log(boardNm.value);
+		console.log(boardNm);
+		
 		fetch("/modu/InsertBoardBm",{
 			method : 'POST',
 			headers:{
@@ -708,6 +727,11 @@
 	    armClient.subscribe('/subArm/todo/' + particiMembUniNo, (armMsg) => {
 		      todoArm(JSON.parse(armMsg.body));
 		    });
+	 
+	// 구독(비공개 게시판 초대)
+	    armClient.subscribe('/subArm/partici/' + particiMembUniNo, (armMsg) => {
+	    	particiArm(JSON.parse(armMsg.body));
+		    });
 	  };
 
 	//에러
@@ -744,6 +768,13 @@
 	//할 일 작성 시 보내 줄 Toast알람 
 	function todoArm(arm) {
 		const todoToast = document.getElementById('todoArm');
+		 const toast = new bootstrap.Toast(todoToast)
+		    toast.show()
+	  }
+	
+	//비공개 게시판 초대 시 보내 줄 Toast알람 
+	function particiArm(arm) {
+		const particiToast = document.getElementById('particiArm');
 		 const toast = new bootstrap.Toast(todoToast)
 		    toast.show()
 	  }
@@ -792,12 +823,12 @@
             charCountSpan.style.color = 'red';
             boardNmInput.setCustomValidity(`글자 수는 ${maxCharCount}자를 초과할 수 없습니다.`);
             boardNmInput.classList.add('is-invalid');
-            document.getElementById('formbtn').disabled = true;
+            document.getElementById('formbtn1').disabled = true;
         } else {
             charCountSpan.style.color = '';
             boardNmInput.setCustomValidity('');
             boardNmInput.classList.remove('is-invalid');
-            document.getElementById('formbtn').disabled = false;
+            document.getElementById('formbtn1').disabled = false;
         }
     }
 

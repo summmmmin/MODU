@@ -35,8 +35,37 @@
 	
 	<!-- 채팅,댓글,파일 즐겨찾기 리스트 -->
 	<select id="BmList" resultType="BmVO" parameterType="BmVO">
-	SELECT * from bm
-	WHERE partici_memb_uni_no = #{particiMembUniNo}
+		SELECT
+		    bm.bm_uni_no,
+		    bm.reg_dt,
+		    bm.partici_memb_uni_no,
+		    find_nickname(bm.partici_memb_uni_no) bmnick,
+		    bm.post_uni_no,
+		    post.ttl,
+		    find_nickname(post.partici_memb_uni_no) postnick,
+		    bm.att_no,
+		    att.att_nm,
+		    find_nickname(att.partici_memb_uni_no) attnick,
+		    bm.chat_no,
+		    chat.cntn,
+		    find_nickname(chatr_partici.partici_memb_uni_no) chatnick,
+		    chat.chatr_no,
+		    post.ttl,
+		    brd.board_nm,
+		    brd.pubc_yn,
+		    brd.prj_uni_no,   
+		    brd.brd_uni_no,
+		    bm.division   
+		FROM
+		    bm
+		LEFT OUTER JOIN post ON bm.post_uni_no = post.post_uni_no
+		LEFT OUTER JOIN att ON att.att_no = bm.att_no
+		LEFT OUTER JOIN chat ON bm.chat_no = chat.chat_no
+		LEFT OUTER JOIN brd ON bm.brd_uni_no = brd.brd_uni_no
+		LEFT OUTER JOIN chatr_partici ON chatr_partici.chat_partici_memb_uni_no = chat.chat_partici_memb_uni_no
+		
+		WHERE
+		    bm.partici_memb_uni_no = #{particiMembUniNo}
 	</select>
 	
 	<select id="BmCount" resultType="int" parameterType="BmVO">

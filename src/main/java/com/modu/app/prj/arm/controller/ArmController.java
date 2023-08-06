@@ -67,5 +67,11 @@ public class ArmController {
 	public void particiarm(ArmVO vo, @DestinationVariable String memno) throws Exception {
 		messagingTemplate.convertAndSend("/subArm/partici/" + memno, vo);
 	}
+	
+	// 게시글 태그 알림
+	@MessageMapping("/tag/{memno}")
+	public void tagarm(ArmVO vo, @DestinationVariable String memno) throws Exception {
+		messagingTemplate.convertAndSend("/subArm/tag/" + memno, vo);
+	}
 
 }

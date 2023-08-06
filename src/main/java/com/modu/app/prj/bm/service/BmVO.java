@@ -41,5 +41,22 @@ public class BmVO {
 	//채팅 방 번호
 	private String chatrNo;
 	
-	//링크 구분 값
+	//닉네임
+	private String nnm;
+	
+	//게시글 제목
+	private String ttl;
+	
+	//닉네임
+	private String postNick;
+	
+	//내용
+	private String cntn;
+	
+	private String chatNick;
+	
+	private String bmNick;
+	
+	private String attNick;
+	
 }
