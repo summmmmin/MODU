@@ -20,128 +20,130 @@
   <body>
     <div class="page-content">
       <section class="row">
-        <div class="row">
-          <div class="col-6 col-lg-3 col-md-6">
-            <div class="card mx-2">
-              <div class="card-body px-3 py-4-5">
-                <div class="row">
-                  <div class="col-md-4">
-                    <div class="stats-icon blue">
-                      <i class="iconly-boldProfile"></i>
-                    </div>
-                  </div>
-                  <div class="col-md-8 text-center">
-                    <h6 class="text-muted font-semibold">팀원</h6>
-                    <h6 class="font-extrabold mb-0" th:text="${memCnt}+' 명'">
-                      0명
-                    </h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-6 col-lg-3 col-md-6">
-            <div class="card mx-2">
-              <div class="card-body px-3 py-4-5">
-                <div class="row">
-                  <div class="col-md-4">
-                    <div class="stats-icon green">
-                      <i class="iconly-boldAdd-User"></i>
-                    </div>
-                  </div>
-                  <div class="col-md-8 text-center">
-                    <h6 class="text-muted font-semibold">채팅방수</h6>
-                    <h6 class="font-extrabold mb-0" th:text="${chatrCnt}+' 개'">
-                      8개
-                    </h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-6 col-lg-3 col-md-6">
-            <div class="card mx-2">
-              <div class="card-body px-3 py-4-5">
-                <div class="row">
-                  <div class="col-md-4">
-                    <div class="stats-icon red">
-                      <i class="iconly-boldBookmark"></i>
-                    </div>
-                  </div>
-                  <div class="col-md-8 text-center">
-                    <h6 class="text-muted font-semibold">게시판수</h6>
-                    <h6 class="font-extrabold mb-0" th:text="${brdCnt}+' 개'">
-                      1개
-                    </h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-6 col-lg-3 col-md-6">
-            <div class="card mx-2">
-              <div class="card-header">
-                <h4>등급 별 인원</h4>
-			  </div>
-              <div class="card-body px-3 py-4-5">
-                <div class="row">
-                    <!-- 프로젝트 내 회원 등급 비율 -->
-        			      <div id="chart-grd"></div>
-                  
-                </div>
+      <div class="col-9">
+	      <div class="row">
+	          <div class="col-6 col-lg-4 col-md-6">
+	            <div class="card mx-2">
+	              <div class="card-body px-3 py-4-5">
+	                <div class="row">
+	                  <div class="col-md-4">
+	                    <div class="stats-icon blue">
+	                      <i class="iconly-boldProfile"></i>
+	                    </div>
+	                  </div>
+	                  <div class="col-md-8 text-center">
+	                    <h6 class="text-muted font-semibold">팀원</h6>
+	                    <h6 class="font-extrabold mb-0" th:text="${memCnt}+' 명'">
+	                      0명
+	                    </h6>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	          <div class="col-6 col-lg-4 col-md-6">
+	            <div class="card mx-2">
+	              <div class="card-body px-3 py-4-5">
+	                <div class="row">
+	                  <div class="col-md-4">
+	                    <div class="stats-icon green">
+	                      <i class="iconly-boldAdd-User"></i>
+	                    </div>
+	                  </div>
+	                  <div class="col-md-8 text-center">
+	                    <h6 class="text-muted font-semibold">채팅방수</h6>
+	                    <h6 class="font-extrabold mb-0" th:text="${chatrCnt}+' 개'">
+	                      8개
+	                    </h6>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	          <div class="col-6 col-lg-4 col-md-6">
+	            <div class="card mx-2">
+	              <div class="card-body px-3 py-4-5">
+	                <div class="row">
+	                  <div class="col-md-4">
+	                    <div class="stats-icon red">
+	                      <i class="iconly-boldBookmark"></i>
+	                    </div>
+	                  </div>
+	                  <div class="col-md-8 text-center">
+	                    <h6 class="text-muted font-semibold">게시판수</h6>
+	                    <h6 class="font-extrabold mb-0" th:text="${brdCnt}+' 개'">
+	                      1개
+	                    </h6>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	
+	        <div class="row prjdashtbl">
+	          <div class="col-12">
+	            <div class="card">
+	              <div class="card-header">
+	                <h4 class="card-title">팀원의 활동량</h4>
+	              </div>
+	              <div class="card-content">
+	                <div class="card-body">
+	<!--                   <p>
+	                    <code class="highlighter-rouge">&lt;기간설정&gt;</code>.
+	                  </p> -->
+	
+	                  <div class="row d-flex justify-content-end">
+	                    <div class="col-md-2 mx-1">
+	                      <input type="date" id="fromDt" class="form-control" />
+	                    </div>
+	                    <div class="col-md-2 mx-1">
+	                      <input type="date" id="toDt" class="form-control" />
+	                    </div>
+	                    <div class="col-md-1 mx-2">
+	                      <button type="button" class="btn btn-primary" onclick="findBtn()">검색</button>
+	                    </div>
+	                  </div>
+	
+	                  <table class="table table-hover mb-0" id="dashtable">
+	                    <thead>
+	                      <tr>
+	                        <th>닉네임</th>
+	                        <th>이메일</th>
+	                        <th>게시글</th>
+	                        <th>댓글</th>
+	                        <th>채팅</th>
+	                        <th>등급</th>
+	                      </tr>
+	                    </thead>
+	                    <tbody id="tbltbd">
+	                        <!-- 기간 설정 시 테이블에 tr 생성 -->
+	                    </tbody>
+	                  </table>
+		               
+	                </div>
+	
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+      </div>
+      <div class="col-3">
+        <div class="col-12">
+          <div class="card mx-2">
+            <div class="card-header">
+              <h4>등급 별 인원</h4>
+	  		</div>
+            <div class="card-body px-3 py-4-5">
+              <div class="row">
+                  <!-- 프로젝트 내 회원 등급 비율 -->
+      			      <div id="chart-grd"></div>
+                
               </div>
             </div>
           </div>
         </div>
-
-        <div class="row prjdashtbl">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">팀원의 활동량</h4>
-              </div>
-              <div class="card-content">
-                <div class="card-body">
-<!--                   <p>
-                    <code class="highlighter-rouge">&lt;기간설정&gt;</code>.
-                  </p> -->
-
-                  <div class="row d-flex justify-content-end">
-                    <div class="col-md-2 mx-1">
-                      <input type="date" id="fromDt" class="form-control" />
-                    </div>
-                    <div class="col-md-2 mx-1">
-                      <input type="date" id="toDt" class="form-control" />
-                    </div>
-                    <div class="col-md-1 mx-2">
-                      <button type="button" class="btn btn-primary" onclick="findBtn()">검색</button>
-                    </div>
-                  </div>
-
-                  <table class="table table-hover mb-0" id="dashtable">
-                    <thead>
-                      <tr>
-                        <th>닉네임</th>
-                        <th>이메일</th>
-                        <th>게시글</th>
-                        <th>댓글</th>
-                        <th>채팅</th>
-                        <th>등급</th>
-                      </tr>
-                    </thead>
-                    <tbody id="tbltbd">
-                        <!-- 기간 설정 시 테이블에 tr 생성 -->
-                    </tbody>
-                  </table>
-	               
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        
+      </div>
       </section>
     </div>
     <script>

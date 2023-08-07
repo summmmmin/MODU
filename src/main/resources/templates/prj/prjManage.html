@@ -127,6 +127,53 @@
  			$("#test").html(result);
  			membList();
  			makeGrdCd();
+ 			
+ 			setTimeout(function() {
+                let cells = document.querySelectorAll('td[contenteditable="true"]');
+                
+                cells.forEach(cell => {
+                    cell.addEventListener('blur', function () {
+                    	// 마우스가 input에서 나갔을때
+                    	// 정보변경
+                  		  let email = cell.parentElement.children[1].textContent;
+                  		  let name  = cell.parentElement.children[0].textContent;
+                   		  let dept  = cell.parentElement.children[2].textContent;
+                   		  let pos   = cell.parentElement.children[3].textContent;
+                   		  let prjNo = '[[${prjNo}]]';
+                   		  let particiMembUniNo = cell.parentElement.children[5].children[0].id;
+                   		  let data = {'prjPubcId':email, 'nnm':name, 'dept':dept, 'pos':pos, particiMembUniNo:particiMembUniNo}
+                   		 if (email === null || email === '') {
+                   			Swal.fire({
+                  		        icon: "warning",
+                  		        title: "이메일을 입력하세요."
+                  		      })
+                   	        return;
+                   	    }
+
+                   	    if (name === null || name === '') {
+                   	    	Swal.fire({
+                  		        icon: "warning",
+                  		        title: "이름을 입력하세요."
+                  		      })
+                   	        return;
+                   	    }
+
+                   		  fetch("manage/updateParticiMembInfo?prjNo="+prjNo, {
+                   			  method : "post",
+                   			 headers:{'Content-Type' : 'application/json'},
+                   			 body : JSON.stringify(data),
+                   		  })
+                   		  .then((response) => response.json())
+                   		  .then((result) => {
+                   		  })
+                   		  .catch((error) => {
+                   		    console.error("Error:", error);
+                   		  });
+
+                    });
+                });
+                
+            }, 1000); // 1초 후에 확인
  		})
      }
   	// 사이드 메뉴 세번째
@@ -142,6 +189,7 @@
  				document.querySelector('#prjNm').value = res.prjNm;
  	 			if(res.memCnt != 1){
  	 				document.querySelector('#delPrjNm').disabled = true;
+ 	 				document.querySelector('#delPrjBtn').disabled = true;
  	 			}
  			})
 /*  		
@@ -243,38 +291,40 @@
 		// tr만들기
 		function makeTr(item){
 			let tr = document.createElement('tr');
-				let td = document.createElement('td');
-		
-				for (let i of field) {
-				td = document.createElement('td');
-				if (item.hasOwnProperty(i)) {
-					td.textContent = item[i];
-				} else {
-					td.textContent = '';
-				}
-				tr.append(td);
-				}
-		
-				td = document.createElement('td');
-				let span = document.createElement('span');
-				span.classList.add('badge', 'bg-success');
-				span.textContent = item.cd;
-				td.append(span);
-				tr.append(td);
-		
-				td = document.createElement('td');
-				let btn = document.createElement('button');
-				btn.textContent = '관리';
-				btn.classList.add('btn', 'btn-outline-primary', 'block', 'memMng');
-				btn.id = item.particiMembUniNo;
-				btn.setAttribute('data-bs-toggle', 'modal');
-				btn.setAttribute('data-bs-target', '#manage');
-				if(item.grd == 'G03'){
-					btn.disabled = true;
-				}
-				td.append(btn);
-				tr.append(td);
-				tbd.append(tr);
+			let td = document.createElement('td');
+	
+			for (let i of field) {
+			td = document.createElement('td');
+			td.classList.add('editTd');
+			td.setAttribute('contenteditable', 'true');
+			if (item.hasOwnProperty(i)) {
+				td.textContent = item[i];
+			} else {
+				td.textContent = '';
+			}
+			tr.append(td);
+			}
+	
+			td = document.createElement('td');
+			let span = document.createElement('span');
+			span.classList.add('badge', 'bg-success');
+			span.textContent = item.cd;
+			td.append(span);
+			tr.append(td);
+	
+			td = document.createElement('td');
+			let btn = document.createElement('button');
+			btn.textContent = '관리';
+			btn.classList.add('btn', 'btn-outline-primary', 'block', 'memMng');
+			btn.id = item.particiMembUniNo;
+			btn.setAttribute('data-bs-toggle', 'modal');
+			btn.setAttribute('data-bs-target', '#manage');
+			if(item.grd == 'G03'){
+				btn.disabled = true;
+			}
+			td.append(btn);
+			tr.append(td);
+			tbd.append(tr);
 		}
 		
 			
@@ -309,7 +359,6 @@
 				let table1 = document.querySelector("#table1");
 				let dataTable = new simpleDatatables.DataTable(table1);
 				});
-			
 		}
 		function makeGrdCd(){
 				// 공통코드 ajax

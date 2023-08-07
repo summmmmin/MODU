@@ -86,9 +86,7 @@
 					<if test="ttl != null and !ttl.equals('')">
  					ttl=#{ttl},
  					</if>
- 					<if test="cntn != null and !cntn.equals('')">
  		   			cntn=#{cntn},
- 		   			</if>
  		   			<if test="pct != null and !pct.equals('')">
  		   			pct=#{pct},
  		   			</if>
