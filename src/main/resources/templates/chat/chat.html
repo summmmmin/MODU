@@ -194,7 +194,6 @@
 			fetch("EXO")
 			.then(resolve => resolve.json())
 			.then(data => {
-				console.log(data)
 				// 즐겨찾기 리스트
 				data.forEach(function(chat){
 					if(chat.chatNo != null){
@@ -203,7 +202,6 @@
 						bmlist.push(Number(chat.chatNo));
 					}
 				})
-				console.log(bmlist)
 			})
 			
 			//채팅알림on/off
@@ -708,23 +706,17 @@
 							})
 						}
 						
-						let armYn1 = '[[${session.armYn}]]';
-						console.log(armYn1);
 						//성현 채팅 알림 조건
 						$.ajax('ChatParticiMemb')
 							.done(result => {
 								for (let i = 0; i < result.length; i++) {
-								
-									console.log(result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]');
-									console.log(result[i].particiMembUniNo)
-									console.log(result[i].armYn=='Y')
-									if (result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]' && result[i].armYn=='Y') {
-										armClient.publish({
-											destination: "/pubArm/chat/" + result[i].particiMembUniNo,
-											body: JSON.stringify({
-												'particiMembUniNo': result[i].particiMembUniNo
-											})
-										});
+									if (result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]'){
+									armClient.publish({
+										destination: "/pubArm/chat/" + result[i].particiMembUniNo,
+										body: JSON.stringify({
+											'particiMembUniNo': result[i].particiMembUniNo
+										})
+									});
 									}
 								}
 							})
@@ -742,7 +734,6 @@
 				const date = new Date(originalDateStr);
 				const formattedDate =
 					`${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, "0")}. ${String(date.getDate()).padStart(2, "0")}. ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
-				console.log(chatMsg.chatNo)
 				if (chatMsg.chatParticiMembUniNo == chatWriter) {
 
 					//내가 쓴 채팅 
@@ -902,7 +893,6 @@
 			}
 			
 		    function chatBmInsert(){
-		        console.log(event.target.id);
 		        let star = event.target;
 		        let CHATNO = event.target.getAttribute('data-chatNo');
 		        let CHATRNO = '[[${session.chatrNo}]]'
@@ -923,7 +913,6 @@
 		        })
 		        .then(response => response.json())
 		        .then(data => {
-		            console.log(data)
 		            
 		            if(data === 1){
 		            star.classList.toggle('clicked');

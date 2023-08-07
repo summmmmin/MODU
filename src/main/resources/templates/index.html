@@ -729,7 +729,10 @@
 	});
 	// 페이지 로드시 웹소켓 연결
 	window.addEventListener("load", function(event) {
-		armClient.activate();
+		/* if('[[${session.armYn}]]'=='Y'){
+			armClient.activate();			
+		} */
+		armClient.activate();			
 	});
 
 	  // 연결 성공시
@@ -745,6 +748,7 @@
 	    armClient.subscribe('/subArm/brd/' + particiMembUniNo, (armMsg) => {
 	      brdArm(JSON.parse(armMsg.body));
 	    });
+		  
 		 
 	 	// 구독(채팅 등록)
 	    armClient.subscribe('/subArm/chat/' + particiMembUniNo, (armMsg) => {
