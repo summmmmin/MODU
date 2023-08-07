@@ -1,153 +1,206 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ</title>
-
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/bootstrap.css">
-
-    <link rel="stylesheet" href="assets/vendors/summernote/summernote-lite.min.css">
-
-    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
-</head>
-
-<body>
-    <nav class="navbar navbar-light">
-        <div class="container d-block">
-            <a href="index.html"><i class="bi bi-chevron-left"></i></a>
-            <a class="navbar-brand ms-4" href="index.html">
-                <img src="assets/images/logo/logo.png">
-            </a>
+<html
+  xmlns:th="https://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>MODU</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="assets/vendors/summernote/summernote-lite.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="assets/vendors/bootstrap-icons/bootstrap-icons.css"
+    />
+    <link href="assets/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/test.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  </head>
+  <body class="d-flex flex-column h-100">
+    <main class="flex-shrink-0">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+        <div class="container-lg">
+          <a class="navbar-brand" th:href="@{/}"
+            ><span class="fw-bolder text-primary">MODU</span></a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
+              <li class="nav-item">
+                <a class="nav-link" href="/modu/noticeList">공지사항</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="FAQList">FAQ</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="subscribe">요금안내</a>
+              </li>
+              <li
+                class="nav-item"
+                th:if="${#httpServletRequest.userPrincipal != null and #httpServletRequest.userPrincipal.authorities.contains('ROLE_ADMIN')}"
+              >
+                <a class="nav-link" href="#">관리자메뉴</a>
+              </li>
+              <li
+                class="nav-item"
+                th:if="${#httpServletRequest.userPrincipal == null}"
+              >
+                <a class="nav-link" href="login">로그인</a>
+              </li>
+              <li
+                class="nav-item"
+                th:if="${#httpServletRequest.userPrincipal != null}"
+              >
+                <a class="nav-link" href="logout">로그아웃</a>
+              </li>
+              <li
+                class="nav-item"
+                th:if="${#httpServletRequest.userPrincipal != null and #httpServletRequest.isUserInRole('ROLE_ADMIN')}"
+              >
+                <a class="nav-link" th:href="@{admin/dashBoard}">관리자 메뉴</a>
+              </li>
+            </ul>
+          </div>
         </div>
-    </nav>
-    <div class="container">
-        
-        <div class="page-heading">
-            <div class="page-title">
-                <div class="row">
-                    <div class="col-12 col-md-6 order-md-1 order-last">
-                        <h3>FAQ </h3>
-                        <p class="text-subtitle text-muted">수정
-                        </p>
-                    </div>
-                    <div class="col-12 col-md-6 order-md-2 order-first">
-                        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">FAQModify</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            <section class="section">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">FAQ 작성</h4>
+      </nav>
+      <header class="py-5">
+        <div class="container">
+          <section class="section">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">FAQ 수정</h4>
+                  </div>
+                  <div class="card-body">
+                    <form id="faqForm">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row align-items-center">
+                            <div class="col-lg-2 col-3">
+                              <label class="col-form-label">제목</label>
                             </div>
-                            <div class="card-body">
-								<form id="faqForm">
-								    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group row align-items-center">
-                                                <div class="col-lg-2 col-3">
-                                                    <label class="col-form-label">제목</label>
-                                                </div>
-                                                <div class="col-lg-8 col-9">
-                                                    <input type="text" id="title" class="form-control" placeholder="제목">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group row align-items-center">
-                                                <div class="col-lg-2 col-3">
-                                                    <label class="col-form-label">카테고리</label>
-                                                </div>
-                                                <div class="col-lg-8 col-9">
-													<select class="form-select" id="cate">
-				                                        <option value="1">1</option>
-				                                        <option value="2">2</option>
-				                                        <option value="3">3</option>
-				                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-								    <div id="summernote"></div>
-								    
-								</form>
+                            <div class="col-lg-8 col-9">
+                              <input
+                                type="text"
+                                id="title"
+                                class="form-control"
+                                placeholder="제목"
+                              />
                             </div>
-                            <div class="card-footer d-flex justify-content-end">
-                            	<button type="button" id="saveFAQ" class="btn btn-primary">저장</button>
-                            </div>
+                          </div>
                         </div>
-                    </div>
+                        <div class="col-md-6">
+                          <div class="form-group row align-items-center">
+                            <div class="col-lg-2 col-3">
+                              <label class="col-form-label">카테고리</label>
+                            </div>
+                            <div class="col-lg-8 col-9">
+                              <select class="form-select" id="cate">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="summernote"></div>
+                    </form>
+                  </div>
+                  <div class="card-footer d-flex justify-content-end">
+                    <button type="button" id="saveFAQ" class="btn btn-primary">
+                      저장
+                    </button>
+                  </div>
                 </div>
-            </section>
+              </div>
+            </div>
+          </section>
         </div>
-    </div>
+      </header>
+    </main>
 
     <script src="assets/js/bootstrap.bundle.min.js"></script>
 
     <script src="assets/vendors/jquery/jquery.min.js"></script>
     <script src="assets/vendors/summernote/summernote-lite.min.js"></script>
     <script>
-	    $('#summernote').summernote({
-	        tabsize: 2,
-	        height: 400,
-	        callbacks: {
-	            onImageUpload: function(files) {
-	                uploadImage(files[0]);
-	            }
-	        }
-	    });
-	    
-		let test=0;
-	    function uploadImage(file) {
-	        let formData = new FormData();
-	        formData.append('image', file);
+      $("#summernote").summernote({
+        tabsize: 2,
+        height: 400,
+        callbacks: {
+          onImageUpload: function (files) {
+            uploadImage(files[0]);
+          },
+        },
+      });
 
-	        $.ajax({
-	            url: 'upload-image',
-	            method: 'POST',
-	            data: formData,
-	            contentType: false,
-	            processData: false,
-	            success: function(data) {
-	            	console.log(data)
-	            	$('#summernote').summernote('editor.insertImage', data);
+      let test = 0;
+      function uploadImage(file) {
+        let formData = new FormData();
+        formData.append("image", file);
 
-	            }
-	        });
-	    }
+        $.ajax({
+          url: "upload-image",
+          method: "POST",
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: function (data) {
+            console.log(data);
+            $("#summernote").summernote("editor.insertImage", data);
+          },
+        });
+      }
 
-	    $('#saveFAQ').click(function() {
-	        let title = $('#title').val();
-	        let cate = $('#cate').val();
-	        let content = $('#summernote').summernote('code');
-	        let faqNo = '[[${faq.faqNo}]]'
-	        console.log(content)
-	        $.ajax({
-	            type: 'POST',
-	            url: 'modify-content',
-	            contentType: 'application/json',
-	            data: JSON.stringify({ ttl: title, cate: cate, cntn: content, faqNo: faqNo }),
-	            success: function(response) {
-	                alert('저장되었습니다.');
-	                location.href = 'FAQList'
-	            }
-	        });
-	    });
+      $("#saveFAQ").click(function () {
+        let title = $("#title").val();
+        let cate = $("#cate").val();
+        let content = $("#summernote").summernote("code");
+        let faqNo = "[[${faq.faqNo}]]";
+
+        $.ajax({
+          type: "POST",
+          url: "modify-content",
+          contentType: "application/json",
+          data: JSON.stringify({
+            ttl: title,
+            cate: cate,
+            cntn: content,
+            faqNo: faqNo,
+          }),
+          success: function (response) {
+            alert("저장되었습니다.");
+            location.href = "FAQList";
+          },
+        });
+      });
     </script>
-
-</body>
-
+  </body>
 </html>
