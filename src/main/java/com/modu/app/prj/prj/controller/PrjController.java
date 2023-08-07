@@ -1,5 +1,7 @@
 package com.modu.app.prj.prj.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -180,5 +182,14 @@ public class PrjController {
 	@GetMapping("subscribe")
 	public String subscribe() {
 		return "prj/feeInfo";
+	}
+	
+	// 프로젝트 참여 회원 리스트
+	@GetMapping("prjMembList")
+	public String prjMembList(HttpSession session, Model model){
+		PrjVO prjVO = new PrjVO();
+		prjVO.setPrjUniNo((String) session.getAttribute("prjUniNo") );
+		model.addAttribute("membList", prjService.getPrjPartiList(prjVO));
+		return "prj/prjMembList";
 	}
 }

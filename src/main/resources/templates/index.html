@@ -308,6 +308,7 @@
 										</th:block>
 										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
 										<li><a class="dropdown-item rburger" onclick="bmList()">즐겨찾기</a></li>
+										<li><a class="dropdown-item rburger" onclick="prjmembList()">회원목록</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
@@ -902,6 +903,11 @@
             e.preventDefault();
         }
     });
+    
+    function prjmembList(){
+    	$.ajax("prjMembList")
+ 		.done(result=>$("#rsidebarContent").html(result))
+    }
 </script>
 <script src="assets/js/test.js"></script>
 </body>

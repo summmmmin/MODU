@@ -118,8 +118,8 @@
 		<if test="membUniNo != null and !membUniNo.equals('')">
 			AND pm.memb_uni_no = #{membUniNo}		
 		</if>
-		<if test="cd != null and !cd.equals('')">
-			AND c.cd = #{cd}
+		<if test="grd != null and !grd.equals('')">
+			AND pm.grd = #{grd}
 		</if>
 		and pm.prj_uni_no = #{prjUniNo}
  	</select>
