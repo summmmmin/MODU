@@ -644,7 +644,7 @@
 			        maxItemCount: 10,
 			        removeItemButton: true,
 			      });
-				 choices.passedElement.element.style.overflow = "hidden";
+				 //choices.passedElement.element.style.overflow = "hidden";
 			})
 		}
 		callChatMemb();
@@ -725,7 +725,7 @@
  
 // WebSocket 연결 설정
 	const armClient = new StompJs.Client({
-		brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
+		brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
 	});
 	// 페이지 로드시 웹소켓 연결
 	window.addEventListener("load", function(event) {
