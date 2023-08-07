@@ -27,7 +27,7 @@
 <a id="particiBrd" class="dropdown-item" th:if="${checkNM[0].pubcYn} == 'N'">회원 초대</a>
 </div>
 </div>
-
+<!--  <p th:each="particiBrd: ${particiBrd}" th:text="${particiBrd}"></p>-->
 
 <div class="dropdown">
 <div class="me-auto"><h1>[[${checkNM[0].boardNm}]]</h1></div>
@@ -35,7 +35,7 @@
 <div class="postDDM dropdown-menu" aria-labelledby="dropdownMenuButton">
 <a th:each="shy : ${superShy}" th:text="${shy.nnm}" th:data-value="${shy.boardParticiMembUniNo}" id="kickparticiMembUniNo" class="dropdown-item editBoardLink" onclick='kick(event)'></a>
 </div>
-</div>
+</div> 
 <hr>
 <!-- ========================게시판 수정 Modal 시작 (성현) ======================== -->
 <div class="modal fade text-left" id="modify" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
@@ -665,11 +665,18 @@
 						.then(data => {
 							//공지리스트
 							notiPostList();
-							//console.log([[${superShy}]].length);	
+			
 							
+							 armClient.publish({
+						        destination: "/pubArm/reply/" + '[[${particiBrd}]]',
+						        body: JSON.stringify({
+						          'postUniNo': data.postUniNo,
+						          'particiMembUniNo': particiMembUniNo,
+						        })
+						      });
+							
+						//여기 프로젝트 참여자들한테 알람 (성현)						
 						 
-							
-							
 						})
 						.catch(err => console.log(err))
 					}else{
@@ -691,6 +698,7 @@
 					}
 				}
 			//댓글등록알림ON/OFF
+			
 			function setPostReply(e){
 				let pNum = e.target.parentElement.dataset.postunino;
 				let reOnOffBTN = e.target;
@@ -723,6 +731,7 @@
 					.then(result => result.json())
 					.then(data => {
 						reOnOffBTN.textContent ='댓글알림ON';
+						console.log(ppp);
 					})
 					.catch(err => console.log(err))
 				}

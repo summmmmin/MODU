@@ -74,8 +74,8 @@ public class ArmController {
 		messagingTemplate.convertAndSend("/subArm/tag/" + memno, vo);
 	}
 	
-		// 게시글 태그 알림
-		@MessageMapping("/noto/{memno}")
+		// 공지사항 알림 알림
+		@MessageMapping("/noti/{memno}")
 		public void notiarm(ArmVO vo, @DestinationVariable String memno) throws Exception {
 			messagingTemplate.convertAndSend("/subArm/noti/" + memno, vo);
 		}
