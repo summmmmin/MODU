@@ -505,7 +505,10 @@
 				addMemb['chartNm'] = chatNm;
 				addMemb['particiMembUniNos'] = chatMembs;
 				//console.log(addMemb);
-
+				
+				
+				let armYn = '[[${session.armYn}]]';
+				
 				fetch("/modu/addChatMemb", {
 						method: 'post',
 						headers: {
@@ -517,7 +520,8 @@
 					.then(data => {
 						//console.log(data);
 						chatrParticiList();
-
+						
+						
 						armClient.publish({
 							destination: "/pubArm/chat/" + particiMembUniNo,
 							body: JSON.stringify({
@@ -575,7 +579,7 @@
 
 			// WebSocket 연결 설정
 			const stompClient = new StompJs.Client({
-				brokerURL: 'ws://43.201.17.213:85//modu/socketserver' // WebSocket 서버 URL
+				brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
 			});
 
 			// 페이지 로드시 
@@ -699,15 +703,18 @@
 								})
 							})
 						}
-
+						
+						let armYn1 = '[[${session.armYn}]]';
+						console.log(armYn1);
 						//성현 채팅 알림 조건
 						$.ajax('ChatParticiMemb')
 							.done(result => {
-								console.log('123123123' + result);
 								for (let i = 0; i < result.length; i++) {
+								
 									console.log(result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]');
 									console.log(result[i].particiMembUniNo)
-									if (result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]') {
+									console.log(result[i].armYn=='Y')
+									if (result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]' && result[i].armYn=='Y') {
 										armClient.publish({
 											destination: "/pubArm/chat/" + result[i].particiMembUniNo,
 											body: JSON.stringify({
