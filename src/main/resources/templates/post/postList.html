@@ -334,9 +334,9 @@
 					
 				    cmPlaceElements.forEach(function(cmPlaceElement) {
 				    	
-				        let cmText = cmPlaceElement.textContent;
+				        let cmText = cmPlaceElement.innerHTML;
 				        let replacedText = cmText.replaceAll(/(\n|\r\n)/g, "<br>");
-				        cmPlaceElement.innerHTML = replacedText;
+				        cmPlaceElement.innerHTML = replacedText; 
 				    });
 				});
 			  
