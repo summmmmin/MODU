@@ -15,7 +15,7 @@
 			<div class="col-md-10 col-sm-12">
 				<div class="card">
 					<div class="card-body">
-						<form th:action="@{/postInsert}" method="POST" th:object="${post}" enctype ="multipart/form-data">
+						<form th:action="@{/postInsert}" method="POST" th:object="${post}" enctype ="multipart/form-data" onsubmit="TagArm()">
 							<input type="hidden" th:field="*{brdUniNo}">
 							<input type="hidden" th:field="*{prjUniNo}">
 							<div class="form-group mb-3">

@@ -33,11 +33,11 @@
 <div class="me-auto"><h1>[[${checkNM[0].boardNm}]]</h1></div>
 <button th:if="${checkNM[0].pubcYn} == 'N'"class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">참여자 목록</button>
 <div class="postDDM dropdown-menu" aria-labelledby="dropdownMenuButton">
-<a th:each="shy : ${superShy}" th:text="${shy.particiMembUniNo}" th:data-value="${shy.boardParticiMembUniNo}" id="kickparticiMembUniNo" class="dropdown-item editBoardLink" onclick='kick(event)'></a>
+<a th:each="shy : ${superShy}" th:text="${shy.nnm}" th:data-value="${shy.boardParticiMembUniNo}" id="kickparticiMembUniNo" class="dropdown-item editBoardLink" onclick='kick(event)'></a>
 </div>
 </div>
+<p th:each="sss : ${particiBrd}" th:text="${particiBrd}"></p>
 <hr>
-<p th:each="shy : ${superShy}" th:text="${shy.boardParticiMembUniNo}"></p>
 <!-- ========================게시판 수정 Modal 시작 (성현) ======================== -->
 <div class="modal fade text-left" id="modify" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -638,6 +638,7 @@
 			//공지리스트호출
 			notiPostList();
 			//공지등록on/off
+			
 			function setPostNoti(e){
 					let pNum = e.target.parentElement.dataset.postunino;
 					let notiBTN = e.target;
@@ -656,6 +657,11 @@
 						.then(data => {
 							//공지리스트
 							notiPostList();
+							console.log([[${superShy}]].length);	
+							
+						 
+							
+							
 						})
 						.catch(err => console.log(err))
 					}else{

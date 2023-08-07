@@ -87,6 +87,21 @@
 			<div class="toast-body">새로운 할 일이 등록 됐습니다.</div>
 		</div>
 	</div>
+	
+		<!-- ============== 게시글 공지사항 등록 알림 Toast ============== -->
+	<div class="toast-container position-fixed bottom-0 end-0 p-3"
+		style="z-index: 1050;">
+		<div id="notiArm" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				<!--  <img src="..." class="rounded me-2" alt="...">-->
+				<strong class="me-auto">게시글 공지사항 알림</strong> <small>방금 전</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">새로운 공지사항이 등록 됐습니다.</div>
+		</div>
+	</div>
 
 	<!-- ==============게시판 생성 알림 Toast ============== -->
 	<div class="toast-container position-fixed bottom-0 end-0 p-3"
@@ -732,6 +747,11 @@
 	    armClient.subscribe('/subArm/partici/' + particiMembUniNo, (armMsg) => {
 	    	particiArm(JSON.parse(armMsg.body));
 		    });
+	
+		// 구독(공지사항 등록)
+	    armClient.subscribe('/subArm/noti/' + particiMembUniNo, (armMsg) => {
+	    	notiArm(JSON.parse(armMsg.body));
+		    });
 	  };
 
 	//에러
@@ -776,6 +796,13 @@
 	function particiArm(arm) {
 		const particiToast = document.getElementById('particiArm');
 		 const toast = new bootstrap.Toast(todoToast)
+		    toast.show()
+	  }
+	
+	//게시글 공지사항 등록 시 보내 줄 Toast알람 
+	function notiArm(arm) {
+		const notiToast = document.getElementById('notiArm');
+		 const toast = new bootstrap.Toast(notiToast)
 		    toast.show()
 	  }
  </script>
