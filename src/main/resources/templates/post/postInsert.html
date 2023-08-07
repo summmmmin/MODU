@@ -15,7 +15,7 @@
 			<div class="col-md-10 col-sm-12">
 				<div class="card">
 					<div class="card-body">
-						<form th:action="@{/postInsert}" method="POST" th:object="${post}" enctype ="multipart/form-data">
+						<form th:action="@{/postInsert}" method="POST" th:object="${post}" enctype ="multipart/form-data" onsubmit="TagArm()">
 							<input type="hidden" th:field="*{brdUniNo}">
 							<input type="hidden" th:field="*{prjUniNo}">
 							<div class="form-group mb-3">
@@ -43,7 +43,7 @@
 								<!--멤버호출부-->
 								<div class="form-group">
 									<label for="basicInput">멤버호출</label>
-									<select class="choices form-select multiple-remove postInsertMembChoice" maxlength="10" multiple="multiple" th:field="*{postTagArm}">
+									<select class="choices form-select multiple-remove postInsertMembChoice" maxlength="10" multiple="multiple" th:field="*{postTagArmList}">
 										<option th:each="memb : ${membList}" th:if="${memb.particiMembUniNo != session.particiMembUniNo}" th:value="${memb.particiMembUniNo}+' - '+${memb.nnm}">[[${memb.particiMembUniNo}]] - [[${memb.nnm}]]</option>
 									</select>
 								</div>
@@ -104,6 +104,14 @@
 		        maxItemCount: 10,
 		        removeItemButton: true,
 		      });
+			
+			//엔터키 누르면 개행
+			document.getElementById('exampleFormControlTextarea1').addEventListener("keypress", function (event) {
+				if (event.keyCode === 13) {
+					document.getElementById("exampleFormControlTextarea1").value = document.getElementById("exampleFormControlTextarea1").value + "\n";
+					return false;
+				}
+			})
 		</script>
 	</div>
 </body>
