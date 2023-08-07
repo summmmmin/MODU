@@ -32,10 +32,17 @@
 <script src="fullcalendar-6.1.8/dist/index.global.js"></script>
 <!-- Include Choices JavaScript -->
 <script src="assets/vendors/choices.js/choices.min.js"></script>
+<script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
 <style>
 #HypeBoy:hover{
 	cursor:pointer;
 }
+
+ /* 셀렉트 박스의 스크롤 숨기기 */
+  .choices__list {
+    max-height: none !important; 
+    overflow: hidden !important; 
+  }
 </style>
 
 </head>
@@ -158,7 +165,7 @@
             'brdUniNo' : brdUniNo,
             'particiMembUniNo' : particiMembUniNo
         }
-        fetch('BmInsert', {
+        fetch('BrdBmInsert', {
             method : 'POST',
             headers : {
                 'content-type' : 'application/json'
@@ -324,7 +331,8 @@
 									<h5>게시판 이름</h5>
 									<div class="form-group">
 										<input id="boardNm" name="boardNm" type="text"
-											placeholder="40자까지 입력 가능합니다." class="form-control">
+											placeholder="10자까지 입력 가능합니다." class="form-control">
+											 <span id="charCount" style="color: red;"></span>
 									</div>
 									<div class="form-group">
 										<input id="particiMembUniNo" name="particiMembUniNo"
@@ -501,6 +509,7 @@
 		})
 		.then(result=>result.json())
 		.then(data => {
+			if(data.prjUniNo != null){
 			let liTag=`
 				<li class="submenu-item">
 				<div class="row">
@@ -521,7 +530,15 @@
 				`;
 			let submenu=document.querySelector('.brdinsert');
 			submenu.innerHTML += liTag;
-			
+			}else{
+				//다시 꾸미기
+				Swal.fire({
+					icon: "error",
+					title: "무료 플랜"
+				})
+
+				
+			}
 			//알람 조건 : 현재 프로젝트에 참가하고 있는 사람에게 전송
  			 $.ajax("prjParticiMembList")
  		    .done(result => {
@@ -591,6 +608,7 @@
 			        maxItemCount: 10,
 			        removeItemButton: true,
 			      });
+				 choices.passedElement.element.style.overflow = "hidden";
 			})
 		}
 		callChatMemb();
@@ -671,7 +689,7 @@
  
 // WebSocket 연결 설정
 	const armClient = new StompJs.Client({
-		brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
+		brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
 	});
 	// 페이지 로드시 웹소켓 연결
 	window.addEventListener("load", function(event) {
@@ -767,6 +785,40 @@
  			}
  		}
  	</script>
+ 	
+<script>
+    const boardNmInput = document.getElementById('boardNm');
+    const charCountSpan = document.getElementById('charCount');
+    const maxCharCount = 10;// 최대 글자 수 설정
+
+    function updateValidation() {
+        const currentCharCount = boardNmInput.value.length;
+        charCountSpan.textContent = `${currentCharCount}/${maxCharCount}`;
+
+        if (currentCharCount > maxCharCount) {
+            charCountSpan.style.color = 'red';
+            boardNmInput.setCustomValidity(`글자 수는 ${maxCharCount}자를 초과할 수 없습니다.`);
+            boardNmInput.classList.add('is-invalid');
+            document.getElementById('formbtn').disabled = true;
+        } else {
+            charCountSpan.style.color = '';
+            boardNmInput.setCustomValidity('');
+            boardNmInput.classList.remove('is-invalid');
+            document.getElementById('formbtn').disabled = false;
+        }
+    }
+
+    boardNmInput.addEventListener('input', function() {
+        updateValidation();
+    });
+
+    document.querySelector("#FormEvent").addEventListener("submit", function(e) {
+        // 조건 충족하지 않을 때 submit 막기
+        if (!boardNmInput.checkValidity()) {
+            e.preventDefault();
+        }
+    });
+</script>
 <script src="assets/js/test.js"></script>
 </body>
 </html>

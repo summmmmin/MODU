@@ -68,8 +68,18 @@ public class BmController {
 		UserVO userVo = (UserVO) session.getAttribute("user");
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		//model.addAttribute("postbm", bmService.PostBmList(vo));
+		System.out.println(vo);
 		return bmService.BmList(vo);
 	}
+	
+	@PostMapping("bmDelete")
+	@ResponseBody
+	public int Bmdelete(@RequestBody BmVO vo,HttpSession session) {
+		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+		System.out.println(vo);
+		return bmService.BmDelete(vo);
+	}
+	
 	
 	
 }

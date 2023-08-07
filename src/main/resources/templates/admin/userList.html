@@ -30,6 +30,22 @@
 <script src="../assets/vendors/datatables/jquery.dataTables.min.js"></script>
 <script src="../assets/vendors/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="../assets/js/demo/datatables-demo.js"></script>
+<style>
+.left-aligned {
+	text-align: left;
+	vertical-align: middle;
+}
+
+.center-aligned {
+	text-align: center;
+	vertical-align: middle;
+}
+
+th {
+	text-align: center;
+	vertical-align: middle;
+}
+</style>
 </head>
 
 <body id="page-top">
@@ -65,7 +81,11 @@
 				<!-- 위쪽 사이드바 -->
 				<nav
 					class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
+					<div class="ml-auto">
+						<a class="navbar-brand" th:href="@{/}"> <span
+							class="fw-bolder text-primary">MODU</span>
+						</a>
+					</div>
 				</nav>
 
 				<div class="container-fluid">
@@ -96,14 +116,14 @@
 										<tr th:each="user : ${userList}" th:data-user-id="${user.id}"
 											class="user-row">
 
-											<td th:text="${user.nm}"></td>
-											<td th:text="${user.id}"></td>
-											<td th:text="${user.phNo}"></td>
-											<td th:text="${user.regDt}"></td>
-											<td><span
+											<td class="left-aligned" th:text="${user.nm}"></td>
+											<td class="left-aligned" th:text="${user.id}"></td>
+											<td class="center-aligned" th:text="${user.phNo}"></td>
+											<td class="center-aligned" th:text="${user.regDt}"></td>
+											<td class="center-aligned"><span
 												th:class="${user.quit == 'N'} ? 'badge bg-success' : 'badge bg-danger'"
 												th:text="${user.quit == 'N'} ? '유저' : '탈퇴'"></span></td>
-											<td>
+											<td class="center-aligned">
 												<button type="button" class="btn btn-danger ban-button"
 													data-bs-toggle="modal" data-bs-target="#danger"
 													th:data-user-id="${user.id}"
