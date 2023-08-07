@@ -160,7 +160,7 @@
 		<div th:if="${#lists.isEmpty(postList)}">
 			게시글이없습니다
 			<div class="col-md-1 col-sm-12 mx-auto">
-					<div class="buttons" style="position: fixed; bottom: 120px; right: 350px;">
+					<div class="buttons" style="position: fixed; bottom: 120px; right: 390px;">
 						<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" th:if="${session.grd} != 'G01'">글작성</a>
 					</div>
 				</div>
@@ -227,7 +227,7 @@
 					</div>
 				</div>
 				<div class="col-md-1 col-sm-12 mx-auto">
-					<div class="buttons" style="position: fixed; bottom: 120px; right: 350px;">
+					<div class="buttons" style="position: fixed; bottom: 120px; right: 390px;">
 						<a class="btn btn-primary" th:href="@{postInsert(brdUniNo=${brdUniNo})}" th:if="${session.grd} != 'G01'">글작성</a>
 					</div>
 				</div>
