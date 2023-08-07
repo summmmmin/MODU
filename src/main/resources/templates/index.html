@@ -46,7 +46,6 @@
 </head>
 
 <body>
-
 	<!-- ==============댓글 알림 Toast ============== -->
 	<div class="toast-container position-fixed bottom-0 end-0 p-3"
 		style="z-index: 1050;">
@@ -295,7 +294,7 @@
 										class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
 								</a></li>
 								<li class="nav-item dropdown me-3"><a
-									class="nav-link active dropdown-toggle" href="#"
+									class="nav-link active dropdown-toggle" onclick="armYn()"
 									data-bs-toggle="dropdown" aria-expanded="false"> <i
 										class="bi bi-justify bi-sub fs-4 text-gray-600"></i>
 								</a>
@@ -729,6 +728,9 @@
 	});
 	// 페이지 로드시 웹소켓 연결
 	window.addEventListener("load", function(event) {
+		 //if('[[${session.armYn}]]'=='Y'){
+		//armClient.activate();			
+	//}
 		armClient.activate();			
 	});
 
@@ -899,6 +901,15 @@
     	$.ajax("prjMembList")
  		.done(result=>$("#rsidebarContent").html(result))
     }
+</script>
+
+<script>
+function onclick="armYn(){
+	// 이거 누르면 prj_partici_memb 테이블 armYn 값 Y or N으로 값 바꾸기
+	// 그리고 session에 armYn 가져와서 전체 알람 끊기
+	// 모양 종 모양에서 찍 - 그어주기
+}
+
 </script>
 <script src="assets/js/test.js"></script>
 </body>

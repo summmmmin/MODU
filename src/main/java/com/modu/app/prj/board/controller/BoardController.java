@@ -44,6 +44,7 @@ public class BoardController {
 		session.setAttribute("prjUniNo", vo.getPrjUniNo());
 		session.setAttribute("particiMembUniNo", vo.getParticiMembUniNo());
 		session.setAttribute("grd", vo.getGrd());
+		System.out.println("123123123" + session);
 		return "redirect:scheList";
 	}
 
