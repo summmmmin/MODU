@@ -54,7 +54,7 @@
 
 	<!-- 단건 조회 -->
 	<select id="scheInfo" resultType="scheVO" parameterType="String">
-	    select SCHE_UNI_NO, PRJ_UNI_NO, title, PARTICI_MEMB_UNI_NO, CNTN,FR_DT "start", TO_DT "end"
+	    select SCHE_UNI_NO, PRJ_UNI_NO, title, PARTICI_MEMB_UNI_NO,FIND_NICKNAME(partici_memb_uni_no) nnm, CNTN,FR_DT "start", TO_DT "end"
 	    from  sche 
 	    where sche_uni_no=#{scheUniNo}
 	</select>

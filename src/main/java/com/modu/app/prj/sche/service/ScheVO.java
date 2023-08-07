@@ -22,7 +22,7 @@ public class ScheVO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH-mm")
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm", timezone = "GMT+9")
 	private Date end;					//마감 날짜
-	private String scheParticiMembUniNo;			//일정참여 멤버
-	private String particiYn;					//참여여부
+	private String scheParticiMembUniNo;	//일정참여 멤버
 	private List<String> particiMembUniNos; //참여자들
+	private String nnm; 					//닉네임
 }
