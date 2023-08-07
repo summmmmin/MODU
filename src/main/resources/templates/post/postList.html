@@ -670,8 +670,7 @@
 							 armClient.publish({
 						        destination: "/pubArm/reply/" + '[[${particiBrd}]]',
 						        body: JSON.stringify({
-						          'postUniNo': data.postUniNo,
-						          'particiMembUniNo': particiMembUniNo,
+						          'particiMembUniNo': '[[${particiBrd}]]',
 						        })
 						      });
 							
