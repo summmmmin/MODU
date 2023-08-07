@@ -37,6 +37,12 @@
 #HypeBoy:hover{
 	cursor:pointer;
 }
+
+ /* 셀렉트 박스의 스크롤 숨기기 */
+  .choices__list {
+    max-height: none !important; 
+    overflow: hidden !important; 
+  }
 </style>
 
 </head>
@@ -390,7 +396,7 @@
 					</div>
 				</div>
 			</div>
-
+			
 			<!-- start of 채팅방생성모달 -->
 			<div class="modal fade text-left" id="makeChatrForm" tabindex="-1"
 				role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
@@ -636,6 +642,7 @@
 			        maxItemCount: 10,
 			        removeItemButton: true,
 			      });
+				 choices.passedElement.element.style.overflow = "hidden";
 			})
 		}
 		callChatMemb();
