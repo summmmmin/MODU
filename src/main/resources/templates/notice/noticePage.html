@@ -39,7 +39,7 @@
 					<ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
 						<li class="nav-item"><a class="nav-link"
 							href="/modu/noticeList">공지사항</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">FAQ</a></li>
+						<li class="nav-item"><a class="nav-link" href="FAQList">FAQ</a></li>
 						<li class="nav-item"><a class="nav-link" href="subscribe">요금안내</a></li>
 						<li class="nav-item"
 							th:if="${#httpServletRequest.userPrincipal != null and #httpServletRequest.userPrincipal.authorities.contains('ROLE_ADMIN')}">
@@ -63,7 +63,7 @@
 
 		<div class="row  d-flex justify-content-center">
 			<div class="col-md-8 col-sm-12">
-			<h2>공지사항조회</h2>
+				<h2>공지사항조회</h2>
 				<div class="card">
 					<div class="card-body">
 
