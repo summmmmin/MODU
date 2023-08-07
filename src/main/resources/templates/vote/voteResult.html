@@ -84,25 +84,38 @@
     </style>
 </head>
 <body>
-    <h3><a class="backVote"><i class="bi bi-arrow-left" onclick="voteList()"></i></a>투표 항목 선택</h3>
-    <hr>
-
-
+    <div class="card">
+		<div class="card-header">
+			<div class="d-flex mb-2">
+					<div class="me-auto">
+						<h3>
+							<i class="bi bi-arrow-left backVote" onclick="voteList()"></i>
+						</h3>
+					</div>
+					<div>
+						<h4 class="card-title">투표결과</h4>
+					</div>
+				</div>
+				<hr>
+		</div>
     <!-- 외부 박스 -->
     <div class="voteOuterBox">
+    <div class="d-flex">
+	        <div class="me-auto">
         <!-- 작성자와 날짜, 제목을 추가 -->
         <div class="voteHeader" th:if="${voteInfo.brdUniNo != null}">
-            <div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">장소:[[${voteInfo.boardNm}]]</h6></div>
+            <div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">게시판:[[${voteInfo.boardNm}]]</h6></div>
             <div class="voteDate">시작날짜:[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
             <div class="voteTitle">제목:[[${voteInfo.ttl}]]</div>
         </div>
         <div class="voteHeader" th:unless="${voteInfo.brdUniNo != null}">
-            <div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">장소:[[${voteInfo.chatrNm}]]</h6></div>
+            <div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">채팅방:[[${voteInfo.chatrNm}]]</h6></div>
             <div class="voteDate">시작날짜:[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
             <div class="voteTitle">제목:[[${voteInfo.ttl}]]</div>
         </div>
-        
+        </div>
         <!-- 작성자이거나 프로젝트 관리자는 수정과 삭제로 이동할수 있는 공간이 나타난다. -->
+         <div class="p-2"> 
 	        	<div th:if="${maker.particiMembUniNo == session.particiMembUniNo} or ${session.grd == 'G03'} or ${session.grd == 'G04'}">
 	        		<button  class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					</button>
@@ -113,6 +126,8 @@
 							<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteVote1">삭제</a> 
 						</div>
 				</div>
+		</div>
+		</div>
 
         <!-- 투표 항목을 선택하는 폼 -->
         <form id="voteForm1">
@@ -122,7 +137,7 @@
                    <div class="p-2 flex-grow-1">[[${i.voteItem}]]</div> <div class="p-2">  [[${i.cnt}]]</div>
                 </div>
                 <!-- 마감 날짜 표기 --> 
-                <div class="voteDeadline">마감 날짜:[[${#dates.format(voteInfo.toDt,'yyyy-MM-dd')}]]</div>
+                <div class="voteDeadline" id="voteDeadLine2">마감 날짜:[[${#dates.format(voteInfo.toDt,'yyyy-MM-dd')}]]</div>
             </div>
 
             <!-- 투표 제출 버튼 -->
@@ -236,8 +251,8 @@
 		})
 		.then((response) => response.json())
 		.then((result) => {
+			document.getElementById('voteDeadLine2').innerText = '마감 날짜:' + document.getElementById("secondTodt1").value;
 
-		voteList();
 		 })
     }
 	

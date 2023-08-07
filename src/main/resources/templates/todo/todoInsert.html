@@ -8,26 +8,34 @@
 
 
 <style>
-.person{
-margin-left:5px;}
 </style>
 
 </head>
 
 <body>
-		<div class="row">
-			<div class="card">
-				<div class="card-header">
-					<h3><i class="bi bi-arrow-left backVote" onclick="todoList()"></i></h3><h4 class="card-title">할일생성</h4>
-					<hr>
+	<div class="row">
+		<div class="card">
+			<div class="card-header">
+				<div class="d-flex">
+					<div class="me-auto">
+						<h3>
+							<i class="bi bi-arrow-left backVote" onclick="todoList()"></i>
+						</h3>
+					</div>
+					<div>
+						<h4 class="card-title">할일생성</h4>
+					</div>
 				</div>
-				<div class="card-content">
-					<form th:object="${todo}" id="todoForm" >
+				<hr>
+			</div>
+			<div class="card-content">
+				<div class="card-body">
+					<form th:object="${todo}" id="todoForm">
 						<div class="row">
 							<div class="form-group has-icon-left">
 								<div class="position-relative">
-									<input type="text" class="form-control" placeholder="제목을 입력해주세여"
-										th:field="*{ttl}" id="ttl">
+									<input type="text" class="form-control"
+										placeholder="제목을 입력해주세여" th:field="*{ttl}" id="ttl">
 									<div class="form-control-icon">
 										<i class="bi bi-pen"></i>
 									</div>
@@ -45,54 +53,60 @@ margin-left:5px;}
 							</div>
 						</div>
 						<p></p>
-							<div class="input-group col-md-1 mb-6 person">
-                       			<label class="input-group-text">담당자</label>
-								<select class="choices form-select" id="mgr">
-									<option th:value="${i.particiMembUniNo}" th:each="i:${membList}">[[${i.nnm}]]</option>
-								</select>
-							</div>
-				            <div class="input-group col-md-1 mb-6 person">
-                       			<label class="input-group-text">참여자</label>
-								<select class="choices form-select" id="cm">
-									<option th:value="${i.particiMembUniNo}" th:each="i:${membList}">[[${i.nnm}]]</option>
-								</select>
-							</div>
-						<div class="form-group has-icon-left mx-auto p-4">
-							<p>시작일</p>
+						<div class="input-group col-md-1 mb-6">
+							<label class="input-group-text">담당자</label> <select
+								class="choices form-select" id="mgr">
+								<option th:value="${i.particiMembUniNo}"
+									th:each="i:${membList}">[[${i.nnm}]]</option>
+							</select>
+						</div>
+						<div class="input-group col-md-1 mb-6">
+							<label class="input-group-text">참여자</label> <select
+								class="choices form-select" id="cm">
+								<option th:value="${i.particiMembUniNo}" th:each="i:${membList}">[[${i.nnm}]]</option>
+							</select>
+						</div>
+						<p></p>
+						<div class="form-group has-icon-left mx-auto">
+							<h6>시작일</h6>
 							<div class="position-relative">
 								<input type="date" class="form-control" id="Date"
-									th:onchange="dateChange2()" th:field="*{frDt}">
+									th:onchange="dateChange2()">
 								<div class="form-control-icon">
 									<i class="bi-calendar"></i>
 								</div>
 							</div>
 						</div>
-						<div class="form-group has-icon-left mx-auto p-4">
-							<p>마감일</p>
+						<p></p>
+						<div class="form-group has-icon-left mx-auto">
+							<h6>마감일</h6>
 							<div class="position-relative">
-								<input type="date" class="form-control" id="lastDate"
-									 th:field="*{toDt}">
+								<input type="date" class="form-control" id="lastDate">
 								<div class="form-control-icon">
 									<i class="bi-calendar"></i>
 								</div>
 							</div>
 						</div>
-						<p style="color:red; display:none;" id="red2">시작날짜와 마감날짜를 모두 입력해주세요.</p>
-						<div class="form-group">
-								<label for="basicInput" class="form-label">첨부파일</label><br>
-                                	<!-- File uploader with multiple files upload -->
-                                	<input id="todoFile" type="file" name="file" class="multiple-files-filepond" multiple >
-                        </div>
+						<p style="color: red; display: none;" id="red2">시작날짜와 마감날짜를 모두
+							입력해주세요.</p>
+						<div>
+							<label for="basicInput" class="form-label">첨부파일</label><br>
+							<!-- File uploader with multiple files upload -->
+						</div>
+						<input id="todoFile" type="file" name="file"
+							class="multiple-files-filepond" multiple>
 						<p></p>
 						<div class="col-12 d-flex justify-content-end">
 							<button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
-							<button type="button" onclick="todoInsert()" class="btn btn-primary me-1 mb-1">저장하기</button>
+							<button type="button" onclick="todoInsert()"
+								class="btn btn-primary me-1 mb-1">저장하기</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
-		<script>
+	</div>
+	<script>
 		
 		
 		//input타입 date를 클릭했을때 나온는 달력에서 선택한 날짜 이전을 막는 구절
@@ -173,12 +187,6 @@ margin-left:5px;}
 		let mgr =$("#mgr option:selected").val();
 		let cm =$("#cm option:selected").val();
 		let file = document.getElementById('todoFile').files[0];
-		
-		
-	
-		new Choices(document.querySelector('#mgr'));
-		new Choices(document.querySelector('#cm'));
-		
 		})
 		
 		</script>
