@@ -330,11 +330,11 @@
 		
 		// 개행처리?
 		 document.addEventListener('DOMContentLoaded', function() {
-		        let cmPlaceElement = document.querySelector('.cmPlace');
-		        let cmText = cmPlaceElement.textContent; 
-
-		        let replacedText = cmText.replace(/\n/g, '<br>');
-		        cmPlaceElement.innerHTML = replacedText;
+		 	         let cmPlaceElement = document.querySelector('.cmPlace');
+			        let cmText = cmPlaceElement.textContent; 
+	
+			        let replacedText = cmText.replace(/\n/g, '<br>');
+			        cmPlaceElement.innerHTML = replacedText;  
 		    });
 				//댓글리스트
 				function showReplyList() {
@@ -665,7 +665,7 @@
 						.then(data => {
 							//공지리스트
 							notiPostList();
-							console.log([[${superShy}]].length);	
+							//console.log([[${superShy}]].length);	
 							
 						 
 							
@@ -929,6 +929,7 @@ function particiInsert(){
 
 
 	function voteInfo(vid){
+		console.log(vid)
 		 $.ajax("voteInfo/"+vid)
 		.done(result =>{
 			document.getElementById("rsidebar").classList.toggle("active");
