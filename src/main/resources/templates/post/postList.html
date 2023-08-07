@@ -328,14 +328,19 @@
 			<!--end of MODALS -->
 		<script>
 		
-		// 개행처리?
-		 document.addEventListener('DOMContentLoaded', function() {
-		 	         let cmPlaceElement = document.querySelector('.cmPlace');
-			        let cmText = cmPlaceElement.textContent; 
-	
-			        let replacedText = cmText.replace(/\n/g, '<br>');
-			        cmPlaceElement.innerHTML = replacedText;  
-		    });
+			  // 본문개행처리?
+			  document.addEventListener('DOMContentLoaded', function() {
+				    let cmPlaceElements = document.querySelectorAll('.cmPlace');
+					
+				    cmPlaceElements.forEach(function(cmPlaceElement) {
+				    	
+				    	
+				        let cmText = cmPlaceElement.innerHTML;
+				        let replacedText = cmText.replaceAll(/(\n|\r\n)/g, "<br>");
+				        cmPlaceElement.innerHTML = replacedText; 
+				    });
+				});
+			  
 				//댓글리스트
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
@@ -665,7 +670,6 @@
 						.then(data => {
 							//공지리스트
 							notiPostList();
-			
 							
 							 armClient.publish({
 						        destination: "/pubArm/reply/" + '[[${particiBrd}]]',
@@ -938,7 +942,6 @@ function particiInsert(){
 
 
 	function voteInfo(vid){
-		console.log(vid)
 		 $.ajax("voteInfo/"+vid)
 		.done(result =>{
 			document.getElementById("rsidebar").classList.toggle("active");
