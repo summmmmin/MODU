@@ -72,4 +72,9 @@ public class BmServiceImpl implements BmService {
 	public List<String> PostBmList(BmVO vo) {
 		return bmMapper.PostBmList(vo);
 	}
+	
+	@Override
+	public int postParticiMembKick(BmVO vo) {
+		return bmMapper.postParticiMembKick(vo);
+	}
 }
