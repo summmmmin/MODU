@@ -107,7 +107,7 @@
 	        		<button  class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<div th:if="${#dates.format(voteInfo.toDt, 'yyyy MM dd') < #dates.format(#dates.createNow(), 'yyyy MM dd')}">
+						<div th:if="${#dates.format(voteInfo.toDt, 'yyyy MM dd') > #dates.format(#dates.createNow(), 'yyyy MM dd')}">
  							<a class="dropdown-item" data-bs-target="#updateVote1" data-bs-toggle="modal">수정</a> 
 						</div>
 							<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteVote1">삭제</a> 
@@ -184,7 +184,7 @@
 									<div class="form-group has-icon-left mx-auto p-4">
 										<div id="firstTodt" th:text="'현재 마감 날짜:' +${#dates.format(voteInfo.toDt,'yyyy-MM-dd')}"></div>
 										<div class="position-relative">
-										<input type="date" class="form-control" id="secondTodt">
+										<input type="date" class="form-control" id="secondTodt1">
 										<div class="form-control-icon">
 										<i class="bi-calendar"></i>
 											</div>
@@ -210,20 +210,23 @@
 				</div>
 
 
-    <script>
-    
+	<script th:inline="javascript">
+    /*<![CDATA[*/
   //---------------투표 수정하기
     function updateVote(){
-    let a =[[${voteInfo.voteNo}]];
+    let a =/*[[${voteInfo.voteNo}]]*/
     
     let data={'voteNo': a};
 
     	let data2 = {
-    		"toDt":document.getElementById("secondTodt").value,
+    		"toDt":document.getElementById("secondTodt1").value,
     		"voteNo":a
     	}; 
-    	console.log(data2);
     		
+    	if (document.getElementById("secondTodt1").value == ''){
+     		return;
+     	}
+    	
 		fetch("voteUpdate/"+a, {
 			method : "post",
 			headers:{
@@ -233,7 +236,7 @@
 		})
 		.then((response) => response.json())
 		.then((result) => {
-		console.log(result);
+
 		voteList();
 		 })
     }
@@ -242,9 +245,8 @@
     
     
     function delVote(){
-    	
-        let a =[[${voteInfo.voteNo}]];
-        
+    
+    	let a =/*[[${voteInfo.voteNo}]]*/
         let data={'voteNo': a};
         
 		fetch("voteDelte", {
@@ -256,16 +258,34 @@
 		})
 		.then((response) => response.json())
 		.then((result) => {
-		console.log(result);
+
 		voteList();
 		 })
         }
+    
+  	//오늘날짜 구하기
+	var now_utc = Date.now();
+
+	// getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환
+	var timeOff = new Date().getTimezoneOffset() * 60000; // 분 단위를 밀리초로 변환
+	
+	// 현재 시간에서 타임오프를 빼서 현재 지역의 날짜를 구하기
+	var localDate = new Date(now_utc - timeOff);
+	
+	// 내일 날짜 구하기
+	var tomorrow = new Date(localDate);
+	tomorrow.setDate(localDate.getDate() + 1);
+	
+	// 내일의 날짜를 YYYY-MM-DD 형식으로 가져오기
+	var tomorrowISOString = tomorrow.toISOString().split("T")[0];
+		document.getElementById('secondTodt1').setAttribute("min", tomorrowISOString); 
     
     $('#deleteVote1').appendTo("body")
     $('#updateVote1').appendTo("body")
     
     
-    console.log('aaa');
-    </script>
+
+    /*]]>*/
+  	</script>
 </body>
 </html>

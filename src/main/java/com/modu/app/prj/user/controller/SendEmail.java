@@ -66,9 +66,6 @@ public class SendEmail {
 	}
 
 	public void authSend(UserVO userVO, String siteURL) {
-		String user = "qomo596@gmail.com"; // 발신 gmail 계정
-		String password = "mehkjbnookiyggaa"; // gmail 패스워드(2단계 앱보안 비밀번호 테스트파일에 넣어둠)
-
 		// SMTP 서버 정보를 설정한다.
 		Properties prop = new Properties();
 		prop.put("mail.smtp.host", "smtp.gmail.com");
