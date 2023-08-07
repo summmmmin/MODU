@@ -210,6 +210,8 @@
 			function setChatArm(e){
 				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
 				let armYn = '[[${session.armYn}]]';
+				let setChat = e.target;
+				//console.log(setChat);
 				let setArm = {};
 
 				//console.log(armYn);
@@ -226,6 +228,7 @@
 					.then(result => result.json())
 					.then(data => {
 						//console.log(data);
+						setChat.textContent = '채팅알림OFF';
 					})
 					.catch(err => console.log(err))
 				}else{
@@ -240,6 +243,7 @@
 					})
 					.then(data => {
 						//console.log(data);
+						setChat.textContent = '채팅알림ON';
 					})
 					.catch(err => console.log(err))
 				}
@@ -575,7 +579,7 @@
 
 			// WebSocket 연결 설정
 			const stompClient = new StompJs.Client({
-				brokerURL: 'ws://43.201.17.213:85//modu/socketserver' // WebSocket 서버 URL
+				brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
 			});
 
 			// 페이지 로드시 
