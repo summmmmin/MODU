@@ -25,7 +25,7 @@
 		<!-- end of 웹소켓용 -->
 		<section class="section">
 			<div class="row">
-				<div class="col-md-9 col-sm-12 mx-auto">
+				<div class="col-md-8 col-sm-12 mx-auto">
 					<div class="card">
 						<div class="card-header">
 							<div class="media d-flex align-items-center">
@@ -43,6 +43,8 @@
 										<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addChatPartici">채팅방초대</a>
 										<a class="dropdown-item" id="calloneChatr" data-bs-toggle="modal"
 											data-bs-target="#changeChatrNm">채팅방명변경</a>
+										<a th:if="${session.armYn} == 'Y'" th:onclick="setChatArm(event)" class="dropdown-item">채팅알림OFF</a>
+										<a th:if="${session.armYn} == 'N'" th:onclick="setChatArm(event)" class="dropdown-item">채팅알림ON</a>
 										<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leaveChatr">채팅방나가기</a>
 									</div>
 								</div>
@@ -51,12 +53,13 @@
 						<div class="card-body pt-4 bg-grey" id="chatContentContainer">
 							<div class="chat-content"></div>
 						</div>
+						<div id="typingArmPlace"></div>
 						<div id="chatPageBottom" class="card-footer">
 							<form action="chatMsg" method="POST" enctype="multipart/form-data">
 								<div class="message-form d-flex flex-direction-column align-items-center">
 									<a href="http://" class="black"><i data-feather="smile"></i></a>
 									<div class="d-flex flex-grow-1 ml-4">
-										<div id="typingArmPlace"></div>
+										
 										<input type="text" id="sendMsg" name="cntn" class="form-control" autocomplete="off"
 											placeholder="Type your message.." required>
 										<input type="file" id="sendFile" name="file">
@@ -70,7 +73,7 @@
 					</div>
 				</div>
 				<div class="col-md-1 col-sm-12 mx-auto">
-					<div style="position: fixed; bottom: 150px; right: 300px;">
+					<div style="position: fixed; bottom: 150px; right: 390px;">
 						<div class="buttons" onclick="pageUp()">
 							<a class="btn btn-outline-primary">△</a>
 						</div>
@@ -202,6 +205,47 @@
 				})
 				console.log(bmlist)
 			})
+			
+			//채팅알림on/off
+			function setChatArm(e){
+				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
+				let armYn = '[[${session.armYn}]]';
+				let setArm = {};
+
+				//console.log(armYn);
+				if(armYn == 'N'){
+					setArm['chatParticiMembUniNo'] = chatWriter;
+					setArm['armYn'] = 'Y';
+					fetch('/modu/setChatArm', {
+						method : 'post',
+							headers : {
+								'content-type' : 'application/json'
+							},
+							body : JSON.stringify(setArm)
+					})
+					.then(result => result.json())
+					.then(data => {
+						//console.log(data);
+					})
+					.catch(err => console.log(err))
+				}else{
+					setArm['chatParticiMembUniNo'] = chatWriter;
+					setArm['armYn'] = 'N';
+					fetch('/modu/setChatArm', {
+						method : 'post',
+							headers : {
+								'content-type' : 'application/json'
+							},
+							body : JSON.stringify(setArm)
+					})
+					.then(data => {
+						//console.log(data);
+					})
+					.catch(err => console.log(err))
+				}
+			}
+			
+			
 			//채팅메세지리스트 전체리스트
 			function showChatMsgList() {
 				let msgPlace = document.getElementsByClassName('chat-content')[0];
@@ -461,7 +505,10 @@
 				addMemb['chartNm'] = chatNm;
 				addMemb['particiMembUniNos'] = chatMembs;
 				//console.log(addMemb);
-
+				
+				
+				let armYn = '[[${session.armYn}]]';
+				
 				fetch("/modu/addChatMemb", {
 						method: 'post',
 						headers: {
@@ -473,7 +520,8 @@
 					.then(data => {
 						//console.log(data);
 						chatrParticiList();
-
+						
+						
 						armClient.publish({
 							destination: "/pubArm/chat/" + particiMembUniNo,
 							body: JSON.stringify({
@@ -531,7 +579,7 @@
 
 			// WebSocket 연결 설정
 			const stompClient = new StompJs.Client({
-				brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
+				brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
 			});
 
 			// 페이지 로드시 
@@ -655,15 +703,18 @@
 								})
 							})
 						}
-
+						
+						let armYn1 = '[[${session.armYn}]]';
+						console.log(armYn1);
 						//성현 채팅 알림 조건
 						$.ajax('ChatParticiMemb')
 							.done(result => {
-								console.log('123123123' + result);
 								for (let i = 0; i < result.length; i++) {
+								
 									console.log(result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]');
 									console.log(result[i].particiMembUniNo)
-									if (result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]') {
+									console.log(result[i].armYn=='Y')
+									if (result[i].particiMembUniNo != '[[${session.particiMembUniNo}]]' && result[i].armYn=='Y') {
 										armClient.publish({
 											destination: "/pubArm/chat/" + result[i].particiMembUniNo,
 											body: JSON.stringify({
@@ -821,12 +872,12 @@
 				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
 				if (typingArm.chatParticiMembUniNo != chatWriter) {
 
-					let spiner = ` <div class="spinner-border spinner-border-sm" role="status">
+	/* 				let spiner = ` <div class="spinner-border spinner-border-sm" role="status">
                                             <span class="visually-hidden">Loading...</span>
-                                        </div>`
+                                        </div>` */
 
-					//document.getElementById('typingArmPlace').textContent = typingArm.nnm + ' is typing';
-					document.getElementById('typingArmPlace').innerHTML =spiner;
+					document.getElementById('typingArmPlace').textContent = typingArm.nnm + ' is typing';
+					//document.getElementById('typingArmPlace').innerHTML = spiner;
 				}
 			}
 

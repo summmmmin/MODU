@@ -5,13 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-
 <style>
 </style>
-
 </head>
-
 <body>
 	<div class="row">
 		<div class="card">
@@ -127,6 +123,7 @@
 				 
 				mgr =$("#mgr option:selected").val();
 				cm =$("#cm option:selected").val();
+				console.log(cm);
 				file = document.getElementById('todoFile').files;
 				let ttl = $("#ttl").val();
 				let cntn = $("#cntn").val();
@@ -164,20 +161,20 @@
 	               .then(data => {
 	            	   todoList();
 	            	   
-			//할 일 생성 알람 (성현)
- 			armClient.publish({
-				destination: "/pubArm/todo/"+mgr,
-				body: JSON.stringify({
-					'particiMembUniNo' : mgr
-				})
-		});
- 			armClient.publish({
-				destination: "/pubArm/todo/"+cm,
-				body: JSON.stringify({
-					'particiMembUniNo' : cm
-				})
-		});
-	            	   
+	            	 //할 일 생성 알람 참여자 (성현)
+ 	        			armClient.publish({
+	       				destination: "/pubArm/todo/" + cm,
+	       				body: JSON.stringify({
+	       					'particiMembUniNo' : cm
+	       				})
+	       		});
+ 		            	 //할 일 생성 알람 매니저 (성현)
+ 	        			armClient.publish({
+	       				destination: "/pubArm/todo/" + mgr,
+	       				body: JSON.stringify({
+	       					'particiMembUniNo' : mgr
+	       				})
+	       		});
 	      })
 		}
 		

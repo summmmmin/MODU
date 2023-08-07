@@ -83,7 +83,7 @@ public class ChatController {
 	
 		session.setAttribute("chatrNo", chatrNo);
 		session.setAttribute("chatParticiMembUniNo", vo.getChatParticiMembUniNo());
-		
+		session.setAttribute("armYn", vo.getArmYn());
 		model.addAttribute("info", vo);
 		return "chat/chat";
 	}
@@ -300,5 +300,13 @@ public class ChatController {
 	public List<BmVO> EXO(BmVO vo,Model model, HttpSession session) {
 		vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		return bmService.BmList(vo);
+	}
+	
+	//채팅알림ON/OFF
+	@PostMapping("setChatArm")
+	@ResponseBody
+	public int setChatArm(@RequestBody ChatrParticiVO chatParticiVO, HttpSession session) {
+		chatParticiVO.setChatParticiMembUniNo((String) session.getAttribute("chatParticiMembUniNo"));
+		return chatService.setChatArm(chatParticiVO);
 	}
 }

@@ -97,5 +97,11 @@ public class ChatServiceImpl implements ChatService{
 	public int updateReadChat(ChatChmVO chatChmVO) {
 		return chatMapper.updateReadChat(chatChmVO);
 	}
+	
+	//채팅알림ON/OFF
+	@Override
+	public int setChatArm(ChatrParticiVO chatParticiVO) {
+		return chatMapper.setChatArm(chatParticiVO);
+	}
 
 }
