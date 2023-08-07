@@ -37,6 +37,12 @@
 #HypeBoy:hover{
 	cursor:pointer;
 }
+
+ /* 셀렉트 박스의 스크롤 숨기기 */
+  .choices__list {
+    max-height: none !important; 
+    overflow: hidden !important; 
+  }
 </style>
 
 </head>
@@ -604,6 +610,7 @@
 			        maxItemCount: 10,
 			        removeItemButton: true,
 			      });
+				 choices.passedElement.element.style.overflow = "hidden";
 			})
 		}
 		callChatMemb();
