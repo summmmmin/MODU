@@ -37,7 +37,6 @@
 #HypeBoy:hover{
 	cursor:pointer;
 }
-
  /* 셀렉트 박스의 스크롤 숨기기 */
   .choices__list {
     max-height: none !important; 
@@ -124,6 +123,22 @@
 		</div>
 	</div>
 	
+	
+	<!-- ==============게시글 태그 알림 Toast ============== -->
+	<div class="toast-container position-fixed bottom-0 end-0 p-3"
+		style="z-index: 1050;">
+		<div id="tagArm" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				<!--  <img src="..." class="rounded me-2" alt="...">-->
+				<strong class="me-auto">게시글 태그 알림</strong> <small>방금 전</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">게시글에 태그 됐습니다.</div>
+		</div>
+	</div>
+	
 	<!-- ==============비공개 게시판 초대 알림 Toast ============== -->
 		<div class="toast-container position-fixed bottom-0 end-0 p-3"
 		style="z-index: 1050;">
@@ -177,7 +192,7 @@
 							class="sidebar-link"> <i class="bi bi-stack"></i> <span>게시판</span>
 								<button type="button" class="btn btn-outline-success"
 									data-bs-toggle="modal" data-bs-target="#inlineForm"
-									style="margin-left: 87px">+</button>
+									style="margin-left:87px">+</button>
 						</a>
 							<div id="boardList"></div></li>
 					</ul>
@@ -761,6 +776,11 @@
 	    armClient.subscribe('/subArm/noti/' + particiMembUniNo, (armMsg) => {
 	    	notiArm(JSON.parse(armMsg.body));
 		    });
+		
+		// 구독(게시글 태그)
+	    armClient.subscribe('/subArm/tag/' + particiMembUniNo, (armMsg) => {
+	    	tagArm();
+		    });
 	  };
 
 	//에러
@@ -812,6 +832,13 @@
 	function notiArm(arm) {
 		const notiToast = document.getElementById('notiArm');
 		 const toast = new bootstrap.Toast(notiToast)
+		    toast.show()
+	  }
+	
+	//게시글 태그 시 보내 줄 Toast알람 
+	function tagArm() {
+		const tagToast = document.getElementById('tagArm');
+		 const toast = new bootstrap.Toast(tagToast)
 		    toast.show()
 	  }
  </script>
