@@ -292,7 +292,7 @@
 										class="bi bi-search bi-sub fs-4 text-gray-600"></i> </a></li>
 								<li class="nav-item me-1"><a class="nav-link active"
 									href="#" aria-expanded="false"> <i
-										class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
+										class="bi bi-bell bi-sub fs-4 text-gray-600" onclick="ArmOnOff()";></i>
 								</a></li>
 								<li class="nav-item dropdown me-3"><a
 									class="nav-link active dropdown-toggle" href="#"
@@ -733,14 +733,17 @@
 	  // 연결 성공시
 	  armClient.onConnect = (frame) => {
 	    console.log('Connected: ' + frame);
+	    
 	    // 구독(댓글등록)		
 	    armClient.subscribe('/subArm/reply/' + particiMembUniNo, (armMsg) => {
 	      replyArm(JSON.parse(armMsg.body));
 	    });
+	    
 		 // 구독(게시판 등록)
 	    armClient.subscribe('/subArm/brd/' + particiMembUniNo, (armMsg) => {
 	      brdArm(JSON.parse(armMsg.body));
 	    });
+		 
 	 	// 구독(채팅 등록)
 	    armClient.subscribe('/subArm/chat/' + particiMembUniNo, (armMsg) => {
 		      chatArm(JSON.parse(armMsg.body));
@@ -751,11 +754,11 @@
 	    	particiArm(JSON.parse(armMsg.body));
 		    });
 	
-		
 		// 구독(게시글 태그)
 	    armClient.subscribe('/subArm/tag/' + particiMembUniNo, (armMsg) => {
 	    	tagArm();
 		    });
+		
 		// 구독(공지사항 등록)
 	    armClient.subscribe('/subArm/noti/' + particiMembUniNo, (armMsg) => {
 	    	notiArm(JSON.parse(armMsg.body));
@@ -825,6 +828,15 @@
 		 const toast = new bootstrap.Toast(tagToast)
 		    toast.show()
 	  }
+ </script>
+ 
+ <script>
+ 
+ 	//전체 알람 On / Off
+ 	function ArmOnOff(){
+ 			
+ 		
+ 	}
  </script>
 
 

@@ -42,7 +42,11 @@ public interface BoardMapper {
 	//비공개 게시판 초대된 회원 리스트
 	public List<BoardVO> superShy(BoardVO vo);
 	
+	//전체 알람 여부
+	public BoardVO armYn(BoardVO vo);
 	
+	//알람 Y , N 업데이트
+	public int particiArm(BoardVO vo);
 	
 
 }
