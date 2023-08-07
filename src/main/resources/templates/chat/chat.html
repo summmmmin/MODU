@@ -25,7 +25,7 @@
 		<!-- end of 웹소켓용 -->
 		<section class="section">
 			<div class="row">
-				<div class="col-md-9 col-sm-12 mx-auto">
+				<div class="col-md-8 col-sm-12 mx-auto">
 					<div class="card">
 						<div class="card-header">
 							<div class="media d-flex align-items-center">
@@ -43,6 +43,8 @@
 										<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addChatPartici">채팅방초대</a>
 										<a class="dropdown-item" id="calloneChatr" data-bs-toggle="modal"
 											data-bs-target="#changeChatrNm">채팅방명변경</a>
+										<a th:if="${session.armYn} == 'Y'" th:onclick="setChatArm(event)" class="dropdown-item">채팅알림OFF</a>
+										<a th:if="${session.armYn} == 'N'" th:onclick="setChatArm(event)" class="dropdown-item">채팅알림ON</a>
 										<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#leaveChatr">채팅방나가기</a>
 									</div>
 								</div>
@@ -71,7 +73,7 @@
 					</div>
 				</div>
 				<div class="col-md-1 col-sm-12 mx-auto">
-					<div style="position: fixed; bottom: 150px; right: 300px;">
+					<div style="position: fixed; bottom: 150px; right: 390px;">
 						<div class="buttons" onclick="pageUp()">
 							<a class="btn btn-outline-primary">△</a>
 						</div>
@@ -203,6 +205,47 @@
 				})
 				console.log(bmlist)
 			})
+			
+			//채팅알림on/off
+			function setChatArm(e){
+				let chatWriter = '[[${session.chatParticiMembUniNo}]]';
+				let armYn = '[[${session.armYn}]]';
+				let setArm = {};
+
+				//console.log(armYn);
+				if(armYn == 'N'){
+					setArm['chatParticiMembUniNo'] = chatWriter;
+					setArm['armYn'] = 'Y';
+					fetch('/modu/setChatArm', {
+						method : 'post',
+							headers : {
+								'content-type' : 'application/json'
+							},
+							body : JSON.stringify(setArm)
+					})
+					.then(result => result.json())
+					.then(data => {
+						//console.log(data);
+					})
+					.catch(err => console.log(err))
+				}else{
+					setArm['chatParticiMembUniNo'] = chatWriter;
+					setArm['armYn'] = 'N';
+					fetch('/modu/setChatArm', {
+						method : 'post',
+							headers : {
+								'content-type' : 'application/json'
+							},
+							body : JSON.stringify(setArm)
+					})
+					.then(data => {
+						//console.log(data);
+					})
+					.catch(err => console.log(err))
+				}
+			}
+			
+			
 			//채팅메세지리스트 전체리스트
 			function showChatMsgList() {
 				let msgPlace = document.getElementsByClassName('chat-content')[0];
