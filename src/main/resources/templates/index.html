@@ -292,7 +292,7 @@
 										class="bi bi-search bi-sub fs-4 text-gray-600"></i> </a></li>
 								<li class="nav-item me-1"><a class="nav-link active"
 									href="#" aria-expanded="false"> <i
-										class="bi bi-bell bi-sub fs-4 text-gray-600" onclick="ArmOnOff()";></i>
+										class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
 								</a></li>
 								<li class="nav-item dropdown me-3"><a
 									class="nav-link active dropdown-toggle" href="#"
@@ -724,13 +724,10 @@
  
 // WebSocket 연결 설정
 	const armClient = new StompJs.Client({
-		brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
+		brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
 	});
 	// 페이지 로드시 웹소켓 연결
 	window.addEventListener("load", function(event) {
-		/* if('[[${session.armYn}]]'=='Y'){
-			armClient.activate();			
-		} */
 		armClient.activate();			
 	});
 
@@ -835,16 +832,6 @@
 	  }
  </script>
  
- <script>
- 
- 	//전체 알람 On / Off
- 	function ArmOnOff(){
- 			
- 		
- 	}
- </script>
-
-
 	<script>
  		//초대하기 버튼 클릭
  		function inviteSubmit(){
