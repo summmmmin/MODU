@@ -78,7 +78,7 @@
 									</tr>
 									<tr>
 										<th>본문</th>
-										<td>[[${notice.cntn}]]</td>
+										<td id="cmPlace">[[${notice.cntn}]]</td>
 									</tr>
 								</table>
 
@@ -87,15 +87,15 @@
 								<div class="buttons d-flex justify-content-end">
 									<a
 										th:href="@{/noticeUpdate(noticeUniNo=${notice.noticeUniNo})}"><button
-											type="button" class="btn btn-primary"
+											type="button" class="btn btn-primary mx-1"
 											th:if="${#httpServletRequest.userPrincipal != null} and ${session.user.grd} == 'A'">
 											수정</button></a>
-									<button type="button" class="btn btn-primary"
+									<button type="button" class="btn btn-primary mx-1"
 										th:data-noticeUniNo="${notice.noticeUniNo}" id="delNoticeBtn"
 										th:onclick="deleteNotice(event)"
 										th:if="${#httpServletRequest.userPrincipal != null} and ${session.user.grd} == 'A'">삭제</button>
 									<a th:href="@{/noticeList}"><button type="button"
-											class="btn btn-light">돌아가기</button></a>
+											class="btn btn-light mx-1">돌아가기</button></a>
 								</div>
 							</div>
 
@@ -127,6 +127,15 @@
 				})
 				.catch(err => console.log(err))
 			}
+			
+			  // 본문개행처리?
+			  document.addEventListener('DOMContentLoaded', function() {
+				    let cmPlaceElement = document.querySelector('#cmPlace');	
+				        let cmText = cmPlaceElement.textContent;
+				        let replacedText = cmText.replaceAll(/(\n|\r\n)/g, "<br>");
+				        cmPlaceElement.innerHTML = replacedText;
+				});
+			  
 		</script>
 		</div>
 </body>
