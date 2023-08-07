@@ -80,6 +80,13 @@ public class BmController {
 		return bmService.BmDelete(vo);
 	}
 	
+	@PostMapping("postParticiMembKick")
+	@ResponseBody
+	public int postParticiMembKick(@RequestBody BmVO vo) {
+		
+		return bmService.postParticiMembKick(vo);
+	}
+	
 	
 	
 }
