@@ -45,22 +45,60 @@
                 </div>
             </div>
             <section class="section">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">FAQ 조회</h4>
-                            </div>
-                            <div class="card-body">
-								[[${faq}]]
-								<div th:utext="${faq.cntn}">
+	             <div class="row">
+	                 <div class="col-12">
+	                     <div class="card">
+	                         <div class="card-header">
+	                             <h4 class="card-title">[[${faq.ttl}]] </h4>
+	                             <hr>
+	                         </div>
+	                         <div class="card-body">
+	                             <div th:utext="${faq.cntn}">
 								
-								</div>
+								 </div>
+	                         </div>
+	                         <div class="card-footer d-flex justify-content-end" th:if="${session.user.grd == 'N'}">
+								<button type="button" class="btn btn-primary mr-2" onclick="faqmodify()">수정</button>
+								<span style="width: 10px;"></span>
+            					
+	                         	<button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                     data-bs-target="#confirmModal">
+                                     삭제
+                                 </button>
+	                         </div>
+	                     </div>
+	                 </div>
+                  </div>
+					<!-- 삭제 모달 -->
+                    <div class="modal fade text-left" id="confirmModal" tabindex="-1" role="dialog"
+                        aria-labelledby="confirmModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmModalLabel">삭제 확인</h5>
+                                    <button type="button" class="close rounded-pill"
+                                        data-bs-dismiss="modal" aria-label="Close">
+                                        <i data-feather="x"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>정말로 삭제하시겠습니까?</h5>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn" data-bs-dismiss="modal">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">취소</span>
+                                    </button>
+                                    <button type="button" class="btn btn-primary ml-1"
+                                        data-bs-dismiss="modal" onclick="faqdel()">
+                                        <i class="bx bx-check d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">삭제</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+              </section>
         </div>
     </div>
 
@@ -69,50 +107,25 @@
     <script src="assets/vendors/jquery/jquery.min.js"></script>
     <script src="assets/vendors/summernote/summernote-lite.min.js"></script>
     <script>
-	    $('#summernote').summernote({
-	        tabsize: 2,
-	        height: 400,
-	        callbacks: {
-	            onImageUpload: function(files) {
-	                uploadImage(files[0]);
-	            }
-	        }
-	    });
-		let test=0;
-	    function uploadImage(file) {
-	        let formData = new FormData();
-	        formData.append('image', file);
-
-	        $.ajax({
-	            url: 'upload-image',
-	            method: 'POST',
-	            data: formData,
-	            contentType: false,
-	            processData: false,
-	            success: function(data) {
-	            	console.log(data)
-	            	$('#summernote').summernote('editor.insertImage', data);
-
-	            }
-	        });
+	    function faqmodify(){
+	    	// 수정버튼	
+	    	location.href = 'FAQModify?no='+'[[${faq.faqNo}]]'
 	    }
-
-	    $('#saveFAQ').click(function() {
-	        let title = $('#title').val();
-	        let cate = $('#cate').val();
-	        let content = $('#summernote').summernote('code');
-	        
-	        console.log(content)
-	        $.ajax({
-	            type: 'POST',
-	            url: 'save-content',
-	            contentType: 'application/json',
-	            data: JSON.stringify({ ttl: title, cate: cate, cntn: content }),
-	            success: function(response) {
-	                alert('저장되었습니다.');
-	            }
-	        });
-	    });
+	    
+	    function faqdel(){
+	    	// 삭제버튼
+	    	fetch('FAQDelete?faqNo='+'[[${faq.faqNo}]]')
+	    	.then(response => response.json())
+	    	.then(data => {
+	    		if(data == 1){
+	    			alert('삭제완료')
+	    			location.href='FAQList';
+	    		}else{
+	    			alert('오류')
+	    		}
+	    	})
+	    	.catch(error => console.error('Error:', error));
+	    }
     </script>
 
 </body>

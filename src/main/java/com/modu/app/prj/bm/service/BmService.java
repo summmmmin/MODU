@@ -23,5 +23,8 @@ public interface BmService {
 		public int BmDelete(BmVO vo);
 	
 		public List<String> PostBmList(BmVO vo);
+		
+		// 비공개 게시판 회원 추방
+		public int postParticiMembKick(BmVO vo);
 
 }

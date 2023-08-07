@@ -62,11 +62,13 @@
 	                                    </tr>
 	                                </thead>
 	                                <tbody>
-	                                	<tr th:each="faq : ${faqList}">
-	                                        <th th:text="${faq.faqNo}">번호</th>
-	                                        <th th:text="${faq.ttl}">제목</th>
-	                                        <th th:text="${faq.cate}">카테고리</th>
-	                                        <th th:text="${faq.membUniNo}">작성자</th>
+	                                	<tr th:each="faq : ${faqList}" onclick="location.href='FAQInfo?no='+">
+	                                        <th th:text="${faqStat.count}">번호</th>
+								            <td>
+								                <a th:href="@{'FAQInfo?no=' + ${faq.faqNo}}" th:text="${faq.ttl}">제목</a>
+								            </td>
+	                                        <td th:text="${faq.cate}">카테고리</td>
+	                                        <td th:text="${faq.membUniNo}">작성자</td>
 	                                    </tr>
 	                                </tbody>
 	                           </table>
@@ -79,7 +81,9 @@
     </div>
 
     <script src="assets/js/bootstrap.bundle.min.js"></script>
-
+	<script>
+		
+	</script>
 
 </body>
 

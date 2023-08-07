@@ -33,7 +33,7 @@
 <div class="me-auto"><h1>[[${checkNM[0].boardNm}]]</h1></div>
 <button th:if="${checkNM[0].pubcYn} == 'N'"class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">참여자 목록</button>
 <div class="postDDM dropdown-menu" aria-labelledby="dropdownMenuButton">
-<a th:each="shy : ${superShy}" th:text="${shy.particiMembUniNo}" id="editBoardLink" class="dropdown-item"></a>
+<a th:each="shy : ${superShy}" th:text="${shy.nnm}" th:data-value="${shy.boardParticiMembUniNo}" id="kickparticiMembUniNo" class="dropdown-item editBoardLink" onclick='kick(event)'></a>
 </div>
 </div>
 <hr>
@@ -51,8 +51,8 @@
 <div class="modal-body checkboxmodal">
 <h5>게시판 이름</h5>
 <div class="form-group">
-<input id="boardNm" name="boardNm" type="text" placeholder="변경 하실 이름을 입력해주세요." class="form-control">
-<span id="charCount" style="color: red;"></span>
+<input id="modifyNm" name="boardNm" type="text" placeholder="변경 하실 이름을 입력해주세요." class="form-control">
+<span id="charCount1" style="color: red;"></span>
 </div>
 <div class="form-group">
 <h6>공개여부</h6>
@@ -98,6 +98,33 @@
 </div>
 </div>
 <!-- ========================게시판 삭제Modal 끗 ======================== -->
+
+
+<!-- ========================회원 추방 Modal 시작 (성현)======================== -->
+<div class="modal fade text-left" id="kickpartici" tabindex="-1" role="dialog" aria-labelledby="myModalLabel160" aria-hidden="true">
+ <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+<div class="modal-content">
+<div class="modal-header bg-primary">
+<h5 class="modal-title white" id="myModalLabel160">회원 추방</h5>
+<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+<i data-feather="x"></i>
+</button>
+</div>
+<div class="modal-body">현재 회원을 추방하시겠습니까?</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+<i class="bx bx-x d-block d-sm-none"></i>
+<span class="d-none d-sm-block">취소</span>
+</button>
+<button id="particiMembUniNoSH" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal" >
+<i class="bx bx-check d-block d-sm-none"></i>
+<span class="d-none d-sm-block">확인</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- ========================회원 추방 Modal 끗 ======================== -->
 <!-- ========================회원 초대 Modal 시작 ======================== -->
 <div class="modal fade text-left" id="partici" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3752" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -178,15 +205,15 @@
 								</div>
 								<hr>
 								<div class="row">
-										<p class="card-text" th:utext="${post.cm}"></p>
+										<p class="card-text cmPlace" th:utext="${post.cm}"></p>
 										<p class="card-text postTagArm">[[${post.postTagArm}]]</p>
 										<div class="attFilePlace" th:data-postUniNo="${post.postUniNo}"></div>	
 										<small class="text-muted">[[${#dates.format(post.writeDt,'yyyy-MM-dd')}]]</small>
 								</div>
 									<hr>
-								<div class="card-body" >
+								<!-- <div class="card-body" > -->
 									<div th:data-postUniNo="${post.postUniNo}" class="row replyPlace"></div>
-								</div>
+								<!-- </div> -->
 									<hr>
 								<div class="form-group position-relative has-icon-right">
 									<input name="replyUniNo" type="hidden" class="replyInput form-control" id="replyId"> 
@@ -300,6 +327,15 @@
 				
 			<!--end of MODALS -->
 		<script>
+		
+		// 개행처리?
+		 document.addEventListener('DOMContentLoaded', function() {
+		        let cmPlaceElement = document.querySelector('.cmPlace');
+		        let cmText = cmPlaceElement.textContent; 
+
+		        let replacedText = cmText.replace(/\n/g, '<br>');
+		        cmPlaceElement.innerHTML = replacedText;
+		    });
 				//댓글리스트
 				function showReplyList() {
 					let getPnum = document.querySelectorAll('.getPostUniNo');
@@ -610,6 +646,7 @@
 			//공지리스트호출
 			notiPostList();
 			//공지등록on/off
+			
 			function setPostNoti(e){
 					let pNum = e.target.parentElement.dataset.postunino;
 					let notiBTN = e.target;
@@ -628,6 +665,11 @@
 						.then(data => {
 							//공지리스트
 							notiPostList();
+							console.log([[${superShy}]].length);	
+							
+						 
+							
+							
 						})
 						.catch(err => console.log(err))
 					}else{
@@ -700,7 +742,7 @@ function PostBm(){
 			'postUniNo' : postNo,
 			'brdUniNo' : '[[${brdUniNo}]]'};
 	
-	fetch('/modu/BmInsert',{
+	fetch('BmInsert',{
 		method:'POST',
 		headers : {
 			'content-type' : 'application/json'
@@ -714,7 +756,7 @@ function PostBm(){
 }
 // 게시글 즐겨찾기
 function insertBrd(){
-	fetch('/modu/BmInsert',{
+	fetch('BmInsert',{
 		method:'POST',
 		headers : {
 			'content-type' : 'application/json'
@@ -754,6 +796,8 @@ $(document).ready(function() {
 	    $("#partici").modal("show");
 	  });
 	});
+	
+
 // ========================== 게시판 삭제 ========================== // 
 // 게시판 삭제 Modal 띄우기
 $(document).ready(function() {
@@ -784,12 +828,13 @@ function BrdDelete(){
 	.catch(err => console.log(err))
 }
 //========================== 게시판 삭제 끝  ========================== // 
+
 //========================== 게시판 업데이트  ========================== //
 function BrdUpdate() {
 	//게시판 번호 찾아오기
 	let brdNo = document.getElementById('brdNo').textContent;
 		
-	let brdNm = document.getElementById('boardNm').value;
+	let brdNm = document.getElementById('modifyNm').value;
 	
   // CheckBox 값 여부(공개 비공개 여부)
   let check1 = document.querySelector('#checkbox1');
@@ -799,6 +844,9 @@ function BrdUpdate() {
   } else {
     checkOk1 = '';
   }
+  
+  console.log(brdNm);
+  
   fetch("/modu/BrdUpdate", {
     method: 'POST',
     headers: {
@@ -816,7 +864,8 @@ function BrdUpdate() {
   .catch(err => console.log(err));
 }
 //========================== 게시판 업데이트 끗  ========================== //
-//========================== 회원 초대 뭐시기  ========================== //
+
+//========================== 회원 초대 뭐시깽  ========================== //
 new Choices(document.querySelector('.particiList'));
 function particiInsert(){
 	let particidata ={
@@ -833,10 +882,52 @@ function particiInsert(){
 	.then(result => result.json())
 	.then(data => {
 		//여기 초대 된 사람들 Arm 띄우기
-		//비공개 게시판 별 멤버 리스트 띄우기
+		armClient.publish({
+	        destination: "/pubArm/tag/" + particiMembUniNo,
+	        body: JSON.stringify({
+	          'particiMembUniNo': particidata,
+	        })
+	      });
 	})
 }
-//투표 상세로 가기
+
+
+	//let boardParticiMembUniNo = document.querySelectorAll('.editBoardLink')[].value;
+//	console.log($('.editBoardLink').length);
+//	let delNo;
+//	for(let i=0; i<$('.editBoardLink').length ; i++){
+//		console.log($('.editBoardLink').eq(i).attr('data-value'));
+		
+		//delNo = $(event.target).closest('.editBoardLink').attr('data-value');
+//	}
+/* 	console.log($(event.target));
+	console.log(delNo); */
+	//console.log(boardParticiMembUniNo);
+	
+	
+	function kick(event){
+			let del = $(event.target).closest('a');
+			let boardParticiMembUniNo = $(event.target).closest('.editBoardLink').attr('data-value');
+			$("#kickpartici").modal("show");
+			$('#particiMembUniNoSH').on('click', function(){
+				fetch('postParticiMembKick',{
+					method: 'POST',
+					headers: {
+					'Content-Type' : 'application/json',
+				},
+					body : JSON.stringify({'boardParticiMembUniNo' : boardParticiMembUniNo})
+				})
+				.then(result => result.json())
+				.then(data => {
+					console.log(data);
+					del.remove();
+				})	
+			}) 			
+	}
+
+
+
+
 	function voteInfo(vid){
 		 $.ajax("voteInfo/"+vid)
 		.done(result =>{
@@ -848,34 +939,34 @@ function particiInsert(){
 </script>
 
 <script>
-    const boardNmInput = document.getElementById('boardNm');
-    const charCountSpan = document.getElementById('charCount');
-    const maxCharCount = 10; // 최대 글자 수 설정
+    const boardNmInput1 = document.getElementById('modifyNm');
+    const charCountSpan1 = document.getElementById('charCount1');
+    const maxCharCount1 = 10; // 최대 글자 수 설정
+	
+    function updateValidation1() {
+        const currentCharCount = boardNmInput1.value.length;
+        charCountSpan1.textContent = `${currentCharCount}/${maxCharCount1}`;
 
-    function updateValidation() {
-        const currentCharCount = boardNmInput.value.length;
-        charCountSpan.textContent = `${currentCharCount}/${maxCharCount}`;
-
-        if (currentCharCount > maxCharCount) {
-            charCountSpan.style.color = 'red';
-            boardNmInput.setCustomValidity(`글자 수는 ${maxCharCount}자를 초과할 수 없습니다.`);
-            boardNmInput.classList.add('is-invalid');
+        if (currentCharCount > maxCharCount1) {
+            charCountSpan1.style.color = 'red';
+            boardNmInput1.setCustomValidity(`글자 수는 ${maxCharCount1}자를 초과할 수 없습니다.`);
+            boardNmInput1.classList.add('is-invalid');
             document.getElementById('formbtn').disabled = true;
         } else {
-            charCountSpan.style.color = '';
-            boardNmInput.setCustomValidity('');
-            boardNmInput.classList.remove('is-invalid');
+            charCountSpan1.style.color = '';
+            boardNmInput1.setCustomValidity('');
+            boardNmInput1.classList.remove('is-invalid');
             document.getElementById('formbtn').disabled = false;
         }
     }
 
-    boardNmInput.addEventListener('input', function() {
-        updateValidation();
+    boardNmInput1.addEventListener('input', function() {
+        updateValidation1();
     });
 
-    document.querySelector("#FormEvent").addEventListener("submit", function(e) {
+    document.querySelector("#formbtn").addEventListener("submit", function(e) {
         // 조건 충족하지 않을 때 submit 막기
-        if (!boardNmInput.checkValidity()) {
+        if (!boardNmInput1.checkValidity()) {
             e.preventDefault();
         }
     });
