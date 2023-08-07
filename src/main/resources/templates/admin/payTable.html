@@ -127,7 +127,7 @@ th {
 		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
 		
-		 var totalPayValue = Number($("#payAmt").text().replace(/[^0-9]/g, '')); // 숫자만 추출하여 변환
+		 var payAmt = Number($("#payAmt").text().replace(/[^0-9]/g, '')); // 숫자만 추출하여 변환
 		    $("#payAmt").text(numberWithCommas(totalPayValue) + '원');
 	</script>
 </body>
