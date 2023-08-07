@@ -62,7 +62,7 @@
 	<select id="chatParticiMemb" resultType="BoardVO" parameterType="BoardVO">
 	SELECT * 
 	FROM chatr_partici
-	WHERE chatr_no = #{chatrNo}
+	WHERE chatr_no = #{chatrNo} AND arm_yn='Y'
 	</select>
 	
 <select id="particiBrd" resultType="BoardVO" parameterType="BoardVO">
