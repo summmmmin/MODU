@@ -92,7 +92,7 @@ public class ScheController {
 		model.addAttribute("partici",list3);	//현재참여하고있는 사람들 되어야할 아이들
 		model.addAttribute("membList", prjService.getPrjPartiList(pvo));// 프로젝트내에 모든 사람들
 		//model.addAttribute("partici", scheService.schePartici(scheUniNo)); //일정 참여자 번호/닉네임
-		return "sche/test";
+		return "sche/scheUpdate";
 	}
 	
 	   //일정 등록
