@@ -9,6 +9,10 @@
 #brdSel{
 	overflow: auto
 }
+.choices__heading{
+	font-size:17px;
+	color:#25396F;
+}
 </style>
 
 </head>
@@ -35,11 +39,11 @@
 				<div class="row">
 						<h6>장소</h6>
 						<div class="form-group">
-							<select class="choices form-select brdchatrselect" id="brdSel" size="1" onfocus="this.size = 8" onchange="this.blur()" onblur="this.size = 1; this.blur()">
-								<optgroup label="============게시판============">
+							<select class="choices form-select brdchatrselect" id="brdSel">
+								<optgroup label="게시판">
 									<option th:value="${board.brdUniNo}+',brd'" th:each="board:${vote.boardList}">[[${board.boardNm}]]</option>
 								</optgroup>
-								<optgroup label="############채팅방############">
+								<optgroup label="채팅방">
 									<option th:value="${chat.chatrNo}+',cht'" th:each="chat:${vote.chatrList}">[[${chat.chatrNm}]]</option>
 								</optgroup>
 							</select>
@@ -94,8 +98,8 @@
 					<button type="button" class="btn btn-primary me-1 mb-1" onclick="VoteInsert()" >저장하기</button>
 				</div>
 			</div>
-		</div>
-		</form>
+	</div>
+	</form>
 	</div>
 	<script>
 	//오늘날짜 구하기
