@@ -308,6 +308,7 @@
 										</th:block>
 										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
 										<li><a class="dropdown-item rburger" onclick="bmList()">즐겨찾기</a></li>
+										<li><a class="dropdown-item rburger" onclick="prjmembList()">회원목록</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
@@ -723,7 +724,7 @@
  
 // WebSocket 연결 설정
 	const armClient = new StompJs.Client({
-		brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
+		brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
 	});
 	// 페이지 로드시 웹소켓 연결
 	window.addEventListener("load", function(event) {
@@ -905,6 +906,11 @@
             e.preventDefault();
         }
     });
+    
+    function prjmembList(){
+    	$.ajax("prjMembList")
+ 		.done(result=>$("#rsidebarContent").html(result))
+    }
 </script>
 <script src="assets/js/test.js"></script>
 </body>
