@@ -161,22 +161,20 @@
 	               .then(data => {
 	            	   todoList();
 	            	   
-	            	 //할 일 생성 알람 (성현)
+	            	 //할 일 생성 알람 참여자 (성현)
  	        			armClient.publish({
 	       				destination: "/pubArm/todo/" + cm,
 	       				body: JSON.stringify({
 	       					'particiMembUniNo' : cm
 	       				})
 	       		});
-	            	 
- 		            	 //할 일 생성 알람 (성현)
+ 		            	 //할 일 생성 알람 매니저 (성현)
  	        			armClient.publish({
 	       				destination: "/pubArm/todo/" + mgr,
 	       				body: JSON.stringify({
 	       					'particiMembUniNo' : mgr
 	       				})
 	       		});
-	            	   
 	      })
 		}
 		
