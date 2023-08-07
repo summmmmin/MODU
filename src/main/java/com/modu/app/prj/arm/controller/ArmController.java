@@ -55,13 +55,6 @@ public class ArmController {
 		return boardservice.chatParticiMemb(vo);
 	}
 	
-
-	// 할 일 등록 알림
-	@MessageMapping("/todo/{memno}")
-	public void todoarm(ArmVO vo, @DestinationVariable String memno) throws Exception {
-		messagingTemplate.convertAndSend("/subArm/todo/" + memno, vo);
-	}
-	
 	// 비공개 게시판 초대  알림
 	@MessageMapping("/partici/{memno}")
 	public void particiarm(ArmVO vo, @DestinationVariable String memno) throws Exception {
@@ -74,10 +67,16 @@ public class ArmController {
 		messagingTemplate.convertAndSend("/subArm/tag/" + memno, vo);
 	}
 	
-		// 공지사항 알림 알림
-		@MessageMapping("/noti/{memno}")
-		public void notiarm(ArmVO vo, @DestinationVariable String memno) throws Exception {
-			messagingTemplate.convertAndSend("/subArm/noti/" + memno, vo);
-		}
+	// 공지사항 알림 알림
+	@MessageMapping("/noti/{memno}")
+	public void notiarm(ArmVO vo, @DestinationVariable String memno) throws Exception {
+		messagingTemplate.convertAndSend("/subArm/noti/" + memno, vo);
+	}
 
+	// 할 일 등록 알림
+	@MessageMapping("/todo/{memno}")
+	public void todoarm(ArmVO vo, @DestinationVariable String memno) throws Exception {
+		messagingTemplate.convertAndSend("/subArm/todo/" + memno, vo);
+	}
+	
 }
