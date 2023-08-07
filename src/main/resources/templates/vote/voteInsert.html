@@ -35,7 +35,7 @@
 				<div class="row">
 						<h6>장소</h6>
 						<div class="form-group">
-							<select class="choices form-select brdchatrselect" id="brdSel">
+							<select class="choices form-select brdchatrselect" id="brdSel" size="1" onfocus="this.size = 8" onchange="this.blur()" onblur="this.size = 1; this.blur()">
 								<optgroup label="============게시판============">
 									<option th:value="${board.brdUniNo}+',brd'" th:each="board:${vote.boardList}">[[${board.boardNm}]]</option>
 								</optgroup>
