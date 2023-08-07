@@ -99,7 +99,7 @@ th {
 												th:text="${#dates.format(pay.payDt, 'yyyy-MM-dd')}"></td>
 											<td class="center-aligned" th:text="${pay.exdt}"></td>
 											<td class="right-aligned" th:text="${pay.payWay}"></td>
-											<td class="right-aligned" th:text="${pay.payAmt}"></td>
+											<td class="right-aligned" id="payAmt" th:text="${pay.payAmt}"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -111,6 +111,7 @@ th {
 		</div>
 	</div>
 	<script th:inline="javascript">
+		//날짜포맷
 		function formatDate(dateString) {
 			const date = new Date(dateString);
 			const options = {
@@ -120,6 +121,14 @@ th {
 			};
 			return date.toLocaleDateString(undefined, options);
 		}
+		
+		// 결제금액 포맷
+		function numberWithCommas(x) {
+		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+		
+		 var totalPayValue = Number($("#payAmt").text().replace(/[^0-9]/g, '')); // 숫자만 추출하여 변환
+		    $("#payAmt").text(numberWithCommas(totalPayValue) + '원');
 	</script>
 </body>
 
