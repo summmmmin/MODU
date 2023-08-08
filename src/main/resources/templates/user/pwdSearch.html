@@ -1,42 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>비밀번호 찾기</title>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/css/bootstrap.css">
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="stylesheet" href="assets/css/pages/auth.css">
+<style>
+body {
+	font-family: Arial, sans-serif;
+	background-color: #ffffff;
+	color: #333;
+	margin: 0;
+	padding: 1em;
+}
 
-<div id="forgotPasswordModal" class="modal">
-	<div class="modal-content">
-		<h2>비밀번호 찾기</h2>
-		<form>
-			<div id="emailInputContainer">
-				<input type="email" id="emailInput" placeholder="이메일 입력">
-			</div>
-			<div id="nameInputContainer">
-				<input type="text" id="nameInput" placeholder="이름 입력">
-			</div>
-			<button type="button" onclick="sendEmail()">확인</button>
-		</form>
+div {
+	margin-bottom: 1em;
+}
+
+label {
+	display: inline-block;
+	width: 100px;
+	margin-right: 1em;
+	text-align: right;
+}
+
+input[type="text"], button {
+	padding: 0.5em;
+	font-size: 16px;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	outline: none;
+	transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+	border-color: #5A67D8;
+}
+
+button {
+	background-color: #5A67D8;
+	color: #fff;
+	cursor: pointer;
+	margin-left: 10px;
+}
+
+button:hover {
+	background-color: #4C51BF;
+}
+
+.error-border {
+	border: 1px solid red;
+}
+
+span {
+	display: block;
+	margin-top: 0.5em;
+	color: red;
+}
+
+#phone, #verificationCode, #name {
+	width: 200px;
+}
+
+.auth-logo {
+	text-align: center;
+}
+
+.navbar-brand {
+	font-size: 24px;
+}
+</style>
+</head>
+
+<body>
+	<div class="auth-logo">
+		<a class="navbar-brand"><span class="fw-bolder text-primary">MODU</span></a>
 	</div>
-</div>
 
-<script>
-	function sendEmail() {
-		var emailInput = document.getElementById("emailInput").value;
-		var nameInput = document.getElementById("nameInput").value;
+			<form>
+				<div id="emailInputContainer">
+					<label for="emailInput">이메일</label> <input type="text"
+						id="emailInput" placeholder="이메일 입력">
+				</div>
+				<div id="nameInputContainer">
+					<label for="nameInput">이름</label> <input type="text" id="nameInput"
+						placeholder="이름 입력">
+				<button type="button" onclick="sendEmail()">확인</button>
+				</div>
+			</form>
 
-		// AJAX 요청을 보내고 서버에서 이메일 발송 처리
-		$.ajax({
-			type : "POST",
-			url : "pwdSearch",
-			data : {
-				id : emailInput,
-				nm : nameInput
-			},
-			success : function(response) {
-				alert("비밀번호가 재설정 되었습니다. 메일을 확인해주세요.");
-			},
-			error : function(xhr, status, error) {
-				alert("존재하지 않는 회원입니다.");
-				console.log(xhr.responseText); // 에러 내용 출력 (개발 중 디버깅용)
-			}
-		});
-		console.log(emailInput);
-		console.log(nameInput);
-	}
-</script>
+
+	<script>
+		function sendEmail() {
+			var emailInput = $('#emailInput').val();
+			var nameInput = $('#nameInput').val();
+
+			$.ajax({
+				type : "POST",
+				url : "pwdSearch",
+				data : {
+					id : emailInput,
+					nm : nameInput
+				},
+				success : function(response) {
+					alert("비밀번호가 재설정 되었습니다. 메일을 확인해주세요.");
+				},
+				error : function(xhr, status, error) {
+					alert("존재하지 않는 회원입니다.");
+					console.log(xhr.responseText); // 에러 내용 출력 (개발 중 디버깅용)
+				}
+			});
+			console.log(emailInput);
+			console.log(nameInput);
+		}
+	</script>
+</body>
+</html>

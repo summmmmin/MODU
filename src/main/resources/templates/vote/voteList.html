@@ -5,9 +5,18 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+.vote{
+	border: 1px;
+}
 .vote:hover{
 	opacity:0.5;
 	cursor: pointer;	
+}
+
+#voteHr{
+  height: 3px;
+  background-color:black;
+  border: 0px;
 }
 </style>
 </head>
@@ -74,10 +83,10 @@
 		 if (result.list[i].boardNm != null){
 		div=`<div class="vote" onclick="voteInfo()" id=${result.list[i].voteNo}>
 			<h4 class="card-title">게시판:${result.list[i].boardNm}</h4>
-			<h2>투표제목:${result.list[i].ttl}</h2>
+			<h4>투표제목/${result.list[i].ttl}</h4>
 			<small class="text-muted">${result.count[i].cnt}명 참여</small>
 			<p class="card-text">~${result.list[i].toDt}까지 마감</p>
-			</div><p></p>
+			</div><hr id="voteHr">
 		`; //채팅방 제목이 있으면
 		}else if(result.list[i].chatrNm != null){
 			div=`<div class="vote" onclick="voteInfo()" id=${result.list[i].voteNo}>

@@ -2,32 +2,108 @@
 <html>
 
 <head>
-    <title>인증 및 ID 검색</title>
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<title>아이디 찾기</title>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<link
+	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/css/bootstrap.css">
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="stylesheet" href="assets/css/pages/auth.css">
+<style>
+body {
+	font-family: Arial, sans-serif;
+	background-color: #ffffff;
+	color: #333;
+	margin: 0;
+	padding: 1em;
+}
+
+div {
+	margin-bottom: 1em;
+}
+
+label {
+	display: inline-block;
+	width: 100px;
+	margin-right: 1em;
+	text-align: right;
+}
+
+input[type="text"], button {
+	padding: 0.5em;
+	font-size: 16px;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	outline: none;
+	transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+	border-color: #5A67D8;
+}
+
+button {
+	background-color: #5A67D8;
+	color: #fff;
+	cursor: pointer;
+	margin-left: 10px;
+}
+
+button:hover {
+	background-color: #4C51BF;
+}
+
+.error-border {
+	border: 1px solid red;
+}
+
+span {
+	display: block;
+	margin-top: 0.5em;
+	color: red;
+}
+
+#phone, #verificationCode, #name {
+	width: 200px;
+}
+
+.auth-logo {
+	text-align: center; /* 로고를 중간에 배치 */
+}
+
+.navbar-brand {
+	font-size: 24px; /* 폰트 크기 설정. 필요에 따라 조절 가능 */
+}
+</style>
 </head>
 
 <body>
-    <div>
-        <label for="name">이름</label>
-        <input type="text" id="name" name="name" required>
-    </div>
-    <div>
-        <label for="phone">휴대폰 번호</label>
-        <input type="text" id="phone" name="phone" required>
-        <button type="button" id="sendVerificationCode">인증번호 발송</button>
-    </div>
-    <div>
-        <label for="verificationCode">인증번호</label>
-        <input type="text" id="verificationCode" name="verificationCode" required>
-        <span id="verifyError" style="color: red; display: none;">인증번호가 일치하지 않습니다.</span>
-    </div>
-    <div>
-        <button type="button" id="verifyButton">인증번호 확인</button>
-    </div>
-    <div>
-        <button type="button" id="idSearchButton" style="display: none;">확인</button>
-    </div>
-    <script>
+	<div class="auth-logo">
+		<a class="navbar-brand"><span class="fw-bolder text-primary">MODU</span></a>
+	</div>
+	<div>
+		<label for="name">이름</label> <input type="text" id="name" name="name"
+			required>
+	</div>
+	<div>
+		<label for="phone">휴대폰 번호</label> <input type="text" id="phone"
+			name="phone" required>
+		<button type="button" id="sendVerificationCode">인증번호 발송</button>
+	</div>
+	<div>
+		<label for="verificationCode">인증번호</label> <input type="text"
+			id="verificationCode" name="verificationCode" required>
+		<button type="button" id="verifyButton">인증번호 확인</button>
+		<span id="verifyError" style="display: none;">인증번호가 일치하지 않습니다.</span>
+	</div>
+	<div>
+		<button type="button" id="idSearchButton" style="display: none;">아이디
+			확인</button>
+	</div>
+	<script>
         function showError(selector, message) {
             $(selector).text(message).show();
             $(selector).prev().addClass('error-border');
@@ -76,25 +152,46 @@
             });
         }
 
-        $('#sendVerificationCode').on('click', function () {
-            var phoneNumber = $('input[name="phone"]').val();
-            var dataToSend = {
-                to: phoneNumber
-            };
+        $('#sendVerificationCode').on('click', function() {
+            var name = $('#name').val();
+            var phone = $('#phone').val();
+            console.log(name);
+            console.log(phone);
+
+            // 먼저 idSearch를 호출하여 아이디 존재 여부 확인
             $.ajax({
-                url: 'send',
+                url: 'idSearch',
                 type: 'POST',
-                data: JSON.stringify(dataToSend),
-                contentType: 'application/json',
-                success: function (response) {
-                    alert("인증번호가 발송되었습니다.");
+                data: { name: name, phone: phone },
+                success: function(response) {
+                    if (response.startsWith("회원님의 아이디는")) {
+                        $.ajax({
+                            url: 'send',
+                            type: 'POST',
+                            data: JSON.stringify({ to: phone }), 
+                            contentType: 'application/json',
+                            success: function (response) {
+                                alert("인증번호가 발송되었습니다.");
+                            },
+                            error: function (xhr, status, error) {
+                                alert("하이픈('-')없이 숫자만 입력해주세요.");
+                                console.error('에러 : ', error);
+                            }
+                        });
+                    } else {
+                        alert(response); 
+                    }
                 },
-                error: function (xhr, status, error) {
-                    alert("하이픈('-')없이 숫자만 입력해주세요.");
+                error: function(xhr, status, error) {
                     console.error('에러 : ', error);
+                    alert('서버 오류가 발생했습니다. 다시 시도해 주세요.');
                 }
             });
         });
+
+
+
+
 
         $('#verifyButton').on('click', function () {
             verifySmsCode(true).then(isSmsVerified => {
@@ -116,7 +213,7 @@
                     type: 'POST',
                     data: { name: name, phone: phone },
                     success: function (response) {
-                        alert("아이디를 찾았습니다! " + response);
+                        alert(response);
                     },
                     error: function (xhr, status, error) {
                         console.error('에러 : ', error);

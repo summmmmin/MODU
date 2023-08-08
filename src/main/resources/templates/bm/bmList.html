@@ -3,7 +3,18 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>즐겨찾기 List</title>
+
+   <style>
+        /* 마우스 오버 시 배경색 변경 */
+        .event1:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .card-header {
+            padding: 0px 10px;
+        }
+    </style>
 </head>
 <body>
 	<div class="row">
@@ -31,9 +42,10 @@
     fetch("bmList")
     .then(response => response.json())
     .then(result => {
+    	console.log('ㅁㅁㅁㅁ');
         console.log(result);
         for (let i = 0; i < result.length; i++) {
-        	//tr을 생성
+        	//div를 생성
             let tr = document.createElement('div');
         	tr.classList.add('row');
         	tr.classList.add('event1');
@@ -53,34 +65,27 @@
         	td.setAttribute('id','bmuni');
         	
         	//tr에 href 함수
-            tr.setAttribute('onclick', 'trHref(event)');
+            tr.setAttribute('onclick', 'trHref()');
 
             
             if (result[i].brdUniNo != null) {
                 // 게시글 즐겨찾기 일때
-                
-                tr.appendChild(createCell(formatDate(result[i].regDt))); //등록 날짜
-                tr.appendChild(createCell(result[i].bmUniNo)); //즐겨찾기 번호
-                tr.appendChild(createCell(result[i].brdUniNo)); //게시판 고유번호
-                tr.appendChild(createCell(result[i].division));
-                tr.appendChild(document.createElement('hr'));
+                tr.appendChild(createCell('등록 날짜 : ' + formatDate(result[i].regDt))); //등록 날짜
+                tr.appendChild(hidden(result[i].brdUniNo)); //게시판 고유번호
+                tr.appendChild(createCell('작성자 : '+result[i].postNick)); //게시글 작성자
+                tr.appendChild(createCell('게시글 제목 : ' + result[i].ttl)); //게시글 제목
+                tr.appendChild(hidden(result[i].bmUniNo)); //즐겨찾기 번호
+                tr.appendChild(hidden(result[i].division));
             } else if (result[i].chatrNo != null) {
                 // 채팅 즐겨찾기 일때
-                tr.appendChild(createCell(formatDate(result[i].regDt))); //등록 날짜
-                tr.appendChild(createCell(result[i].bmUniNo)); //즐겨찾기 번호
-                tr.appendChild(createCell(result[i].chatrNo)); //채팅 번호
-                tr.appendChild(createCell(result[i].division));
-                tr.appendChild(document.createElement('hr'));
-            } else if (result[i].attNo != null) {
-                // 첨부파일 즐겨찾기 일때
-                tr.appendChild(createCell(formatDate(result[i].regDt))); //등록 날짜
-                tr.appendChild(createCell(result[i].bmUniNo)); //즐겨찾기 번호
-                tr.appendChild(createCell(result[i].attNo)); //파일 번호
-                tr.appendChild(createCell(result[i].division));
-                tr.appendChild(document.createElement('hr'));
+                tr.appendChild(createCell('등록 날짜 : ' + formatDate(result[i].regDt))); //등록 날짜
+                tr.appendChild(hidden(result[i].chatrNo)); //채팅방 번호
+                tr.appendChild(createCell('닉네임 : ' + result[i].chatNick)); //채팅한 사람의 닉네임
+                tr.appendChild(createCell(result[i].cntn)); //채팅 내용
+                tr.appendChild(hidden(result[i].bmUniNo)); //즐겨찾기 번호
+                tr.appendChild(hidden(result[i].division));
             }
             document.getElementById('bmList').appendChild(tr);
-            document.create
         }
     });
 
@@ -91,12 +96,21 @@
         td.textContent = text;
         return td;
     }
+    
+  //div 생성
+    function hidden(text) {
+        let td = document.createElement('div');
+        td.classList.add('row');
+        td.textContent = text;
+        td.setAttribute('style','display:none')
+        return td;
+    }
 
     // 클릭 이벤트
-    function trHref(event){
-        let division = event.target.closest('.event1').children[3].textContent;
+    function trHref(){
+        let division = event.target.closest('.event1').children[6].textContent;
         let value = event.target.closest('.event1').children[2].textContent;
-        console.log(value);
+        console.log(division);
 
         if(division == 'A'){
             window.location.href='/modu/postList?brdUniNo='+ value;
@@ -104,7 +118,6 @@
             window.location.href='/modu/chat?chatrNo='+ value;
         }
     }
-    
     
     
     // 즐겨찾기 삭제

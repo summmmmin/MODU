@@ -18,11 +18,91 @@
 	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<style>
+/* 기본 설정 */
+body, html {
+	height: 100%;
+	margin: 0;
+	font-family: 'Arial', sans-serif;
+}
+
+/* 상단바 스타일링 */
+.navbar {
+	width: 100%;
+	background-color: #f8f8f8;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+section {
+	width: 100%;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	padding: 90px;
+}
+
+#basic-horizontal-layouts {
+	max-width: 100%;
+	margin-left: 10px;
+}
+
+#quitUserBtn {
+	margin-top: 80px;
+}
+
+.separator {
+	border-bottom: 2px solid #e1e1e1;
+	margin: 15px 0;
+}
+</style>
 </head>
 
 <body>
-	<section id="basic-horizontal-layouts">
-		<div class="row match-height">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+		<div class="container-lg">
+			<a class="navbar-brand" th:href="@{/}"><span
+				class="fw-bolder text-primary">MODU</span></a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
+					<li class="nav-item"><a class="nav-link"
+						href="/modu/noticeList">공지사항</a></li>
+					<li class="nav-item"><a class="nav-link" href="/modu/FAQList">FAQ</a></li>
+					<li class="nav-item"><a class="nav-link" href="/modu/subscribe">요금안내</a></li>
+					<li class="nav-item"
+						th:if="${#httpServletRequest.userPrincipal != null and #httpServletRequest.userPrincipal.authorities.contains('ROLE_ADMIN')}">
+						<a class="nav-link" href="#">관리자메뉴</a>
+					</li>
+					<li class="nav-item"
+						th:if="${#httpServletRequest.userPrincipal == null}"><a
+						class="nav-link" href="login">로그인</a></li>
+					<li class="nav-item"
+						th:if="${#httpServletRequest.userPrincipal != null}"><a
+						class="nav-link" href="/modu/logout">로그아웃</a></li>
+					<li class="nav-item"
+						th:if="${#httpServletRequest.userPrincipal != null and #httpServletRequest.isUserInRole('ROLE_ADMIN')}">
+						<a class="nav-link" th:href="@{/admin/dashBoard}">관리자 메뉴</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<section id="basic-horizontal-layouts">
 			<div class="col-md-6 col-12">
 				<div class="card">
 					<div class="card-header">
@@ -43,11 +123,10 @@
 										<div class="col-md-4" id="email-label" style="display: none;">
 											<label for="email-horizontal">새로운 이메일</label>
 										</div>
-										<div class="col-md-3 form-group" id="email-group"
+										<div class="col-md-6 form-group" id="email-group"
 											style="display: none;">
 											<input type="email" id="email-horizontal"
-												class="form-control" name="email-id" placeholder="새로운 이메일"
-												style="width: 300px;">
+												class="form-control" name="email-id" placeholder="새로운 이메일">
 										</div>
 										<div class="col-md-2 form-group" id="email-button-group"
 											style="display: none;">
@@ -57,7 +136,7 @@
 										<div class="col-md-4" id="code-label" style="display: none;">
 											<label for="code-horizontal">인증번호</label>
 										</div>
-										<div class="col-md-3 form-group" id="code-group"
+										<div class="col-md-6 form-group" id="code-group"
 											style="display: none;">
 											<input type="text" id="code-horizontal" class="form-control"
 												name="code" placeholder="인증번호" style="width: 300px;">
@@ -67,6 +146,9 @@
 											<button type="button" id="check-button"
 												class="btn btn-primary">확인</button>
 										</div>
+										<div class="separator"></div>
+										<!-- 구분선 추가 -->
+
 										<div class="col-md-4">
 											<label for="name" id=name>이름</label>
 										</div>
@@ -78,17 +160,20 @@
 											style="display: none;">
 											<label for="new-name-horizontal">새로운 이름</label>
 										</div>
-										<div class="col-md-3 form-group" id="new-name-group"
+										<div class="col-md-6 form-group" id="new-name-group"
 											style="display: none;">
 											<input type="text" id="new-name-horizontal"
 												class="form-control" name="new-name" placeholder="새로운 이름"
 												style="width: 300px;">
 										</div>
-										<div class="col-md-5 form-group" id="new-name-button-group"
+										<div class="col-md-2 form-group" id="new-name-button-group"
 											style="display: none;">
 											<button type="button" id="new-name-check-button"
 												class="btn btn-primary">확인</button>
 										</div>
+										<div class="separator"></div>
+										<!-- 구분선 추가 -->
+
 										<div class="col-md-4" id="password-label">
 											<label for="new-password">비밀번호</label>
 										</div>
@@ -99,37 +184,39 @@
 											style="display: none;">
 											<label for="current-password">현재 비밀번호</label>
 										</div>
-										<div class="col-md-8 form-group" id="current-password-group"
+										<div class="col-md-6 form-group" id="current-password-group"
 											style="display: none;">
 											<input type="password" id="current-password"
 												class="form-control" name="current-password"
-												placeholder="현재 비밀번호" style="width: 300px;">
+												placeholder="현재 비밀번호">
 										</div>
 										<div class="col-md-4" id="new-password-label"
 											style="display: none;">
 											<label for="new-password-confirm">새로운 비밀번호</label>
 										</div>
-										<div class="col-md-8 form-group" id="new-password-group"
+										<div class="col-md-6 form-group" id="new-password-group"
 											style="display: none;">
 											<input type="password" id="new-password-confirm"
 												class="form-control" name="new-password-confirm"
-												placeholder="새로운 비밀번호" style="width: 300px;">
+												placeholder="새로운 비밀번호">
 										</div>
 										<div class="col-md-4" id="confirm-password-label"
 											style="display: none;">
 											<label for="confirm-password">비밀번호 확인</label>
 										</div>
-										<div class="col-md-3 form-group" id="confirm-password-group"
+										<div class="col-md-6 form-group" id="confirm-password-group"
 											style="display: none;">
 											<input type="password" id="confirm-password"
 												class="form-control" name="confirm-password"
-												placeholder="새로운 비밀번호 확인" style="width: 300px;">
+												placeholder="비밀번호 확인">
 										</div>
-										<div class="col-md-5 form-group"
+										<div class="col-md-2 form-group"
 											id="new-password-button-group" style="display: none;">
 											<button type="button" id="new-password-check-button"
 												class="btn btn-primary">확인</button>
 										</div>
+										<div class="separator"></div>
+										<!-- 구분선 추가 -->
 										<div class="col-md-4">
 											<label id="phone-number-label" for="phone-number">휴대폰
 												번호</label>
@@ -143,13 +230,12 @@
 											style="display: none;">
 											<label for="new-phone-horizontal">새로운 번호</label>
 										</div>
-										<div class="col-md-3 form-group" id="new-phone-group"
+										<div class="col-md-5 form-group" id="new-phone-group"
 											style="display: none;">
 											<input type="tel" id="new-phone-horizontal"
-												class="form-control" name="new-phone" placeholder="새로운 번호"
-												style="width: 300px;">
+												class="form-control" name="new-phone" placeholder="새로운 번호">
 										</div>
-										<div class="col-md-2 form-group" id="phone-button-group"
+										<div class="col-md-3	 form-group" id="phone-button-group"
 											style="display: none;">
 											<button type="button" id="phone-send-button"
 												class="btn btn-primary">발송</button>
@@ -158,19 +244,18 @@
 											style="display: none;">
 											<label for="phone-code-horizontal">인증번호</label>
 										</div>
-										<div class="col-md-3 form-group" id="phone-code-group"
+										<div class="col-md-5 form-group" id="phone-code-group"
 											style="display: none;">
 											<input type="text" id="phone-code-horizontal"
-												class="form-control" name="phone-code" placeholder="인증번호"
-												style="width: 300px;">
+												class="form-control" name="phone-code" placeholder="인증번호">
 										</div>
-										<div class="col-md-2 form-group" id="phone-code-button-group"
+										<div class="col-md-3 form-group" id="phone-code-button-group"
 											style="display: none;">
 											<button type="button" id="phone-check-button"
 												class="btn btn-primary">확인</button>
 										</div>
-											<div id="sns-message" th:if="${userVO.sns == 'Y'}">SNS간편가입
-												계정입니다</div>
+										<div id="sns-message" th:if="${userVO.sns == 'Y'}">SNS간편가입
+											계정입니다</div>
 									</div>
 								</div>
 							</form>
@@ -179,34 +264,34 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-	<!--Danger theme Modal -->
-	<div class="modal fade text-left" id="danger" tabindex="-1"
-		role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
-		<div
-			class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-			role="document">
-			<div class="modal-content">
-				<div class="modal-header bg-danger">
-					<h5 class="modal-title white" id="myModalLabel120">탈퇴</h5>
-					<button type="button" class="close" data-bs-dismiss="modal"
-						aria-label="Close">
-						<i data-feather="x"></i>
-					</button>
-				</div>
-				<div class="modal-body">정말로 탈퇴하시겠습니까?</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-light-secondary"
-						data-bs-dismiss="modal">
-						<i class="bx bx-x d-block d-sm-none"></i> <span
-							class="d-none d-sm-block">취소</span>
-					</button>
-					<button type="button" class="btn btn-danger ml-1" id="confirmQuit"
-						data-bs-dismiss="modal">
-						<i class="bx bx-check d-block d-sm-none"></i> <span
-							class="d-none d-sm-block">탈퇴</span>
-					</button>
+		</section>
+		<!--Danger theme Modal -->
+		<div class="modal fade text-left" id="danger" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel120" aria-hidden="true">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+				role="document">
+				<div class="modal-content">
+					<div class="modal-header bg-danger">
+						<h5 class="modal-title white" id="myModalLabel120">탈퇴</h5>
+						<button type="button" class="close" data-bs-dismiss="modal"
+							aria-label="Close">
+							<i data-feather="x"></i>
+						</button>
+					</div>
+					<div class="modal-body">정말로 탈퇴하시겠습니까?</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-light-secondary"
+							data-bs-dismiss="modal">
+							<i class="bx bx-x d-block d-sm-none"></i> <span
+								class="d-none d-sm-block">취소</span>
+						</button>
+						<button type="button" class="btn btn-danger ml-1" id="confirmQuit"
+							data-bs-dismiss="modal">
+							<i class="bx bx-check d-block d-sm-none"></i> <span
+								class="d-none d-sm-block">탈퇴</span>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
