@@ -92,18 +92,13 @@ public class BoardServiceImpl implements BoardService {
 	
 	//알람 여부 체크
 	@Override
-	public BoardVO armYn(BoardVO vo) {
-		return boardMapper.armYn(vo);
+	public BoardVO armYn(String particiMembUniNo) {
+		return boardMapper.armYn(particiMembUniNo);
 	}
 	
 	// 전체 알람 On/Off
 	@Override
 	public int particiArm(BoardVO vo) {
-		if(vo.getArmYn() == "Y") {
-			vo.setArmYn("N");
-		}else {
-			vo.setArmYn("Y");
-		}
 		return boardMapper.particiArm(vo);
 	}
 }

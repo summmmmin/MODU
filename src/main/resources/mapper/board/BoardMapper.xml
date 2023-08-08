@@ -113,12 +113,12 @@
 	
 	<select id="armYn" resultType="BoardVO" parameterType="BoardVO">
 	SELECT * FROM prj_partici_memb 
-	WHERE partici_memb_uni_no = #{particiMembUniNo} AND prj_uni_no = #{prjUniNo} 
+	WHERE partici_memb_uni_no = #{particiMembUniNo}
 	</select>
 	
 	<update id="particiArm" parameterType="BoardVO">
 		UPDATE prj_partici_memb SET arm_yn = #{armYn}
-		WHERE partici_memb_uni_no = 'ppm222' AND prj_uni_no = 'punt1';
+		WHERE partici_memb_uni_no = #{particiMembUniNo}
 	</update>
 	
 </mapper>

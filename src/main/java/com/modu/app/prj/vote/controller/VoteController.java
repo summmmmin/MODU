@@ -60,7 +60,8 @@ public class VoteController {
 	map.put("list",voteService.voteList(vo)); //투표 리스트
 	map.put("count",voteService.allCount((String) session.getAttribute("prjUniNo")));	//투표 참여인원수
 	map.put("grd", voteService.grdCheck((String) session.getAttribute("particiMembUniNo")));//회원 등급 처리
-		return map; 
+	System.out.println(map);
+	return map; 
 	 }
 	 
 	
@@ -117,12 +118,12 @@ public class VoteController {
 		model.addAttribute("voteInfo",voteService.voteOne(vo));
 		model.addAttribute("item",voteService.voteItem(voteNo));
 		
-			
+		
 		// 투표를 만든 사람과 프로젝트 관리자는 단건에서 수정 삭제가 가능함
 		// 투표를 만든 사람을 알기위해서 model에 값을 넣어줌.
 		model.addAttribute("maker",voteService.voteMaker(voteNo));
 		
-		
+		System.out.println(model.getAttribute("maker"));
 		//이미 투표한 장소인지 확인하기 위해 필요한 데이터 넣기
 		vdvo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
 		vdvo.setVoteNo(voteNo);
@@ -135,12 +136,16 @@ public class VoteController {
 		// 세션에서 회원의 해당 프로젝트 내의 등급을 가져옴.
 		String grd = (String) session.getAttribute("grd");
 		
+		System.out.println(grd);
+		System.out.println(toDt);
+		System.out.println(voteService.whoVote(vdvo));
+		
 		//1.로그인한 사람이 이미 해당 투표를 진행했거나 이미 마감날짜가 지나면 투표 결과 장소 
 		//2.투표를 하지 않았다면 투표하는 장소로 이동
 		//로그인 한사람이 get방식으로 1.투표하는 장소로 이동후 
 		//post방식으로 투표를 등록한후
 		//get방식으로 if문으로 2.투표를 행한 결과 장소로 이동 
-		if(voteService.whoVote(vdvo) != null || toDt.before(today) || grd == "G01") {
+		if(voteService.whoVote(vdvo) != null || toDt.before(today) || grd.equals("G01")) {
 			return "vote/voteResult";
 		}else {
 			return "vote/voteInfo";

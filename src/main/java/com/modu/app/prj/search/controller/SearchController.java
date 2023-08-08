@@ -64,6 +64,7 @@ public class SearchController {
 		@GetMapping("BpListSearch")
 		public List<SearchVO> BpList(@RequestParam String ttl, SearchVO vo, HttpSession session) {
 			vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+			vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
 			vo.setTtl(ttl);
 			List<SearchVO> list = searchService.BpList(vo);
 			return list;
