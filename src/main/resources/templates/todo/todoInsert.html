@@ -135,6 +135,10 @@
 				if(ttl == ''){
 					document.getElementById('ttl').placeholder="제목을 입력하시지 않으셨습니다."
 					return;
+				}{
+					document.getElementById('cntn').placeholder="내용을 입력하시지 않으셨습니다."
+					return;
+				}
 				}else if(Date == '' || lastDate == ''){
 					$('#red2').show();
 					 return;

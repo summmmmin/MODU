@@ -194,7 +194,7 @@
 		
 		let itemArr =  new Array(); 
 		document.querySelectorAll('.voteItem').forEach(function(item){
-			if(item.value == '' ){
+			if(item.value == '' || item.length>16){
 			 return;
 			}
 			itemArr.push(item.value)
@@ -203,8 +203,9 @@
 				return;
 			}
 		})
-
-
+		
+		console.log(itemArr)
+		
 		let additionalData = {
 			ttl:ttl,
 			toDt:date,

@@ -134,11 +134,10 @@ public class VoteController {
 		// 세션에서 회원의 해당 프로젝트 내의 등급을 가져옴.
 		String grd = (String) session.getAttribute("grd");
 			
-		//1.로그인한 사람이 이미 해당 투표를 진행했거나 이미 마감날짜가 지나면 투표 결과 장소 
-		//2.투표를 하지 않았다면 투표하는 장소로 이동
-		//로그인 한사람이 get방식으로 1.투표하는 장소로 이동후 
-		//post방식으로 투표를 등록한후
-		//get방식으로 if문으로 2.투표를 행한 결과 장소로 이동 
+		//1.로그인한 회원이 이미 해당 투표를 진행한경우
+		//2.마감날짜가 지난 경우
+		//3.로그인한 회원등급이 씨앗인 경우
+		//투표 결과창으로 진행 이 경우가 아닐 시 투표하기 공간으로 이동.
 		if(voteService.whoVote(vdvo) != null || toDt.before(today) || grd.equals("G01")) {
 			return "vote/voteResult";
 		}else {
