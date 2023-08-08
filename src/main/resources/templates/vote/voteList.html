@@ -79,7 +79,7 @@
 			<h4>투표제목/${result.list[i].ttl}</h4>
 			<small class="text-muted">${result.count[i].cnt}명 참여</small>
 			<p class="card-text">~${result.list[i].toDt}까지 마감</p>
-			</div><hr id="voteHr">
+			</div><hr>
 		`; //채팅방 제목이 있으면
 		}else if(result.list[i].chatrNm != null){
 			div=`<div class="vote" onclick="voteInfo()" id=${result.list[i].voteNo}>
@@ -87,7 +87,7 @@
 				<h2>제목:${result.list[i].ttl}</h2>
 				<small class="text-muted">${result.count[i].cnt}명 참여</small>
 				<p class="card-text">~${result.list[i].toDt}까지 마감</p>
-				</div><p></p>
+				</div><hr>
 			`; 
 		}
 		$('#vote').append(div);	

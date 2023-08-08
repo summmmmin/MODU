@@ -78,6 +78,9 @@ public class TodoController {
 	@ResponseBody
 	public TodoVO todoInsert(HttpSession session, @RequestParam(value="file",required=false) MultipartFile[] file, @RequestParam("ttl") String ttl,
 			@RequestParam("cntn") String cntn,	@RequestParam("frDt") String Date, @RequestParam("toDt") String lastDate,@RequestParam("cm") String cm, @RequestParam("mgr") String mgr) throws ParseException {
+		System.out.println(cntn);
+		System.out.println(file);
+		System.out.println(Date);
 		TodoVO vo = new TodoVO();
 		vo.setWriter((String) session.getAttribute("particiMembUniNo"));
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
