@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>결제완료</title>
+	
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../assets/css/bootstrap.css">
+	<link rel="stylesheet" href="../assets/vendors/bootstrap-icons/bootstrap-icons.css">
+	<link rel="stylesheet" href="../assets/css/app.css">
+    <style>
+        .pay-card-body{
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+	<nav class="navbar navbar-light">
+		<div class="container d-block">
+			<a href="javascript:window.history.back();"><i
+				class="bi bi-chevron-left"></i></a> <a class="navbar-brand"
+				th:href="@{/}"><span class="fw-bolder text-primary">MODU</span></a>
+		</div>
+	</nav>
+    <div class="container">
+        <div class="card mt-5 text-center">
+            <div class="card-header">
+                <h4 class="card-title">
+                    <i class="bi bi-exclamation-triangle-fill" style="font-size: 6rem; color: #a9acb0; vertical-align: middle;"></i>
+                </h4>
+            </div>
+            <div class="card-body">
+                    <h5>결제가 실패하였습니다.</h5>
+                    <p>실패금액: 4800원</p>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-light-primary mx-1" onclick="location.href='/modu/prjList'">
+                    <i class="bx bx-x d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">프로젝트 리스트로</span>
+                </button>
+                <button type="button" class="btn btn-primary mx-1" onclick="location.href='/modu'">
+                    <i class="bx bx-check d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">메인으로</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
