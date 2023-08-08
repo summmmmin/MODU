@@ -94,7 +94,6 @@ public class UserController {
 	@PostMapping("/idvaild")
 	public ResponseEntity<String> checkIdDuplicate(@RequestBody String id) {
 		int duplicateCount = userService.idVaild(id);
-		System.out.println(id);
 		if (duplicateCount > 0) {
 			return ResponseEntity.ok("이미 존재하는 아이디입니다."); // 그냥 public string하면 이동해야 할 view를 지정해줘야 해서 ResponseEntity 사용
 																										// ResponseEntity 객체를 사용하여 HTTP 응답의 상태 코드와 헤더, 바디를 모두 직접 제어O
@@ -114,7 +113,6 @@ public class UserController {
 		// BCryptPasswordEncoder를 이용하여 비밀번호 암호화
 		BCryptPasswordEncoder scpwd = new BCryptPasswordEncoder();
 		String encryptedPassword = scpwd.encode(rawPassword);
-		System.out.println("암호화된 비밀번호: " + encryptedPassword);
 		userVO.setPassword(encryptedPassword);
 
 		// 토큰 생성
@@ -125,7 +123,6 @@ public class UserController {
 
 		// 회원가입 후 이메일 발송
 		String siteURL = getSiteURL(request);
-		System.out.println("유저 : " + userVO + "주소 : " + siteURL);
 		sendEmail.authSend(userVO, siteURL);
 
 		return "redirect:login";
@@ -140,13 +137,9 @@ public class UserController {
 	@PostMapping("phNoVaild")
 	public ResponseEntity<String> checkphNoDuplicate(@RequestBody String phNo) {
 		int duplicateCount = userService.phNoVaild(phNo);
-		System.out.println("중복 번호 갯수 : " + duplicateCount);
-		System.out.println("회원가입 휴대폰 번호 : " + phNo);
 		if (duplicateCount > 0) {
-			System.out.println("휴대폰 중복체크 : " + duplicateCount);
 			return ResponseEntity.ok("이미 존재하는 번호입니다.");
 		} else {
-			System.out.println("휴대폰 중복체크 : " + duplicateCount);
 			return ResponseEntity.ok("사용 가능한 번호입니다.");
 		}
 	}
@@ -206,21 +199,16 @@ public class UserController {
 	    userVO.setNm(nm);
 
 	    String membUniNo = userService.membSearch(userVO);
-	    System.out.println("비밀번호 찾기 회원 : " + membUniNo);
 	    if (membUniNo != null && !membUniNo.isEmpty()) {
 	        String newPassword = generateRandomPassword();
-	        System.out.println("비밀번호 재발급 : " + newPassword);
 
 	        userVO.setPwd(newPassword);
 	        userVO.setMembUniNo(membUniNo);
 
 	        userService.pwdUpdate(userVO);
-	        System.out.println("업데이트 유저 : " + userVO);
 
 	        // 이메일 전송
 			sendEmail.gmailSend(id, newPassword);
-
-	        System.out.println("비밀번호 재설정 완료 " + newPassword);
 
 	        return ResponseEntity.ok("비밀번호가 재설정 되었습니다. 메일을 확인해주세요.");
 	    } else {
@@ -258,7 +246,6 @@ public class UserController {
 			@AuthenticationPrincipal OAuth2User oAuth2UserPrincipal) {
 		OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 		Map<String, Object> attributes = oAuth2User.getAttributes();
-		System.out.println(attributes);
 
 		return attributes; // 세션에 담긴 user
 	}
@@ -374,11 +361,8 @@ public class UserController {
 		Map<String, String> params = new HashMap<>();
 		params.put("id", userId);
 		params.put("phNo", newPhoneNumber);
-		System.out.println("새로운 휴대폰 값 ㅣ " + newPhoneNumber);
-		System.out.println("params" + params);
 
 		String updateResult = userService.updatePhone(params);
-		System.out.println(updateResult);
 
 		if ("휴대폰 번호 변경 성공".equals(updateResult)) {
 			userVO.setPhNo(newPhoneNumber);
@@ -400,8 +384,6 @@ public class UserController {
 
 		String verificationCode = userService.emailCode();
 		verificationCodes.put(userVO.getId(), verificationCode);
-		System.out.println("인증코드 : " + verificationCode);
-		System.out.println(" 이메일 : " + newEmail);
 
 		// 세션에 인증번호 저장
 		session.setAttribute("storedCode", verificationCode);
@@ -420,7 +402,6 @@ public class UserController {
 		UserVO userVO = (UserVO) session.getAttribute("user");
 
 		String storedCode = (String) session.getAttribute("storedCode");
-		System.out.println("storedCode : " + storedCode);
 		try {
 			newEmail = URLDecoder.decode(newEmail, StandardCharsets.UTF_8.name());
 		} catch (UnsupportedEncodingException e) {
@@ -428,7 +409,6 @@ public class UserController {
 		}
 
 		if (storedCode != null && storedCode.equals(code)) {
-			System.out.println("새로운 이메일 : " + newEmail);
 
 			Map<String, String> params = new HashMap<>();
 			params.put("id", userVO.getId());
@@ -449,7 +429,6 @@ public class UserController {
 
 		if (principal instanceof UserDetails) {
 			String username = ((UserDetails) principal).getUsername();
-			System.out.println("탈퇴대상 : " + username);
 			userService.quitUser(username);
 
 			// 로그아웃 (세션 종료)
@@ -469,9 +448,6 @@ public class UserController {
 		int newUsersCount = userService.newUsersCount();
 		List<Map<String, Object>> monthlyNewUsersCount = userService.monthlyNewUsersCount();
 		int totalPay = userService.totalPay();
-
-		System.out.println(monthlyNewUsersCount);
-
 		model.addAttribute("userCount", userCount);
 		model.addAttribute("newUsersCount", newUsersCount);
 		model.addAttribute("monthlyNewUsersCount", monthlyNewUsersCount);
@@ -500,7 +476,6 @@ public class UserController {
 	@ResponseBody
 	public UserVO myInfo(@PathVariable String id) {
 		UserVO user = userService.myInfo(id);
-		System.out.println(id);
 		return user;
 	}
 	

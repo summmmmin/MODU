@@ -155,9 +155,6 @@ span {
         $('#sendVerificationCode').on('click', function() {
             var name = $('#name').val();
             var phone = $('#phone').val();
-            console.log(name);
-            console.log(phone);
-
             // 먼저 idSearch를 호출하여 아이디 존재 여부 확인
             $.ajax({
                 url: 'idSearch',

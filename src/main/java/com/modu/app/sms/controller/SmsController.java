@@ -31,16 +31,13 @@ public class SmsController {
 	public SmsResponseDTO sendSms(@RequestBody MessageDTO messageDTO) throws UnsupportedEncodingException,
 			URISyntaxException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
 		SmsResponseDTO responseDTO = smsService.sendSms(messageDTO);
-		System.out.println(messageDTO);
 		return responseDTO;
 	}
 
 	@PostMapping("/verifyCode")
 	public ResponseEntity<Object> verifyCode(@RequestBody VerificationCodeRequest request) {
 		String code = request.getCode();
-		System.out.println("code : " + code);
 		boolean isValid = smsService.isSmsCodeValid(code);
-		System.out.println("매치유무 " + isValid);
 		return ResponseEntity.ok(new VerificationResponse(isValid));
 	}
 

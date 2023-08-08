@@ -41,9 +41,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 				System.out.println("로그인 실패");
 				return;
 			}
-
-			System.out.println("@@ CustomSuccessHandler 실행 | 암호화 성공 @@");
-
 			// 세션에 사용자 정보 저장
 			HttpSession session = request.getSession();
 			session.setAttribute("user", vo);
@@ -73,7 +70,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 			
 			// 아이디 저장 체크 여부 확인
 			boolean rememberId = request.getParameter("rememberId") != null;
-			System.out.println("아이디 저장 체크 : " + rememberId);
 
 			if (rememberId) {
 				// 아이디 저장을 위한 쿠키 생성
@@ -81,7 +77,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 				cookie.setMaxAge(30 * 24 * 60 * 60); // 쿠키 수명 설정 (일단 30일)
 				cookie.setPath("/");
 				response.addCookie(cookie);
-				System.out.println("쿠키 : " + cookie);
 			} else {
 				// 쿠키 삭제
 				Cookie cookie = new Cookie("savedUsername", null);

@@ -118,7 +118,6 @@ public class UserVO implements UserDetails {
 		} else {
 			authorities.add(new SimpleGrantedAuthority("ROLE_USER")); // 아닐경우 일반유저 권한 부여
 		}
-		System.out.println("권한 부여 : " + authorities);
 		return authorities;
 	}
 }

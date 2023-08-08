@@ -112,6 +112,14 @@
 					return false;
 				}
 			})
+			
+			//글자수 넘어가면 입력 안됨
+			let ttllength = document.getElementById('basicInput');
+			if(ttllength > 65){
+				document.querySelector('#postInsertBtn').setAttribute('disabled','true');
+			}
+			
+			
 		</script>
 	</div>
 </body>
