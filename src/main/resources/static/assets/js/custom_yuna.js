@@ -20,7 +20,6 @@ function checkPhoneNumberDuplicate(phoneNumber) {
 
 $('#sendVerificationCode').on('click', function () {
     var phoneNumber = $('input[name="phNo"]').val();
-    console.log(phoneNumber);
 
     checkPhoneNumberDuplicate(phoneNumber).done(function (response) {
         if (response === "이미 존재하는 번호입니다.") {

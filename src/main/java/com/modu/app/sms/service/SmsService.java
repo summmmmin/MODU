@@ -115,7 +115,6 @@ public class SmsService {
 		for (int i = 0; i < 5; i++) { // 인증코드 5자리
 			key.append((rnd.nextInt(10)));
 		}
-		System.out.println("인증번호 확인: " + key);
 		return key.toString();
 	}
 

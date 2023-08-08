@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		UserVO userVO = userMapper.loginCheck(username);
 
 		if (userVO == null) {
-			System.out.println("유저정보 없음");
 			throw new UsernameNotFoundException("no user");
 		}
 		return new PrincipalDetails(userVO);
