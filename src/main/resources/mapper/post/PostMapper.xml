@@ -59,7 +59,7 @@
 	<!-- 게시글등록 -->
 	<insert id="insertPost" parameterType="PostVO">
 		<selectKey keyProperty="postUniNo" resultType="String" order="BEFORE">
-			SELECT 'pt' || (MAX(TO_NUMBER(SUBSTR(post_uni_no, 3)))+1) FROM post
+			SELECT 'pt' || (MAX(TO_NUMBER(NVL(SUBSTR(post_uni_no, 3),'0')))+1) FROM post
 		</selectKey>
 		INSERT INTO post (post_uni_no,
 						  brd_uni_no,

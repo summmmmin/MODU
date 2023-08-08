@@ -45,7 +45,7 @@
  	
  	<!-- 투표 제작자 찾기 -->
  	<select id="voteMaker">
- 	select partici_memb_uni_no
+ 	select partici_memb_uni_no,FIND_NICKNAME(partici_memb_uni_no) ttl
  	from vote
  	where vote_no=#{voteNo}
  	</select>

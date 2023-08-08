@@ -328,10 +328,8 @@
 		
 			  // 본문개행처리?
 			  document.addEventListener('DOMContentLoaded', function() {
-				    let cmPlaceElements = document.querySelectorAll('.cmPlace');
-					
-				    cmPlaceElements.forEach(function(cmPlaceElement) {
-				    	
+		 		    let cmPlaceElements = document.querySelectorAll('.cmPlace');
+				    cmPlaceElements.forEach(function(cmPlaceElement) {    	
 				        let cmText = cmPlaceElement.innerHTML;
 				        let replacedText = cmText.replaceAll(/(\n|\r\n)/g, "<br>");
 				        cmPlaceElement.innerHTML = replacedText; 

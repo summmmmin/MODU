@@ -68,11 +68,14 @@ public class PrjController {
 		info.setMembUniNo(user.getMembUniNo());
 		info.setPrjUniNo(prjVO.getPrjUniNo());
 		info = prjService.getMemInfo(info);
+		// 프로젝트 정보 담기
+		prjVO = prjService.getPrjInfo(prjVO.getPrjUniNo());
 		if(info == null) {
 			return "redirect:prjList";
 		}else {
 			if(info.getCd().equals("나무") || info.getCd().equals("농부")) {
 				model.addAttribute("prjNo", prjVO.getPrjUniNo());
+				model.addAttribute("prjNm", prjVO.getPrjNm());
 				return "prj/prjManage";			
 			}else {
 				return "redirect:prjList";

@@ -151,14 +151,14 @@
 				 formD.append("cntn",cntn);
 				 formD.append("frDt",Date);
 				 formD.append("toDt",lastDate);
-		
-				 
+
 				   fetch("todoInsert",{
 	                  method : 'post',
 	                  body : formD
 	               })
 	               .then(result => result.json())
 	               .then(data => {
+	            	   console.log(data);
 	            	   todoList();
 	            	   
 	            	 //할 일 생성 알람 참여자 (성현)

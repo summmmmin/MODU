@@ -37,7 +37,7 @@
 	<!-- 댓글생성 -->
 	<insert id="insertReply" parameterType="ReplyVO">
 	    <selectKey keyProperty="replyUniNo" resultType="String" order="BEFORE">
-	    	SELECT 'rp' || (MAX(TO_NUMBER(SUBSTR(reply_uni_no, 3)))+1) FROM reply
+	    	SELECT 'rp' || (MAX(TO_NUMBER(NVL(SUBSTR(reply_uni_no, 3),'0')))+1)  FROM reply
 	    </selectKey>
 		INSERT INTO reply (reply_uni_no,
 						   cntn,
