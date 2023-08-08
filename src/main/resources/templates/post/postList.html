@@ -215,7 +215,7 @@
 								<div class="form-group position-relative has-icon-right">
 									<input name="replyUniNo" type="hidden" class="replyInput form-control" id="replyId"> 
 									<input name="postUniNo" type="hidden" th:value="${post.postUniNo}" class="replyInput form-control"> 
-									<input name="cntn" type="text" class="replyInput form-control" placeholder="reply" required>
+									<input name="cntn" type="text" maxlength='650' class="replyInput form-control" placeholder="reply" required>
 									<div class="form-control-icon">
 										<svg class="replyBtn bi" width="1em" height="1em" fill="currentColor" th:data-membno="${post.particiMembUniNo}">
 											<use id="particivalue" xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#reply"  />
