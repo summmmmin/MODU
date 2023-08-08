@@ -19,7 +19,7 @@
 				m.nnm
 		FROM post p JOIN prj_partici_memb m
 		  ON p.partici_memb_uni_no = m.partici_memb_uni_no
-		WHERE p.partici_memb_uni_no = #{particiMembUniNo}
+		WHERE m.prj_uni_no = #{prjUniNo}
 		<if test="ttl != null and ttl != '' ">
 		AND ttl LIKE '%${ttl}%'
 		</if>
@@ -28,18 +28,18 @@
  	
  	<!-- 채팅 리스트 -->
  	<select id="chatList" resultType="SearchVO" parameterType="SearchVO">
-	SELECT chatr_partici.chatr_nm, chat.chat_no, chat.cntn, prj_partici_memb.nnm,chat.write_dt,chat.chatr_no
+	SELECT chatr_partici.chatr_nm, chat.chat_no, chat.cntn, prj_partici_memb.nnm,chat.write_dt,chat.chatr_no,prj_partici_memb.prj_uni_no
 	FROM chat
 	LEFT OUTER JOIN chatr_partici ON chat.chat_partici_memb_uni_no = chatr_partici.chat_partici_memb_uni_no
 	LEFT OUTER  JOIN prj_partici_memb ON prj_partici_memb.partici_memb_uni_no = chatr_partici.partici_memb_uni_no
-	WHERE chatr_partici.partici_memb_uni_no=#{particiMembUniNo}
+	WHERE prj_partici_memb.prj_uni_no = #{prjUniNo}
 	<if test="cntn != null and cntn != '' ">
 	AND chat.cntn LIKE '%${cntn}%'
  	</if>
  	</select>
  	
  	<select id="fileList" resultType="SearchVO" parameterType="SearchVO">
- 	SELECT att.att_no, att.att_nm, att.chat_no,chat.chatr_no, chatr_partici.partici_memb_uni_no, att.post_uni_no,post.division, post.ttl,brd.brd_uni_no, brd.prj_uni_no, att.todo_uni_no, todo.ttl, todo.prj_uni_no,post.division
+ 	SELECT att.att_no, att.att_nm,brd.reg_dt, att.chat_no,chat.chatr_no, chatr_partici.partici_memb_uni_no, att.post_uni_no,post.division, post.ttl,brd.brd_uni_no, brd.prj_uni_no, att.todo_uni_no, todo.ttl, todo.prj_uni_no,post.division
 	FROM att
 	LEFT OUTER JOIN post ON att.post_uni_no = post.post_uni_no
 	LEFT OUTER JOIN brd ON post.brd_uni_no = brd.brd_uni_no
