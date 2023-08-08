@@ -677,6 +677,7 @@
                .then(data => {
                   
                   document.getElementById('sendMsg').value = '';
+                  document.getElementById('sendFile').value = '';
                   // 보낸 메세지 발행
                   stompClient.publish({
                      destination: "/pub/chat/msg",
