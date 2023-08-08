@@ -67,6 +67,18 @@ public class PayController {
 		model.addAttribute("exdtdt",exdtDt);
 		model.addAttribute("stdt",stdt);
 		// 결제완료페이지로
-		return "prj/success";
+		return "pay/success";
 	}
+	
+	// 결제 진행 중 취소
+	@GetMapping("payment/cancel")
+	public String cancel() {
+		return "pay/cancel";
+	}
+	
+	// 결제 실패
+	@GetMapping("payment/fail")
+    public String fail() {
+		return "pay/fail";
+    }
 }

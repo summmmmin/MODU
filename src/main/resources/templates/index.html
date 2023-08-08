@@ -46,7 +46,6 @@
 </head>
 
 <body>
-
 	<!-- ==============댓글 알림 Toast ============== -->
 	<div class="toast-container position-fixed bottom-0 end-0 p-3"
 		style="z-index: 1050;">
@@ -290,12 +289,11 @@
 									class="nav-link active rburger" onclick="searchList()"
 									aria-expanded="false"><i
 										class="bi bi-search bi-sub fs-4 text-gray-600"></i> </a></li>
-								<li class="nav-item me-1"><a class="nav-link active"
-									href="#" aria-expanded="false"> <i
+								<li class="nav-item me-1"><a class="nav-link active" href="#" aria-expanded="false"> <i
 										class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
 								</a></li>
 								<li class="nav-item dropdown me-3"><a
-									class="nav-link active dropdown-toggle" href="#"
+									class="nav-link active dropdown-toggle" onclick="armYn()"
 									data-bs-toggle="dropdown" aria-expanded="false"> <i
 										class="bi bi-justify bi-sub fs-4 text-gray-600"></i>
 								</a>
@@ -433,7 +431,7 @@
 								<h5>채팅방 이름</h5>
 								<div class="form-group">
 									<input id="chartNm" name="chartNm" type="text"
-										placeholder="40자까지 입력 가능합니다." class="form-control" required> <input
+										placeholder="40자까지 입력 가능합니다." maxlength='40' class="form-control" required> <input
 										id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
 										type="text" class="form-control" style="display: none">
 									<input id="particiMembUniNo" name="particiMembUniNo"
@@ -724,13 +722,17 @@
  
 // WebSocket 연결 설정
 	const armClient = new StompJs.Client({
-		brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
+		brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
 
 	});
 	// 페이지 로드시 웹소켓 연결
 	window.addEventListener("load", function(event) {
-		armClient.activate();			
-	});
+    if ('[[${session.armYn}]]' == 'Y') {
+        // 세션의 armYn 값이 'Y'로 설정되어 있는 경우
+        armClient.activate(); // 알람 On
+    }
+            // 알람 Off
+});
 
 	  // 연결 성공시
 	  armClient.onConnect = (frame) => {
@@ -899,6 +901,26 @@
     	$.ajax("prjMembList")
  		.done(result=>$("#rsidebarContent").html(result))
     }
+</script>
+
+<script>
+/* function armYn() {
+    let sessionArmYn = '[[${session.armYn}]]'; 
+    console.log(sessionArmYn);
+
+    fetch('armYn', {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({ armYn : sessionArmYn })
+    })
+    .then(result => result.json())
+    .then(data => {
+    	console.log(data);
+    })
+    .catch(err => console.log(err));
+} */
 </script>
 <script src="assets/js/test.js"></script>
 </body>

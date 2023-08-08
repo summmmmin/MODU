@@ -103,7 +103,7 @@
         <div class="voteHeader" th:if="${voteInfo.brdUniNo != null}"> 
 	        <div class="d-flex">
 	        <div class="me-auto">
-	            <div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] 
+	            <div class="voteAuthor" >작성자:[[${maker.ttl}]] 
 	            <h6 class="text-muted mb-0">게시판:[[${voteInfo.boardNm}]]</h6>
 	              <div class="voteDate">시작날짜:[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
 	        <div class="voteTitle">제목:[[${voteInfo.ttl}]]</div>
@@ -126,7 +126,7 @@
         <div class="voteHeader" th:unless="${voteInfo.brdUniNo != null}">
        	 <div class="d-flex">
 	    	<div class="me-auto">
-            	<div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] 
+            	<div class="voteAuthor" >작성자:[[${maker.ttl}]] 
             		<h6 class="text-muted mb-0">채팅방:[[${voteInfo.chatrNm}]]</h6>
            			<div class="voteDate">시작날짜:[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
 	        		<div class="voteTitle">제목:[[${voteInfo.ttl}]]</div>        		

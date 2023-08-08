@@ -3,7 +3,6 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 
  <style>
         /* 선택된 항목을 강조하기 위해 스타일 추가 */
@@ -105,12 +104,12 @@
 	      <div class="me-auto">
         <!-- 작성자와 날짜, 제목을 추가 -->
         <div class="voteHeader" th:if="${voteInfo.brdUniNo != null}">
-            <div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">게시판:[[${voteInfo.boardNm}]]</h6></div>
+            <div class="voteAuthor" >작성자:[[${maker.ttl}]] <h6 class="text-muted mb-0">게시판:[[${voteInfo.boardNm}]]</h6></div>
             <div class="voteDate">시작날짜:[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
             <div class="voteTitle">제목:[[${voteInfo.ttl}]]</div>
         </div>
         <div class="voteHeader" th:unless="${voteInfo.brdUniNo != null}">
-            <div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">채팅방:[[${voteInfo.chatrNm}]]</h6></div>
+            <div class="voteAuthor" >작성자:[[${maker.ttl}]] <h6 class="text-muted mb-0">채팅방:[[${voteInfo.chatrNm}]]</h6></div>
             <div class="voteDate">시작날짜:[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
             <div class="voteTitle">제목:[[${voteInfo.ttl}]]</div>
         </div>
@@ -228,6 +227,8 @@
 
 
 	<script th:inline="javascript">
+	
+	console.log("투표결과창")
     /*<![CDATA[*/
   //---------------투표 수정하기
     function updateVote(){
