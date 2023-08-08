@@ -87,7 +87,7 @@ public class PrjRestController {
 	public String updateGrade(@RequestBody PrjVO vo, HttpServletRequest request) {
 		PrjVO info = new PrjVO();
 		if(vo.getGrd().equals("G03")) {
-			info.setCd("나무");
+			info.setGrd("G03");
 			info.setPrjUniNo(vo.getPrjUniNo());
 			// 등급이 '나무'인 사람 찾기
 			info = prjService.getMemInfo(info);

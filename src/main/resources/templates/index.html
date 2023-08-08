@@ -4,8 +4,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dashboard - Mazer Admin Dashboard</title>
-
+<title>MODU</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" />
 <link
 	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
@@ -37,7 +36,6 @@
 #HypeBoy:hover{
 	cursor:pointer;
 }
-
  /* 셀렉트 박스의 스크롤 숨기기 */
   .choices__list {
     max-height: none !important; 
@@ -124,6 +122,22 @@
 		</div>
 	</div>
 	
+	
+	<!-- ==============게시글 태그 알림 Toast ============== -->
+	<div class="toast-container position-fixed bottom-0 end-0 p-3"
+		style="z-index: 1050;">
+		<div id="tagArm" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				<!--  <img src="..." class="rounded me-2" alt="...">-->
+				<strong class="me-auto">게시글 태그 알림</strong> <small>방금 전</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">게시글에 태그 됐습니다.</div>
+		</div>
+	</div>
+	
 	<!-- ==============비공개 게시판 초대 알림 Toast ============== -->
 		<div class="toast-container position-fixed bottom-0 end-0 p-3"
 		style="z-index: 1050;">
@@ -177,7 +191,7 @@
 							class="sidebar-link"> <i class="bi bi-stack"></i> <span>게시판</span>
 								<button type="button" class="btn btn-outline-success"
 									data-bs-toggle="modal" data-bs-target="#inlineForm"
-									style="margin-left: 87px">+</button>
+									style="margin-left:87px">+</button>
 						</a>
 							<div id="boardList"></div></li>
 					</ul>
@@ -294,6 +308,7 @@
 										</th:block>
 										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
 										<li><a class="dropdown-item rburger" onclick="bmList()">즐겨찾기</a></li>
+										<li><a class="dropdown-item rburger" onclick="prjmembList()">회원목록</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
@@ -546,34 +561,19 @@
 		.then(result=>result.json())
 		.then(data => {
 			if(data.prjUniNo != null){
-			let liTag=`
-				<li class="submenu-item">
-				<div class="row">
-					<div class="col-2">
-						<svg xmlns="http://www.w3.org/2000/svg " width="15" height="15" viewBox="0 0 108.9 103.6">
-							<g id="Layer_2" data-name="Layer 2">
-								<g id="Layer_1-2" data-name="Layer 1">
-									<polygon th:onclick="clickInsert()" class="cls-1" points="54.4 0 71.3 34.1 108.9 39.6 81.7 66.1 88.1 103.6 54.4 85.9 20.8 103.6 27.2 66.1 0 39.6 37.6 34.1 54.4 0" id=`+data.brdUniNo+`>
-								</g>
-							</g>
-						</svg>
-					</div>
-					<div class="col-10">
-						<a href="/postList?brdUniNo="`+data.brdUniNo+`>`+data.boardNm+`</a>
-					</div>
-				</div>
-				</li>
-				`;
-			let submenu=document.querySelector('.brdinsert');
-			submenu.innerHTML += liTag;
+
+			Swal.fire({
+				icon: "success",
+				title: "게시판이 생성되었습니다 !!"
+			})	
+			$.ajax("boardList")
+			.done(result=>$("#boardList").html(result));
 			}else{
 				//다시 꾸미기
 				Swal.fire({
 					icon: "error",
-					title: "무료 플랜"
+					text: "무료플랜은 4개까지 생성 가능합니다."
 				})
-
-				
 			}
 			//알람 조건 : 현재 프로젝트에 참가하고 있는 사람에게 전송
  			 $.ajax("prjParticiMembList")
@@ -644,7 +644,6 @@
 			        maxItemCount: 10,
 			        removeItemButton: true,
 			      });
-				 //choices.passedElement.element.style.overflow = "hidden";
 			})
 		}
 		callChatMemb();
@@ -726,40 +725,51 @@
 // WebSocket 연결 설정
 	const armClient = new StompJs.Client({
 		brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
+
 	});
 	// 페이지 로드시 웹소켓 연결
 	window.addEventListener("load", function(event) {
-		armClient.activate();
+		armClient.activate();			
 	});
 
 	  // 연결 성공시
 	  armClient.onConnect = (frame) => {
 	    console.log('Connected: ' + frame);
+	    
 	    // 구독(댓글등록)		
 	    armClient.subscribe('/subArm/reply/' + particiMembUniNo, (armMsg) => {
 	      replyArm(JSON.parse(armMsg.body));
 	    });
-	 // 구독(게시판 등록)
+	    
+		 // 구독(게시판 등록)
 	    armClient.subscribe('/subArm/brd/' + particiMembUniNo, (armMsg) => {
 	      brdArm(JSON.parse(armMsg.body));
 	    });
-	 // 구독(채팅 등록)
+		  
+		 
+	 	// 구독(채팅 등록)
 	    armClient.subscribe('/subArm/chat/' + particiMembUniNo, (armMsg) => {
 		      chatArm(JSON.parse(armMsg.body));
 		    });
-	 // 구독(할 일 등록)
-	    armClient.subscribe('/subArm/todo/' + particiMembUniNo, (armMsg) => {
-		      todoArm(JSON.parse(armMsg.body));
-		    });
 	 
-	// 구독(비공개 게시판 초대)
+		// 구독(비공개 게시판 초대)
 	    armClient.subscribe('/subArm/partici/' + particiMembUniNo, (armMsg) => {
 	    	particiArm(JSON.parse(armMsg.body));
 		    });
 	
+		// 구독(게시글 태그)
+	    armClient.subscribe('/subArm/tag/' + particiMembUniNo, (armMsg) => {
+	    	tagArm();
+		    });
+		
 		// 구독(공지사항 등록)
 	    armClient.subscribe('/subArm/noti/' + particiMembUniNo, (armMsg) => {
 	    	notiArm(JSON.parse(armMsg.body));
+		    });
+		
+		// 구독(할 일 등록)
+	    armClient.subscribe('/subArm/todo/' + particiMembUniNo, (armMsg) => {
+		      todoArm(JSON.parse(armMsg.body));
 		    });
 	  };
 
@@ -814,9 +824,15 @@
 		 const toast = new bootstrap.Toast(notiToast)
 		    toast.show()
 	  }
+	
+	//게시글 태그 시 보내 줄 Toast알람 
+	function tagArm() {
+		const tagToast = document.getElementById('tagArm');
+		 const toast = new bootstrap.Toast(tagToast)
+		    toast.show()
+	  }
  </script>
-
-
+ 
 	<script>
  		//초대하기 버튼 클릭
  		function inviteSubmit(){
@@ -878,6 +894,11 @@
             e.preventDefault();
         }
     });
+    
+    function prjmembList(){
+    	$.ajax("prjMembList")
+ 		.done(result=>$("#rsidebarContent").html(result))
+    }
 </script>
 <script src="assets/js/test.js"></script>
 </body>

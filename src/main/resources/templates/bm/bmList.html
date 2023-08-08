@@ -42,8 +42,6 @@
     fetch("bmList")
     .then(response => response.json())
     .then(result => {
-    	console.log('ㅁㅁㅁㅁ');
-        console.log(result);
         for (let i = 0; i < result.length; i++) {
         	//div를 생성
             let tr = document.createElement('div');
@@ -85,7 +83,7 @@
                 tr.appendChild(hidden(result[i].bmUniNo)); //즐겨찾기 번호
                 tr.appendChild(hidden(result[i].division));
             }
-            document.getElementById('bmList').appendChild(tr));
+            document.getElementById('bmList').appendChild(tr);
         }
     });
 

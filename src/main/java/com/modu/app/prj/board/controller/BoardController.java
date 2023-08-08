@@ -143,6 +143,13 @@ public class BoardController {
 		return "/post/postList";
 	}
 	
+	@PostMapping("particiYn")
+	@ResponseBody
+	public BoardVO particiYn(@RequestBody BoardVO vo) {
+		boardService.particiArm(vo);
+		return vo;
+	}
+	
 	
 	
 }

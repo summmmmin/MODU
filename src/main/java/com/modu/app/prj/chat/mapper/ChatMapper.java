@@ -48,5 +48,8 @@ public interface ChatMapper {
 	
 	//채팅읽음업데이트
 	public int updateReadChat(ChatChmVO chatChmVO);
+	
+	//채팅알림ON/OFF
+	public int setChatArm(ChatrParticiVO chatParticiVO);
 
 }

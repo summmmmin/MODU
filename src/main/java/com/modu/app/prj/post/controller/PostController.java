@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,9 @@ public class PostController {
 
 	@Autowired
 	BoardService boardService;
+	
+	@Autowired
+	SimpMessagingTemplate messagingTemplate;
 	
 	// 전체조회페이지이동
 	@GetMapping("postList")
@@ -92,7 +96,15 @@ public class PostController {
 		
 		String particiMembUniNo = (String) session.getAttribute("particiMembUniNo");
 		postVO.setParticiMembUniNo(particiMembUniNo);
+		System.out.println(postVO);
 		
+		String tagArm="";
+		for(String temp:postVO.getPostTagArmList()) {
+			tagArm+=temp+",";
+			String memno= temp.substring(0, temp.indexOf("-")-1);
+			messagingTemplate.convertAndSend("/subArm/tag/" + memno, "ㄻㅇㄴㄹ");
+		}
+		postVO.setPostTagArm(tagArm);
 		//게시글등록
 		postService.insertPost(postVO);
 		//첨부파일등록

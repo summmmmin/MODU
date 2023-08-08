@@ -8,11 +8,11 @@
 	<select id="BoardList" resultType="BoardVO" parameterType="BoardVO">
        select brd.partici_memb_uni_no, brd.brd_uni_no, brd.board_nm, 
         brd.pubc_yn, brd.reg_dt, brd.prj_uni_no, brd_bm.brd_yn
-from brd
-    left outer join brd_bm on brd.brd_uni_no = brd_bm.brd_uni_no
-    left outer join brd_cm on brd.brd_uni_no = brd_cm.board_uni_no
-where brd.prj_uni_no=#{prjUniNo}
-    and (brd.pubc_yn = 'Y' or (brd.pubc_yn='N' and brd_cm.partici_memb_uni_no=#{particiMembUniNo}))
+	FROM brd
+    LEFT OUTER JOIN brd_bm ON brd.brd_uni_no = brd_bm.brd_uni_no
+    LEFT OUTER JOIN brd_cm ON brd.brd_uni_no = brd_cm.board_uni_no
+	WHERE brd.prj_uni_no=#{prjUniNo}
+    and (brd.pubc_yn = 'Y' OR (brd.pubc_yn='N' and brd_cm.partici_memb_uni_no=#{particiMembUniNo}))
 	</select>
 
 	<!-- 게시판 생성 -->
@@ -36,8 +36,7 @@ where brd.prj_uni_no=#{prjUniNo}
 	<!-- 게시판 수정 -->
 	<update id="BrdUpdate" parameterType="BoardVO">
 		UPDATE brd SET
-		board_nm =
-		#{boardNm},
+		board_nm = #{boardNm},
 		pubc_yn = #{pubcYn}
 		WHERE brd_uni_no = #{brdUniNo}
 	</update>
@@ -63,7 +62,7 @@ where brd.prj_uni_no=#{prjUniNo}
 	<select id="chatParticiMemb" resultType="BoardVO" parameterType="BoardVO">
 	SELECT * 
 	FROM chatr_partici
-	WHERE chatr_no = #{chatrNo}
+	WHERE chatr_no = #{chatrNo} AND arm_yn='Y'
 	</select>
 	
 <select id="particiBrd" resultType="BoardVO" parameterType="BoardVO">
@@ -111,5 +110,15 @@ where brd.prj_uni_no=#{prjUniNo}
 		LEFT OUTER JOIN prj_partici_memb p ON a.partici_memb_uni_no = p.partici_memb_uni_no
 		WHERE a.board_uni_no = #{brdUniNo}
 	</select>
+	
+	<select id="armYn" resultType="BoardVO" parameterType="BoardVO">
+	SELECT * FROM prj_partici_memb 
+	WHERE partici_memb_uni_no = #{particiMembUniNo} AND prj_uni_no = #{prjUniNo} 
+	</select>
+	
+	<update id="particiArm" parameterType="BoardVO">
+		UPDATE prj_partici_memb SET arm_yn = #{armYn}
+		WHERE partici_memb_uni_no = 'ppm222' AND prj_uni_no = 'punt1';
+	</update>
 	
 </mapper>
