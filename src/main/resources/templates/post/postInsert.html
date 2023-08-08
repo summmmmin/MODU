@@ -22,7 +22,7 @@
 								<!--제목부-->
 								<div class="form-group">
 									<label for="basicInput">제목*</label>
-									<input type="text" class="form-control" id="basicInput" maxlength='70' placeholder="tilte" th:field="*{ttl}" required >
+									<input type="text" class="form-control" id="basicInput" maxlength='65' placeholder="tilte" th:field="*{ttl}" required >
 								</div>
 								<hr>
 								<!--본문부-->
@@ -112,6 +112,14 @@
 					return false;
 				}
 			})
+			
+			//글자수 넘어가면 입력 안됨
+			let ttllength = document.getElementById('basicInput');
+			if(ttllength > 65){
+				document.querySelector('#postInsertBtn').setAttribute('disabled','true');
+			}
+			
+			
 		</script>
 	</div>
 </body>
