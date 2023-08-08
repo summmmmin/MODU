@@ -465,7 +465,8 @@
 												var dataToSend = {
 													to : phoneNumber
 												};
-												$.ajax({
+												$
+														.ajax({
 															url : '/modu/send',
 															type : 'POST',
 															data : JSON
@@ -588,9 +589,12 @@
 											});
 
 							// 이메일 변경
-							$("#send-button").click(
+							$("#send-button")
+									.click(
 											function() {
-												var newEmail = $("#email-horizontal").val();
+												var newEmail = $(
+														"#email-horizontal")
+														.val();
 												console.log(newEmail);
 												if (newEmail === "") {
 													alert("새로운 이메일 주소를 입력하세요.");
@@ -598,7 +602,8 @@
 												}
 
 												// 이메일 중복 체크	
-												$.ajax({
+												$
+														.ajax({
 															type : "POST",
 															url : "/modu/idvaild",
 															data : newEmail,
@@ -608,7 +613,8 @@
 																if (response === "사용 가능한 아이디입니다.") {
 																	alert("이메일을 전송했습니다. 발송까지 기다려주세요.")
 																	// 이메일 변경 요청
-																	$.ajax({
+																	$
+																			.ajax({
 																				type : "POST",
 																				url : "modifyEmail",
 																				data : "newEmail="
@@ -624,7 +630,8 @@
 																				}
 																			});
 																} else {
-																	console.log(response);
+																	console
+																			.log(response);
 																	alert("이미 존재하는 아이디입니다.");
 																}
 															},
@@ -641,14 +648,13 @@
 							$("#check-button")
 									.click(
 											function() {
-												var code = $("#code-horizontal")
-														.val();
+												var code = $("#code-horizontal").val();
 												var newEmail = $(
-														"#email-horizontal")
-														.val();
+														"#email-horizontal").val();
 												console.log(newEmail);
 
-												$.ajax({
+												$
+														.ajax({
 															type : "POST",
 															url : "emailVerify",
 															data : "newEmail="
