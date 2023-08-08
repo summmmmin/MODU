@@ -40,7 +40,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         } else if (userVO.getGrd().equals("N")) {
             list.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
-        System.out.println("권한부여 : " + list);
         return list;
     }
 
