@@ -32,28 +32,5 @@ public class KakaoPayController {
 		payVO.setMembUniNo(userId);
 		return payService.kakaoPayReady(payVO);
   }
-  
-	// 결제성공
-	@GetMapping("/success")
-	public String successPay(@RequestParam("pg_token") String pgToken, Model model){
-		PayVO kakaoApprove = payService.approveResponse(pgToken);
-		// 성공시 db에 insert
-		payService.insertPay(kakaoApprove);
-		model.addAttribute("info", kakaoApprove);
-		// 결제완료페이지로
-		return "prj/success";
-	}
-	
-	// 결제 진행 중 취소
-	@GetMapping("/cancel")
-	public void cancel() {
-		System.out.println("결제 진행 중 취소");
-	}
-	
-	// 결제 실패
-	@GetMapping("/fail")
-    public void fail() {
-    	System.out.println("결제 실패");
-    }
 
 }

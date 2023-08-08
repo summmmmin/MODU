@@ -57,7 +57,6 @@ public class SendEmail {
 
 			Transport.send(message); //// 전송
 
-			System.out.println("비밀번호 재설정 메일 발송완료");
 		} catch (AddressException e) {
 			e.printStackTrace();
 		} catch (MessagingException e) {
@@ -99,7 +98,6 @@ public class SendEmail {
 
 			Transport.send(message); // 전송
 
-			System.out.println("인증 메일 발송완료");
 		} catch (AddressException e) {
 			e.printStackTrace();
 		} catch (MessagingException e) {
@@ -138,7 +136,6 @@ public class SendEmail {
 
 			// send the message
 			Transport.send(message);
-			System.out.println("아이디 변경 메일 발송 완료");
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
@@ -181,22 +178,10 @@ public class SendEmail {
 
 			Transport.send(message); // 전송
 
-			System.out.println("초대 메일 발송완료");
 		} catch (AddressException e) {
 			e.printStackTrace();
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
 	}
-
-//	테스트용 코드
-//	public static void main(String[] args) {
-//		String userId = "user@example.com"; // 수신자 이메일 주소
-//		String newPassword = "newPassword"; // 새로운 비밀번호
-//
-//		SendEmail.gmailSend(userId, newPassword);
-//
-//		System.out.printf("이메일 전송되었습니다 > " + userId, newPassword);
-//	}
-
 }

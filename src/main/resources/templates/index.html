@@ -431,7 +431,7 @@
 								<h5>채팅방 이름</h5>
 								<div class="form-group">
 									<input id="chartNm" name="chartNm" type="text"
-										placeholder="40자까지 입력 가능합니다." maxlength='40' class="form-control" required> <input
+										placeholder="40자까지 입력 가능합니다." maxlength='35' class="form-control" required> <input
 										id="prjUniNo" name="prjUniNo" th:value="${session.prjUniNo}"
 										type="text" class="form-control" style="display: none">
 									<input id="particiMembUniNo" name="particiMembUniNo"
@@ -722,7 +722,7 @@
  
 // WebSocket 연결 설정
 	const armClient = new StompJs.Client({
-		brokerURL: 'ws://43.201.17.213:85/:80/modu/socketserver' // WebSocket 서버 URL
+		brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
 
 	});
 	// 페이지 로드시 웹소켓 연결
@@ -842,7 +842,7 @@
  			let email = document.getElementById("inviteEmail").value;
  			let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  			if(!emailPattern.test(email)){
- 				console.log('email패턴안맞음')
+ 				//console.log('email패턴안맞음')
  				return;
  			}else{
 		       // fetch를 사용하여 비동기적으로 서버로 데이터 전송
