@@ -31,19 +31,5 @@ public class KakaoPayController {
 		String userId = ((UserVO) session.getAttribute("user")).getMembUniNo();
 		payVO.setMembUniNo(userId);
 		return payService.kakaoPayReady(payVO);
-	}
-	
-	// 결제 진행 중 취소
-	@GetMapping("/cancel")
-	public void cancel() {
-		System.out.println("결제 진행 중 취소");
-	}
-	
-	// 결제 실패
-	@GetMapping("/fail")
-    public void fail() {
-    	System.out.println("결제 실패");
-    }
-
-	
+	}	
 }

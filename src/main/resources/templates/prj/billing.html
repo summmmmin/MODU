@@ -196,16 +196,12 @@
         }
     }
 
-    function isValidEmail(email) {
-    	// 이메일 형식 확인
-        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        return emailRegex.test(email);
+    function isValidPhoneNumber(phoneNumber) {
+        return validatePhoneNumber(phoneNumber);
     }
 
-    function isValidPhoneNumber(phoneNumber) {
-    	// 연락처 형식 확인
-        const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/; // 예: 010-1234-5678
-        return phoneRegex.test(phoneNumber);
+    function isValidEmail(email) {
+        return validateEmail(email);
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -253,7 +249,7 @@
     	}
     	
     	function validatePhoneNumber(phoneNumber) {
-    	    let phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/; // 예: 010-1234-5678
+    	    let phoneRegex = /^\d{11}$/; ; // 예: 010-1234-5678
     	    let phoneErrorDiv = document.getElementById('phone-error-msg');
 
     	    if (phoneRegex.test(phoneNumber)) {
