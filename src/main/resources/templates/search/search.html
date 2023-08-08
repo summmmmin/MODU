@@ -50,7 +50,7 @@
                         `;
                     }
                     $('#bpList').append(div);
-                    $('#searchDiv').append($('<input/>').attr('id', 'ttl').attr('type', 'text').attr('placeholder', '게시글 검색어를 입력해주세요.').attr('class', 'form-control'));
+                    $('#searchDiv').append($('<input/>').attr('id', 'ttl').attr('type', 'text').attr('placeholder', '게시글 제목을 입력해주세요.').attr('class', 'form-control'));
                     $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(BpSearch));
                 });
         }
@@ -72,7 +72,7 @@
                         div += `
                             <div onclick="javascript:window.location.href='/modu/postList?brdUniNo=${i.brdUniNo}'" class="card-content">
                                 <div class="card-body">
-                                    <td>등록일짜: ${formattedDate}</td><br>
+                                    <td>등록일자: ${formattedDate}</td><br>
                                     <td>작성자: ${i.nnm}</td><br>
                                     <td>내용: ${i.ttl}</td>
                                 </div>
@@ -106,7 +106,7 @@
                         `;
                     }
                     $('#bpList').append(div);
-                    $('#searchDiv').append($('<input/>').attr('id', 'cntn').attr('type', 'text').attr('placeholder', '채팅 검색어를 입력해주세요.').attr('class', 'form-control'));
+                    $('#searchDiv').append($('<input/>').attr('id', 'cntn').attr('type', 'text').attr('placeholder', '채팅을 입력 해주세요.').attr('class', 'form-control'));
                     $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(ChatSearch));
                 });
         }
@@ -160,7 +160,7 @@
                         `;
                     }
                     $('#bpList').append(div);
-                    $('#searchDiv').append($('<input/>').attr('id', 'attNm').attr('type', 'text').attr('placeholder', '파일 검색어를 입력해주세요.').attr('class', 'form-control'));
+                    $('#searchDiv').append($('<input/>').attr('id', 'attNm').attr('type', 'text').attr('placeholder', '파일이름을 입력해주세요.').attr('class', 'form-control'));
                     $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(FileSearch));
                 });
         }
@@ -177,8 +177,8 @@
                     $('#bpList').empty();
                     let div = '';
                     for (let i of data) {
-                    	let date = new Date(i.writeDt);
-                        let formattedDate = date.toLocaleDateString('ko-KR');
+                    	 let date = new Date(i.writeDt);
+                         let formattedDate = date.toLocaleDateString('ko-KR');
                         div += `<div onclick=`;
                         if (i.division == null) {
                             div += `"javascript:window.location.href='/modu/chat?chatrNo=${i.chatrNo}'"`;
@@ -187,7 +187,7 @@
                         }
                         div += ` class="card-content">
                                 <div class="card-body">
-                                    <td>등록 일짜 : ${formattedDate}</td><br>
+                                    <td>등록 일자 : ${formattedDate}</td><br>
                                     <td>파일 명 : ${i.attNm}</td>
                                 </div>
                             </div>
