@@ -70,6 +70,20 @@ body {
 							</div>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-sm-5">
+							<div class="form-group">
+								<h6>시작날짜</h6>
+								<p th:text="${#strings.substring(todoInfo.frDt, 0,10)}"></p>
+							</div>
+						</div>
+						<div class="col-sm-5">
+							<div class="form-group">
+								<h6>마감날짜</h6>
+								<p th:text="${#strings.substring(todoInfo.toDt, 0,10)}"></p>
+							</div>
+						</div>
+					</div>
 					<div class="recent-message d-flex px-4 py-3">
 						<div class="avatar avatar-lg">
 							<h6 class="mb-1">담당자</h6>

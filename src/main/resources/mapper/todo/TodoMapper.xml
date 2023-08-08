@@ -56,7 +56,7 @@
 			SELECT 't' || TODO_SEQ.nextVal from dual
 		</selectKey>
 	insert into todo(todo_uni_no,fr_dt,to_dt,mgr,cm,writer,cntn,pct,prj_uni_no,ttl)
-	values(#{todoUniNo},#{frDt},#{toDt},#{mgr},#{cm},#{writer},#{cntn},'P01',#{prjUniNo},#{ttl})
+	values(#{todoUniNo},TO_DATE(#{frDt}, 'YYYY-MM-DD'),TO_DATE(#{toDt}, 'YYYY-MM-DD'),#{mgr},#{cm},#{writer},#{cntn},'P01',#{prjUniNo},#{ttl})
 	</insert>
 	
 	<!-- 퍼센트 공통코드 -->
@@ -93,8 +93,11 @@
  		   			<if test="cm != null and !cm.equals('')">
  		   			cm=#{cm},
  		   			</if>
+ 		   			<if test="frDt != null and !frDt.equals('')">
+ 		   			fr_dt=TO_DATE(#{frDt}, 'YYYY-MM-DD'),
+ 		   			</if>
  		   			<if test="toDt != null and !toDt.equals('')">
- 		   			to_dt=#{toDt},
+ 		   			to_dt=TO_DATE(#{toDt}, 'YYYY-MM-DD'),
  		   			</if>
  		  </set>
  	where todo_uni_no = #{todoUniNo}

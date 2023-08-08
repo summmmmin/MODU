@@ -78,9 +78,6 @@ public class TodoController {
 	@ResponseBody
 	public TodoVO todoInsert(HttpSession session, @RequestParam(value="file",required=false) MultipartFile[] file, @RequestParam("ttl") String ttl,
 			@RequestParam("cntn") String cntn,	@RequestParam("frDt") String Date, @RequestParam("toDt") String lastDate,@RequestParam("cm") String cm, @RequestParam("mgr") String mgr) throws ParseException {
-		System.out.println(cntn);
-		System.out.println(file);
-		System.out.println(Date);
 		TodoVO vo = new TodoVO();
 		vo.setWriter((String) session.getAttribute("particiMembUniNo"));
 		vo.setPrjUniNo((String) session.getAttribute("prjUniNo"));
@@ -120,6 +117,7 @@ public class TodoController {
 		model.addAttribute("todoInfo",fileService.fileList(fileVO)); //todo파일 조회
 		model.addAttribute("todoInfo",todoService.oneTodo(vo));		 //todo 한개의 정보 (담당자와 참가자는 partici로 들어가지만 함수를 이용해서 닉네임화한것들)
 		model.addAttribute("pctList",cmmnService.getCmmn("퍼센트"));	 //공통코드 퍼센트 나열을 위한것
+		
 		//담당자만 수정이 가능 -> html 단에서 현재 로그인 한사람의 partici == 담당자 partici일시 수정삭제 버튼등장
 		//담당자의 조회 정보를 model 따로 담아서보냄
 		model.addAttribute("mgrCheck",todoService.mgrCheck(todoUniNo));
