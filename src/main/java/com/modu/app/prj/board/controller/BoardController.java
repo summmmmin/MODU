@@ -44,6 +44,7 @@ public class BoardController {
 		session.setAttribute("prjUniNo", vo.getPrjUniNo());
 		session.setAttribute("particiMembUniNo", vo.getParticiMembUniNo());
 		session.setAttribute("grd", vo.getGrd());
+		session.setAttribute("armYn", boardService.armYn(vo.getParticiMembUniNo()).getArmYn());
 		return "redirect:scheList";
 	}
 
@@ -116,12 +117,10 @@ public class BoardController {
 	@PostMapping("newJeans")
 	@ResponseBody
 	public int newJeans(@RequestBody BoardVO vo, HttpSession session) {
-
 		if (vo.getParticiMembUniNos() != null) {
 			List<String> membList = vo.getParticiMembUniNos();
 			for (String memb : membList) {
-				vo.setParticiMembUniNo(memb);;
-				boardService.newJeans(vo);
+				vo.setParticiMembUniNo(memb);
 			}
 		}
 		return boardService.newJeans(vo);
@@ -143,6 +142,18 @@ public class BoardController {
 		return "/post/postList";
 	}
 	
-	
-	
+	// 게시판 업데이트
+		@PostMapping("armYn")
+		@ResponseBody
+		public BoardVO armYn(@RequestBody BoardVO vo, HttpSession session) {
+			vo.setParticiMembUniNo((String) session.getAttribute("particiMembUniNo"));
+			String yn = vo.getArmYn();
+			if (yn.equals("Y")) {
+				vo.setPubcYn("N");
+			} else {
+				vo.setPubcYn("N");
+			}
+			boardService.particiArm(vo);
+			return vo;
+		}
 }

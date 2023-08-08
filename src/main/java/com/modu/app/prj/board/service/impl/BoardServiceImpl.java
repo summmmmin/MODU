@@ -85,8 +85,20 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.POSTLIST(vo);
 	}
 	
-@Override
+	@Override
 	public List<BoardVO> superShy(BoardVO vo) {
 		return boardMapper.superShy(vo);
+	}
+	
+	//알람 여부 체크
+	@Override
+	public BoardVO armYn(String particiMembUniNo) {
+		return boardMapper.armYn(particiMembUniNo);
+	}
+	
+	// 전체 알람 On/Off
+	@Override
+	public int particiArm(BoardVO vo) {
+		return boardMapper.particiArm(vo);
 	}
 }

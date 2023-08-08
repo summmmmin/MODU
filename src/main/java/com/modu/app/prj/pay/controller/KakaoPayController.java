@@ -31,8 +31,8 @@ public class KakaoPayController {
 		String userId = ((UserVO) session.getAttribute("user")).getMembUniNo();
 		payVO.setMembUniNo(userId);
 		return payService.kakaoPayReady(payVO);
-	}
-	
+  }
+  
 	// 결제성공
 	@GetMapping("/success")
 	public String successPay(@RequestParam("pg_token") String pgToken, Model model){
@@ -56,5 +56,4 @@ public class KakaoPayController {
     	System.out.println("결제 실패");
     }
 
-	
 }

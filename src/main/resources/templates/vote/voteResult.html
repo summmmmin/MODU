@@ -3,7 +3,6 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 
  <style>
         /* 선택된 항목을 강조하기 위해 스타일 추가 */
@@ -11,8 +10,7 @@
             display: inline-block;
             border: 2px solid #ccc;
             padding: 10px;
-            margin-left:10px;
-            width: 280px; /* 외부 박스의 가로 크기를 280px로 지정 */
+            width: 352px; /* 외부 박스의 가로 크기를 280px로 지정 */
         }
 
         .voteInnerBox {
@@ -85,31 +83,33 @@
 </head>
 <body>
     <div class="card">
-		<div class="card-header">
-			<div class="d-flex mb-2">
-					<div class="me-auto">
-						<h3>
-							<i class="bi bi-arrow-left backVote" onclick="voteList()"></i>
-						</h3>
-					</div>
-					<div>
-						<h4 class="card-title">투표결과</h4>
-					</div>
+			<div class="card-header">
+				<div class="d-flex mb-2">
+						<div class="me-auto">
+							<h3>
+								<i class="bi bi-arrow-left backVote" onclick="voteList()"></i>
+							</h3>
+						</div>
+						<div>
+							<h4 class="card-title">투표결과</h4>
+						</div>
 				</div>
 				<hr>
-		</div>
-    <!-- 외부 박스 -->
+			</div>
+			<div class="card-content">
+				<div class="card-body">
+			<!-- 외부 박스 -->
     <div class="voteOuterBox">
-    <div class="d-flex">
-	        <div class="me-auto">
+    	<div class="d-flex">
+	      <div class="me-auto">
         <!-- 작성자와 날짜, 제목을 추가 -->
         <div class="voteHeader" th:if="${voteInfo.brdUniNo != null}">
-            <div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">게시판:[[${voteInfo.boardNm}]]</h6></div>
+            <div class="voteAuthor" >작성자:[[${maker.ttl}]] <h6 class="text-muted mb-0">게시판:[[${voteInfo.boardNm}]]</h6></div>
             <div class="voteDate">시작날짜:[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
             <div class="voteTitle">제목:[[${voteInfo.ttl}]]</div>
         </div>
         <div class="voteHeader" th:unless="${voteInfo.brdUniNo != null}">
-            <div class="voteAuthor" >작성자:[[${voteInfo.particiMembUniNo}]] <h6 class="text-muted mb-0">채팅방:[[${voteInfo.chatrNm}]]</h6></div>
+            <div class="voteAuthor" >작성자:[[${maker.ttl}]] <h6 class="text-muted mb-0">채팅방:[[${voteInfo.chatrNm}]]</h6></div>
             <div class="voteDate">시작날짜:[[${#dates.format(voteInfo.frDt, 'yyyy-MM-dd')}]]</div>
             <div class="voteTitle">제목:[[${voteInfo.ttl}]]</div>
         </div>
@@ -117,20 +117,19 @@
         <!-- 작성자이거나 프로젝트 관리자는 수정과 삭제로 이동할수 있는 공간이 나타난다. -->
          <div class="p-2"> 
 	        	<div th:if="${maker.particiMembUniNo == session.particiMembUniNo} or ${session.grd == 'G03'} or ${session.grd == 'G04'}">
-	        		<button  class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<div th:if="${#dates.format(voteInfo.toDt, 'yyyy MM dd') > #dates.format(#dates.createNow(), 'yyyy MM dd')}">
- 							<a class="dropdown-item" data-bs-target="#updateVote1" data-bs-toggle="modal">수정</a> 
-						</div>
-							<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteVote1">삭제</a> 
+	        		<button  class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<div th:if="${#dates.format(voteInfo.toDt, 'yyyy MM dd') > #dates.format(#dates.createNow(), 'yyyy MM dd')}">
+ 								<a class="dropdown-item" data-bs-target="#updateVote1" data-bs-toggle="modal">수정</a> 
+							</div>
+								<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteVote1">삭제</a> 
+							</div>
 						</div>
 				</div>
-		</div>
-		</div>
+			</div>
 
         <!-- 투표 항목을 선택하는 폼 -->
-        <form id="voteForm1">
+       	 <form id="voteForm1">
             <!-- 내부 박스 -->
             <div class="voteInnerBox" > <!-- 내부 박스로 항목들을 감싸기 -->
                 <div class="d-flex voteItem" th:each="i:${item}" th:field="*{i.voteDetaNo}">
@@ -142,13 +141,15 @@
 
             <!-- 투표 제출 버튼 -->
             <div th:if="${session.grd != 'G01'}">
-            <button type="submit" id="submitBtn" disabled>더 이상 투표하실 수 없습니다.</button>
-       		</div>
-       		<div th:if="${session.grd == 'G01'}">
-       		<button type="submit" id="submitBtn" disabled>씨앗회원은 투표할수없습니다.</button>
-       		</div>
-        </form>
-    </div>
+            	<button type="submit" id="submitBtn" disabled>더 이상 투표하실 수 없습니다.</button>
+       			</div>
+       			<div th:if="${session.grd == 'G01'}">
+       				<button type="submit" id="submitBtn" disabled>씨앗회원은 투표할수없습니다.</button>
+       			</div>
+        	</form>
+   			</div>
+			</div>
+		</div>
     
     <!---------------------------- 외부라인 끝 ----------------------------------->
     
@@ -177,7 +178,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+		</div>
 				<!-- end of 투표 삭제 모달 --> 
 				<!-- 투표 수정 모달 -->
 				<div class="modal fade text-left" id="updateVote1" tabindex="-1"
@@ -226,12 +227,16 @@
 
 
 	<script th:inline="javascript">
+	
+	console.log("투표결과창")
     /*<![CDATA[*/
   //---------------투표 수정하기
     function updateVote(){
     let a =/*[[${voteInfo.voteNo}]]*/
     
-    let data={'voteNo': a};
+    let data={
+			'voteNo': a
+		};
 
     	let data2 = {
     		"toDt":document.getElementById("secondTodt1").value,

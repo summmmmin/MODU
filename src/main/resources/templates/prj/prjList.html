@@ -22,6 +22,10 @@
         .fontawesome-icons .the-icon svg {
             font-size: 24px;
         }
+        
+        #collapseAlter .card-body, #collapseQuit .card-body {
+        	background-color:#e6eaee;
+        }
     </style>
 
     <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
@@ -95,7 +99,7 @@
           	유료/무료
           </p>
           <p th:text="${prj.cd}">등급</p>
-          <p>프로젝트 이메일 : <span th:text="${prj.prjPubcId}? ${prj.prjPubcId} : ' '"></span></p>
+          <p>프로젝트 이메일 : <span th:text="${prj.prjPubcId}? ${prj.prjPubcId} : ' '" class="pubmail"></span></p>
         </div>
       </div>
 	  
@@ -129,7 +133,7 @@
                             <div class="accordion" id="alterAccordion">
                               <div class="card collapse-header">
                                 <div class="card-header" id="headingAlter" data-bs-toggle="collapse" data-bs-target="#collapseAlter" aria-expanded="false" aria-controls="collapseAlter" role="button">
-                                  <span class="collapsed collapse-title">정보 변경하기</span>
+                                  <span class="collapsed collapse-title btn btn-primary">정보 변경하기</span>
                                 </div>
                                 <div id="collapseAlter" class="collapse pt-1" aria-labelledby="headingAlter" data-parent="#alterAccordion">
                                   <div class="card-body">
@@ -169,7 +173,7 @@
                             <div class="accordion" id="quitAccordion">
                               <div class="card collapse-header">
                                 <div class="card-header" id="headingQuit" data-bs-toggle="collapse" data-bs-target="#collapseQuit" aria-expanded="false" aria-controls="collapseQuit" role="button">
-                                  <span class="collapsed collapse-title">프로젝트 탈퇴하기</span>
+                                  <span class="collapsed collapse-title btn btn-primary">프로젝트 탈퇴하기</span>
                                 </div>
                                 <div id="collapseQuit" class="collapse pt-1" aria-labelledby="headingQuit" data-parent="#quitAccordion">
                                   <div class="card-body">
@@ -253,6 +257,22 @@
  		  let pos   = document.querySelector('#posadd').value;
  		  let prjNo = document.querySelector('.prjName').getAttribute("data-prjNo");
  		  let data = {'prjPubcId':email, 'nnm':name, 'dept':dept, 'pos':pos}
+ 		 if (email === null || email === '') {
+ 			Swal.fire({
+		        icon: "warning",
+		        title: "이메일을 입력하세요."
+		      })
+ 	        return;
+ 	    }
+
+ 	    if (name === null || name === '') {
+ 	    	Swal.fire({
+		        icon: "warning",
+		        title: "이름을 입력하세요."
+		      })
+ 	        return;
+ 	    }
+
  		  fetch("manage/updateParticiMembInfo?prjNo="+prjNo, {
  			  method : "post",
  			 headers:{'Content-Type' : 'application/json'},
@@ -260,6 +280,7 @@
  		  })
  		  .then((response) => response.json())
  		  .then((result) => {
+ 			 document.querySelector('#'+prjNo).parentElement.parentElement.parentElement.querySelector('.pubmail').textContent = email
  		  })
  		  .catch((error) => {
  		    console.error("Error:", error);

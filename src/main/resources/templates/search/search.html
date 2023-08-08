@@ -1,71 +1,80 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <style>
+        /* 마우스 오버 시 배경색 변경 */
+        .card-body:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
 </head>
 
 <body>
-	<div class="row">
-		<div class="card">
-			<div class="card-header">
-				<div class="card-body">
-					<div class="clearfix" id="aaa"></div>
-					<div class="btn-group btn-group-lg" role="group"
-						aria-label="Basic example">
-						<button type="button" onclick="BpList()" class="btn btn-primary"
-							style="width: 70px; height: 30px; font-size: 10px">게시글</button>
-						<button type="button" onclick="FileList()" class="btn btn-primary"
-							style="width: 70px; height: 30px; font-size: 10px">파일</button>
-						<button type="button" onclick="ChatList()" class="btn btn-primary"
-							style="width: 70px; height: 30px; font-size: 10px">채팅</button>
-					</div>
-					<div id="searchDiv"></div>
-				</div>
-				<hr>
-			</div>
-			<div class="card-content" id="bpList"></div>
-		</div>
-	</div>
-	<script th:inline="javascript"> 
-      //게시글 리스트 함수
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-body">
+                    <div class="clearfix" id="aaa"></div>
+                    <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
+                        <button type="button" onclick="BpList()" class="btn btn-primary"
+                            style="width: 102px; height: 40px; font-size: 15px">게시글</button>
+                        <button type="button" onclick="FileList()" class="btn btn-primary"
+                            style="width: 102px; height: 40px; font-size: 15px">파일</button>
+                        <button type="button" onclick="ChatList()" class="btn btn-primary"
+                            style="width: 102px; height: 40px; font-size: 15px">채팅</button>
+                    </div>
+                    <div id="searchDiv"></div>
+                </div>
+                <hr>
+            </div>
+            <div class="card-content" id="bpList"></div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        // 게시글 리스트 함수
         function BpList() {
             $.ajax("BpList")
-              .done(result => {
-                  $('#bpList').empty();
-                  $('#searchDiv').empty();
-                  let div = '';
-                  for (let i of result) {
-                      div += `
-                          <div class="card-content">
-                              <div class="card-body">
-                              </div>
-                          </div>
-                      `;
-                  }
-                  $('#bpList').append(div);
-                  $('#searchDiv').append($('<input/>').attr('id','ttl').attr('type','text').attr('placeholder','게시글 검색어를 입력해주세요.').attr('class','form-control'));
-                  $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(BpSearch));
-              });
-      }
-    	//게시글 검색 함수
+                .done(result => {
+                    $('#bpList').empty();
+                    $('#searchDiv').empty();
+                    let div = '';
+                    for (let i of result) {
+                        div += `
+                            <div class="card-content">
+                                <div class="card-body">
+                                </div>
+                            </div>
+                        `;
+                    }
+                    $('#bpList').append(div);
+                    $('#searchDiv').append($('<input/>').attr('id', 'ttl').attr('type', 'text').attr('placeholder', '게시글 검색어를 입력해주세요.').attr('class', 'form-control'));
+                    $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(BpSearch));
+                });
+        }
+        // 게시글 검색 함수
         function BpSearch() {
             let ttl = $('#ttl').val();
             $.ajax({
                 url: "BpListSearch",
                 data: { ttl },
                 method: "GET",
-                success: function(data) {
-                	console.log(data);
+                success: function (data) {
+                    console.log(data);
                     $('#bpList').empty();
+                    
                     let div = '';
                     for (let i of data) {
+                    	 let date = new Date(i.writeDt);
+                         let formattedDate = date.toLocaleDateString('ko-KR');
                         div += `
                             <div onclick="javascript:window.location.href='/modu/postList?brdUniNo=${i.brdUniNo}'" class="card-content">
                                 <div class="card-body">
-                                    <td>${i.ttl}</td>
+                                    <td>등록일짜: ${formattedDate}</td><br>
+                                    <td>작성자: ${i.nnm}</td><br>
+                                    <td>내용: ${i.ttl}</td>
                                 </div>
                             </div>
                             <hr>
@@ -73,136 +82,125 @@
                     }
                     $('#bpList').append(div);
                 },
-                error: function(err) {
+                error: function (err) {
                     console.log(err);
                 }
             })
         }
-        
-     //채팅 리스트 함수
-     function ChatList() {
-    	 $.ajax("ChatList")
-         .done(result => {
-             $('#bpList').empty();
-             $('#searchDiv').empty();
-             let div = '';
-             for (let i of result) {
-            	 let date = new Date(i.writeDt); 
-            	 let year = date.getFullYear();
-            	 let month = (date.getMonth() + 1).toString().padStart(2, '0');
-            	 let day = date.getDate().toString().padStart(2, '0');
-            	 let hours = date.getHours().toString().padStart(2, '0');
-            	 let minutes = date.getMinutes().toString().padStart(2, '0');
-            	 let seconds = date.getSeconds().toString().padStart(2, '0');
 
-            	 let formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-            	 div += `
-                     <div class="card-content">
-                         <div class="card-body">
-                         </div>
-                     </div>
-                 `;
-             }
-             $('#bpList').append(div);
-             $('#searchDiv').append($('<input/>').attr('id','cntn').attr('type','text').attr('placeholder','채팅 검색어를 입력해주세요.').attr('class','form-control'));
-             $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(ChatSearch));
-         });
- }
-     
-    //채팅 검색 함수
-     function ChatSearch() {
-         let cntn = $('#cntn').val();
-         $.ajax({
-             url: "ChatListSearch",
-             data: { cntn },
-             method: "GET",
-             success: function(data) {
-                 $('#bpList').empty();
-                 let div = '';
-                 for (let i of data) {
-                	 let date = new Date(i.writeDt); 
-                	 let year = date.getFullYear();
-                	 let month = (date.getMonth() + 1).toString().padStart(2, '0');
-                	 let day = date.getDate().toString().padStart(2, '0');
-                	 let hours = date.getHours().toString().padStart(2, '0');
-                	 let minutes = date.getMinutes().toString().padStart(2, '0');
-                	 let seconds = date.getSeconds().toString().padStart(2, '0');
-                	 
-                	 let formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-                     div += `
-                         <div onclick="javascript:window.location.href='/modu/chat?chatrNo=${i.chatrNo}'" class="card-content">
-                             <div class="card-body">
-                                 <td>${i.nnm}</td>
-                                 <td>`+formattedDate+`</td>
-                                 <td>${i.cntn}</td>
-                             </div>
-                         </div>
-                         <hr>
-                     `;
-                 }
-                 $('#bpList').append(div);
-             },
-             error: function(err) {
-                 console.log(err);
-             }
-         })
-     }
-    
-    
-    //파일 리스트 함수
-     function FileList() {
-    	 $.ajax("FileList")
-         .done(result => {
-             $('#bpList').empty();
-             $('#searchDiv').empty();
-             let div = '';
-             for (let i of result) {
-            	 div += `
-                     <div class="card-content">
-                         <div class="card-body">
-                         </div>
-                     </div>
-                 `;
-             }
-             $('#bpList').append(div);
-             $('#searchDiv').append($('<input/>').attr('id','attNm').attr('type','text').attr('placeholder','파일 검색어를 입력해주세요.').attr('class','form-control'));
-             $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(FileSearch));
-         });
- }
-     
-     //파일 검색 함수
-     function FileSearch() {
-         let attNm = $('#attNm').val();
-         $.ajax({
-             url: "FileListSearch",
-             data: { attNm },
-             method: "GET",
-             success: function(data) {
-            	 console.log(data);
-                 $('#bpList').empty();
-                 let div = '';
-                 for (let i of data) {
-                     div += `<div onclick=`;
-                     if(i.division == null){    
-                     	div += `"javascript:window.location.href='/modu/chat?chatrNo=${i.chatrNo}'"`; 
-                     }else if(i.division == 'P'){
-                    	 div += `"javascript:window.location.href='/modu/postList?brdUniNo=${i.brdUniNo}'"`;
-                     }
-                     div += ` class="card-content">
-                             <div class="card-body">
-                                 <td>${i.attNm}</td>
-                             </div>
-                         </div>
-                         <hr>
-                     `;
-                 }
-                 $('#bpList').append(div);
-             },
-             error: function(err) {
-                 console.log(err);
-             }
-         })
-     }
+        // 채팅 리스트 함수
+        function ChatList() {
+            $.ajax("ChatList")
+                .done(result => {
+                    $('#bpList').empty();
+                    $('#searchDiv').empty();
+                    let div = '';
+                    for (let i of result) {
+                        let date = new Date(i.writeDt);
+                        let formattedDate = date.toLocaleDateString('ko-KR');
+                        div += `
+                            <div class="card-content">
+                                <div class="card-body">
+                                </div>
+                            </div>
+                        `;
+                    }
+                    $('#bpList').append(div);
+                    $('#searchDiv').append($('<input/>').attr('id', 'cntn').attr('type', 'text').attr('placeholder', '채팅 검색어를 입력해주세요.').attr('class', 'form-control'));
+                    $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(ChatSearch));
+                });
+        }
+
+        // 채팅 검색 함수
+        function ChatSearch() {
+            let cntn = $('#cntn').val();
+            $.ajax({
+                url: "ChatListSearch",
+                data: { cntn },
+                method: "GET",
+                success: function (data) {
+                    $('#bpList').empty();
+                    let div = '';
+                    for (let i of data) {
+                        let date = new Date(i.writeDt);
+                        let formattedDate = date.toLocaleDateString('ko-KR');
+                        div += `
+                            <div onclick="javascript:window.location.href='/modu/chat?chatrNo=${i.chatrNo}'" class="card-content">
+                                <div class="card-body">
+                                    <td>등록일자 : ${formattedDate}</td><br>
+                                    <td>등록자 : ${i.nnm}</td><br>
+                                    <td>내용 : ${i.cntn}</td>
+                                </div>
+                            </div>
+                            <hr>
+                        `;
+                    }
+                    $('#bpList').append(div);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        }
+
+        // 파일 리스트 함수
+        function FileList() {
+            $.ajax("FileList")
+                .done(result => {
+                    $('#bpList').empty();
+                    $('#searchDiv').empty();
+                    let div = '';
+                    for (let i of result) {
+                    	
+                        div += `
+                            <div class="card-content">
+                                <div class="card-body">
+                                </div>
+                            </div>
+                        `;
+                    }
+                    $('#bpList').append(div);
+                    $('#searchDiv').append($('<input/>').attr('id', 'attNm').attr('type', 'text').attr('placeholder', '파일 검색어를 입력해주세요.').attr('class', 'form-control'));
+                    $('#searchDiv').append($('<button/>').attr('type', 'button').attr('id', 'srhBtn').addClass('btn btn-primary').text('검색').click(FileSearch));
+                });
+        }
+
+        // 파일 검색 함수
+        function FileSearch() {
+            let attNm = $('#attNm').val();
+            $.ajax({
+                url: "FileListSearch",
+                data: { attNm },
+                method: "GET",
+                success: function (data) {
+                    console.log(data);
+                    $('#bpList').empty();
+                    let div = '';
+                    for (let i of data) {
+                    	let date = new Date(i.writeDt);
+                        let formattedDate = date.toLocaleDateString('ko-KR');
+                        div += `<div onclick=`;
+                        if (i.division == null) {
+                            div += `"javascript:window.location.href='/modu/chat?chatrNo=${i.chatrNo}'"`;
+                            } else if (i.division == 'P') {
+                            div += `"javascript:window.location.href='/modu/postList?brdUniNo=${i.brdUniNo}'"`;
+                        }
+                        div += ` class="card-content">
+                                <div class="card-body">
+                                    <td>등록 일짜 : ${formattedDate}</td><br>
+                                    <td>파일 명 : ${i.attNm}</td>
+                                </div>
+                            </div>
+                            <hr>
+                        `;
+                    }
+                    $('#bpList').append(div);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        }
     </script>
 </body>
 </html>

@@ -153,9 +153,9 @@
 		WHERE TRUNC(reg_dt) = TRUNC(SYSDATE)
 	</select>
 
-	<!-- 월별 회원 가입 수 -->
-	<select id="monthlyNewUsersCount" resultType="map">
-	<![CDATA[
+<!-- 월별 회원 가입 수 -->
+<select id="monthlyNewUsersCount" resultType="map">
+<![CDATA[
 WITH all_months AS (
   SELECT
     TO_CHAR(TRUNC(SYSDATE, 'MONTH') - INTERVAL '1' YEAR + INTERVAL '1' MONTH * (LEVEL - 1), 'YYYY-MM') AS month
@@ -166,7 +166,7 @@ WITH all_months AS (
 )
 SELECT
   all_months.month,
-  COUNT(memb.reg_dt) AS count
+  NVL(COUNT(memb.reg_dt), 0) AS count
 FROM
   all_months
 LEFT JOIN
@@ -175,14 +175,15 @@ GROUP BY
   all_months.month
 ORDER BY
   all_months.month
-  ]]>
-	</select>
+]]>
+</select>
+
 	
 	<!-- 결제 누적금액 -->
-	<select id="totalPay" resultType="int">
-		SELECT SUM(pay_amt)
-		FROM pay
-	</select>
+<select id="totalPay" resultType="int">
+    SELECT NVL(SUM(pay_amt), 0)
+    FROM pay
+</select>
 
 	<!-- 단건 유저 정보 조회(마이페이지) -->
 	<select id="myInfo" resultType="UserVO">

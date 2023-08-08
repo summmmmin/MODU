@@ -1,6 +1,7 @@
 package com.modu.app.prj.post.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,6 +17,7 @@ public class PostVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date writeDt; // 작성일자
 	private String postTagArm; // 게시글태그알림
+	private List<String> postTagArmList; // 게시글태그알림
 	private char replyArmYn; // 댓글알림여부
 	private char notiYn; // 공지여부
 	@DateTimeFormat(pattern="yyyy-MM-dd")

@@ -1,90 +1,79 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>마이페이지</title>
-<link
-	href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/bootstrap.css">
-<link rel="stylesheet"
-	href="../assets/vendors/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="../assets/vendors/bootstrap-icons/bootstrap-icons.css">
 <link rel="stylesheet" href="../assets/css/app.css">
 <link rel="stylesheet" href="../assets/css/pages/auth.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <style>
-/* 기본 설정 */
-body, html {
-	height: 100%;
-	margin: 0;
-	font-family: 'Arial', sans-serif;
-}
+	/* 기본 설정 */
+	body,
+	html {
+		height: 100%;
+		margin: 0;
+		font-family: 'Arial', sans-serif;
+	}
 
-/* 상단바 스타일링 */
-.navbar {
-	width: 100%;
-	background-color: #f8f8f8;
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 10;
-}
+	/* 상단바 스타일링 */
+	.navbar {
+		width: 100%;
+		background-color: #f8f8f8;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 10;
+	}
 
-.container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height: 100%;
-}
+	.container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
 
-section {
-	width: 100%;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	padding: 90px;
-}
+	section {
+		width: 100%;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		padding: 90px;
+	}
 
-#basic-horizontal-layouts {
-	max-width: 100%;
-	margin-left: 10px;
-}
+	#basic-horizontal-layouts {
+		max-width: 100%;
+		margin-left: 10px;
+	}
 
-#quitUserBtn {
-	margin-top: 80px;
-}
+	#quitUserBtn {
+		margin-top: 80px;
+	}
 
-.separator {
-	border-bottom: 2px solid #e1e1e1; /* 이 부분은 원하는 선의 스타일로 변경 가능합니다. */
-	margin: 15px 0;
-}
+	.separator {
+		border-bottom: 2px solid #e1e1e1;
+		margin: 15px 0;
+	}
 </style>
 </head>
 
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
 		<div class="container-lg">
-			<a class="navbar-brand" th:href="@{/}"><span
-				class="fw-bolder text-primary">MODU</span></a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
+			<a class="navbar-brand" th:href="@{/}"><span class="fw-bolder text-primary">MODU</span></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
-					<li class="nav-item"><a class="nav-link"
-						href="/modu/noticeList">공지사항</a></li>
+					<li class="nav-item"><a class="nav-link" href="/modu/noticeList">공지사항</a></li>
 					<li class="nav-item"><a class="nav-link" href="/modu/FAQList">FAQ</a></li>
 					<li class="nav-item"><a class="nav-link" href="/modu/subscribe">요금안내</a></li>
-					<li class="nav-item"
-						th:if="${#httpServletRequest.userPrincipal != null and #httpServletRequest.userPrincipal.authorities.contains('ROLE_ADMIN')}">
+					<li class="nav-item" th:if="${#httpServletRequest.userPrincipal != null and #httpServletRequest.userPrincipal.authorities.contains('ROLE_ADMIN')}">
 						<a class="nav-link" href="#">관리자메뉴</a>
 					</li>
 					<li class="nav-item"
@@ -612,7 +601,7 @@ section {
 													return;
 												}
 
-												// 이메일 중복 체크
+												// 이메일 중복 체크	
 												$
 														.ajax({
 															type : "POST",
@@ -621,13 +610,8 @@ section {
 															contentType : "text/plain",
 															success : function(
 																	response) {
-																if (response === "SUCCESS") {
-																	// 이메일 주소를 인코딩하여 전달(깨짐방지)
-																	newEmail = encodeURIComponent(newEmail);
-																	console
-																			.log("중복체크 "
-																					+ response)
-
+																if (response === "사용 가능한 아이디입니다.") {
+																	alert("이메일을 전송했습니다. 발송까지 기다려주세요.")
 																	// 이메일 변경 요청
 																	$
 																			.ajax({
@@ -637,7 +621,7 @@ section {
 																						+ newEmail, //쿼리스트링구조로발송
 																				success : function(
 																						response) {
-																					alert("이메일 전송 성공!");
+																					alert("이메일 발송 완료!");
 																				},
 																				error : function(
 																						error) {
@@ -646,7 +630,9 @@ section {
 																				}
 																			});
 																} else {
-																	alert("이미 사용 중인 이메일입니다.");
+																	console
+																			.log(response);
+																	alert("이미 존재하는 아이디입니다.");
 																}
 															},
 															error : function(
@@ -662,11 +648,9 @@ section {
 							$("#check-button")
 									.click(
 											function() {
-												var code = $("#code-horizontal")
-														.val();
+												var code = $("#code-horizontal").val();
 												var newEmail = $(
-														"#email-horizontal")
-														.val();
+														"#email-horizontal").val();
 												console.log(newEmail);
 
 												$
@@ -697,7 +681,6 @@ section {
 															}
 														});
 											});
-
 						});
 		//document.ready종료
 	</script>

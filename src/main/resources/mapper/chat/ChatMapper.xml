@@ -9,7 +9,8 @@
 		SELECT chat_partici_memb_uni_no, 
 			   chatr_no, 
 			   partici_memb_uni_no, 
-			   chatr_nm 
+			   chatr_nm,
+			   arm_yn
 		  FROM chatr_partici 
 		 WHERE chatr_no = #{chatrNo} 
 		   AND partici_memb_uni_no = #{particiMembUniNo}
@@ -154,5 +155,11 @@
 			   AND cfm_yn != 'Y'
 			   AND chat_no <= (SELECT MAX(chat_no) FROM chat_chm WHERE chatr_no = #{chatrNo})
 		 ]]>
+	</update>
+	
+	<update id="setChatArm" parameterType="ChatrParticiVO">
+		UPDATE chatr_partici 
+		   SET arm_yn = #{armYn}
+		 WHERE chat_partici_memb_uni_no = #{chatParticiMembUniNo}
 	</update>
 </mapper>

@@ -39,7 +39,7 @@
 					<ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
 						<li class="nav-item"><a class="nav-link"
 							href="/modu/noticeList">공지사항</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">FAQ</a></li>
+						<li class="nav-item"><a class="nav-link" href="FAQList">FAQ</a></li>
 						<li class="nav-item"><a class="nav-link" href="subscribe">요금안내</a></li>
 						<li class="nav-item"
 							th:if="${#httpServletRequest.userPrincipal != null and #httpServletRequest.userPrincipal.authorities.contains('ROLE_ADMIN')}">
@@ -87,8 +87,8 @@
 								<!--버튼부-->
 								
 								<div class="buttons d-flex justify-content-end">
-									<button type="submit" id="noticeInsertBtn" class="btn btn-primary">등록</button>
-									<a th:href="@{noticeList}"><button type="button"  class="btn btn-light">취소</button></a>
+									<button type="submit" id="noticeInsertBtn" class="btn btn-primary mx-1">등록</button>
+									<a th:href="@{noticeList}"><button type="button"  class="btn btn-light mx-1">취소</button></a>
 								</div>
 							</div>
 						</form>

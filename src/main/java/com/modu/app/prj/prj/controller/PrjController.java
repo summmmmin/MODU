@@ -1,5 +1,7 @@
 package com.modu.app.prj.prj.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -66,11 +68,14 @@ public class PrjController {
 		info.setMembUniNo(user.getMembUniNo());
 		info.setPrjUniNo(prjVO.getPrjUniNo());
 		info = prjService.getMemInfo(info);
+		// 프로젝트 정보 담기
+		prjVO = prjService.getPrjInfo(prjVO.getPrjUniNo());
 		if(info == null) {
 			return "redirect:prjList";
 		}else {
 			if(info.getCd().equals("나무") || info.getCd().equals("농부")) {
 				model.addAttribute("prjNo", prjVO.getPrjUniNo());
+				model.addAttribute("prjNm", prjVO.getPrjNm());
 				return "prj/prjManage";			
 			}else {
 				return "redirect:prjList";
@@ -180,5 +185,14 @@ public class PrjController {
 	@GetMapping("subscribe")
 	public String subscribe() {
 		return "prj/feeInfo";
+	}
+	
+	// 프로젝트 참여 회원 리스트
+	@GetMapping("prjMembList")
+	public String prjMembList(HttpSession session, Model model){
+		PrjVO prjVO = new PrjVO();
+		prjVO.setPrjUniNo((String) session.getAttribute("prjUniNo") );
+		model.addAttribute("membList", prjService.getPrjPartiList(prjVO));
+		return "prj/prjMembList";
 	}
 }

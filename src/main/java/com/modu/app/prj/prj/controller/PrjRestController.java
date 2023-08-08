@@ -87,7 +87,7 @@ public class PrjRestController {
 	public String updateGrade(@RequestBody PrjVO vo, HttpServletRequest request) {
 		PrjVO info = new PrjVO();
 		if(vo.getGrd().equals("G03")) {
-			info.setCd("나무");
+			info.setGrd("G03");
 			info.setPrjUniNo(vo.getPrjUniNo());
 			// 등급이 '나무'인 사람 찾기
 			info = prjService.getMemInfo(info);
@@ -199,12 +199,15 @@ public class PrjRestController {
 	// 프로젝트 참여자 정보 수정
 	@PostMapping("updateParticiMembInfo")
 	public String updateMemInfo(String prjNo, @RequestBody PrjVO vo, HttpSession session) {
-		PrjVO prj = new PrjVO();
-		prj.setPrjUniNo(prjNo);
-		prj.setMembUniNo(((UserVO) session.getAttribute("user")).getMembUniNo());
-		// vo에 조회한 회원 정보 담기
-		prj = prjService.getMemInfo(prj);
-		vo.setParticiMembUniNo(prj.getParticiMembUniNo()); 
+		if(vo.getParticiMembUniNo() == null) {
+			PrjVO prj = new PrjVO();
+			prj.setPrjUniNo(prjNo);
+			prj.setMembUniNo(((UserVO) session.getAttribute("user")).getMembUniNo());
+			// vo에 조회한 회원 정보 담기
+			prj = prjService.getMemInfo(prj);
+			vo.setParticiMembUniNo(prj.getParticiMembUniNo()); 			
+		}
+		System.out.println(vo);
 		prjService.updateParticiInfo(vo);
 		return "1";
 	}

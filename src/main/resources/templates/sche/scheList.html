@@ -59,14 +59,20 @@
             .then((result) => {
             	document.getElementById('partici').innerText = '';
               let scheInfo = result.scheInfo; //단건조회 일정정보
+              //작성자와 관리자가 아니면 수정이 불가능 하도록
+            	  console.log(partici)
+              console.log(scheInfo.particiMembUniNo)
+               
+              $("#scheDropdown").hide()
+              //제작자의 정보 == 로그인한사람의 정보 또는 등급이 G03이거나 G04인 경우
               if(scheInfo.particiMembUniNo == partici || schegrd == 'G03' || schegrd == 'G04'){
-            	  $('#scheDropdown').css("display","block");
+            	  $("#scheDropdown").show()
               }
               
               $('#ttl').text(scheInfo.title);
               $('#cntn').text(scheInfo.cntn);
+              $('#scheWriter').text(scheInfo.nnm)
               if (result.partici.length > 0) {
-            	  console.log(result.partici)
             	  for(let i=0; i<result.partici.length; i++){
             		  document.getElementById('partici').innerText += result.partici[i].title
             		  if(i != result.partici.length -1){
@@ -269,7 +275,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title" id="myModalLabel37521">일정 상세</h4>
-					<div id="scheDropdown" display="hidden">
+					<div id="scheDropdown">
 						<button class="btn btn-primary dropdown-toggle me-1" type="button"
 							id="dropdownMenuButton" data-bs-toggle="dropdown"
 							aria-haspopup="true" aria-expanded="false"></button>
@@ -288,8 +294,20 @@
 					<div class="form-group">
 						<p id="ttl"></p>
 					</div>
-					<h6>참여멤버</h6>
-					<div class="form-group" id="partici"></div>
+					<div class="row">
+						<div class="col-sm-5">
+							<div class="form-group">
+								<h6>작성자</h6>
+								<p id="scheWriter"></p>
+							</div>
+						</div>
+						<div class="col-sm-5">
+							<div class="form-group">
+								<h6>참여멤버</h6>
+								<p id="partici"></p>
+							</div>
+						</div>
+					</div>
 					<h6>내용</h6>
 					<div class="form-group">
 						<p id="cntn"></p>

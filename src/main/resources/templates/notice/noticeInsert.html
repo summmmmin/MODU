@@ -39,7 +39,7 @@
 					<ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
 						<li class="nav-item"><a class="nav-link"
 							href="/modu/noticeList">공지사항</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">FAQ</a></li>
+						<li class="nav-item"><a class="nav-link" href="FAQList">FAQ</a></li>
 						<li class="nav-item"><a class="nav-link" href="subscribe">요금안내</a></li>
 						<li class="nav-item"
 							th:if="${#httpServletRequest.userPrincipal != null and #httpServletRequest.userPrincipal.authorities.contains('ROLE_ADMIN')}">
@@ -73,7 +73,7 @@
 
 								<div class="form-group">
 									<label for="basicInput">제목*</label> <input type="text"
-										class="form-control" id="basicInput" placeholder="tilte"
+										class="form-control" maxlength='70' id="basicInput" placeholder="tilte"
 										th:field="*{ttl}" required>
 								</div>
 								<hr>
@@ -88,9 +88,9 @@
 
 								<div class="buttons d-flex justify-content-end">
 									<button type="submit" id="noticeInsertBtn"
-										class="btn btn-primary">등록</button>
+										class="btn btn-primary mx-1">등록</button>
 									<a th:href="@{noticeList}"><button type="button"
-											class="btn btn-light">취소</button></a>
+											class="btn btn-light mx-1">취소</button></a>
 								</div>
 							</div>
 						</form>
@@ -111,6 +111,14 @@
 					postBtn.setAttribute('disabled', 'true')
 				} else {
 					postBtn.setAttribute('disabled', 'false')
+				}
+			})
+			
+			//엔터키 누르면 개행
+			document.getElementById('exampleFormControlTextarea1').addEventListener("keypress", function (event) {
+				if (event.keyCode === 13) {
+					document.getElementById("exampleFormControlTextarea1").value =document.getElementById("exampleFormControlTextarea1").value + "\n";
+					return false;
 				}
 			})
 		</script>

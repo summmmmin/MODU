@@ -1,13 +1,18 @@
 package com.modu.app.prj.pay.controller;
 
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modu.app.prj.pay.service.PayService;
+import com.modu.app.prj.pay.service.PayVO;
 import com.modu.app.prj.prj.service.PrjService;
 import com.modu.app.prj.prj.service.PrjVO;
 import com.modu.app.prj.user.service.UserVO;
@@ -43,4 +48,38 @@ public class PayController {
 		
 	}
 	
+	// 결제성공
+	@GetMapping("payment/success")
+	public String successPay(@RequestParam("pg_token") String pgToken, Model model){
+		System.out.println("ㅠㅠ");
+		PayVO kakaoApprove = payService.approveResponse(pgToken);
+		System.out.println(kakaoApprove);
+		// 성공시 db에 insert
+		payService.insertPay(kakaoApprove);
+		model.addAttribute("info", kakaoApprove);
+		LocalDateTime payDateTime = kakaoApprove.getApproved_at();
+		String formattedDate = payDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		String stdt = payDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		model.addAttribute("paydt",formattedDate);
+		LocalDateTime exdtDateTime = payDateTime.plusDays(30);
+		String exdtDt = exdtDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		model.addAttribute("exdtdt",exdtDt);
+		model.addAttribute("stdt",stdt);
+		// 결제완료페이지로
+		return "pay/success";
+	}
+	
+	// 결제 진행 중 취소
+	@GetMapping("payment/cancel")
+	public String cancel() {
+		return "pay/cancel";
+	}
+	
+	// 결제 실패
+	@GetMapping("payment/fail")
+    public String fail() {
+		return "pay/fail";
+    }
+
 }
