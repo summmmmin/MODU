@@ -24,7 +24,6 @@
 <a id="particiBrd" class="dropdown-item" th:if="${checkNM[0].pubcYn} == 'N'">회원 초대</a>
 </div>
 </div>
-<!--  <p th:each="particiBrd: ${particiBrd}" th:text="${particiBrd}"></p>-->
 
 <div class="dropdown">
 <div class="me-auto"><h1>[[${checkNM[0].boardNm}]]</h1></div>
@@ -122,6 +121,8 @@
 </div>
 </div>
 <!-- ========================회원 추방 Modal 끗 ======================== -->
+
+
 <!-- ========================회원 초대 Modal 시작 ======================== -->
 <div class="modal fade text-left" id="partici" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3752" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -866,9 +867,18 @@ function BrdUpdate() {
          +"&pubcYn="+checkOk1
   })
   .then(result => result.text())
-  .then(data => {
-	  alert('수정이 완료 되었습니다 !');
-  })
+.then(data => {
+    Swal.fire({
+        icon: "success",
+        title: "성공",
+        text: "변경 완료 !"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // 확인 버튼을 클릭한 경우에만 리로드 실행
+            location.reload();
+        }
+    });
+})
   .catch(err => console.log(err));
 }
 //========================== 게시판 업데이트 끗  ========================== //
@@ -887,17 +897,21 @@ function particiInsert(){
 		},
 		body : JSON.stringify(particidata)
 	})
-	.then(result => result.json())
-	.then(data => {
-		//여기 초대 된 사람들 Arm 띄우기
-		armClient.publish({
-	        destination: "/pubArm/tag/" + particiMembUniNo,
-	        body: JSON.stringify({
-	          'particiMembUniNo': particidata,
-	        })
-	      });
-	})
-}
+	 .then(result => result.text())
+	 .then(data => {
+	     Swal.fire({
+	         icon: "success",
+	         title: "초대",
+	         text: "초대 완료!"
+	     }).then((result) => {
+	         if (result.isConfirmed) {
+	             // 확인 버튼을 클릭한 경우에만 리로드 실행
+	             location.reload();
+	         }
+	     });
+	 })
+	   .catch(err => console.log(err));
+	 }
 
 
 	//let boardParticiMembUniNo = document.querySelectorAll('.editBoardLink')[].value;

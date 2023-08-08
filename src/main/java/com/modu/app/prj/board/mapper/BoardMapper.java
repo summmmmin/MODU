@@ -43,7 +43,7 @@ public interface BoardMapper {
 	public List<BoardVO> superShy(BoardVO vo);
 	
 	//전체 알람 여부
-	public BoardVO armYn(BoardVO vo);
+	public BoardVO armYn(String particiMembUniNo);
 	
 	//알람 Y , N 업데이트
 	public int particiArm(BoardVO vo);

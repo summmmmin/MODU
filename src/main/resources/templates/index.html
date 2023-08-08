@@ -289,8 +289,7 @@
 									class="nav-link active rburger" onclick="searchList()"
 									aria-expanded="false"><i
 										class="bi bi-search bi-sub fs-4 text-gray-600"></i> </a></li>
-								<li class="nav-item me-1"><a class="nav-link active"
-									href="#" aria-expanded="false"> <i
+								<li class="nav-item me-1"><a class="nav-link active" href="#" aria-expanded="false"> <i
 										class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
 								</a></li>
 								<li class="nav-item dropdown me-3"><a
@@ -723,16 +722,17 @@
  
 // WebSocket 연결 설정
 	const armClient = new StompJs.Client({
-		brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
+		brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
 
 	});
 	// 페이지 로드시 웹소켓 연결
 	window.addEventListener("load", function(event) {
-		 //if('[[${session.armYn}]]'=='Y'){
-		//armClient.activate();			
-	//}
-		armClient.activate();			
-	});
+    if ('[[${session.armYn}]]' == 'Y') {
+        // 세션의 armYn 값이 'Y'로 설정되어 있는 경우
+        armClient.activate(); // 알람 On
+    }
+            // 알람 Off
+});
 
 	  // 연결 성공시
 	  armClient.onConnect = (frame) => {
@@ -904,12 +904,23 @@
 </script>
 
 <script>
-function onclick="armYn(){
-	// 이거 누르면 prj_partici_memb 테이블 armYn 값 Y or N으로 값 바꾸기
-	// 그리고 session에 armYn 가져와서 전체 알람 끊기
-	// 모양 종 모양에서 찍 - 그어주기
-}
+/* function armYn() {
+    let sessionArmYn = '[[${session.armYn}]]'; 
+    console.log(sessionArmYn);
 
+    fetch('armYn', {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({ armYn : sessionArmYn })
+    })
+    .then(result => result.json())
+    .then(data => {
+    	console.log(data);
+    })
+    .catch(err => console.log(err));
+} */
 </script>
 <script src="assets/js/test.js"></script>
 </body>

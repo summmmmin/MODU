@@ -303,8 +303,8 @@
                         cmdiv.innerHTML = msg.cntn;
                         
                         starPolygon.setAttribute('class', bmlist.includes(msg.chatNo) ? 'cls-1 clicked' : 'cls-1'); 
-                        cmdiv.append(stars); // 별 모양 아이콘을 붙인다
                         cbdiv.append(cmdiv);
+                        cmdiv.append(stars); // 별 모양 아이콘을 붙인다
                         cdiv.append(cbdiv);
                         msgPlace.append(cdiv);
                      } else {
@@ -581,7 +581,7 @@
 
          // WebSocket 연결 설정
          const stompClient = new StompJs.Client({
-            brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
+            brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
          });
 
          // 페이지 로드시 
@@ -808,9 +808,9 @@
                cmdiv.setAttribute('class', 'chat-message');
                cmdiv.innerHTML = `<small>${chatMsg.nnm} : </small><br>${chatMsg.cntn}<br><small>` + formattedDate +
                   ` || ${chatMsg.readCount}</small>`;
-               cmdiv.append(stars); // 별 모양 아이콘을 붙인다
-               cbdiv.append(cmdiv);
                
+               cbdiv.append(cmdiv);
+               cmdiv.append(stars); // 별 모양 아이콘을 붙인다
                cdiv.append(cbdiv);
                msgPlace.append(cdiv);
             }
