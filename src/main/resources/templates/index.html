@@ -284,6 +284,9 @@
 						</a>
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
+							<div class="d-flex justify-content-start mx-4">
+								<h3>[[${session.prjName}]]</h3>
+							</div>
 							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 								<li class="nav-item me-1 cursorEvent"><a
 									class="nav-link active rburger" onclick="searchList()"
@@ -313,12 +316,12 @@
 								<a href="#" data-bs-toggle="dropdown" aria-expanded="false">
 									<div class="user-menu d-flex">
 										<div class="user-name text-end me-3">
-											<h6 class="mb-0 text-gray-600">[[${session.user.nm}]]</h6>
-											<p class="mb-0 text-sm text-gray-600">Administrator</p>
+											<h6 class="mb-0 text-gray-600">[[${session.prjMembInfo.nnm}]]</h6>
+											<p class="mb-0 text-sm text-gray-600">[[${session.prjMembInfo.cd}]]</p>
 										</div>
 										<div class="user-img d-flex align-items-center">
 											<div class="avatar avatar-md">
-												<img src="assets/images/faces/1.jpg" />
+												<img src="assets/images/faces/6.jpg" />
 											</div>
 										</div>
 									</div>

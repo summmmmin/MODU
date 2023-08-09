@@ -40,11 +40,13 @@ public class BoardController {
 		// 프로젝트 참여번호를 세션에 저장
 		HttpSession session = request.getSession();
 		prjVO.setMembUniNo(((UserVO) session.getAttribute("user")).getMembUniNo());
-		PrjVO vo = prjService.prjSession(prjVO);
+		PrjVO vo = prjService.getMemInfo(prjVO);
 		session.setAttribute("prjUniNo", vo.getPrjUniNo());
 		session.setAttribute("particiMembUniNo", vo.getParticiMembUniNo());
 		session.setAttribute("grd", vo.getGrd());
 		session.setAttribute("armYn", boardService.armYn(vo.getParticiMembUniNo()).getArmYn());
+		session.setAttribute("prjMembInfo", vo);
+		session.setAttribute("prjName", (prjService.getPrjInfo(vo.getPrjUniNo())).getPrjNm());
 		return "redirect:scheList";
 	}
 
