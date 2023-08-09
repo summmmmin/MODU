@@ -26,7 +26,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		OAuth2UserInfo oAuth2UserInfo = null;
 		String provider = userRequest.getClientRegistration().getRegistrationId();
 		String loginPath = "";
-
+		
+		// PROVIDER 이름으로 어느 SNS로그인인지 구분, LOGINPATH지정
 		if (provider.equals("naver")) {
 			oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
 			loginPath = "네이버";
@@ -37,7 +38,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     
 		String providerId = oAuth2UserInfo.getProviderId();
 
-		String uuid = UUID.randomUUID().toString().substring(0, 6);		//소셜로그인은 랜덤비밀번호
+		String uuid = UUID.randomUUID().toString().substring(0, 6);		//소셜로그인은 임시로 랜덤비밀번호를 지정
 		String password = scpwd.encode("패스워드" + uuid); 
 		String name = oAuth2UserInfo.getnm();
 		String email = oAuth2UserInfo.getid();

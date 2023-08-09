@@ -33,7 +33,7 @@
 <script src="assets/vendors/choices.js/choices.min.js"></script>
 <script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
 <style>
-#HypeBoy:hover{
+.cursorEvent:hover{
 	cursor:pointer;
 }
  /* 셀렉트 박스의 스크롤 숨기기 */
@@ -285,14 +285,14 @@
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-								<li class="nav-item me-1" id="HypeBoy"><a
+								<li class="nav-item me-1 cursorEvent"><a
 									class="nav-link active rburger" onclick="searchList()"
 									aria-expanded="false"><i
 										class="bi bi-search bi-sub fs-4 text-gray-600"></i> </a></li>
-								<li class="nav-item me-1"><a class="nav-link active" href="#" aria-expanded="false"> <i
+								<li class="nav-item me-1 cursorEvent"><a class="nav-link active" href="#" aria-expanded="false"> <i
 										class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
 								</a></li>
-								<li class="nav-item dropdown me-3"><a
+								<li class="nav-item dropdown me-3 cursorEvent"><a
 									class="nav-link active dropdown-toggle" onclick="armYn()"
 									data-bs-toggle="dropdown" aria-expanded="false"> <i
 										class="bi bi-justify bi-sub fs-4 text-gray-600"></i>
@@ -302,11 +302,11 @@
 										<li><a class="dropdown-item rburger"
 											th:href="@{/scheList}">일정</a></li>
 										<th:block th:if="${session.grd != 'G01'}">
-										<li><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
+										<li class="cursorEvent"><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
 										</th:block>
-										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
-										<li><a class="dropdown-item rburger" onclick="bmList()">즐겨찾기</a></li>
-										<li><a class="dropdown-item rburger" onclick="prjmembList()">회원목록</a></li>
+										<li class="cursorEvent"><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
+										<li class="cursorEvent"><a class="dropdown-item rburger" onclick="bmList()">즐겨찾기</a></li>
+										<li class="cursorEvent"><a class="dropdown-item rburger" onclick="prjmembList()">회원목록</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
