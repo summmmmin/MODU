@@ -6,7 +6,7 @@
 
 	<!-- 게시판 전체조회 -->
 	<select id="BoardList" resultType="BoardVO" parameterType="BoardVO">
-       select brd.partici_memb_uni_no, brd.brd_uni_no, brd.board_nm, 
+    SELECT  brd.partici_memb_uni_no, brd.brd_uni_no, brd.board_nm, 
         brd.pubc_yn, brd.reg_dt, brd.prj_uni_no, brd_bm.brd_yn
 	FROM brd
     LEFT OUTER JOIN brd_bm ON brd.brd_uni_no = brd_bm.brd_uni_no

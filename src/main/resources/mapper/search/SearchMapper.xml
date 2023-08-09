@@ -26,7 +26,7 @@
 		ORDER BY write_dt DESC
  	</select>
  	
- 	<!-- 채팅 리스트 -->
+ 	<!-- 채팅 검색 -->
  	<select id="chatList" resultType="SearchVO" parameterType="SearchVO">
 	SELECT chatr_partici.chatr_nm, chat.chat_no, chat.cntn, prj_partici_memb.nnm,chat.write_dt,chat.chatr_no,prj_partici_memb.prj_uni_no
 	FROM chat
@@ -38,6 +38,8 @@
  	</if>
  	</select>
  	
+ 	
+ 	<!-- 파일 검색 -->
  	<select id="fileList" resultType="SearchVO" parameterType="SearchVO">
  	 SELECT att.att_no, att.att_nm, att.chat_no,chat.chatr_no,chat.write_dt, chatr_partici.partici_memb_uni_no, att.post_uni_no,post.write_dt,post.division,post.ttl,brd.brd_uni_no,brd.reg_dt, brd.prj_uni_no, att.todo_uni_no, todo.ttl, todo.prj_uni_no,post.division
 	FROM att
