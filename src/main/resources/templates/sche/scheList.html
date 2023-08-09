@@ -34,7 +34,6 @@
         id : eventData.scheUniNo
       }));
 
-		console.log(formattedEvents)
       calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
           left: 'prev,next today',
@@ -42,7 +41,6 @@
           right: 'dayGridMonth'
         },
         eventClick: function (info) {
-          console.log('이벤트: ' + info.event);
           navTop = event.target.closest('.fc-event');//바 위치
           scheNo = info.event.id;
           
@@ -52,8 +50,6 @@
             	document.getElementById('partici').innerText = '';
               let scheInfo = result.scheInfo; //단건조회 일정정보
               //작성자와 관리자가 아니면 수정이 불가능 하도록
-            	  console.log(partici)
-              console.log(scheInfo.particiMembUniNo)
                
               $("#scheDropdown").hide()
               //제작자의 정보 == 로그인한사람의 정보 또는 등급이 G03이거나 G04인 경우
@@ -110,7 +106,7 @@
         dateClick: function (info) {
 
         	if(schegrd == 'G01'){
-        		console.log('11111');
+        		return;
         	}else{
         	//날짜가 미국식으로 표기되어 9시간 전으로 표기되어 9시간을 더해줌.
         	 const offset = 1000 * 60 * 60 * 9;
@@ -335,14 +331,14 @@
 			role="document">
 			<div class="modal-content">
 				<div class="modal-header bg-primary">
-					<h5 class="modal-title white" id="myModalLabel199">할일 삭제</h5>
+					<h5 class="modal-title white" id="myModalLabel199">일정 삭제</h5>
 					<button type="button" class="close" data-bs-dismiss="modal"
 						aria-label="Close">
 						<i data-feather="x"></i>
 					</button>
 				</div>
 				<div class="modal-body">
-					이 할일을 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다.
+					이 일정을 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다.
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-light-secondary"
@@ -427,7 +423,6 @@
       .then(data => {
     	  $("#scheInsert").modal("hide");
     	  scheInsertData.id = data.scheUniNo;
-    	  console.log(scheInsertData);
              calendar.addEvent(scheInsertData);
     	  calendar.render();
     	});
@@ -439,7 +434,6 @@
         "scheUniNo": scheUniNo
       }
 
-      console.log(data);
       fetch("scheDelte", {
           method: "post",
           headers: {
@@ -449,7 +443,6 @@
         })
         .then((response) => response.json())
         .then((result) => {
-        	console.log(scheNo)
         	calendar.getEventById(scheUniNo).remove();
         })
         }
