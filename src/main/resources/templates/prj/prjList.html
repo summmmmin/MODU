@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/bootstrap.css">
 	<link rel="stylesheet" href="assets/vendors/sweetalert2/sweetalert2.min.css">
+	<script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="assets/vendors/fontawesome/all.min.css">
     <style>
         .fontawesome-icons {
@@ -337,6 +338,40 @@
     	  
       }
     </script>
-    <script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
+    <script th:inline="javascript">
+    	let inviteRst = /*[[${inviterst}]]*/ 0;
+	    // 초대로 들어왔을때 알림
+	    if (inviteRst != null || inviteRst === '') {
+	    	console.log(inviteRst)
+	    	if(inviteRst == 0){
+	 			Swal.fire({
+			        icon: "warning",
+			        title: "이미 참여중인 프로젝트"
+			      })
+	    	}else if(inviteRst == 1){
+	    		Swal.fire({
+	    			icon: "success",
+			        title: "초대 성공"
+			      })
+	    	}else if(inviteRst == 2){
+	    		Swal.fire({
+			        icon: "warning",
+			        title: "초대하기 오류"
+			      })
+	    	}else if(inviteRst == 3){
+	    		Swal.fire({
+			        icon: "warning",
+			        title: "팀원 정원 초과",
+			        text: "초대 실패"
+			      })
+	    	}else if(inviteRst == 4){
+	    		Swal.fire({
+			        icon: "warning",
+			        title: "초대 오류"
+			      })
+	    	}
+	    }
+	</script>
+    
   </body>
 </html>
