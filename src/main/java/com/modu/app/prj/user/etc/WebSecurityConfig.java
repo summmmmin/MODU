@@ -46,7 +46,7 @@ public class WebSecurityConfig {
         http.csrf().disable()
         .authorizeRequests()
         	.antMatchers("/admin/**").hasRole("ADMIN")
-	        .antMatchers("/", "/signup/**", "/sms/**", "/modu/**", "/**", "/assets/**").permitAll()
+	        .antMatchers("/", "/signup/**", "/sms/**", "/modu/**", "/**", "/assets/**", "/FAQList/**", "/noticeList/**", "/subscribe/**").permitAll()
 	        .anyRequest().authenticated()
         .and()
         .formLogin()
@@ -62,7 +62,7 @@ public class WebSecurityConfig {
             .successHandler(authenticationSuccessHandler())
             .failureHandler(authenticationFailureHandler())
             .userInfoEndpoint()
-            .userService(principalOauth2UserService) // 사용자정보를 처리할 때 사용한다
+            .userService(principalOauth2UserService) // OAUTH2사용자는 이곳에서 처리
             
 		;
 		return http.build();

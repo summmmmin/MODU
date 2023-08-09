@@ -54,15 +54,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 				invite.setNnm(vo.getNm());
 				invite.setPrjPubcId(vo.getId());
 				int result = prjService.insertPartiMemb(invite);
-				if (result == 1) {
-					System.out.println("초대 성공");
-				} else if (result == 2) {
-					System.out.println("초대 insert 오류");
-				} else if (result == 3) {
-					System.out.println("무료 플랜 초대 10명 초과");
-				} else if (result == 4) {
-					System.out.println("초대 오류");
-				}
+				session.setAttribute("inviterst", result);
 
 				// session token 삭제
 				session.removeAttribute("inviteTk");

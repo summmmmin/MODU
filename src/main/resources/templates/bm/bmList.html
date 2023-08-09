@@ -118,7 +118,11 @@
     
     // 즐겨찾기 삭제
     function deleteItem(event) {
-        let bmUniNo = event.target.closest('.event1').children[2].textContent;
+    	
+    	 event.stopPropagation();
+    	 
+        let bmUniNo = event.target.closest('.event1').children[5].textContent;
+        console.log(bmUniNo);
 		let del = event.target.closest('.event1');
         fetch('bmDelete', {
             method: 'POST',

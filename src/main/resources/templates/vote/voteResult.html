@@ -117,7 +117,8 @@
         <!-- 작성자이거나 프로젝트 관리자는 수정과 삭제로 이동할수 있는 공간이 나타난다. -->
          <div class="p-2"> 
 	        	<div th:if="${maker.particiMembUniNo == session.particiMembUniNo} or ${session.grd == 'G03'} or ${session.grd == 'G04'}">
-	        		<button  class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+	        		<button  class="btn btn-primary dropdown-toggle me-1" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" 
+	        		aria-haspopup="true" aria-expanded="false"></button>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 							<div th:if="${#dates.format(voteInfo.toDt, 'yyyy MM dd') > #dates.format(#dates.createNow(), 'yyyy MM dd')}">
  								<a class="dropdown-item" data-bs-target="#updateVote1" data-bs-toggle="modal">수정</a> 

@@ -33,7 +33,7 @@
 <script src="assets/vendors/choices.js/choices.min.js"></script>
 <script src="assets/vendors/sweetalert2/sweetalert2.all.min.js"></script>
 <style>
-#HypeBoy:hover{
+.cursorEvent:hover{
 	cursor:pointer;
 }
  /* 셀렉트 박스의 스크롤 숨기기 */
@@ -52,27 +52,29 @@
 		<div id="replyArm" class="toast" role="alert" aria-live="assertive"
 			aria-atomic="true">
 			<div class="toast-header">
+				<!-- <img src=".." class="rounded me-2" alt="..."> -->
 				<strong class="me-auto">댓글 알림</strong> <small>방금 전</small>
 				<button type="button" class="btn-close" data-bs-dismiss="toast"
 					aria-label="Close"></button>
-			</div>	
+			</div>
 			<div class="toast-body">새로운 댓글이 생성 됐습니다.</div>
 		</div>
 	</div>
 
 	<!-- ==============채팅 알림 Toast ============== -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3"
-    style="z-index: 1050;">
-    <div id="chatArm" class="toast bg-primary" role="alert" aria-live="assertive"
-        aria-atomic="true" style="height: 100px;">
-        <div class="toast-header">
-            <strong class="me-auto text-light">채팅 알림</strong> <small class="text-light">방금 전</small>
-            <button type="button" class="btn-close text-light" data-bs-dismiss="toast"
-                aria-label="Close"></button>
-        </div>
-        <div class="toast-body text-light">새로운 채팅이 도착했습니다.</div>
-    </div>
-</div>
+	<div class="toast-container position-fixed bottom-0 end-0 p-3"
+		style="z-index: 1050;">
+		<div id="chatArm" class="toast" role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				<!--  <img src="..." class="rounded me-2" alt="...">-->
+				<strong class="me-auto">채팅 알림</strong> <small>방금 전</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">새로운 채팅이 도착했습니다.</div>
+		</div>
+	</div>
 
 	<!-- ============== 할 일 알림 Toast ============== -->
 	<div class="toast-container position-fixed bottom-0 end-0 p-3"
@@ -283,14 +285,14 @@
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-								<li class="nav-item me-1" id="HypeBoy"><a
+								<li class="nav-item me-1 cursorEvent"><a
 									class="nav-link active rburger" onclick="searchList()"
 									aria-expanded="false"><i
 										class="bi bi-search bi-sub fs-4 text-gray-600"></i> </a></li>
-								<li class="nav-item me-1"><a class="nav-link active" href="#" aria-expanded="false"> <i
+								<li class="nav-item me-1 cursorEvent"><a class="nav-link active" href="#" aria-expanded="false"> <i
 										class="bi bi-bell bi-sub fs-4 text-gray-600"></i>
 								</a></li>
-								<li class="nav-item dropdown me-3"><a
+								<li class="nav-item dropdown me-3 cursorEvent"><a
 									class="nav-link active dropdown-toggle" onclick="armYn()"
 									data-bs-toggle="dropdown" aria-expanded="false"> <i
 										class="bi bi-justify bi-sub fs-4 text-gray-600"></i>
@@ -300,11 +302,11 @@
 										<li><a class="dropdown-item rburger"
 											th:href="@{/scheList}">일정</a></li>
 										<th:block th:if="${session.grd != 'G01'}">
-										<li><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
+										<li class="cursorEvent"><a class="dropdown-item rburger" onclick="todoList()">할일</a></li>
 										</th:block>
-										<li><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
-										<li><a class="dropdown-item rburger" onclick="bmList()">즐겨찾기</a></li>
-										<li><a class="dropdown-item rburger" onclick="prjmembList()">회원목록</a></li>
+										<li class="cursorEvent"><a class="dropdown-item rburger" onclick="voteList()">투표</a></li>
+										<li class="cursorEvent"><a class="dropdown-item rburger" onclick="bmList()">즐겨찾기</a></li>
+										<li class="cursorEvent"><a class="dropdown-item rburger" onclick="prjmembList()">회원목록</a></li>
 									</ul></li>
 							</ul>
 							<div class="dropdown">
@@ -565,6 +567,7 @@
 			$.ajax("boardList")
 			.done(result=>$("#boardList").html(result));
 			}else{
+				//다시 꾸미기
 				Swal.fire({
 					icon: "error",
 					text: "무료플랜은 4개까지 생성 가능합니다."
@@ -719,7 +722,7 @@
  
 // WebSocket 연결 설정
 	const armClient = new StompJs.Client({
-		brokerURL: 'ws://localhost:80/modu/socketserver' // WebSocket 서버 URL
+		brokerURL: 'ws://43.201.17.213:85/modu/socketserver' // WebSocket 서버 URL
 
 	});
 	// 페이지 로드시 웹소켓 연결
