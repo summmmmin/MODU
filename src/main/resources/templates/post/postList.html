@@ -128,7 +128,7 @@
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 <div class="modal-content">
 <div class="modal-header">
-<h4 class="modal-title" id="myModalLabel3752">일정 추가</h4>
+<h4 class="modal-title" id="myModalLabel3752">비공개 게시판 회원 초대</h4>
 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 <i data-feather="x"></i>
 </button>
@@ -881,7 +881,7 @@ function BrdUpdate() {
 }
 //========================== 게시판 업데이트 끗  ========================== //
 
-//========================== 회원 초대 뭐시깽  ========================== //
+//========================== 회원 초대   ========================== //
 new Choices(document.querySelector('.particiList'));
 function particiInsert(){
 	let particidata ={
@@ -903,7 +903,6 @@ function particiInsert(){
 	         text: "초대 완료!"
 	     }).then((result) => {
 	         if (result.isConfirmed) {
-	             // 확인 버튼을 클릭한 경우에만 리로드 실행
 	             location.reload();
 	         }
 	     });
@@ -911,20 +910,6 @@ function particiInsert(){
 	   .catch(err => console.log(err));
 	 }
 
-
-	//let boardParticiMembUniNo = document.querySelectorAll('.editBoardLink')[].value;
-//	console.log($('.editBoardLink').length);
-//	let delNo;
-//	for(let i=0; i<$('.editBoardLink').length ; i++){
-//		console.log($('.editBoardLink').eq(i).attr('data-value'));
-		
-		//delNo = $(event.target).closest('.editBoardLink').attr('data-value');
-//	}
-/* 	console.log($(event.target));
-	console.log(delNo); */
-	//console.log(boardParticiMembUniNo);
-	
-	
 	function kick(event){
 			let del = $(event.target).closest('a');
 			let boardParticiMembUniNo = $(event.target).closest('.editBoardLink').attr('data-value');

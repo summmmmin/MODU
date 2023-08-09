@@ -13,6 +13,7 @@
     LEFT OUTER JOIN brd_cm ON brd.brd_uni_no = brd_cm.board_uni_no
 	WHERE brd.prj_uni_no=#{prjUniNo}
     and (brd.pubc_yn = 'Y' OR (brd.pubc_yn='N' and brd_cm.partici_memb_uni_no=#{particiMembUniNo}))
+    ORDER BY brd.reg_dt 
 	</select>
 
 	<!-- 게시판 생성 -->
