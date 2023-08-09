@@ -194,17 +194,23 @@
 		
 		let itemArr =  new Array(); 
 		document.querySelectorAll('.voteItem').forEach(function(item){
-			if(item.value == '' ){
-			 return;
+			console.log(item.value);
+			if(item.value == ''){
+				return;
+			}else if(item.value.length > 16){
+				item.value = '';
+				item.placeholder="투표 항목은 최대 15글자입니다"
+				return;
 			}
 			itemArr.push(item.value)
 			
-			if(itemArr.length > 1){
+		})
+			if(itemArr.length < 2){
 				return;
 			}
-		})
-
-
+		
+		console.log(itemArr)
+		
 		let additionalData = {
 			ttl:ttl,
 			toDt:date,

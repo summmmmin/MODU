@@ -176,6 +176,26 @@ body {
 
 		 })
 		}
+    
+	//todo 삭제
+	
+    function delTodo(){
+    	
+    	let data = {"todoUniNo":'[[${todoInfo.todoUniNo}]]'}
+    	
+    	fetch("todoDelte",{
+    		method : "post",
+			headers:{
+				'Content-Type' : 'application/json',
+			}, 
+			body : JSON.stringify(data)
+    	})
+    	.then((response) => response.json())
+		.then((result) => {
+
+		todoList();
+		 })
+    }
      
 	
 	 $(function(){
@@ -227,25 +247,7 @@ body {
 		}
 		
 		
-		//todo 삭제
-		
-        function delTodo(){
-        	
-        	let data = {"todoUniNo":'[[${todoInfo.todoUniNo}]]'}
-        	
-        	fetch("todoDelte",{
-        		method : "post",
-				headers:{
-					'Content-Type' : 'application/json',
-				}, 
-				body : JSON.stringify(data)
-        	})
-        	.then((response) => response.json())
-			.then((result) => {
 
-			location.reload();
-			 })
-        }
         
 
         $('#deleteTodo').appendTo("body")
