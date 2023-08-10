@@ -54,6 +54,13 @@ public class PrjController {
 	public String prjList(Model model, HttpSession session) {
 		UserVO vo = (UserVO) session.getAttribute("user");
 		model.addAttribute("prjList",prjService.getPrjList(vo.getMembUniNo()));
+	    Integer inviterst = (Integer) session.getAttribute("inviterst");
+	    if (session.getAttribute("inviterst") != null) {
+	        // inviterst 값을 사용하여 원하는 동작 수행
+	        model.addAttribute("inviterst", inviterst);
+	        session.removeAttribute("inviterst");
+	    }
+
 		return "prj/prjList";
 	}
 
@@ -138,23 +145,24 @@ public class PrjController {
 	
 	// 초대링크로 들어왔을때
 	@GetMapping("/invite")
-	public String getInviteTk(@RequestParam("token") String token, RedirectAttributes ra, HttpSession session) {
+	public String getInviteTk(@RequestParam("token") String token, 
+			HttpSession session, Model model) {
 		PrjVO invite = prjService.selectInvite(token);
 		UserVO user = (UserVO)session.getAttribute("user");
-
-		if(invite.getPrjUniNo() == null) {
-			System.out.println("유효하지않는 초대링크");
-			return "";
-		}else if(invite.getCk() == "Y") {
-			System.out.println("이미 사용한 링크");
-			return "";
+		
+		if(invite == null) {
+			model.addAttribute("msg", "유효하지 않는 초대링크");
+			return "prj/invite";
+		}else if("Y".equals(invite.getCk())) {
+			model.addAttribute("msg", "이미 사용한 링크");
+			return "prj/invite";
 		}else {
 			// 유효한 링크
 			// 유효하면 그 프로젝트에 지금 몇명인지
 			session.setAttribute("inviteTk", token);
 			
 			if(user == null) {
-				System.out.println("로그인x");
+				// 로그인이 안되어있을때 로그인페이지로
 				return "redirect:/login";
 			}else {
 				// 로그인 돼있을때
@@ -163,17 +171,8 @@ public class PrjController {
 				invite.setNnm(user.getNm());
 				invite.setPrjPubcId(user.getId());
 				int result = prjService.insertPartiMemb(invite);
-				if(result == 0) {
-					System.out.println("이미 참여중인 프로젝트");
-				}else if(result == 1) {
-					System.out.println("초대 성공");
-				}else if(result == 2) {
-					System.out.println("초대 insert 오류");
-				}else if(result == 3) {
-					System.out.println("무료 플랜 초대 10명 초과");
-				}else if(result == 4) {
-					System.out.println("초대 오류");
-				}
+				session.setAttribute("inviterst", result);
+
 				// session token 삭제
 				session.removeAttribute("inviteTk");
 				// 프로젝트리스트로
