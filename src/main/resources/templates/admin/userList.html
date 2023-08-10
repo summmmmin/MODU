@@ -233,60 +233,33 @@ th {
 								$('#danger').modal('show');
 							});
 							$("#confirmQuit")
-									.on(
-											"click",
+									.on("click",
 											function(event) {
-												var userId = $(this).data(
-														'user-id');
+												var userId = $(this).data('user-id');
 
-												$
-														.ajax({
+												$.ajax({
 															url : 'banUser',
 															type : 'POST',
-															data : JSON
-																	.stringify({
+															data : JSON.stringify({
 																		id : userId
 																	}),
 															contentType : 'application/json; charset=utf-8',
-															success : function(
-																	response) {
-																alert(userId
-																		+ ' 님이 정상적으로 추방이 되었습니다.');
-																$('#danger')
-																		.modal(
-																				'hide');
+															success : function(response) {
+																alert(userId + ' 님이 정상적으로 추방이 되었습니다.');
+																$('#danger').modal('hide');
 
 																// 해당 사용자 행 찾아서 상태 변경
-																$(
-																		'tr[data-user-id="'
-																				+ userId
-																				+ '"]')
-																		.find(
-																				'.badge')
-																		.removeClass(
-																				'bg-success')
-																		.addClass(
-																				'bg-danger')
-																		.text(
-																				'탈퇴');
-																$(
-																		'tr[data-user-id="'
-																				+ userId
-																				+ '"]')
-																		.find(
-																				'.ban-button')
-																		.attr(
-																				'disabled',
-																				true);
+																$('tr[data-user-id="' + userId + '"]').find('.badge')
+																		.removeClass('bg-success')
+																		.addClass('bg-danger')
+																		.text('탈퇴');
+																$('tr[data-user-id="'+ userId+ '"]').find('.ban-button').attr('disabled', true);
 															},
-															error : function(
-																	request,
-																	message,
-																	error) {
+															error : function(request, message, error) {
 																alert('오류로 인해 추방할 수 없습니다. 자세한건 로그를 확인하세요.')
 															}
 														});
-											});
+												});
 
 							$(document).on('click', '.user-row', function() {
 								var userId = $(this).data('userId');
