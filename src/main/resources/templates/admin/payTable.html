@@ -15,6 +15,7 @@
 	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 	rel="stylesheet">
 <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <style>
 th {
 	text-align: center;
@@ -61,7 +62,7 @@ th {
 			<hr class="sidebar-divider my-0">
 			<li class="nav-item active"><a class="nav-link"
 				th:href="@{/admin/payTable}"> <i
-					class="fas fa-fw fa-tachometer-alt"></i> <span>결제조회</span></a></li> \
+					class="fas fa-fw fa-tachometer-alt"></i> <span>결제조회</span></a></li>
 		</ul>
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
@@ -99,7 +100,7 @@ th {
 												th:text="${#dates.format(pay.payDt, 'yyyy-MM-dd')}"></td>
 											<td class="center-aligned" th:text="${pay.exdt}"></td>
 											<td class="right-aligned" th:text="${pay.payWay}"></td>
-											<td class="right-aligned" id="payAmt" th:text="${pay.payAmt}"></td>
+											<td class="right-aligned payAmt" th:text="${pay.payAmt}"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -122,13 +123,16 @@ th {
 			return date.toLocaleDateString(undefined, options);
 		}
 		
-		// 결제금액 포맷
-		function numberWithCommas(x) {
-		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
-		
-		 var payAmt = Number($("#payAmt").text().replace(/[^0-9]/g, '')); // 숫자만 추출하여 변환
-		    $("#payAmt").text(numberWithCommas(totalPayValue) + '원');
+        // 결제금액 포맷
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // 모든 결제 금액 항목에 대해
+        $(".payAmt").each(function() {
+            var payAmt = Number($(this).text().replace(/[^0-9]/g, ''));
+            $(this).text(numberWithCommas(payAmt) + '원');
+        });
 	</script>
 </body>
 
