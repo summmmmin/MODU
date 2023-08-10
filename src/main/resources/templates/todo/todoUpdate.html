@@ -97,9 +97,9 @@
 													<use
 											xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#file-earmark" />
 												</svg> <span>[[${att.attNm}]]</span> <svg class="bi" width="1em"
-										height="1em" fill="currentColor">
+										height="1em" fill="currentColor" onclick="deleteAtt(event)">
 													<use th:data-attNo="${att.attNo}"
-											onclick="deleteAtt(event)"
+											
 											xlink:href="assets/vendors/bootstrap-icons/bootstrap-icons.svg#trash" />
 												</svg></li>
 							</ul>
