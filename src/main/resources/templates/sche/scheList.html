@@ -8,11 +8,6 @@
     /*<![CDATA[*/
     let schAllDatas =/*[[${scheList}]]*/
     let partici = /*[[${session.particiMembUniNo}]]*/
-    	/*  $.ajax("scheListFetch")
-  	.done(result=>{
-    var schAllDatas = result;
-    initializeCalendar(schAllDatas);
-  	}) */
   	let schegrd = /*[[${session.grd}]]*/
     let membList =/*[[${membList}]]*/
     /*]]>*/
@@ -26,15 +21,12 @@
 	let formattedEvents = []
     document.addEventListener('DOMContentLoaded', function () {
       var calendarEl = document.getElementById('calendar1');
+     
       allEvents = schAllDatas;  
-      
-      console.log('데이터', allEvents);
-
       formattedEvents = allEvents.map(eventData => ({
         title: eventData.title,
         start: eventData.start,
         end: eventData.end,
-        //color: eventData.postType == '1' ? 'indianred' : '#35A880',
         classNames: 'sideWork',
         extendedProps: {
           sche_uni_no: eventData.scheUniNo
@@ -42,7 +34,6 @@
         id : eventData.scheUniNo
       }));
 
-		console.log(formattedEvents)
       calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
           left: 'prev,next today',
@@ -50,7 +41,6 @@
           right: 'dayGridMonth'
         },
         eventClick: function (info) {
-          console.log('이벤트: ' + info.event);
           navTop = event.target.closest('.fc-event');//바 위치
           scheNo = info.event.id;
           
@@ -60,8 +50,6 @@
             	document.getElementById('partici').innerText = '';
               let scheInfo = result.scheInfo; //단건조회 일정정보
               //작성자와 관리자가 아니면 수정이 불가능 하도록
-            	  console.log(partici)
-              console.log(scheInfo.particiMembUniNo)
                
               $("#scheDropdown").hide()
               //제작자의 정보 == 로그인한사람의 정보 또는 등급이 G03이거나 G04인 경우
@@ -118,17 +106,17 @@
         dateClick: function (info) {
 
         	if(schegrd == 'G01'){
-        		console.log('11111');
+        		return;
         	}else{
-        	//날짜가 미국식으로 돼서 9시간 전으로 표기되어 9시간을 더해줌.
+        	//날짜가 미국식으로 표기되어 9시간 전으로 표기되어 9시간을 더해줌.
         	 const offset = 1000 * 60 * 60 * 9;
         	 const date = new Date(info.date.getTime()+offset);
         	 
 
         	// 원하는 형식으로 날짜를 변환 입력 모달창에 기본 날짜값들 
         	const formattedDate = date.toISOString().slice(0, 16);
-        	document.getElementById('3').value = formattedDate;
-        	document.getElementById("4").setAttribute("min",formattedDate);
+        	document.getElementById('InsertFrdt').value = formattedDate;
+        	document.getElementById("InsertTodt").setAttribute("min",formattedDate);
         	
           $("#scheInsert").modal("show");
         	}
@@ -142,10 +130,11 @@
         initialDate: new Date(),
         navLinks: false, // can click day/week names to navigate views
         businessHours: false, // display business hours
-        editable: true,	
+        editable: false,	
         selectable: false,
         allDaySlot: false,
         displayEventTime: true,
+        handleWindowResize:true,
         locale: 'ko',
         dayMaxEvents: true,
         
@@ -233,7 +222,7 @@
 							<div class="col-sm-5">
 								<div class="form-group">
 									<input type="datetime-local" onchange="dateChange1()"
-										class="form-control" name="start" id="3">
+										class="form-control" name="start" id="InsertFrdt">
 								</div>
 							</div>
 							&nbsp~&nbsp
@@ -241,7 +230,7 @@
 								<div class="form-group">
 									<!-- oninput="dateChange1()" -->
 									<input type="datetime-local" class="form-control" name="end"
-										id="4">
+										id="InsertTodt">
 								</div>
 							</div>
 							<p style="color: red; display: none;" id="red">시작날짜와 마감날짜를 모두
@@ -342,14 +331,14 @@
 			role="document">
 			<div class="modal-content">
 				<div class="modal-header bg-primary">
-					<h5 class="modal-title white" id="myModalLabel199">할일 삭제</h5>
+					<h5 class="modal-title white" id="myModalLabel199">일정 삭제</h5>
 					<button type="button" class="close" data-bs-dismiss="modal"
 						aria-label="Close">
 						<i data-feather="x"></i>
 					</button>
 				</div>
 				<div class="modal-body">
-					이 할일을 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다.
+					이 일정을 삭제하시겠습니까?<br> 삭제하시면 복구 할 수 없습니다.
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-light-secondary"
@@ -392,10 +381,10 @@
 
 	
 	//일정 만들때 시작날짜선택시 달력막기용
-    var chdate = document.getElementById("3")
+    var chdate = document.getElementById("InsertFrdt")
 	function dateChange1(){
 		console.log(chdate.value)
-    	document.getElementById("4").setAttribute("min", chdate.value); 
+    	document.getElementById("InsertTodt").setAttribute("min", chdate.value); 
     	//$('#4').attr('min', $('#3').val());
     }
     
@@ -404,8 +393,8 @@
   function insertSche() {
 		let ScheBtn  = document.getElementById('insertScheId');
 		let Schettl = document.getElementById('1');
-		let ScheStart = document.getElementById('3');
-		let ScheEnd = document.getElementById('4');
+		let ScheStart = document.getElementById('InsertFrdt');
+		let ScheEnd = document.getElementById('InsertTodt');
 
 			if(Schettl.value == ''){
 				Schettl.placeholder = "제목을 입력하시지 않으셨습니다."
@@ -418,8 +407,8 @@
    let scheInsertData = {
           "title": $('#1').val(),
           "cntn": $('#2').val(),
-          "start": $('#3').val(),
-          "end": $('#4').val(),
+          "start": $('#InsertFrdt').val(),
+          "end": $('#InsertTodt').val(),
           "particiMembUniNos": $("#cm option:selected").map(function(){ return $(this).val(); }).get()
       };
 	console.log(scheInsertData);
@@ -434,7 +423,6 @@
       .then(data => {
     	  $("#scheInsert").modal("hide");
     	  scheInsertData.id = data.scheUniNo;
-    	  console.log(scheInsertData);
              calendar.addEvent(scheInsertData);
     	  calendar.render();
     	});
@@ -446,7 +434,6 @@
         "scheUniNo": scheUniNo
       }
 
-      console.log(data);
       fetch("scheDelte", {
           method: "post",
           headers: {
@@ -456,7 +443,6 @@
         })
         .then((response) => response.json())
         .then((result) => {
-        	console.log(scheNo)
         	calendar.getEventById(scheUniNo).remove();
         })
         }

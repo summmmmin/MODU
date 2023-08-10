@@ -244,10 +244,7 @@
 						</div>
 					</div>
 				</div>
-				
-				
-				
-				
+								
 <script th:inline="javascript">
     /*<![CDATA[*/
     	
@@ -300,7 +297,7 @@
              
              function delVote(){
              	      
-                let data={'voteNo': '[[${voteInfo.voteNo}]]'};
+                let data={'voteNo': [[${voteInfo.voteNo}]]};
                  
      			fetch("voteDelte", {
      				method : "delete",
@@ -311,6 +308,7 @@
      			})
      			.then((response) => response.json())
      			.then((result) => {
+     				console.log(result)
      			voteList();
      			 })
                  }
@@ -345,7 +343,6 @@
 
 			    	let vno = data.voteNo
 
-			    	
 			    	 $.ajax("voteInfo/"+vno)
 			 		.done(result =>{
 			 			$("#rsidebarContent").html(result);

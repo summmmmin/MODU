@@ -5,16 +5,16 @@
 <meta charset="UTF-8">
 <title>즐겨찾기 List</title>
 
-   <style>
-        /* 마우스 오버 시 배경색 변경 */
-        .event1:hover {
-            background-color: #f0f0f0;
-        }
-        
-        .card-header {
-            padding: 0px 10px;
-        }
-    </style>
+<style>
+/* 마우스 오버 시 배경색 변경 */
+.event1:hover {
+	background-color: #f0f0f0;
+}
+
+.card-header {
+	padding: 0px 10px;
+}
+</style>
 </head>
 <body>
 	<div class="row">
@@ -23,13 +23,11 @@
 				<h4 class="card-title">즐겨찾기</h4>
 				<hr>
 			</div>
-			<div class="card-body" id="bmList">
-
-			</div>
+			<div class="card-body" id="bmList"></div>
 
 		</div>
 	</div>
-		<script>
+	<script>
 		 function formatDate(dateString) {
 		        const date = new Date(dateString);
 		        const year = date.getFullYear();
@@ -65,7 +63,6 @@
         	//tr에 href 함수
             tr.setAttribute('onclick', 'trHref()');
 
-            
             if (result[i].brdUniNo != null) {
                 // 게시글 즐겨찾기 일때
                 tr.appendChild(createCell('등록 날짜 : ' + formatDate(result[i].regDt))); //등록 날짜
@@ -104,24 +101,25 @@
         return td;
     }
 
-    // 클릭 이벤트
+ 	// 클릭 이벤트
     function trHref(){
         let division = event.target.closest('.event1').children[6].textContent;
         let value = event.target.closest('.event1').children[2].textContent;
-        console.log(division);
-
         if(division == 'A'){
             window.location.href='/modu/postList?brdUniNo='+ value;
         }else if(division == 'B'){
             window.location.href='/modu/chat?chatrNo='+ value;
         }
-    }
+    }  
     
     
     // 즐겨찾기 삭제
     function deleteItem(event) {
-        let bmUniNo = event.target.closest('.event1').children[2].textContent;
+    	 event.stopPropagation();
+        let bmUniNo = event.target.closest('.event1').children[5].textContent;
+        console.log(bmUniNo);
 		let del = event.target.closest('.event1');
+        console.log(bmUniNo);
         fetch('bmDelete', {
             method: 'POST',
             headers: {
