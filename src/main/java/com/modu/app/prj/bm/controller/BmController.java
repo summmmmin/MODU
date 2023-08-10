@@ -70,6 +70,7 @@ public class BmController {
 		return bmService.BmList(vo);
 	}
 	
+	//즐겨찾기 삭제
 	@PostMapping("bmDelete")
 	@ResponseBody
 	public int Bmdelete(@RequestBody BmVO vo,HttpSession session) {
