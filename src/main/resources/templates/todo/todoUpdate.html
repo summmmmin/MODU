@@ -104,8 +104,9 @@
 												</svg></li>
 							</ul>
 						</div>
-						<!-- <input type="file" class="multiple-files-filepond" multiple id="todoFile"> -->
-						<input type="file" id="todoFile">
+						 <input type="file" name="file1" class="multiple-files-filepond" multiple id="todoFile"  onchange="checkFile1()">
+						 <div id="attFilePlace1"></div>
+						<!--  -<input type="file" id="todoFile"> -->
 						<p></p>
 						<div class="col-12 d-flex justify-content-end">
 							<button type="reset" class="btn btn-light-secondary me-1 mb-1">취소</button>
@@ -193,6 +194,8 @@
 		function deleteAtt(e){
 			let attLi = e.target.closest('LI');
 			let attNo = e.target.dataset.attno;
+			let delAtt = {};
+			delAtt['attNo'] = attNo;
 			//업로드된파일삭제
 			fetch("/modu/removeFile", {
 			method: 'post',
@@ -203,12 +206,34 @@
 			})
 			.then(result => result.json())
 			.then(data => {
-					//console.log(data); true
 					attLi.remove();
 			})
 			
 			.catch(err => console.log(err));
-				}
+			}
+		
+		//첨부파일명 미리보기
+		function checkFile1(){
+			let fileInput = document.getElementsByName('file1')[0].files;
+			let attFilePlace = document.getElementById('attFilePlace1');
+
+			attFilePlace.innerHTML='';
+			
+			
+			for(let input of fileInput){
+				let fileName = input.name;
+				
+				let divTag = document.createElement('div');
+				let icon = `<i class="bi bi-file-earmark"></i>`;
+				divTag.innerHTML += icon;
+				let spanTag = document.createElement('span');
+				spanTag.textContent = fileName;
+				divTag.append(spanTag);
+				attFilePlace.append(divTag);
+				//console.log(input.name);
+			}
+
+		}
 
 		/*]]>*/
   		</script>
